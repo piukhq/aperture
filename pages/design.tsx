@@ -1,8 +1,11 @@
 import Image from 'next/image'
+import { Headline, Subtitle, LabelText, Sidebar, Hyperlink, Error, Paragraph } from '../components/Typography'
+import Button from '../components/Button' // TODO: Look into Typescript issues
 
-export default function DesignSystem() { // TODO: Refactor into components as needed. Wanted to show the actual JSX without abstraction into components for discussion/agreement on how to do that. 
+export default function DesignSystem() {
 
-  const renderSwatches = () => ( // Weird 'bug' to do with class purging. Tailwinds removes unused classes at Build. If you build a class dynamically ('bg-' + {swatch}) it doesn't recognize it as a real class and is removed.  Might be a way to get values from tailwinds config directly.
+
+  const renderSwatches = () => ( // Weird 'bug' to do with class purging. Tailwinds removes unused classes at Build. If you build a class dynamically ('bg-' + {swatch}) it doesn't recognize it as a real class and is removed.  Might be a way to get values from tailwinds config directly. Left as is right now.
     ['bg-binkGreen', 
     'bg-primaryGreen',
     'bg-binkGrey',
@@ -21,21 +24,20 @@ export default function DesignSystem() { // TODO: Refactor into components as ne
     ].map( swatch => (
       <div key={swatch} className='w-full rounded border-2 border-black m-1 flex-column'>
         <div className={`${swatch} w-full h-24`}></div>
-        <div className='text-center'>{swatch.split('-')[1]}</div>
+        <Paragraph extraClasses='text-center'>{swatch.split('-')[1]}</Paragraph>
       </div>
     ))
   )
 
-  const sectionClass: string = 'm-10 w-148 bg-outlineGrey/25 shadow-md p-8 flex flex-col gap-8'
-  const sectionHeaderClass: string = 'font-bold text-4xl text-center'
+  const sectionClass: string = 'm-10 w-148 bg-outlineGrey/12 shadow-md p-8 flex flex-col gap-8' // An idea for component-only repetition.
 
   return (
     <div className='m-4'>
-        <h1 className='text-4xl font-bold'>Design System</h1>
-        <p className='font-light'>This is the equivalent to the Typography page for Bink Web. A singular place to look at initial UI Elements and consider how best to manage them for features. </p>
+        <Headline>Design System</Headline>
+        <Paragraph>This is the equivalent to the Typography page for Bink Web. A singular place to look at initial UI Elements and consider how best to manage them for features. </Paragraph>
 
         <section className={sectionClass}>
-          <h2 className={sectionHeaderClass}>Colour Palette</h2>
+          <Subtitle extraClasses='text-center text-2xl'>Colour Palette</Subtitle>
           <div className='w-max grid gap-4 grid-cols-4 auto-rows-auto'> 
             {renderSwatches()}
           </div>
@@ -43,12 +45,12 @@ export default function DesignSystem() { // TODO: Refactor into components as ne
 
         <section className={sectionClass}>
           <div>
-            <h2 className={sectionHeaderClass}>Typography</h2>
-            <h3 className='font-semibold text-binkGrey'>Font</h3>
-            <p className='font-light'>Nunito Sans - The quick brown fox jumps over the lazy dog</p>
+            <Subtitle extraClasses='text-center text-2xl'>Typography</Subtitle>
+            <Subtitle>Font</Subtitle>
+            <Paragraph>Nunito Sans - The quick brown fox jumps over the lazy dog</Paragraph>
           </div>
           <div>
-            <h3 className='font-semibold text-binkGrey'>Weights</h3>
+            <Subtitle>Weights</Subtitle>
             <ul className='list-disc'>
               <li className='font-light'>Light - 300</li>
               <li className='font-semibold'>Semibold - 600</li>
@@ -57,52 +59,59 @@ export default function DesignSystem() { // TODO: Refactor into components as ne
             </ul>
           </div>
           <div>
-            <h3 className='font-semibold text-binkGrey'>Styles</h3>
+            <Subtitle>Font</Subtitle>
             <ul className='list-disc'>
-              <li><h1 className='text-4xl font-bold'>Headline element - 33px - Bold</h1></li>
-              <li><h2 className='font-semibold text-binkGrey'>Subtitle - 16px - Semibold</h2></li>
-              <li><p className='font-light'>Body text - 16px - Light</p></li>
-              <li><p>Label text - 16px - Regular</p></li>
-              <li><h2 className='font-semibold text-binkGrey'>Sidebar title - 16px - Semibold</h2></li>
-              <li><a href='bink.com' className='text-binkGreen'>Hyperlink - 16px - Regular</a></li>
+              <li><Headline>Headline element - 33px - Bold</Headline></li>
+              <li><Subtitle>Subtitle - 16px - Semibold</Subtitle></li>
+              <li><Paragraph>Body text - 16px - Light</Paragraph></li>
+              <li><LabelText>Label text - 16px - Regular</LabelText></li>
+              <li><Sidebar>Sidebar title - 16px - Semibold</Sidebar></li>
+              <li><Hyperlink href='/'>Hyperlink - 16px - Regular</Hyperlink></li>
               <li><a href='bink.com'>Visited Hyperlink (not currently specified)</a></li>
-              <li><p className='text-sm text-invalidRed'>This is error text - 14pt - Regular</p></li>
+              <li><Error>This is error text - 14pt - Regular</Error></li>
             </ul>
           </div>
         </section>
 
         <section className={sectionClass}>
-          <h2 className={sectionHeaderClass}>Buttons</h2>
-          <p className='font-light'>Could be a Button component as per Bink Web with different styles as shown below:</p>
-          <dl className='flex flex-col gap-2'> 
-            <dt className='font-semibold text-binkGrey'>Large</dt>
-            <dd><button className='w-112 h-12 bg-primaryGreen text-white rounded-md'>View In Django</button></dd>
-            <dt className='font-semibold text-binkGrey'>Small</dt>
-            <dd><button className='w-32 h-12 bg-primaryGreen text-white rounded-md'>Load assets</button></dd>
-            <dt className='font-semibold text-binkGrey'>Icon</dt>
-            <dd><button className='w-12 h-12 bg-primaryGreen text-white rounded-md pt-2'><Image src='/images/refresh.png'alt='' height='20' width='27' /></button> </dd>
-            <dt className='font-semibold text-binkGrey'>Circular</dt>
-            <dd><button className='w-12 h-12 pt-2 pl-1 border-2 border-outlineGrey bg-white rounded-full'><Image src='/images/left-chevron.png' alt='left' width='25' height='25'/></button></dd>
-            <dd><button className='w-12 h-12 pt-2 pl-1 border-2 border-outlineGrey bg-white rounded-full rotate-180'><Image src='/images/left-chevron.png' alt='left' width='25' height='25'/></button></dd>
-            <dt className='font-semibold text-binkGrey'>Navigation Menu Item</dt>
-            <dd>
+        <Subtitle extraClasses='text-center text-2xl'>Buttons</Subtitle>
+          <Paragraph>Could be a Button component as per Bink Web with different styles as shown below:</Paragraph>
+            <Subtitle>Large</Subtitle>
+            <Button large>View In Django</Button>
+            <Subtitle>Small</Subtitle>
+            <Button small>Load assets</Button>
+            <Subtitle>Icon</Subtitle>
+            <Button icon>
+              <Image src='/images/refresh.png'alt='' height='20' width='27' />
+            </Button> 
+            <Subtitle>Circular</Subtitle>
+            <div className='flex gap-2'>
+              <Button circular>
+                <Image src='/images/left-chevron.png' alt='back' width='25' height='25'/>
+              </Button>
+              <Button circular>
+                <Image src='/images/left-chevron.png' alt='forward' width='25' height='25' className='rotate-180'/>
+              </Button>
+            </div>
+            <Subtitle>Navigation Menu Item</Subtitle>
+            
               <button className='flex justify-start items-center w-60 h-12 bg-primaryGreen/12 text-primaryGreen font-semibold rounded-xl'>
                 <span className='px-3 pt-2'><Image src='/images/menu-assets.png'alt='' height='18' width='23' /></span><span>Asset comparator</span>
               </button>
-            </dd>
-            <dt className='font-semibold text-binkGrey'>Environment Selection Buttons</dt>
-            <dd className='flex flex-col gap-1'>
-              <button className='w-7 h-7 bg-envDevBg text-envDevFg leading-7 border border-envDevFg rounded-md font-bold'>D</button> 
-              <button className='w-7 h-7 bg-envStagingBg text-envStagingFg leading-7 border border-envStagingFg rounded-md font-bold'>S</button> 
-              <button className='w-7 h-7 bg-envSandboxBg text-envSandboxFg leading-7 border border-envSandboxFg rounded-md font-bold'>S</button> 
-              <button className='w-7 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md font-bold'>P</button> 
-            </dd>
-          </dl>
+            
+            <Subtitle>Environment Selection Buttons</Subtitle>
+            <div className='flex gap-2'>
+              <Button develop>D</Button> 
+              <Button staging>S</Button> 
+              <Button sandbox>S</Button> 
+              <Button production>D</Button> 
+              
+            </div>
         </section>
 
         <section className={sectionClass}>
-          <h2 className={sectionHeaderClass}>Environment Labels</h2>
-          <p className='font-light'>Not intended to be buttons:</p>
+        <Subtitle extraClasses='text-center text-2xl'>Environment Labels</Subtitle>
+          <Paragraph>Not intended to be buttons, not sure if they are reusable so will leave as is for now:</Paragraph>
           <ul className='flex flex-col gap-2'>
             <li><div className='w-52 h-7 bg-envDevBg text-envDevFg leading-7 border border-envDevFg rounded-md text-center font-bold'>DEVELOPMENT</div></li>
             <li><div className='w-52 h-7 bg-envStagingBg text-envStagingFg leading-7 border border-envStagingFg rounded-md text-center font-bold'>STAGING</div></li>

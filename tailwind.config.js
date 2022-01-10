@@ -8,10 +8,6 @@ module.exports = {
     fontFamily: {
       sans: ['Nunito Sans', 'sans-serif'],
     },
-    fontSize: {
-      'sm': '.875rem',
-      '4xl': '2.063rem',
-    },
     colors:{
       binkGreen: '#8EB1B7',
       primaryGreen: '#194B53',
@@ -37,7 +33,11 @@ module.exports = {
       },
       opacity: {
         '12': '.12',
-      }
+      },
+      fontSize: {
+        'sm': '.875rem',
+        '4xl': '2.063rem',
+      },
     },
   },
   plugins: [],
