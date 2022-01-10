@@ -21,7 +21,7 @@ module.exports = {
       outlineGrey: '#B8B8B8',
       invalidRed: '#CB4A33',
       envDevFg: '#43D5AF',
-      envStagingFg: '#7C6A20',
+      envStagingFg: '#ECCA42',
       envSandboxFg: '#327A8B',
       envProdFg: '#C8452D',
       envDevBg: '#EEFDF9',
@@ -30,6 +30,14 @@ module.exports = {
       envProdBg: '#FEF5F4',
     },
     extend: {
+      spacing: {
+        '112': '28rem',
+        '148': '37rem',
+
+      },
+      opacity: {
+        '12': '.12',
+      }
     },
   },
   plugins: [],
