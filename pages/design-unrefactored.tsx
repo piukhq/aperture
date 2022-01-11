@@ -1,4 +1,6 @@
-import Image from 'next/image'
+// Initial version which was refactored to avoid duplication below.
+
+import Image from 'next/image' 
 
 export default function DesignSystem() { // TODO: Refactor into components as needed. Wanted to show the actual JSX without abstraction into components for discussion/agreement on how to do that. 
 
