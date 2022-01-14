@@ -1,5 +1,17 @@
 import { Error } from '../Typography'
 
+interface ButtonType {
+  large?: boolean,
+  small?: boolean,
+  icon?: boolean,
+  circular?: boolean
+  develop?: boolean,
+  staging?: boolean,
+  sandbox?: boolean,
+  production?: boolean,
+  error?: string,
+  children: any,
+}
 const Button = ({ 
    large,
    small, 
@@ -11,8 +23,7 @@ const Button = ({
    production,
    error,
    children,
-  ...props 
-}) => {
+}: ButtonType) => {
   return (
     <>
       <button className={
@@ -26,7 +37,6 @@ const Button = ({
          ${production && 'w-7 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md font-bold'}
         `
       }
-        {...props}
       >
        {children}
       </button>
