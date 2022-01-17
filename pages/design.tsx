@@ -4,23 +4,31 @@ import Button from '../components/Button' // TODO: Look into Typescript issues
 
 export default function DesignSystem() {
 
+  const demoButtonClickEvent = () => {console.log('Button Clicked')}
 
   const renderSwatches = () => ( // Weird 'bug' to do with class purging. Tailwinds removes unused classes at Build. If you build a class dynamically ('bg-' + {swatch}) it doesn't recognize it as a real class and is removed.  Might be a way to get values from tailwinds config directly. Left as is right now.
-    ['bg-binkGreen', 
-    'bg-primaryGreen',
-    'bg-binkGrey',
+    [
+    'bg-blue',
+    'bg-indigo',
+    'bg-purple',
+    'bg-pink',
+    'bg-red',
+    'bg-orange',
+    'bg-yellow',
+    'bg-green',
+    'bg-teal',
+    'bg-cyan',
     'bg-white',
-    'bg-toolBg',
-    'bg-outlineGrey',
-    'bg-invalidRed',
-    'bg-envDevFg',
-    'bg-envStagingFg',
-    'bg-envSandboxFg',
-    'bg-envProdFg',
-    'bg-envDevBg',
-    'bg-envStagingBg',
-    'bg-envSandboxBg',
-    'bg-envProdBg',
+    'bg-gray',
+    'bg-grayDark',
+    'bg-primary',
+    'bg-secondary',
+    'bg-success',
+    'bg-info',
+    'bg-warning',
+    'bg-danger',
+    'bg-light',
+    'bg-dark',
     ].map( swatch => (
       <div key={swatch} className='w-full rounded border-2 border-black m-1 flex-column'>
         <div className={`${swatch} w-full h-24`}></div>
@@ -77,19 +85,19 @@ export default function DesignSystem() {
         <Subtitle extraClasses='text-center text-2xl'>Buttons</Subtitle>
           <Paragraph>Could be a Button component as per Bink Web with different styles as shown below:</Paragraph>
             <Subtitle>Large</Subtitle>
-            <Button large>View In Django</Button>
+            <Button handleClick={demoButtonClickEvent} large>View In Django</Button>
             <Subtitle>Small</Subtitle>
-            <Button small>Load assets</Button>
+            <Button handleClick={demoButtonClickEvent} small>Load assets</Button>
             <Subtitle>Icon</Subtitle>
-            <Button icon>
+            <Button handleClick={demoButtonClickEvent} icon>
               <Image src='/images/refresh.png'alt='' height='20' width='27' />
             </Button> 
             <Subtitle>Circular</Subtitle>
             <div className='flex gap-2'>
-              <Button circular>
+              <Button handleClick={demoButtonClickEvent} circular>
                 <Image src='/images/left-chevron.png' alt='back' width='25' height='25'/>
               </Button>
-              <Button circular>
+              <Button handleClick={demoButtonClickEvent} circular>
                 <Image src='/images/left-chevron.png' alt='forward' width='25' height='25' className='rotate-180'/>
               </Button>
             </div>
@@ -101,10 +109,10 @@ export default function DesignSystem() {
             
             <Subtitle>Environment Selection Buttons</Subtitle>
             <div className='flex gap-2'>
-              <Button develop>D</Button> 
-              <Button staging>S</Button> 
-              <Button sandbox>S</Button> 
-              <Button production>D</Button> 
+              <Button handleClick={demoButtonClickEvent} develop>D</Button> 
+              <Button handleClick={demoButtonClickEvent} staging>S</Button> 
+              <Button handleClick={demoButtonClickEvent} sandbox>S</Button> 
+              <Button handleClick={demoButtonClickEvent} production>D</Button> 
               
             </div>
         </section>

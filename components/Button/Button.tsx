@@ -4,7 +4,8 @@ interface ButtonType {
   large?: boolean,
   small?: boolean,
   icon?: boolean,
-  circular?: boolean
+  circular?: boolean,
+  handleClick: any,
   develop?: boolean,
   staging?: boolean,
   sandbox?: boolean,
@@ -21,6 +22,7 @@ const Button = ({
    staging,
    sandbox,
    production,
+   handleClick,
    error,
    children,
 }: ButtonType) => {
@@ -35,8 +37,9 @@ const Button = ({
          ${staging && 'w-7 h-7 bg-envStagingBg text-envStagingFg leading-7 border border-envStagingFg rounded-md font-bold'}
          ${sandbox && 'w-7 h-7 bg-envSandboxBg text-envSandboxFg leading-7 border border-envSandboxFg rounded-md font-bold'}
          ${production && 'w-7 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md font-bold'}
-        `
-      }
+         `
+        }
+        onClick={handleClick}
       >
        {children}
       </button>
