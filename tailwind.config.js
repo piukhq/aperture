@@ -6,30 +6,55 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      sans: ['Nunito Sans', 'sans-serif'],
+      primary: ['Poppins','sans-serif'],
+      body: ['Roboto','sans-serif'],
     },
+    fontSize: {
+      '5xl': '3.5rem',
+      '4xl': '3rem',
+      '3xl': '2.25rem',
+      '2xl': '1.75rem',
+      'xl': '1.5rem',
+      'lg': '1.125rem',
+      'base': '1rem',
+      'sm': '0.875rem',
+      'xs': '0.813rem',
+      '2xs': '0.75rem',
+      '3xs': '0.688rem',
+    },
+
+
+
+
+
+
+
     colors:{
-      blue: '#007bff',
-      indigo: '#6610f2',
-      purple: '#6f42c1',
-      pink: '#e83e8c',
-      red: '#dc3545',
-      orange: '#fd7e14',
-      yellow: '#ffc107',
-      green: '#28a745',
-      teal: '#20c997',
-      cyan: '#17a2b8',
-      white: '#fff',
-      gray: '#6c757d',
-      grayDark: '#343a40',
-      primary: '#007bff',
-      secondary: '#6c757d',
-      success: '#28a745',
-      info: '#17a2b8',
-      warning: '#ffc107',
-      danger: '#dc3545',
-      light: '#f8f9fa',
-      dark: '#343a40',
+      transparent: 'transparent',
+      current: 'currentColor',
+      'white': '#FFF',
+      'black': '#000',
+      'blue': '#007bff',
+      'yellow': '#ffc542',
+      'lightBlue': '#50b5ff',
+      'aquamarine': '#3dd598',
+      'orange': '#ff974a',
+      'red': '#fc5a5a',
+      'green': '#82c43c',
+      'purple': '#a461d8',
+      'pink': '#ff9ad5',
+      'grey': {
+        100: '#fafafb',
+        200: '#f1f1f5',
+        300: '#e2e2ea',
+        400: '#d5d5dc',
+        500: '#b5b5be',
+        600: '#92929d',
+        700: '#696974',
+        800: '#44444f',
+        900: '#171725',
+      },
+
     },
     extend: {
       spacing: {
@@ -39,10 +64,6 @@ module.exports = {
       },
       opacity: {
         '12': '.12',
-      },
-      fontSize: {
-        'sm': '.875rem',
-        '4xl': '2.063rem',
       },
     },
   },
