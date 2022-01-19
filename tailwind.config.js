@@ -6,7 +6,7 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      primary: ['Poppins','sans-serif'],
+      heading: ['Poppins','sans-serif'],
       body: ['Roboto','sans-serif'],
     },
     fontSize: {
@@ -22,13 +22,6 @@ module.exports = {
       '2xs': '0.75rem',
       '3xs': '0.688rem',
     },
-
-
-
-
-
-
-
     colors:{
       transparent: 'transparent',
       current: 'currentColor',
