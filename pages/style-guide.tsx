@@ -81,11 +81,11 @@ export default function DesignSystem() {
 
   return (
     <div className='m-4'>
-        <Heading1>Style Guide</Heading1>
+        <Heading0>Style Guide</Heading0>
     
 
         <section className={sectionClass}>
-          <Heading2 styles='text-2xl'>Colours</Heading2>
+          <Heading2>Colours</Heading2>
           <div className='w-full grid gap-4 grid-cols-4 auto-rows-auto'> 
             {renderLargeSwatches()}
           </div>
@@ -100,93 +100,152 @@ export default function DesignSystem() {
 
 
         <section className={sectionClass}>
-            <Heading2 styles='text-2xl'>Typography</Heading2>
+            <Heading2 styles='pb-12'>Typography</Heading2>
             <div className='w-full grid gap-24 grid-cols-2'>
               <div>
-                <div className='grid grid-cols-2 mb-12 flex items-center'>
-                  <Heading8 styles='text-[100px]'>Aa</Heading8>
+                <div className='grid grid-cols-2 mb-12 items-center'>
+                  <p className='text-[80px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
                   <div >
                     <Heading7Semibold>PRIMARY FONT</Heading7Semibold>
                     <Heading4 styles='pt-2'>Poppins</Heading4>
                   </div>
                 </div>
-                <Heading4 styles='font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</Heading4>
+                <p className='font-heading text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
                 <div>
                   <div>
-                    <Heading6Title>TITLE</Heading6Title>
+                    <Heading6Title>HEADING</Heading6Title>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading0>H0</Heading0>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Bold - 56px</Body1Regular>
+                    <p className= 'text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Bold - 56px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading1>H1</Heading1>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 48px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 48px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading2>H2</Heading2>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 36px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 36px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading3>H3</Heading3>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 28px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 28px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading4>H4</Heading4>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 24px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 24px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading5>H5</Heading5>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 18px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 18px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading6Semibold>H6</Heading6Semibold>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 16px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 16px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading6Title>H6 Title</Heading6Title>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 16px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 16px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading6Medium>H6</Heading6Medium>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Medium - 16px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 16px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading7Semibold>H7</Heading7Semibold>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 14px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 14px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading7Medium>H7</Heading7Medium>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Medium - 14px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 14px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading7Strikethrough>H7</Heading7Strikethrough>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 14px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 14px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading8>H8</Heading8>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Regular - 14px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 14px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading9Semibold>H9</Heading9Semibold>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 12px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 12px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading9Medium>H9</Heading9Medium>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Medium - 12px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 12px</p>
                   </div>
                   <div className='grid grid-cols-2 pt-8 items-center'>
                     <Heading10>H10</Heading10>
-                    <Body1Regular styles='text-grey-500 dark:text-grey-500'>Semibold - 11px</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Semibold - 11px</p>
                   </div>
                 </div>
               </div>
               <div>
-                <Heading7Semibold>SECONDARY FONT</Heading7Semibold>
-                <Heading4 styles='font-body mb-12'>Roboto</Heading4>
+
+                <div className='grid grid-cols-2 mb-12 items-center'>
+                <p className='text-[80px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
+                  <div >
+                    <Heading7Semibold>SECONDARY FONT</Heading7Semibold>
+                    <Heading4 styles='font-body pt-2'>Roboto</Heading4>
+                  </div>
+                </div>
+                <p className='font-body text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
                 <div>
-                <Heading6Title>BODY</Heading6Title>
-                  
+                  <div>
+                    <Heading6Title>BODY</Heading6Title>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body1Regular>Body 1</Body1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 18px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body1Medium>Body 1</Body1Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 18px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body2Regular>Body 2</Body2Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body2Strikethrough>Body 2</Body2Strikethrough>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body2Medium>Body 2</Body2Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body3Regular>Body 3</Body3Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body3Medium>Body 3</Body3Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body3Bold>Body 3</Body3Bold>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Bold - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body3Bold>Body 3</Body3Bold>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Bold - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body4Regular>Body 4</Body4Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 12px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body4Medium>Body 4</Body4Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 12px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Body4Bold>Body 4</Body4Bold>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Bold - 12px</p>
+                  </div>
+                  <div className='pt-16 pb-12'>
+                    <Heading6Title>SUBHEAD</Heading6Title>
+                  </div>
                 </div>
               </div>
 
@@ -205,9 +264,6 @@ export default function DesignSystem() {
 
 
 {/* 
-
-
-
         <section className={sectionClass}>
         <Heading3 styles='text-center text-2xl'>Buttons</Heading3>
           <Body1Regular styles='text-grey-500'>Could be a Button component as per Bink Web with different styles as shown below:</Body1Regular>
