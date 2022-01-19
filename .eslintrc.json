@@ -1,4 +1,5 @@
 {
+  "plugins":["jest"],
   "extends": ["next/core-web-vitals", "eslint:recommended", "next"],
   "rules": { // Additional rules decided by us. See https://eslint.org/docs/rules/ for more info.
     // Suggestions
