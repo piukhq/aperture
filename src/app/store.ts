@@ -3,15 +3,27 @@ import {
   configureStore,
   ThunkAction,
 } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query'
+
 import { counterReducer } from '../features/counter';
 import { kanyeReducer } from '../features/kanye';
+
+import { jokeApi } from '../services/jokes'
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     kanyeQuote: kanyeReducer,
+    // Add the generated reducer as a specific top-level slice
+    [jokeApi.reducerPath]: jokeApi.reducer,
   },
+  // Adding the api middleware enables caching, invalidation, polling,
+  // and other useful features of `rtk-query`.
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(jokeApi.middleware),
 });
+
+setupListeners(store.dispatch)
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
