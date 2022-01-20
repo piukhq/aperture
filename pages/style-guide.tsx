@@ -16,7 +16,6 @@ import {
   Heading9Medium,
   Heading10,
   Body1Regular,
-  Body1Grey,
   Body1Medium,
   Body2Regular,
   Body2Strikethrough,
@@ -27,6 +26,16 @@ import {
   Body4Regular,
   Body4Medium,
   Body4Bold,
+  Subheading1Regular,
+  Subheading1Medium,
+  Subheading2Regular,
+  Subheading2Strikethrough,
+  Subheading2Medium,
+  Subheading3Regular,
+  Subheading3Strikethrough,
+  Subheading3Medium,
+  Subheading4Regular,
+  Subheading4Medium,
 } from '../components/Typography'
 import Button from '../components/Button' // TODO: Look into Typescript issues
 
@@ -42,7 +51,7 @@ export default function DesignSystem() {
     'bg-aquamarine',
     ].map( swatch => (
       <div key={swatch} className={`${swatch} w-full h-36 rounded-2xl`}>
-         <Body1Regular styles='text-center text-white'>{swatch.split('-')[1]}</Body1Regular>
+         <Body1Regular>{swatch.split('-')[1]}</Body1Regular>
       </div>
     ))
   )
@@ -55,7 +64,7 @@ export default function DesignSystem() {
     'bg-pink',
     ].map( swatch => (
       <div key={swatch} className={`${swatch} w-full h-8 rounded-xl`}>
-         <Body1Regular styles='text-center text-white'>{swatch.split('-')[1]}</Body1Regular>
+         <Body1Regular>{swatch.split('-')[1]}</Body1Regular>
       </div>
     ))
   )
@@ -72,7 +81,7 @@ export default function DesignSystem() {
     'bg-grey-100',
     ].map( (swatch, index) => (
       <div key={swatch} className={`${swatch} w-full h-12`}>
-         <Body1Regular styles={index < 5 ? 'text-white' : 'text-black'}>{swatch.split('-')[2]}</Body1Regular>
+         <Body1Regular>{swatch.split('-')[2]}</Body1Regular>
       </div>
     ))
   )
@@ -100,14 +109,14 @@ export default function DesignSystem() {
 
 
         <section className={sectionClass}>
-            <Heading2 styles='pb-12'>Typography</Heading2>
-            <div className='w-full grid gap-24 grid-cols-2'>
+            <Heading2>Typography</Heading2>
+            <div className='w-full grid gap-12 grid-cols-2'>
               <div>
                 <div className='grid grid-cols-2 mb-12 items-center'>
                   <p className='text-[80px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
                   <div >
                     <Heading7Semibold>PRIMARY FONT</Heading7Semibold>
-                    <Heading4 styles='pt-2'>Poppins</Heading4>
+                    <Heading4>Poppins</Heading4>
                   </div>
                 </div>
                 <p className='font-heading text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
@@ -187,7 +196,7 @@ export default function DesignSystem() {
                 <p className='text-[80px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
                   <div >
                     <Heading7Semibold>SECONDARY FONT</Heading7Semibold>
-                    <Heading4 styles='font-body pt-2'>Roboto</Heading4>
+                    <Heading4>Roboto</Heading4>
                   </div>
                 </div>
                 <p className='font-body text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
@@ -244,7 +253,47 @@ export default function DesignSystem() {
                     <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Bold - 12px</p>
                   </div>
                   <div className='pt-16 pb-12'>
-                    <Heading6Title>SUBHEAD</Heading6Title>
+                    <Heading6Title>SUBHEADING</Heading6Title>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading1Regular>Subheading 1</Subheading1Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 18px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading1Medium>Subheading 1</Subheading1Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 18px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading2Regular>Subheading 2</Subheading2Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading2Medium>Subheading 2</Subheading2Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading2Strikethrough>Subheading 2</Subheading2Strikethrough>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 16px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading3Regular>Subheading 3</Subheading3Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading3Medium>Subheading 3</Subheading3Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading3Strikethrough>Subheading 3</Subheading3Strikethrough>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 14px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading4Regular>Subheading 4</Subheading4Regular>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Regular - 12px</p>
+                  </div>
+                  <div className='grid grid-cols-2 pt-8 items-center'>
+                    <Subheading4Medium>Subheading 4</Subheading4Medium>
+                    <p className='text-lg font-body font-normal text-grey-500 dark:text-grey-500'>Medium - 12px</p>
                   </div>
                 </div>
               </div>
@@ -253,6 +302,22 @@ export default function DesignSystem() {
         </section>
 
 
+        <section className={sectionClass}>
+          <Heading2>Buttons</Heading2>
+          <div className='grid grid-cols-2 pt-8 items-center'>
+            <div className='flex flex-col'>
+              
+            </div>
+          </div>
+          <Heading6Title>PRIMARY</Heading6Title>
+          {/* <Button primary filled blue>Primary Button</Button>
+          <Button primary white blue>Primary Button</Button>
+          <Button primary outline blue>Primary Button</Button>
+          <Heading6Title>SMALL_PRIMARY</Heading6Title>
+          <Button primary small filled blue>Primary Button</Button>
+          <Button primary small white blue>Primary Button</Button>
+          <Button primary small outline blue>Primary Button</Button> */}
+        </section>
 
 
 
