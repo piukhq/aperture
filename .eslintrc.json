@@ -1,4 +1,7 @@
 {
+  "env": {
+    "jest/globals": true
+  },
   "plugins":["jest"],
   "extends": ["next/core-web-vitals", "eslint:recommended", "next"],
   "rules": { // Additional rules decided by us. See https://eslint.org/docs/rules/ for more info.
@@ -38,6 +41,12 @@
     "space-infix-ops": [1, { "int32Hint": false }],
     "switch-colon-spacing": [1, {"after": true, "before": false}],
     "template-curly-spacing": [1, "never"],
-    "template-tag-spacing": 1
+    "template-tag-spacing": 1,
+    // Jest Rules - Using defaults for now, can change if annoying
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
   }
 }

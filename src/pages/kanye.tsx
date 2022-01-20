@@ -2,11 +2,11 @@ import React from 'react'
 import {
   useAppDispatch,
   useAppSelector,
-} from '../app/hooks'
+} from 'app/hooks'
 import {
   getKanyeQuote,
   kanyeQuoteSelector,
-} from '../features/kanye'
+} from 'features/kanye'
 
 const Kanye = () => {
   const dispatch = useAppDispatch()

@@ -3,13 +3,13 @@ import {useState} from 'react'
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../app/hooks'
+} from 'app/hooks'
 import {
   decrement,
   increment,
   incrementByAmount,
   selectCount,
-} from '../../features/counter'
+} from 'features/counter'
 
 const Counter = () => {
   const dispatch = useAppDispatch()

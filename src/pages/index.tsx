@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import Counter from '../components/Counter'
+import Counter from 'components/Counter'
 
 const IndexPage: NextPage = () => {
   return (

@@ -18,7 +18,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": "./src", // Allows folders at root level to be referenced with absolute paths
+    "baseUrl": "./src",
   },
   "include": [
     "next-env.d.ts",
