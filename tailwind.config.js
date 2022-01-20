@@ -50,6 +50,10 @@ module.exports = {
 
     },
     extend: {
+      lineHeight: {
+        '5.5': '1.375rem',
+        '6.5': '1.625rem',
+      },
       spacing: {
         '112': '28rem',
         '148': '37rem',

@@ -1,4 +1,3 @@
-import { Error } from '../Typography'
 
 interface ButtonType {
   large?: boolean,
@@ -43,12 +42,6 @@ const Button = ({
       >
        {children}
       </button>
-
-      { error && (
-        <div>
-          <Error>{error}</Error>
-        </div>
-      )}
     </>
   )
 }
