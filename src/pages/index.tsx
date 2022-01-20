@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import Counter from '../components/Counter'
+import type {NextPage} from 'next'
+import Counter from 'components/Counter'
 
 const IndexPage: NextPage = () => {
   return (
@@ -7,7 +7,7 @@ const IndexPage: NextPage = () => {
       <h1>Welcome to the greatest app in the world!</h1>
       <Counter />
     </>
-  );
-};
+  )
+}
 
-export default IndexPage;
+export default IndexPage
