@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useGetRandomJokeQuery } from '../services/jokes'
+import React, {useState} from 'react'
+import {useGetRandomJokeQuery} from '../services/jokes'
 
 
 const Jokes = () => {
   const [skip, setSkip] = useState(true)
-  const { data, error, isLoading } = useGetRandomJokeQuery(null, {
+  const {data, error, isLoading} = useGetRandomJokeQuery(null, {
     skip, // Used to conditionally call fetch api
   })
 
@@ -18,7 +18,7 @@ const Jokes = () => {
         Generate joke
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Jokes;
+export default Jokes
