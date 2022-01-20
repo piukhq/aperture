@@ -1,20 +1,20 @@
-import React from 'react';
+import React from 'react'
 import {
   useAppDispatch,
   useAppSelector,
-} from '../app/hooks';
+} from 'app/hooks'
 import {
   getKanyeQuote,
   kanyeQuoteSelector,
-} from '../features/kanye';
+} from 'features/kanye'
 
 const Kanye = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   const {
-    data, 
-    pending, 
+    data,
+    pending,
     error,
-  } = useAppSelector(kanyeQuoteSelector);
+  } = useAppSelector(kanyeQuoteSelector)
 
   return (
     <div>
@@ -26,7 +26,7 @@ const Kanye = () => {
         Generate Kanye Quote
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default Kanye;
+export default Kanye

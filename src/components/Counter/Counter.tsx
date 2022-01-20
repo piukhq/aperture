@@ -1,20 +1,20 @@
-import { useState } from 'react';
+import {useState} from 'react'
 
 import {
   useAppDispatch,
   useAppSelector,
-} from '../../app/hooks';
+} from 'app/hooks'
 import {
   decrement,
   increment,
   incrementByAmount,
   selectCount,
-} from '../../features/counter';
+} from 'features/counter'
 
 const Counter = () => {
-  const dispatch = useAppDispatch();
-  const count = useAppSelector(selectCount);
-  const [incrementAmount, setIncrementAmount] = useState<number>(0);
+  const dispatch = useAppDispatch()
+  const count = useAppSelector(selectCount)
+  const [incrementAmount, setIncrementAmount] = useState<number>(0)
 
   return (
     <>
@@ -26,7 +26,7 @@ const Counter = () => {
         <input
           value={incrementAmount}
           onChange={(e) => setIncrementAmount(Number(e.target.value))}
-          type="number"
+          type='number'
         />
         <button onClick={() => dispatch(incrementByAmount(Number(incrementAmount)))}>
           Increment by amount
@@ -37,7 +37,7 @@ const Counter = () => {
         <button onClick={() => dispatch(increment())}>Increment by 1</button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Counter;
+export default Counter
