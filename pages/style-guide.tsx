@@ -304,19 +304,53 @@ export default function DesignSystem() {
 
         <section className={sectionClass}>
           <Heading2>Buttons</Heading2>
-          <div className='grid grid-cols-2 pt-8 items-center'>
+          <div className='grid grid-cols-2 gap-4 pt-4 items-center'>
             <div className='flex flex-col'>
-              
+              <Heading6Title>PRIMARY</Heading6Title>
+              <div className='pb-8'>
+                <div className='flex gap-2 py-4'>
+                  <button className='w-[120px] h-[38px] px-3 bg-blue font-heading text-white font-semibold text-2xs rounded-[10px]'>Primary Button</button>
+                  <button className='w-[120px] h-[38px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
+                  <button className='w-[120px] h-[38px] bg-transparent font-heading text-blue border border-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
+                </div>
+                <button className='w-full h-[38px] bg-blue font-heading text-white font-semibold sel-c text-2xs rounded-[10px] '>Full Width Button</button>
+              </div>
+              <div className='pb-8'>
+                <Heading6Title>SECONDARY</Heading6Title>
+                <div className='flex gap-4 py-4'>
+                  <button className='w-[120px] h-[38px] bg-transparent font-heading text-red border border-red font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] px-3 bg-blue font-heading text-white font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                </div>
+              </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div className='flex flex-col'>
+              <Heading6Title>SMALL_PRIMARY</Heading6Title>
+              <div className='pb-8'>
+                <div className='flex gap-4 py-4'>
+                  <button className='w-[120px] h-[28px] bg-blue font-heading text-white font-semibold text-2xs rounded-[10px] '>Primary Button</button>
+                  <button className='w-[120px] h-[28px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px] '>Primary Button</button>
+                  <button className='w-[120px] h-[28px] bg-transparent font-heading text-blue border border-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
+                </div>
+                <button className='w-full h-[28px] bg-blue font-heading text-white font-semibold sel-c text-2xs rounded-[10px] '>Full Width Button</button>
+              </div>
             </div>
           </div>
-          <Heading6Title>PRIMARY</Heading6Title>
-          {/* <Button primary filled blue>Primary Button</Button>
-          <Button primary white blue>Primary Button</Button>
-          <Button primary outline blue>Primary Button</Button>
-          <Heading6Title>SMALL_PRIMARY</Heading6Title>
-          <Button primary small filled blue>Primary Button</Button>
-          <Button primary small white blue>Primary Button</Button>
-          <Button primary small outline blue>Primary Button</Button> */}
+          
+    
         </section>
 
 
