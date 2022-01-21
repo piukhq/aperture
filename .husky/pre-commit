@@ -10,6 +10,6 @@
 # v=${b%%[)| ]*}
 
 # export PATH="$NVM_DIR/versions/node/$v/bin:$PATH"
-yarn jest
+yarn test
 yarn lint -- --fix
 yarn lint

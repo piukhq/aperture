@@ -1,8 +1,9 @@
-FROM node:17
-
-WORKDIR /app
+FROM node:latest as build
+WORKDIR /build
 ADD . .
-
 RUN yarn install --frozen-lockfile
+RUN yarn build
 
-ENTRYPOINT [ "yarn", "dev" ]
+FROM nginx:alpine
+COPY --from=build /build/build/server/pages /usr/share/nginx/html
+CMD [ "nginx", "-g", "daemon off;" ]
