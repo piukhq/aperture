@@ -1,5 +1,6 @@
 
 module.exports = {
+  darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
@@ -21,6 +22,7 @@ module.exports = {
       'xs': '0.813rem',
       '2xs': '0.75rem',
       '3xs': '0.688rem',
+      '4xs': '0.625rem',
     },
     colors:{
       transparent: 'transparent',

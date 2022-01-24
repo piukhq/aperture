@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import {
   Heading0,
   Heading1,
@@ -37,7 +39,8 @@ import {
   Subheading4Regular,
   Subheading4Medium,
 } from '../components/Typography'
-import Button from '../components/Button' // TODO: Look into Typescript issues
+import Button from '../components/Button'
+import NavigationItem from '../components/NavigationItem'
 
 export default function DesignSystem() {
 
@@ -319,39 +322,120 @@ export default function DesignSystem() {
                 <Heading6Title>SECONDARY</Heading6Title>
                 <div className='flex gap-4 py-4'>
                   <button className='w-[120px] h-[38px] bg-transparent font-heading text-red border border-red font-semibold text-2xs rounded-[10px]'>Secondary</button>
-                  <button className='w-[120px] h-[38px] px-3 bg-blue font-heading text-white font-semibold text-2xs rounded-[10px]'>Secondary</button>
-                  <button className='w-[120px] h-[38px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] px-3 bg-grey-900/50 font-heading text-white font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] bg-grey-200 font-heading text-grey-700 font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                </div>
+                <div className='flex gap-4 py-4'>
+                  <button className='w-[120px] h-[38px] font-heading text-grey-700 border border-grey-300 font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] px-3 bg-white font-heading text-grey-700 font-medium text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] bg-grey-200 font-heading text-grey-700 font-medium text-2xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[38px] font-heading text-grey-700 border border-grey-300 font-regular text-sm rounded-[10px]'>Secondary</button>
+                </div>
+              </div>
+            </div>
+            <div className='flex flex-col'>
+              <Heading6Title>SMALL PRIMARY</Heading6Title>
+              <div className='pb-8'>
+                <div className='flex gap-2 py-4'>
+                  <button className='w-[120px] h-[28px] px-3 bg-blue font-heading text-white font-semibold text-3xs rounded-[10px]'>Primary Button</button>
+                  <button className='w-[120px] h-[28px] bg-white font-heading text-blue font-semibold text-3xs rounded-[10px]'>Primary Button</button>
+                  <button className='w-[120px] h-[28px] bg-transparent font-heading text-blue border border-blue font-semibold text-3xs rounded-[10px]'>Primary Button</button>
+                </div>
+                <button className='w-full h-[28px] bg-blue font-heading text-white font-semibold sel-c text-3xs rounded-[10px] '>Full Width Button</button>
+              </div>
+              <div className='pb-8'>
+                <Heading6Title>SMALL SECONDARY</Heading6Title>
+                <div className='flex gap-4 py-4'>
+                  <button className='w-[120px] h-[28px] bg-transparent font-heading text-red border border-red font-semibold text-3xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[28px] px-3 bg-grey-900/50 font-heading text-white font-semibold text-3xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[28px] bg-grey-200 font-heading text-grey-700 font-semibold text-3xs rounded-[10px]'>Secondary</button>
+                </div>
+                <div className='flex gap-4 py-4'>
+                  <button className='w-[120px] h-[28px] font-heading text-grey-700 border border-grey-300 font-semibold text-3xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[28px] px-3 bg-white font-heading text-grey-700 font-medium text-3xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[28px] bg-grey-200 font-heading text-grey-700 font-medium text-3xs rounded-[10px]'>Secondary</button>
+                  <button className='w-[120px] h-[28px] font-heading text-grey-700 border border-grey-300 font-regular text-2xs tracking-[0px] rounded-[10px]'>Secondary</button>
                 </div>
               </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
             <div className='flex flex-col'>
-              <Heading6Title>SMALL_PRIMARY</Heading6Title>
+              <Heading6Title>WITH ICON</Heading6Title>
               <div className='pb-8'>
-                <div className='flex gap-4 py-4'>
-                  <button className='w-[120px] h-[28px] bg-blue font-heading text-white font-semibold text-2xs rounded-[10px] '>Primary Button</button>
-                  <button className='w-[120px] h-[28px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px] '>Primary Button</button>
-                  <button className='w-[120px] h-[28px] bg-transparent font-heading text-blue border border-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
+                <div className='flex gap-2 py-4'>
+                  <button className='flex items-center justify-center w-[230px] h-[48px] px-3 bg-white font-heading leading-7 text-grey-800 font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span><span>Write Message</span></button>
+                  <button className='flex items-center h-[38px] px-4 bg-blue font-heading leading-7 tracking-[0.1px] text-white font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/plus.svg'alt='' height='19' width='19' /></span><span>New</span></button>
+                  <button className='flex items-center h-[38px] px-4 bg-grey-200 font-heading leading-7 tracking-[0.1px] text-grey-700 font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span><span>New</span></button>
+                  <button className='flex items-center justify-center h-[38px] w-[38px] bg-blue rounded-[6.32px]'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></button>
+                  <button className='flex items-center justify-center h-[38px] w-[38px] border border-red font-heading rounded-[6.32px]'><span className='pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span></button>
                 </div>
-                <button className='w-full h-[28px] bg-blue font-heading text-white font-semibold sel-c text-2xs rounded-[10px] '>Full Width Button</button>
+              </div>
+            </div>
+            <div className='flex flex-col'>
+              <Heading6Title>TAG</Heading6Title>
+              <div className='pb-8'>
+                <div className='flex gap-2 py-4'>
+                  <div className='flex items-center justify-center h-[28px] px-6 bg-grey-200 font-heading text-grey-700 font-medium text-4xs rounded-[5px]'>Tag</div>
+                  <div className='flex items-center justify-center h-[28px] px-6 bg-grey-800 font-heading text-grey-100 font-regular text-4xs border border-grey-500 rounded-[5px]'>Tag</div>
+                  <div className='flex items-center justify-center h-[28px] px-6 bg-blue/10 font-heading text-blue font-regular text-4xs rounded-[5px]'>Tag</div>
+                </div>
               </div>
             </div>
           </div>
-          
-    
+  
         </section>
+
+
+        <section className={sectionClass}>
+          <Heading2>Form - Desktop</Heading2>
+          <div className='grid grid-cols-2 gap-4 p-4 items-center'>
+            <div className='flex flex-col'>
+              <Heading6Title>ONBOARDING 1</Heading6Title>
+              <div className='relative'>
+                <label className='absolute top-[-8px] left-[10px] px-1 dark:bg-grey-800 text-xs text-lightBlue bg-inherit'>First Name</label>
+                <input type='name' className='w-[240px] h-[48px] border border-lightBlue bg-transparent rounded-[10px]'></input>
+              </div>
+
+              </div>
+            <div className='flex flex-col'>
+              <Heading6Title>ONBOARDING 2</Heading6Title>
+            </div>
+            <div className='flex flex-col'>
+              <Heading6Title>EMAIL FORM</Heading6Title>
+              Drop downs here
+            </div>
+            <div className='flex flex-col'>
+              <Heading6Title>SEARCH FORM</Heading6Title>
+              Search here
+            </div>
+          </div>
+        </section>
+
+
+        <section className={sectionClass}>
+          <Heading2>Menu</Heading2>
+          <div className='flex flex-col gap-4 p-4'>
+              <Heading6Title>SIDE MENU</Heading6Title>
+            <div className='grid grid-cols-3'>
+              <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Example Nav Item' />
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+              <Heading6Title>SUB MENU</Heading6Title>
+            <div className='grid grid-cols-3'>
+              <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Example Nav Item' />
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+              <Heading6Title>NAV MENU</Heading6Title>
+            <div className='grid grid-cols-3'>
+              <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Style Guide' />
+              <NavigationItem path='/asset-comparator' iconPath='/images/icon-write.svg' label='Asset Comparator' />
+            </div>
+          </div>
+        </section>
+
+
 
 
 
@@ -385,7 +469,7 @@ export default function DesignSystem() {
             </div>
             <Heading2>Navigation Menu Item</Heading2>
             
-              <button className='flex justify-start items-center w-60 h-12 bg-primaryGreen/12 text-primaryGreen font-semibold rounded-xl'>
+              <button className='flex items-center w-60 h-12 bg-primaryGreen/12 text-primaryGreen font-semibold rounded-xl'>
                 <span className='px-3 pt-2'><Image src='/images/menu-assets.png'alt='' height='18' width='23' /></span><span>Asset comparator</span>
               </button>
             
