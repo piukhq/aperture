@@ -19,13 +19,13 @@ jobs:
         id: date
       - uses: docker/login-action@v1
         with:
-          registry: binkcore.azure.io
+          registry: binkcore.azurecr.io
           username: binkcore
           password: ${{ secrets.ACR_BINKCORE_PASSWORD }}
       - uses: docker/build-push-action@v2
         with:
           push: true
           tags: |
-            binkcore.azure.io/aperture:${{ steps.date.outputs.date }}
-            binkcore.azure.io/aperture:latest
+            binkcore.azurecr.io/aperture:${{ steps.date.outputs.date }}
+            binkcore.azurecr.io/aperture:latest
             
