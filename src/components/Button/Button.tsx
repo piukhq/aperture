@@ -12,18 +12,17 @@ interface ButtonType {
   error?: string,
   children: any,
 }
-const Button = ({ 
-   large,
-   small, 
-   icon,
-   circular,
-   develop,
-   staging,
-   sandbox,
-   production,
-   handleClick,
-   error,
-   children,
+const Button = ({
+  large,
+  small,
+  icon,
+  circular,
+  develop,
+  staging,
+  sandbox,
+  production,
+  handleClick,
+  children,
 }: ButtonType) => {
   return (
     <>
@@ -37,10 +36,10 @@ const Button = ({
          ${sandbox && 'w-7 h-7 bg-envSandboxBg text-envSandboxFg leading-7 border border-envSandboxFg rounded-md font-bold'}
          ${production && 'w-7 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md font-bold'}
          `
-        }
-        onClick={handleClick}
+      }
+      onClick={handleClick}
       >
-       {children}
+        {children}
       </button>
     </>
   )
