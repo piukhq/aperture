@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "cypress": "cypress open",
-    "test": "test --watch",
+    "test": "jest --watch",
     "prepare": "husky install"
   },
   "dependencies": {
