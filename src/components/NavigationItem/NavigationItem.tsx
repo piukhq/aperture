@@ -8,7 +8,7 @@ interface NavigationItemType {
 const NavigationItem = ({
   path,
   label,
-  children
+  children,
 }: NavigationItemType) => {
 
   // something to check URL matches path to set always blue
