@@ -2,8 +2,17 @@
   "env": {
     "jest/globals": true
   },
-  "plugins":["jest"],
-  "extends": ["next/core-web-vitals", "eslint:recommended", "next"],
+  "parser": "@typescript-eslint/parser",
+  "plugins":[
+    "@typescript-eslint",
+    "jest"
+  ],
+  "extends": [
+     "next/core-web-vitals",
+     "next",
+     "eslint:recommended",
+     "plugin:@typescript-eslint/recommended"
+    ],
   "rules": { // Additional rules decided by us. See https://eslint.org/docs/rules/ for more info.
     // Suggestions
     "eqeqeq": "error",
@@ -47,6 +56,9 @@
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
-    "jest/valid-expect": "error"
+    "jest/valid-expect": "error",
+    // Typescript Rules
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-unused-vars": "off" // See: https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
   }
 }
