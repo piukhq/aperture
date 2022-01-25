@@ -43,7 +43,7 @@ import {
 import CheckCircleSvg from 'images/check-circle.svg'
 import NavigationItem from 'components/NavigationItem'
 import TextInputGroup from 'components/TextInputGroup'
-import { useState } from 'react'
+import {useState} from 'react'
 
 
 export default function DesignSystem () {
