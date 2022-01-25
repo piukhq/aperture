@@ -39,7 +39,11 @@ import {
   Subheading4Regular,
   Subheading4Medium,
 } from 'components/Typography'
+
+import CheckCircleSvg from 'images/check-circle.svg'
 import NavigationItem from 'components/NavigationItem'
+import TextInputGroup from 'components/TextInputGroup'
+
 
 export default function DesignSystem () {
 
@@ -80,7 +84,7 @@ export default function DesignSystem () {
   )
 
 
-  const sectionClass: string = 'w-full p-12' // An idea for component-only repetition.
+  const sectionClass = 'w-full p-12' // An idea for component-level repetition.
 
   return (
     <div className='m-4'>
@@ -379,16 +383,51 @@ export default function DesignSystem () {
       <section className={sectionClass}>
         <Heading2>Form - Desktop</Heading2>
         <div className='grid grid-cols-2 gap-4 p-4 items-center'>
-          <div className='flex flex-col'>
+          <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 1</Heading6Title>
-            <div className='relative'>
-              <label className='absolute top-[-8px] left-[10px] px-1 dark:bg-grey-800 text-xs text-lightBlue bg-inherit'>First Name</label>
-              <input type='name' className='w-[240px] h-[48px] border border-lightBlue bg-transparent rounded-[10px]'></input>
+            <TextInputGroup
+              label='First Name'
+              inputType={TextInputGroup.inputType.PASSWORD}
+              border={TextInputGroup.border.FULL}
+              colour={TextInputGroup.colour.GREY}
+            />
+            <TextInputGroup
+              label='First Name'
+              inputType={TextInputGroup.inputType.PASSWORD}
+              border={TextInputGroup.border.BOTTOM}
+              colour={TextInputGroup.colour.GREY}
+            />
+            <div className='flex gap-2'>
+              <div className='relative w-[240px] h-[48px]'>
+                <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-lightBlue bg-grey-100 z-10 '>First Name</label>
+                <input type='name' className='w-full h-full p-4 border border-lightBlue bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
+              </div>
+              <div className='relative w-[240px] h-[48px]'>
+                <label className='absolute top-[15px] left-[13px] px-1 dark:bg-grey-500 text-2xs font-body text-grey-500 bg-grey-100 z-10 '>Your Country</label>
+                <input type='name' className='w-full h-full p-4 border border-grey-300 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
+              </div>
+            </div>
+            <div className='relative w-[500px] h-[48px]'>
+              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-lightBlue bg-grey-100 z-10 '>Your Email / Username</label>
+              <input type='name' className='w-full h-full p-4 border border-lightBlue bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
+            </div>
+            <div className='relative w-[500px] h-[48px]'>
+              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-grey-500 bg-grey-100 z-10 '>Your Email / Username</label>
+              <input type='name' className='w-full h-full p-4 border border-grey-500 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-500'></input>
+            </div>
+            <div className='relative w-[500px] h-[48px]'>
+              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-red bg-grey-100 z-10 '>Enter Password</label>
+              <input type='password' className='w-full h-full p-4 border border-red bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
             </div>
 
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 2</Heading6Title>
+            <div className='relative w-[485px] h-[58px]'>
+              <label className='absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs font-body text-grey-400 bg-grey-100 z-10 '>Full Name</label>
+              <input type='name' className='w-full h-[39px] p-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-base tracking-[0.1px] text-grey-800'></input>
+              <CheckCircleSvg className='absolute top-[10px] right-[1px]'/>
+            </div>
           </div>
           <div className='flex flex-col'>
             <Heading6Title>EMAIL FORM</Heading6Title>
@@ -407,20 +446,20 @@ export default function DesignSystem () {
         <div className='flex flex-col gap-4 p-4'>
           <Heading6Title>SIDE MENU</Heading6Title>
           <div className='grid grid-cols-3'>
-            <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Example Nav Item' />
+o
           </div>
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <Heading6Title>SUB MENU</Heading6Title>
           <div className='grid grid-cols-3'>
-            <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Example Nav Item' />
+o
           </div>
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <Heading6Title>NAV MENU</Heading6Title>
-          <div className='grid grid-cols-3'>
-            <NavigationItem path='/style-guide' iconPath='/images/plus.svg' label='Style Guide' />
-            <NavigationItem path='/asset-comparator' iconPath='/images/icon-write.svg' label='Asset Comparator' />
+          <div className='grid grid-cols-1'>
+            <NavigationItem path='/style-guide' label='Style Guide'><CheckCircleSvg/></NavigationItem>
+            <NavigationItem path='/' label='Home'><CheckCircleSvg/></NavigationItem>
           </div>
         </div>
       </section>
