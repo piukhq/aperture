@@ -43,9 +43,12 @@ import {
 import CheckCircleSvg from 'images/check-circle.svg'
 import NavigationItem from 'components/NavigationItem'
 import TextInputGroup from 'components/TextInputGroup'
+import { useState } from 'react'
 
 
 export default function DesignSystem () {
+
+  const [textFieldValue, setTextFieldValue] = useState(null)
 
   const renderLargeSwatches = () => [
     'bg-blue',
@@ -89,8 +92,6 @@ export default function DesignSystem () {
   return (
     <div className='m-4'>
       <Heading0>Style Guide</Heading0>
-
-
       <section className={sectionClass}>
         <Heading2>Colours</Heading2>
         <div className='w-full grid gap-4 grid-cols-4 auto-rows-auto'>
@@ -386,16 +387,43 @@ export default function DesignSystem () {
           <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 1</Heading6Title>
             <TextInputGroup
+              name='firstName'
               label='First Name'
-              inputType={TextInputGroup.inputType.PASSWORD}
+              inputType={TextInputGroup.inputType.NAME}
               border={TextInputGroup.border.FULL}
-              colour={TextInputGroup.colour.GREY}
+              colour={TextInputGroup.colour.BLUE}
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
             />
             <TextInputGroup
-              label='First Name'
+              name='Error'
+              label='Error Field'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              error='Invalid Name'
+              inputType={TextInputGroup.inputType.NAME}
+              border={TextInputGroup.border.FULL_SMALL}
+              colour={TextInputGroup.colour.GREEN}
+            />
+            <TextInputGroup
+              name='password'
+              label='Password'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.PASSWORD}
-              border={TextInputGroup.border.BOTTOM}
-              colour={TextInputGroup.colour.GREY}
+              border={TextInputGroup.border.UNDERLINE_ICON_RIGHT}
+              colour={TextInputGroup.colour.BLUE}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='password'
+              label='Password'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.PASSWORD}
+              border={TextInputGroup.border.UNDERLINE_ICON_LEFT}
+              colour={TextInputGroup.colour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
             />
             <div className='flex gap-2'>
               <div className='relative w-[240px] h-[48px]'>
@@ -426,7 +454,7 @@ export default function DesignSystem () {
             <div className='relative w-[485px] h-[58px]'>
               <label className='absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs font-body text-grey-400 bg-grey-100 z-10 '>Full Name</label>
               <input type='name' className='w-full h-[39px] p-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-base tracking-[0.1px] text-grey-800'></input>
-              <CheckCircleSvg className='absolute top-[10px] right-[1px]'/>
+              <CheckCircleSvg className='absolute top-[10px] left-[1px]'/>
             </div>
           </div>
           <div className='flex flex-col'>
