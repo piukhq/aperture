@@ -44,6 +44,7 @@ import CheckCircleSvg from 'images/check-circle.svg'
 import NavigationItem from 'components/NavigationItem'
 import TextInputGroup from 'components/TextInputGroup'
 import {useState} from 'react'
+import Button from 'components/Button'
 
 
 export default function DesignSystem () {
@@ -300,12 +301,41 @@ export default function DesignSystem () {
       </section>
 
 
-      <section className={sectionClass}>
+      <section className={sectionClass}>s
         <Heading2>Buttons</Heading2>
         <div className='grid grid-cols-2 gap-4 pt-4 items-center'>
           <div className='flex flex-col'>
             <Heading6Title>PRIMARY</Heading6Title>
             <div className='pb-8'>
+              <div className='flex gap-2 py-4'>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.BLUE}
+                  labelColour={Button.labelColour.WHITE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.BLUE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.BLUE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
+              </div>
               <div className='flex gap-2 py-4'>
                 <button className='w-[120px] h-[38px] px-3 bg-blue font-heading text-white font-semibold text-2xs rounded-[10px]'>Primary Button</button>
                 <button className='w-[120px] h-[38px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
