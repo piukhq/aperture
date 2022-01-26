@@ -24,12 +24,12 @@ const Sidebar = () => {
       <div className='mt-6'>
         <h1 className='text-off-grey-2 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
 
-        <div className='mt-5'>
+        <nav className='mt-5'>
           {sideOptions.map(option => {
             const selected = selectedTool === option
             return <SidebarOption key={option} option={option} selected={selected} />
           })}
-        </div>
+        </nav>
       </div>
     </div>
   )
