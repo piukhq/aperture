@@ -48,7 +48,7 @@ import {useState} from 'react'
 
 export default function DesignSystem () {
 
-  const [textFieldValue, setTextFieldValue] = useState(null)
+  const [textFieldValue, setTextFieldValue] = useState('')
 
   const renderLargeSwatches = () => [
     'bg-blue',
@@ -383,91 +383,376 @@ export default function DesignSystem () {
 
       <section className={sectionClass}>
         <Heading2>Form - Desktop</Heading2>
-        <div className='grid grid-cols-2 gap-4 p-4 items-center'>
+        <div className='grid grid-cols-2 gap-4 p-4'>
           <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 1</Heading6Title>
             <TextInputGroup
               name='firstName'
               label='First Name'
-              inputType={TextInputGroup.inputType.NAME}
-              border={TextInputGroup.border.FULL}
-              colour={TextInputGroup.colour.BLUE}
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.FULL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.BLUE}
+              // svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
-              name='Error'
-              label='Error Field'
+              name='email'
+              label='Your Email / Username'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              error='Invalid Name'
-              inputType={TextInputGroup.inputType.NAME}
-              border={TextInputGroup.border.FULL_SMALL}
-              colour={TextInputGroup.colour.GREEN}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.FULL}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.BLUE}
+              // svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
-              name='password'
-              label='Password'
+              name='email'
+              label='Your Email / Username'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.FULL}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.GREY}
+              // svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='email'
+              label='Enter Password'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.PASSWORD}
-              border={TextInputGroup.border.UNDERLINE_ICON_RIGHT}
-              colour={TextInputGroup.colour.BLUE}
+              inputStyle={TextInputGroup.inputStyle.FULL}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.RED}
+              // svgIcon={<CheckCircleSvg/>}
+            />
+            <Heading6Title>ONBOARDING 3</Heading6Title>
+            <TextInputGroup
+              name='email'
+              label='Enter Email'
+              value={textFieldValue}
+              placeholder='Your Email'
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
               svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
-              name='password'
-              label='Password'
+              name='email error'
+              label='Enter Email'
+              value={textFieldValue}
+              error='Wrong ID'
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Short Name'
+              label='Enter Email'
+              value={textFieldValue}
+              placeholder='First Name'
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.BLUE}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='email error'
+              label='Enter Email'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.PASSWORD}
-              border={TextInputGroup.border.UNDERLINE_ICON_LEFT}
-              colour={TextInputGroup.colour.LIGHT_GREY}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.GREEN}
               svgIcon={<CheckCircleSvg/>}
             />
-            <div className='flex gap-2'>
-              <div className='relative w-[240px] h-[48px]'>
-                <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-lightBlue bg-grey-100 z-10 '>First Name</label>
-                <input type='name' className='w-full h-full p-4 border border-lightBlue bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
-              </div>
-              <div className='relative w-[240px] h-[48px]'>
-                <label className='absolute top-[15px] left-[13px] px-1 dark:bg-grey-500 text-2xs font-body text-grey-500 bg-grey-100 z-10 '>Your Country</label>
-                <input type='name' className='w-full h-full p-4 border border-grey-300 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
-              </div>
-            </div>
-            <div className='relative w-[500px] h-[48px]'>
-              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-lightBlue bg-grey-100 z-10 '>Your Email / Username</label>
-              <input type='name' className='w-full h-full p-4 border border-lightBlue bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
-            </div>
-            <div className='relative w-[500px] h-[48px]'>
-              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-grey-500 bg-grey-100 z-10 '>Your Email / Username</label>
-              <input type='name' className='w-full h-full p-4 border border-grey-500 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-500'></input>
-            </div>
-            <div className='relative w-[500px] h-[48px]'>
-              <label className='absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body text-red bg-grey-100 z-10 '>Enter Password</label>
-              <input type='password' className='w-full h-full p-4 border border-red bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800'></input>
-            </div>
 
           </div>
           <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 2</Heading6Title>
-            <div className='relative w-[485px] h-[58px]'>
-              <label className='absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs font-body text-grey-400 bg-grey-100 z-10 '>Full Name</label>
-              <input type='name' className='w-full h-[39px] p-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-base tracking-[0.1px] text-grey-800'></input>
-              <CheckCircleSvg className='absolute top-[10px] left-[1px]'/>
-            </div>
+            <TextInputGroup
+              name='Mail Address'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Password'
+              label='Password'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.PASSWORD}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col gap-6'>
             <Heading6Title>EMAIL FORM</Heading6Title>
-              Drop downs here
+            <TextInputGroup
+              name='Search Emails'
+              label='Search'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SELECT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.DARK_GREY}
+            />
+            <TextInputGroup
+              name='Search Emails'
+              label='Search'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SELECT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.BLUE}
+            />
+            <TextInputGroup
+              name='Search Emails'
+              label='Search'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SELECT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.DARK_GREY}
+            />
+            <TextInputGroup
+              name='Search Emails'
+              label='Search'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SELECT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
+              inputWidth={TextInputGroup.inputWidth.LARGE}
+              inputColour={TextInputGroup.inputColour.BLUE}
+            />
           </div>
-          <div className='flex flex-col'>
+          <div className='flex flex-col gap-6'>
             <Heading6Title>SEARCH FORM</Heading6Title>
-              Search here
+            <div className='grid grid-cols-2'>
+              <TextInputGroup
+                name='Search'
+                label='Search'
+                placeholder='Search...'
+                value={textFieldValue}
+                onChange={event => setTextFieldValue(event.target.value)}
+                inputType={TextInputGroup.inputType.SEARCH}
+                inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
+                inputWidth={TextInputGroup.inputWidth.MEDIUM}
+                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                svgIcon={<CheckCircleSvg/>}
+              />
+              <TextInputGroup
+                name='Search'
+                label='Search'
+                placeholder='Search'
+                value={textFieldValue}
+                onChange={event => setTextFieldValue(event.target.value)}
+                inputType={TextInputGroup.inputType.SEARCH}
+                inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT_SMALL}
+                inputWidth={TextInputGroup.inputWidth.MEDIUM}
+                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                svgIcon={<CheckCircleSvg/>}
+              />
+            </div>
+            <TextInputGroup
+              name='Search'
+              label='Search'
+              placeholder='Search...'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SEARCH}
+              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT}
+              inputWidth={TextInputGroup.inputWidth.FULL}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
           </div>
         </div>
       </section>
 
+      <section className={sectionClass}>
+        <Heading2>Form - Mobile</Heading2>
+        <div className='grid grid-cols-3 gap-2 p-2'>
+          <div className='flex flex-col gap-6'>
+            <Heading6Title>ONBOARDING MOBILE 1</Heading6Title>
+            <TextInputGroup
+              name='Mail Address'
+              label='Mail Address'
+              placeholder='Mail Address'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.FULL_SMALL_LABEL_HIDDEN}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+            />
+            <TextInputGroup
+              name='Your Email/ Username'
+              label='Your Email/ Username'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.FULL_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.BLUE}
+            />
+            <TextInputGroup
+              name='Enter Password'
+              label='Enter Password'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.PASSWORD}
+              inputStyle={TextInputGroup.inputStyle.FULL_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.RED}
+            />
+          </div>
+          <div className='flex flex-col gap-6'>
+            <Heading6Title>ONBOARDING MOBILE 2</Heading6Title>
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Password'
+              label='Password'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.PASSWORD}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.BLUE}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.RED}
+              svgIcon={<CheckCircleSvg/>}
+            />
+          </div>
+          <div className='flex flex-col gap-6'>
+            <Heading6Title>ONBOARDING MOBILE 3</Heading6Title>
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              placeholder='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              placeholder='Full Name'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.BLUE}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Full Name'
+              label='Full Name'
+              placeholder='Full Name'
+              error='Wrong ID'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.TEXT}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.RED}
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <TextInputGroup
+              name='Password'
+              label='Password'
+              placeholder='Password'
+              error='Wrong ID'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.PASSWORD}
+              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputColour={TextInputGroup.inputColour.GREEN}
+              svgIcon={<CheckCircleSvg/>}
+            />
+          </div>
+        </div>
+      </section>
 
       <section className={sectionClass}>
         <Heading2>Menu</Heading2>
