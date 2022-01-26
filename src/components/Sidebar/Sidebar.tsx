@@ -10,7 +10,7 @@ const Sidebar = () => {
   const sideOptions = ['asset-comparator', 'plan-comparator', 'mid-management', 'customer-wallets']
 
   useEffect(() => {
-    console.log(router.pathname)
+    // Remove the / at the start of the route path
     setSelectedTool(router.pathname.substring(1))
   }, [router.pathname])
 
