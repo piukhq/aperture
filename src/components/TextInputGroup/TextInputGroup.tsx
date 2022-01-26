@@ -83,31 +83,31 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.UNDERLINE_ICON_LEFT]: {
     container: 'h-[48px]',
     label: 'hidden',
-    input: 'w-full h-[48px] pl-7 border-b-[1px] border-b-grey-400 bg-transparent font-body text-base tracking-[0.1px]',
+    input: 'w-full h-[48px] pl-7 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
     icon: 'absolute top-[13px] left-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-7 border-b-[1px] border-b-grey-400 bg-transparent font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[39px] pl-7 border-b-[1px] bg-transparent font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] left-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT]: {
     container: 'h-[58px]',
     label: 'absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs text-grey-500 font-body bg-grey-100 z-10',
-    input: 'w-full h-[39px] px-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-base tracking-[0.1px]',
+    input: 'w-full h-[39px] px-1 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
     icon: 'absolute top-[10px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
     label: 'absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs text-grey-500 font-body bg-grey-100 z-10 tracking-[0px]',
-    input: 'w-full h-[39px] p-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-sm tracking-[0.09px]',
+    input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
     icon: 'absolute top-[10px] right-[1px]',
   },
   [InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN]: {
     container: 'h-[55px]',
     label: 'hidden',
-    input: 'w-full h-[39px] p-1 border-b-[1px] border-b-grey-400 bg-transparent font-body text-sm tracking-[0.09px]',
+    input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
     icon: 'absolute top-[10px] right-[1px]',
   },
   [InputStyle.FULL]: {
@@ -173,38 +173,36 @@ export default function TextInputGroup (props: Props) {
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
 
-  const renderInputElement = () => (
-    <input
-      type={INPUT_TYPE_MAPS[inputType]}
-      name={name}
-      id={`bink-form-field-${name}`}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={classNames(
-        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
-        INPUT_COLOUR_MAPS[inputColour].input,
-        INPUT_STYLE_MAPS[inputStyle].input,
-      )}
-    />
-  )
+  const renderInputElement = () => <input
+    type={INPUT_TYPE_MAPS[inputType]}
+    name={name}
+    id={`bink-form-field-${name}`}
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+    className={classNames(
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
+      INPUT_COLOUR_MAPS[inputColour].input,
+      INPUT_STYLE_MAPS[inputStyle].input,
+    )}
+  />
 
-  const renderSelectElement = () => (
-    <select
-      name={name}
-      id={`bink-form-field-${name}`}
-      placeholder={placeholder}
-      className={classNames(
-        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
-        INPUT_COLOUR_MAPS[inputColour].input,
-        INPUT_STYLE_MAPS[inputStyle].input,
-      )}
-    >
-      <option>All Emails</option>
-      <option>Recent</option>
-      <option>Drafts</option>
-    </select>
-  )
+
+  const renderSelectElement = () => <select
+    name={name}
+    id={`bink-form-field-${name}`}
+    placeholder={placeholder}
+    className={classNames(
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
+      INPUT_COLOUR_MAPS[inputColour].input,
+      INPUT_STYLE_MAPS[inputStyle].input,
+    )}
+  >
+    <option>All Emails</option>
+    <option>Recent</option>
+    <option>Drafts</option>
+  </select>
+
 
   return (
     <div className={classNames(
@@ -228,6 +226,7 @@ export default function TextInputGroup (props: Props) {
     </div>
   )
 }
+
 TextInputGroup.defaultProps = {
   inputType: InputType.TEXT,
   label: 'Label',

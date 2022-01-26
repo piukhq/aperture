@@ -1,48 +1,117 @@
+import React, {ReactNode} from 'react'
+import {classNames} from 'utils/classNames'
 
-interface ButtonType {
-  large?: boolean,
-  small?: boolean,
-  icon?: boolean,
-  circular?: boolean,
-  handleClick: any,
-  develop?: boolean,
-  staging?: boolean,
-  sandbox?: boolean,
-  production?: boolean,
-  error?: string,
-  children: any,
+enum ButtonHeight {
+  TALL,
+  PRIMARY,
+  SECONDARY
 }
-const Button = ({
-  large,
-  small,
-  icon,
-  circular,
-  develop,
-  staging,
-  sandbox,
-  production,
-  handleClick,
-  children,
-}: ButtonType) => {
+
+enum ButtonWidth {
+  FULL,
+  MEDIUM,
+  ICON_TEXT,
+  ICON_ONLY,
+}
+
+enum ButtonBackground {
+  BLUE,
+  WHITE,
+  RED,
+  DARK_GREY,
+  LIGHT_GREY,
+  }
+enum LabelColour {
+  WHITE,
+  BLUE,
+  RED,
+  GREY,
+}
+
+enum LabelWeight {
+ SEMIBOLD,
+ MEDIUM,
+ REGULAR,
+}
+
+enum BorderColour {
+RED,
+BLUE,
+GREY,
+}
+
+
+const BUTTON_HEIGHT_MAPS: Record<ButtonHeight, string> = {
+  [ButtonHeight.TALL]: 'h-[48px]',
+  [ButtonHeight.PRIMARY]: 'h-[38px]',
+  [ButtonHeight.SECONDARY]: 'h-[28px]',
+}
+const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
+  [ButtonWidth.FULL]: 'w-full',
+  [ButtonWidth.MEDIUM]: 'w-[120px]',
+  [ButtonWidth.ICON_TEXT]: 'w-[86px]',
+  [ButtonWidth.ICON_ONLY]: 'w-[38px]',
+}
+const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
+  [ButtonBackground.WHITE]: 'bg-white',
+  [ButtonBackground.BLUE]: 'bg-blue',
+  [ButtonBackground.RED]: 'bg-red',
+  [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
+  [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
+}
+const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
+  [LabelColour.WHITE]: 'text-white',
+  [LabelColour.BLUE]: 'text-blue',
+  [LabelColour.RED]: 'text-red',
+  [LabelColour.GREY]: 'text-grey',
+}
+const LABEL_WEIGHT_MAPS: Record<LabelWeight, string> = {
+  [LabelWeight.SEMIBOLD]: 'font-semibold',
+  [LabelWeight.MEDIUM]: 'font-medium',
+  [LabelWeight.REGULAR]: 'font-normal',
+}
+const BORDER_COLOUR_MAPS: Record<BorderColour, string> = {
+  [BorderColour.RED]: 'border-red',
+  [BorderColour.BLUE]: 'border-blue',
+  [BorderColour.GREY]: 'border-grey-300',
+}
+
+
+type Props = {
+  buttonHeight: ButtonHeight,
+  buttonWidth: ButtonWidth,
+  buttonBackground: ButtonBackground,
+  labelColour: LabelColour,
+  labelWeight: LabelWeight,
+  borderColour?: BorderColour,
+  children: ReactNode
+  handleClick: () => void
+}
+
+export default function Button (props: Props) {
+  const {buttonHeight, buttonWidth, buttonBackground, labelColour, labelWeight, borderColour, handleClick, children} = props
+
   return (
-    <>
-      <button className={
-        `${large && 'w-112 h-12 bg-primaryGreen text-white rounded-md'}
-         ${small && 'w-32 h-12 bg-primaryGreen text-white rounded-md'}
-         ${icon && 'w-12 h-12 bg-primaryGreen text-white rounded-md pt-2'}
-         ${circular && 'w-12 h-12 pt-2 border-2 border-outlineGrey bg-white rounded-full'}
-         ${develop && 'w-7 h-7 bg-envDevBg text-envDevFg leading-7 border border-envDevFg rounded-md font-bold'}
-         ${staging && 'w-7 h-7 bg-envStagingBg text-envStagingFg leading-7 border border-envStagingFg rounded-md font-bold'}
-         ${sandbox && 'w-7 h-7 bg-envSandboxBg text-envSandboxFg leading-7 border border-envSandboxFg rounded-md font-bold'}
-         ${production && 'w-7 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md font-bold'}
-         `
-      }
-      onClick={handleClick}
-      >
-        {children}
-      </button>
-    </>
+    <button className={classNames(
+      'px-3 font-heading text-white font-semibold text-2xs rounded-[10px]',
+      BUTTON_HEIGHT_MAPS[buttonHeight],
+      BUTTON_WIDTH_MAPS[buttonWidth],
+      BUTTON_BACKGROUND_MAPS[buttonBackground],
+      BORDER_COLOUR_MAPS[borderColour],
+      LABEL_COLOUR_MAPS[labelColour],
+      LABEL_WEIGHT_MAPS[labelWeight],
+    )}
+    onClick={handleClick}
+    >
+      {children}
+    </button>
   )
 }
 
-export default Button
+
+Button.buttonHeight = ButtonHeight
+Button.buttonWidth = ButtonWidth
+Button.buttonBackground = ButtonBackground
+Button.labelColour = LabelColour
+Button.labelWeight = LabelWeight
+Button.BorderColour = BorderColour
