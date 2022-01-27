@@ -962,12 +962,40 @@ export default function DesignSystem () {
         </div>
       </section>
 
+
+
+      {/* Font Weights here are different to abstract but visually match */}
       <section className={sectionClass}>
-        <Heading2>Menu</Heading2>
+        <Heading2>Menu</Heading2> 
         <div className='flex flex-col gap-4'>
           <Heading6Title>SIDE MENU</Heading6Title>
-          <div className='grid grid-cols-3'>
-o
+          <div className='grid grid-cols-3 gap-4'>
+            <button className='grid grid-cols-8 items-center px-[10px] w-[250px] h-[52px] font-heading font-base text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 bg-white hover:text-blue'>
+              <span className='col-span-1'><CheckCircleSvg /></span>
+              <span className='col-span-6 pl-2 text-left'>Menu</span>
+              <span className='col-span-1'><CheckCircleSvg /></span>
+            </button>
+
+            <button className='grid grid-cols-8 items-center px-[10px] w-[250px] h-[52px] font-heading font-base text-sm tracking-[0.1px] text-white bg-blue hover:text-blue'>
+              <span className='col-span-1'><CheckCircleSvg /></span>
+              <span className='col-span-6 pl-2 text-left'>Menu</span>
+              <span className='col-span-1'><CheckCircleSvg /></span>
+            </button>
+
+            <button className='grid grid-cols-8 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-blue bg-white hover:text-blue'>
+              <span className='col-span-1 h-[42px] pl-2 flex items-center border-l-4 border-l-blue'><CheckCircleSvg /></span>
+              <span className='col-span-6 pl-2 text-left'>Menu</span>
+              {/* Different Red circle below, better IMO esp if there is double digits at some point */}
+              <span className='col-span-1 rounded-full bg-red font-body text-sm p-1 text-white px-1'>3</span>
+            </button>
+
+            <button className='grid grid-cols-8 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-blue bg-white hover:text-blue'>
+              <span className='col-span-1 h-[42px] pl-2 flex items-center border-l-4 border-l-blue'><CheckCircleSvg /></span>
+              <span className='col-span-6 pl-2 text-left'>Menu</span>
+              {/* Different Red circle below, better IMO esp if there is double digits at some point */}
+              <span className='col-span-1 rounded-full bg-red font-body text-sm p-1 text-white px-1'>3</span>
+            </button>
+
           </div>
         </div>
         <div className='flex flex-col gap-4'>
@@ -992,6 +1020,19 @@ o
           </div>
         </div>
       </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <section className={sectionClass}>
         <Heading2>Tag & Status</Heading2>
