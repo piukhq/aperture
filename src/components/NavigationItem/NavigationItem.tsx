@@ -1,17 +1,17 @@
 import Link from 'next/link'
 import {useRouter} from 'next/router'
+import {ReactNode} from 'react'
 interface NavigationItemType {
   path: string,
   label: string,
-  children: any,
+  svgIcon: ReactNode,
 }
 const NavigationItem = ({
   path,
   label,
-  children,
+  svgIcon,
 }: NavigationItemType) => {
 
-  // something to check URL matches path to set always blue
   const {asPath} = useRouter()
   const isCurrentPage = asPath === path
   const getClasses = () => {
@@ -20,10 +20,10 @@ const NavigationItem = ({
   }
 
   return (
-    <li className='bg-white list-none'>
+    <li className='bg-white list-none w-[147px] h-[71px]'>
       <Link href={path} passHref>
         <button className={getClasses()}>
-          {children}
+          {svgIcon}
           {label}
         </button>
       </Link>

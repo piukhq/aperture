@@ -168,7 +168,19 @@ type Props = {
   onChange: (event: { target: { value: string}}) => void
 }
 export default function TextInputGroup (props: Props) {
-  const {inputType, inputColour, label, inputWidth, inputStyle, svgIcon, error, name, placeholder, value, onChange} = props
+  const {
+    inputStyle = InputStyle.FULL,
+    inputType = InputType.TEXT,
+    inputColour = InputColour.GREY,
+    label,
+    inputWidth = InputWidth.MEDIUM,
+    svgIcon = false,
+    error = null,
+    name,
+    placeholder,
+    value,
+    onChange,
+  } = props
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
@@ -225,15 +237,6 @@ export default function TextInputGroup (props: Props) {
       </span>}
     </div>
   )
-}
-
-TextInputGroup.defaultProps = {
-  inputType: InputType.TEXT,
-  label: 'Label',
-  inputWidth: InputWidth.MEDIUM,
-  inputColour: InputColour.GREY,
-  svgIcon: false,
-  error: null,
 }
 
 TextInputGroup.inputType = InputType
