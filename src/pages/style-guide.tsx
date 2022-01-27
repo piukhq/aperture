@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import {
   Heading0,
   Heading1,
@@ -310,7 +308,7 @@ export default function DesignSystem () {
               <div className='flex gap-2 py-4'>
                 <Button
                   handleClick={() => console.log('clicked')}
-                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonSize={Button.buttonSize.MEDIUM}
                   buttonWidth={Button.buttonWidth.MEDIUM}
                   buttonBackground={Button.buttonBackground.BLUE}
                   labelColour={Button.labelColour.WHITE}
@@ -319,7 +317,7 @@ export default function DesignSystem () {
                 </Button>
                 <Button
                   handleClick={() => console.log('clicked')}
-                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonSize={Button.buttonSize.MEDIUM}
                   buttonWidth={Button.buttonWidth.MEDIUM}
                   buttonBackground={Button.buttonBackground.WHITE}
                   labelColour={Button.labelColour.BLUE}
@@ -328,33 +326,92 @@ export default function DesignSystem () {
                 </Button>
                 <Button
                   handleClick={() => console.log('clicked')}
-                  buttonHeight={Button.buttonHeight.PRIMARY}
+                  buttonSize={Button.buttonSize.MEDIUM}
                   buttonWidth={Button.buttonWidth.MEDIUM}
-                  buttonBackground={Button.buttonBackground.WHITE}
+                  borderColour={Button.borderColour.BLUE}
                   labelColour={Button.labelColour.BLUE}
                   labelWeight={Button.labelWeight.SEMIBOLD}
                 > Primary Button
                 </Button>
               </div>
-              <div className='flex gap-2 py-4'>
-                <button className='w-[120px] h-[38px] px-3 bg-blue font-heading text-white font-semibold text-2xs rounded-[10px]'>Primary Button</button>
-                <button className='w-[120px] h-[38px] bg-white font-heading text-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
-                <button className='w-[120px] h-[38px] bg-transparent font-heading text-blue border border-blue font-semibold text-2xs rounded-[10px]'>Primary Button</button>
-              </div>
-              <button className='w-full h-[38px] bg-blue font-heading text-white font-semibold sel-c text-2xs rounded-[10px] '>Full Width Button</button>
+              <Button
+                handleClick={() => console.log('clicked')}
+                buttonSize={Button.buttonSize.MEDIUM}
+                buttonWidth={Button.buttonWidth.FULL}
+                buttonBackground={Button.buttonBackground.BLUE}
+                labelColour={Button.labelColour.WHITE}
+                labelWeight={Button.labelWeight.SEMIBOLD}
+              > Primary Button
+              </Button>
             </div>
             <div className='pb-8'>
               <Heading6Title>SECONDARY</Heading6Title>
               <div className='flex gap-4 py-4'>
-                <button className='w-[120px] h-[38px] bg-transparent font-heading text-red border border-red font-semibold text-2xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[38px] px-3 bg-grey-900/50 font-heading text-white font-semibold text-2xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[38px] bg-grey-200 font-heading text-grey-700 font-semibold text-2xs rounded-[10px]'>Secondary</button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  borderColour={Button.borderColour.RED}
+                  labelColour={Button.labelColour.RED}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.DARK_GREY}
+                  labelColour={Button.labelColour.WHITE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
               </div>
               <div className='flex gap-4 py-4'>
-                <button className='w-[120px] h-[38px] font-heading text-grey-700 border border-grey-300 font-semibold text-2xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[38px] px-3 bg-white font-heading text-grey-700 font-medium text-2xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[38px] bg-grey-200 font-heading text-grey-700 font-medium text-2xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[38px] font-heading text-grey-700 border border-grey-300 font-regular text-sm rounded-[10px]'>Secondary</button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.MEDIUM}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.MEDIUM}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM_BODY_FONT}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  borderColour={Button.borderColour.GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.REGULAR}
+                > Secondary
+                </Button>
               </div>
             </div>
           </div>
@@ -362,24 +419,112 @@ export default function DesignSystem () {
             <Heading6Title>SMALL PRIMARY</Heading6Title>
             <div className='pb-8'>
               <div className='flex gap-2 py-4'>
-                <button className='w-[120px] h-[28px] px-3 bg-blue font-heading text-white font-semibold text-3xs rounded-[10px]'>Primary Button</button>
-                <button className='w-[120px] h-[28px] bg-white font-heading text-blue font-semibold text-3xs rounded-[10px]'>Primary Button</button>
-                <button className='w-[120px] h-[28px] bg-transparent font-heading text-blue border border-blue font-semibold text-3xs rounded-[10px]'>Primary Button</button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.BLUE}
+                  labelColour={Button.labelColour.WHITE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.BLUE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  borderColour={Button.borderColour.BLUE}
+                  labelColour={Button.labelColour.BLUE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Primary Button
+                </Button>
               </div>
-              <button className='w-full h-[28px] bg-blue font-heading text-white font-semibold sel-c text-3xs rounded-[10px] '>Full Width Button</button>
+              <Button
+                handleClick={() => console.log('clicked')}
+                buttonSize={Button.buttonSize.SMALL}
+                buttonWidth={Button.buttonWidth.FULL}
+                buttonBackground={Button.buttonBackground.BLUE}
+                labelColour={Button.labelColour.WHITE}
+                labelWeight={Button.labelWeight.SEMIBOLD}
+              > Primary Button
+              </Button>
             </div>
             <div className='pb-8'>
               <Heading6Title>SMALL SECONDARY</Heading6Title>
               <div className='flex gap-4 py-4'>
-                <button className='w-[120px] h-[28px] bg-transparent font-heading text-red border border-red font-semibold text-3xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[28px] px-3 bg-grey-900/50 font-heading text-white font-semibold text-3xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[28px] bg-grey-200 font-heading text-grey-700 font-semibold text-3xs rounded-[10px]'>Secondary</button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  borderColour={Button.borderColour.RED}
+                  labelColour={Button.labelColour.RED}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.DARK_GREY}
+                  labelColour={Button.labelColour.WHITE}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
               </div>
               <div className='flex gap-4 py-4'>
-                <button className='w-[120px] h-[28px] font-heading text-grey-700 border border-grey-300 font-semibold text-3xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[28px] px-3 bg-white font-heading text-grey-700 font-medium text-3xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[28px] bg-grey-200 font-heading text-grey-700 font-medium text-3xs rounded-[10px]'>Secondary</button>
-                <button className='w-[120px] h-[28px] font-heading text-grey-700 border border-grey-300 font-regular text-2xs tracking-[0px] rounded-[10px]'>Secondary</button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.SEMIBOLD}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.MEDIUM}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.MEDIUM}
+                > Secondary
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.SMALL_BODY_FONT}
+                  buttonWidth={Button.buttonWidth.MEDIUM}
+                  borderColour={Button.borderColour.GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.REGULAR}
+                > Secondary
+                </Button>
               </div>
             </div>
           </div>
@@ -388,11 +533,44 @@ export default function DesignSystem () {
             <Heading6Title>WITH ICON</Heading6Title>
             <div className='pb-8'>
               <div className='flex gap-2 py-4'>
-                <button className='flex items-center justify-center w-[230px] h-[48px] px-3 bg-white font-heading leading-7 text-grey-800 font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span><span>Write Message</span></button>
-                <button className='flex items-center h-[38px] px-4 bg-blue font-heading leading-7 tracking-[0.1px] text-white font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/plus.svg'alt='' height='19' width='19' /></span><span>New</span></button>
-                <button className='flex items-center h-[38px] px-4 bg-grey-200 font-heading leading-7 tracking-[0.1px] text-grey-700 font-semibold text-sm rounded-[10px]'><span className='pr-3 pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span><span>New</span></button>
-                <button className='flex items-center justify-center h-[38px] w-[38px] bg-blue rounded-[6.32px]'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></button>
-                <button className='flex items-center justify-center h-[38px] w-[38px] border border-red font-heading rounded-[6.32px]'><span className='pt-2'><Image src='/images/icon-write.png'alt='' height='19' width='19' /></span></button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.LARGE}
+                  buttonWidth={Button.buttonWidth.LARGE}
+                  buttonBackground={Button.buttonBackground.WHITE}
+                  labelColour={Button.labelColour.GREY}
+                  svgIcon={<CheckCircleSvg/>}
+                > Write Message
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM_ICON}
+                  buttonWidth={Button.buttonWidth.ICON_TEXT}
+                  buttonBackground={Button.buttonBackground.BLUE}
+                  labelColour={Button.labelColour.WHITE}
+                  labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
+                  svgIcon={<CheckCircleSvg/>}
+                > New
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM_ICON}
+                  buttonWidth={Button.buttonWidth.ICON_TEXT}
+                  buttonBackground={Button.buttonBackground.LIGHT_GREY}
+                  labelColour={Button.labelColour.GREY}
+                  labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
+                  svgIcon={<CheckCircleSvg/>}
+                > New
+                </Button>
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM_ICON}
+                  buttonWidth={Button.buttonWidth.ICON_ONLY}
+                  borderColour={Button.borderColour.RED}
+                  svgIcon={<CheckCircleSvg/>}
+                >
+                </Button>
+
               </div>
             </div>
           </div>
@@ -786,75 +964,115 @@ export default function DesignSystem () {
 
       <section className={sectionClass}>
         <Heading2>Menu</Heading2>
-        <div className='flex flex-col gap-4 p-4'>
+        <div className='flex flex-col gap-4'>
           <Heading6Title>SIDE MENU</Heading6Title>
           <div className='grid grid-cols-3'>
 o
           </div>
         </div>
-        <div className='flex flex-col gap-4 p-4'>
+        <div className='flex flex-col gap-4'>
           <Heading6Title>SUB MENU</Heading6Title>
           <div className='grid grid-cols-3'>
 o
           </div>
         </div>
-        <div className='flex flex-col gap-4 p-4'>
+        <div className='flex flex-col gap-4'>
           <Heading6Title>NAV MENU</Heading6Title>
-          <div className='grid grid-cols-1'>
-            <NavigationItem path='/style-guide' label='Style Guide'><CheckCircleSvg/></NavigationItem>
-            <NavigationItem path='/' label='Home'><CheckCircleSvg/></NavigationItem>
+          <div className='grid grid-cols-1 gap-4'>
+            <NavigationItem
+              path='/style-guide'
+              label='Style Guide'
+              svgIcon={<CheckCircleSvg/>}
+            />
+            <NavigationItem
+              path='/'
+              label='Home'
+              svgIcon={<CheckCircleSvg/>}
+            />
           </div>
         </div>
       </section>
 
+      <section className={sectionClass}>
+        <Heading2>Tag & Status</Heading2>
+        <div className='grid grid-cols-5 gap-4'>
+          <div className='flex flex-col gap-4 p-4'>
+            <Heading6Title>SKILL</Heading6Title>
+            <Heading6Title>Not implemented</Heading6Title>
 
-      {/*
-        <section className={sectionClass}>
-        <Heading3 styles='text-center text-2xl'>Buttons</Heading3>
-          <Body1Regular styles='text-grey-500'>Could be a Button component as per Bink Web with different styles as shown below:</Body1Regular>
-            <Heading2>Large</Heading2>
-            <Button handleClick={demoButtonClickEvent} large>View In Django</Button>
-            <Heading2>Small</Heading2>
-            <Button handleClick={demoButtonClickEvent} small>Load assets</Button>
-            <Heading2>Icon</Heading2>
-            <Button handleClick={demoButtonClickEvent} icon>
-              <Image src='/images/refresh.png'alt='' height='20' width='27' />
-            </Button>
-            <Heading2>Circular</Heading2>
-            <div className='flex gap-2'>
-              <Button handleClick={demoButtonClickEvent} circular>
-                <Image src='/images/left-chevron.png' alt='back' width='25' height='25'/>
-              </Button>
-              <Button handleClick={demoButtonClickEvent} circular>
-                <Image src='/images/left-chevron.png' alt='forward' width='25' height='25' className='rotate-180'/>
-              </Button>
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+            <Heading6Title>STATUS 1</Heading6Title>
+            <div className='h-[26px] w-[82px] bg-aquamarine/10'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-aquamarine dark:text-grey-100 text-center'}>
+               Completed
+              </p>
             </div>
-            <Heading2>Navigation Menu Item</Heading2>
-
-              <button className='flex items-center w-60 h-12 bg-primaryGreen/12 text-primaryGreen font-semibold rounded-xl'>
-                <span className='px-3 pt-2'><Image src='/images/menu-assets.png'alt='' height='18' width='23' /></span><span>Asset comparator</span>
-              </button>
-
-            <Heading2>Environment Selection Buttons</Heading2>
-            <div className='flex gap-2'>
-              <Button handleClick={demoButtonClickEvent} develop>D</Button>
-              <Button handleClick={demoButtonClickEvent} staging>S</Button>
-              <Button handleClick={demoButtonClickEvent} sandbox>S</Button>
-              <Button handleClick={demoButtonClickEvent} production>D</Button>
-
+            <div className='h-[26px] w-[82px] bg-lightBlue/10'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-lightBlue dark:text-grey-100 text-center'}>
+               For Pickup
+              </p>
             </div>
-        </section>
+            <div className='h-[26px] w-[82px] bg-yellow/10'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-yellow dark:text-grey-100 text-center'}>
+               It&lsquo;s Enough
+              </p>
+            </div>
+            <div className='h-[26px] w-[82px] bg-red/10'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-red dark:text-grey-100 text-center'}>
+               Declined
+              </p>
+            </div>
 
-        <section className={sectionClass}>
-        <Heading2 styles='text-center text-2xl'>Environment Labels</Heading2>
-          <Body1Regular>Not intended to be buttons, not sure if they are reusable so will leave as is for now:</Body1Regular>
-          <ul className='flex flex-col gap-2'>
-            <li><div className='w-52 h-7 bg-envDevBg text-envDevFg leading-7 border border-envDevFg rounded-md text-center font-bold'>DEVELOPMENT</div></li>
-            <li><div className='w-52 h-7 bg-envStagingBg text-envStagingFg leading-7 border border-envStagingFg rounded-md text-center font-bold'>STAGING</div></li>
-            <li><div className='w-52 h-7 bg-envSandboxBg text-envSandboxFg leading-7 border border-envSandboxFg rounded-md text-center font-bold'>SANDBOX</div></li>
-            <li><div className='w-52 h-7 bg-envProdBg text-envProdFg leading-7 border border-envProdFg rounded-md text-center font-bold'>PRODUCTION</div></li>
-          </ul>
-        </section> */}
+
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+            <Heading6Title>PAGINATION</Heading6Title>
+            <div className='h-[24px] w-[9px] bg-lightBlue/10'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-blue dark:text-grey-100 text-center'}>
+               1
+              </p>
+            </div>
+            <div className='h-[24px] w-[9px] items-center'>
+              <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-grey-500  dark:text-grey-100 text-center'}>
+               1
+              </p>
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+            <Heading6Title>ENVIRONMENT</Heading6Title>
+            <div className='flex items-center justify-center bg-aquamarine rounded-[10px] h-[38px] w-[129px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Develop</p>
+            </div>
+            <div className='flex items-center justify-center bg-yellow rounded-[10px] h-[38px] w-[129px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Staging</p>
+            </div>
+            <div className='flex items-center justify-center bg-lightBlue rounded-[10px] h-[38px] w-[129px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Sandbox</p>
+            </div>
+            <div className='flex items-center justify-center bg-red rounded-[10px] h-[38px] w-[129px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Production</p>
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 p-4'>
+            <Heading6Title>STATUS 2</Heading6Title>
+            <div className='flex items-center justify-center border border-lightBlue text-lightBlue rounded-[10px] h-[38px] w-[93px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Verified</p>
+            </div>
+            <div className='flex items-center justify-center border border-yellow text-yellow rounded-[10px] h-[38px] w-[93px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Pending</p>
+            </div>
+            <div className='flex items-center justify-center border border-grey-600 text-grey-600 rounded-[10px] h-[38px] w-[93px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Unverified</p>
+            </div>
+            <div className='flex items-center justify-center border border-red text-red rounded-[10px] h-[38px] w-[93px]'>
+              <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Failed</p>
+            </div>
+          </div>
+
+
+        </div>
+      </section>
     </div>
   )
 }

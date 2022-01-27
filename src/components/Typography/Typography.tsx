@@ -1,4 +1,4 @@
-// Idea to have a singular place to hold all Typography in a (currently) single file to balance repetition of code Vs. Over-engineering.
+// Idea to have a singular place to hold all Typography in a single file to be a single source of truth regardless of if imported or classes copied
 
 const Heading0 = ({children}) => <h1 className={'text-5xl font-heading font-bold tracking-[.23px] text-grey-800 dark:text-grey-100'}>{children}</h1>
 const Heading1 = ({children}) => <h1 className={'text-4xl font-heading font-semibold tracking-[.2px] text-grey-900 dark:text-grey-100'}>{children}</h1>
