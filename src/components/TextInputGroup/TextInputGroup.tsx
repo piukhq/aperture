@@ -33,6 +33,7 @@ enum InputStyle {
   UNDERLINE_ICON_RIGHT_SMALL,
   UNDERLINE_SMALL_LABEL_HIDDEN,
   WHITE_ICON_LEFT_SMALL,
+  TRANSPARENT_ICON_LEFT_SMALL,
   WHITE_ICON_LEFT,
   WHITE_ICON_RIGHT_SMALL,
   WHITE_ICON_RIGHT,
@@ -134,6 +135,12 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     input: 'w-full h-[39px] pl-8 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] left-[1px]',
   },
+  [InputStyle.TRANSPARENT_ICON_LEFT_SMALL]: {
+    container: 'h-[42px]',
+    label: 'hidden',
+    input: 'w-full h-[39px] pl-8 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] left-[1px]',
+  },
   [InputStyle.WHITE_ICON_RIGHT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
@@ -147,10 +154,10 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     icon: 'absolute top-[10px] left-[1px]',
   },
   [InputStyle.WHITE_ICON_RIGHT]: {
-    container: 'h-[50px]',
+    container: 'h-[50px] flex items-center',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-7 bg-white font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] right-[1px]',
+    input: 'w-full h-[50px] pl-7 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute right-[18px]',
   },
 }
 
