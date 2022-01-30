@@ -36,4 +36,4 @@ export {
   Subheading3Medium,
   Subheading4Regular,
   Subheading4Medium,
-} from './Typography'
+} from './Text'
