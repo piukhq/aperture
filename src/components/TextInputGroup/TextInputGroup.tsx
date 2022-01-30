@@ -90,20 +90,20 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-7 border-b-[1px] bg-transparent font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
+    input: 'w-full h-[39px] pl-9 border-b-[1px] bg-transparent font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[8px] left-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT]: {
     container: 'h-[58px]',
     label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10',
-    input: 'w-full h-[39px] px-1 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[10px] right-[1px]',
+    input: 'w-full h-[39px] pl-1 pr-10 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
+    icon: 'absolute top-[17px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
     label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10 tracking-[0px]',
-    input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
-    icon: 'absolute top-[10px] right-[1px]',
+    input: 'w-full h-[39px] pr-10 pl-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
+    icon: 'absolute top-[13px] right-[10px]',
   },
   [InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN]: {
     container: 'h-[55px]',
