@@ -9,10 +9,10 @@ import tailwindsConfig from '../../../tailwind.config' // TODO: Has to be a bett
 
 import {classNames} from 'utils/classNames'
 
-export default function Colours() {
+export default function Colours () {
   const colours = tailwindsConfig.theme.colors
 
-  function hexToRgb(hex) {
+  function hexToRgb (hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
     return result ? {
       r: parseInt(result[1], 16),
