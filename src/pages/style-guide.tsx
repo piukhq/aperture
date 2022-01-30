@@ -2,6 +2,7 @@ import Colours from 'components/StyleGuide/Colours'
 import Typography from 'components/StyleGuide/Typography'
 import Buttons from 'components/StyleGuide/Buttons'
 import FormElements from 'components/StyleGuide/FormElements'
+import MenuElements from 'components/StyleGuide/MenuElements'
 import TagsStatus from 'components/StyleGuide/TagsStatus'
 
 import {Heading0} from 'components/Text'
@@ -18,6 +19,7 @@ export default function StyleGuide () {
       <Typography sectionClass={sectionClass}/>
       <Buttons sectionClass={sectionClass}/>
       <FormElements sectionClass={sectionClass}/>
+      <MenuElements sectionClass={sectionClass}/>
       <TagsStatus sectionClass={sectionClass}/>
     </div>
   )
