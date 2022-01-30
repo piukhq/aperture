@@ -1,6 +1,6 @@
 
 module.exports = {
-  darkMode: 'class',
+  darkMode: 'media',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
@@ -24,12 +24,13 @@ module.exports = {
       '3xs': '0.688rem',
       '4xs': '0.625rem',
     },
-    colors:{
+    colors: {
       transparent: 'transparent',
       current: 'currentColor',
       'white': '#FFF',
       'black': '#000',
-      'blue': '#007bff',
+      'offBlack': '#14141A',
+      'blue': '#0062ff',
       'yellow': '#ffc542',
       'lightBlue': '#50b5ff',
       'aquamarine': '#3dd598',
@@ -47,7 +48,10 @@ module.exports = {
         600: '#92929d',
         700: '#696974',
         800: '#44444f',
+        825: '#292932',
+        850: '#1C1C25',
         900: '#171725',
+        950: '#14141A',
       },
 
     },

@@ -84,8 +84,8 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.UNDERLINE_ICON_LEFT]: {
     container: 'h-[48px]',
     label: 'hidden',
-    input: 'w-full h-[48px] pl-7 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[13px] left-[1px]',
+    input: 'w-full h-[48px] pl-9 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
+    icon: 'absolute top-[12px] left-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
@@ -95,13 +95,13 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.UNDERLINE_ICON_RIGHT]: {
     container: 'h-[58px]',
-    label: 'absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs text-grey-500 font-body bg-grey-100 z-10',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10',
     input: 'w-full h-[39px] px-1 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
     icon: 'absolute top-[10px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
-    label: 'absolute top-[-13px] px-1 dark:bg-grey-800 text-2xs text-grey-500 font-body bg-grey-100 z-10 tracking-[0px]',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10 tracking-[0px]',
     input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
     icon: 'absolute top-[10px] right-[1px]',
   },
@@ -113,13 +113,13 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.FULL]: {
     container: 'h-[48px]',
-    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-2xs font-body bg-grey-100 z-10',
+    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-850 text-2xs font-body bg-grey-100 dark:bg-grey-850 z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
   [InputStyle.FULL_SMALL]: {
     container: 'h-[42px]',
-    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-800 text-3xs font-body bg-grey-100 z-10',
+    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-850 text-3xs font-body bg-grey-100 dark:bg-grey-850 z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -132,8 +132,8 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.WHITE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-8 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
+    input: 'w-full h-[39px] pl-12 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] left-[10px]',
   },
   [InputStyle.TRANSPARENT_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
@@ -144,19 +144,19 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.WHITE_ICON_RIGHT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-7 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] right-[1px]',
+    input: 'w-full h-[39px] pl-7 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] right-[10px]',
   },
   [InputStyle.WHITE_ICON_LEFT]: {
     container: 'h-[50px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-8 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[39px] pl-8 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] left-[1px]',
   },
   [InputStyle.WHITE_ICON_RIGHT]: {
     container: 'h-[50px] flex items-center',
     label: 'hidden',
-    input: 'w-full h-[50px] pl-7 bg-white rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[50px] pl-7 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
   },
 }
@@ -200,7 +200,7 @@ export default function TextInputGroup (props: Props) {
     value={value}
     onChange={onChange}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
@@ -212,7 +212,7 @@ export default function TextInputGroup (props: Props) {
     id={`bink-form-field-${name}`}
     placeholder={placeholder}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
