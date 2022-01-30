@@ -1,3 +1,4 @@
+
 import React, {ReactNode} from 'react'
 import {classNames} from 'utils/classNames'
 
@@ -15,7 +16,7 @@ enum ButtonWidth {
   LARGE,
   MEDIUM,
   ICON_TEXT,
-  ICON_ONLY,
+  ICON_ONLY, //TODO: Add mechanism to require alt-text for accessibility
 }
 
 enum ButtonBackground {
@@ -63,7 +64,7 @@ const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
 }
 const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.WHITE]: 'bg-white',
-  [ButtonBackground.BLUE]: 'bg-blue',
+  [ButtonBackground.BLUE]: 'bg-blue hover:bg-blend-darken',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
@@ -115,7 +116,7 @@ export default function Button (props: Props) {
 
   return (
     <button className={classNames(
-      'px-3 rounded-[10px]',
+      'rounded-[10px]',
       BUTTON_SIZE_MAPS[buttonSize],
       BUTTON_WIDTH_MAPS[buttonWidth],
       BUTTON_BACKGROUND_MAPS[buttonBackground],

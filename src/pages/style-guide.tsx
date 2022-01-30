@@ -1,3 +1,5 @@
+import Colours from 'components/StyleGuide/Colours'
+
 import {
   Heading0,
   Heading1,
@@ -38,76 +40,34 @@ import {
   Subheading4Medium,
 } from 'components/Typography'
 
-import CheckCircleSvg from 'images/check-circle.svg'
 import NavigationItem from 'components/NavigationItem'
 import TextInputGroup from 'components/TextInputGroup'
 import {useState} from 'react'
 import Button from 'components/Button'
 
 
+import DashboardSvg from 'images/icons/dashboard.svg'
+import ArrowDownSvg from 'images/icons/arrow-down.svg'
 import WriteSvg from 'images/icons/write.svg'
 import PlusSvg from 'images/icons/plus.svg'
+import TrashSvg from 'images/icons/trash.svg'
+import SearchSvg from 'images/icons/search.svg'
+import SettingsSvg from 'images/icons/settings.svg'
+import EmailSvg from 'images/icons/email.svg'
+import ProfileSvg from 'images/icons/profile.svg'
 
 
-export default function DesignSystem () {
+export default function StyleGuide () {
+
 
   const [textFieldValue, setTextFieldValue] = useState('')
 
-  const renderLargeSwatches = () => [
-    'bg-blue',
-    'bg-yellow',
-    'bg-lightBlue',
-    'bg-aquamarine',
-  ].map(swatch => <div key={swatch} className={`${swatch} w-full h-36 rounded-2xl`}>
-    <Body1Regular>{swatch.split('-')[1]}</Body1Regular>
-  </div>
-  )
-
-  const renderMediumSwatches = () => [
-    'bg-orange',
-    'bg-red',
-    'bg-green',
-    'bg-purple',
-    'bg-pink',
-  ].map(swatch => <div key={swatch} className={`${swatch} w-full h-8 rounded-xl`}>
-    <Body1Regular>{swatch.split('-')[1]}</Body1Regular>
-  </div>
-  )
-
-  const renderSmallSwatches = () => [
-    'bg-grey-900',
-    'bg-grey-800',
-    'bg-grey-700',
-    'bg-grey-600',
-    'bg-grey-500',
-    'bg-grey-400',
-    'bg-grey-300',
-    'bg-grey-200',
-    'bg-grey-100',
-  ].map((swatch) => <div key={swatch} className={`${swatch} w-full h-12`}>
-    <Body1Regular>{swatch.split('-')[2]}</Body1Regular>
-  </div>
-  )
-
-
-  const sectionClass = 'w-full p-12 flex flex-col gap-6' // An idea for component-level repetition.
+  const sectionClass = 'min-w-[1200px] w-full bg-grey-100 dark:bg-grey-850 p-12 flex flex-col gap-6 mb-12' // An idea for component-level repetition.
 
   return (
     <div className='m-4'>
       <Heading0>Style Guide</Heading0>
-      <section className={sectionClass}>
-        <Heading2>Colours</Heading2>
-        <div className='w-full grid gap-4 grid-cols-4 auto-rows-auto'>
-          {renderLargeSwatches()}
-        </div>
-        <div className='w-full grid gap-4 grid-cols-5 auto-rows-auto'>
-          {renderMediumSwatches()}
-        </div>
-        <div className='w-full grid grid-cols-9 auto-rows-auto'>
-          {renderSmallSwatches()}
-        </div>
-      </section>
-
+      <Colours />
 
       <section className={sectionClass}>
         <Heading2>Typography</Heading2>
@@ -303,7 +263,7 @@ export default function DesignSystem () {
       </section>
 
 
-      <section className={sectionClass}>s
+      <section className={sectionClass}>
         <Heading2>Buttons</Heading2>
         <div className='grid grid-cols-2 gap-4 pt-4 items-center'>
           <div className='flex flex-col'>
@@ -534,7 +494,7 @@ export default function DesignSystem () {
           </div>
 
           <div className='flex flex-col'>
-            <Heading6Title>WITH ICON</Heading6Title>
+            <Heading6Title>WITH ICON [Some icons may differ as not found]</Heading6Title>
             <div className='pb-8'>
               <div className='flex gap-2 py-4'>
                 <Button
@@ -563,15 +523,24 @@ export default function DesignSystem () {
                   buttonBackground={Button.buttonBackground.LIGHT_GREY}
                   labelColour={Button.labelColour.GREY}
                   labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
-                  svgIcon={<PlusSvg/>}
+                  svgIcon={<PlusSvg fill='#b5b5be'/>}
                 > New
                 </Button>
                 <Button
                   handleClick={() => console.log('clicked')}
                   buttonSize={Button.buttonSize.MEDIUM_ICON}
                   buttonWidth={Button.buttonWidth.ICON_ONLY}
+                  buttonBackground={Button.buttonBackground.BLUE}
+                  labelColour={Button.labelColour.WHITE}
+                  svgIcon={<SettingsSvg/>}
+                />
+                <Button
+                  handleClick={() => console.log('clicked')}
+                  buttonSize={Button.buttonSize.MEDIUM_ICON}
+                  buttonWidth={Button.buttonWidth.ICON_ONLY}
                   borderColour={Button.borderColour.RED}
-                  svgIcon={<CheckCircleSvg/>}
+                  labelColour={Button.labelColour.RED}
+                  svgIcon={<TrashSvg/>}
                 >
                 </Button>
 
@@ -607,7 +576,6 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.FULL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.BLUE}
-              // svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
               name='email'
@@ -618,7 +586,6 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.FULL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.BLUE}
-              // svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
               name='email'
@@ -629,7 +596,6 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.FULL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.GREY}
-              // svgIcon={<CheckCircleSvg/>}
             />
             <TextInputGroup
               name='email'
@@ -640,7 +606,6 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.FULL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.RED}
-              // svgIcon={<CheckCircleSvg/>}
             />
             <Heading6Title>ONBOARDING 3</Heading6Title>
             <TextInputGroup
@@ -653,7 +618,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
               name='email error'
@@ -665,11 +630,11 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
               name='Short Name'
-              label='Enter Email'
+              label='Short Name'
               value={textFieldValue}
               placeholder='First Name'
               onChange={event => setTextFieldValue(event.target.value)}
@@ -677,7 +642,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.BLUE}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='email error'
@@ -688,7 +653,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.GREEN}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<EmailSvg/>}
             />
 
           </div>
@@ -703,7 +668,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Password'
@@ -714,7 +679,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -725,7 +690,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
               inputColour={TextInputGroup.inputColour.DARK_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
           </div>
           <div className='flex flex-col gap-6'>
@@ -784,7 +749,7 @@ export default function DesignSystem () {
                 inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
                 inputWidth={TextInputGroup.inputWidth.MEDIUM}
                 inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-                svgIcon={<CheckCircleSvg/>}
+                svgIcon={<SearchSvg/>}
               />
               <TextInputGroup
                 name='Search'
@@ -796,7 +761,7 @@ export default function DesignSystem () {
                 inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT_SMALL}
                 inputWidth={TextInputGroup.inputWidth.MEDIUM}
                 inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-                svgIcon={<CheckCircleSvg/>}
+                svgIcon={<SearchSvg/>}
               />
               <Heading7Medium>[Skipping - due to content needed]</Heading7Medium>
               <TextInputGroup
@@ -809,7 +774,7 @@ export default function DesignSystem () {
                 inputStyle={TextInputGroup.inputStyle.TRANSPARENT_ICON_LEFT_SMALL}
                 inputWidth={TextInputGroup.inputWidth.MEDIUM}
                 inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-                svgIcon={<CheckCircleSvg/>}
+                svgIcon={<SearchSvg/>}
               />
             </div>
             <TextInputGroup
@@ -822,7 +787,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT}
               inputWidth={TextInputGroup.inputWidth.FULL}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<SearchSvg/>}
             />
           </div>
         </div>
@@ -876,7 +841,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Password'
@@ -887,7 +852,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -898,7 +863,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.DARK_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -909,7 +874,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.BLUE}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -920,7 +885,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.RED}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
           </div>
           <div className='flex flex-col gap-6'>
@@ -935,7 +900,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.LIGHT_GREY}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -947,7 +912,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.BLUE}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Full Name'
@@ -960,7 +925,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.RED}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
               name='Password'
@@ -973,7 +938,7 @@ export default function DesignSystem () {
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               inputColour={TextInputGroup.inputColour.GREEN}
-              svgIcon={<CheckCircleSvg/>}
+              svgIcon={<EmailSvg/>}
             />
           </div>
         </div>
@@ -986,41 +951,41 @@ export default function DesignSystem () {
         <div className='flex flex-col gap-4'>
           <Heading6Title>SIDE MENU</Heading6Title>
           <div className='grid grid-cols-3 gap-4'>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 bg-white hover:text-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-white'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left'>Menu</span>
-              <span className='col-span-2'><CheckCircleSvg /></span>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
+              <span className='col-span-8 text-left'>Menu</span>
+              <span className='col-span-1'><ArrowDownSvg /></span>
             </button>
 
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base text-sm tracking-[0.1px] text-white bg-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left'>Menu</span>
-              <span className='col-span-2'><CheckCircleSvg /></span>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
+              <span className='col-span-8 text-left'>Menu</span>
+              <span className='col-span-1'><ArrowDownSvg /></span>
             </button>
 
-            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-blue bg-white hover:text-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-blue'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left'>Menu</span>
+            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-blue dark:text-grey-500 hover:text-blue dark:hover:text-white'>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-blue dark:border-l-white'><DashboardSvg /></span>
+              <span className='col-span-7 text-left'>Menu</span>
               {/* Different Red circle below, better IMO esp if there is double digits at some point */}
               <span className='col-span-2 rounded-full bg-red font-body text-sm p-1 text-white px-1'>3</span>
             </button>
 
-            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-semibold text-sm tracking-[0.1px] text-blue bg-white hover:text-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-blue'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left'>Menu Active</span>
+            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-semibold text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-blue dark:text-grey-100 hover:text-blue dark:hover:text-white'>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-blue dark:border-l-white'><DashboardSvg /></span>
+              <span className='col-span-8 text-left'>Menu Active</span>
               {/* Different Red circle below, better IMO esp if there is double digits at some point */}
-              <span className='col-span-2'><CheckCircleSvg /></span>
+              <span className='col-span-1'><ArrowDownSvg /></span>
             </button>
 
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-semibold font-base text-sm tracking-[0.1px] text-white bg-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-white'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left'>Menu Active</span>
-              <span className='col-span-2'><CheckCircleSvg /></span>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
+              <span className='col-span-8 text-left'>Menu Active</span>
+              <span className='col-span-1'><ArrowDownSvg /></span>
             </button>
 
-            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 bg-white hover:text-blue'>
-              <span className='col-span-2 h-[32px] pl-4 flex items-center'><CheckCircleSvg /></span>
-              <span className='col-span-8 pl-4 text-left '>Menu</span>
+            <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
+              <span className='col-span-3 h-[32px] pl-4 flex items-center'><DashboardSvg /></span>
+              <span className='col-span-7 text-left '>Menu</span>
               {/* Different Red circle below, better IMO esp if there is double digits at some point */}
               <span className='col-span-2 rounded-full bg-red font-body text-sm p-1 text-white'>3</span>
             </button>
@@ -1030,27 +995,27 @@ export default function DesignSystem () {
         <div className='flex flex-col gap-4'>
           <Heading6Title>SUB MENU</Heading6Title>
           <div className='grid grid-cols-3 gap-4'>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 bg-white hover:text-blue'>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500  hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'></span>
               <span className='col-span-8 pl-4 text-left'>Sub Menu</span>
               <span className='col-span-2 rounded-full font-body text-sm pr-6 text-right text-grey-500'>1</span>
             </button>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-white/50 dark:text-grey-500 bg-blue hover:text-blue'>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-white/50 dark:text-grey-500 bg-blue hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'></span>
               <span className='col-span-8 pl-4 text-left'>Sub Menu</span>
               <span className='col-span-2 rounded-full bg-white/10 font-body text-sm p-1 text-grey-300'>102</span>
             </button>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 bg-white hover:text-blue'>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500  hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 text-red text-3xl border-l-transparent'>&bull;</span>
               <span className='col-span-8 pl-4 text-left'>Sub Menu</span>
               <span className='col-span-2 rounded-full bg-white/10 font-body text-sm p-1 text-grey-500'>1</span>
             </button>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-blue dark:text-grey-500 bg-white hover:text-blue'>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-blue dark:text-grey-500 hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'></span>
               <span className='col-span-8 pl-4 text-left'>Sub Menu Active</span>
               <span className='col-span-2 rounded-full font-body text-sm pr-6 text-right text-grey-500'>1</span>
             </button>
-            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-grey-100 dark:text-grey-500 bg-blue hover:text-blue'>
+            <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] text-grey-100 dark:text-grey-500 bg-blue hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'></span>
               <span className='col-span-8 pl-4 text-left'>Sub Menu Active</span>
               <span className='col-span-2 rounded-full bg-white/10 font-body text-sm p-1 text-grey-300'>102</span>
@@ -1066,11 +1031,11 @@ export default function DesignSystem () {
         <div className='flex flex-col gap-4'>
           <Heading6Title>NAV MENU</Heading6Title>
           <div className='grid grid-cols-1 gap-4'>
-            <button className='grid place-content-center w-[147px] h-[70px] font-heading font-medium text-sm tracking-[0.1px] text-grey-800 bg-white hover:text-blue'>
-              <span className='w-[110px] h-[70px] flex items-center gap-3 border-t-4 border-t-transparent'><CheckCircleSvg />Schedule</span>
+            <button className='grid place-content-center w-[147px] h-[70px] font-heading font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-800 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
+              <span className='w-[110px] h-[70px] flex items-center gap-1 border-t-4 border-t-transparent'><SearchSvg className='scale-75' />Schedule</span>
             </button>
-            <button className='grid place-content-center w-[147px] h-[70px] font-heading font-semibold text-sm tracking-[0.1px] text-blue bg-white'>
-              <span className='w-[110px] h-[70px] flex items-center gap-3 border-t-[3px] border-t-blue'><CheckCircleSvg />Dashboard</span>
+            <button className='grid place-content-center w-[147px] h-[70px] font-heading font-semibold text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-blue dark:text-white'>
+              <span className='w-[110px] h-[70px] flex items-center gap-1 border-t-[3px] border-t-blue dark:border-t-white'><DashboardSvg className='scale-75' />Dashboard</span>
             </button>
           </div>
         </div>
@@ -1081,12 +1046,12 @@ export default function DesignSystem () {
               <NavigationItem
                 path='/style-guide'
                 label='Style Guide'
-                svgIcon={<CheckCircleSvg/>}
+                svgIcon={<DashboardSvg/>}
               />
               <NavigationItem
                 path='/'
                 label='Home'
-                svgIcon={<CheckCircleSvg/>}
+                svgIcon={<DashboardSvg/>}
               />
             </div>
           </div>
@@ -1106,33 +1071,31 @@ export default function DesignSystem () {
           <div className='flex flex-col gap-8'>
             <Heading2>Tab Menu</Heading2>
             <div className='grid grid-cols-3 gap-4'>
-              <button className='grid place-content-center w-[80px] h-[50px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 bg-white hover:text-blue'>
+              <button className='grid place-content-center w-[80px] h-[50px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <span className='flex items-center gap-3 border-b-4 border-b-transparent'>Jobs</span>
               </button>
 
-              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-transparent font-heading tracking-[0.1px] bg-white hover:text-blue'>
-                <p className='text-sm font-normal  text-grey-700 tracking-[0.2px] dark:text-grey-100'>Likes</p>
+              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-transparent font-heading tracking-[0.1px] bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
+                <p className='text-sm font-normal text-grey-700 tracking-[0.2px] dark:text-grey-100'>Likes</p>
                 <p className='text-base font-medium text-grey-900 tracking-[.1px] dark:text-grey-100'>12,2K</p>
               </button>
 
-              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-transparent font-heading tracking-[0.1px] bg-white hover:text-blue'>
+              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-transparent font-heading tracking-[0.1px] bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <p className='text-base font-medium text-grey-900 tracking-[.1px] dark:text-grey-100'>12,2K</p>
                 <p className='text-sm font-normal  text-grey-700 tracking-[0.2px] dark:text-grey-100'>Likes</p>
               </button>
-   
 
 
-
-              <button className='grid gap-1 place-content-center w-[80px] h-[50px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 bg-white hover:text-blue'>
+              <button className='grid gap-1 place-content-center w-[80px] h-[50px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <span className='place-content-center flex w-[60px] h-[50px] items-center gap-3 border-b-4 border-b-blue'>Home</span>
               </button>
 
-              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-blue font-heading tracking-[0.1px]  text-blue bg-white hover:text-blue'>
+              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-blue font-heading tracking-[0.1px]  text-blue bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <p className='text-sm font-normal  tracking-[0.2px] dark:text-grey-100'>Posts</p>
                 <p className='text-base font-medium tracking-[.1px] dark:text-grey-100'>10,3K</p>
               </button>
 
-              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-blue font-heading tracking-[0.1px]  text-blue bg-white hover:text-blue'>
+              <button className='grid gap-1 place-content-center w-[71px] h-[67px] border-b-[4px] border-b-blue font-heading tracking-[0.1px]  text-blue bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <p className='text-base font-medium tracking-[.1px] dark:text-grey-100'>10,3K</p>
                 <p className='text-sm font-normal  tracking-[0.2px] dark:text-grey-100'>Posts</p>
               </button>
