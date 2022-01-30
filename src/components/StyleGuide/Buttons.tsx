@@ -305,6 +305,6 @@ export default function Buttons ({sectionClass}) {
         </div>
       </div>
 
-  </section>
+    </section>
   )
 }
