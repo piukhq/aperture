@@ -3,13 +3,13 @@ import {
   Heading5,
   Heading7Semibold,
   Heading7Medium,
-} from 'components/Typography'
+} from 'components/Text'
 
 import tailwindsConfig from '../../../tailwind.config' // TODO: Has to be a better way of getting above src folder
 
 import {classNames} from 'utils/classNames'
 
-export default function Colours () {
+export default function Colours ({sectionClass}) {
   const colours = tailwindsConfig.theme.colors
 
   function hexToRgb (hex) {
@@ -64,7 +64,6 @@ export default function Colours () {
       'bg-grey-200',
       'bg-grey-100',
     ]
-
     return swatchArray.map((background, index) => {
       const greyLevel = background.split('-')[2]
       const swatch = `grey-${greyLevel}`
@@ -78,8 +77,6 @@ export default function Colours () {
       </div>
     })
   }
-
-  const sectionClass = 'min-w-[1200px] w-full bg-grey-100 dark:bg-grey-850 p-12 flex flex-col gap-6 mb-12' // An idea for component-level repetition.
 
   return (
     <section className={sectionClass}>

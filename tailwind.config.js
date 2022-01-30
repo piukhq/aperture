@@ -7,8 +7,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      heading: ['Poppins','sans-serif'],
-      body: ['Roboto','sans-serif'],
+      heading: ['Poppins', 'sans-serif'],
+      body: ['Roboto', 'sans-serif'],
     },
     fontSize: {
       '5xl': '3.5rem',
