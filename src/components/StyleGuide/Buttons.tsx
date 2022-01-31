@@ -7,7 +7,6 @@ import TrashSvg from 'icons/svgs/trash.svg'
 import SettingsSvg from 'icons/svgs/settings.svg'
 
 export default function Buttons ({sectionClass}) {
-
   return (
     <section className={sectionClass}>
       <Heading2>Buttons</Heading2>
