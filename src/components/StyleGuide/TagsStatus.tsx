@@ -1,3 +1,4 @@
+import Tag from 'components/elements/Tag'
 import {Heading2, Heading6Title} from 'components/elements/Text'
 
 export default function TagsStatus ({sectionClass}) {
@@ -50,33 +51,17 @@ export default function TagsStatus ({sectionClass}) {
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <Heading6Title>ENVIRONMENT</Heading6Title>
-          <div className='flex items-center justify-center bg-aquamarine rounded-[10px] h-[38px] w-[129px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Develop</p>
-          </div>
-          <div className='flex items-center justify-center bg-yellow rounded-[10px] h-[38px] w-[129px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Staging</p>
-          </div>
-          <div className='flex items-center justify-center bg-lightBlue rounded-[10px] h-[38px] w-[129px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Sandbox</p>
-          </div>
-          <div className='flex items-center justify-center bg-red rounded-[10px] h-[38px] w-[129px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px] text-grey-100'}>Production</p>
-          </div>
+          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='Develop' />
+          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='Staging' />
+          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label='Sandbox' />
+          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.RED_FILLED} label='Production' />
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <Heading6Title>STATUS 2</Heading6Title>
-          <div className='flex items-center justify-center border border-lightBlue text-lightBlue rounded-[10px] h-[38px] w-[93px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Verified</p>
-          </div>
-          <div className='flex items-center justify-center border border-yellow text-yellow rounded-[10px] h-[38px] w-[93px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Pending</p>
-          </div>
-          <div className='flex items-center justify-center border border-grey-600 text-grey-600 rounded-[10px] h-[38px] w-[93px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Unverified</p>
-          </div>
-          <div className='flex items-center justify-center border border-red text-red rounded-[10px] h-[38px] w-[93px]'>
-            <p className={'text-sm font-heading font-medium tracking-[.1px]'}>Failed</p>
-          </div>
+          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.LIGHT_BLUE_OUTLINE} label='Verified' />
+          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.YELLOW_OUTLINE} label='Pending' />
+          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
+          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.RED_OUTLINE} label='Failed' />
         </div>
       </div>
     </section>
