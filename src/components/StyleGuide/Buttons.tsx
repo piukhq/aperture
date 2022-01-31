@@ -1,5 +1,5 @@
-import Button from 'components/Button'
-import {Heading2, Heading6Title} from 'components/Text'
+import Button from 'components/elements/Button'
+import {Heading2, Heading6Title} from 'components/elements/Text'
 
 import WriteSvg from 'images/icons/write.svg'
 import PlusSvg from 'images/icons/plus.svg'

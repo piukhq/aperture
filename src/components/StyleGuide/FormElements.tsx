@@ -1,8 +1,8 @@
 
 import {useState} from 'react'
 
-import {Body1Regular, Heading2, Heading6Title, Heading7Medium} from 'components/Text'
-import TextInputGroup from 'components/TextInputGroup'
+import {Body1Regular, Heading2, Heading6Title, Heading7Medium} from 'components/elements/Text'
+import TextInputGroup from 'components/elements/TextInputGroup'
 
 
 import EmailSvg from 'images/icons/email.svg'

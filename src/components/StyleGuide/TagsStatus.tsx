@@ -1,4 +1,4 @@
-import {Heading2, Heading6Title} from 'components/Text'
+import {Heading2, Heading6Title} from 'components/elements/Text'
 
 export default function TagsStatus ({sectionClass}) {
   return (

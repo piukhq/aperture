@@ -3,7 +3,7 @@ import {
   Heading5,
   Heading7Semibold,
   Heading7Medium,
-} from 'components/Text'
+} from 'components/elements/Text'
 
 import tailwindsConfig from '../../../tailwind.config' // TODO: Has to be a better way of getting above src folder
 
