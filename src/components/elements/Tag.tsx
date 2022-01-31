@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React from 'react'
 import {classNames} from 'utils/classNames'
 
 enum TagSize {
