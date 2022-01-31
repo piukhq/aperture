@@ -36,7 +36,7 @@ import {
   Subheading3Medium,
   Subheading4Regular,
   Subheading4Medium,
-} from 'components/elements/Text'
+} from 'components/Text'
 
 
 export default function Typography ({sectionClass}) {

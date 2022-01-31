@@ -1,5 +1,5 @@
-import Tag from 'components/elements/Tag'
-import {Heading2, Heading6Title} from 'components/elements/Text'
+import Tag from 'components/Tag/Tag'
+import {Heading2, Heading6Title} from 'components/Text'
 
 export default function TagsStatus ({sectionClass}) {
   return (
