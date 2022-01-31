@@ -160,10 +160,6 @@ export default function MenuElements ({sectionClass}) {
 
             </div>
           </div>
-          <div className='flex flex-col gap-8'>
-            <Heading2>Badge</Heading2>
-            <Heading7Medium>[Skipped - No imminent use case]</Heading7Medium>
-          </div>
         </div>
       </section>
     </>
