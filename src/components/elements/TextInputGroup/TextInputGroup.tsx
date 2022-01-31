@@ -98,7 +98,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     container: 'h-[58px]',
     label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10',
     input: 'w-full h-[39px] pl-1 pr-10 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[17px] right-[1px]',
+    icon: 'absolute top-[8px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
