@@ -1,3 +1,63 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .font-heading-0{
+    @apply text-5xl font-heading font-bold tracking-[.23px] text-grey-800 dark:text-grey-100
+  }
+  .font-heading-1 {
+    @apply text-4xl font-heading font-semibold tracking-[.2px] text-grey-900 dark:text-grey-100
+  }
+  .font-heading-2 {
+    @apply text-3xl font-heading font-semibold tracking-[.15px] text-grey-900 dark:text-grey-100
+  }
+  .font-heading-3 {
+    @apply text-2xl font-heading font-semibold tracking-[.12px] text-grey-900 dark:text-grey-100
+  }
+  .font-heading-4 {
+    @apply text-xl font-heading font-semibold tracking-[.1px] leading-9 text-grey-900 dark:text-grey-100
+  }
+  .font-heading-5 {
+    @apply text-lg font-heading font-semibold text-grey-900 dark:text-grey-100
+  }
+  .font-heading-6 {
+    @apply text-base font-heading font-semibold tracking-[.1px] text-grey-900 dark:text-grey-100
+  }
+  .font-heading-7 {
+    @apply text-sm font-heading font-semibold tracking-[.1px] text-grey-900 dark:text-grey-100
+  }
+  .font-heading-8 {
+    @apply text-sm font-heading font-normal text-grey-900 tracking-[.2px] dark:text-grey-100
+  }
+  .font-heading-9 {
+    @apply text-2xs font-heading font-semibold text-grey-900 dark:text-grey-100
+  }
+  .font-heading-10 {
+    @apply text-3xs font-heading font-semibold text-grey-800 dark:text-grey-100
+  } 
+  .font-body-1 {
+    @apply text-lg font-body leading-7 tracking-[.1px] text-grey-800 dark:text-grey-100
+  } 
+  .font-body-2 {
+    @apply text-base font-body leading-6.5 tracking-[.1px] text-grey-800 dark:text-grey-100
+  } 
+  .font-body-3 {
+    @apply text-sm font-body leading-6 tracking-[.1px] text-grey-800 dark:text-grey-100
+  } 
+  .font-body-4 {
+    @apply text-2xs font-body leading-5.5 tracking-[0px] text-grey-800 dark:text-grey-100
+  } 
+  .font-subheading-1 {
+    @apply text-lg font-body tracking-[.1px] text-grey-600 dark:text-grey-300
+  }
+  .font-subheading-2 {
+    @apply text-base font-body tracking-[.1px] text-grey-700 dark:text-grey-500
+  }
+  .font-subheading-3 {
+    @apply text-sm font-body tracking-[.1px] text-grey-700 dark:text-grey-500
+  }
+  .font-subheading-4 {
+    @apply text-2xs font-body tracking-[0px] text-grey-600 dark:text-grey-100
+  }
+}

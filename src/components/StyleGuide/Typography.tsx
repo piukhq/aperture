@@ -1,5 +1,4 @@
 import {
-  Heading0,
   Heading1,
   Heading2,
   Heading3,
@@ -45,7 +44,7 @@ export default function Typography ({sectionClass}) {
 
   return (
     <section className={sectionClass}>
-      <Heading2>Typography</Heading2>
+      <h2 className='font-heading-2'>Typography</h2>
       <div className='w-1/2 min-w-[1000px] grid gap-12 grid-cols-2'>
         <div>
           <div className='grid grid-cols-2 mb-12 items-center'>
@@ -61,7 +60,7 @@ export default function Typography ({sectionClass}) {
               <Heading6Title>HEADING</Heading6Title>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading0>H0</Heading0>
+              <h1 className='font-heading-0'>H0</h1>
               <p className= {descriptionClass}>Bold - 56px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
