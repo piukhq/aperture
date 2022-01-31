@@ -1,4 +1,4 @@
-// TODO: More information needed with regards to how these are used in reality.
+// TODO: More information needed with regards to how these are used in reality so leaving 'raw' till we have more context on how to build out the components
 
 import {Heading2, Heading6Title, Heading7Medium} from 'components/elements/Text'
 
