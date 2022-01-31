@@ -201,6 +201,7 @@ export default function TextInputGroup (props: Props) {
 
   const renderInputElement = () => <input
     type={INPUT_TYPE_MAPS[inputType]}
+    autoComplete='on'
     name={name}
     id={`bink-form-field-${name}`}
     placeholder={placeholder}
@@ -223,7 +224,7 @@ export default function TextInputGroup (props: Props) {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' disabled selected>{placeholder}</option>
+    <option value='' disabled>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
