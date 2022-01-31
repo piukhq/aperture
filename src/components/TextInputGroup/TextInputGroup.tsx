@@ -34,6 +34,7 @@ enum InputStyle {
   UNDERLINE_SMALL_LABEL_HIDDEN,
   WHITE_ICON_LEFT_SMALL,
   TRANSPARENT_ICON_LEFT_SMALL,
+  TRANSPARENT_ICON_RIGHT_SMALL,
   WHITE_ICON_LEFT,
   WHITE_ICON_RIGHT_SMALL,
   WHITE_ICON_RIGHT,
@@ -102,8 +103,8 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
     label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10 tracking-[0px]',
-    input: 'w-full h-[39px] pr-10 pl-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
-    icon: 'absolute top-[13px] right-[10px]',
+    input: 'w-full h-[37px] pr-10 pl-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
+    icon: 'absolute top-[5px] right-[10px]',
   },
   [InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN]: {
     container: 'h-[55px]',
@@ -159,6 +160,12 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     input: 'w-full h-[50px] pl-7 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
   },
+  [InputStyle.TRANSPARENT_ICON_RIGHT_SMALL]: {
+    container: 'h-[50px] flex items-center',
+    label: 'hidden',
+    input: 'w-full h-[50px] pl-7 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute right-[18px]',
+  },
 }
 
 type Props = {
@@ -210,16 +217,15 @@ export default function TextInputGroup (props: Props) {
   const renderSelectElement = () => <select
     name={name}
     id={`bink-form-field-${name}`}
-    placeholder={placeholder}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100 ',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option>All Emails</option>
-    <option>Recent</option>
-    <option>Drafts</option>
+    <option value='' disabled selected>{placeholder}</option>
+    <option>Example Option 1</option>
+    <option>Example Option 2</option>
   </select>
 
 

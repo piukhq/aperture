@@ -1,7 +1,7 @@
 
 import {useState} from 'react'
 
-import {Heading2, Heading6Title, Heading7Medium} from 'components/Text'
+import {Body1Regular, Heading2, Heading6Title, Heading7Medium} from 'components/Text'
 import TextInputGroup from 'components/TextInputGroup'
 
 
@@ -18,6 +18,7 @@ export default function FormElements ({sectionClass}) {
     <>
       <section className={sectionClass}>
         <Heading2>Form - Desktop</Heading2>
+        <Body1Regular>A number of elements are missing from the Abstract here. </Body1Regular>
         <div className='grid grid-cols-2 gap-4 p-4'>
           <div className='flex flex-col gap-8'>
             <Heading6Title>ONBOARDING 1</Heading6Title>
@@ -154,6 +155,7 @@ export default function FormElements ({sectionClass}) {
               label='Search'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
+              placeholder='All Emails'
               inputType={TextInputGroup.inputType.SELECT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
@@ -164,6 +166,7 @@ export default function FormElements ({sectionClass}) {
               label='Search'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
+              placeholder='All Emails'
               inputType={TextInputGroup.inputType.SELECT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
@@ -174,6 +177,7 @@ export default function FormElements ({sectionClass}) {
               label='Search'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
+              placeholder='All Emails'
               inputType={TextInputGroup.inputType.SELECT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
               inputWidth={TextInputGroup.inputWidth.LARGE}
@@ -184,6 +188,7 @@ export default function FormElements ({sectionClass}) {
               label='Search'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
+              placeholder='All Emails'
               inputType={TextInputGroup.inputType.SELECT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
               inputWidth={TextInputGroup.inputWidth.LARGE}
@@ -217,7 +222,7 @@ export default function FormElements ({sectionClass}) {
                 inputColour={TextInputGroup.inputColour.LIGHT_GREY}
                 svgIcon={<SearchSvg/>}
               />
-              <Heading7Medium>[Skipping - due to content needed]</Heading7Medium>
+              <Heading7Medium>[Skipping - due to context needed]</Heading7Medium>
               <TextInputGroup
                 name='Search'
                 label='Search'
@@ -252,6 +257,17 @@ export default function FormElements ({sectionClass}) {
         <div className='grid grid-cols-3 gap-2 p-2'>
           <div className='flex flex-col gap-6'>
             <Heading6Title>ONBOARDING MOBILE 1</Heading6Title>
+            <TextInputGroup
+              name='Search Emails'
+              label='Search'
+              value={textFieldValue}
+              onChange={event => setTextFieldValue(event.target.value)}
+              inputType={TextInputGroup.inputType.SELECT}
+              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT}
+              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              placeholder='Your Country'
+              inputColour={TextInputGroup.inputColour.BLUE}
+            />
             <TextInputGroup
               name='Mail Address'
               label='Mail Address'

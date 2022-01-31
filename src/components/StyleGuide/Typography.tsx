@@ -46,11 +46,11 @@ export default function Typography ({sectionClass}) {
   return (
     <section className={sectionClass}>
       <Heading2>Typography</Heading2>
-      <div className='w-full grid gap-12 grid-cols-2'>
+      <div className='w-1/2 min-w-[1000px] grid gap-12 grid-cols-2'>
         <div>
           <div className='grid grid-cols-2 mb-12 items-center'>
-            <p className='text-[80px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
-            <div className='border-l-4 border-grey-500 pl-10'>
+            <p className='text-[100px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
+            <div className='border-l-2 border-grey-500 pl-10'>
               <Heading7Semibold>PRIMARY FONT</Heading7Semibold>
               <Heading4>Poppins</Heading4>
             </div>
@@ -129,8 +129,8 @@ export default function Typography ({sectionClass}) {
         <div>
 
           <div className='grid grid-cols-2 mb-12 items-center'>
-            <p className='text-[80px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
-            <div className='border-l-4 border-grey-500 pl-10'>
+            <p className='text-[100px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
+            <div className='border-l-2 border-grey-500 pl-10'>
               <Heading7Semibold>SECONDARY FONT</Heading7Semibold>
               <Heading4>Roboto</Heading4>
             </div>
