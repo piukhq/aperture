@@ -12,6 +12,7 @@ module.exports = {
         'off-grey-1': '#44444f',
         'off-grey-2': '#92929d',
         'off-grey-3': '#696974',
+        'transparent-grey': 'rgba(9, 9, 15, 0.3)',
         'blue': '#0062ff',
       },
     },
