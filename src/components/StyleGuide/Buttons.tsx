@@ -1,10 +1,10 @@
 import Button from 'components/elements/Button'
 import {Heading2, Heading6Title} from 'components/elements/Text'
 
-import WriteSvg from 'images/icons/write.svg'
-import PlusSvg from 'images/icons/plus.svg'
-import TrashSvg from 'images/icons/trash.svg'
-import SettingsSvg from 'images/icons/settings.svg'
+import WriteSvg from 'icons/svgs/write.svg'
+import PlusSvg from 'icons/svgs/plus.svg'
+import TrashSvg from 'icons/svgs/trash.svg'
+import SettingsSvg from 'icons/svgs/settings.svg'
 
 export default function Buttons ({sectionClass}) {
 

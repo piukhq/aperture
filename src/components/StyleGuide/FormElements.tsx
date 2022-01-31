@@ -5,9 +5,9 @@ import {Body1Regular, Heading2, Heading6Title, Heading7Medium} from 'components/
 import TextInputGroup from 'components/elements/TextInputGroup'
 
 
-import EmailSvg from 'images/icons/email.svg'
-import ProfileSvg from 'images/icons/profile.svg'
-import SearchSvg from 'images/icons/search.svg'
+import EmailSvg from 'icons/svgs/email.svg'
+import ProfileSvg from 'icons/svgs/profile.svg'
+import SearchSvg from 'icons/svgs/search.svg'
 
 
 export default function FormElements ({sectionClass}) {
