@@ -1,8 +1,8 @@
 // TODO: More information needed with regards to how these are used in reality so leaving 'raw' till we have more context on how to build out the components
 
-import {Heading2, Heading6Title, Heading7Medium} from 'components/elements/Text'
+import {Heading2, Heading6Title, Heading7Medium} from 'components/Text'
 
-import NavigationItem from 'components/elements/NavigationItem'
+import NavigationItem from 'components/NavigationItem'
 
 import DashboardSvg from 'icons/svgs/dashboard.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'

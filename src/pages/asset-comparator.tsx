@@ -1,8 +1,8 @@
 import type {NextPage} from 'next'
 import ContentTile from 'components/ContentTile'
 import PageLayout from 'components/PageLayout'
-import {Body1Regular, Heading3} from 'components/elements/Text'
-import Button from 'components/elements/Button'
+import {Body1Regular, Heading3} from 'components/Text'
+import Button from 'components/Button'
 import SettingsSvg from 'icons/svgs/settings.svg'
 
 const AssetComparatorPage: NextPage = () => {

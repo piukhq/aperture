@@ -5,7 +5,7 @@ import FormElements from 'components/StyleGuide/FormElements'
 import MenuElements from 'components/StyleGuide/MenuElements'
 import TagsStatus from 'components/StyleGuide/TagsStatus'
 
-import {Heading0} from 'components/elements/Text'
+import {Heading0} from 'components/Text'
 
 
 export default function StyleGuide () {

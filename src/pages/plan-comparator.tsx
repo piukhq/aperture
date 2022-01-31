@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import Image from 'next/image'
 import ContentTile from 'components/ContentTile'
 import PageLayout from 'components/PageLayout'
-import {Heading1} from 'components/elements/Text'
+import {Heading1} from 'components/Text'
 
 const PlanComparatorPage: NextPage = () => {
   return (
