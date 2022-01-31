@@ -1,9 +1,14 @@
-FROM node:latest as build
+FROM node:slim as deps
 WORKDIR /app
-ADD . .
+COPY . .
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
-FROM nginx:alpine
-WORKDIR /usr/share/nginx/html
-COPY --from=build /app/out/ .
+FROM node:slim as runner
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=deps /app/next.config.js /app/package.json ./
+COPY --from=deps /app/public ./public/
+COPY --from=deps /app/.next ./.next/
+COPY --from=deps /app/node_modules ./node_modules/
+CMD ["yarn", "start"]
