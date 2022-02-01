@@ -1,10 +1,9 @@
 // TODO: More information needed with regards to how these are used in reality so leaving 'raw' till we have more context on how to build out the components
 
-import NavigationItem from 'components/NavigationItem'
-
 import DashboardSvg from 'icons/svgs/dashboard.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchSvg from 'icons/svgs/search.svg'
+import SidebarOption from 'components/Sidebar/components/SidebarOption'
 
 type Props = {
   sectionClass: string,
@@ -108,18 +107,11 @@ const MenuElements = ({sectionClass}: Props) => {
         </div>
         <div className='grid grid-cols-3 gap-4'>
           <div className='flex flex-col gap-4'>
-            <h4 className='font-heading-6 text-grey-600'>NAV MENU [Extra Design]</h4>
+            <h4 className='font-heading-6 text-grey-600'>NAV MENU [as found in Sidebar]</h4>
             <div className='flex flex-col gap-4'>
-              <NavigationItem
-                path='/style-guide'
-                label='Style Guide'
-                svgIcon={<DashboardSvg/>}
-              />
-              <NavigationItem
-                path='/'
-                label='Home'
-                svgIcon={<DashboardSvg/>}
-              />
+              <SidebarOption option='asset-comparator' selected={false}/>
+              <SidebarOption option='style-guide' selected />
+
             </div>
           </div>
 

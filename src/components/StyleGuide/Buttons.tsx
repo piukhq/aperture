@@ -251,8 +251,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonWidth={Button.buttonWidth.LARGE}
                 buttonBackground={Button.buttonBackground.WHITE}
                 labelColour={Button.labelColour.GREY}
-                svgIcon={<WriteSvg/>}
-              > Write Message
+              > <WriteSvg/> Write Message
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
@@ -261,8 +260,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonBackground={Button.buttonBackground.BLUE}
                 labelColour={Button.labelColour.WHITE}
                 labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
-                svgIcon={<PlusSvg/>}
-              > New
+              > <PlusSvg/> New
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
@@ -271,8 +269,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonBackground={Button.buttonBackground.LIGHT_GREY}
                 labelColour={Button.labelColour.GREY}
                 labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
-                svgIcon={<PlusSvg fill='#b5b5be'/>}
-              > New
+              > <PlusSvg fill='#b5b5be'/> New
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
@@ -280,18 +277,16 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonWidth={Button.buttonWidth.ICON_ONLY}
                 buttonBackground={Button.buttonBackground.BLUE}
                 labelColour={Button.labelColour.WHITE}
-                svgIcon={<SettingsSvg/>}
-              />
+              ><SettingsSvg/>
+              </Button>
               <Button
                 handleClick={() => console.log('clicked')}
                 buttonSize={Button.buttonSize.MEDIUM_ICON}
                 buttonWidth={Button.buttonWidth.ICON_ONLY}
                 borderColour={Button.borderColour.RED}
                 labelColour={Button.labelColour.RED}
-                svgIcon={<TrashSvg/>}
-              >
+              ><TrashSvg/>
               </Button>
-
             </div>
           </div>
         </div>
