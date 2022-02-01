@@ -1,7 +1,6 @@
 import type {NextPage} from 'next'
 import ContentTile from 'components/ContentTile'
 import PageLayout from 'components/PageLayout'
-import {Body1Regular, Heading3} from 'components/Text'
 import Button from 'components/Button'
 import SettingsSvg from 'icons/svgs/settings.svg'
 
@@ -23,8 +22,8 @@ const AssetComparatorPage: NextPage = () => {
 
       <ContentTile>
         <div className='flex flex-col items-center gap-4'>
-          <Heading3>Welcome to the Bink Asset Comparator</Heading3>
-          <Body1Regular>Enter credentials above to compare assets across different environments</Body1Regular>
+          <h1 className='font-heading-3'>Welcome to the Bink Asset Comparator</h1>
+          <p className='font-body-1'>Enter credentials above to compare assets across different environments</p>
         </div>
       </ContentTile>
     </PageLayout>

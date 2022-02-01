@@ -1,7 +1,5 @@
 // TODO: More information needed with regards to how these are used in reality so leaving 'raw' till we have more context on how to build out the components
 
-import {Heading2, Heading6Title, Heading7Medium} from 'components/Text'
-
 import NavigationItem from 'components/NavigationItem'
 
 import DashboardSvg from 'icons/svgs/dashboard.svg'
@@ -12,9 +10,9 @@ export default function MenuElements ({sectionClass}) {
   return (
     <>
       <section className={sectionClass}>
-        <Heading2>Menu</Heading2>
+        <h2 className='font-heading-2'>Menu</h2>
         <div className='flex flex-col gap-4'>
-          <Heading6Title>SIDE MENU</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>SIDE MENU</h4>
           <div className='grid grid-cols-3 gap-4'>
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
               <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
@@ -58,7 +56,7 @@ export default function MenuElements ({sectionClass}) {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <Heading6Title>SUB MENU</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>SUB MENU</h4>
           <div className='grid grid-cols-3 gap-4'>
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-regular text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500  hover:text-blue dark:hover:text-white'>
               <span className='col-span-2 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'></span>
@@ -88,13 +86,13 @@ export default function MenuElements ({sectionClass}) {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <Heading6Title>PEOPLE & GROUP</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>PEOPLE & GROUP</h4>
           <div className='grid grid-cols-1'>
-            <Heading7Medium>[Not Implemented]</Heading7Medium>
+            <p className='font-heading-7 font-medium'>[Not Implemented]</p>
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <Heading6Title>NAV MENU</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>NAV MENU</h4>
           <div className='grid grid-cols-1 gap-4'>
             <button className='grid place-content-center w-[147px] h-[70px] font-heading font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-800 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
               <span className='w-[110px] h-[70px] flex items-center gap-1 border-t-4 border-t-transparent'><SearchSvg className='scale-75' />Schedule</span>
@@ -106,7 +104,7 @@ export default function MenuElements ({sectionClass}) {
         </div>
         <div className='grid grid-cols-3 gap-4'>
           <div className='flex flex-col gap-4'>
-            <Heading6Title>NAV MENU [Extra Design]</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>NAV MENU [Extra Design]</h4>
             <div className='flex flex-col gap-4'>
               <NavigationItem
                 path='/style-guide'
@@ -122,9 +120,9 @@ export default function MenuElements ({sectionClass}) {
           </div>
 
           <div className='flex flex-col gap-4'>
-            <Heading6Title>USER PROFILE</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>USER PROFILE</h4>
             <div className='flex flex-col gap-4'>
-              <Heading7Medium>[Not Implemented]</Heading7Medium>
+              <p className='font-heading-7 font-medium'>[Not Implemented]</p>
             </div>
           </div>
         </div>
@@ -133,7 +131,7 @@ export default function MenuElements ({sectionClass}) {
       <section className={sectionClass}>
         <div className='grid grid-cols-2 gap-4 p-4'>
           <div className='flex flex-col gap-8'>
-            <Heading2>Tab Menu</Heading2>
+            <h2 className='font-heading-2'>Tab Menu</h2>
             <div className='grid grid-cols-3 gap-4'>
               <button className='grid place-content-center w-[80px] h-[50px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 hover:text-blue dark:hover:text-white'>
                 <span className='flex items-center gap-3 border-b-4 border-b-transparent'>Jobs</span>
