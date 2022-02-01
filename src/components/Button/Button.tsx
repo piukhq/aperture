@@ -1,4 +1,3 @@
-
 import React, {ReactNode} from 'react'
 import {classNames} from 'utils/classNames'
 
@@ -52,16 +51,16 @@ const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
   [ButtonSize.LARGE]: 'font-heading text-sm min-h-[48px]',
   [ButtonSize.MEDIUM]: 'font-heading text-2xs min-h-[38px]',
   [ButtonSize.SMALL]: 'font-heading text-3xs h-[28px]',
-  [ButtonSize.MEDIUM_ICON]: 'font-heading tracking-[0.6px] text-sm min-h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
+  [ButtonSize.MEDIUM_ICON]: 'font-heading tracking-[0.6px] text-sm h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
   [ButtonSize.MEDIUM_BODY_FONT]: 'font-body tracking-[0.1px] text-sm min-h-[38px]',
   [ButtonSize.SMALL_BODY_FONT]: 'font-body tracking-[0.1px] text-2xs min-h-[28px]',
 }
 const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.FULL]: 'w-full',
   [ButtonWidth.LARGE]: 'w-[240px]',
-  [ButtonWidth.MEDIUM]: 'w-[120px]',
-  [ButtonWidth.AUTO]: 'w-max',
-  [ButtonWidth.ICON_TEXT]: 'w-[86px]',
+  [ButtonWidth.MEDIUM]: 'w-[120px] px-2',
+  [ButtonWidth.AUTO]: 'w-max px-2',
+  [ButtonWidth.ICON_TEXT]: 'w-[86px] px-2',
   [ButtonWidth.ICON_ONLY]: 'w-[38px]',
 }
 const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
@@ -98,7 +97,6 @@ type Props = {
   labelColour?: LabelColour,
   labelWeight?: LabelWeight,
   borderColour?: BorderColour,
-  svgIcon?: ReactNode,
   children?: ReactNode
   handleClick: () => void
 }
@@ -112,7 +110,6 @@ const Button = (props: Props) => {
     labelWeight = LabelWeight.SEMIBOLD,
     borderColour,
     handleClick,
-    svgIcon = false,
     children,
   } = props
 
@@ -128,8 +125,7 @@ const Button = (props: Props) => {
     )}
     onClick={handleClick}
     >
-      <div className='flex items-center justify-center gap-3 mx-2'>
-        {svgIcon && svgIcon}
+      <div className='flex items-center justify-center gap-3'>
         {children}
       </div>
     </button>

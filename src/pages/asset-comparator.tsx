@@ -15,8 +15,7 @@ const AssetComparatorPage: NextPage = () => {
           buttonBackground={Button.buttonBackground.BLUE}
           labelColour={Button.labelColour.WHITE}
           labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
-          svgIcon={<SettingsSvg/>}
-        > Credentials
+        > <SettingsSvg/>Credentials
         </Button>
       </div>
 

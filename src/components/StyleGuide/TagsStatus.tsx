@@ -1,4 +1,4 @@
-import Tag from 'components/Tag/Tag'
+import Tag from 'components/Tag'
 
 type Props = {
   sectionClass: string,
