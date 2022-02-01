@@ -7,7 +7,11 @@ import ProfileSvg from 'icons/svgs/profile.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 
 
-export default function FormElements ({sectionClass}) {
+type Props = {
+  sectionClass: string,
+}
+
+const FormElements = ({sectionClass}: Props) => {
 
   const [textFieldValue, setTextFieldValue] = useState('')
 
@@ -421,3 +425,5 @@ export default function FormElements ({sectionClass}) {
     </>
   )
 }
+
+export default FormElements

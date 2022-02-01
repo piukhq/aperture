@@ -181,7 +181,7 @@ type Props = {
   value: string
   onChange: (event: { target: { value: string}}) => void
 }
-export default function TextInputGroup (props: Props) {
+const TextInputGroup = (props: Props) => {
   const {
     inputStyle = InputStyle.FULL,
     inputType = InputType.TEXT,
@@ -197,7 +197,6 @@ export default function TextInputGroup (props: Props) {
   } = props
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
-
 
   const renderInputElement = () => <input
     type={INPUT_TYPE_MAPS[inputType]}
@@ -257,3 +256,5 @@ TextInputGroup.inputType = InputType
 TextInputGroup.inputColour = InputColour
 TextInputGroup.inputWidth = InputWidth
 TextInputGroup.inputStyle = InputStyle
+
+export default TextInputGroup

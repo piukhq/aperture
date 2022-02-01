@@ -6,7 +6,11 @@ import DashboardSvg from 'icons/svgs/dashboard.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 
-export default function MenuElements ({sectionClass}) {
+type Props = {
+  sectionClass: string,
+}
+
+const MenuElements = ({sectionClass}: Props) => {
   return (
     <>
       <section className={sectionClass}>
@@ -163,3 +167,5 @@ export default function MenuElements ({sectionClass}) {
     </>
   )
 }
+
+export default MenuElements

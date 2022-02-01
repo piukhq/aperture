@@ -5,7 +5,11 @@ import PlusSvg from 'icons/svgs/plus.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import SettingsSvg from 'icons/svgs/settings.svg'
 
-export default function Buttons ({sectionClass}) {
+type Props = {
+  sectionClass: string,
+}
+
+const Buttons = ({sectionClass}: Props) => {
   return (
     <section className={sectionClass}>
       <h2 className='font-heading-2'>Buttons</h2>
@@ -306,3 +310,5 @@ export default function Buttons ({sectionClass}) {
     </section>
   )
 }
+
+export default Buttons

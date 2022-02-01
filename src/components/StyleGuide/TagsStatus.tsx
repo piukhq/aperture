@@ -1,6 +1,10 @@
 import Tag from 'components/Tag/Tag'
 
-export default function TagsStatus ({sectionClass}) {
+type Props = {
+  sectionClass: string,
+}
+
+const TagsStatus = ({sectionClass}: Props) => {
   return (
     <section className={sectionClass}>
       <h2 className='font-heading-2'>Tag & Status</h2>
@@ -66,3 +70,5 @@ export default function TagsStatus ({sectionClass}) {
     </section>
   )
 }
+
+export default TagsStatus

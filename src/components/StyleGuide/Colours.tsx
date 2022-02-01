@@ -2,7 +2,12 @@ import tailwindsConfig from '../../../tailwind.config' // TODO: Has to be a bett
 
 import {classNames} from 'utils/classNames'
 
-export default function Colours ({sectionClass}) {
+
+type Props = {
+  sectionClass: string,
+}
+
+const Colours = ({sectionClass}: Props) => {
   const colours = tailwindsConfig.theme.colors
 
   function hexToRgb (hex) {
@@ -86,3 +91,5 @@ export default function Colours ({sectionClass}) {
     </section>
   )
 }
+
+export default Colours

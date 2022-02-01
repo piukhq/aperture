@@ -41,7 +41,7 @@ type Props = {
   label: string,
 }
 
-export default function Tag (props:Props) {
+const Tag = (props: Props) => {
   const {tagSize, tagStyle, label} = props
 
   return (
@@ -57,3 +57,5 @@ export default function Tag (props:Props) {
 
 Tag.tagSize = TagSize
 Tag.tagStyle = TagStyle
+
+export default Tag
