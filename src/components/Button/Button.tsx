@@ -103,7 +103,7 @@ type Props = {
   handleClick: () => void
 }
 
-export default function Button (props: Props) {
+const Button = (props: Props) => {
   const {
     buttonSize = ButtonSize.MEDIUM, // Is it better to have defaults to make it easier to get a basic button up or force us to confirm the values we want?
     buttonWidth = ButtonWidth.MEDIUM,
@@ -143,3 +143,5 @@ Button.buttonBackground = ButtonBackground
 Button.labelColour = LabelColour
 Button.labelWeight = LabelWeight
 Button.borderColour = BorderColour
+
+export default Button

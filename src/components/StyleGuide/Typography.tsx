@@ -1,4 +1,8 @@
-export default function Typography ({sectionClass}) {
+type Props = {
+  sectionClass: string,
+}
+
+const Typography = ({sectionClass}: Props) => {
 
   const descriptionClass = 'text-lg font-body font-normal text-grey-500 dark:text-grey-500'
 
@@ -193,3 +197,5 @@ export default function Typography ({sectionClass}) {
     </section>
   )
 }
+
+export default Typography
