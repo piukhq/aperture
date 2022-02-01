@@ -1,5 +1,4 @@
 import type {NextPage} from 'next'
-import Image from 'next/image'
 import ContentTile from 'components/ContentTile'
 import PageLayout from 'components/PageLayout'
 // import Button from 'components/Button'
@@ -55,7 +54,6 @@ const AssetComparatorPage: NextPage = () => {
           <h2 className='grid place-items-center h-[46px] w-full bg-grey-200 font-table-header text-grey-800'>PRODUCTION</h2>
           <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
         </div>
-        <Image src='/images/bear-m.jpg' width='500' height='500'/>
       </ContentTile>
     </PageLayout>
   )
