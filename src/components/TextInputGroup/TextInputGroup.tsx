@@ -86,7 +86,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     container: 'h-[48px]',
     label: 'hidden',
     input: 'w-full h-[48px] pl-9 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[12px] left-[1px]',
+    icon: 'absolute top-[10px] left-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',

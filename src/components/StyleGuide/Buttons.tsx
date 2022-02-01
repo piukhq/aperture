@@ -1,5 +1,4 @@
 import Button from 'components/Button'
-import {Heading2, Heading6Title} from 'components/Text'
 
 import WriteSvg from 'icons/svgs/write.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
@@ -9,10 +8,10 @@ import SettingsSvg from 'icons/svgs/settings.svg'
 export default function Buttons ({sectionClass}) {
   return (
     <section className={sectionClass}>
-      <Heading2>Buttons</Heading2>
+      <h2 className='font-heading-2'>Buttons</h2>
       <div className='grid grid-cols-2 gap-4 pt-4 items-center'>
         <div className='flex flex-col'>
-          <Heading6Title>PRIMARY</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>PRIMARY</h4>
           <div className='pb-8'>
             <div className='flex gap-2 py-4'>
               <Button
@@ -54,7 +53,7 @@ export default function Buttons ({sectionClass}) {
             </Button>
           </div>
           <div className='pb-8'>
-            <Heading6Title>SECONDARY</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>SECONDARY</h4>
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
@@ -125,7 +124,7 @@ export default function Buttons ({sectionClass}) {
           </div>
         </div>
         <div className='flex flex-col'>
-          <Heading6Title>SMALL PRIMARY</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>SMALL PRIMARY</h4>
           <div className='pb-8'>
             <div className='flex gap-2 py-4'>
               <Button
@@ -167,7 +166,7 @@ export default function Buttons ({sectionClass}) {
             </Button>
           </div>
           <div className='pb-8'>
-            <Heading6Title>SMALL SECONDARY</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>SMALL SECONDARY</h4>
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
@@ -239,7 +238,7 @@ export default function Buttons ({sectionClass}) {
         </div>
 
         <div className='flex flex-col'>
-          <Heading6Title>WITH ICON [Some icons may differ as not found]</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>WITH ICON [Some icons may differ as not found]</h4>
           <div className='pb-8'>
             <div className='flex gap-2 py-4'>
               <Button
@@ -293,7 +292,7 @@ export default function Buttons ({sectionClass}) {
           </div>
         </div>
         <div className='flex flex-col'>
-          <Heading6Title>TAG</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>TAG</h4>
           <div className='pb-8'>
             <div className='flex gap-2 py-4'>
               <div className='flex items-center justify-center h-[28px] px-6 bg-grey-200 font-heading text-grey-700 font-medium text-4xs rounded-[5px]'>Tag</div>

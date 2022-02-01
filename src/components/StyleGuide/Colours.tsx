@@ -1,10 +1,3 @@
-import {
-  Heading2,
-  Heading5,
-  Heading7Semibold,
-  Heading7Medium,
-} from 'components/Text'
-
 import tailwindsConfig from '../../../tailwind.config' // TODO: Has to be a better way of getting above src folder
 
 import {classNames} from 'utils/classNames'
@@ -28,10 +21,10 @@ export default function Colours ({sectionClass}) {
     'aquamarine',
   ].map(swatch => {
     return <div key={swatch} className={`bg-${swatch} w-[255px] h-[202px] rounded-[30px] p-8 flex flex-col gap-3`}>
-      <Heading7Semibold>{colours[swatch].toUpperCase()} ({swatch})</Heading7Semibold>
-      <Heading7Medium>R: {hexToRgb(colours[swatch]).r}</Heading7Medium>
-      <Heading7Medium>G: {hexToRgb(colours[swatch]).g}</Heading7Medium>
-      <Heading7Medium>B: {hexToRgb(colours[swatch]).b}</Heading7Medium>
+      <h6 className='font-heading-7'>{colours[swatch].toUpperCase()} ({swatch})</h6>
+      <p className='font-heading-7 font-medium'>R: {hexToRgb(colours[swatch]).r}</p >
+      <p className='font-heading-7 font-medium'>G: {hexToRgb(colours[swatch]).g}</p >
+      <p className='font-heading-7 font-medium'>B: {hexToRgb(colours[swatch]).b}</p >
     </div>
   })
 
@@ -44,7 +37,7 @@ export default function Colours ({sectionClass}) {
   ].map(background => {
     const swatch = background.split('-')[1]
     return <div key={swatch} className={`${background} w-[198px] h-[75px] rounded-[30px] flex items-center justify-center`}>
-      <Heading5>{colours[swatch].toUpperCase()} ({swatch})</Heading5>
+      <h3 className='font-heading-5'>{colours[swatch].toUpperCase()} ({swatch})</h3>
     </div>
   }
   )
@@ -80,7 +73,7 @@ export default function Colours ({sectionClass}) {
 
   return (
     <section className={sectionClass}>
-      <Heading2>Colours</Heading2>
+      <h2 className='font-heading-2'>Colours</h2>
       <div className='w-full grid gap-4 grid-cols-4'>
         {renderLargeSwatches()}
       </div>

@@ -1,43 +1,3 @@
-import {
-  Heading1,
-  Heading2,
-  Heading3,
-  Heading4,
-  Heading5,
-  Heading6Semibold,
-  Heading6Title,
-  Heading6Medium,
-  Heading7Semibold,
-  Heading7Medium,
-  Heading7Strikethrough,
-  Heading8,
-  Heading9Semibold,
-  Heading9Medium,
-  Heading10,
-  Body1Regular,
-  Body1Medium,
-  Body2Regular,
-  Body2Strikethrough,
-  Body2Medium,
-  Body3Regular,
-  Body3Medium,
-  Body3Bold,
-  Body4Regular,
-  Body4Medium,
-  Body4Bold,
-  Subheading1Regular,
-  Subheading1Medium,
-  Subheading2Regular,
-  Subheading2Strikethrough,
-  Subheading2Medium,
-  Subheading3Regular,
-  Subheading3Strikethrough,
-  Subheading3Medium,
-  Subheading4Regular,
-  Subheading4Medium,
-} from 'components/Text'
-
-
 export default function Typography ({sectionClass}) {
 
   const descriptionClass = 'text-lg font-body font-normal text-grey-500 dark:text-grey-500'
@@ -50,77 +10,77 @@ export default function Typography ({sectionClass}) {
           <div className='grid grid-cols-2 mb-12 items-center'>
             <p className='text-[100px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
-              <Heading7Semibold>PRIMARY FONT</Heading7Semibold>
-              <Heading4>Poppins</Heading4>
+              <h3 className='font-heading-7'>PRIMARY FONT</h3>
+              <p className='font-heading-4'>Poppins</p>
             </div>
           </div>
           <p className='font-heading text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
           <div>
             <div>
-              <Heading6Title>HEADING</Heading6Title>
+              <h4 className='font-heading-6 text-grey-600'>HEADING</h4>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <h1 className='font-heading-0'>H0</h1>
+              <p className='font-heading-0'>H0</p>
               <p className= {descriptionClass}>Bold - 56px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading1>H1</Heading1>
+              <p className='font-heading-1'>H1</p>
               <p className={descriptionClass}>Semibold - 48px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading2>H2</Heading2>
+              <p className='font-heading-2'>H2</p>
               <p className={descriptionClass}>Semibold - 36px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading3>H3</Heading3>
+              <p className='font-heading-3'>H3</p>
               <p className={descriptionClass}>Semibold - 28px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading4>H4</Heading4>
+              <p className='font-heading-4'>H4</p>
               <p className={descriptionClass}>Semibold - 24px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading5>H5</Heading5>
+              <p className='font-heading-5'>H5</p>
               <p className={descriptionClass}>Semibold - 18px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading6Semibold>H6</Heading6Semibold>
+              <p className='font-heading-6'>H6</p>
               <p className={descriptionClass}>Semibold - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading6Title>H6 Title</Heading6Title>
+              <h4 className='font-heading-6 text-grey-600'>H6 Title</h4>
               <p className={descriptionClass}>Semibold - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading6Medium>H6</Heading6Medium>
+              <p className='font-heading-6 font-medium'>H6</p>
               <p className={descriptionClass}>Medium - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading7Semibold>H7</Heading7Semibold>
+              <p className='font-heading-7'>H7</p>
               <p className={descriptionClass}>Semibold - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading7Medium>H7</Heading7Medium>
+              <p className='font-heading-7 font-medium'>H7</p>
               <p className={descriptionClass}>Medium - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading7Strikethrough>H7</Heading7Strikethrough>
+              <p className='font-heading-7 line-through'>H7</p>
               <p className={descriptionClass}>Semibold - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading8>H8</Heading8>
+              <p className='font-heading-8'>H8</p>
               <p className={descriptionClass}>Regular - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading9Semibold>H9</Heading9Semibold>
+              <p className='font-heading-9'>H9</p>
               <p className={descriptionClass}>Semibold - 12px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading9Medium>H9</Heading9Medium>
+              <p className='font-heading-9 font-medium'>H9</p>
               <p className={descriptionClass}>Medium - 12px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Heading10>H10</Heading10>
+              <p className='font-heading-10'>H10</p>
               <p className={descriptionClass}>Semibold - 11px</p>
             </div>
           </div>
@@ -130,104 +90,100 @@ export default function Typography ({sectionClass}) {
           <div className='grid grid-cols-2 mb-12 items-center'>
             <p className='text-[100px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
-              <Heading7Semibold>SECONDARY FONT</Heading7Semibold>
-              <Heading4>Roboto</Heading4>
+              <h3 className='font-heading-7'>SECONDARY FONT</h3>
+              <p className='font-heading-7'>Roboto</p>
             </div>
           </div>
           <p className='font-body text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
           <div>
             <div>
-              <Heading6Title>BODY</Heading6Title>
+              <h4 className='font-heading-6 text-grey-600'>BODY</h4>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body1Regular>Body 1</Body1Regular>
+              <p className='font-body-1'>Body 1</p>
               <p className={descriptionClass}>Regular - 18px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body1Medium>Body 1</Body1Medium>
+              <p className='font-body-1 font-medium'>Body 1</p>
               <p className={descriptionClass}>Medium - 18px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body2Regular>Body 2</Body2Regular>
+              <p className='font-body-2'>Body 2</p>
               <p className={descriptionClass}>Regular - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body2Strikethrough>Body 2</Body2Strikethrough>
+              <p className='font-body-2 line-through'>Body 2</p>
               <p className={descriptionClass}>Regular - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body2Medium>Body 2</Body2Medium>
+              <p className='font-body-2 font-medium'>Body 2</p>
               <p className={descriptionClass}>Medium - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body3Regular>Body 3</Body3Regular>
+              <p className='font-body-3'>Body 3</p>
               <p className={descriptionClass}>Regular - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body3Medium>Body 3</Body3Medium>
+              <p className='font-body-3 font-medium'>Body 3</p>
               <p className={descriptionClass}>Medium - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body3Bold>Body 3</Body3Bold>
+              <p className='font-body-3 font-bold'>Body 3</p>
               <p className={descriptionClass}>Bold - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body3Bold>Body 3</Body3Bold>
-              <p className={descriptionClass}>Bold - 14px</p>
-            </div>
-            <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body4Regular>Body 4</Body4Regular>
+              <p className='font-body-4'>Body 4</p>
               <p className={descriptionClass}>Regular - 12px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body4Medium>Body 4</Body4Medium>
+              <p className='font-body-4 font-medium'>Body 4</p>
               <p className={descriptionClass}>Medium - 12px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Body4Bold>Body 4</Body4Bold>
+              <p className='font-body-4 font-bold'>Body 4</p>
               <p className={descriptionClass}>Bold - 12px</p>
             </div>
             <div className='pt-16 pb-12'>
-              <Heading6Title>SUBHEADING</Heading6Title>
+              <h4 className='font-heading-6 text-grey-600'>SUBHEADING</h4>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading1Regular>Subheading 1</Subheading1Regular>
+              <p className='font-subheading-1'>Subheading 1</p>
               <p className={descriptionClass}>Regular - 18px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading1Medium>Subheading 1</Subheading1Medium>
+              <p className='font-subheading-1 font-medium'>Subheading 1</p>
               <p className={descriptionClass}>Medium - 18px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading2Regular>Subheading 2</Subheading2Regular>
+              <p className='font-subheading-2'>Subheading 2</p>
               <p className={descriptionClass}>Regular - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading2Medium>Subheading 2</Subheading2Medium>
+              <p className='font-subheading-2 font-medium'>Subheading 2</p>
               <p className={descriptionClass}>Medium - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading2Strikethrough>Subheading 2</Subheading2Strikethrough>
+              <p className='font-subheading-2 line-through'>Subheading 2</p>
               <p className={descriptionClass}>Regular - 16px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading3Regular>Subheading 3</Subheading3Regular>
+              <p className='font-subheading-3'>Subheading 3</p>
               <p className={descriptionClass}>Regular - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading3Medium>Subheading 3</Subheading3Medium>
+              <p className='font-subheading-3 font-medium'>Subheading 3</p>
               <p className={descriptionClass}>Medium - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading3Strikethrough>Subheading 3</Subheading3Strikethrough>
+              <p className='font-subheading-3 line-through'>Subheading 3</p>
               <p className={descriptionClass}>Regular - 14px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading4Regular>Subheading 4</Subheading4Regular>
+              <p className='font-subheading-4'>Subheading 4</p>
               <p className={descriptionClass}>Regular - 12px</p>
             </div>
             <div className='grid grid-cols-2 pt-8 items-center'>
-              <Subheading4Medium>Subheading 4</Subheading4Medium>
+              <p className='font-subheading-4 font-medium'>Subheading 4</p>
               <p className={descriptionClass}>Medium - 12px</p>
             </div>
           </div>

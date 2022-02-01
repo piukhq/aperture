@@ -1,10 +1,7 @@
 
 import {useState} from 'react'
 
-import {Body1Regular, Heading2, Heading6Title, Heading7Medium} from 'components/Text'
 import TextInputGroup from 'components/TextInputGroup'
-
-
 import EmailSvg from 'icons/svgs/email.svg'
 import ProfileSvg from 'icons/svgs/profile.svg'
 import SearchSvg from 'icons/svgs/search.svg'
@@ -17,11 +14,11 @@ export default function FormElements ({sectionClass}) {
   return (
     <>
       <section className={sectionClass}>
-        <Heading2>Form - Desktop</Heading2>
-        <Body1Regular>A number of elements are missing from the Abstract here. </Body1Regular>
+        <h2 className='font-heading-2'>Form - Desktop</h2>
+        <p className='font-body-1'>A number of elements are missing from the Abstract here. </p>
         <div className='grid grid-cols-2 gap-4 p-4'>
           <div className='flex flex-col gap-8'>
-            <Heading6Title>ONBOARDING 1</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING 1</h4>
             <TextInputGroup
               name='desktop-1'
               label='First Name'
@@ -64,7 +61,7 @@ export default function FormElements ({sectionClass}) {
                 inputColour={TextInputGroup.inputColour.RED}
               />
             </form>
-            <Heading6Title>ONBOARDING 3</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING 3</h4>
             <TextInputGroup
               name='desktop-5'
               label='Enter Email'
@@ -114,7 +111,7 @@ export default function FormElements ({sectionClass}) {
             />
           </div>
           <div className='flex flex-col gap-8'>
-            <Heading6Title>ONBOARDING 2</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING 2</h4>
             <TextInputGroup
               name='desktop-8'
               label='Full Name'
@@ -152,7 +149,7 @@ export default function FormElements ({sectionClass}) {
             />
           </div>
           <div className='flex flex-col gap-6'>
-            <Heading6Title>EMAIL FORM</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>EMAIL FORM</h4>
             <TextInputGroup
               name='desktop-11'
               label='Search'
@@ -199,7 +196,7 @@ export default function FormElements ({sectionClass}) {
             />
           </div>
           <div className='flex flex-col gap-6'>
-            <Heading6Title>SEARCH FORM</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>SEARCH FORM</h4>
             <div className='grid grid-cols-2 gap-6'>
               <TextInputGroup
                 name='desktop-15'
@@ -225,7 +222,7 @@ export default function FormElements ({sectionClass}) {
                 inputColour={TextInputGroup.inputColour.LIGHT_GREY}
                 svgIcon={<SearchSvg/>}
               />
-              <Heading7Medium>[Skipping - due to context needed]</Heading7Medium>
+              <p className='font-heading-7 font-medium'>[Skipping - due to context needed]</p>
               <TextInputGroup
                 name='desktop-17'
                 label='Search'
@@ -255,10 +252,10 @@ export default function FormElements ({sectionClass}) {
         </div>
       </section>
       <section className={sectionClass}>
-        <Heading2>Form - Mobile</Heading2>
+        <h2 className='font-heading-2'>Form - Mobile</h2>
         <div className='grid grid-cols-3 gap-2 p-2'>
           <div className='flex flex-col gap-6'>
-            <Heading6Title>ONBOARDING MOBILE 1</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING MOBILE 1</h4>
             <TextInputGroup
               name='mobile-1'
               label='Search'
@@ -305,7 +302,7 @@ export default function FormElements ({sectionClass}) {
             </form>
           </div>
           <div className='flex flex-col gap-6'>
-            <Heading6Title>ONBOARDING MOBILE 2</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING MOBILE 2</h4>
             <TextInputGroup
               name='mobile-5'
               label='Full Name'
@@ -365,7 +362,7 @@ export default function FormElements ({sectionClass}) {
             />
           </div>
           <div className='flex flex-col gap-6'>
-            <Heading6Title>ONBOARDING MOBILE 3</Heading6Title>
+            <h4 className='font-heading-6 text-grey-600'>ONBOARDING MOBILE 3</h4>
             <TextInputGroup
               name='mobile-9'
               label='Full Name'

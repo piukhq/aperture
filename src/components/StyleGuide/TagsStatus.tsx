@@ -1,18 +1,17 @@
 import Tag from 'components/Tag/Tag'
-import {Heading2, Heading6Title} from 'components/Text'
 
 export default function TagsStatus ({sectionClass}) {
   return (
     <section className={sectionClass}>
-      <Heading2>Tag & Status</Heading2>
+      <h2 className='font-heading-2'>Tag & Status</h2>
       <div className='grid grid-cols-5 gap-4'>
         <div className='flex flex-col gap-4 p-4'>
-          <Heading6Title>SKILL</Heading6Title>
-          <Heading6Title>Not implemented</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>SKILL</h4>
+          <h4 className='font-heading-6 text-grey-600'>Not implemented</h4>
 
         </div>
         <div className='flex flex-col gap-4 p-4'>
-          <Heading6Title>STATUS 1</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>STATUS 1</h4>
           <div className='h-[26px] w-[82px] bg-aquamarine/10'>
             <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-aquamarine dark:text-grey-100 text-center'}>
             Completed
@@ -37,7 +36,7 @@ export default function TagsStatus ({sectionClass}) {
 
         </div>
         <div className='flex flex-col gap-4 p-4'>
-          <Heading6Title>PAGINATION</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>PAGINATION</h4>
           <div className='h-[24px] w-[9px] bg-lightBlue/10'>
             <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-blue dark:text-grey-100 text-center'}>
             1
@@ -50,14 +49,14 @@ export default function TagsStatus ({sectionClass}) {
           </div>
         </div>
         <div className='flex flex-col gap-4 p-4'>
-          <Heading6Title>ENVIRONMENT</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>ENVIRONMENT</h4>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='Develop' />
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='Staging' />
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label='Sandbox' />
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.RED_FILLED} label='Production' />
         </div>
         <div className='flex flex-col gap-4 p-4'>
-          <Heading6Title>STATUS 2</Heading6Title>
+          <h4 className='font-heading-6 text-grey-600'>STATUS 2</h4>
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.LIGHT_BLUE_OUTLINE} label='Verified' />
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.YELLOW_OUTLINE} label='Pending' />
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />

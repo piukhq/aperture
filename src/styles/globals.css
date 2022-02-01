@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer components {
+  /* Headings default to semibold weight where there is multiple weights. Body and Subheadings default to regular */
   .font-heading-0{
     @apply text-5xl font-heading font-bold tracking-[.23px] text-grey-800 dark:text-grey-100
   }
