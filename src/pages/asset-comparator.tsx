@@ -21,19 +21,16 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
     </div>
   )
 
-  const renderVerifiedLanding = () => {
-    const tableHeadingClasses = 'grid place-items-center h-[46px] w-full bg-grey-200 font-table-header text-grey-800'
-    return (
-      <div className='grid grid-cols-5 w-full text-center'>
-        <span className='grid place-items-center h-[46px] w-full bg-grey-200'></span>
-        <h2 className={tableHeadingClasses}>DEVELOP</h2>
-        <h2 className={tableHeadingClasses}>STAGING</h2>
-        <h2 className={tableHeadingClasses}>SANDBOX</h2>
-        <h2 className={tableHeadingClasses}>PRODUCTION</h2>
-        <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-      </div>
-    )
-  }
+  const renderVerifiedLanding = () => (
+    <div className='grid grid-cols-5 w-full text-center'>
+      <span className='grid place-items-center w-full bg-grey-200'></span>
+      {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+        <h2 key={header} className='grid place-items-center h-[46px] w-full bg-grey-200 font-table-header text-grey-800'>{header}</h2>
+      ))}
+      <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    </div>
+  )
+
 
   return (
     <PageLayout>
@@ -62,7 +59,7 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
           </>
         }
         <Button
-          handleClick={() => setIsVerified(!isVerified)} // Placeholder validation switch
+          handleClick={() => setIsVerified(prevState => !prevState)} // Placeholder validation switch
           buttonSize={Button.buttonSize.MEDIUM_ICON}
           buttonWidth={Button.buttonWidth.AUTO}
           buttonBackground={Button.buttonBackground.BLUE}
