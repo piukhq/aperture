@@ -40,6 +40,7 @@
   .font-table-header {
     @apply text-3xs font-heading font-semibold text-grey-800 dark:text-grey-100 tracking-[0.8px]
   } 
+
   .font-body-1 {
     @apply text-lg font-body leading-7 tracking-[.1px] text-grey-800 dark:text-grey-100
   } 
