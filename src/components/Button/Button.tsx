@@ -59,7 +59,7 @@ const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.FULL]: 'w-full',
   [ButtonWidth.LARGE]: 'w-[240px]',
   [ButtonWidth.MEDIUM]: 'w-[120px] px-2',
-  [ButtonWidth.AUTO]: 'w-max px-2',
+  [ButtonWidth.AUTO]: 'w-max px-3',
   [ButtonWidth.ICON_TEXT]: 'w-[86px] px-2',
   [ButtonWidth.ICON_ONLY]: 'w-[38px]',
 }
@@ -125,7 +125,7 @@ const Button = (props: Props) => {
     )}
     onClick={handleClick}
     >
-      <div className='flex items-center justify-center gap-3'>
+      <div className='flex items-center justify-center whitespace-nowrap gap-2'>
         {children}
       </div>
     </button>

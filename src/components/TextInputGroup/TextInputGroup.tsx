@@ -218,12 +218,12 @@ const TextInputGroup = (props: Props) => {
     name={name}
     id={`bink-form-field-${name}`}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100 ',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100 px-[8px]',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' disabled>{placeholder}</option>
+    <option value='' selected disabled hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
