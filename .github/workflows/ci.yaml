@@ -14,7 +14,6 @@ jobs:
     name: build_dev_release
     environment: Development
     runs-on: ubuntu-latest
-    needs: [ tests ]
     steps:
       - uses: actions/checkout@v2
       - run: echo "::set-output name=date::$(date +'%FT%H%M%SZ')"
@@ -34,7 +33,6 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
     name: build_tagged_release
     runs-on: ubuntu-latest
-    needs: [ tests ]
     steps:
       - name: tag_check
         run: |
