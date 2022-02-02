@@ -18,7 +18,7 @@ const Modal = ({modalHeader, children}: Props) => {
 
         <div className='px-[70px]'>
           {modalHeader &&
-            <h1 className='mt-[19px] mb-[15px] text-[28px] font-semibold'>{modalHeader}</h1>
+            <h1 className='mt-[19px] mb-[30px] font-heading-4'>{modalHeader}</h1>
           }
           {children}
         </div>
