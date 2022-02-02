@@ -7,7 +7,7 @@ type Props = {
 
 const Layout = ({children}: Props) => {
   return (
-    <div className='flex h-screen bg-off-white-2'>
+    <div className='flex h-screen bg-grey-200'>
       <Sidebar />
       <div className='flex w-full'>
         {children}
