@@ -8,7 +8,7 @@ const CustomerWalletsPage: NextPage = () => {
     <PageLayout>
       <ContentTile>
         <Image src='/icons/svgs/construction.svg' height={200} width={200} alt='' />
-        <h1 className='text-2xl font-semibold text-off-black'>Page under construction!</h1>
+        <h1 className='font-heading-1'>Page under construction!</h1>
       </ContentTile>
     </PageLayout>
   )
