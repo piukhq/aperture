@@ -23,10 +23,12 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
 
   const renderVerifiedLanding = () => (
     <div className='grid grid-cols-5 w-full text-center'>
-      <span className='grid place-items-center w-full bg-grey-200'></span>
-      {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-        <h2 key={header} className='grid place-items-center h-[46px] w-full bg-grey-200 font-table-header text-grey-800'>{header}</h2>
-      ))}
+      <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+        <span></span>
+        {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+          <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+        ))}
+      </span>
       <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     </div>
   )
