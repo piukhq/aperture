@@ -5,7 +5,7 @@ import ContentTile from 'components/ContentTile'
 import PageLayout from 'components/PageLayout'
 import PlansList from 'components/PlansList'
 import Button from 'components/Button'
-
+import CredentialsModal from 'components/CredentialsModal'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 
@@ -32,26 +32,27 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
     </div>
   )
 
+import {
+  useAppDispatch,
+  useAppSelector,
+} from 'app/hooks'
+
+import {
+  requestModal,
+  selectModal,
+} from 'features/modal'
+
+
+const AssetComparatorPage: NextPage = () => {
+  const dispatch = useAppDispatch()
+  const modalRequested:string = useAppSelector(selectModal)
 
   return (
     <PageLayout>
-      <div className='flex gap-[20px] h-[60px] justify-end'>
-        { isVerified &&
-          <>
-            <PlansList />
-            <Button
-              handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.MEDIUM_ICON}
-              buttonWidth={Button.buttonWidth.AUTO}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.MEDIUM}
-            > <CheckSvg/>Load Assets
-            </Button>
-          </>
-        }
+      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
+      <div className='flex justify-end'>
         <Button
-          handleClick={() => setIsVerified(prevState => !prevState)} // Placeholder validation switch
+          handleClick={() => dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))}
           buttonSize={Button.buttonSize.MEDIUM_ICON}
           buttonWidth={Button.buttonWidth.AUTO}
           buttonBackground={Button.buttonBackground.BLUE}
