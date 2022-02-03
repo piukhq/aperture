@@ -15,20 +15,22 @@ const Sidebar = () => {
   }, [router.pathname])
 
   return (
-    <div className='w-64 h-full border-r-2 border-off-white-1 bg-white dark:bg-grey-850'>
-      <div className='flex h-16 border-b border-off-white-1 pl-[25px] items-center'>
-        <Image src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
-        <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[20px] ml-[10px]'>Bink</h1>
-      </div>
+    <div className='pr-64'>
+      <div className='fixed w-64 h-full border-r-2 border-off-white-1 bg-white dark:bg-grey-850 '>
+        <div className='flex h-16 border-b border-off-white-1 pl-[25px] items-center'>
+          <Image src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
+          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[20px] ml-[10px]'>Bink</h1>
+        </div>
 
-      <div className='mt-6'>
-        <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
-        <nav className='mt-5'>
-          {sideOptions.map(option => {
-            const selected = selectedTool === option
-            return <SidebarOption key={option} option={option} selected={selected} />
-          })}
-        </nav>
+        <div className='mt-6'>
+          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
+          <nav className='mt-5'>
+            {sideOptions.map(option => {
+              const selected = selectedTool === option
+              return <SidebarOption key={option} option={option} selected={selected} />
+            })}
+          </nav>
+        </div>
       </div>
     </div>
   )
