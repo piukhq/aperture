@@ -1,4 +1,3 @@
-
 module.exports = {
   darkMode: 'media',
   content: [
@@ -51,8 +50,8 @@ module.exports = {
         850: '#1C1C25',
         900: '#171725',
         950: '#14141A',
+        975: '#09090F',
       },
-
     },
     extend: {
       lineHeight: {
