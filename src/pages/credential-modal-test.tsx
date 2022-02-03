@@ -5,7 +5,7 @@ import TextInputGroup from 'components/TextInputGroup'
 import type {NextPage} from 'next'
 import {useState} from 'react'
 
-const ModalTestPage: NextPage = () => {
+const CredentialTestPage: NextPage = () => {
 
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
@@ -76,4 +76,4 @@ const ModalTestPage: NextPage = () => {
   )
 }
 
-export default ModalTestPage
+export default CredentialTestPage
