@@ -21,7 +21,6 @@ const Sidebar = () => {
           <Image src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[20px] ml-[10px]'>Bink</h1>
         </div>
-
         <div className='mt-6'>
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
