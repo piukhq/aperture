@@ -10,11 +10,17 @@ const ModalTestPage: NextPage = () => {
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
 
+  const submitCredentials = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(`Email: ${emailValue} Password: ${passwordValue}`)
+  }
+
+
   return (
     <>
       <div className='w-[750px] h-[780px] p-[70px] m-24 bg-white dark:bg-grey-850'>
         <Modal modalHeader='Enter Environment Credentials'>
-          <form className='flex flex-col gap-[20px]'>
+          <form className='flex flex-col gap-[20px]' onSubmit={submitCredentials}>
             <TextInputGroup
               name='credentials-email'
               label='Email'
@@ -36,13 +42,12 @@ const ModalTestPage: NextPage = () => {
               inputColour={TextInputGroup.inputColour.GREY}
             />
             <Button
-              handleClick={() => console.log(`Email: ${emailValue} Password: ${passwordValue}`)}
               buttonSize={Button.buttonSize.LARGE}
               buttonWidth={Button.buttonWidth.FULL}
               buttonBackground={Button.buttonBackground.BLUE}
               labelColour={Button.labelColour.WHITE}
               labelWeight={Button.labelWeight.SEMIBOLD}
-            > Primary Button
+            > Verify Credentials
             </Button>
           </form>
           <div className='mt-[20px] w-[609px] h-[368px]'>
