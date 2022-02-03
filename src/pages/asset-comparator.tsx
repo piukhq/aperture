@@ -15,7 +15,7 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
   const [isVerified, setIsVerified] = useState(false)
 
   const renderUnverifiedLanding = () => (
-    <div className='mt-[50px] flex flex-col items-center gap-4'>
+    <div className='mt-[115px] flex flex-col items-center gap-4'>
       <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
       <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
     </div>

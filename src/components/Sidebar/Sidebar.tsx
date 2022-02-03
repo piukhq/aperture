@@ -16,8 +16,8 @@ const Sidebar = () => {
 
   return (
     <div className='pr-64'>
-      <div className='fixed w-64 h-full border-r-2 border-off-white-1 bg-white dark:bg-grey-850 '>
-        <div className='flex h-16 border-b border-off-white-1 pl-[25px] items-center'>
+      <div className='fixed w-64 h-full border-r-2 border-grey-300 bg-white dark:bg-grey-850 '>
+        <div className='flex h-16 border-b border-grey-300 pl-[25px] items-center'>
           <Image src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[20px] ml-[10px]'>Bink</h1>
         </div>
