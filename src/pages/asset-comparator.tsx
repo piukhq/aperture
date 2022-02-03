@@ -9,9 +9,28 @@ import CredentialsModal from 'components/CredentialsModal'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 
+import {
+  useAppDispatch,
+  useAppSelector,
+} from 'app/hooks'
+
+import {
+  requestModal,
+  selectModal,
+} from 'features/modal'
+
+
 const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic for determining if the user is verified or not. Update when verified and possibly componentise
 
+  const dispatch = useAppDispatch()
+  const modalRequested:string = useAppSelector(selectModal)
+
   const [isVerified, setIsVerified] = useState(false)
+
+  const handleCredentialsButton = () => {
+    setIsVerified(prevState => !prevState) // TODO: Temporary mechanism to switch between states
+    dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
+  }
 
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center gap-4'>
@@ -32,27 +51,26 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
     </div>
   )
 
-import {
-  useAppDispatch,
-  useAppSelector,
-} from 'app/hooks'
-
-import {
-  requestModal,
-  selectModal,
-} from 'features/modal'
-
-
-const AssetComparatorPage: NextPage = () => {
-  const dispatch = useAppDispatch()
-  const modalRequested:string = useAppSelector(selectModal)
-
   return (
     <PageLayout>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
-      <div className='flex justify-end'>
+      <div className='flex gap-[20px] h-[60px] justify-end'>
+        { isVerified &&
+          <>
+            <PlansList />
+            <Button
+              handleClick={() => console.log('clicked')}
+              buttonSize={Button.buttonSize.MEDIUM_ICON}
+              buttonWidth={Button.buttonWidth.AUTO}
+              buttonBackground={Button.buttonBackground.BLUE}
+              labelColour={Button.labelColour.WHITE}
+              labelWeight={Button.labelWeight.MEDIUM}
+            > <CheckSvg/>Load Assets
+            </Button>
+          </>
+        }
         <Button
-          handleClick={() => dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))}
+          handleClick={handleCredentialsButton} // Placeholder validation switch
           buttonSize={Button.buttonSize.MEDIUM_ICON}
           buttonWidth={Button.buttonWidth.AUTO}
           buttonBackground={Button.buttonBackground.BLUE}
