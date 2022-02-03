@@ -98,7 +98,7 @@ type Props = {
   labelWeight?: LabelWeight,
   borderColour?: BorderColour,
   children?: ReactNode
-  handleClick: () => void
+  handleClick?: () => void
 }
 
 const Button = (props: Props) => {
