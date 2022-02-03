@@ -84,7 +84,7 @@ const CredentialTestPage: NextPage = () => {
 
   return (
     <>
-      <div className='w-[750px] h-[780px] p-[70px] m-24 bg-white dark:bg-grey-850'>
+      <div className='w-[750px] h-[780px] p-[70px] m-24 bg-white dark:bg-grey-450'>
         <button onClick={ () => dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))}>Modal Maker</button>
         { modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && renderModal()}
 
