@@ -4,7 +4,7 @@ import {
 } from './actions'
 
 type ModalState = {
-  modalRequested: string;
+  modalRequested: string
 };
 
 const initialState:ModalState = {modalRequested: 'NO_MODAL'}

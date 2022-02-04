@@ -70,7 +70,7 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
           </>
         }
         <Button
-          handleClick={handleCredentialsButton} // Placeholder validation switch
+          handleClick={handleCredentialsButton}
           buttonSize={Button.buttonSize.MEDIUM_ICON}
           buttonWidth={Button.buttonWidth.AUTO}
           buttonBackground={Button.buttonBackground.BLUE}
