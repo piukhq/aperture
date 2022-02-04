@@ -17,11 +17,10 @@ import {
 import {
   requestModal,
   selectModal,
-} from 'features/modal'
+} from 'features/modalSlice'
 
 
 const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic for determining if the user is verified or not. Update when verified and possibly componentise
-
   const dispatch = useAppDispatch()
   const modalRequested:string = useAppSelector(selectModal)
 
@@ -52,10 +51,11 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
   )
 
   return (
-    <PageLayout>
+    <>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
-      <div className='flex gap-[20px] h-[60px] justify-end'>
-        { isVerified &&
+      <PageLayout>
+        <div className='flex gap-[20px] h-[60px] justify-end'>
+          { isVerified &&
           <>
             <PlansList />
             <Button
@@ -68,22 +68,23 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
             > <CheckSvg/>Load Assets
             </Button>
           </>
-        }
-        <Button
-          handleClick={handleCredentialsButton}
-          buttonSize={Button.buttonSize.MEDIUM_ICON}
-          buttonWidth={Button.buttonWidth.AUTO}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.MEDIUM}
-        > <SettingsSvg/>Credentials
-        </Button>
-      </div>
+          }
+          <Button
+            handleClick={handleCredentialsButton}
+            buttonSize={Button.buttonSize.MEDIUM_ICON}
+            buttonWidth={Button.buttonWidth.AUTO}
+            buttonBackground={Button.buttonBackground.BLUE}
+            labelColour={Button.labelColour.WHITE}
+            labelWeight={Button.labelWeight.MEDIUM}
+          > <SettingsSvg/>Credentials
+          </Button>
+        </div>
 
-      <ContentTile>
-        { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
-      </ContentTile>
-    </PageLayout>
+        <ContentTile>
+          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
+        </ContentTile>
+      </PageLayout>
+    </>
   )
 }
 

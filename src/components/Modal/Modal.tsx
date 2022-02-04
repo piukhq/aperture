@@ -2,7 +2,7 @@ import React from 'react'
 import CloseIcon from 'icons/svgs/close.svg'
 
 import {useAppDispatch} from 'app/hooks'
-import {requestModal} from 'features/modal'
+import {requestModal} from 'features/modalSlice'
 
 type Props = {
   modalHeader?: string,
