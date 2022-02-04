@@ -5,7 +5,7 @@ import {
 
 type ModalState = {
   modalRequested: string
-};
+}
 
 const initialState:ModalState = {modalRequested: 'NO_MODAL'}
 
