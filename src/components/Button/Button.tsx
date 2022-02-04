@@ -1,6 +1,12 @@
 import React, {ReactNode} from 'react'
 import {classNames} from 'utils/classNames'
 
+enum ButtonType {
+  SUBMIT,
+  BUTTON,
+  RESET,
+}
+
 enum ButtonSize {
   LARGE,
   MEDIUM,
@@ -46,6 +52,11 @@ BLUE,
 GREY,
 }
 
+const BUTTON_TYPE_MAPS: Record<ButtonType, string> = {
+  [ButtonType.SUBMIT]: 'submit',
+  [ButtonType.BUTTON]: 'button',
+  [ButtonType.RESET]: 'reset',
+}
 
 const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
   [ButtonSize.LARGE]: 'font-heading text-sm min-h-[48px]',
@@ -89,8 +100,8 @@ const BORDER_COLOUR_MAPS: Record<BorderColour, string> = {
   [BorderColour.GREY]: 'border border-grey-300',
 }
 
-
-type Props = {
+export interface ButtonProps {
+  buttonType?: ButtonType,
   buttonSize: ButtonSize,
   buttonWidth: ButtonWidth,
   buttonBackground?: ButtonBackground,
@@ -101,9 +112,10 @@ type Props = {
   handleClick?: () => void
 }
 
-const Button = (props: Props) => {
+const Button = (props: ButtonProps) => {
   const {
-    buttonSize = ButtonSize.MEDIUM, // Is it better to have defaults to make it easier to get a basic button up or force us to confirm the values we want?
+    buttonType = 'button',
+    buttonSize = ButtonSize.MEDIUM,
     buttonWidth = ButtonWidth.MEDIUM,
     buttonBackground,
     labelColour = LabelColour.WHITE,
@@ -114,16 +126,18 @@ const Button = (props: Props) => {
   } = props
 
   return (
-    <button className={classNames(
-      'rounded-[10px]',
-      BUTTON_SIZE_MAPS[buttonSize],
-      BUTTON_WIDTH_MAPS[buttonWidth],
-      BUTTON_BACKGROUND_MAPS[buttonBackground],
-      BORDER_COLOUR_MAPS[borderColour],
-      LABEL_COLOUR_MAPS[labelColour],
-      LABEL_WEIGHT_MAPS[labelWeight],
-    )}
-    onClick={handleClick}
+    <button
+      className={classNames(
+        'rounded-[10px]',
+        BUTTON_SIZE_MAPS[buttonSize],
+        BUTTON_WIDTH_MAPS[buttonWidth],
+        BUTTON_BACKGROUND_MAPS[buttonBackground],
+        BORDER_COLOUR_MAPS[borderColour],
+        LABEL_COLOUR_MAPS[labelColour],
+        LABEL_WEIGHT_MAPS[labelWeight],
+      )}
+      onClick={handleClick}
+      type={BUTTON_TYPE_MAPS[buttonType]}
     >
       <div className='flex items-center justify-center whitespace-nowrap gap-2'>
         {children}
@@ -133,6 +147,7 @@ const Button = (props: Props) => {
 }
 
 
+Button.buttonType = ButtonType
 Button.buttonSize = ButtonSize
 Button.buttonWidth = ButtonWidth
 Button.buttonBackground = ButtonBackground

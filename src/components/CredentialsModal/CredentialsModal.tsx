@@ -38,6 +38,7 @@ const CredentialsModal = () => {
           inputColour={TextInputGroup.inputColour.GREY}
         />
         <Button
+          buttonType={Button.buttonType.SUBMIT}
           buttonSize={Button.buttonSize.LARGE}
           buttonWidth={Button.buttonWidth.FULL}
           buttonBackground={Button.buttonBackground.BLUE}

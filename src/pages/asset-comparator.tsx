@@ -15,6 +15,7 @@ import {
 } from 'app/hooks'
 
 import {
+  ModalType,
   requestModal,
   selectModal,
 } from 'features/modalSlice'
@@ -22,7 +23,7 @@ import {
 
 const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic for determining if the user is verified or not. Update when verified and possibly componentise
   const dispatch = useAppDispatch()
-  const modalRequested:string = useAppSelector(selectModal)
+  const modalRequested: ModalType = useAppSelector(selectModal)
 
   const [isVerified, setIsVerified] = useState(false)
 

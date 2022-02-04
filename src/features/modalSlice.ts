@@ -1,8 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 
+export type ModalType = 'NO_MODAL' | 'ASSET_COMPARATOR_CREDENTIALS'
+
 export type ModalState = {
-  modalRequested: string
+  modalRequested: ModalType
 }
 
 const initialState: ModalState = {modalRequested: 'NO_MODAL'}
@@ -11,7 +13,7 @@ export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    requestModal: (state, action: PayloadAction<string>) => {
+    requestModal: (state, action: PayloadAction<ModalType>) => {
       state.modalRequested = action.payload
     },
   },

@@ -114,13 +114,13 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.FULL]: {
     container: 'h-[48px]',
-    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-850 bg-bottom px-1  text-2xs font-body z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1  text-2xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
   [InputStyle.FULL_SMALL]: {
     container: 'h-[42px]',
-    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-850 bg-bottom px-1 dark:bg-grey-850 text-3xs font-body z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1 dark:bg-grey-850 text-3xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -223,7 +223,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' selected disabled hidden>{placeholder}</option>
+    <option value='' defaultValue={placeholder} disabled hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
