@@ -65,7 +65,7 @@ const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = 
   },
   [InputColour.GREY]: {
     label: 'text-grey-500',
-    input: 'border-grey-500 border-b-grey-500',
+    input: 'border-grey-500 border-b-grey-500 text-grey-600',
   },
   [InputColour.DARK_GREY]: {
     label: 'text-grey-500',
@@ -207,7 +207,7 @@ const TextInputGroup = (props: Props) => {
     value={value}
     onChange={onChange}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
