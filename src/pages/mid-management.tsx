@@ -1,7 +1,6 @@
 import type {NextPage} from 'next'
 import Image from 'next/image'
-import ContentTile from 'components/ContentTile'
-import PageLayout from 'components/PageLayout'
+import {ContentTile, PageLayout} from 'components'
 
 const MidManagementPage: NextPage = () => {
   return (

@@ -1,10 +1,7 @@
 import {useState} from 'react'
 import type {NextPage} from 'next'
 
-import ContentTile from 'components/ContentTile'
-import PageLayout from 'components/PageLayout'
-import PlansList from 'components/PlansList'
-import Button from 'components/Button'
+import {Button, ContentTile, PageLayout, PlansList} from 'components'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'

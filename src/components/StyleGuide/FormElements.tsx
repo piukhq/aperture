@@ -1,6 +1,5 @@
 import {useState} from 'react'
-
-import TextInputGroup from 'components/TextInputGroup'
+import {TextInputGroup} from 'components'
 import EmailSvg from 'icons/svgs/email.svg'
 import ProfileSvg from 'icons/svgs/profile.svg'
 import SearchSvg from 'icons/svgs/search.svg'

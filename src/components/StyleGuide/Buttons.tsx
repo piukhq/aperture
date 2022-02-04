@@ -1,5 +1,4 @@
-import Button from 'components/Button'
-
+import {Button} from 'components'
 import WriteSvg from 'icons/svgs/write.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
