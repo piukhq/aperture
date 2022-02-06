@@ -2,40 +2,67 @@ import Button from 'components/Button'
 import Modal from 'components/Modal'
 import Tag from 'components/Tag'
 import TextInputGroup from 'components/TextInputGroup'
+import {isValidEmail, isValidPassword} from 'utils/validation'
 import {useState} from 'react'
 
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
+  const [emailError, setEmailError] = useState(null)
   const [passwordValue, setPasswordValue] = useState('')
+  const [passwordError, setPasswordError] = useState(null)
 
-  const submitCredentials = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailError(null)
+    setEmailValue(event.target.value)
+  }
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordError(null)
+    setPasswordValue(event.target.value)
+  }
+
+  const validateCredentials = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(`Email: ${emailValue} Password: ${passwordValue}`)
+    if (!isValidEmail(emailValue)) {
+      emailValue.length === 0 ? setEmailError('Enter email') : setEmailError('Enter valid email')
+    }
+    if (!isValidPassword(passwordValue)) {
+      setPasswordError('Enter password')
+    }
+    if (isValidEmail(emailValue) && isValidPassword(passwordValue)) {
+      postCredentials()
+    }
+  }
+
+  const postCredentials = () => {
+    console.log(` Placeholder for posting Valid Credentials : Email: ${emailValue} Password: ${passwordValue}`)
   }
 
   return (
     <Modal modalHeader='Enter Environment Credentials'>
-      <form className='flex flex-col gap-[20px]' onSubmit={submitCredentials}>
+      <form className='flex flex-col gap-[20px]' onSubmit={validateCredentials}>
         <TextInputGroup
           name='credentials-email'
           label='Email'
+          error={emailError}
           value={emailValue}
-          onChange={event => setEmailValue(event.target.value)}
+          onChange={handleEmailChange}
           inputType={TextInputGroup.inputType.TEXT}
           inputStyle={TextInputGroup.inputStyle.FULL}
           inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={TextInputGroup.inputColour.GREY}
+          inputColour={emailError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
         />
         <TextInputGroup
           name='credentials-password'
           label='Password'
+          error={passwordError}
           value={passwordValue}
-          onChange={event => setPasswordValue(event.target.value)}
+          onChange={handlePasswordChange}
           inputType={TextInputGroup.inputType.PASSWORD}
           inputStyle={TextInputGroup.inputStyle.FULL}
           inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={TextInputGroup.inputColour.GREY}
+          inputColour={passwordError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
         />
         <Button
           buttonType={Button.buttonType.SUBMIT}
