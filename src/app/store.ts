@@ -5,15 +5,13 @@ import {
 } from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
 
-import {counterReducer} from '../features/counter'
-import {kanyeReducer} from '../features/kanye'
+import modalReducer from 'features/modalSlice'
 
 import {jokeApi} from '../services/jokes'
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
-    kanyeQuote: kanyeReducer,
+    modal: modalReducer,
     // Add the generated reducer as a specific top-level slice
     [jokeApi.reducerPath]: jokeApi.reducer,
   },
