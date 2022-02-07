@@ -24,13 +24,16 @@ const CredentialsModal = () => {
 
   const validateCredentials = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!isValidEmail(emailValue)) {
+    const validEmail = isValidEmail(emailValue)
+    const validPassword = isValidPassword(passwordValue)
+
+    if (!validEmail) {
       emailValue.length === 0 ? setEmailError('Enter email') : setEmailError('Enter valid email')
     }
-    if (!isValidPassword(passwordValue)) {
+    if (!validPassword) {
       setPasswordError('Enter password')
     }
-    if (isValidEmail(emailValue) && isValidPassword(passwordValue)) {
+    if (validEmail && validPassword) {
       postCredentials()
     }
   }
