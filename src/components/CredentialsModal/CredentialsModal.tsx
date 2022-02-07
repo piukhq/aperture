@@ -5,12 +5,37 @@ import TextInputGroup from 'components/TextInputGroup'
 import {isValidEmail, isValidPassword} from 'utils/validation'
 import {useState} from 'react'
 
+import {usePostLoginQuery} from 'features/apiSlice'
+
+const loginDetails:any = {
+  email: 'lk_test1@bink.com',
+  password: 'Portals1',
+  client_id: 'kudr77sTA0t5cvleNquOFUMHl68NMcqoCqRWrjlc3ZO60NFI3s',
+  bundle_id: 'com.bink.portal.internal',
+}
 
 const CredentialsModal = () => {
+  const {
+    data: loginResponse,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = usePostLoginQuery(JSON.parse(JSON.stringify(loginDetails)))
+
   const [emailValue, setEmailValue] = useState('')
   const [emailError, setEmailError] = useState(null)
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordError, setPasswordError] = useState(null)
+
+  if (isLoading) {
+    console.log('Loading')
+  } else if (isSuccess) {
+    console.log(loginResponse)
+  } else if (isError) {
+    console.log(error)
+  }
+
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -35,8 +60,9 @@ const CredentialsModal = () => {
     }
   }
 
-  const postCredentials = () => { // Placeholder for future functionality
+  const postCredentials = async () => { // Placeholder for future functionality
     console.log(`Valid Credentials : Email: ${emailValue} Password: ${passwordValue}`)
+    // await
   }
 
   return (

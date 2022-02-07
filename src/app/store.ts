@@ -6,6 +6,7 @@ import {
 import {setupListeners} from '@reduxjs/toolkit/query'
 
 import modalReducer from 'features/modalSlice'
+import {apiSlice} from 'features/apiSlice'
 
 import {jokeApi} from '../services/jokes'
 
@@ -14,10 +15,11 @@ export const store = configureStore({
     modal: modalReducer,
     // Add the generated reducer as a specific top-level slice
     [jokeApi.reducerPath]: jokeApi.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(jokeApi.middleware),
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(apiSlice.middleware),
 })
 
 setupListeners(store.dispatch)
