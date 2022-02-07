@@ -35,8 +35,8 @@ const CredentialsModal = () => {
     }
   }
 
-  const postCredentials = () => {
-    console.log(` Placeholder for posting Valid Credentials : Email: ${emailValue} Password: ${passwordValue}`)
+  const postCredentials = () => { // Placeholder for future functionality
+    console.log(`Valid Credentials : Email: ${emailValue} Password: ${passwordValue}`)
   }
 
   return (
@@ -51,7 +51,7 @@ const CredentialsModal = () => {
           inputType={TextInputGroup.inputType.TEXT}
           inputStyle={TextInputGroup.inputStyle.FULL}
           inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={emailError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
+          inputColour={emailError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY} // TODO: If this is common logic for all inputs (including style guide) consider centralising logic into the component itself.
         />
         <TextInputGroup
           name='credentials-password'
