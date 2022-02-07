@@ -1,14 +1,33 @@
 import {useState} from 'react'
 import type {NextPage} from 'next'
 
-import {Button, ContentTile, PageLayout, PlansList} from 'components'
+import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 
+import {
+  useAppDispatch,
+  useAppSelector,
+} from 'app/hooks'
+
+import {
+  ModalType,
+  requestModal,
+  selectModal,
+} from 'features/modalSlice'
+
+
 const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic for determining if the user is verified or not. Update when verified and possibly componentise
+  const dispatch = useAppDispatch()
+  const modalRequested: ModalType = useAppSelector(selectModal)
 
   const [isVerified, setIsVerified] = useState(false)
+
+  const handleCredentialsButton = () => {
+    setIsVerified(prevState => !prevState) // TODO: Temporary mechanism to switch between states
+    dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
+  }
 
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center gap-4'>
@@ -29,11 +48,12 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
     </div>
   )
 
-
   return (
-    <PageLayout>
-      <div className='flex gap-[20px] h-[60px] justify-end'>
-        { isVerified &&
+    <>
+      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
+      <PageLayout>
+        <div className='flex gap-[20px] h-[60px] justify-end'>
+          { isVerified &&
           <>
             <PlansList />
             <Button
@@ -46,22 +66,23 @@ const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic fo
             > <CheckSvg/>Load Assets
             </Button>
           </>
-        }
-        <Button
-          handleClick={() => setIsVerified(prevState => !prevState)} // Placeholder validation switch
-          buttonSize={Button.buttonSize.MEDIUM_ICON}
-          buttonWidth={Button.buttonWidth.AUTO}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.MEDIUM}
-        > <SettingsSvg/>Credentials
-        </Button>
-      </div>
+          }
+          <Button
+            handleClick={handleCredentialsButton}
+            buttonSize={Button.buttonSize.MEDIUM_ICON}
+            buttonWidth={Button.buttonWidth.AUTO}
+            buttonBackground={Button.buttonBackground.BLUE}
+            labelColour={Button.labelColour.WHITE}
+            labelWeight={Button.labelWeight.MEDIUM}
+          > <SettingsSvg/>Credentials
+          </Button>
+        </div>
 
-      <ContentTile>
-        { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
-      </ContentTile>
-    </PageLayout>
+        <ContentTile>
+          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
+        </ContentTile>
+      </PageLayout>
+    </>
   )
 }
 

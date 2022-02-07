@@ -1,5 +1,6 @@
 export {default as Button} from './Button'
 export {default as ContentTile} from './ContentTile'
+export {default as CredentialsModal} from './CredentialsModal'
 export {default as Layout} from './Layout'
 export {default as Modal} from './Modal'
 export {default as PageLayout} from './PageLayout'

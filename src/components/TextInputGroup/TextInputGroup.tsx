@@ -65,7 +65,7 @@ const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = 
   },
   [InputColour.GREY]: {
     label: 'text-grey-500',
-    input: 'border-grey-500 border-b-grey-500',
+    input: 'border-grey-500 border-b-grey-500 text-grey-600',
   },
   [InputColour.DARK_GREY]: {
     label: 'text-grey-500',
@@ -96,13 +96,13 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.UNDERLINE_ICON_RIGHT]: {
     container: 'h-[58px]',
-    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-850 z-10',
     input: 'w-full h-[39px] pl-1 pr-10 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
     icon: 'absolute top-[8px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
-    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-grey-100 dark:bg-grey-850 z-10 tracking-[0px]',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-850 z-10 tracking-[0px]',
     input: 'w-full h-[37px] pr-10 pl-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
     icon: 'absolute top-[5px] right-[10px]',
   },
@@ -114,13 +114,13 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.FULL]: {
     container: 'h-[48px]',
-    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-850 text-2xs font-body bg-grey-100 dark:bg-grey-850 z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1  text-2xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
   [InputStyle.FULL_SMALL]: {
     container: 'h-[42px]',
-    label: 'absolute top-[-8px] left-[13px] px-1 dark:bg-grey-850 text-3xs font-body bg-grey-100 dark:bg-grey-850 z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1 dark:bg-grey-850 text-3xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -207,7 +207,7 @@ const TextInputGroup = (props: Props) => {
     value={value}
     onChange={onChange}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
@@ -223,7 +223,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' selected disabled hidden>{placeholder}</option>
+    <option value='' defaultValue={placeholder} disabled hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
