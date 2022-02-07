@@ -1,6 +1,6 @@
 // Placeholder for actual component outlined in PTL-59
 
-import TextInputGroup from 'components/TextInputGroup'
+import {TextInputGroup} from 'components'
 import SearchSvg from 'icons/svgs/search.svg'
 
 const PlansList = () => {

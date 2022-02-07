@@ -1,10 +1,5 @@
 import type {NextPage} from 'next'
-import Colours from 'components/StyleGuide/Colours'
-import Typography from 'components/StyleGuide/Typography'
-import Buttons from 'components/StyleGuide/Buttons'
-import FormElements from 'components/StyleGuide/FormElements'
-import MenuElements from 'components/StyleGuide/MenuElements'
-import TagsStatus from 'components/StyleGuide/TagsStatus'
+import {Buttons, Colours, FormElements, MenuElements, TagsStatus, Typography} from 'components/StyleGuide'
 
 const StyleGuidePage: NextPage = () => {
   const sectionClass = 'min-w-[1200px] w-full bg-grey-100 dark:bg-grey-825 p-12 flex flex-col gap-6 mb-12'
