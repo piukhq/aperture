@@ -1,10 +1,17 @@
 import React, {useState} from 'react'
-import {useGetRandomJokeQuery} from '../services/jokes'
-
+import {
+  useVerifyDevCredentialsQuery,
+  // useVerifyStagingCredentialsQuery
+} from 'services/verification'
 
 const Jokes = () => {
+  const requestBody = {
+    email: 'stevenson5@typicalfer.com',
+    password: 'Password1',
+  }
+
   const [skip, setSkip] = useState(true)
-  const {data, error, isLoading} = useGetRandomJokeQuery(null, {
+  const {data, error, isLoading} = useVerifyDevCredentialsQuery(requestBody, {
     skip, // Used to conditionally call fetch api
   })
 
