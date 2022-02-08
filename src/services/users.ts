@@ -1,6 +1,8 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {Url, ClientID, BundleID} from 'utils/enums'
 
+const endpointPrefix = '/users'
+
 type VerificationBody = {
   email: string,
   password: string,
@@ -12,14 +14,13 @@ type VerificationResponse = {
   uid: string,
 }
 
-// Define a service using a base URL and expected endpoints
-export const devLoginApi = createApi({
-  reducerPath: 'devLoginApi',
+export const devVerifyApi = createApi({
+  reducerPath: 'devVerifyApi',
   baseQuery: fetchBaseQuery({baseUrl: Url.DEV_BASE_URL}),
   endpoints: builder => ({
-    verifyDevCredentials: builder.query<VerificationResponse, VerificationBody>({
+    verifyDevCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
-        url: 'users/login',
+        url: `${endpointPrefix}/login`,
         method: 'POST',
         body: {
           email,
@@ -32,13 +33,13 @@ export const devLoginApi = createApi({
   }),
 })
 
-export const stagingLoginApi = createApi({
-  reducerPath: 'stagingLoginApi',
+export const stagingVerifyApi = createApi({
+  reducerPath: 'stagingVerifyApi',
   baseQuery: fetchBaseQuery({baseUrl: Url.STAGING_BASE_URL}),
   endpoints: builder => ({
-    verifyStagingCredentials: builder.query<VerificationResponse, VerificationBody>({
+    verifyStagingCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
-        url: 'users/login',
+        url: `${endpointPrefix}/login`,
         method: 'POST',
         body: {
           email,
@@ -54,5 +55,5 @@ export const stagingLoginApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const {useVerifyDevCredentialsQuery} = devLoginApi
-export const {useVerifyStagingCredentialsQuery} = stagingLoginApi
+export const {useVerifyDevCredentialsMutation} = devVerifyApi
+export const {useVerifyStagingCredentialsMutation} = stagingVerifyApi
