@@ -1,6 +1,8 @@
 FROM node:slim as deps
 WORKDIR /app
 COPY . .
+RUN apt-get update
+RUN apt-get install -y ca-certificates
 RUN yarn install --frozen-lockfile
 RUN yarn build
 
