@@ -245,7 +245,7 @@ const TextInputGroup = (props: Props) => {
       {svgIcon && <div className={INPUT_STYLE_MAPS[inputStyle].icon}>
         {svgIcon}
       </div>}
-      {error && <span className='w-24 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
+      {error && <span className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
         {error}
       </span>}
     </div>
