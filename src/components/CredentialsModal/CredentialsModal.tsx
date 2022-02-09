@@ -1,16 +1,22 @@
-import Button from 'components/Button'
-import Modal from 'components/Modal'
-import Tag from 'components/Tag'
-import TextInputGroup from 'components/TextInputGroup'
-import {isValidEmail, isValidPassword} from 'utils/validation'
-import {useState} from 'react'
+import {ReactNode, useState} from 'react'
+import {Button, Modal, Tag, TextInputGroup} from 'components'
+import {
+  useVerifyDevCredentialsMutation,
+  useVerifyStagingCredentialsMutation,
+} from 'services/users'
 
+import {isValidEmail, isValidPassword} from 'utils/validation'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
   const [emailError, setEmailError] = useState(null)
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordError, setPasswordError] = useState(null)
+
+  const [verifyDevCredentials, {error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
+  const [verifyStagingCredentials, {error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
+
+  const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -34,12 +40,33 @@ const CredentialsModal = () => {
       setPasswordError('Enter password')
     }
     if (validEmail && validPassword) {
-      postCredentials()
+      verifyDevCredentials({email: emailValue, password: passwordValue})
+      verifyStagingCredentials({email: emailValue, password: passwordValue})
     }
   }
 
-  const postCredentials = () => { // Placeholder for future functionality
-    console.log(`Valid Credentials : Email: ${emailValue} Password: ${passwordValue}`)
+  const determineStatusTag = (isStaging: boolean): ReactNode => {
+    let tagStyle = GREY_OUTLINE
+    let label = 'Unverified'
+
+    const [isSuccessful, isPending, isFailure] = isStaging
+      ? [stagingIsSuccess, stagingIsLoading, stagingError]
+      : [devIsSuccess, devIsLoading, devError]
+
+    if (isSuccessful) {
+      tagStyle = LIGHT_BLUE_OUTLINE
+      label = 'Verified'
+    } else if (isPending) {
+      tagStyle = YELLOW_OUTLINE
+      label = 'Pending'
+    } else if (isFailure) {
+      tagStyle = RED_OUTLINE
+      label = 'Failed'
+    }
+
+    return (
+      <Tag tagSize={Tag.tagSize.SMALL} tagStyle={tagStyle} label={label} />
+    )
   }
 
   return (
@@ -80,11 +107,11 @@ const CredentialsModal = () => {
       <div className='mt-[20px] w-[609px] h-[368px]'>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label={'Develop'}/>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
+          {determineStatusTag(false)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label={'Staging'}/>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
+          {determineStatusTag(true)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label={'Sandbox'}/>
