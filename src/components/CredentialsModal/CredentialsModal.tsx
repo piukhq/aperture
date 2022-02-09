@@ -6,6 +6,7 @@ import {
 } from 'services/users'
 
 import {isValidEmail, isValidPassword} from 'utils/validation'
+import {getVerificationToken, storeVerificationToken} from 'utils/storage'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -13,8 +14,8 @@ const CredentialsModal = () => {
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordError, setPasswordError] = useState(null)
 
-  const [verifyDevCredentials, {error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
-  const [verifyStagingCredentials, {error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
+  const [verifyDevCredentials, {data: devData, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
+  const [verifyStagingCredentials, {data: stagingData, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
 
   const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
@@ -45,17 +46,20 @@ const CredentialsModal = () => {
     }
   }
 
-  const determineStatusTag = (isStaging: boolean): ReactNode => {
+  const determineStatus = (isStaging: boolean): ReactNode => {
     let tagStyle = GREY_OUTLINE
     let label = 'Unverified'
 
-    const [isSuccessful, isPending, isFailure] = isStaging
-      ? [stagingIsSuccess, stagingIsLoading, stagingError]
-      : [devIsSuccess, devIsLoading, devError]
+    const [data, isSuccessful, isPending, isFailure] = isStaging
+      ? [stagingData, stagingIsSuccess, stagingIsLoading, stagingError]
+      : [devData, devIsSuccess, devIsLoading, devError]
 
-    if (isSuccessful) {
+    const hasVerificationToken = getVerificationToken(isStaging)
+
+    if (isSuccessful || hasVerificationToken) {
       tagStyle = LIGHT_BLUE_OUTLINE
       label = 'Verified'
+      !hasVerificationToken && storeVerificationToken(data.api_key, isStaging)
     } else if (isPending) {
       tagStyle = YELLOW_OUTLINE
       label = 'Pending'
@@ -107,11 +111,11 @@ const CredentialsModal = () => {
       <div className='mt-[20px] w-[609px] h-[368px]'>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label={'Develop'}/>
-          {determineStatusTag(false)}
+          {determineStatus(false)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label={'Staging'}/>
-          {determineStatusTag(true)}
+          {determineStatus(true)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label={'Sandbox'}/>
