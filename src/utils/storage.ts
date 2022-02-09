@@ -11,7 +11,6 @@ const isAnyVerificationTokenStored = () => {
   return VerificationTokens.some(token => token !== null)
 }
 
-
 const removeVerificationToken = (isStaging:boolean) => {
   return localStorage.removeItem(getVerificationTokenName(isStaging))
 }
