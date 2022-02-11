@@ -1,4 +1,4 @@
-import {ReactNode, useState} from 'react'
+import {ReactNode, useEffect, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import {
   useVerifyDevCredentialsMutation,
@@ -6,7 +6,12 @@ import {
 } from 'services/users'
 
 import {isValidEmail, isValidPassword} from 'utils/validation'
-import {getVerificationToken, storeVerificationToken} from 'utils/storage'
+import {
+  getDevVerificationToken,
+  getStagingVerificationToken,
+  setDevVerificationToken,
+  setStagingVerificationToken,
+} from 'utils/storage'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -18,6 +23,15 @@ const CredentialsModal = () => {
   const [verifyStagingCredentials, {data: stagingData, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
 
   const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
+
+  useEffect(() => {
+    if (devData && !getDevVerificationToken()) {
+      setDevVerificationToken(devData.api_key)
+    }
+    if (stagingData && !getStagingVerificationToken()) {
+      setStagingVerificationToken(stagingData.api_key)
+    }
+  }, [stagingData, devData])
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -46,20 +60,19 @@ const CredentialsModal = () => {
     }
   }
 
-  const determineStatus = (isStaging: boolean): ReactNode => {
+  const determineStatusTag = (isStaging: boolean): ReactNode => {
     let tagStyle = GREY_OUTLINE
     let label = 'Unverified'
 
-    const [data, isSuccessful, isPending, isFailure] = isStaging
+    const [isSuccessful, isPending, isFailure] = isStaging
       ? [stagingData, stagingIsSuccess, stagingIsLoading, stagingError]
       : [devData, devIsSuccess, devIsLoading, devError]
 
-    const hasVerificationToken = getVerificationToken(isStaging)
+    const hasVerificationToken = isStaging ? getStagingVerificationToken() : getDevVerificationToken()
 
     if (isSuccessful || hasVerificationToken) {
       tagStyle = LIGHT_BLUE_OUTLINE
       label = 'Verified'
-      !hasVerificationToken && storeVerificationToken(data.api_key, isStaging)
     } else if (isPending) {
       tagStyle = YELLOW_OUTLINE
       label = 'Pending'
@@ -111,11 +124,11 @@ const CredentialsModal = () => {
       <div className='mt-[20px] w-[609px] h-[368px]'>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label={'Develop'}/>
-          {determineStatus(false)}
+          {determineStatusTag(false)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label={'Staging'}/>
-          {determineStatus(true)}
+          {determineStatusTag(true)}
         </div>
         <div className='flex justify-between py-[27px]'>
           <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label={'Sandbox'}/>

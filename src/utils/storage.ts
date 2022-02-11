@@ -1,23 +1,26 @@
-const getVerificationTokenName = (isStaging) => {
-  return isStaging ? 'stagingVerificationToken' : 'devVerificationToken'
-}
+import {VerificationToken} from 'utils/enums'
 
-const getVerificationToken = (isStaging:boolean) => {
-  return localStorage.getItem(getVerificationTokenName(isStaging))
-}
+const isAnyVerificationTokenStored = () => [
+  getDevVerificationToken(),
+  getStagingVerificationToken(),
+].some(token => token !== null)
 
-const isAnyVerificationTokenStored = () => {
-  const VerificationTokens = [false, true].map(isStaging => getVerificationToken(isStaging))
-  return VerificationTokens.some(token => token !== null)
-}
 
-const removeVerificationToken = (isStaging:boolean) => {
-  return localStorage.removeItem(getVerificationTokenName(isStaging))
-}
+const getDevVerificationToken = () => localStorage.getItem(VerificationToken.DEV_VERIFICATION_TOKEN)
+const deleteDevVerificationToken = () => localStorage.removeItem(VerificationToken.DEV_VERIFICATION_TOKEN)
+const setDevVerificationToken = (apiKey: string) => localStorage.setItem(VerificationToken.DEV_VERIFICATION_TOKEN, apiKey)
 
-const storeVerificationToken = (VerificationToken: string, isStaging: boolean) => {
-  if (VerificationToken !== getVerificationToken(isStaging)) {
-    localStorage.setItem(getVerificationTokenName(isStaging), VerificationToken)
-  }
+const getStagingVerificationToken = () => localStorage.getItem(VerificationToken.STAGING_VERIFICATION_TOKEN)
+const deleteStagingVerificationToken = () => localStorage.removeItem(VerificationToken.STAGING_VERIFICATION_TOKEN)
+const setStagingVerificationToken = (apiKey: string) => localStorage.setItem(VerificationToken.STAGING_VERIFICATION_TOKEN, apiKey)
+
+
+export {
+  isAnyVerificationTokenStored,
+  getDevVerificationToken,
+  setDevVerificationToken,
+  deleteDevVerificationToken,
+  getStagingVerificationToken,
+  setStagingVerificationToken,
+  deleteStagingVerificationToken,
 }
-export {getVerificationToken, isAnyVerificationTokenStored, storeVerificationToken, removeVerificationToken}
