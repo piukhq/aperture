@@ -25,13 +25,12 @@ const CredentialsModal = () => {
   const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
   useEffect(() => {
-    if (devData && !getDevVerificationToken()) {
-      setDevVerificationToken(devData.api_key)
-    }
-    if (stagingData && !getStagingVerificationToken()) {
-      setStagingVerificationToken(stagingData.api_key)
-    }
-  }, [stagingData, devData])
+    devData && !getDevVerificationToken() && setDevVerificationToken(devData.api_key)
+  }, [devData])
+
+  useEffect(() => {
+    stagingData && !getStagingVerificationToken() && setStagingVerificationToken(stagingData.api_key)
+  }, [stagingData])
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
