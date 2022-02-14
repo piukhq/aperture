@@ -24,7 +24,7 @@ const AssetComparatorPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   useEffect(() => {
-    setIsVerified(isAnyVerificationTokenStored) // TODO: How likely is a bad/fake/expired token? Should we be checking these tokens are actually valid via the API? If so, best to hide the extra UI that won't work and direct them to verify again.
+    setIsVerified(isAnyVerificationTokenStored)
   }, [modalRequested])
 
   const handleCredentialsButton = () => {

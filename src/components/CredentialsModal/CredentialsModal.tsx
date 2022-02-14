@@ -1,19 +1,13 @@
-import {ReactNode, useEffect, useState} from 'react'
+import {ReactNode, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 
-import {useVerificationHook} from 'hooks/useVerificationHook'
+import {useVerificationHook} from './hooks/useVerificationHook'
 
-// import {
-//   useVerifyDevCredentialsMutation,
-//   useVerifyStagingCredentialsMutation,
-// } from 'services/users'
 
 import {isValidEmail, isValidPassword} from 'utils/validation'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
-  setDevVerificationToken,
-  setStagingVerificationToken,
 } from 'utils/storage'
 
 const CredentialsModal = () => {
@@ -33,18 +27,8 @@ const CredentialsModal = () => {
     stagingIsSuccess,
   } = useVerificationHook()
 
-  // const [verifyDevCredentials, {data: devData, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
-  // const [verifyStagingCredentials, {data: stagingData, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
 
   const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
-
-  useEffect(() => {
-    devData && !getDevVerificationToken() && setDevVerificationToken(devData.api_key)
-  }, [devData])
-
-  useEffect(() => {
-    stagingData && !getStagingVerificationToken() && setStagingVerificationToken(stagingData.api_key)
-  }, [stagingData])
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -78,8 +62,8 @@ const CredentialsModal = () => {
     let label = 'Unverified'
 
     const [isSuccessful, isPending, isFailure] = isStaging
-      ? [stagingData, stagingIsSuccess, stagingIsLoading, stagingError]
-      : [devData, devIsSuccess, devIsLoading, devError]
+      ? [stagingIsSuccess, stagingIsLoading, stagingError]
+      : [devIsSuccess, devIsLoading, devError]
 
     const hasVerificationToken = isStaging ? getStagingVerificationToken() : getDevVerificationToken()
 
