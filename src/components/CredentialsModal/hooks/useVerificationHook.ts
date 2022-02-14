@@ -18,7 +18,6 @@ export const useVerificationHook = () => {
   // If new token is available and there is no current token in local storage, store in local storage
   useEffect(() => {
     if (devData && !getDevVerificationToken()) {
-      console.log('dev')
       setDevVerificationToken(devData.api_key)
     }
   }, [devData])
