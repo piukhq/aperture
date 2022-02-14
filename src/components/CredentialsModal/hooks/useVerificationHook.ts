@@ -17,13 +17,14 @@ export const useVerificationHook = () => {
 
   // If new token is available and there is no current token in local storage, store in local storage
   useEffect(() => {
-    if (devData && getDevVerificationToken()) {
+    if (devData && !getDevVerificationToken()) {
+      console.log('dev')
       setDevVerificationToken(devData.api_key)
     }
   }, [devData])
 
   useEffect(() => {
-    if (stagingData && getStagingVerificationToken()) {
+    if (stagingData && !getStagingVerificationToken()) {
       setStagingVerificationToken(stagingData.api_key)
     }
   }, [stagingData])

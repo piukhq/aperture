@@ -3,7 +3,6 @@ import {Button, Modal, Tag, TextInputGroup} from 'components'
 
 import {useVerificationHook} from './hooks/useVerificationHook'
 
-
 import {isValidEmail, isValidPassword} from 'utils/validation'
 import {
   getDevVerificationToken,
@@ -26,7 +25,6 @@ const CredentialsModal = () => {
     devIsSuccess,
     stagingIsSuccess,
   } = useVerificationHook()
-
 
   const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
