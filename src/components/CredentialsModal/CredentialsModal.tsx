@@ -50,8 +50,8 @@ const CredentialsModal = () => {
       setPasswordError('Enter password')
     }
     if (validEmail && validPassword) {
-      verifyDevCredentials({email: emailValue, password: passwordValue})
-      verifyStagingCredentials({email: emailValue, password: passwordValue})
+      !getDevVerificationToken() && verifyDevCredentials({email: emailValue, password: passwordValue})
+      !getStagingVerificationToken() && verifyStagingCredentials({email: emailValue, password: passwordValue})
     }
   }
 

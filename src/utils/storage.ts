@@ -1,6 +1,6 @@
 import {VerificationToken} from 'utils/enums'
 
-const isAnyVerificationTokenStored = () => [
+const areAnyVerificationTokensStored = () => [
   getDevVerificationToken(),
   getStagingVerificationToken(),
 ].some(token => token !== null)
@@ -16,7 +16,7 @@ const setStagingVerificationToken = (apiKey: string) => localStorage.setItem(Ver
 
 
 export {
-  isAnyVerificationTokenStored,
+  areAnyVerificationTokensStored,
   getDevVerificationToken,
   setDevVerificationToken,
   removeDevVerificationToken,
