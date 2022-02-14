@@ -20,4 +20,12 @@ const storeVerificationToken = (VerificationToken: string, isStaging: boolean) =
     localStorage.setItem(getVerificationTokenName(isStaging), VerificationToken)
   }
 }
-export {getVerificationToken, isAnyVerificationTokenStored, storeVerificationToken, removeVerificationToken}
+
+const storeDevToken = (VerificationToken: string) => {
+  localStorage.setItem('devVerificationToken', VerificationToken)
+}
+
+const storeStagingToken = (VerificationToken: string) => {
+  localStorage.setItem('stagingVerificationToken', VerificationToken)
+}
+export {getVerificationToken, isAnyVerificationTokenStored, storeVerificationToken, removeVerificationToken, storeDevToken, storeStagingToken}
