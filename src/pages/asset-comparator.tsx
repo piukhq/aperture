@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import type {NextPage} from 'next'
-import {isAnyVerificationTokenStored} from 'utils/storage'
+import {areAnyVerificationTokensStored} from 'utils/storage'
 
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 
@@ -24,7 +24,7 @@ const AssetComparatorPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   useEffect(() => {
-    setIsVerified(isAnyVerificationTokenStored)
+    setIsVerified(areAnyVerificationTokensStored)
   }, [modalRequested])
 
   const handleCredentialsButton = () => {
