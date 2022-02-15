@@ -86,7 +86,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     container: 'h-[48px]',
     label: 'hidden',
     input: 'w-full h-[48px] pl-9 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
+    icon: 'absolute top-[12px] left-[1px] w-[25px] h-[15px]',
   },
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
@@ -207,7 +207,7 @@ const TextInputGroup = (props: Props) => {
     value={value}
     onChange={onChange}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 placeholder-grey-500',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
@@ -223,7 +223,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' defaultValue={placeholder} disabled hidden>{placeholder}</option>
+    <option value={placeholder} disabled hidden></option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
