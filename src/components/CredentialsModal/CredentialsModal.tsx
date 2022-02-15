@@ -26,7 +26,7 @@ const CredentialsModal = () => {
     stagingIsSuccess,
   } = useVerificationHook()
 
-  const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
+  const {AQUAMARINE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -66,7 +66,7 @@ const CredentialsModal = () => {
     const hasVerificationToken = isStaging ? getStagingVerificationToken() : getDevVerificationToken()
 
     if (isSuccessful || hasVerificationToken) {
-      tagStyle = LIGHT_BLUE_OUTLINE
+      tagStyle = AQUAMARINE_OUTLINE
       label = 'Verified'
     } else if (isPending) {
       tagStyle = YELLOW_OUTLINE

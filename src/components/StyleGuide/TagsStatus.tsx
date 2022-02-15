@@ -61,7 +61,7 @@ const TagsStatus = ({sectionClass}: Props) => {
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>STATUS 2</h4>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.LIGHT_BLUE_OUTLINE} label='Verified' />
+          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.AQUAMARINE_OUTLINE} label='Verified' />
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.YELLOW_OUTLINE} label='Pending' />
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
           <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.RED_OUTLINE} label='Failed' />
