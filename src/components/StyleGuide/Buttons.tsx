@@ -1,4 +1,4 @@
-import {Button} from 'components'
+import Button from 'components/Button'
 import WriteSvg from 'icons/svgs/write.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
@@ -11,7 +11,7 @@ type Props = {
 const Buttons = ({sectionClass}: Props) => {
   return (
     <section className={sectionClass}>
-      <h2 className='font-heading-2'>Buttons</h2>
+      <h2 className='font-heading-3'>Buttons</h2>
       <div className='grid grid-cols-2 gap-4 pt-4 items-center'>
         <div className='flex flex-col'>
           <h4 className='font-heading-6 text-grey-600'>PRIMARY</h4>
@@ -232,7 +232,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonSize={Button.buttonSize.SMALL_BODY_FONT}
                 buttonWidth={Button.buttonWidth.MEDIUM}
                 borderColour={Button.borderColour.GREY}
-                labelColour={Button.labelColour.GREY}
+                labelColour={Button.labelColour.LIGHT_GREY}
                 labelWeight={Button.labelWeight.REGULAR}
               > Secondary
               </Button>
@@ -249,7 +249,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonSize={Button.buttonSize.LARGE}
                 buttonWidth={Button.buttonWidth.LARGE}
                 buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.GREY}
+                labelColour={Button.labelColour.DARK_GREY}
               > <WriteSvg/> Write Message
               </Button>
               <Button
@@ -266,7 +266,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonSize={Button.buttonSize.MEDIUM_ICON}
                 buttonWidth={Button.buttonWidth.ICON_TEXT}
                 buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
+                labelColour={Button.labelColour.DARK_GREY}
                 labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
               > <PlusSvg fill='#b5b5be'/> New
               </Button>

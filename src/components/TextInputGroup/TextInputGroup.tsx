@@ -50,8 +50,8 @@ const INPUT_TYPE_MAPS: Record<InputType, string> = {
 
 const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
   [InputWidth.FULL]: 'w-full',
-  [InputWidth.LARGE]: 'w-[500px]',
-  [InputWidth.MEDIUM]: 'w-[260px]',
+  [InputWidth.LARGE]: 'w-[485px]',
+  [InputWidth.MEDIUM]: 'w-[240px]',
 }
 
 const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = {

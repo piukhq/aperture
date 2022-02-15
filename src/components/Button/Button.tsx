@@ -36,6 +36,7 @@ enum LabelColour {
   WHITE,
   BLUE,
   RED,
+  LIGHT_GREY,
   GREY,
   DARK_GREY,
 }
@@ -68,8 +69,8 @@ const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
 }
 const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.FULL]: 'w-full',
-  [ButtonWidth.LARGE]: 'w-[240px]',
-  [ButtonWidth.MEDIUM]: 'w-[120px] px-2',
+  [ButtonWidth.LARGE]: 'w-[230px]',
+  [ButtonWidth.MEDIUM]: 'w-[121px] px-2',
   [ButtonWidth.AUTO]: 'w-max px-3',
   [ButtonWidth.ICON_TEXT]: 'w-[86px] px-2',
   [ButtonWidth.ICON_ONLY]: 'w-[38px]',
@@ -82,9 +83,10 @@ const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
 }
 const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
-  [LabelColour.WHITE]: 'text-white',
+  [LabelColour.WHITE]: 'text-grey-100',
   [LabelColour.BLUE]: 'text-blue',
   [LabelColour.RED]: 'text-red',
+  [LabelColour.LIGHT_GREY]: 'text-grey-600',
   [LabelColour.GREY]: 'text-grey-700',
   [LabelColour.DARK_GREY]: 'text-grey-800',
 }
