@@ -3,7 +3,8 @@ import {classNames} from 'utils/classNames'
 
 enum TagSize {
   MEDIUM,
-  SMALL
+  SMALL,
+  MINI
 }
 
 enum TagStyle {
@@ -21,6 +22,7 @@ enum TagStyle {
 const TAG_SIZE_MAPS: Record<TagSize, string> = {
   [TagSize.MEDIUM]: 'h-[38px] w-[129px]',
   [TagSize.SMALL]: 'h-[38px] w-[93px]',
+  [TagSize.MINI]: 'h-[36px] w-[36px]',
 }
 
 const TAG_STYLE_MAPS: Record<TagStyle, string> = {
@@ -38,19 +40,22 @@ const TAG_STYLE_MAPS: Record<TagStyle, string> = {
 type Props = {
   tagSize: TagSize,
   tagStyle: TagStyle,
-  label: string,
+  label?: string,
+  children?: React.ReactNode,
 }
 
 const Tag = (props: Props) => {
-  const {tagSize, tagStyle, label} = props
-
+  const {tagSize, tagStyle, label, children} = props
   return (
     <div className={classNames(
       'flex items-center justify-center rounded-[10px]',
       TAG_SIZE_MAPS[tagSize],
       TAG_STYLE_MAPS[tagStyle],
     )}>
-      <p className={'text-sm font-heading font-medium tracking-[.1px]'}>{label}</p>
+      {label && (
+        <p className={'text-sm font-heading font-medium tracking-[.1px]'}>{label}</p>
+      )}
+      {children}
     </div>
   )
 }
@@ -58,4 +63,6 @@ const Tag = (props: Props) => {
 Tag.tagSize = TagSize
 Tag.tagStyle = TagStyle
 
+// TODO: This component should be memoized so as to avoid unnecessary re-renders
+// Must look into a component refactor to accomodate this
 export default Tag
