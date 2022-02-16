@@ -3,7 +3,7 @@ import {classNames} from 'utils/classNames'
 
 enum TagSize {
   MEDIUM,
-  SMALL
+  SMALL,
 }
 
 enum TagStyle {
@@ -43,7 +43,6 @@ type Props = {
 
 const Tag = (props: Props) => {
   const {tagSize, tagStyle, label} = props
-
   return (
     <div className={classNames(
       'flex items-center justify-center rounded-[10px]',
@@ -58,4 +57,6 @@ const Tag = (props: Props) => {
 Tag.tagSize = TagSize
 Tag.tagStyle = TagStyle
 
+// TODO: This component should be memoized so as to avoid unnecessary re-renders
+// Must look into a component refactor to accomodate this
 export default Tag

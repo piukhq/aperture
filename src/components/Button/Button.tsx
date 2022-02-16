@@ -102,7 +102,7 @@ const BORDER_COLOUR_MAPS: Record<BorderColour, string> = {
 
 export interface ButtonProps {
   buttonType?: ButtonType,
-  buttonSize: ButtonSize,
+  buttonSize?: ButtonSize,
   buttonWidth: ButtonWidth,
   buttonBackground?: ButtonBackground,
   labelColour?: LabelColour,

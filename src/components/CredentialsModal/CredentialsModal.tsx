@@ -1,13 +1,15 @@
 import {ReactNode, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
-
+import VerificationTag from './components/VerificationTag'
 import {useVerificationHook} from './hooks/useVerificationHook'
-
-import {isValidEmail, isValidPassword} from 'utils/validation'
+import {EnvironmentName} from 'utils/enums'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
+  removeDevVerificationToken,
+  removeStagingVerificationToken,
 } from 'utils/storage'
+import {isValidEmail, isValidPassword} from 'utils/validation'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -18,15 +20,27 @@ const CredentialsModal = () => {
   const {
     verifyDevCredentials,
     verifyStagingCredentials,
+    devIsSuccess,
+    stagingIsSuccess,
     devError,
     stagingError,
     devIsLoading,
     stagingIsLoading,
-    devIsSuccess,
-    stagingIsSuccess,
   } = useVerificationHook()
 
-  const {AQUAMARINE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
+  const {
+    AQUAMARINE_FILLED,
+    YELLOW_FILLED,
+    LIGHT_BLUE_FILLED,
+    RED_FILLED,
+  } = Tag.tagStyle
+
+  const ENVIRONMENT_TAG_MAPS = {
+    'DEV': AQUAMARINE_FILLED,
+    'STAGING': YELLOW_FILLED,
+    'SANDBOX': LIGHT_BLUE_FILLED,
+    'PROD': RED_FILLED,
+  }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -55,30 +69,36 @@ const CredentialsModal = () => {
     }
   }
 
-  const determineStatusTag = (isStaging: boolean): ReactNode => {
-    let tagStyle = GREY_OUTLINE
-    let label = 'Unverified'
+  const renderVerificationTag = (envKey: string): ReactNode => {
+    let isSuccessful, isPending, isFailure, hasVerificationToken, removeVerificationToken
 
-    const [isSuccessful, isPending, isFailure] = isStaging
-      ? [stagingIsSuccess, stagingIsLoading, stagingError]
-      : [devIsSuccess, devIsLoading, devError]
-
-    const hasVerificationToken = isStaging ? getStagingVerificationToken() : getDevVerificationToken()
-
-    if (isSuccessful || hasVerificationToken) {
-      tagStyle = AQUAMARINE_OUTLINE
-      label = 'Verified'
-    } else if (isPending) {
-      tagStyle = YELLOW_OUTLINE
-      label = 'Pending'
-    } else if (isFailure) {
-      tagStyle = RED_OUTLINE
-      label = 'Failed'
+    // TODO: Should refactor to avoid nasty bulky if/else functions
+    if (envKey === 'DEV') {
+      [isSuccessful, isPending, isFailure] = [devIsSuccess, devIsLoading, devError]
+      hasVerificationToken = isSuccessful || getDevVerificationToken() !== null
+      removeVerificationToken = removeDevVerificationToken
+    } else if (envKey === 'STAGING') {
+      [isSuccessful, isPending, isFailure] = [stagingIsSuccess, stagingIsLoading, stagingError]
+      hasVerificationToken = isSuccessful || getStagingVerificationToken() !== null
+      removeVerificationToken = removeStagingVerificationToken
     }
 
-    return (
-      <Tag tagSize={Tag.tagSize.SMALL} tagStyle={tagStyle} label={label} />
-    )
+    const verificationProps = {
+      isPending, isFailure, hasVerificationToken, removeVerificationToken,
+    }
+
+    return <VerificationTag {...verificationProps} />
+  }
+
+  const renderTags = () => {
+    return Object.keys(EnvironmentName).map((envKey) => {
+      return (
+        <div key={envKey} className='flex justify-between py-[27px]'>
+          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={ENVIRONMENT_TAG_MAPS[envKey]} label={EnvironmentName[envKey]}/>
+          {renderVerificationTag(envKey)}
+        </div>
+      )
+    })
   }
 
   return (
@@ -117,22 +137,7 @@ const CredentialsModal = () => {
         </Button>
       </form>
       <div className='mt-[20px] w-[609px] h-[368px]'>
-        <div className='flex justify-between py-[27px]'>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label={'Develop'}/>
-          {determineStatusTag(false)}
-        </div>
-        <div className='flex justify-between py-[27px]'>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label={'Staging'}/>
-          {determineStatusTag(true)}
-        </div>
-        <div className='flex justify-between py-[27px]'>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label={'Sandbox'}/>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
-        </div>
-        <div className='flex justify-between py-[27px]'>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.RED_FILLED} label={'Production'}/>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
-        </div>
+        {renderTags()}
       </div>
       <p className='font-subheading-4 text-center'>If you are struggling to verify credentials, email cmorrow@bink.com for support</p>
     </Modal>
