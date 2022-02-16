@@ -19,25 +19,35 @@ import {
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
+  const [isUnverified, setIsUnverified] = useState(false)
+  const [isInitialPageLoad, setIsInitialPageLoad] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   useGetPlansHook()
 
   useEffect(() => {
-    setIsVerified(areAnyVerificationTokensStored)
+    const hasTokens = areAnyVerificationTokensStored()
+    setIsVerified(hasTokens)
+    setIsUnverified(!hasTokens)
   }, [modalRequested])
 
   const handleCredentialsButton = () => {
     dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
   }
 
-  const renderUnverifiedLanding = () => (
-    <div className='mt-[115px] flex flex-col items-center gap-4'>
-      <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
-      <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
-    </div>
-  )
+  const renderUnverifiedLanding = () => {
+    if (isInitialPageLoad) {
+      dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
+      setIsInitialPageLoad(false)
+    }
+    return (
+      <div className='mt-[115px] flex flex-col items-center gap-4'>
+        <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
+        <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
+      </div>
+    )
+  }
 
   const renderVerifiedLanding = () => (
     <div className='grid grid-cols-5 w-full text-center'>
@@ -82,7 +92,8 @@ const AssetComparatorPage: NextPage = () => {
         </div>
 
         <ContentTile>
-          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
+          { isVerified && renderVerifiedLanding()}
+          { isUnverified && renderUnverifiedLanding()}
         </ContentTile>
       </PageLayout>
     </>
