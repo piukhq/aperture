@@ -49,17 +49,19 @@ const AssetComparatorPage: NextPage = () => {
     )
   }
 
-  const renderVerifiedLanding = () => (
-    <div className='grid grid-cols-5 w-full text-center'>
-      <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
-        <span></span>
-        {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-          <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
-        ))}
-      </span>
-      <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-    </div>
-  )
+  const renderVerifiedLanding = () => {
+    isInitialPageLoad && setIsInitialPageLoad(false)
+    return (
+      <div className='grid grid-cols-5 w-full text-center'>
+        <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+          <span></span>
+          {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+            <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+          ))}
+        </span>
+        <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+      </div>
+    ) }
 
   return (
     <>
