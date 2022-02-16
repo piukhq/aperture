@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react'
+import React, {ReactNode, useState} from 'react'
 import {classNames} from 'utils/classNames'
 
 enum InputType {
@@ -56,7 +56,7 @@ const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
 
 const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = {
   [InputColour.BLUE]: {
-    label: 'text-blue',
+    label: 'text-lightBlue',
     input: 'border-lightBlue border-b-lightBlue',
   },
   [InputColour.RED]: {
@@ -196,9 +196,13 @@ const TextInputGroup = (props: Props) => {
     onChange,
   } = props
 
+  const [isFocused, setIsFocused] = useState(false)
+
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
   const renderInputElement = () => <input
+    onFocus={() => setIsFocused(true)}
+    onBlur={() => setIsFocused(false)}
     type={INPUT_TYPE_MAPS[inputType]}
     autoComplete='on'
     name={name}
@@ -207,7 +211,7 @@ const TextInputGroup = (props: Props) => {
     value={value}
     onChange={onChange}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
@@ -228,7 +232,6 @@ const TextInputGroup = (props: Props) => {
     <option>Example Option 2</option>
   </select>
 
-
   return (
     <div className={classNames(
       'relative',
@@ -238,6 +241,7 @@ const TextInputGroup = (props: Props) => {
       <label className={classNames(
         INPUT_STYLE_MAPS[inputStyle].label,
         isOutlineStyle && INPUT_COLOUR_MAPS[inputColour].label,
+        isFocused && 'text-lightBlue',
       )} >
         {label}
       </label>
