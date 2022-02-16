@@ -227,13 +227,10 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option defaultValue={placeholder} disabled hidden>{placeholder}</option>
+    <option value='' defaultValue={placeholder} disabled hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
-
-  console.log(INPUT_COLOUR_MAPS[inputColour].input)
-  console.log(INPUT_STYLE_MAPS[inputStyle].input)
 
   return (
     <div className={classNames(
