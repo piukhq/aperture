@@ -196,13 +196,13 @@ const TextInputGroup = (props: Props) => {
     onChange,
   } = props
 
-  const [isFocused, seIsFocused] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
   const renderInputElement = () => <input
-    onFocus={() => seIsFocused(true)}
-    onBlur={() => seIsFocused(false)}
+    onFocus={() => setIsFocused(true)}
+    onBlur={() => setIsFocused(false)}
     type={INPUT_TYPE_MAPS[inputType]}
     autoComplete='on'
     name={name}
