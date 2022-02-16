@@ -1,11 +1,13 @@
 import {ReactNode, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
-import {
-  useVerifyDevCredentialsMutation,
-  useVerifyStagingCredentialsMutation,
-} from 'services/users'
+
+import {useVerificationHook} from './hooks/useVerificationHook'
 
 import {isValidEmail, isValidPassword} from 'utils/validation'
+import {
+  getDevVerificationToken,
+  getStagingVerificationToken,
+} from 'utils/storage'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -13,10 +15,18 @@ const CredentialsModal = () => {
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordError, setPasswordError] = useState(null)
 
-  const [verifyDevCredentials, {error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
-  const [verifyStagingCredentials, {error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
+  const {
+    verifyDevCredentials,
+    verifyStagingCredentials,
+    devError,
+    stagingError,
+    devIsLoading,
+    stagingIsLoading,
+    devIsSuccess,
+    stagingIsSuccess,
+  } = useVerificationHook()
 
-  const {LIGHT_BLUE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
+  const {AQUAMARINE_OUTLINE, YELLOW_OUTLINE, RED_OUTLINE, GREY_OUTLINE} = Tag.tagStyle
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailError(null)
@@ -40,8 +50,8 @@ const CredentialsModal = () => {
       setPasswordError('Enter password')
     }
     if (validEmail && validPassword) {
-      verifyDevCredentials({email: emailValue, password: passwordValue})
-      verifyStagingCredentials({email: emailValue, password: passwordValue})
+      !getDevVerificationToken() && verifyDevCredentials({email: emailValue, password: passwordValue})
+      !getStagingVerificationToken() && verifyStagingCredentials({email: emailValue, password: passwordValue})
     }
   }
 
@@ -53,8 +63,10 @@ const CredentialsModal = () => {
       ? [stagingIsSuccess, stagingIsLoading, stagingError]
       : [devIsSuccess, devIsLoading, devError]
 
-    if (isSuccessful) {
-      tagStyle = LIGHT_BLUE_OUTLINE
+    const hasVerificationToken = isStaging ? getStagingVerificationToken() : getDevVerificationToken()
+
+    if (isSuccessful || hasVerificationToken) {
+      tagStyle = AQUAMARINE_OUTLINE
       label = 'Verified'
     } else if (isPending) {
       tagStyle = YELLOW_OUTLINE

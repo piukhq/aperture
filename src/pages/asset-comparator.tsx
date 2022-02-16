@@ -1,5 +1,6 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import type {NextPage} from 'next'
+import {areAnyVerificationTokensStored} from 'utils/storage'
 
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 
@@ -17,15 +18,16 @@ import {
   selectModal,
 } from 'features/modalSlice'
 
-
-const AssetComparatorPage: NextPage = () => { // TODO: Uses placeholder logic for determining if the user is verified or not. Update when verified and possibly componentise
+const AssetComparatorPage: NextPage = () => {
+  const [isVerified, setIsVerified] = useState(false)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
-  const [isVerified, setIsVerified] = useState(false)
+  useEffect(() => {
+    setIsVerified(areAnyVerificationTokensStored)
+  }, [modalRequested])
 
   const handleCredentialsButton = () => {
-    setIsVerified(prevState => !prevState) // TODO: Temporary mechanism to switch between states
     dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
   }
 

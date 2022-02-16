@@ -13,4 +13,9 @@ enum BundleID {
   STAGING_BUNDLE_ID = 'com.bink.portal.internal',
 }
 
-export {Url, ClientID, BundleID}
+enum VerificationToken {
+  DEV_VERIFICATION_TOKEN = 'devVerificationToken',
+  STAGING_VERIFICATION_TOKEN = 'stagingVerificationToken',
+}
+
+export {Url, ClientID, BundleID, VerificationToken}
