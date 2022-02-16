@@ -4,7 +4,6 @@ import {classNames} from 'utils/classNames'
 enum TagSize {
   MEDIUM,
   SMALL,
-  MINI
 }
 
 enum TagStyle {
@@ -22,7 +21,6 @@ enum TagStyle {
 const TAG_SIZE_MAPS: Record<TagSize, string> = {
   [TagSize.MEDIUM]: 'h-[38px] w-[129px]',
   [TagSize.SMALL]: 'h-[38px] w-[93px]',
-  [TagSize.MINI]: 'h-[36px] w-[36px]',
 }
 
 const TAG_STYLE_MAPS: Record<TagStyle, string> = {
@@ -40,22 +38,18 @@ const TAG_STYLE_MAPS: Record<TagStyle, string> = {
 type Props = {
   tagSize: TagSize,
   tagStyle: TagStyle,
-  label?: string,
-  children?: React.ReactNode,
+  label: string,
 }
 
 const Tag = (props: Props) => {
-  const {tagSize, tagStyle, label, children} = props
+  const {tagSize, tagStyle, label} = props
   return (
     <div className={classNames(
       'flex items-center justify-center rounded-[10px]',
       TAG_SIZE_MAPS[tagSize],
       TAG_STYLE_MAPS[tagStyle],
     )}>
-      {label && (
-        <p className={'text-sm font-heading font-medium tracking-[.1px]'}>{label}</p>
-      )}
-      {children}
+      <p className={'text-sm font-heading font-medium tracking-[.1px]'}>{label}</p>
     </div>
   )
 }

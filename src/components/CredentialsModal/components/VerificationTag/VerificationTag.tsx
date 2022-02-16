@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react'
-import {Tag} from 'components'
+import {useState, useEffect, useCallback} from 'react'
+import {Button, Tag} from 'components'
 import TrashSvg from 'icons/svgs/trash.svg'
 
 type Props = {
@@ -42,20 +42,24 @@ const VerificationTag = ({
     label = 'Failed'
   }
 
-  const handleRemoveToken = () => {
+  const handleRemoveToken = useCallback(() => {
     removeVerificationToken()
     setIsVerified(false)
-  }
+  }, [removeVerificationToken])
 
   return (
     <div className='flex'>
       <Tag tagSize={Tag.tagSize.SMALL} tagStyle={tagStyle} label={label} />
 
       {isVerified && (
-        <div className='ml-[18px] cursor-pointer' onClick={handleRemoveToken}>
-          <Tag tagSize={Tag.tagSize.MINI} tagStyle={Tag.tagStyle.RED_OUTLINE}>
+        <div className='ml-[18px]'>
+          <Button
+            handleClick={handleRemoveToken}
+            buttonWidth={Button.buttonWidth.ICON_ONLY}
+            borderColour={Button.borderColour.RED}
+          >
             <TrashSvg />
-          </Tag>
+          </Button>
         </div>
       )}
     </div>
