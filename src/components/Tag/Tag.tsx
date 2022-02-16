@@ -24,13 +24,13 @@ const TAG_SIZE_MAPS: Record<TagSize, string> = {
 }
 
 const TAG_STYLE_MAPS: Record<TagStyle, string> = {
-  [TagStyle.AQUAMARINE_FILLED]: 'bg-aquamarine text-grey-100',
+  [TagStyle.AQUAMARINE_FILLED]: 'bg-aquamarine text-white',
   [TagStyle.AQUAMARINE_OUTLINE]: 'bg-transparent border border-aquamarine text-aquamarine',
-  [TagStyle.YELLOW_FILLED]: 'bg-yellow text-grey-100',
+  [TagStyle.YELLOW_FILLED]: 'bg-yellow text-white',
   [TagStyle.YELLOW_OUTLINE]: 'border border-yellow text-yellow',
-  [TagStyle.LIGHT_BLUE_FILLED]: 'bg-lightBlue text-grey-100',
+  [TagStyle.LIGHT_BLUE_FILLED]: 'bg-lightBlue text-white',
   [TagStyle.LIGHT_BLUE_OUTLINE]: 'border border-lightBlue text-lightBlue',
-  [TagStyle.RED_FILLED]: 'bg-red text-grey-100',
+  [TagStyle.RED_FILLED]: 'bg-red text-white',
   [TagStyle.RED_OUTLINE]: 'border border-red text-red',
   [TagStyle.GREY_OUTLINE]: 'border border-grey-600 text-grey-600',
 }

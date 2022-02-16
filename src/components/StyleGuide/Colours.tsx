@@ -78,7 +78,7 @@ const Colours = ({sectionClass}: Props) => {
 
   return (
     <section className={sectionClass}>
-      <h2 className='font-heading-2'>Colours</h2>
+      <h2 className='font-heading-3'>Colours</h2>
       <div className='w-full grid gap-4 grid-cols-4'>
         {renderLargeSwatches()}
       </div>

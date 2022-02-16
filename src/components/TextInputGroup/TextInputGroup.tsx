@@ -12,10 +12,12 @@ enum InputWidth {
   FULL,
   LARGE,
   MEDIUM,
+  SMALL,
 }
 
 enum InputColour {
   BLUE,
+  LIGHT_BLUE,
   RED,
   GREY,
   DARK_GREY,
@@ -50,12 +52,17 @@ const INPUT_TYPE_MAPS: Record<InputType, string> = {
 
 const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
   [InputWidth.FULL]: 'w-full',
-  [InputWidth.LARGE]: 'w-[500px]',
+  [InputWidth.LARGE]: 'w-[485px]',
   [InputWidth.MEDIUM]: 'w-[260px]',
+  [InputWidth.SMALL]: 'w-[240px]',
 }
 
 const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = {
   [InputColour.BLUE]: {
+    label: 'text-blue',
+    input: 'border-blue border-b-blue',
+  },
+  [InputColour.LIGHT_BLUE]: {
     label: 'text-lightBlue',
     input: 'border-lightBlue border-b-lightBlue',
   },
@@ -65,7 +72,7 @@ const INPUT_COLOUR_MAPS: Record<InputColour, { label: string, input: string}> = 
   },
   [InputColour.GREY]: {
     label: 'text-grey-500',
-    input: 'border-grey-500 border-b-grey-500 text-grey-600',
+    input: 'border-grey-500 border-b-grey-500',
   },
   [InputColour.DARK_GREY]: {
     label: 'text-grey-500',
@@ -86,7 +93,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     container: 'h-[48px]',
     label: 'hidden',
     input: 'w-full h-[48px] pl-9 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
+    icon: 'absolute top-[12px] left-[1px] w-[25px] h-[15px]',
   },
   [InputStyle.UNDERLINE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
@@ -109,7 +116,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   [InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN]: {
     container: 'h-[55px]',
     label: 'hidden',
-    input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
+    input: 'w-full h-[39px] p-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px] placeholder-grey-600',
     icon: 'absolute top-[10px] right-[1px]',
   },
   [InputStyle.FULL]: {
@@ -120,7 +127,7 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
   [InputStyle.FULL_SMALL]: {
     container: 'h-[42px]',
-    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1 dark:bg-grey-850 text-3xs font-body z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1 dark:bg-grey-850 text-4xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -130,40 +137,40 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
-  [InputStyle.WHITE_ICON_LEFT_SMALL]: {
-    container: 'h-[42px]',
-    label: 'hidden',
-    input: 'w-full h-[39px] pl-12 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[10px]',
-  },
   [InputStyle.TRANSPARENT_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-8 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
-  },
-  [InputStyle.WHITE_ICON_RIGHT_SMALL]: {
-    container: 'h-[42px]',
-    label: 'hidden',
-    input: 'w-full h-[39px] pl-7 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] right-[10px]',
-  },
-  [InputStyle.WHITE_ICON_LEFT]: {
-    container: 'h-[50px]',
-    label: 'hidden',
-    input: 'w-full h-[39px] pl-8 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute top-[10px] left-[1px]',
-  },
-  [InputStyle.WHITE_ICON_RIGHT]: {
-    container: 'h-[50px] flex items-center',
-    label: 'hidden',
-    input: 'w-full h-[50px] pl-7 bg-white dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
-    icon: 'absolute right-[18px]',
+    input: 'w-full h-[39px] pl-12 bg-transparent rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] left-[20px]',
   },
   [InputStyle.TRANSPARENT_ICON_RIGHT_SMALL]: {
     container: 'h-[50px] flex items-center',
     label: 'hidden',
     input: 'w-full h-[50px] pl-7 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute right-[18px]',
+  },
+  [InputStyle.WHITE_ICON_LEFT_SMALL]: {
+    container: 'h-[42px]',
+    label: 'hidden',
+    input: 'w-full h-[39px] pl-12 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] left-[20px]',
+  },
+  [InputStyle.WHITE_ICON_RIGHT_SMALL]: {
+    container: 'h-[42px]',
+    label: 'hidden',
+    input: 'w-full h-[39px] pl-7 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] right-[10px]',
+  },
+  [InputStyle.WHITE_ICON_LEFT]: {
+    container: 'h-[50px]',
+    label: 'hidden',
+    input: 'w-full h-[39px] pl-8 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[10px] left-[px]',
+  },
+  [InputStyle.WHITE_ICON_RIGHT]: {
+    container: 'h-[50px] flex items-center',
+    label: 'hidden',
+    input: 'w-full h-[50px] pl-7 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
   },
 }
@@ -220,14 +227,15 @@ const TextInputGroup = (props: Props) => {
 
   const renderSelectElement = () => <select
     name={name}
+    defaultValue={placeholder}
     id={`bink-form-field-${name}`}
     className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100 px-[8px]',
+      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' defaultValue={placeholder} disabled hidden>{placeholder}</option>
+    <option value={placeholder} hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>

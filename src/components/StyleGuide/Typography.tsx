@@ -4,18 +4,18 @@ type Props = {
 
 const Typography = ({sectionClass}: Props) => {
 
-  const descriptionClass = 'text-lg font-body font-normal text-grey-500 dark:text-grey-500'
+  const descriptionClass = 'text-lg font-heading font-normal text-grey-500 dark:text-grey-500'
 
   return (
     <section className={sectionClass}>
-      <h2 className='font-heading-2'>Typography</h2>
+      <h2 className='font-heading-3'>Typography</h2>
       <div className='w-1/2 min-w-[1000px] grid gap-12 grid-cols-2'>
         <div>
           <div className='grid grid-cols-2 mb-12 items-center'>
             <p className='text-[100px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
               <h3 className='font-heading-7'>PRIMARY FONT</h3>
-              <p className='font-heading-4'>Poppins</p>
+              <p className='font-heading-4 text-[32px]'>Poppins</p>
             </div>
           </div>
           <p className='font-heading text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
@@ -95,7 +95,7 @@ const Typography = ({sectionClass}: Props) => {
             <p className='text-[100px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
               <h3 className='font-heading-7'>SECONDARY FONT</h3>
-              <p className='font-heading-7'>Roboto</p>
+              <p className='font-body-1 text-[32px]'>Roboto</p>
             </div>
           </div>
           <p className='font-body text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
