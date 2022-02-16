@@ -18,4 +18,11 @@ enum VerificationToken {
   STAGING_VERIFICATION_TOKEN = 'stagingVerificationToken',
 }
 
-export {Url, ClientID, BundleID, VerificationToken}
+enum EnvironmentName {
+  DEV = 'Develop',
+  STAGING = 'Staging',
+  SANDBOX = 'Sandbox',
+  PROD = 'Production',
+}
+
+export {Url, ClientID, BundleID, VerificationToken, EnvironmentName}
