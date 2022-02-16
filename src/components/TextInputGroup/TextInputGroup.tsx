@@ -223,6 +223,7 @@ const TextInputGroup = (props: Props) => {
 
   const renderSelectElement = () => <select
     name={name}
+    defaultValue={placeholder}
     id={`bink-form-field-${name}`}
     className={classNames(
       'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
@@ -230,7 +231,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value='' defaultValue={placeholder} disabled selected>{placeholder}</option>
+    <option value={placeholder} disabled hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
