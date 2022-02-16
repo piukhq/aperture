@@ -231,7 +231,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value={placeholder} disabled hidden>{placeholder}</option>
+    <option value={placeholder} hidden>{placeholder}</option>
     <option>Example Option 1</option>
     <option>Example Option 2</option>
   </select>
