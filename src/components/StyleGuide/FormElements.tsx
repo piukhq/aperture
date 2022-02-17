@@ -28,8 +28,8 @@ const FormElements = ({sectionClass}: Props) => {
               onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.FULL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputWidth={TextInputGroup.inputWidth.SMALL}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='desktop-2'
@@ -39,7 +39,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.FULL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='desktop-3'
@@ -96,8 +96,8 @@ const FormElements = ({sectionClass}: Props) => {
               onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputWidth={TextInputGroup.inputWidth.SMALL}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -161,7 +161,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.SELECT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
             />
             <TextInputGroup
               name='desktop-12'
@@ -209,7 +209,7 @@ const FormElements = ({sectionClass}: Props) => {
                 inputType={TextInputGroup.inputType.SEARCH}
                 inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
                 inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                inputColour={TextInputGroup.inputColour.GREY}
                 svgIcon={<SearchSvg/>}
               />
               <TextInputGroup
@@ -264,10 +264,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT}
+              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
               placeholder='Your Country'
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='mobile-2'
@@ -288,7 +288,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.FULL_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
             />
             <form action=''>
               <TextInputGroup
@@ -348,7 +348,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -386,7 +386,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
               inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup

@@ -7,7 +7,7 @@ type Props = {
 const TagsStatus = ({sectionClass}: Props) => {
   return (
     <section className={sectionClass}>
-      <h2 className='font-heading-2'>Tag & Status</h2>
+      <h2 className='font-heading-3'>Tag & Status</h2>
       <div className='grid grid-cols-5 gap-4'>
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>SKILL</h4>
@@ -47,7 +47,7 @@ const TagsStatus = ({sectionClass}: Props) => {
             </p>
           </div>
           <div className='h-[24px] w-[9px] items-center'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-grey-500  dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-grey-600  dark:text-grey-100 text-center'}>
             1
             </p>
           </div>
