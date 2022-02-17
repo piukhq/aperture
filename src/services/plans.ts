@@ -4,19 +4,11 @@ import {
   getDevVerificationToken,
   getStagingVerificationToken,
 } from 'utils/storage'
+import {Plan} from 'types/planType'
 
 const endpointPrefix = '/ubiquity'
 
-type PlansResponse = {
-  id: number,
-  account: Record<string, string | Array<unknown>>,
-  feature_set: Record<string, string | number | boolean | Array<unknown>>,
-  card: Record<string, string | number>,
-  uid: string,
-  status: string,
-  balances: Array<Record<string, unknown>>
-  images: Array<Record<string, unknown>>
-}
+type PlansResponse = Plan[]
 
 export const devPlansApi = createApi({
   reducerPath: 'devPlansApi',
@@ -24,6 +16,7 @@ export const devPlansApi = createApi({
     baseUrl: Url.DEV_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', `Token ${getDevVerificationToken()}`)
+      headers.set('content-type', 'application/json;v=1.3')
       return headers
     },
   }),
@@ -40,6 +33,7 @@ export const stagingPlansApi = createApi({
     baseUrl: Url.STAGING_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', `Token ${getStagingVerificationToken()}`)
+      headers.set('content-type', 'application/json;v=1.3')
       return headers
     },
   }),
