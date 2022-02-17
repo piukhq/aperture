@@ -36,7 +36,7 @@ export const useGetPlansHook = () => {
   const getUniquePlansList = useMemo(() => {
     if (devPlans && stagingPlans) {
       const list = devPlans.concat(stagingPlans)
-      const uniqueNameList = _uniqBy(list, 'account.plan_name').map(plan => plan.account.plan_name)
+      const uniqueNameList = _uniqBy(list, 'slug').map(plan => plan.account.plan_name)
       uniqueNameList.sort((a, b) => a.localeCompare(b))
       return uniqueNameList
     }

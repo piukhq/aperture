@@ -16,7 +16,7 @@ export const devPlansApi = createApi({
     baseUrl: Url.DEV_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', `Token ${getDevVerificationToken()}`)
-      headers.set('content-type', 'application/json;v=1.3')
+      headers.set('accept', 'application/json;v=1.3')
       return headers
     },
   }),
@@ -33,7 +33,7 @@ export const stagingPlansApi = createApi({
     baseUrl: Url.STAGING_BASE_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', `Token ${getStagingVerificationToken()}`)
-      headers.set('content-type', 'application/json;v=1.3')
+      headers.set('accept', 'application/json;v=1.3')
       return headers
     },
   }),
