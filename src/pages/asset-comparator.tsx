@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
@@ -19,49 +19,41 @@ import {
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
-  const [isUnverified, setIsUnverified] = useState(false)
-  const [isInitialPageLoad, setIsInitialPageLoad] = useState(true)
+  const [hasCredentialsModalAutoLaunched, setHasCredentialsModalAutoLaunched] = useState(false)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   useGetPlansHook()
 
+  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
+
   useEffect(() => {
     const hasTokens = areAnyVerificationTokensStored()
-    setIsVerified(hasTokens)
-    setIsUnverified(!hasTokens)
-  }, [modalRequested])
-
-  const handleCredentialsButton = () => {
-    dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
-  }
-
-  const renderUnverifiedLanding = () => {
-    if (isInitialPageLoad) {
-      dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
-      setIsInitialPageLoad(false)
+    if (!hasTokens && !hasCredentialsModalAutoLaunched) {
+      handleRequestCredentialsModal()
+      setHasCredentialsModalAutoLaunched(true)
     }
-    return (
-      <div className='mt-[115px] flex flex-col items-center gap-4'>
-        <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
-        <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
-      </div>
-    )
-  }
+    setIsVerified(hasTokens)
+  }, [modalRequested, handleRequestCredentialsModal, hasCredentialsModalAutoLaunched])
 
-  const renderVerifiedLanding = () => {
-    isInitialPageLoad && setIsInitialPageLoad(false)
-    return (
-      <div className='grid grid-cols-5 w-full text-center'>
-        <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
-          <span></span>
-          {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-            <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
-          ))}
-        </span>
-        <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-      </div>
-    ) }
+  const renderUnverifiedLanding = () => (
+    <div className='mt-[115px] flex flex-col items-center gap-4'>
+      <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
+      <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
+    </div>
+  )
+
+  const renderVerifiedLanding = () => (
+    <div className='grid grid-cols-5 w-full text-center'>
+      <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+        <span></span>
+        {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+          <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+        ))}
+      </span>
+      <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    </div>
+  )
 
   return (
     <>
@@ -83,7 +75,7 @@ const AssetComparatorPage: NextPage = () => {
           </>
           }
           <Button
-            handleClick={handleCredentialsButton}
+            handleClick={handleRequestCredentialsModal}
             buttonSize={Button.buttonSize.MEDIUM_ICON}
             buttonWidth={Button.buttonWidth.AUTO}
             buttonBackground={Button.buttonBackground.BLUE}
@@ -94,8 +86,7 @@ const AssetComparatorPage: NextPage = () => {
         </div>
 
         <ContentTile>
-          { isVerified && renderVerifiedLanding()}
-          { isUnverified && renderUnverifiedLanding()}
+          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
         </ContentTile>
       </PageLayout>
     </>
