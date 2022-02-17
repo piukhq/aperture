@@ -12,26 +12,27 @@ import {
 } from 'utils/storage'
 
 export const useVerificationHook = () => {
-  const [verifyDevCredentials, {data: devData, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation()
-  const [verifyStagingCredentials, {data: stagingData, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation()
+  const [verifyDevCredentials, {data: devToken, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation({fixedCacheKey: 'devVerification'})
+  const [verifyStagingCredentials, {data: stagingToken, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation({fixedCacheKey: 'stagingVerification'})
 
   // If new token is available and there is no current token in local storage, store in local storage
   useEffect(() => {
-    if (devData && !getDevVerificationToken()) {
-      setDevVerificationToken(devData.api_key)
+    if (devToken && !getDevVerificationToken()) {
+      setDevVerificationToken(devToken.api_key)
     }
-  }, [devData])
+  }, [devToken])
 
   useEffect(() => {
-    if (stagingData && !getStagingVerificationToken()) {
-      setStagingVerificationToken(stagingData.api_key)
+    if (stagingToken && !getStagingVerificationToken()) {
+      setStagingVerificationToken(stagingToken.api_key)
     }
-  }, [stagingData])
-
+  }, [stagingToken])
 
   return {
     verifyDevCredentials,
     verifyStagingCredentials,
+    devToken,
+    stagingToken,
     devError,
     stagingError,
     devIsLoading,
