@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useMemo} from 'react'
 import {useVerificationHook} from 'components/CredentialsModal/hooks/useVerificationHook'
 import {useGetDevPlansQuery, useGetStagingPlansQuery} from 'services/plans'
 import {
@@ -12,8 +12,6 @@ export const useGetPlansHook = () => {
 
   const [skipGetDevPlans, setSkipGetDevPlans] = useState(true)
   const [skipGetStagingPlans, setSkipGetStagingPlans] = useState(true)
-
-  const [planListByUniqueName, setPlanListByUniqueName] = useState([])
 
   const {data: devPlans} = useGetDevPlansQuery(null, {
     skip: skipGetDevPlans,
@@ -35,17 +33,19 @@ export const useGetPlansHook = () => {
     }
   }, [stagingToken])
 
-  useEffect(() => {
+  const getUniquePlansList = useMemo(() => {
     if (devPlans && stagingPlans) {
-      // TODO: Needs to be something other than plan_name
-      const list = _uniqBy(devPlans.concat(stagingPlans), 'account.plan_name')
-      setPlanListByUniqueName(list)
+      const list = devPlans.concat(stagingPlans)
+      const uniqueNameList = _uniqBy(list, 'account.plan_name').map(plan => plan.account.plan_name)
+      uniqueNameList.sort((a, b) => a.localeCompare(b))
+      return uniqueNameList
     }
+    return []
   }, [devPlans, stagingPlans])
 
   return {
     devPlans,
     stagingPlans,
-    planListByUniqueName,
+    getUniquePlansList,
   }
 }

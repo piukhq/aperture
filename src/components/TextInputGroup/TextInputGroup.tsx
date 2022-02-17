@@ -1,6 +1,5 @@
 import React, {ReactNode, useState} from 'react'
 import {classNames} from 'utils/classNames'
-import {Plan} from 'types/planType'
 
 enum InputType {
   TEXT,
@@ -180,7 +179,7 @@ type Props = {
   svgIcon?: ReactNode
   placeholder?: string
   value?: string
-  selectValues?: Plan[]
+  selectValues?: Array<Record<string, string>>
   onChange: (event: { target: { value: string}}) => void
 }
 const TextInputGroup = (props: Props) => {
@@ -235,7 +234,7 @@ const TextInputGroup = (props: Props) => {
   >
     <option value='default' disabled hidden>Search...</option>
     {selectValues.map((value, _index) => (
-      <option key={_index}>{value.account.plan_name}</option>
+      <option key={_index}>{value}</option>
     ))}
   </select>
 

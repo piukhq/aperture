@@ -5,14 +5,14 @@ import SearchSvg from 'icons/svgs/search.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 const PlansList = () => {
-  const {planListByUniqueName} = useGetPlansHook()
+  const {getUniquePlansList} = useGetPlansHook()
 
   return (
     <TextInputGroup
       name='placeholder'
       label='Search'
       placeholder='Search...'
-      selectValues={planListByUniqueName}
+      selectValues={getUniquePlansList}
       onChange={() => null}
       inputType={TextInputGroup.inputType.SELECT}
       inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
