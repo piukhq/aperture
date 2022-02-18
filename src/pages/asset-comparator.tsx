@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
+import {useCalculateWindowDimensions} from 'utils/windowDimensions'
 
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 
@@ -18,10 +19,17 @@ import {
   selectModal,
 } from 'features/modalSlice'
 
+
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+
+  const {isDesktopViewportDimensions} = useCalculateWindowDimensions()
+
+  const [isDesktopView, setIsDesktopView] = useState(true)
+
+  useEffect(() => setIsDesktopView(isDesktopViewportDimensions), [isDesktopViewportDimensions])
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
@@ -30,6 +38,25 @@ const AssetComparatorPage: NextPage = () => {
   const handleCredentialsButton = () => {
     dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
   }
+
+  const determineContentToRender = () => {
+    if (!isDesktopView) {
+      return renderSmallViewportCopy()
+    }
+
+    if (isVerified) {
+      return renderVerifiedLanding()
+    }
+    return renderUnverifiedLanding()
+  }
+
+  const renderSmallViewportCopy = () => (
+    <div className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
+      <h1 className='font-heading-4 w-full'>Viewport too small</h1>
+      <p className='font-subheading-3 w-full'>To use the asset comparator your browser window must be a minimum width of 1000px.</p>
+      <p className='font-subheading-3 w-full'>Increase the size of your browser window to continue</p>
+    </div>
+  )
 
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center gap-4'>
@@ -81,7 +108,7 @@ const AssetComparatorPage: NextPage = () => {
         </div>
 
         <ContentTile>
-          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
+          {determineContentToRender()}
         </ContentTile>
       </PageLayout>
     </>

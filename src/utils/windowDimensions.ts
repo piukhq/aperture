@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import debounce from 'just-debounce-it'
 
 const getWindowDimensions = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined') { //Prevents server-side running
     const {innerWidth: width, innerHeight: height} = window
     return {
       width,
