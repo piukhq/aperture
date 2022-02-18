@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
@@ -19,18 +19,22 @@ import {
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
+  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   useGetPlansHook()
 
-  useEffect(() => {
-    setIsVerified(areAnyVerificationTokensStored)
-  }, [modalRequested])
+  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
 
-  const handleCredentialsButton = () => {
-    dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS'))
-  }
+  useEffect(() => {
+    const hasTokens = areAnyVerificationTokensStored()
+    if (!hasTokens && shouldInitialCredentialsModalLaunchOccur) {
+      handleRequestCredentialsModal()
+    }
+    setShouldInitialCredentialsModalLaunchOccur(false)
+    setIsVerified(hasTokens)
+  }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center gap-4'>
@@ -71,7 +75,7 @@ const AssetComparatorPage: NextPage = () => {
           </>
           }
           <Button
-            handleClick={handleCredentialsButton}
+            handleClick={handleRequestCredentialsModal}
             buttonSize={Button.buttonSize.MEDIUM_ICON}
             buttonWidth={Button.buttonWidth.AUTO}
             buttonBackground={Button.buttonBackground.BLUE}
