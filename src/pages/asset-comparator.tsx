@@ -27,10 +27,6 @@ const AssetComparatorPage: NextPage = () => {
 
   const {isDesktopViewportDimensions} = useCalculateWindowDimensions()
 
-  const [isDesktopView, setIsDesktopView] = useState(true)
-
-  useEffect(() => setIsDesktopView(isDesktopViewportDimensions), [isDesktopViewportDimensions])
-
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
   }, [modalRequested])
@@ -40,15 +36,42 @@ const AssetComparatorPage: NextPage = () => {
   }
 
   const determineContentToRender = () => {
-    if (!isDesktopView) {
+    if (!isDesktopViewportDimensions) {
       return renderSmallViewportCopy()
-    }
-
-    if (isVerified) {
+    } else if (isVerified) {
       return renderVerifiedLanding()
+    } else {
+      return renderUnverifiedLanding()
     }
-    return renderUnverifiedLanding()
   }
+
+  const renderControlPanel = () => (
+    <>
+      { isVerified &&
+      <>
+        <PlansList />
+        <Button
+          handleClick={() => console.log('clicked')}
+          buttonSize={Button.buttonSize.MEDIUM_ICON}
+          buttonWidth={Button.buttonWidth.AUTO}
+          buttonBackground={Button.buttonBackground.BLUE}
+          labelColour={Button.labelColour.WHITE}
+          labelWeight={Button.labelWeight.MEDIUM}
+        > <CheckSvg/>Load Assets
+        </Button>
+      </>
+      }
+      <Button
+        handleClick={handleCredentialsButton}
+        buttonSize={Button.buttonSize.MEDIUM_ICON}
+        buttonWidth={Button.buttonWidth.AUTO}
+        buttonBackground={Button.buttonBackground.BLUE}
+        labelColour={Button.labelColour.WHITE}
+        labelWeight={Button.labelWeight.MEDIUM}
+      > <SettingsSvg/>Credentials
+      </Button>
+    </>
+  )
 
   const renderSmallViewportCopy = () => (
     <div className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
@@ -82,29 +105,7 @@ const AssetComparatorPage: NextPage = () => {
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[60px] justify-end'>
-          { isVerified &&
-          <>
-            <PlansList />
-            <Button
-              handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.MEDIUM_ICON}
-              buttonWidth={Button.buttonWidth.AUTO}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.MEDIUM}
-            > <CheckSvg/>Load Assets
-            </Button>
-          </>
-          }
-          <Button
-            handleClick={handleCredentialsButton}
-            buttonSize={Button.buttonSize.MEDIUM_ICON}
-            buttonWidth={Button.buttonWidth.AUTO}
-            buttonBackground={Button.buttonBackground.BLUE}
-            labelColour={Button.labelColour.WHITE}
-            labelWeight={Button.labelWeight.MEDIUM}
-          > <SettingsSvg/>Credentials
-          </Button>
+          { isDesktopViewportDimensions && renderControlPanel()}
         </div>
 
         <ContentTile>
