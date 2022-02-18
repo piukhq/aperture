@@ -19,7 +19,7 @@ import {
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
-  const [hasCredentialsModalAutoLaunched, setHasCredentialsModalAutoLaunched] = useState(false)
+  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(false)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
@@ -29,12 +29,12 @@ const AssetComparatorPage: NextPage = () => {
 
   useEffect(() => {
     const hasTokens = areAnyVerificationTokensStored()
-    if (!hasTokens && !hasCredentialsModalAutoLaunched) {
+    if (!hasTokens && !shouldInitialCredentialsModalLaunchOccur) {
       handleRequestCredentialsModal()
     }
-    setHasCredentialsModalAutoLaunched(true)
+    setShouldInitialCredentialsModalLaunchOccur(true)
     setIsVerified(hasTokens)
-  }, [modalRequested, handleRequestCredentialsModal, hasCredentialsModalAutoLaunched])
+  }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center gap-4'>

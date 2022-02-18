@@ -243,7 +243,7 @@ const TextInputGroup = (props: Props) => {
     )}
   >
     <option value='default' disabled hidden>Search...</option>
-    {selectValues.map((value, _index) => (
+    {selectValues && selectValues.map((value, _index) => (
       <option key={_index}>{value}</option>
     ))}
   </select>
