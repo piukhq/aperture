@@ -1,7 +1,7 @@
 import {ReactNode, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
-import {useVerificationHook} from './hooks/useVerificationHook'
+import {useVerificationHook} from 'hooks/useVerificationHook'
 import {EnvironmentName} from 'utils/enums'
 import {
   getDevVerificationToken,

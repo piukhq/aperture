@@ -4,7 +4,7 @@ import {
   getDevVerificationToken,
   getStagingVerificationToken,
 } from 'utils/storage'
-import {Plan} from 'types/planType'
+import {Plan} from 'types'
 
 const endpointPrefix = '/ubiquity'
 

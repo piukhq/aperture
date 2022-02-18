@@ -1,5 +1,5 @@
 import {useEffect, useState, useMemo} from 'react'
-import {useVerificationHook} from 'components/CredentialsModal/hooks/useVerificationHook'
+import {useVerificationHook} from './useVerificationHook'
 import {useGetDevPlansQuery, useGetStagingPlansQuery} from 'services/plans'
 import {
   getDevVerificationToken,
