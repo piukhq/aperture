@@ -32,10 +32,6 @@ const AssetComparatorPage: NextPage = () => {
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
   const {isDesktopViewportDimensions} = useCalculateWindowDimensions()
 
-  const [isDesktopView, setIsDesktopView] = useState(true)
-
-  useEffect(() => setIsDesktopView(isDesktopViewportDimensions), [isDesktopViewportDimensions])
-
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
   }, [modalRequested])
@@ -50,15 +46,42 @@ const AssetComparatorPage: NextPage = () => {
   }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
   const determineContentToRender = () => {
-    if (!isDesktopView) {
+    if (!isDesktopViewportDimensions) {
       return renderSmallViewportCopy()
-    }
-
-    if (isVerified) {
+    } else if (isVerified) {
       return renderVerifiedLanding()
+    } else {
+      return renderUnverifiedLanding()
     }
-    return renderUnverifiedLanding()
   }
+
+  const renderControlPanel = () => (
+    <>
+      { isVerified &&
+      <>
+        <PlansList />
+        <Button
+          handleClick={() => console.log('clicked')}
+          buttonSize={Button.buttonSize.MEDIUM_ICON}
+          buttonWidth={Button.buttonWidth.AUTO}
+          buttonBackground={Button.buttonBackground.BLUE}
+          labelColour={Button.labelColour.WHITE}
+          labelWeight={Button.labelWeight.MEDIUM}
+        > <CheckSvg/>Load Assets
+        </Button>
+      </>
+      }
+      <Button
+        handleClick={handleCredentialsButton}
+        buttonSize={Button.buttonSize.MEDIUM_ICON}
+        buttonWidth={Button.buttonWidth.AUTO}
+        buttonBackground={Button.buttonBackground.BLUE}
+        labelColour={Button.labelColour.WHITE}
+        labelWeight={Button.labelWeight.MEDIUM}
+      > <SettingsSvg/>Credentials
+      </Button>
+    </>
+  )
 
   const renderSmallViewportCopy = () => (
     <div className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
@@ -115,6 +138,7 @@ const AssetComparatorPage: NextPage = () => {
             labelWeight={Button.labelWeight.MEDIUM}
           > <SettingsSvg/>Credentials
           </Button>
+          { isDesktopViewportDimensions && renderControlPanel()}
         </div>
 
         <ContentTile>
