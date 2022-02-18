@@ -19,7 +19,7 @@ import {
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
-  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(false)
+  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
@@ -29,10 +29,10 @@ const AssetComparatorPage: NextPage = () => {
 
   useEffect(() => {
     const hasTokens = areAnyVerificationTokensStored()
-    if (!hasTokens && !shouldInitialCredentialsModalLaunchOccur) {
+    if (!hasTokens && shouldInitialCredentialsModalLaunchOccur) {
       handleRequestCredentialsModal()
     }
-    setShouldInitialCredentialsModalLaunchOccur(true)
+    setShouldInitialCredentialsModalLaunchOccur(false)
     setIsVerified(hasTokens)
   }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
