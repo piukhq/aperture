@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react'
 import type {NextPage} from 'next'
-import {areAnyVerificationTokensStored} from 'utils/storage'
-
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
-
+import {useGetPlansHook} from 'hooks/useGetPlansHook'
+import {areAnyVerificationTokensStored} from 'utils/storage'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 
@@ -22,6 +21,8 @@ const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+
+  useGetPlansHook()
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)

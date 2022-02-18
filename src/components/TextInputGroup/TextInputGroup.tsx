@@ -185,7 +185,8 @@ type Props = {
   inputStyle: InputStyle
   svgIcon?: ReactNode
   placeholder?: string
-  value: string
+  value?: string
+  selectValues?: Array<Record<string, string>>
   onChange: (event: { target: { value: string}}) => void
 }
 const TextInputGroup = (props: Props) => {
@@ -200,9 +201,11 @@ const TextInputGroup = (props: Props) => {
     name,
     placeholder,
     value,
+    selectValues,
     onChange,
   } = props
 
+  const [selectDefaultValue, setSelectDefaultValue] = useState('default')
   const [isFocused, setIsFocused] = useState(false)
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
@@ -224,20 +227,25 @@ const TextInputGroup = (props: Props) => {
     )}
   />
 
+  const handleSelectChange = (e) => {
+    setSelectDefaultValue(e.target.value)
+  }
 
   const renderSelectElement = () => <select
     name={name}
-    defaultValue={placeholder}
     id={`bink-form-field-${name}`}
+    defaultValue={selectDefaultValue}
+    onChange={handleSelectChange}
     className={classNames(
       'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
       INPUT_COLOUR_MAPS[inputColour].input,
       INPUT_STYLE_MAPS[inputStyle].input,
     )}
   >
-    <option value={placeholder} hidden>{placeholder}</option>
-    <option>Example Option 1</option>
-    <option>Example Option 2</option>
+    <option value='default' disabled hidden>Search...</option>
+    {selectValues.map((value, _index) => (
+      <option key={_index}>{value}</option>
+    ))}
   </select>
 
   return (
