@@ -31,8 +31,8 @@ const AssetComparatorPage: NextPage = () => {
     const hasTokens = areAnyVerificationTokensStored()
     if (!hasTokens && !hasCredentialsModalAutoLaunched) {
       handleRequestCredentialsModal()
-      setHasCredentialsModalAutoLaunched(true)
     }
+    setHasCredentialsModalAutoLaunched(true)
     setIsVerified(hasTokens)
   }, [modalRequested, handleRequestCredentialsModal, hasCredentialsModalAutoLaunched])
 
