@@ -26,11 +26,10 @@ const AssetComparatorPage: NextPage = () => {
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
-
+  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
-  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
