@@ -72,7 +72,7 @@ const AssetComparatorPage: NextPage = () => {
       </>
       }
       <Button
-        handleClick={handleCredentialsButton}
+        handleClick={handleRequestCredentialsModal}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
         buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
