@@ -85,7 +85,7 @@ const FormElements = ({sectionClass}: Props) => {
               inputType={TextInputGroup.inputType.TEXT}
               inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
               inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputColour={TextInputGroup.inputColour.RED}
               svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
