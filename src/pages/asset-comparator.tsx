@@ -1,8 +1,11 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
+import {areAnyVerificationTokensStored} from 'utils/storage'
+import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
+
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
-import {areAnyVerificationTokensStored} from 'utils/storage'
+
 import SettingsSvg from 'icons/svgs/settings.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 
@@ -17,15 +20,21 @@ import {
   selectModal,
 } from 'features/modalSlice'
 
+
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
+
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
-
+  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
+
+  useEffect(() => {
+    setIsVerified(areAnyVerificationTokensStored)
+  }, [modalRequested])
 
   useEffect(() => {
     const hasTokens = areAnyVerificationTokensStored()
@@ -36,8 +45,54 @@ const AssetComparatorPage: NextPage = () => {
     setIsVerified(hasTokens)
   }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
+  const determineContentToRender = () => {
+    if (!isDesktopViewportDimensions) {
+      return renderSmallViewportCopy()
+    } else if (isVerified) {
+      return renderVerifiedLanding()
+    } else {
+      return renderUnverifiedLanding()
+    }
+  }
+
+  const renderHeaderTools = () => (
+    <>
+      { isVerified &&
+      <>
+        <PlansList />
+        <Button
+          handleClick={() => console.log('clicked')}
+          buttonSize={Button.buttonSize.MEDIUM_ICON}
+          buttonWidth={Button.buttonWidth.AUTO}
+          buttonBackground={Button.buttonBackground.BLUE}
+          labelColour={Button.labelColour.WHITE}
+          labelWeight={Button.labelWeight.MEDIUM}
+        > <CheckSvg/>Load Assets
+        </Button>
+      </>
+      }
+      <Button
+        handleClick={handleRequestCredentialsModal}
+        buttonSize={Button.buttonSize.MEDIUM_ICON}
+        buttonWidth={Button.buttonWidth.AUTO}
+        buttonBackground={Button.buttonBackground.BLUE}
+        labelColour={Button.labelColour.WHITE}
+        labelWeight={Button.labelWeight.MEDIUM}
+      > <SettingsSvg/>Credentials
+      </Button>
+    </>
+  )
+
+  const renderSmallViewportCopy = () => (
+    <div className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
+      <h1 className='font-heading-4 w-full'>Viewport too small</h1>
+      <p className='font-subheading-3 w-full'>To use the asset comparator your browser window must be a minimum width of 1000px.</p>
+      <p className='font-subheading-3 w-full'>Increase the size of your browser window to continue</p>
+    </div>
+  )
+
   const renderUnverifiedLanding = () => (
-    <div className='mt-[115px] flex flex-col items-center gap-4'>
+    <div className='mt-[115px] flex flex-col items-center text-center gap-4'>
       <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
       <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
     </div>
@@ -60,33 +115,11 @@ const AssetComparatorPage: NextPage = () => {
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[60px] justify-end'>
-          { isVerified &&
-          <>
-            <PlansList />
-            <Button
-              handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.MEDIUM_ICON}
-              buttonWidth={Button.buttonWidth.AUTO}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.MEDIUM}
-            > <CheckSvg/>Load Assets
-            </Button>
-          </>
-          }
-          <Button
-            handleClick={handleRequestCredentialsModal}
-            buttonSize={Button.buttonSize.MEDIUM_ICON}
-            buttonWidth={Button.buttonWidth.AUTO}
-            buttonBackground={Button.buttonBackground.BLUE}
-            labelColour={Button.labelColour.WHITE}
-            labelWeight={Button.labelWeight.MEDIUM}
-          > <SettingsSvg/>Credentials
-          </Button>
+          { isDesktopViewportDimensions && renderHeaderTools()}
         </div>
 
         <ContentTile>
-          { isVerified ? renderVerifiedLanding() : renderUnverifiedLanding()}
+          {determineContentToRender()}
         </ContentTile>
       </PageLayout>
     </>
