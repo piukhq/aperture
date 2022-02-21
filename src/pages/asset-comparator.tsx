@@ -115,29 +115,6 @@ const AssetComparatorPage: NextPage = () => {
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[60px] justify-end'>
-          { isVerified &&
-          <>
-            <PlansList />
-            <Button
-              handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.MEDIUM_ICON}
-              buttonWidth={Button.buttonWidth.AUTO}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.MEDIUM}
-            > <CheckSvg/>Load Assets
-            </Button>
-          </>
-          }
-          <Button
-            handleClick={handleRequestCredentialsModal}
-            buttonSize={Button.buttonSize.MEDIUM_ICON}
-            buttonWidth={Button.buttonWidth.AUTO}
-            buttonBackground={Button.buttonBackground.BLUE}
-            labelColour={Button.labelColour.WHITE}
-            labelWeight={Button.labelWeight.MEDIUM}
-          > <SettingsSvg/>Credentials
-          </Button>
           { isDesktopViewportDimensions && renderControlPanel()}
         </div>
 
