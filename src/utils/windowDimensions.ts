@@ -15,7 +15,7 @@ export const useIsDesktopViewportDimensions = () => {
   const [isDesktopViewportDimensions, setIsDesktopViewportDimensions] = useState(true)
 
   const handleResize = () => setIsDesktopViewportDimensions(getWindowDimensions().width >= 1000)
-  const debouncedHandleResize = debounce(handleResize, 100)
+  const debouncedHandleResize = debounce(handleResize, 50)
 
   useEffect(() => {
     window.addEventListener('resize', debouncedHandleResize)
