@@ -22,5 +22,5 @@ export const useIsDesktopViewportDimensions = () => {
     return () => window.removeEventListener('resize', debouncedHandleResize)
   }, [debouncedHandleResize])
 
-  return {isDesktopViewportDimensions}
+  return isDesktopViewportDimensions
 }
