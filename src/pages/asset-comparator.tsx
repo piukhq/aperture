@@ -55,7 +55,7 @@ const AssetComparatorPage: NextPage = () => {
     }
   }
 
-  const renderControlPanel = () => (
+  const renderHeaderTools = () => (
     <>
       { isVerified &&
       <>
@@ -115,7 +115,7 @@ const AssetComparatorPage: NextPage = () => {
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[60px] justify-end'>
-          { isDesktopViewportDimensions && renderControlPanel()}
+          { isDesktopViewportDimensions && renderHeaderTools()}
         </div>
 
         <ContentTile>
