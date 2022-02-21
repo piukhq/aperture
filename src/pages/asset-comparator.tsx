@@ -19,12 +19,15 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
+import AssetGrid from 'components/AssetGrid'
 
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
 
+  const [selectedPlanSlug] = useState('wasabi') //placeholder for this ticket to change later
+  const [currentPlanSlug, setCurrentPlanSlug] = useState(null) //placeholder for this ticket to change later
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
@@ -61,7 +64,7 @@ const AssetComparatorPage: NextPage = () => {
       <>
         <PlansList />
         <Button
-          handleClick={() => console.log('clicked')}
+          handleClick={handleLoadAssets}
           buttonSize={Button.buttonSize.MEDIUM_ICON}
           buttonWidth={Button.buttonWidth.AUTO}
           buttonBackground={Button.buttonBackground.BLUE}
@@ -91,6 +94,14 @@ const AssetComparatorPage: NextPage = () => {
     </div>
   )
 
+  const handleLoadAssets = () => {
+    if (selectedPlanSlug) {
+      setCurrentPlanSlug(selectedPlanSlug)
+    } else {
+      console.log('select a plan error')
+    }
+
+  }
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center text-center gap-4'>
       <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
@@ -98,17 +109,26 @@ const AssetComparatorPage: NextPage = () => {
     </div>
   )
 
-  const renderVerifiedLanding = () => (
-    <div className='grid grid-cols-5 w-full text-center'>
-      <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
-        <span></span>
-        {['DEVELOPMENT', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-          <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
-        ))}
-      </span>
-      <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-    </div>
-  )
+  const renderVerifiedLanding = () => {
+
+    const determineAssetGridStatus = () => (
+      currentPlanSlug ? <AssetGrid planSlug={currentPlanSlug} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    )
+
+    return (
+      <>
+        <div className='grid grid-cols-5 w-full text-center'>
+          <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+            <span></span>
+            {['DEVELOP', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+              <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+            ))}
+          </span>
+        </div>
+        {determineAssetGridStatus()}
+      </>
+    )
+  }
 
   return (
     <>
