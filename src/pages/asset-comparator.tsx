@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
-import {useCalculateWindowDimensions} from 'utils/windowDimensions'
+import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 
 import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
@@ -30,7 +30,7 @@ const AssetComparatorPage: NextPage = () => {
   useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
-  const {isDesktopViewportDimensions} = useCalculateWindowDimensions()
+  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)

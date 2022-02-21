@@ -11,14 +11,12 @@ const getWindowDimensions = () => {
   }
 }
 
-const useCalculateWindowDimensions = () => {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
+export const useIsDesktopViewportDimensions = () => {
   const [isDesktopViewportDimensions, setIsDesktopViewportDimensions] = useState(true)
 
   const handleResize = () => {
-    setWindowDimensions(getWindowDimensions())
+    setIsDesktopViewportDimensions(getWindowDimensions().width >= 1000)
   }
-
   const debouncedHandleResize = debounce(handleResize, 100)
 
   useEffect(() => {
@@ -26,11 +24,5 @@ const useCalculateWindowDimensions = () => {
     return () => window.removeEventListener('resize', debouncedHandleResize)
   }, [debouncedHandleResize])
 
-  useEffect(() => {
-    setIsDesktopViewportDimensions(windowDimensions?.width >= 1000)
-  }, [windowDimensions])
-
-  return {windowDimensions, isDesktopViewportDimensions}
+  return {isDesktopViewportDimensions}
 }
-
-export {useCalculateWindowDimensions}
