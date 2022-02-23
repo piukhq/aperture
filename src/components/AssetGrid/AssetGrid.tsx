@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import CloseSquareSVG from 'icons/svgs/close-square.svg'
 
 import {PlanImage} from 'types'
 
@@ -13,94 +14,76 @@ type Props = {
 
 const AssetGrid = ({planAssets}: Props) => {
 
-  console.log(planAssets)
-
   const {dev, staging} = planAssets
   const typeNames = ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO']
 
-  console.log(dev)
 
-  const countTypeOccurrences = (arr, val) => arr.reduce((a, asset) => (asset.type === val ? a + 1 : a), 0)
+  const assetList = []
 
-  const typeOccurrences = typeNames.map((_, index) => Math.max(...[countTypeOccurrences(dev, index), countTypeOccurrences(staging, index)]))
+  typeNames.forEach((typeName, index) => {
+    const devAssetsOfType = dev.filter(asset => asset.type === index)
+    const stagingAssetsOfType = staging.filter(asset => asset.type === index)
+    const maxNumberOfAssets = devAssetsOfType.length > stagingAssetsOfType.length ? devAssetsOfType.length : stagingAssetsOfType.length
 
-  console.log(typeOccurrences)
-
-
-  // const assetList = new Set([...planAssets.dev.map(asset => asset.type), ...planAssets.staging.map(asset => asset.type)].sort())
-
-  // const devAssets = planAssets?.dev?.sort((a, b) => a.type - b.type)
-
-  // console.log(devAssets)
-
-  // const devAssetCount = new Map()
-  // const stagingAssetCount = new Map()
+    maxNumberOfAssets > 0 && assetList.push({
+      heading: typeName,
+      dev: devAssetsOfType,
+      staging: stagingAssetsOfType,
+      maxNumberOfAssets: maxNumberOfAssets,
+    })
+  })
 
 
-  // planAssets.dev.forEach(asset => !devAssetCount[asset.type] ? devAssetCount[asset.type] = 1 : devAssetCount[asset.type]++)
-  // planAssets.staging.forEach(asset => !stagingAssetCount[asset.type] ? stagingAssetCount[asset.type] = 1 : stagingAssetCount[asset.type]++)
-
-
-  const renderLabelColumn = () => {
-    const labelClasses = 'w-full h-[100px] grid items-center font-table-header'
-
-    const renderLabels = () => {
-      return typeOccurrences.map((typeCount, index) => {
-        if (typeCount !== 0) {
-          const labelByType = []
-          for (let i = 1; i <= typeCount; i++) {
-            labelByType.push(<div key={index + i} className={labelClasses}>{typeNames[index]} {typeCount > 1 && i}</div>)
-          }
-          return labelByType
-        }
-      })
+  const renderLabelColumn = () => assetList.map(assetType => {
+    const labelPerType = []
+    for (let i = 1; i <= assetType.maxNumberOfAssets; i++) {
+      labelPerType.push(
+        <div key={assetType.heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
+          {assetType.heading} { assetType.maxNumberOfAssets > 1 && i}
+        </div>)
     }
+    return labelPerType
+  })
 
-    return (
-      <div>
-        {renderLabels()}
-      </div>
-    )
-  }
 
-  const renderAssetColumn = () => {
-
-    const renderAssets = () => {
-      return typeOccurrences.map((typeCount, index) => {
-        if (typeCount !== 0) {
-          const assetByType = []
-          for (let i = 1; i <= typeCount; i++) {
-            console.log(index + ' index')
-            assetByType.push(
-              <div className='relative w-full h-[100px] grid items-center'>
-                <Image
-                  alt={dev[i].url}
-                  layout='fill'
-                  objectFit='contain'
-                  src={dev[i].url}
-                />
-                {index}
-              </div>
-            )
-          }
-          return assetByType
-        }
-      })
+  const renderAssetColumn = (env: string) => assetList.map(assetType => {
+    const assetByType = []
+    for (let i = 0; i < assetType.maxNumberOfAssets; i++) {
+      if (assetType[env][i]) {
+        assetByType.push(
+          <div key={assetType[env][i].url} className='relative w-full h-[100px] grid items-center'>
+            <Image
+              alt={assetType[env][i].description}
+              width='150'
+              height='73'
+              objectFit='contain'
+              src={assetType[env][i].url}
+              quality='25'
+              placeholder='blur'
+              blurDataURL='/icons/svgs/dots.svg'
+            />
+          </div>
+        )
+      } else {
+        assetByType.push(
+          <div className='relative w-full h-[100px] grid items-center justify-center'>
+            <CloseSquareSVG/>
+          </div>
+        )
+      }
     }
+    return assetByType
+  })
 
-
-    return (
-      <div>
-        {renderAssets()}
-      </div>
-    )
-  }
-
+  // 1. Need to error proof this.
+  // 2. tidying up different calls below.
+  // 3. get IntersectionObserver4. test wierd states
 
   return (
-    <div className='grid grid-cols-5 grid-flow-col w-full text-center'>
-      {renderLabelColumn()}
-      {renderAssetColumn()}
+    <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
+      <div>{renderLabelColumn()}</div>
+      <div>{renderAssetColumn('dev')}</div>
+      <div>{renderAssetColumn('staging')}</div>
     </div>
   )
 }
