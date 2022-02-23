@@ -2,6 +2,14 @@
 const {withSentryConfig} = require('@sentry/nextjs')
 
 const moduleExports = {
+  images: {
+    domains: [
+      'api.dev.gb.bink.com',
+      'api.staging.gb.bink.com',
+      'api.sandbox.gb.bink.com',
+      'api.gb.bink.com',
+    ],
+  },
   webpack (config) {
     config.module.rules.push({
       test: /\.svg$/i,

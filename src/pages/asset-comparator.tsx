@@ -25,13 +25,14 @@ import AssetGrid from 'components/AssetGrid'
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
-
-  const [selectedPlanSlug] = useState('wasabi') //placeholder for this ticket to change later
-  const [currentPlanSlug, setCurrentPlanSlug] = useState(null) //placeholder for this ticket to change later
+  const [selectedPlanSlug] = useState('wasabi-club') //placeholder for this ticket to change later
+  const [currentPlanAssets, setCurrentPlanAssets] = useState(null) //placeholder for this ticket to change later
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
+
+  const {devPlans, stagingPlans} = useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
 
@@ -95,10 +96,16 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const handleLoadAssets = () => {
+
+
     if (selectedPlanSlug) {
-      setCurrentPlanSlug(selectedPlanSlug)
+      const planAssets = {
+        dev: devPlans?.find(plan => plan.slug === selectedPlanSlug).images,
+        staging: stagingPlans?.find(plan => plan.slug === selectedPlanSlug).images,
+      }
+      setCurrentPlanAssets(planAssets)
     } else {
-      console.log('select a plan error')
+      console.log('No Plan Selected')
     }
 
   }
@@ -110,9 +117,8 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const renderVerifiedLanding = () => {
-
     const determineAssetGridStatus = () => (
-      currentPlanSlug ? <AssetGrid planSlug={currentPlanSlug} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+      currentPlanAssets ? <AssetGrid planAssets={currentPlanAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     )
 
     return (

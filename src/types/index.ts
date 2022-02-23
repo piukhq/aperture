@@ -1,8 +1,3 @@
-type PlanImage = {
-  type: number,
-  url: string,
-}
-
 export type Plan = {
   id: number,
   account: Record<string, string | Array<unknown>>,
@@ -20,4 +15,16 @@ export type HydratedPlan = Plan & {
   isStaging: boolean,
   devImages: PlanImage[],
   stagingImages: PlanImage[],
+  balances: Array<Record<string, unknown>>
+  images: Array<Record<string, unknown>>
+  slug: string
+}
+
+export type PlanImage = {
+  id: number,
+  type: number,
+  url: string,
+  encoding: string,
+  description: string,
+  cta_url: string,
 }
