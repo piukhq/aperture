@@ -5,6 +5,7 @@ export type Plan = {
   card: Record<string, string | number>,
   uid: string,
   status: string,
-  balances: Array<Record<string, unknown>>
-  images: Array<Record<string, unknown>>
+  balances: Array<Record<string, unknown>>,
+  images: Array<Record<string, unknown>>,
+  slug: string
 }

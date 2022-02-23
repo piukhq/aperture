@@ -4,6 +4,7 @@ import {classNames} from 'utils/classNames'
 enum TagSize {
   MEDIUM,
   SMALL,
+  MINI,
 }
 
 enum TagStyle {
@@ -18,9 +19,14 @@ enum TagStyle {
   GREY_OUTLINE,
 }
 
+enum TextStyle {
+  SINGLE_LETTER,
+}
+
 const TAG_SIZE_MAPS: Record<TagSize, string> = {
   [TagSize.MEDIUM]: 'h-[38px] w-[129px]',
   [TagSize.SMALL]: 'h-[38px] w-[93px]',
+  [TagSize.MINI]: 'h-[24px] w-[24px] rounded-[12px]',
 }
 
 const TAG_STYLE_MAPS: Record<TagStyle, string> = {
@@ -35,27 +41,36 @@ const TAG_STYLE_MAPS: Record<TagStyle, string> = {
   [TagStyle.GREY_OUTLINE]: 'border border-grey-600 text-grey-600',
 }
 
+const TEXT_STYLE_MAPS: Record<TextStyle, string> = {
+  [TextStyle.SINGLE_LETTER]: 'text-[11px]',
+}
+
 type Props = {
   tagSize: TagSize,
   tagStyle: TagStyle,
+  textStyle?: TextStyle,
   label: string,
 }
 
 const Tag = (props: Props) => {
-  const {tagSize, tagStyle, label} = props
+  const {tagSize, tagStyle, textStyle, label} = props
   return (
     <div className={classNames(
       'flex items-center justify-center rounded-[10px]',
       TAG_SIZE_MAPS[tagSize],
       TAG_STYLE_MAPS[tagStyle],
     )}>
-      <p className={'text-sm font-heading font-medium tracking-[.1px]'}>{label}</p>
+      <p className={classNames(
+        'text-sm font-heading font-medium tracking-[.1px]',
+        TEXT_STYLE_MAPS[textStyle],
+      )}>{label}</p>
     </div>
   )
 }
 
 Tag.tagSize = TagSize
 Tag.tagStyle = TagStyle
+Tag.textStyle = TextStyle
 
 // TODO: This component should be memoized so as to avoid unnecessary re-renders
 // Must look into a component refactor to accomodate this

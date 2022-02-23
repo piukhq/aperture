@@ -1,26 +1,43 @@
-// Placeholder for actual component outlined in PTL-59
-
+import {useMemo, useState} from 'react'
 import {TextInputGroup} from 'components'
+import Plan from './components/Plan'
 import SearchSvg from 'icons/svgs/search.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 const PlansList = () => {
   const {getUniquePlansList} = useGetPlansHook()
 
+  const [value, setValue] = useState('')
+
+  const handlePlanClick = (item) => {
+    setValue(item.account.plan_name)
+  }
+
+  const list = useMemo(() => {
+    if (getUniquePlansList) {
+      return getUniquePlansList.map((item, _index) => (
+        <div key={_index} onClick={() => handlePlanClick(item)} className='flex items-center place-content-between w-full'>
+          <Plan plan={item} />
+        </div>
+      ))
+    }
+    return []
+  }, [getUniquePlansList])
+
   return (
     <TextInputGroup
       name='placeholder'
       label='Search'
       placeholder='Search...'
-      selectValues={getUniquePlansList}
+      selectValues={list}
+      value={value}
       onChange={() => null}
-      inputType={TextInputGroup.inputType.SELECT}
+      inputType={TextInputGroup.inputType.SEARCH_SELECT}
       inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
       inputWidth={TextInputGroup.inputWidth.FULL}
       inputColour={TextInputGroup.inputColour.LIGHT_GREY}
       svgIcon={<SearchSvg/>}
     />
-
   )
 }
 

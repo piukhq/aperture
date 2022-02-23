@@ -20,13 +20,13 @@ const MenuElements = ({sectionClass}: Props) => {
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-grey-900 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
               <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
               <span className='col-span-8 text-left'>Menu</span>
-              <span className='col-span-1'><ArrowDownSvg /></span>
+              <span className='col-span-1'><ArrowDownSvg className='fill-current' /></span>
             </button>
 
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-base text-sm tracking-[0.1px] text-white bg-blue'>
               <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
               <span className='col-span-8 text-left'>Menu</span>
-              <span className='col-span-1'><ArrowDownSvg /></span>
+              <span className='col-span-1'><ArrowDownSvg className='fill-current' /></span>
             </button>
 
             <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] bg-white dark:bg-grey-850 text-blue dark:text-grey-500 hover:text-blue dark:hover:text-white'>
@@ -40,13 +40,13 @@ const MenuElements = ({sectionClass}: Props) => {
               <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-blue dark:border-l-white'><DashboardSvg /></span>
               <span className='col-span-8 text-left'>Menu Active</span>
               {/* Different Red circle below, better IMO esp if there is double digits at some point */}
-              <span className='col-span-1 rotate-180 translate-x-[-8px]'><ArrowDownSvg /></span>
+              <span className='col-span-1 rotate-180 translate-x-[-8px]'><ArrowDownSvg className='fill-current'/></span>
             </button>
 
             <button className='grid grid-cols-12 items-center pr-[10px] w-[250px] h-[52px] font-heading font-semibold font-base text-sm tracking-[0.1px] text-white bg-blue'>
               <span className='col-span-3 h-[32px] pl-4 flex items-center border-l-4 border-l-transparent'><DashboardSvg /></span>
               <span className='col-span-8 text-left'>Menu Active</span>
-              <span className='col-span-1 rotate-180 translate-x-[-8px]'><ArrowDownSvg /></span>
+              <span className='col-span-1 rotate-180 translate-x-[-8px]'><ArrowDownSvg className='fill-current'/></span>
             </button>
 
             <button className='grid grid-cols-12 items-center w-[250px] h-[52px] pr-[10px] font-heading font-medium text-sm tracking-[0.1px] text-grey-900 dark:text-grey-500 hover:text-blue dark:hover:text-white'>
