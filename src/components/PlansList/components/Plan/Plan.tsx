@@ -1,7 +1,12 @@
 import {Tag} from 'components'
 import IconImage from '../IconImage'
+import {HydratedPlan} from 'types'
 
-const Plan = ({plan}) => (
+type Props = {
+  plan: HydratedPlan
+}
+
+const Plan = ({plan}: Props) => (
   <>
     <div className='flex items-center'>
       <IconImage plan={plan} />

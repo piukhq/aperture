@@ -6,6 +6,7 @@ import {
   getStagingVerificationToken,
 } from 'utils/storage'
 import _uniqBy from 'lodash.uniqby'
+import {HydratedPlan} from 'types'
 
 export const useGetPlansHook = () => {
   const {devToken, stagingToken} = useVerificationHook()
@@ -51,7 +52,7 @@ export const useGetPlansHook = () => {
       })
 
       uniqueNameList.sort((a, b) => a.account.plan_name.localeCompare(b.account.plan_name))
-      return uniqueNameList
+      return uniqueNameList as HydratedPlan[]
     }
     return []
   }, [devPlans, stagingPlans])
