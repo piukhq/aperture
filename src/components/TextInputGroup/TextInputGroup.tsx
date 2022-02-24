@@ -51,7 +51,7 @@ const INPUT_TYPE_MAPS: Record<InputType, string> = {
   [InputType.PASSWORD]: 'password',
   [InputType.SEARCH]: 'search',
   [InputType.SELECT]: 'select',
-  [InputType.SEARCH_SELECT]: 'search_select',
+  [InputType.SEARCH_SELECT]: 'search-select',
 }
 
 const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
@@ -190,7 +190,7 @@ type Props = {
   svgIcon?: ReactNode
   placeholder?: string
   value?: string
-  selectValues?: Array<Record<string, string>> | Array<Record<string, ReactNode>>
+  selectValues?: Array<Record<string, string>> | JSX.Element[]
   onChange: (event: { target: { value: string}}) => void
 }
 const TextInputGroup = (props: Props) => {
@@ -233,7 +233,7 @@ const TextInputGroup = (props: Props) => {
         'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
-        isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300'
+        isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300 dark:border-grey-800'
       )}
     />
   )
@@ -281,7 +281,7 @@ const TextInputGroup = (props: Props) => {
 
                 <Menu.Items as='ul' className='no-scrollbar bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
                   {selectValues && selectValues.map((value, _index) => (
-                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='dark:text-white cursor-pointer h-[60px] px-[23px] flex items-center'>
+                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='cursor-pointer h-[60px] px-[23px] flex items-center'>
                       {value}
                     </Menu.Item>
                   ))}
