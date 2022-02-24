@@ -6,6 +6,7 @@ import {
   getStagingVerificationToken,
 } from 'utils/storage'
 import _uniqBy from 'lodash.uniqby'
+import {HydratedPlan} from 'types'
 
 export const useGetPlansHook = () => {
   const {devToken, stagingToken} = useVerificationHook()
@@ -36,9 +37,22 @@ export const useGetPlansHook = () => {
   const getUniquePlansList = useMemo(() => {
     if (devPlans || stagingPlans) {
       const list = (devPlans || []).concat(stagingPlans || [])
-      const uniqueNameList = _uniqBy(list, 'slug').map(plan => plan.account.plan_name)
-      uniqueNameList.sort((a, b) => a.localeCompare(b))
-      return uniqueNameList
+
+      const uniqueNameList = _uniqBy(list, 'slug').map(plan => {
+        const devPlan = devPlans && devPlans.find(devPlan => devPlan.slug === plan.slug)
+        const stagingPlan = stagingPlans && stagingPlans.find(stagingPlan => stagingPlan.slug === plan.slug)
+
+        return {
+          ...plan,
+          isDev: devPlan ? true : false,
+          isStaging: stagingPlan ? true : false,
+          devImages: devPlan ? devPlan.images : [],
+          stagingImages: stagingPlan ? stagingPlan.images : [],
+        }
+      })
+
+      uniqueNameList.sort((a, b) => a.account.plan_name.localeCompare(b.account.plan_name))
+      return uniqueNameList as HydratedPlan[]
     }
     return []
   }, [devPlans, stagingPlans])

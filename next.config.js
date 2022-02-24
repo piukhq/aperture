@@ -11,6 +11,9 @@ const moduleExports = {
 
     return config
   },
+  images: {
+    domains: ['api.dev.gb.bink.com', 'api.staging.gb.bink.com'],
+  },
 }
 
 const sentryWebpackPluginOptions = {

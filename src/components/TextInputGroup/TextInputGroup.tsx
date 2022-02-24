@@ -1,11 +1,14 @@
 import React, {ReactNode, useState} from 'react'
+import {Menu} from '@headlessui/react'
 import {classNames} from 'utils/classNames'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
 enum InputType {
   TEXT,
   PASSWORD,
   SEARCH,
   SELECT,
+  SEARCH_SELECT,
 }
 
 enum InputWidth {
@@ -48,6 +51,7 @@ const INPUT_TYPE_MAPS: Record<InputType, string> = {
   [InputType.PASSWORD]: 'password',
   [InputType.SEARCH]: 'search',
   [InputType.SELECT]: 'select',
+  [InputType.SEARCH_SELECT]: 'search-select',
 }
 
 const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
@@ -186,7 +190,7 @@ type Props = {
   svgIcon?: ReactNode
   placeholder?: string
   value?: string
-  selectValues?: Array<Record<string, string>>
+  selectValues?: Array<Record<string, string>> | JSX.Element[]
   onChange: (event: { target: { value: string}}) => void
 }
 const TextInputGroup = (props: Props) => {
@@ -207,46 +211,98 @@ const TextInputGroup = (props: Props) => {
 
   const [selectDefaultValue, setSelectDefaultValue] = useState('default')
   const [isFocused, setIsFocused] = useState(false)
+  const [isSearchSelectMenuOpen, setIsSearchSelectMenuOpen] = useState(false)
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
-  const renderInputElement = () => <input
-    onFocus={() => setIsFocused(true)}
-    onBlur={() => setIsFocused(false)}
-    type={INPUT_TYPE_MAPS[inputType]}
-    autoComplete='on'
-    name={name}
-    id={`bink-form-field-${name}`}
-    placeholder={placeholder}
-    value={value}
-    onChange={onChange}
-    className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
-      INPUT_COLOUR_MAPS[inputColour].input,
-      INPUT_STYLE_MAPS[inputStyle].input,
-    )}
-  />
+  const renderInputElement = () => (
+    <input
+      onFocus={() => {
+        setIsFocused(true)
+        setIsSearchSelectMenuOpen(false)
+      }}
+      onBlur={() => setIsFocused(false)}
+      type={INPUT_TYPE_MAPS[inputType]}
+      autoComplete='on'
+      name={name}
+      id={`bink-form-field-${name}`}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      className={classNames(
+        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
+        INPUT_COLOUR_MAPS[inputColour].input,
+        INPUT_STYLE_MAPS[inputStyle].input,
+        isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300 dark:border-grey-800'
+      )}
+    />
+  )
 
   const handleSelectChange = (e) => {
     setSelectDefaultValue(e.target.value)
   }
 
-  const renderSelectElement = () => <select
-    name={name}
-    id={`bink-form-field-${name}`}
-    defaultValue={selectDefaultValue}
-    onChange={handleSelectChange}
-    className={classNames(
-      'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
-      INPUT_COLOUR_MAPS[inputColour].input,
-      INPUT_STYLE_MAPS[inputStyle].input,
-    )}
-  >
-    <option value='default' disabled hidden>Search...</option>
-    {selectValues && selectValues.map((value, _index) => (
-      <option key={_index}>{value}</option>
-    ))}
-  </select>
+  const renderSelectElement = () => (
+    <select
+      name={name}
+      id={`bink-form-field-${name}`}
+      defaultValue={selectDefaultValue}
+      onChange={handleSelectChange}
+      className={classNames(
+        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
+        INPUT_COLOUR_MAPS[inputColour].input,
+        INPUT_STYLE_MAPS[inputStyle].input,
+      )}
+    >
+      <option value='default' disabled hidden>Search...</option>
+      {selectValues && selectValues.map((value, _index) => (
+        <option key={_index}>{value}</option>
+      ))}
+    </select>
+  )
+
+  const renderSearchSelectElement = () => {
+    return (
+      <>
+        {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
+        <div className='relative'>
+          {renderInputElement()}
+          <Menu>
+            {({open}) => (
+              <>
+                <Menu.Button className='absolute top-[10px] right-[10px]'>
+                  <div onClick={() => setIsSearchSelectMenuOpen((isOpen) => !isOpen)} className='flex justify-center items-center w-[18px] h-[18px]'>
+                    <ArrowDownSvg className={classNames(
+                      'fill-grey-600',
+                      open && 'rotate-180'
+                    )} />
+                  </div>
+                </Menu.Button>
+
+                <Menu.Items as='ul' className='no-scrollbar bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
+                  {selectValues && selectValues.map((value, _index) => (
+                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='cursor-pointer h-[60px] px-[23px] flex items-center'>
+                      {value}
+                    </Menu.Item>
+                  ))}
+                </Menu.Items>
+              </>
+            )}
+          </Menu>
+        </div>
+      </>
+    )
+  }
+
+  const renderInputType = (inputType: number): ReactNode => {
+    if (inputType === InputType.SEARCH || inputType === InputType.TEXT || inputType === InputType.PASSWORD) {
+      return renderInputElement()
+    } else if (inputType === InputType.SELECT) {
+      return renderSelectElement()
+    } else if (inputType === InputType.SEARCH_SELECT) {
+      return renderSearchSelectElement()
+    }
+  }
 
   return (
     <div className={classNames(
@@ -254,20 +310,28 @@ const TextInputGroup = (props: Props) => {
       INPUT_STYLE_MAPS[inputStyle].container,
       INPUT_WIDTH_MAPS[inputWidth],
     )}>
-      <label className={classNames(
-        INPUT_STYLE_MAPS[inputStyle].label,
-        isOutlineStyle && INPUT_COLOUR_MAPS[inputColour].label,
-        isFocused && 'text-lightBlue',
-      )} >
-        {label}
-      </label>
-      {inputType === InputType.SELECT ? renderSelectElement() : renderInputElement()}
-      {svgIcon && <div className={INPUT_STYLE_MAPS[inputStyle].icon}>
-        {svgIcon}
-      </div>}
-      {error && <span className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
-        {error}
-      </span>}
+      {label && (
+        <label className={classNames(
+          INPUT_STYLE_MAPS[inputStyle].label,
+          isOutlineStyle && INPUT_COLOUR_MAPS[inputColour].label,
+          isFocused && 'text-lightBlue',
+        )} >
+          {label}
+        </label>
+      )}
+
+      {renderInputType(inputType)}
+
+      {svgIcon && (
+        <div className={INPUT_STYLE_MAPS[inputStyle].icon}>
+          {svgIcon}
+        </div>
+      )}
+      {error && (
+        <span className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
+          {error}
+        </span>
+      )}
     </div>
   )
 }
