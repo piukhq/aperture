@@ -9,10 +9,10 @@ type Props = {
 const IconImage = ({plan}: Props) => {
   const [imageIndex, setImageIndex] = useState(0)
   const devIcon = plan.devImages.find(image => image.type === 3)
-  const stagingIcons = plan.stagingImages.find(image => image.type === 3)
+  const stagingIcon = plan.stagingImages.find(image => image.type === 3)
 
   // Remove undefined values from array
-  const iconImages = [stagingIcons, devIcon].filter(image => image)
+  const iconImages = [stagingIcon, devIcon].filter(image => image)
 
   // Attempt to load image based on environment priority
   const src = iconImages[imageIndex]?.url
