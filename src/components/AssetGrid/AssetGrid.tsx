@@ -1,8 +1,8 @@
 import React from 'react'
-import Image from 'next/image'
-import CloseSquareSVG from 'icons/svgs/close-square.svg'
+import BlockSVG from 'icons/svgs/block.svg'
 
 import {PlanImage} from 'types'
+import {Asset} from './components/Asset'
 
 
 type Props = {
@@ -49,22 +49,13 @@ const AssetGrid = ({planAssets}: Props) => {
     if (assetType[env][i]) {
       return (
         <div key={assetType[env][i].url} className='relative w-full h-[100px] grid items-center'>
-          <Image
-            alt={assetType[env][i].description}
-            width='150'
-            height='73'
-            objectFit='contain'
-            src={assetType[env][i].url}
-            quality='25'
-            placeholder='blur'
-            blurDataURL='/icons/svgs/dots.svg'
-          />
+          <Asset description={assetType[env][i].description} url={assetType[env][i].url} />
         </div>
       )
     } else {
       return (
         <div key={assetType.heading + 1} className='relative w-full h-[100px] grid items-center justify-center'>
-          <CloseSquareSVG/>
+          <BlockSVG/>
         </div>
       )
     }
