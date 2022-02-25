@@ -3,7 +3,7 @@ import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 
-import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
+import {AssetGrid, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
@@ -19,7 +19,7 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-// import AssetGrid from 'components/AssetGrid'
+import {getSelectedPlanAssets, PlanAssetsType} from 'features/planAssetsSlice'
 
 
 const AssetComparatorPage: NextPage = () => {
@@ -27,6 +27,7 @@ const AssetComparatorPage: NextPage = () => {
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+  const PlanAssets: PlanAssetsType = useAppSelector(getSelectedPlanAssets)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
@@ -86,9 +87,9 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const renderVerifiedLanding = () => {
-    // const determineAssetGridStatus = () => (
-    //   false ? <AssetGrid planAssets={false} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-    // )
+    const determineAssetGridStatus = () => (
+      PlanAssets ? <AssetGrid planAssets={PlanAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    )
 
     return (
       <>
@@ -100,7 +101,7 @@ const AssetComparatorPage: NextPage = () => {
             ))}
           </span>
         </div>
-        {/* {determineAssetGridStatus()} */}
+        {determineAssetGridStatus()}
       </>
     )
   }

@@ -50,8 +50,8 @@ const PlansList = () => {
 
 
   return (
-    <div className='w-full'>
-      <form className='z-10 w-full flex gap-[25px]' onSubmit={handleLoadAssets}>
+    <div className='w-full z-20'>
+      <form className='w-full flex gap-[25px]' onSubmit={handleLoadAssets}>
         <TextInputGroup
           name='placeholder'
           label='Search'
