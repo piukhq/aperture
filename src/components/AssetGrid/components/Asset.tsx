@@ -22,8 +22,8 @@ export const Asset = ({description, url}) => {
       />
 
       {!isLoaded && (
-        <div className='w-full absolute inset-0 flex justify-center items-center z-10 dark:bg-grey-825 animate-pulse'>
-          <DotsSVG />
+        <div className='w-full absolute inset-0 flex justify-center items-center dark:bg-grey-825 '>
+          <DotsSVG className='animate-pulse' />
         </div>
       )}
     </div>

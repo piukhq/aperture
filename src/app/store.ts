@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
 
+import planAssetsReducer from 'features/planAssetsSlice'
 import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi} from 'services/users'
@@ -12,6 +13,7 @@ import {devPlansApi, stagingPlansApi} from 'services/plans'
 
 export const store = configureStore({
   reducer: {
+    planAssets: planAssetsReducer,
     modal: modalReducer,
     // Add the generated reducer as a specific top-level slice
     [devVerifyApi.reducerPath]: devVerifyApi.reducer,

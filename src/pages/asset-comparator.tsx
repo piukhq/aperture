@@ -7,7 +7,7 @@ import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'comp
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
-import CheckSvg from 'icons/svgs/check.svg'
+
 
 import {
   useAppDispatch,
@@ -19,20 +19,16 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import AssetGrid from 'components/AssetGrid'
+// import AssetGrid from 'components/AssetGrid'
 
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
-  const [selectedPlanSlug] = useState('wasabi-club') //placeholder for this ticket to change later
-  const [currentPlanAssets, setCurrentPlanAssets] = useState(null) //placeholder for this ticket to change later
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
-
-  const {devPlans, stagingPlans} = useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
 
@@ -61,20 +57,7 @@ const AssetComparatorPage: NextPage = () => {
 
   const renderHeaderTools = () => (
     <>
-      { isVerified &&
-      <>
-        <PlansList />
-        <Button
-          handleClick={handleLoadAssets}
-          buttonSize={Button.buttonSize.MEDIUM_ICON}
-          buttonWidth={Button.buttonWidth.AUTO}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.MEDIUM}
-        > <CheckSvg/>Load Assets
-        </Button>
-      </>
-      }
+      { isVerified && <PlansList/>}
       <Button
         handleClick={handleRequestCredentialsModal}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
@@ -95,20 +78,6 @@ const AssetComparatorPage: NextPage = () => {
     </div>
   )
 
-  const handleLoadAssets = () => {
-
-
-    if (selectedPlanSlug) {
-      const planAssets = {
-        dev: devPlans?.find(plan => plan.slug === selectedPlanSlug).images,
-        staging: stagingPlans?.find(plan => plan.slug === selectedPlanSlug).images,
-      }
-      setCurrentPlanAssets(planAssets)
-    } else {
-      console.log('No Plan Selected')
-    }
-
-  }
   const renderUnverifiedLanding = () => (
     <div className='mt-[115px] flex flex-col items-center text-center gap-4'>
       <h1 className='font-heading-4'>Welcome to the Bink Asset Comparator</h1>
@@ -117,9 +86,9 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const renderVerifiedLanding = () => {
-    const determineAssetGridStatus = () => (
-      currentPlanAssets ? <AssetGrid planAssets={currentPlanAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-    )
+    // const determineAssetGridStatus = () => (
+    //   false ? <AssetGrid planAssets={false} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    // )
 
     return (
       <>
@@ -131,7 +100,7 @@ const AssetComparatorPage: NextPage = () => {
             ))}
           </span>
         </div>
-        {determineAssetGridStatus()}
+        {/* {determineAssetGridStatus()} */}
       </>
     )
   }
@@ -140,7 +109,7 @@ const AssetComparatorPage: NextPage = () => {
     <>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
-        <div className='flex gap-[20px] h-[60px] justify-end'>
+        <div className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}
         </div>
 
