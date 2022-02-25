@@ -28,8 +28,8 @@ const PlansList = () => {
     e.preventDefault()
 
     if (slug) {
-      const devPlanAssets = devPlans.find(plan => plan.slug === slug)?.images || null
-      const stagingPlanAssets = stagingPlans.find(plan => plan.slug === slug)?.images || null
+      const devPlanAssets = devPlans?.find(plan => plan.slug === slug)?.images || null
+      const stagingPlanAssets = stagingPlans?.find(plan => plan.slug === slug)?.images || null
       const planAssets = {
         dev: devPlanAssets,
         staging: stagingPlanAssets,
