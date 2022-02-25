@@ -26,7 +26,6 @@ const PlansList = () => {
 
   const handleLoadAssets = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (slug) {
       const devPlanAssets = devPlans?.find(plan => plan.slug === slug)?.images || null
       const stagingPlanAssets = stagingPlans?.find(plan => plan.slug === slug)?.images || null
@@ -50,7 +49,6 @@ const PlansList = () => {
     }
     return []
   }, [uniquePlansList])
-
 
   return (
     <div className='w-full z-20'>
