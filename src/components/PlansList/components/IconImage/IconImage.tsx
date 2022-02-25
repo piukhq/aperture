@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import React, {useState} from 'react'
 import Image from 'next/image'
 import {HydratedPlan} from 'types'
 
@@ -28,4 +28,4 @@ const IconImage = ({plan}: Props) => {
   )
 }
 
-export default IconImage
+export default React.memo(IconImage)

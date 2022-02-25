@@ -279,9 +279,9 @@ const TextInputGroup = (props: Props) => {
                   </div>
                 </Menu.Button>
 
-                <Menu.Items as='ul' className='no-scrollbar bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
+                <Menu.Items as='ul' className='scrollable bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
                   {selectValues && selectValues.map((value, _index) => (
-                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='cursor-pointer h-[60px] px-[23px] flex items-center'>
+                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center'>
                       {value}
                     </Menu.Item>
                   ))}
