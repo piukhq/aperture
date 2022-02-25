@@ -26,10 +26,13 @@ const PlansList = () => {
 
   const handleLoadAssets = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
     if (slug) {
+      const devPlanAssets = devPlans.find(plan => plan.slug === slug)?.images || null
+      const stagingPlanAssets = stagingPlans.find(plan => plan.slug === slug)?.images || null
       const planAssets = {
-        dev: devPlans?.find(plan => plan.slug === slug).images,
-        staging: stagingPlans?.find(plan => plan.slug === slug).images,
+        dev: devPlanAssets,
+        staging: stagingPlanAssets,
       }
       dispatch(setSelectedPlanAssets(planAssets))
     } else {

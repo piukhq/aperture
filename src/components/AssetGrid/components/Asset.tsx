@@ -10,7 +10,7 @@ export const Asset = ({description, url}) => {
 
   const handleError = () => {
     setImageSrc('/icons/svgs/asset-error.svg')
-    setImageWidth('22')
+    setImageWidth('20')
   }
   return (
     <div>
@@ -22,8 +22,6 @@ export const Asset = ({description, url}) => {
         objectFit='contain'
         src={imageSrc}
         quality='25' // TODO: Revisit this once the hover zoom effect is in place
-        placeholder='blur'
-        blurDataURL={url}
         onLoadingComplete={() => setIsLoaded(true)}
         onError={handleError}
       />

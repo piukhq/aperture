@@ -16,23 +16,20 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const assetTypeNames = ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO']
   const {dev, staging} = planAssets
-  console.log(planAssets)
-  const assetList = []
 
-  // When staging is missing it returns undefined in planAssets we need to check/cope for that in the below....and vice useVerifyStagingCredentialsMutation... or check before it rtuns
+  const assetList = assetTypeNames.map((typeName, index) => {
+    const devAssetsOfType = dev?.filter(asset => asset.type === index)
+    const stagingAssetsOfType = staging?.filter(asset => asset.type === index)
+    const maxNumberOfAssets = [devAssetsOfType, stagingAssetsOfType].sort((a, b) => b.length - a.length)[0].length
 
-
-  assetTypeNames.forEach((typeName, index) => {
-    const devAssetsOfType = dev.filter(asset => asset.type === index)
-    const stagingAssetsOfType = staging.filter(asset => asset.type === index)
-    const maxNumberOfAssets = devAssetsOfType.length > stagingAssetsOfType.length ? devAssetsOfType.length : stagingAssetsOfType.length
-
-    maxNumberOfAssets > 0 && assetList.push({
-      heading: typeName,
-      dev: devAssetsOfType,
-      staging: stagingAssetsOfType,
-      maxNumberOfAssets: maxNumberOfAssets,
-    })
+    if (maxNumberOfAssets > 0) {
+      return {
+        heading: typeName,
+        dev: devAssetsOfType,
+        staging: stagingAssetsOfType,
+        maxNumberOfAssets: maxNumberOfAssets,
+      }
+    }
   })
 
   const renderLabelColumn = () => assetList.map(assetType => {
@@ -70,8 +67,8 @@ const AssetGrid = ({planAssets}: Props) => {
   return (
     <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
       <div>{renderLabelColumn()}</div>
-      <div>{dev && renderAssetColumn('dev')}</div>
-      <div>{staging && renderAssetColumn('staging')}</div>
+      <div>{dev?.length > 0 && renderAssetColumn('dev')}</div>
+      <div>{staging?.length > 0 && renderAssetColumn('staging')}</div>
     </div>
   )
 }
