@@ -4,7 +4,7 @@ import {RootState} from 'app/store'
 export type PlanAssetsType = Array<Record<string, unknown>>
 
 export type PlanAssets = {
-  selectedPlanAssets: Array<Record<string, unknown>>
+  selectedPlanAssets: PlanAssetsType
 }
 
 const initialState: PlanAssets = {selectedPlanAssets: null}
