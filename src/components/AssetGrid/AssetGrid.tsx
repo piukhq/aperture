@@ -33,7 +33,7 @@ const AssetGrid = ({planAssets}: Props) => {
     })
   })
 
-  const renderLabelColumn = () => (
+  const renderLabelColumnContents = () => (
     assetMatrix.map(assetType => {
       const {heading, longestAssetArray} = assetType
       return longestAssetArray.map((_, i) => (
@@ -44,7 +44,7 @@ const AssetGrid = ({planAssets}: Props) => {
     })
   )
 
-  const renderAssetColumn = (env: string) => (
+  const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
       if (assetType[env][i]) {
         const {url, description} = assetType[env][i]
@@ -65,9 +65,9 @@ const AssetGrid = ({planAssets}: Props) => {
 
   return (
     <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
-      <div>{renderLabelColumn()}</div>
-      <div>{dev?.length > 0 && renderAssetColumn('dev')}</div>
-      <div>{staging?.length > 0 && renderAssetColumn('staging')}</div>
+      <div>{renderLabelColumnContents()}</div>
+      <div>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
+      <div>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
     </div>
   )
 }
