@@ -7,8 +7,8 @@ import Asset from './components/Asset'
 
 type Props = {
   planAssets: {
-    dev: [PlanImage],
-    staging: [PlanImage]
+    dev: PlanImage[],
+    staging: PlanImage[]
   }
 }
 
