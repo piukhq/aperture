@@ -5,12 +5,12 @@ import DotsSVG from 'icons/svgs/dots.svg'
 const Asset = ({description, url}) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [imageSrc, setImageSrc] = useState(url)
-  const [imageWidth, setImageWidth] = useState('150')
+  const [imageWidth, setImageWidth] = useState(150)
   const imageClasses = isLoaded ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
 
   const handleError = () => {
     setImageSrc('/icons/svgs/asset-error.svg')
-    setImageWidth('20')
+    setImageWidth(20)
   }
   return (
     <div>
@@ -18,10 +18,10 @@ const Asset = ({description, url}) => {
         className={imageClasses}
         alt={description}
         width={imageWidth}
-        height='73'
+        height={73}
         objectFit='contain'
         src={imageSrc}
-        quality='25' // TODO: Revisit this once the hover zoom effect is in place
+        quality={25} // TODO: Revisit this once the hover zoom effect is in place
         onLoadingComplete={() => setIsLoaded(true)}
         onError={handleError}
       />
