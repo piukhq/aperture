@@ -1,6 +1,6 @@
-import {useEffect, useState, useMemo} from 'react'
+import {useEffect, useMemo} from 'react'
 import {useVerificationHook} from './useVerificationHook'
-import {useGetDevPlansQuery, useGetStagingPlansQuery} from 'services/plans'
+import {useGetDevPlansMutation, useGetStagingPlansMutation} from 'services/plans'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
@@ -11,30 +11,22 @@ import {HydratedPlan} from 'types'
 export const useGetPlansHook = () => {
   const {devToken, stagingToken} = useVerificationHook()
 
-  const [skipGetDevPlans, setSkipGetDevPlans] = useState(true)
-  const [skipGetStagingPlans, setSkipGetStagingPlans] = useState(true)
-
-  const {data: devPlans} = useGetDevPlansQuery(null, {
-    skip: skipGetDevPlans,
-  })
-
-  const {data: stagingPlans} = useGetStagingPlansQuery(null, {
-    skip: skipGetStagingPlans,
-  })
+  const [getDevPlans, {data: devPlans, reset: resetDevPlans}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
+  const [getStagingPlans, {data: stagingPlans, reset: resetStagingPlans}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
 
   useEffect(() => {
     if (getDevVerificationToken() || devToken) {
-      setSkipGetDevPlans(false)
+      getDevPlans()
     }
-  }, [devToken])
+  }, [devToken, getDevPlans])
 
   useEffect(() => {
     if (getStagingVerificationToken() || stagingToken) {
-      setSkipGetStagingPlans(false)
+      getStagingPlans()
     }
-  }, [stagingToken])
+  }, [stagingToken, getStagingPlans])
 
-  const getUniquePlansList = useMemo(() => {
+  const uniquePlansList = useMemo(() => {
     if (devPlans || stagingPlans) {
       const list = (devPlans || []).concat(stagingPlans || [])
 
@@ -60,6 +52,8 @@ export const useGetPlansHook = () => {
   return {
     devPlans,
     stagingPlans,
-    getUniquePlansList,
+    resetDevPlans,
+    resetStagingPlans,
+    uniquePlansList,
   }
 }

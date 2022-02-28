@@ -5,7 +5,7 @@ import SearchSvg from 'icons/svgs/search.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 const PlansList = () => {
-  const {getUniquePlansList} = useGetPlansHook()
+  const {uniquePlansList} = useGetPlansHook()
 
   const [value, setValue] = useState('')
 
@@ -14,15 +14,15 @@ const PlansList = () => {
   }
 
   const list = useMemo(() => {
-    if (getUniquePlansList) {
-      return getUniquePlansList.map((item, _index) => (
+    if (uniquePlansList) {
+      return uniquePlansList.map((item, _index) => (
         <div key={_index} onClick={() => handlePlanClick(item)} className='flex items-center place-content-between w-full'>
           <Plan plan={item} />
         </div>
       ))
     }
     return []
-  }, [getUniquePlansList])
+  }, [uniquePlansList])
 
   return (
     <TextInputGroup

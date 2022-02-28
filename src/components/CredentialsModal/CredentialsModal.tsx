@@ -2,6 +2,7 @@ import {ReactNode, useState} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
 import {useVerificationHook} from 'hooks/useVerificationHook'
+import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {EnvironmentName} from 'utils/enums'
 import {
   getDevVerificationToken,
@@ -26,7 +27,11 @@ const CredentialsModal = () => {
     stagingError,
     devIsLoading,
     stagingIsLoading,
+    resetDevToken,
+    resetStagingToken,
   } = useVerificationHook()
+
+  const {resetDevPlans, resetStagingPlans} = useGetPlansHook()
 
   const {
     AQUAMARINE_FILLED,
@@ -69,19 +74,31 @@ const CredentialsModal = () => {
     }
   }
 
+  const handleRemoveToken = (envKey: string) => {
+    if (envKey === 'DEV') {
+      resetDevToken()
+      removeDevVerificationToken()
+      resetDevPlans()
+    } else if (envKey === 'STAGING') {
+      resetStagingToken()
+      removeStagingVerificationToken()
+      resetStagingPlans()
+    }
+  }
+
   const renderVerificationTag = (envKey: string): ReactNode => {
-    let isSuccessful, isPending, isFailure, hasVerificationToken, removeVerificationToken
+    let isSuccessful, isPending, isFailure, hasVerificationToken
 
     // TODO: Should refactor to avoid nasty bulky if/else functions
     if (envKey === 'DEV') {
       [isSuccessful, isPending, isFailure] = [devIsSuccess, devIsLoading, devError]
       hasVerificationToken = isSuccessful || getDevVerificationToken() !== null
-      removeVerificationToken = removeDevVerificationToken
     } else if (envKey === 'STAGING') {
       [isSuccessful, isPending, isFailure] = [stagingIsSuccess, stagingIsLoading, stagingError]
       hasVerificationToken = isSuccessful || getStagingVerificationToken() !== null
-      removeVerificationToken = removeStagingVerificationToken
     }
+
+    const removeVerificationToken = () => handleRemoveToken(envKey)
 
     const verificationProps = {
       isPending, isFailure, hasVerificationToken, removeVerificationToken,
