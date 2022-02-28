@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useMemo} from 'react'
 import BlockSVG from 'icons/svgs/block.svg'
 
 import {PlanImage} from 'types'
@@ -16,7 +16,8 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const {dev, staging} = planAssets
 
-  const assetTypeNames = ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO']
+  const assetTypeNames = useMemo(() => ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO'], [])
+
   const assetMatrix = []
 
   assetTypeNames.forEach((typeName, index) => {
@@ -32,31 +33,35 @@ const AssetGrid = ({planAssets}: Props) => {
     })
   })
 
-  const renderLabelColumn = () => assetMatrix.map(assetType => {
-    const {heading, longestAssetArray} = assetType
-    return longestAssetArray.map((_, i) => (
-      <div key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
-        {heading} { longestAssetArray.length > 1 && i + 1}
-      </div>)
-    )
-  })
+  const renderLabelColumn = () => (
+    assetMatrix.map(assetType => {
+      const {heading, longestAssetArray} = assetType
+      return longestAssetArray.map((_, i) => (
+        <div key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
+          {heading} { longestAssetArray.length > 1 && i + 1}
+        </div>)
+      )
+    })
+  )
 
-  const renderAssetColumn = (env: string) => assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
-    if (assetType[env][i]) {
-      const {url, description} = assetType[env][i]
-      return (
-        <div key={url} className='relative w-full h-[100px] grid items-center'>
-          <Asset description={description} url={url} />
-        </div>
-      )
-    } else {
-      return (
-        <div key={assetType.heading + i} className='relative w-full h-[100px] grid items-center justify-center'>
-          <BlockSVG/>
-        </div>
-      )
-    }
-  }))
+  const renderAssetColumn = (env: string) => (
+    assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
+      if (assetType[env][i]) {
+        const {url, description} = assetType[env][i]
+        return (
+          <div key={url} className='relative w-full h-[100px] grid items-center'>
+            <Asset description={description} url={url} />
+          </div>
+        )
+      } else {
+        return (
+          <div key={assetType.heading + i} className='relative w-full h-[100px] grid items-center justify-center'>
+            <BlockSVG/>
+          </div>
+        )
+      }
+    }))
+  )
 
   return (
     <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>

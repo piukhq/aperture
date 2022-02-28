@@ -51,7 +51,7 @@ const INPUT_TYPE_MAPS: Record<InputType, string> = {
   [InputType.PASSWORD]: 'password',
   [InputType.SEARCH]: 'search',
   [InputType.SELECT]: 'select',
-  [InputType.SEARCH_SELECT]: 'search_select',
+  [InputType.SEARCH_SELECT]: 'search-select',
 }
 
 const INPUT_WIDTH_MAPS: Record<InputWidth, string> = {
