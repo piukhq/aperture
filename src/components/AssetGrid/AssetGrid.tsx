@@ -2,7 +2,7 @@ import React from 'react'
 import BlockSVG from 'icons/svgs/block.svg'
 
 import {PlanImage} from 'types'
-import {Asset} from './components/Asset'
+import Asset from './components/Asset'
 
 
 type Props = {

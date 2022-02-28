@@ -2,7 +2,7 @@ import {useState} from 'react'
 import Image from 'next/image'
 import DotsSVG from 'icons/svgs/dots.svg'
 
-export const Asset = ({description, url}) => {
+const Asset = ({description, url}) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [imageSrc, setImageSrc] = useState(url)
   const [imageWidth, setImageWidth] = useState('150')
@@ -36,3 +36,5 @@ export const Asset = ({description, url}) => {
 
 
 }
+
+export default Asset
