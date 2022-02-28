@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 
-export type PlanAssetsType = any // TODO: Fix this
+export type PlanAssetsType = Array<Record<string, unknown>>
 
 export type PlanAssets = {
   selectedPlanAssets: Array<Record<string, unknown>>
