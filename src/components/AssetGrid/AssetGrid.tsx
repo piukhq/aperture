@@ -44,13 +44,13 @@ const AssetGrid = ({planAssets}: Props) => {
   const renderAssetColumn = (env: string) => assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
     if (assetType[env][i]) {
       return (
-        <div key={assetType[env][i].url} className='relative w-full h-[100px] grid items-center'>
+        <div key={assetType.heading + i} className='relative w-full h-[100px] grid items-center'>
           <Asset description={assetType[env][i].description} url={assetType[env][i].url} />
         </div>
       )
     } else {
       return (
-        <div key={assetType.heading + 1} className='relative w-full h-[100px] grid items-center justify-center'>
+        <div key={assetType.heading + i} className='relative w-full h-[100px] grid items-center justify-center'>
           <BlockSVG/>
         </div>
       )
