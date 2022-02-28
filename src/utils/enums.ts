@@ -19,7 +19,7 @@ enum VerificationToken {
 }
 
 enum EnvironmentName {
-  DEV = 'Develop',
+  DEV = 'Development',
   STAGING = 'Staging',
   SANDBOX = 'Sandbox',
   PROD = 'Production',
