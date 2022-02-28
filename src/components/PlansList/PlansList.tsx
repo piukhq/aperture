@@ -14,21 +14,21 @@ const PlansList = () => {
   const dispatch = useAppDispatch()
 
   const [value, setValue] = useState('')
-  const [slug, setSlug] = useState(null)
+  const [selectedPlanSlug, setSelectedPlanSlug] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
 
   const handlePlanClick = (item) => {
     setValue(item.account.plan_name)
-    setSlug(item.slug)
+    setSelectedPlanSlug(item.slug)
     setLoadAssetsError(null)
   }
 
   const handleLoadAssets = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (slug) {
-      const devPlanAssets = devPlans?.find(plan => plan.slug === slug)?.images || null
-      const stagingPlanAssets = stagingPlans?.find(plan => plan.slug === slug)?.images || null
+    if (selectedPlanSlug) {
+      const devPlanAssets = devPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || null
+      const stagingPlanAssets = stagingPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || null
       const planAssets = {
         dev: devPlanAssets,
         staging: stagingPlanAssets,

@@ -27,7 +27,7 @@ const AssetComparatorPage: NextPage = () => {
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const PlanAssets: PlanAssetsType = useAppSelector(getSelectedPlanAssets)
+  const planAssets: PlanAssetsType = useAppSelector(getSelectedPlanAssets)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
@@ -88,7 +88,7 @@ const AssetComparatorPage: NextPage = () => {
 
   const renderVerifiedLanding = () => {
     const determineAssetGridStatus = () => (
-      PlanAssets ? <AssetGrid planAssets={PlanAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+      planAssets ? <AssetGrid planAssets={planAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     )
 
     return (

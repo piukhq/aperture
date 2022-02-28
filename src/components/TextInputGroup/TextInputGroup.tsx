@@ -190,7 +190,7 @@ type Props = {
   svgIcon?: ReactNode
   placeholder?: string
   value?: string
-  selectValues?: Array<Record<string, string>> | Array<Record<string, ReactNode>>
+  selectValues?: Array<Record<string, string>> | JSX.Element[]
   onChange: (event: { target: { value: string}}) => void
 }
 const TextInputGroup = (props: Props) => {
