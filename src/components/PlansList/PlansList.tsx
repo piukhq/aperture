@@ -12,7 +12,6 @@ import {setSelectedPlanAssets} from 'features/planAssetsSlice'
 const PlansList = () => {
   const {uniquePlansList, devPlans, stagingPlans} = useGetPlansHook()
   const dispatch = useAppDispatch()
-
   const [value, setValue] = useState('')
   const [selectedPlanSlug, setSelectedPlanSlug] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
