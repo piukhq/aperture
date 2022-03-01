@@ -56,7 +56,7 @@ const AssetGrid = ({planAssets}: Props) => {
       } else {
         return (
           <div key={assetType.heading + i} className='relative w-full h-[100px] flex items-center justify-center'>
-            <div title='No asset available' className='w-[40px] h-[40px] flex items-center justify-center'>
+            <div title='No asset available' className='w-[60px] h-[60px] flex items-center justify-center'>
               <BlockSVG/>
             </div>
           </div>
