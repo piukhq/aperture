@@ -8,10 +8,9 @@ const Asset = ({description, url}) => {
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
-
   if (isError) {
     return (
-      <div className='w-full absolute inset-0 flex justify-center items-center dark:bg-grey-825 '>
+      <div className='flex justify-center items-center'>
         <AssetErrorSVG />
       </div>
     ) } else {
@@ -36,8 +35,6 @@ const Asset = ({description, url}) => {
       </div>
     )
   }
-
-
 }
 
 export default Asset
