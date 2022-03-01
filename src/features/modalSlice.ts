@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 
-export type ModalType = 'NO_MODAL' | 'ASSET_COMPARATOR_CREDENTIALS'
+export type ModalType = 'NO_MODAL' | 'ASSET_COMPARATOR_CREDENTIALS' | 'ASSET_COMPARATOR_ASSET'
 
 export type ModalState = {
   modalRequested: ModalType
