@@ -21,8 +21,11 @@ export const devPlansApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getDevPlans: builder.query<PlansResponse, void>({
-      query: () => `${endpointPrefix}/membership_plans`,
+    getDevPlans: builder.mutation<PlansResponse, void>({
+      query: () => ({
+        url: `${endpointPrefix}/membership_plans`,
+        method: 'GET',
+      }),
     }),
   }),
 })
@@ -38,12 +41,15 @@ export const stagingPlansApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getStagingPlans: builder.query<PlansResponse, void>({
-      query: () => `${endpointPrefix}/membership_plans`,
+    getStagingPlans: builder.mutation<PlansResponse, void>({
+      query: () => ({
+        url: `${endpointPrefix}/membership_plans`,
+        method: 'GET',
+      }),
     }),
   }),
 })
 
 
-export const {useGetDevPlansQuery} = devPlansApi
-export const {useGetStagingPlansQuery} = stagingPlansApi
+export const {useGetDevPlansMutation} = devPlansApi
+export const {useGetStagingPlansMutation} = stagingPlansApi

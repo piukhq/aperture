@@ -12,8 +12,8 @@ import {
 } from 'utils/storage'
 
 export const useVerificationHook = () => {
-  const [verifyDevCredentials, {data: devToken, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess}] = useVerifyDevCredentialsMutation({fixedCacheKey: 'devVerification'})
-  const [verifyStagingCredentials, {data: stagingToken, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess}] = useVerifyStagingCredentialsMutation({fixedCacheKey: 'stagingVerification'})
+  const [verifyDevCredentials, {data: devToken, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess, reset: resetDevToken}] = useVerifyDevCredentialsMutation({fixedCacheKey: 'devVerification'})
+  const [verifyStagingCredentials, {data: stagingToken, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess, reset: resetStagingToken}] = useVerifyStagingCredentialsMutation({fixedCacheKey: 'stagingVerification'})
 
   // If new token is available and there is no current token in local storage, store in local storage
   useEffect(() => {
@@ -39,5 +39,7 @@ export const useVerificationHook = () => {
     stagingIsLoading,
     devIsSuccess,
     stagingIsSuccess,
+    resetDevToken,
+    resetStagingToken,
   }
 }
