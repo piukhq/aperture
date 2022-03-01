@@ -1,13 +1,15 @@
 import {Button, Modal, Tag} from 'components'
+import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+import SearchSvg from 'icons/svgs/search.svg'
 
-// const selectedAsset = {
-//   id: 632,
-//   type: 0,
-//   url: 'https://api.dev.gb.bink.com/content/media/hermes/schemes/Wasabi_Card.png',
-//   description: 'Wasabi Hero',
-//   encoding: 'png',
-// }
+const selectedAsset = {
+  id: 632,
+  type: 0,
+  url: 'https://api.dev.gb.bink.com/content/media/hermes/schemes/Wasabi_Card.png',
+  description: 'Wasabi Hero',
+  encoding: 'png',
+}
 
 
 const AssetModal = () => {
@@ -23,16 +25,83 @@ const AssetModal = () => {
   )
 
   const renderImageSection = () => (
-    <div className='w-full h-[400px] bg-grey-600'>
-      <div className=''>
-
+    <div className='w-full h-[230px] bg-grey-600 flex '>
+      <div className='bg-orange w-[50px] h-full flex justify-center items-center'>
+        <Button
+          buttonWidth={Button.buttonWidth.ICON_ONLY}
+          buttonBackground={Button.buttonBackground.BLUE}
+          labelColour={Button.labelColour.WHITE}
+        >
+          <ArrowDownSvg className={'rotate-90'} />
+        </Button>
       </div>
+
+      <div className='bg-aquamarine w-full h-full flex justify-center items-center'>
+        <Image src={selectedAsset.url} width='600' height={250} objectFit='contain' alt={selectedAsset.description}></Image>
+      </div>
+
+      <div className='bg-red w-[50px] h-full flex justify-center items-center'>
+        <Button
+          buttonWidth={Button.buttonWidth.ICON_ONLY}
+          buttonBackground={Button.buttonBackground.BLUE}
+          labelColour={Button.labelColour.WHITE}
+        >
+          <ArrowDownSvg className={'-rotate-90'} />
+        </Button>
+      </div>
+    </div>
+  )
+
+  const renderAssetDetails = () => (
+    <div>
+      <div className='flex justify-between'>
+        <span className='font-heading-7'>Dimensions</span>
+        <span className='font-body-3'>1312 x 600</span>
+      </div>
+      <div className='flex justify-between'>
+        <span className='font-heading-7'>Size</span>
+        <span className='font-body-3'>49 KB</span>
+      </div>
+      <div className='flex justify-between'>
+        <span className='font-heading-7'>Filetype</span>
+        <span className='font-body-3'>PNG</span>
+      </div>
+      <div className='flex justify-between'>
+        <span className='font-heading-7'>Filename</span>
+        <span className='font-body-3'>Something_something</span>
+      </div>
+    </div>
+  )
+
+  const renderJSON = () => (
+    <pre className='dark: text-grey-100'>
+      <code>test</code>
+      <code>test</code>
+      <code>test</code>
+      <code>test</code>
+    </pre>
+  )
+
+  const renderButtons = () => (
+    <div className='flex justify-end gap-[20px]'>
       <Button
-        buttonWidth={Button.buttonWidth.ICON_ONLY}
+        handleClick={() => console.log('clicked')}
+        buttonSize={Button.buttonSize.MEDIUM_ICON}
+        buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
         labelColour={Button.labelColour.WHITE}
-      > <ArrowDownSvg className={'rotate-90'} /></Button>
-
+        labelWeight={Button.labelWeight.MEDIUM}
+      > <SearchSvg/>View in Django
+      </Button>
+      <Button
+        handleClick={() => console.log('clicked')}
+        buttonSize={Button.buttonSize.MEDIUM_ICON}
+        buttonWidth={Button.buttonWidth.AUTO}
+        buttonBackground={Button.buttonBackground.BLUE}
+        labelColour={Button.labelColour.WHITE}
+        labelWeight={Button.labelWeight.MEDIUM}
+      > <SearchSvg/>Download
+      </Button>
     </div>
   )
 
@@ -41,7 +110,9 @@ const AssetModal = () => {
     <Modal modalHeader='<Asset_Type> Asset <Asset_ID>'>
       {renderEnvironmentTags()}
       {renderImageSection()}
-
+      {renderAssetDetails()}
+      {renderJSON()}
+      {renderButtons()}
     </Modal>
   )
 }
