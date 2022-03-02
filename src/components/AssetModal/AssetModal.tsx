@@ -81,14 +81,32 @@ const AssetModal = () => {
       </div>
     ) }
 
-  const renderJSON = () => (
-    <pre className='dark: text-grey-100'>
-      <code>test</code>
-      <code>test</code>
-      <code>test</code>
-      <code>test</code>
-    </pre>
-  )
+
+  const renderJSON = () => {
+
+    const JSONAsset = JSON.stringify(selectedAsset).split(/[,{}]+/)
+
+    const code = JSONAsset.map((line, index) => {
+
+      let prefix = '  '
+      if (index === 0) {
+        prefix = '{'
+      } else if (index === JSONAsset.length - 1) {
+        prefix = '}'
+      }
+
+      return (
+        <div key={index} className='bg-grey-400 flex flex-nowrap text-xs overflow-hidden'>
+          <span className='bg-grey-500 w-[20px] text-center basis-[3%] shrink-0 text-grey-700'>{index + 1}</span>
+          <span className='text-left basis-[97%] text-grey-800'>{prefix} {line}</span>
+        </div>
+      ) })
+    return (
+      <pre className='dark: text-grey-100'>
+        {code}
+      </pre>
+    )
+  }
 
   const renderButtons = () => (
     <div className='flex justify-end gap-[20px]'>
