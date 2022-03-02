@@ -10,6 +10,8 @@ import {getSelectedPlanAsset} from 'features/planAssetsSlice'
 const AssetModal = () => {
   const selectedAsset = useAppSelector(getSelectedPlanAsset)
 
+  const {id, type, url, description, encoding} = selectedAsset
+
   const renderEnvironmentTags = () => (
     <div className='border-b-2 border-grey-500'>
       <h3 className='font-heading-9'>Environment</h3>
@@ -33,7 +35,13 @@ const AssetModal = () => {
       </div>
 
       <div className='bg-aquamarine w-full h-full flex justify-center items-center'>
-        <Image src={selectedAsset.url} width='600' height={250} objectFit='contain' alt={selectedAsset.description}></Image>
+        <Image
+          src={url}
+          width='600'
+          height={250}
+          objectFit='contain'
+          alt={description}>
+        </Image>
       </div>
 
       <div className='bg-red w-[50px] h-full flex justify-center items-center'>
@@ -48,26 +56,30 @@ const AssetModal = () => {
     </div>
   )
 
-  const renderAssetDetails = () => (
-    <div>
-      <div className='flex justify-between'>
-        <span className='font-heading-7'>Dimensions</span>
-        <span className='font-body-3'>1312 x 600</span>
-      </div>
-      <div className='flex justify-between'>
+  const renderAssetDetails = () => {
+
+    const filenameArray = url.split('/')
+    const filename = filenameArray[filenameArray.length - 1]
+    return (
+      <div>
+        <div className='flex justify-between'>
+          <span className='font-heading-7'>Dimensions</span>
+          <span className='font-body-3'>1312 x 600</span>
+        </div>
+        {/* <div className='flex justify-between'>
         <span className='font-heading-7'>Size</span>
         <span className='font-body-3'>49 KB</span>
+      </div> */}
+        <div className='flex justify-between'>
+          <span className='font-heading-7'>Filetype</span>
+          <span className='font-body-3'>{encoding.toLocaleUpperCase()}</span>
+        </div>
+        <div className='flex justify-between'>
+          <span className='font-heading-7'>Filename</span>
+          <span className='font-body-3'>{filename}</span>
+        </div>
       </div>
-      <div className='flex justify-between'>
-        <span className='font-heading-7'>Filetype</span>
-        <span className='font-body-3'>PNG</span>
-      </div>
-      <div className='flex justify-between'>
-        <span className='font-heading-7'>Filename</span>
-        <span className='font-body-3'>Something_something</span>
-      </div>
-    </div>
-  )
+    ) }
 
   const renderJSON = () => (
     <pre className='dark: text-grey-100'>
@@ -103,7 +115,7 @@ const AssetModal = () => {
 
 
   return (
-    <Modal modalHeader='<Asset_Type> Asset <Asset_ID>'>
+    <Modal modalHeader={`${type} Asset ${id}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}
