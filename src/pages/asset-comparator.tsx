@@ -19,7 +19,9 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import {getSelectedPlanAssets, PlanAssetsType} from 'features/planAssetsSlice'
+import {getSelectedPlanAssets} from 'features/planAssetsSlice'
+
+import {PlanAssetsType} from 'types'
 
 
 const AssetComparatorPage: NextPage = () => {
@@ -87,6 +89,7 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const renderVerifiedLanding = () => {
+    console.log(planAssets)
     const determineAssetGridStatus = () => (
       planAssets ? <AssetGrid planAssets={planAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     )
