@@ -6,7 +6,7 @@ export type PlanAssets = {
   selectedPlanAssets: SelectedPlanAssets
 }
 
-const initialState: PlanAssets = {selectedPlanAssets: null}
+const initialState: PlanAssets = {selectedPlanAssets: {dev: [], staging: []}}
 
 export const planAssetsSlice = createSlice({
   name: 'planAssets',
