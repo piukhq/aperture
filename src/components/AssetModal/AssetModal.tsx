@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {Button, Modal, Tag} from 'components'
 import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
@@ -9,6 +10,7 @@ import {getSelectedPlanAsset} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
   const selectedAsset = useAppSelector(getSelectedPlanAsset)
+  const [imageDimensions, setImageDimensions] = useState(null)
 
   const {id, type, url, description, encoding} = selectedAsset
 
@@ -23,8 +25,8 @@ const AssetModal = () => {
   )
 
   const renderImageSection = () => (
-    <div className='w-full h-[230px] bg-grey-600 flex '>
-      <div className='bg-orange w-[50px] h-full flex justify-center items-center'>
+    <div className='w-full h-[230px] flex '>
+      <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
         <Button
           buttonWidth={Button.buttonWidth.ICON_ONLY}
           buttonBackground={Button.buttonBackground.BLUE}
@@ -34,17 +36,17 @@ const AssetModal = () => {
         </Button>
       </div>
 
-      <div className='bg-aquamarine w-full h-full flex justify-center items-center'>
+      <div className='w-full h-full flex justify-center items-center'>
         <Image
           src={url}
           width='600'
           height={250}
           objectFit='contain'
-          alt={description}>
-        </Image>
+          alt={description}
+          onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
       </div>
 
-      <div className='bg-red w-[50px] h-full flex justify-center items-center'>
+      <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
         <Button
           buttonWidth={Button.buttonWidth.ICON_ONLY}
           buttonBackground={Button.buttonBackground.BLUE}
@@ -64,7 +66,7 @@ const AssetModal = () => {
       <div>
         <div className='flex justify-between'>
           <span className='font-heading-7'>Dimensions</span>
-          <span className='font-body-3'>1312 x 600</span>
+          <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
         </div>
         {/* <div className='flex justify-between'>
         <span className='font-heading-7'>Size</span>
@@ -87,7 +89,6 @@ const AssetModal = () => {
     const JSONAsset = JSON.stringify(selectedAsset).split(/[,{}]+/)
 
     const code = JSONAsset.map((line, index) => {
-
       let prefix = '  '
       if (index === 0) {
         prefix = '{'
