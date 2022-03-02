@@ -2,14 +2,14 @@ import {useState} from 'react'
 import Image from 'next/image'
 
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedPlanAsset} from 'features/planAssetsSlice'
+import {setSelectedPlanAsset, setSelectedPlanAssetGroup} from 'features/planAssetsSlice'
 
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 
-const Asset = ({asset}) => {
+const Asset = ({asset, assetType, typeIndex}) => { //add props
   const dispatch = useAppDispatch()
   const {url, description} = asset
 
@@ -19,7 +19,9 @@ const Asset = ({asset}) => {
 
 
   const handleAssetClick = () => {
+    const assetGroup = ['dev', 'staging'].map(env => assetType[env] && assetType[env][typeIndex])
     dispatch(setSelectedPlanAsset(asset))
+    dispatch(setSelectedPlanAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }
 

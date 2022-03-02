@@ -47,13 +47,14 @@ const AssetGrid = ({planAssets}: Props) => {
     })
   )
 
+
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
       if (assetType[env][i]) {
         const {url} = assetType[env][i]
         return (
           <div key={url} className='relative w-full h-[100px] grid items-center'>
-            <Asset asset={assetType[env][i]} />
+            <Asset asset={assetType[env][i]} assetType={assetType} typeIndex={i} />
           </div>
         )
       } else {

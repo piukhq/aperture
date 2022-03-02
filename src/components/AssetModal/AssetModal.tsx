@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useMemo} from 'react'
 import {Button, Modal, Tag} from 'components'
 import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
@@ -6,60 +6,66 @@ import SearchSvg from 'icons/svgs/search.svg'
 
 import {useAppSelector} from 'app/hooks'
 
-import {getSelectedPlanAsset} from 'features/planAssetsSlice'
+import {getSelectedPlanAsset, getSelectedPlanAssetGroup} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
+
+  const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
+
   const selectedAsset = useAppSelector(getSelectedPlanAsset)
+  const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
   const [imageDimensions, setImageDimensions] = useState(null)
 
   const {id, type, url, description, encoding} = selectedAsset
 
-  const renderEnvironmentTags = () => (
-    <div className='border-b-2 border-grey-500'>
-      <h3 className='font-heading-9'>Environment</h3>
-      <div className='flex gap-[8px] pt-[7px] pb-[24px]'>
-        <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' />
-        <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' />
-      </div>
-    </div>
-  )
+  const renderEnvironmentTags = () => {
 
-  const renderImageSection = () => (
-    <div className='w-full h-[230px] flex '>
-      <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
-        <Button
-          buttonWidth={Button.buttonWidth.ICON_ONLY}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-        >
-          <ArrowDownSvg className={'rotate-90'} />
-        </Button>
-      </div>
+    const blankTag = () => <div className='w-[24px]'></div>
 
-      <div className='w-full h-full flex justify-center items-center'>
-        <Image
-          src={url}
-          width='600'
-          height={250}
-          objectFit='contain'
-          alt={description}
-          onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+    return (
+      <div className='border-b-2 border-grey-500'>
+        <h3 className='font-heading-9'>Environment</h3>
+        <div className='flex gap-[8px] pt-[7px] pb-[24px]'>
+          { selectedAssetGroup[0] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : blankTag()}
+          { selectedAssetGroup[1] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : blankTag()}
+        </div>
       </div>
+    ) }
 
-      <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
-        <Button
-          buttonWidth={Button.buttonWidth.ICON_ONLY}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-        >
-          <ArrowDownSvg className={'-rotate-90'} />
-        </Button>
+  const renderImageSection = () => {
+    const isSoleAsset = selectedAssetGroup.filter(env => env).length === 1
+
+    const renderNavigationButton = rotation => (
+      <Button
+        buttonWidth={Button.buttonWidth.ICON_ONLY}
+        buttonBackground={Button.buttonBackground.BLUE}
+        labelColour={Button.labelColour.WHITE}
+      >
+        <ArrowDownSvg className={rotation} />
+      </Button>
+    )
+
+    return (
+      <div className='w-full h-[230px] flex'>
+        <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
+          {!isSoleAsset && renderNavigationButton('rotate-90')}
+        </div>
+        <div className='w-full h-full flex justify-center items-center'>
+          <Image
+            src={url}
+            width='600'
+            height={250}
+            objectFit='contain'
+            alt={description}
+            onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+        </div>
+        <div className='bg-grey-800 w-[50px] h-full flex justify-center items-center'>
+          {!isSoleAsset && renderNavigationButton('-rotate-90')}
+        </div>
       </div>
-    </div>
-  )
+    ) }
 
   const renderAssetDetails = () => {
-
     const filenameArray = url.split('/')
     const filename = filenameArray[filenameArray.length - 1]
     return (
@@ -134,7 +140,7 @@ const AssetModal = () => {
 
 
   return (
-    <Modal modalHeader={`${type} Asset ${id}`}>
+    <Modal modalHeader={`${assetTypeNames[type]} Asset ${id}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}

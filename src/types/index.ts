@@ -30,3 +30,5 @@ export type PlanImage = {
 }
 
 export type SelectedPlanAssets = Record<string, PlanImage[]>
+
+export type SelectedPlanAssetGroup = Array<Record<string, unknown>>
