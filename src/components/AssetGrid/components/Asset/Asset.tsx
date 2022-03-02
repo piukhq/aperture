@@ -1,12 +1,27 @@
 import {useState} from 'react'
 import Image from 'next/image'
+
+import {useAppDispatch} from 'app/hooks'
+import {setSelectedPlanAsset} from 'features/planAssetsSlice'
+
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
-const Asset = ({description, url}) => {
+import {requestModal} from 'features/modalSlice'
+
+const Asset = ({asset}) => {
+  const dispatch = useAppDispatch()
+  const {url, description} = asset
+
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
+
+
+  const handleAssetClick = () => {
+    dispatch(setSelectedPlanAsset(asset))
+    dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
+  }
 
   if (isError) {
     return (
@@ -15,7 +30,7 @@ const Asset = ({description, url}) => {
       </div>
     ) } else {
     return (
-      <div>
+      <button onClick={handleAssetClick}>
         <Image
           className={imageClasses}
           alt={description}
@@ -32,7 +47,7 @@ const Asset = ({description, url}) => {
             <DotsSVG className='animate-pulse' />
           </div>
         )}
-      </div>
+      </button>
     )
   }
 }

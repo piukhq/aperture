@@ -3,16 +3,12 @@ import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 
-const selectedAsset = {
-  id: 632,
-  type: 0,
-  url: 'https://api.dev.gb.bink.com/content/media/hermes/schemes/Wasabi_Card.png',
-  description: 'Wasabi Hero',
-  encoding: 'png',
-}
+import {useAppSelector} from 'app/hooks'
 
+import {getSelectedPlanAsset} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
+  const selectedAsset = useAppSelector(getSelectedPlanAsset)
 
   const renderEnvironmentTags = () => (
     <div className='border-b-2 border-grey-500'>
