@@ -29,4 +29,4 @@ export type PlanImage = {
   cta_url: string,
 }
 
-export type PlanAssetsType = Record<string, PlanImage[]>
+export type SelectedPlanAssets = Record<string, PlanImage[]>

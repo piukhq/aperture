@@ -2,11 +2,11 @@ import React, {useMemo} from 'react'
 import BlockSVG from 'icons/svgs/block.svg'
 
 import Asset from './components/Asset'
-import {PlanAssetsType} from 'types'
+import {SelectedPlanAssets} from 'types'
 
 
 type Props = {
-  planAssets: PlanAssetsType
+  planAssets: SelectedPlanAssets
 }
 
 const AssetGrid = ({planAssets}: Props) => {

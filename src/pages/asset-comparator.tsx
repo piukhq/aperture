@@ -21,7 +21,7 @@ import {
 } from 'features/modalSlice'
 import {getSelectedPlanAssets} from 'features/planAssetsSlice'
 
-import {PlanAssetsType} from 'types'
+import {SelectedPlanAssets} from 'types'
 
 
 const AssetComparatorPage: NextPage = () => {
@@ -29,7 +29,7 @@ const AssetComparatorPage: NextPage = () => {
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const planAssets: PlanAssetsType = useAppSelector(getSelectedPlanAssets)
+  const planAssets: SelectedPlanAssets = useAppSelector(getSelectedPlanAssets)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
@@ -89,7 +89,6 @@ const AssetComparatorPage: NextPage = () => {
   )
 
   const renderVerifiedLanding = () => {
-    console.log(planAssets)
     const determineAssetGridStatus = () => (
       planAssets ? <AssetGrid planAssets={planAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     )
