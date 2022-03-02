@@ -3,11 +3,11 @@ import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 
-import {Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
+import {AssetGrid, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
-import CheckSvg from 'icons/svgs/check.svg'
+
 
 import {
   useAppDispatch,
@@ -19,14 +19,15 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
+import {getSelectedPlanAssets, PlanAssetsType} from 'features/planAssetsSlice'
 
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
-
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+  const planAssets: PlanAssetsType = useAppSelector(getSelectedPlanAssets)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
@@ -57,20 +58,7 @@ const AssetComparatorPage: NextPage = () => {
 
   const renderHeaderTools = () => (
     <>
-      { isVerified &&
-      <>
-        <PlansList />
-        <Button
-          handleClick={() => console.log('clicked')}
-          buttonSize={Button.buttonSize.MEDIUM_ICON}
-          buttonWidth={Button.buttonWidth.AUTO}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.MEDIUM}
-        > <CheckSvg/>Load Assets
-        </Button>
-      </>
-      }
+      { isVerified && <PlansList/>}
       <Button
         handleClick={handleRequestCredentialsModal}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
@@ -98,23 +86,31 @@ const AssetComparatorPage: NextPage = () => {
     </div>
   )
 
-  const renderVerifiedLanding = () => (
-    <div className='grid grid-cols-5 w-full text-center'>
-      <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
-        <span></span>
-        {['DEVELOPMENT', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-          <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
-        ))}
-      </span>
-      <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
-    </div>
-  )
+  const renderVerifiedLanding = () => {
+    const determineAssetGridStatus = () => (
+      planAssets ? <AssetGrid planAssets={planAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+    )
+
+    return (
+      <>
+        <div className='grid grid-cols-5 w-full text-center'>
+          <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+            <span></span>
+            {['DEVELOPMENT', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+              <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+            ))}
+          </span>
+        </div>
+        {determineAssetGridStatus()}
+      </>
+    )
+  }
 
   return (
     <>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
       <PageLayout>
-        <div className='flex gap-[20px] h-[60px] justify-end'>
+        <div className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}
         </div>
 
