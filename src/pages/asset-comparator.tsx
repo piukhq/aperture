@@ -3,11 +3,7 @@ import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 
-<<<<<<< HEAD
 import {AssetGrid, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
-=======
-import {Button, ContentTile, AssetModal, CredentialsModal, PageLayout, PlansList} from 'components'
->>>>>>> fbf464d (temporary workaround to display modal)
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
@@ -39,8 +35,6 @@ const AssetComparatorPage: NextPage = () => {
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
 
-  const handleRequestAssetsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_ASSET')) }, [dispatch])
-
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
   }, [modalRequested])
@@ -68,7 +62,7 @@ const AssetComparatorPage: NextPage = () => {
     <>
       { isVerified && <PlansList/>}
       <Button
-        handleClick={handleRequestAssetsModal}
+        handleClick={handleRequestCredentialsModal}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
         buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
@@ -117,7 +111,6 @@ const AssetComparatorPage: NextPage = () => {
   return (
     <>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
-      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}
