@@ -1,15 +1,12 @@
 import React, {useMemo} from 'react'
 import BlockSVG from 'icons/svgs/block.svg'
 
-import {PlanImage} from 'types'
 import Asset from './components/Asset'
+import {SelectedPlanAssets} from 'types'
 
 
 type Props = {
-  planAssets: {
-    dev: PlanImage[],
-    staging: PlanImage[]
-  }
+  planAssets: SelectedPlanAssets
 }
 
 const AssetGrid = ({planAssets}: Props) => {
