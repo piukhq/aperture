@@ -19,10 +19,11 @@ const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add 
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
   const assetWithMetadata = (asset: PlanImage) => (
-    Object.assign({
+    {
+      asset: asset,
       hasMultipleOfSameType: hasMultipleOfSameType,
       typeIndex: typeIndex,
-    }, asset)
+    }
   )
 
   const handleAssetClick = () => {

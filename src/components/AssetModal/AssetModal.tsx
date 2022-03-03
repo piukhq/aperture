@@ -10,24 +10,27 @@ import {useAppSelector} from 'app/hooks'
 import {getSelectedPlanAsset, getSelectedPlanAssetGroup} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
+  //ENUM THIS? ---V
   const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
 
   const selectedAsset = useAppSelector(getSelectedPlanAsset)
+  console.log(selectedAsset)
   const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
   const [imageDimensions, setImageDimensions] = useState(null)
 
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
 
-  const {id, type, url, description, encoding, hasMultipleOfSameType, typeIndex} = selectedAsset
+  const {hasMultipleOfSameType, typeIndex, asset} = selectedAsset
+  const {id, type, url, description, encoding} = asset
 
   const renderEnvironmentTags = () => {
 
-    const blankTag = () => <div className='w-[24px]'></div>
+    const blankTag = () => <div className='w-[12px]'></div>
 
     return (
-      <div className='border-b-2 border-grey-500 mb-[24px]'>
+      <div className='mb-[12px]'>
         <h3 className='font-heading-9'>Environment</h3>
-        <div className='flex gap-[8px] pt-[7px] mb-[24px]'>
+        <div className='flex gap-[8px] pt-[7px] mb-[12px]'>
           { selectedAssetGroup[0] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : blankTag()}
           { selectedAssetGroup[1] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : blankTag()}
         </div>
@@ -49,7 +52,7 @@ const AssetModal = () => {
     )
 
     return (
-      <div className='w-full h-[317px] flex mb-[24px]'>
+      <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
           {!isSoleAsset && renderNavigationButton('rotate-90')}
         </div>
@@ -58,7 +61,7 @@ const AssetModal = () => {
             className={imageClasses}
             src={url}
             width={520}
-            height={317}
+            height={280}
             objectFit='contain'
             alt={description}
             onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
@@ -73,7 +76,7 @@ const AssetModal = () => {
     const filenameArray = url.split('/')
     const filename = filenameArray[filenameArray.length - 1]
     return (
-      <div className='mb-[24px]'>
+      <div className='mb-[12px]'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
           <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
@@ -95,7 +98,7 @@ const AssetModal = () => {
 
 
   const renderJSON = () => {
-    const JSONAsset = JSON.stringify(selectedAsset).split(/[,{}]+/)
+    const JSONAsset = JSON.stringify(asset).split(/[,{}]+/)
     const codeBox = JSONAsset.map((line, index) => {
       let prefix = '  '
       if (index === 0) {

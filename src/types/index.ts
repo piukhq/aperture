@@ -30,12 +30,7 @@ export type PlanImage = {
 }
 
 export type SelectedPlanAsset = {
-  id: number,
-  type: number,
-  url: string,
-  encoding: string,
-  description: string,
-  cta_url: string,
+  asset: PlanImage,
   hasMultipleOfSameType: boolean,
   typeIndex: number
 }
