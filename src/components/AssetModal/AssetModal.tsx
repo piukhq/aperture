@@ -99,9 +99,9 @@ const AssetModal = () => {
         prefix = '}'
       }
       return (
-        <div key={index} className='bg-grey-400 flex flex-nowrap text-sm overflow-hidden'>
-          <span className='bg-grey-500 w-[20px] text-center basis-[3%] shrink-0 text-grey-700 py-[3px]'>{index + 1}</span>
-          <span className='text-left basis-[97%] text-grey-800 pl-[10px] py-[3px]'>{prefix} {line}</span>
+        <div key={index} className='bg-grey-200 flex flex-nowrap overflow-hidden text-xs  text-grey-800'>
+          <span className='bg-grey-300 w-[20px] text-center basis-[3%] shrink-0 py-[3px]'>{index + 1}</span>
+          <span className='text-left basis-[97%] pl-[10px] py-[3px]'>{prefix} {line}</span>
         </div>
       ) })
     return (
