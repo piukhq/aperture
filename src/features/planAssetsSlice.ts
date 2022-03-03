@@ -1,10 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
-import {SelectedPlanAssets, SelectedPlanAssetGroup, PlanImage} from 'types'
+import {SelectedPlanAssets, SelectedPlanAssetGroup, SelectedPlanAsset} from 'types'
 
 export type PlanAssets = {
   selectedPlanAssets: SelectedPlanAssets,
-  selectedPlanAsset: PlanImage,
+  selectedPlanAsset: SelectedPlanAsset,
   selectedPlanAssetGroup: Array<Record<string, unknown>>,
 }
 
@@ -21,7 +21,7 @@ export const planAssetsSlice = createSlice({
     setSelectedPlanAssets: (state, action: PayloadAction<SelectedPlanAssets>) => {
       state.selectedPlanAssets = action.payload
     },
-    setSelectedPlanAsset: (state, action: PayloadAction<PlanImage>) => {
+    setSelectedPlanAsset: (state, action: PayloadAction<SelectedPlanAsset>) => {
       state.selectedPlanAsset = action.payload
     },
     setSelectedPlanAssetGroup: (state, action: PayloadAction<SelectedPlanAssetGroup>) => {

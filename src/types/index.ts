@@ -29,6 +29,17 @@ export type PlanImage = {
   cta_url: string,
 }
 
+export type SelectedPlanAsset = {
+  id: number,
+  type: number,
+  url: string,
+  encoding: string,
+  description: string,
+  cta_url: string,
+  hasMultipleOfSameType: boolean,
+  typeIndex: number
+}
+
 export type SelectedPlanAssets = Record<string, PlanImage[]>
 
 export type SelectedPlanAssetGroup = Array<Record<string, unknown>>

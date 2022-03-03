@@ -17,7 +17,7 @@ const AssetModal = () => {
   const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
   const [imageDimensions, setImageDimensions] = useState(null)
 
-  const {id, type, url, description, encoding} = selectedAsset
+  const {id, type, url, description, encoding, hasMultipleOfSameType, typeIndex} = selectedAsset
 
   const renderEnvironmentTags = () => {
 
@@ -139,7 +139,7 @@ const AssetModal = () => {
 
 
   return (
-    <Modal modalHeader={`${assetTypeNames[type]} TYPEINDEX!!! Asset ${id}`}>
+    <Modal modalHeader={`${assetTypeNames[type]} ${hasMultipleOfSameType ? typeIndex + 1 : ''} Asset ${id}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}

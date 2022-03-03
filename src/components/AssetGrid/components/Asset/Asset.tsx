@@ -9,7 +9,7 @@ import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 
-const Asset = ({asset, assetType, typeIndex}) => { //add props
+const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add props
   const dispatch = useAppDispatch()
   const {url, description} = asset
 
@@ -17,10 +17,18 @@ const Asset = ({asset, assetType, typeIndex}) => { //add props
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
+  const assetWithMetadata = (asset) => (
+    Object.assign({
+      hasMultipleOfSameType: hasMultipleOfSameType,
+      typeIndex: typeIndex,
+    }, asset)
+  )
 
   const handleAssetClick = () => {
-    const assetGroup = ['dev', 'staging'].map(env => assetType[env] && assetType[env][typeIndex])
-    dispatch(setSelectedPlanAsset(asset))
+    const assetGroup = ['dev', 'staging'].map(env => {
+      return assetType[env][typeIndex] ? assetWithMetadata(assetType[env][typeIndex]) : null
+    })
+    dispatch(setSelectedPlanAsset(assetWithMetadata(asset)))
     dispatch(setSelectedPlanAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }

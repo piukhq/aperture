@@ -151,7 +151,6 @@ const Button = (props: ButtonProps) => {
   )
 }
 
-
 Button.buttonType = ButtonType
 Button.buttonSize = ButtonSize
 Button.buttonWidth = ButtonWidth
