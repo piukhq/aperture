@@ -1,21 +1,47 @@
-import {useMemo, useState} from 'react'
+import {useEffect, useMemo, useState, useCallback} from 'react'
 import {TextInputGroup, Button} from 'components'
 import Plan from './components/Plan'
 import SearchSvg from 'icons/svgs/search.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {useAppDispatch} from 'app/hooks'
-
 import {setSelectedPlanAssets} from 'features/planAssetsSlice'
-
+import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 
 const PlansList = () => {
-  const {uniquePlansList, devPlans, stagingPlans} = useGetPlansHook()
+  const {uniquePlansList, devPlans, stagingPlans, devIsLoading, stagingIsLoading} = useGetPlansHook()
   const dispatch = useAppDispatch()
   const [value, setValue] = useState('')
   const [selectedPlanSlug, setSelectedPlanSlug] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
+  const storePlanAssets = useCallback((selectedPlanSlug) => {
+    const devAssets = devPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
+    const stagingAssets = stagingPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
+    const planAssets = {
+      dev: devAssets,
+      staging: stagingAssets,
+    }
+    dispatch(setSelectedPlanAssets(planAssets))
+  }, [devPlans, stagingPlans, dispatch])
+
+  useEffect(() => {
+    const cachedPlanSlug = getCachedPlanSlug()
+    if (cachedPlanSlug && !selectedPlanSlug) {
+      // Make sure that relevant plans are available before proceeding
+      if (!devIsLoading && !stagingIsLoading) {
+        // Check if plan still exists
+        const selectedPlan = uniquePlansList.find(plan => plan.slug === cachedPlanSlug)
+        if (selectedPlan) {
+          setValue(selectedPlan.account.plan_name as string)
+          setSelectedPlanSlug(cachedPlanSlug)
+          storePlanAssets(cachedPlanSlug)
+        } else {
+          removeCachedPlanSlug()
+        }
+      }
+    }
+  }, [devIsLoading, stagingIsLoading, uniquePlansList, selectedPlanSlug, storePlanAssets])
 
   const handlePlanClick = (item) => {
     setValue(item.account.plan_name)
@@ -26,13 +52,8 @@ const PlansList = () => {
   const handleLoadAssets = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (selectedPlanSlug) {
-      const devAssets = devPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
-      const stagingAssets = stagingPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
-      const planAssets = {
-        dev: devAssets,
-        staging: stagingAssets,
-      }
-      dispatch(setSelectedPlanAssets(planAssets))
+      storePlanAssets(selectedPlanSlug)
+      setCachedPlanSlug(selectedPlanSlug)
     } else {
       setLoadAssetsError('Select a plan above to load assets')
     }
