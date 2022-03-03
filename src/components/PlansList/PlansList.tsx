@@ -46,7 +46,6 @@ const PlansList = () => {
   const handlePlanClick = (item) => {
     setValue(item.account.plan_name)
     setSelectedPlanSlug(item.slug)
-    setCachedPlanSlug(item.slug)
     setLoadAssetsError(null)
   }
 
@@ -54,6 +53,7 @@ const PlansList = () => {
     e.preventDefault()
     if (selectedPlanSlug) {
       storePlanAssets(selectedPlanSlug)
+      setCachedPlanSlug(selectedPlanSlug)
     } else {
       setLoadAssetsError('Select a plan above to load assets')
     }
