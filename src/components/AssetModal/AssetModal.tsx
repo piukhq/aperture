@@ -1,4 +1,4 @@
-import {useState, useMemo} from 'react'
+import {useState} from 'react'
 import {Button, Modal, Tag} from 'components'
 import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
@@ -6,42 +6,40 @@ import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
 
 import {useAppSelector} from 'app/hooks'
+import {EnvironmentIndex} from 'utils/enums'
 
 import {getSelectedPlanAsset, getSelectedPlanAssetGroup} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
-  //ENUM THIS? ---V
-  const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
+  const [imageDimensions, setImageDimensions] = useState(null)
 
   const selectedAsset = useAppSelector(getSelectedPlanAsset)
-  console.log(selectedAsset)
   const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
-  const [imageDimensions, setImageDimensions] = useState(null)
 
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
 
-  const {hasMultipleOfSameType, typeIndex, asset} = selectedAsset
-  const {id, type, url, description, encoding} = asset
+  const {hasMultipleAssetsOfThisType, typeIndex, asset, heading} = selectedAsset
+  const {id, url, description, encoding} = asset
 
   const renderEnvironmentTags = () => {
-
-    const blankTag = () => <div className='w-[12px]'></div>
+    const renderNoTag = () => <div className='w-[12px]'></div>
 
     return (
       <div className='mb-[12px]'>
         <h3 className='font-heading-9'>Environment</h3>
         <div className='flex gap-[8px] pt-[7px] mb-[12px]'>
-          { selectedAssetGroup[0] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : blankTag()}
-          { selectedAssetGroup[1] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : blankTag()}
+          { selectedAssetGroup[EnvironmentIndex.DEV] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
+          { selectedAssetGroup[EnvironmentIndex.STAGING] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
         </div>
       </div>
     ) }
 
   const renderImageSection = () => {
-    const isSoleAsset = selectedAssetGroup.filter(env => env).length === 1
+    const isUniqueAcrossEnvironments = selectedAssetGroup.filter(env => env).length === 1
 
     const renderNavigationButton = rotation => (
       <Button
+        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
         buttonWidth={Button.buttonWidth.TINY}
         buttonSize={Button.buttonSize.TINY}
         buttonBackground={Button.buttonBackground.BLUE}
@@ -50,11 +48,10 @@ const AssetModal = () => {
         <ArrowDownSvg fill='white' className={`${rotation} scale-75`} />
       </Button>
     )
-
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
-          {!isSoleAsset && renderNavigationButton('rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
           <Image
@@ -63,28 +60,24 @@ const AssetModal = () => {
             width={520}
             height={280}
             objectFit='contain'
-            alt={description}
+            alt={description || heading}
             onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
-          {!isSoleAsset && renderNavigationButton('-rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton('-rotate-90')}
         </div>
       </div>
     ) }
 
   const renderAssetDetails = () => {
-    const filenameArray = url.split('/')
-    const filename = filenameArray[filenameArray.length - 1]
+    const urlArray = url.split('/')
+    const filename = urlArray[urlArray.length - 1]
     return (
       <div className='mb-[12px]'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
           <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
         </div>
-        {/* <div className='flex justify-between mb-[2px]'>
-          <span className='font-heading-7'>Size</span>
-          <span className='font-body-3'>49 KB</span>
-        </div> */}
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Filetype</span>
           <span className='font-body-3'>{encoding.toLocaleUpperCase()}</span>
@@ -96,8 +89,7 @@ const AssetModal = () => {
       </div>
     ) }
 
-
-  const renderJSON = () => {
+  const renderJSONSection = () => {
     const JSONAsset = JSON.stringify(asset).split(/[,{}]+/)
     const codeBox = JSONAsset.map((line, index) => {
       let prefix = '  '
@@ -122,7 +114,7 @@ const AssetModal = () => {
   const renderButtons = () => (
     <div className='flex justify-end gap-[20px] mb-[24px]'>
       <Button
-        handleClick={() => console.log('clicked')}
+        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
         buttonSize={Button.buttonSize.MEDIUM_ICON}
         buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
@@ -131,7 +123,7 @@ const AssetModal = () => {
       > <SearchWhiteSvg />View in Django
       </Button>
       <Button
-        handleClick={() => console.log('clicked')}
+        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
         buttonSize={Button.buttonSize.MEDIUM_ICON}
         buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
@@ -144,11 +136,11 @@ const AssetModal = () => {
 
 
   return (
-    <Modal modalHeader={`${assetTypeNames[type]} ${hasMultipleOfSameType ? typeIndex + 1 : ''} Asset ${id}`}>
+    <Modal modalHeader={`${heading} ${hasMultipleAssetsOfThisType ? typeIndex + 1 : ''} Asset ${id}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}
-      {renderJSON()}
+      {renderJSONSection()}
       {renderButtons()}
     </Modal>
   )

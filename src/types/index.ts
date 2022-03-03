@@ -20,6 +20,13 @@ export type HydratedPlan = Plan & {
   slug: string
 }
 
+export type AssetType = {
+  heading: string
+  dev: Array<PlanImage>,
+  staging: Array<PlanImage>,
+  longestAssetArray: Array<PlanImage>,
+  hasMultipleAssetsOfThisType: boolean,
+}
 export type PlanImage = {
   id: number,
   type: number,
@@ -31,8 +38,9 @@ export type PlanImage = {
 
 export type SelectedPlanAsset = {
   asset: PlanImage,
-  hasMultipleOfSameType: boolean,
-  typeIndex: number
+  hasMultipleAssetsOfThisType: boolean
+  typeIndex: number,
+  heading: string,
 }
 
 export type SelectedPlanAssets = Record<string, PlanImage[]>

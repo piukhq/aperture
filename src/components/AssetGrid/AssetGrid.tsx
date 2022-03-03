@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react'
 import Asset from './components/Asset'
-import {SelectedPlanAssets} from 'types'
+import {SelectedPlanAssets, AssetType} from 'types'
 
 import BlockSVG from 'icons/svgs/block.svg'
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 const AssetGrid = ({planAssets}: Props) => {
   const {dev, staging} = planAssets
 
-  const assetTypeNames = useMemo(() => ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO'], [])
+  const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
 
-  const assetMatrix = []
+  const assetMatrix:Array<AssetType> = []
 
   assetTypeNames.forEach((typeName, index) => {
     const devAssetsOfType = dev?.filter(asset => asset.type === index)
@@ -24,27 +24,32 @@ const AssetGrid = ({planAssets}: Props) => {
       dev: devAssetsOfType,
       staging: stagingAssetsOfType,
       longestAssetArray: longestAssetArray,
+      hasMultipleAssetsOfThisType: longestAssetArray.length > 1,
     })
   })
 
   const renderLabelColumnContents = () => (
     assetMatrix.map(assetType => {
-      const {heading, longestAssetArray} = assetType
+      const {heading, longestAssetArray, hasMultipleAssetsOfThisType} = assetType
       return longestAssetArray.map((_, i) => (
         <div key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
-          {heading} { longestAssetArray.length > 1 && i + 1}
+          {heading.toLocaleUpperCase() } { hasMultipleAssetsOfThisType && i + 1}
         </div>)
       )
     })
   )
 
   const renderAssetColumnContents = (env: string) => (
-    assetMatrix.map(assetType => assetType.longestAssetArray.map((longestArray, i) => {
+    assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
       if (assetType[env][i]) {
         const {url} = assetType[env][i]
         return (
           <div key={url} className='relative w-full h-[100px] grid items-center'>
-            <Asset asset={assetType[env][i]} assetType={assetType} typeIndex={i} hasMultipleOfSameType={assetType.longestAssetArray.length > 1} />
+            <Asset
+              asset={assetType[env][i]}
+              assetType={assetType}
+              typeIndex={i}
+            />
           </div>
         )
       } else {

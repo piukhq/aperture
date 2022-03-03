@@ -8,9 +8,15 @@ import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
-import {PlanImage} from 'types'
+import {AssetType, PlanImage} from 'types'
 
-const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add props
+type Props = {
+  asset: PlanImage,
+  assetType: AssetType,
+  typeIndex: number,
+}
+
+const Asset = ({asset, assetType, typeIndex}: Props) => {
   const dispatch = useAppDispatch()
   const {url, description} = asset
 
@@ -18,19 +24,21 @@ const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add 
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
-  const assetWithMetadata = (asset: PlanImage) => (
+
+  const buildPlanAssetObject = (asset: PlanImage) => ( // Provides additional metadata for use in the Asset modal
     {
       asset: asset,
-      hasMultipleOfSameType: hasMultipleOfSameType,
+      hasMultipleAssetsOfThisType: assetType.hasMultipleAssetsOfThisType,
       typeIndex: typeIndex,
+      heading: assetType.heading,
     }
   )
 
   const handleAssetClick = () => {
     const assetGroup = ['dev', 'staging'].map(env => {
-      return assetType[env][typeIndex] ? assetWithMetadata(assetType[env][typeIndex]) : null
+      return assetType[env][typeIndex] ? buildPlanAssetObject(assetType[env][typeIndex]) : null
     })
-    dispatch(setSelectedPlanAsset(assetWithMetadata(asset)))
+    dispatch(setSelectedPlanAsset(buildPlanAssetObject(asset)))
     dispatch(setSelectedPlanAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }
