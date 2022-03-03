@@ -3,7 +3,7 @@ import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 
-import {AssetGrid, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
+import {AssetGrid, AssetModal, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 
 import SettingsSvg from 'icons/svgs/settings.svg'
@@ -111,6 +111,7 @@ const AssetComparatorPage: NextPage = () => {
   return (
     <>
       {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
+      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
       <PageLayout>
         <div className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}

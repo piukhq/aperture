@@ -10,7 +10,6 @@ import {useAppSelector} from 'app/hooks'
 import {getSelectedPlanAsset, getSelectedPlanAssetGroup} from 'features/planAssetsSlice'
 
 const AssetModal = () => {
-
   const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
 
   const selectedAsset = useAppSelector(getSelectedPlanAsset)

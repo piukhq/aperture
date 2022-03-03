@@ -1,13 +1,6 @@
 import React, {useMemo} from 'react'
-import {AssetModal} from 'components'
 import Asset from './components/Asset'
 import {SelectedPlanAssets} from 'types'
-
-import {useAppSelector} from 'app/hooks'
-import {
-  ModalType,
-  selectModal,
-} from 'features/modalSlice'
 
 import BlockSVG from 'icons/svgs/block.svg'
 type Props = {
@@ -15,8 +8,6 @@ type Props = {
 }
 
 const AssetGrid = ({planAssets}: Props) => {
-  const modalRequested: ModalType = useAppSelector(selectModal)
-
   const {dev, staging} = planAssets
 
   const assetTypeNames = useMemo(() => ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO'], [])
@@ -47,7 +38,6 @@ const AssetGrid = ({planAssets}: Props) => {
     })
   )
 
-
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((longestArray, i) => {
       if (assetType[env][i]) {
@@ -71,7 +61,6 @@ const AssetGrid = ({planAssets}: Props) => {
 
   return (
     <>
-      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
       <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
         <div>{renderLabelColumnContents()}</div>
         <div>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
