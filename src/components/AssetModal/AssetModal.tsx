@@ -17,6 +17,8 @@ const AssetModal = () => {
   const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
   const [imageDimensions, setImageDimensions] = useState(null)
 
+  const imageClasses = imageDimensions ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
+
   const {id, type, url, description, encoding, hasMultipleOfSameType, typeIndex} = selectedAsset
 
   const renderEnvironmentTags = () => {
@@ -54,6 +56,7 @@ const AssetModal = () => {
         </div>
         <div className='w-full h-full flex justify-center items-center'>
           <Image
+            className={imageClasses}
             src={url}
             width={520}
             height={317}

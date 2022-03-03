@@ -8,6 +8,7 @@ import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
+import {PlanImage} from 'types'
 
 const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add props
   const dispatch = useAppDispatch()
@@ -17,7 +18,7 @@ const Asset = ({asset, assetType, typeIndex, hasMultipleOfSameType}) => { //add 
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
-  const assetWithMetadata = (asset) => (
+  const assetWithMetadata = (asset: PlanImage) => (
     Object.assign({
       hasMultipleOfSameType: hasMultipleOfSameType,
       typeIndex: typeIndex,
