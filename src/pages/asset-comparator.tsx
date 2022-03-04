@@ -19,9 +19,9 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import {getSelectedPlanAssets} from 'features/planAssetsSlice'
+import {getSelectedPlanImages} from 'features/planAssetsSlice'
 
-import {SelectedPlanAssets} from 'types'
+import {SelectedPlanImages} from 'types'
 
 
 const AssetComparatorPage: NextPage = () => {
@@ -29,7 +29,7 @@ const AssetComparatorPage: NextPage = () => {
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const planAssets: SelectedPlanAssets = useAppSelector(getSelectedPlanAssets)
+  const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 

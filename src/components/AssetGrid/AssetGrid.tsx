@@ -1,10 +1,10 @@
 import React, {useMemo} from 'react'
 import Asset from './components/Asset'
-import {SelectedPlanAssets, AssetType} from 'types'
+import {SelectedPlanImages, AssetType} from 'types'
 
 import BlockSVG from 'icons/svgs/block.svg'
 type Props = {
-  planAssets: SelectedPlanAssets
+  planAssets: SelectedPlanImages
 }
 
 const AssetGrid = ({planAssets}: Props) => {

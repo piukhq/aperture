@@ -6,7 +6,7 @@ import CheckSvg from 'icons/svgs/check.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {useAppDispatch} from 'app/hooks'
 
-import {setSelectedPlanAssets} from 'features/planAssetsSlice'
+import {setSelectedPlanImages} from 'features/planAssetsSlice'
 
 
 const PlansList = () => {
@@ -32,7 +32,7 @@ const PlansList = () => {
         dev: devAssets,
         staging: stagingAssets,
       }
-      dispatch(setSelectedPlanAssets(planAssets))
+      dispatch(setSelectedPlanImages(planAssets))
     } else {
       setLoadAssetsError('Select a plan above to load assets')
     }

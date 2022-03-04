@@ -44,7 +44,7 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
   heading: string,
 }
 
-export type SelectedPlanAssets = Record<string, PlanImage[]>
+export type SelectedPlanImages = Record<string, PlanImage[]>
 
 export type SelectedAssetGroup = Record<string, PlanAsset>
 
