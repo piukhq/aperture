@@ -46,7 +46,7 @@ const AssetGrid = ({planAssets}: Props) => {
       if (assetType[env][i]) {
         const {url, description} = assetType[env][i]
         return (
-          <div key={url} className='relative w-full h-[100px] grid items-center'>
+          <div key={url} className='relative w-full h-[100px] grid items-center justify-center'>
             <Asset description={description} url={url} />
           </div>
         )
