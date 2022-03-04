@@ -16,10 +16,10 @@ const PlansList = () => {
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
   const storePlanAssets = useCallback((selectedPlanSlug) => {
-    const plan = uniquePlansList.find(plan => plan.slug === selectedPlanSlug)
+    const {devImages, stagingImages} = uniquePlansList.find(plan => plan.slug === selectedPlanSlug)
     const planAssets = {
-      dev: plan.devImages,
-      staging: plan.stagingImages,
+      dev: devImages,
+      staging: stagingImages,
     }
     dispatch(setSelectedPlanAssets(planAssets))
   }, [uniquePlansList, dispatch])
