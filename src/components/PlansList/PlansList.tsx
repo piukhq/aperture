@@ -9,21 +9,20 @@ import {setSelectedPlanAssets} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 
 const PlansList = () => {
-  const {uniquePlansList, devPlans, stagingPlans, devIsLoading, stagingIsLoading} = useGetPlansHook()
+  const {uniquePlansList, devIsLoading, stagingIsLoading} = useGetPlansHook()
   const dispatch = useAppDispatch()
   const [value, setValue] = useState('')
   const [selectedPlanSlug, setSelectedPlanSlug] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
   const storePlanAssets = useCallback((selectedPlanSlug) => {
-    const devAssets = devPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
-    const stagingAssets = stagingPlans?.find(plan => plan.slug === selectedPlanSlug)?.images || []
+    const plan = uniquePlansList.find(plan => plan.slug === selectedPlanSlug)
     const planAssets = {
-      dev: devAssets,
-      staging: stagingAssets,
+      dev: plan.devImages,
+      staging: plan.stagingImages,
     }
     dispatch(setSelectedPlanAssets(planAssets))
-  }, [devPlans, stagingPlans, dispatch])
+  }, [uniquePlansList, dispatch])
 
   useEffect(() => {
     const cachedPlanSlug = getCachedPlanSlug()
