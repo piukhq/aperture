@@ -1,17 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
-import {SelectedPlanAssets, SelectedPlanAssetGroup, SelectedPlanAsset} from 'types'
+import {SelectedPlanAssets, SelectedAssetGroup, SelectedAssetId} from 'types'
 
 export type PlanAssets = {
   selectedPlanAssets: SelectedPlanAssets,
-  selectedPlanAsset: SelectedPlanAsset,
-  selectedPlanAssetGroup: Array<Record<string, unknown>>,
+  selectedAssetId: SelectedAssetId,
+  selectedAssetGroup: SelectedAssetGroup,
 }
 
 const initialState: PlanAssets = {
-  selectedPlanAssets: {dev: [], staging: []},
-  selectedPlanAsset: null,
-  selectedPlanAssetGroup: [],
+  selectedPlanAssets: {dev: [], staging: []}, // All images of a selected plan from the APIs
+  selectedAssetId: null, // The ID of the asset selected in the Asset Grid
+  selectedAssetGroup: {dev: null, staging: null}, // All assets matching the selected Asset's type and typeIndex with additional metadata across all available environments
 }
 
 export const planAssetsSlice = createSlice({
@@ -21,18 +21,18 @@ export const planAssetsSlice = createSlice({
     setSelectedPlanAssets: (state, action: PayloadAction<SelectedPlanAssets>) => {
       state.selectedPlanAssets = action.payload
     },
-    setSelectedPlanAsset: (state, action: PayloadAction<SelectedPlanAsset>) => {
-      state.selectedPlanAsset = action.payload
+    setSelectedAssetId: (state, action: PayloadAction<SelectedAssetId>) => {
+      state.selectedAssetId = action.payload
     },
-    setSelectedPlanAssetGroup: (state, action: PayloadAction<SelectedPlanAssetGroup>) => {
-      state.selectedPlanAssetGroup = action.payload
+    setSelectedAssetGroup: (state, action: PayloadAction<SelectedAssetGroup>) => {
+      state.selectedAssetGroup = action.payload
     },
   },
 })
 
-export const {setSelectedPlanAssets, setSelectedPlanAsset, setSelectedPlanAssetGroup} = planAssetsSlice.actions
+export const {setSelectedPlanAssets, setSelectedAssetId, setSelectedAssetGroup} = planAssetsSlice.actions
 
 export const getSelectedPlanAssets = (state: RootState) => state.planAssets.selectedPlanAssets
-export const getSelectedPlanAsset = (state: RootState) => state.planAssets.selectedPlanAsset
-export const getSelectedPlanAssetGroup = (state: RootState) => state.planAssets.selectedPlanAssetGroup
+export const getSelectedAssetId = (state: RootState) => state.planAssets.selectedAssetId
+export const getSelectedAssetGroup = (state: RootState) => state.planAssets.selectedAssetGroup
 export default planAssetsSlice.reducer

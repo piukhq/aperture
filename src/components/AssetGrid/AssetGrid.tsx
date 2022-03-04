@@ -23,17 +23,17 @@ const AssetGrid = ({planAssets}: Props) => {
       heading: typeName,
       dev: devAssetsOfType,
       staging: stagingAssetsOfType,
-      longestAssetArray: longestAssetArray,
-      hasMultipleAssetsOfThisType: longestAssetArray.length > 1,
+      longestAssetArray,
+      hasMultipleImagesOfThisType: longestAssetArray.length > 1,
     })
   })
 
   const renderLabelColumnContents = () => (
     assetMatrix.map(assetType => {
-      const {heading, longestAssetArray, hasMultipleAssetsOfThisType} = assetType
+      const {heading, longestAssetArray, hasMultipleImagesOfThisType} = assetType
       return longestAssetArray.map((_, i) => (
         <div key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
-          {heading.toLocaleUpperCase() } { hasMultipleAssetsOfThisType && i + 1}
+          {heading.toLocaleUpperCase() } { hasMultipleImagesOfThisType && i + 1}
         </div>)
       )
     })
@@ -41,12 +41,13 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
-      if (assetType[env][i]) {
-        const {url} = assetType[env][i]
+      const currentImage = assetType[env][i]
+      if (currentImage) {
+        const {url} = currentImage
         return (
           <div key={url} className='relative w-full h-[100px] grid items-center'>
             <Asset
-              asset={assetType[env][i]}
+              image={currentImage}
               assetType={assetType}
               typeIndex={i}
             />
@@ -65,13 +66,11 @@ const AssetGrid = ({planAssets}: Props) => {
   )
 
   return (
-    <>
-      <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
-        <div>{renderLabelColumnContents()}</div>
-        <div>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
-        <div>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
-      </div>
-    </>
+    <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
+      <div>{renderLabelColumnContents()}</div>
+      <div>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
+      <div>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
+    </div>
   )
 }
 

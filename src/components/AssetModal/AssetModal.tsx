@@ -8,18 +8,22 @@ import DownloadSvg from 'icons/svgs/download.svg'
 import {useAppSelector} from 'app/hooks'
 import {EnvironmentIndex} from 'utils/enums'
 
-import {getSelectedPlanAsset, getSelectedPlanAssetGroup} from 'features/planAssetsSlice'
+import {getSelectedAssetId, getSelectedAssetGroup} from 'features/planAssetsSlice'
+import {PlanAsset} from 'types'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
-
-  const selectedAsset = useAppSelector(getSelectedPlanAsset)
-  const selectedAssetGroup = useAppSelector(getSelectedPlanAssetGroup)
-
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
 
-  const {hasMultipleAssetsOfThisType, typeIndex, asset, heading} = selectedAsset
-  const {id, url, description, encoding} = asset
+  const selectedAssetId = useAppSelector(getSelectedAssetId)
+  const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
+  const assetEnvironments = Object.values(selectedAssetGroup)
+
+  const selectedAsset:PlanAsset = assetEnvironments.find(env => env?.image?.id === selectedAssetId) // Determine which of the group to be displayed
+
+  const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
+  const {id, url, description, encoding} = image
+
 
   const renderEnvironmentTags = () => {
     const renderNoTag = () => <div className='w-[12px]'></div>
@@ -28,15 +32,14 @@ const AssetModal = () => {
       <div className='mb-[12px]'>
         <h3 className='font-heading-9'>Environment</h3>
         <div className='flex gap-[8px] pt-[7px] mb-[12px]'>
-          { selectedAssetGroup[EnvironmentIndex.DEV] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
-          { selectedAssetGroup[EnvironmentIndex.STAGING] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
+          {selectedAssetGroup[EnvironmentIndex.DEV] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
+          {selectedAssetGroup[EnvironmentIndex.STAGING] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
         </div>
       </div>
     ) }
 
   const renderImageSection = () => {
-    const isUniqueAcrossEnvironments = selectedAssetGroup.filter(env => env).length === 1
-
+    const isUniqueAcrossEnvironments = Object.values(selectedAssetGroup).filter(env => env?.image?.id).length === 1
     const renderNavigationButton = rotation => (
       <Button
         handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
@@ -48,6 +51,7 @@ const AssetModal = () => {
         <ArrowDownSvg fill='white' className={`${rotation} scale-75`} />
       </Button>
     )
+
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
@@ -89,13 +93,14 @@ const AssetModal = () => {
       </div>
     ) }
 
+
   const renderJSONSection = () => {
-    const JSONAsset = JSON.stringify(asset).split(/[,{}]+/)
-    const codeBox = JSONAsset.map((line, index) => {
-      let prefix = '  '
+    const JSONImage = JSON.stringify(image).split(/[,{}]+/)
+    const codeBox = JSONImage.map((line, index) => {
+      let prefix = ' '
       if (index === 0) {
         prefix = '{'
-      } else if (index === JSONAsset.length - 1) {
+      } else if (index === JSONImage.length - 1) {
         prefix = '}'
       }
       return (
@@ -134,9 +139,8 @@ const AssetModal = () => {
     </div>
   )
 
-
   return (
-    <Modal modalHeader={`${heading} ${hasMultipleAssetsOfThisType ? typeIndex + 1 : ''} Asset ${id}`}>
+    <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}

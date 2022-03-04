@@ -2,7 +2,7 @@ import {useState} from 'react'
 import Image from 'next/image'
 
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedPlanAsset, setSelectedPlanAssetGroup} from 'features/planAssetsSlice'
+import {setSelectedAssetId, setSelectedAssetGroup} from 'features/planAssetsSlice'
 
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
@@ -11,35 +11,40 @@ import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanImage} from 'types'
 
 type Props = {
-  asset: PlanImage,
+  image: PlanImage,
   assetType: AssetType,
   typeIndex: number,
 }
 
-const Asset = ({asset, assetType, typeIndex}: Props) => {
+const Asset = ({image, assetType, typeIndex}: Props) => {
   const dispatch = useAppDispatch()
-  const {url, description} = asset
+  const {url, description} = image
 
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
 
-  const buildPlanAssetObject = (asset: PlanImage) => ( // Provides additional metadata for use in the Asset modal
+  const buildAssetObject = (image: PlanImage) => ( // Provides additional metadata for use in the Asset modal
     {
-      asset: asset,
-      hasMultipleAssetsOfThisType: assetType.hasMultipleAssetsOfThisType,
-      typeIndex: typeIndex,
+      image,
+      hasMultipleImagesOfThisType: assetType.hasMultipleImagesOfThisType,
+      typeIndex,
       heading: assetType.heading,
     }
   )
 
   const handleAssetClick = () => {
-    const assetGroup = ['dev', 'staging'].map(env => {
-      return assetType[env][typeIndex] ? buildPlanAssetObject(assetType[env][typeIndex]) : null
+    const assetGroup = {}
+    const environmentArray = ['dev', 'staging']
+
+    environmentArray.forEach(env => {
+      const currentImage = assetType[env][typeIndex]
+      assetGroup[env] = currentImage ? buildAssetObject(currentImage) : null
     })
-    dispatch(setSelectedPlanAsset(buildPlanAssetObject(asset)))
-    dispatch(setSelectedPlanAssetGroup(assetGroup))
+
+    dispatch(setSelectedAssetId(image.id))
+    dispatch(setSelectedAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }
 
