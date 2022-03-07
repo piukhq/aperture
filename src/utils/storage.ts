@@ -14,6 +14,9 @@ const getStagingVerificationToken = () => localStorage.getItem(VerificationToken
 const removeStagingVerificationToken = () => localStorage.removeItem(VerificationToken.STAGING_VERIFICATION_TOKEN)
 const setStagingVerificationToken = (apiKey: string) => localStorage.setItem(VerificationToken.STAGING_VERIFICATION_TOKEN, apiKey)
 
+const getCachedPlanSlug = () => localStorage.getItem('cachedPlanSlug')
+const removeCachedPlanSlug = () => localStorage.removeItem('cachedPlanSlug')
+const setCachedPlanSlug = (cachedPlanSlug: string) => localStorage.setItem('cachedPlanSlug', cachedPlanSlug)
 
 export {
   areAnyVerificationTokensStored,
@@ -23,4 +26,7 @@ export {
   getStagingVerificationToken,
   setStagingVerificationToken,
   removeStagingVerificationToken,
+  getCachedPlanSlug,
+  removeCachedPlanSlug,
+  setCachedPlanSlug,
 }

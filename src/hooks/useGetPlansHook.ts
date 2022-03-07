@@ -11,20 +11,20 @@ import {HydratedPlan} from 'types'
 export const useGetPlansHook = () => {
   const {devToken, stagingToken} = useVerificationHook()
 
-  const [getDevPlans, {data: devPlans, reset: resetDevPlans}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
-  const [getStagingPlans, {data: stagingPlans, reset: resetStagingPlans}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
+  const [getDevPlans, {data: devPlans, reset: resetDevPlans, isLoading: devIsLoading}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
+  const [getStagingPlans, {data: stagingPlans, reset: resetStagingPlans, isLoading: stagingIsLoading}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
 
   useEffect(() => {
-    if (getDevVerificationToken() || devToken) {
+    if (!devIsLoading && !devPlans && (getDevVerificationToken() || devToken)) {
       getDevPlans()
     }
-  }, [devToken, getDevPlans])
+  }, [devIsLoading, devPlans, devToken, getDevPlans])
 
   useEffect(() => {
-    if (getStagingVerificationToken() || stagingToken) {
+    if (!stagingIsLoading && !stagingPlans && (getStagingVerificationToken() || stagingToken)) {
       getStagingPlans()
     }
-  }, [stagingToken, getStagingPlans])
+  }, [stagingIsLoading, stagingPlans, stagingToken, getStagingPlans])
 
   const uniquePlansList = useMemo(() => {
     if (devPlans || stagingPlans) {
@@ -55,5 +55,7 @@ export const useGetPlansHook = () => {
     resetDevPlans,
     resetStagingPlans,
     uniquePlansList,
+    devIsLoading,
+    stagingIsLoading,
   }
 }

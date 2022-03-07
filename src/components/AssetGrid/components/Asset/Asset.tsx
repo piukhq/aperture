@@ -50,7 +50,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
 
   if (isError) {
     return (
-      <div className='flex justify-center items-center'>
+      <div className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load'>
         <AssetErrorSVG />
       </div>
     ) } else {
@@ -69,7 +69,9 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
         />
         {isLoading && (
           <div className='w-full absolute inset-0 flex justify-center items-center dark:bg-grey-825 '>
-            <DotsSVG className='animate-pulse' />
+            <div className='w-[60px] h-[60px] flex justify-center items-center' title='Loading'>
+              <DotsSVG className='animate-pulse' />
+            </div>
           </div>
         )}
       </button>
