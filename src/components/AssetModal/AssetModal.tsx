@@ -62,7 +62,7 @@ const AssetModal = () => {
             className={imageClasses}
             src={url}
             width={imageDimensions?.naturalWidth || 520}
-            height={imageDimensions?.naturalWeight || 280}
+            height={imageDimensions?.naturalHeight || 280}
             objectFit='contain'
             alt={description || heading}
             onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
