@@ -53,7 +53,7 @@ const AssetModal = () => {
     )
 
     return (
-      <div className='w-full h-[260px] flex mb-[12px]'>
+      <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
           {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
         </div>
