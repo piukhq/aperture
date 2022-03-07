@@ -24,12 +24,6 @@ enum EnvironmentName {
   SANDBOX = 'Sandbox',
   PROD = 'Production',
 }
-enum EnvironmentIndex {
-  DEV = 0,
-  STAGING = 1,
-  SANDBOX = 2,
-  PROD = 3,
-}
 
 enum ImageTypes {
   HERO = 0,
@@ -44,4 +38,4 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
-export {Url, ClientID, BundleID, VerificationToken, EnvironmentName, EnvironmentIndex, ImageTypes}
+export {Url, ClientID, BundleID, VerificationToken, EnvironmentName, ImageTypes}

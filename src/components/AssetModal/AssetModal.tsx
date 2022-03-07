@@ -6,7 +6,6 @@ import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
 
 import {useAppSelector} from 'app/hooks'
-import {EnvironmentIndex} from 'utils/enums'
 
 import {getSelectedAssetId, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {PlanAsset} from 'types'
@@ -25,6 +24,7 @@ const AssetModal = () => {
   const {id, url, description, encoding} = image
 
 
+  console.log(selectedAssetGroup.staging)
   const renderEnvironmentTags = () => {
     const renderNoTag = () => <div className='w-[12px]'></div>
 
@@ -32,8 +32,8 @@ const AssetModal = () => {
       <div className='mb-[12px]'>
         <h3 className='font-heading-9'>Environment</h3>
         <div className='flex gap-[8px] pt-[7px] mb-[12px]'>
-          {selectedAssetGroup[EnvironmentIndex.DEV] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
-          {selectedAssetGroup[EnvironmentIndex.STAGING] ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
+          {selectedAssetGroup.dev ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
+          {selectedAssetGroup.staging ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
         </div>
       </div>
     ) }
@@ -53,7 +53,7 @@ const AssetModal = () => {
     )
 
     return (
-      <div className='w-full h-[280px] flex mb-[12px]'>
+      <div className='w-full h-[260px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
           {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
         </div>
@@ -62,7 +62,7 @@ const AssetModal = () => {
             className={imageClasses}
             src={url}
             width={imageDimensions?.naturalWidth || 520}
-            height={imageDimensions?.naturalHeight || 280}
+            height={imageDimensions?.naturalWeight || 280}
             objectFit='contain'
             alt={description || heading}
             onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
