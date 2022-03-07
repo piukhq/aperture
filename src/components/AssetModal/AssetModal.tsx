@@ -13,7 +13,7 @@ import {PlanAsset} from 'types'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
-  const imageClasses = imageDimensions ? 'opacity-100 transition-opacity' : 'opacity-25 transition-opacity'
+  const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetId = useAppSelector(getSelectedAssetId)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
@@ -61,8 +61,8 @@ const AssetModal = () => {
           <Image
             className={imageClasses}
             src={url}
-            width={520}
-            height={280}
+            width={imageDimensions?.naturalWidth || 520}
+            height={imageDimensions?.naturalWeight || 280}
             objectFit='contain'
             alt={description || heading}
             onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
@@ -96,22 +96,25 @@ const AssetModal = () => {
 
   const renderJSONSection = () => {
     const JSONImage = JSON.stringify(image).split(/[,{}]+/)
-    const codeBox = JSONImage.map((line, index) => {
+    const renderLineNumbers = () => JSONImage.map((_, index) => <span key={index} >{index + 1}</span>)
+    const renderJson = () => JSONImage.map((line, index) => {
       let prefix = ' '
       if (index === 0) {
         prefix = '{'
       } else if (index === JSONImage.length - 1) {
         prefix = '}'
       }
-      return (
-        <div key={index} className='bg-grey-200 flex flex-nowrap overflow-hidden text-xs  text-grey-800'>
-          <span className='bg-grey-300 w-[20px] text-center basis-[3%] shrink-0 py-[3px]'>{index + 1}</span>
-          <span className='text-left basis-[97%] pl-[10px] py-[3px]'>{prefix} {line}</span>
-        </div>
-      ) })
+      return <span key={line}>{prefix} {line}</span>
+    })
+
     return (
-      <pre className='text-grey-100 mb-[24px]'>
-        {codeBox}
+      <pre className='mb-[24px] bg-grey-200 flex text-xs text-grey-800'>
+        <div className='flex flex-col basis-[3%] py-[5px] gap-1 bg-grey-300 text-center '>
+          {renderLineNumbers()}
+        </div>
+        <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto '>
+          {renderJson()}
+        </div>
       </pre>
     )
   }
