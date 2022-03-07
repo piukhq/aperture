@@ -45,7 +45,7 @@ const AssetGrid = ({planAssets}: Props) => {
       if (currentImage) {
         const {url} = currentImage
         return (
-          <div key={url} className='relative w-full h-[100px] grid items-center'>
+          <div key={url} className='relative w-full h-[100px] grid items-center justify-center hover:scale-125 transition-all'>
             <Asset
               image={currentImage}
               assetType={assetType}
@@ -66,10 +66,10 @@ const AssetGrid = ({planAssets}: Props) => {
   )
 
   return (
-    <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center'>
-      <div>{renderLabelColumnContents()}</div>
-      <div>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
-      <div>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
+    <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center mt-[10px]'>
+      <div className='flex flex-col'>{renderLabelColumnContents()}</div>
+      <div className='flex flex-col'>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
+      <div className='flex flex-col'>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
     </div>
   )
 }

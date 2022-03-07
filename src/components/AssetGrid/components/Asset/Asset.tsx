@@ -21,7 +21,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
   const {url, description} = image
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-all hover:scale-125'
+  const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
 
   const buildAssetObject = (image: PlanImage) => ( // Provides additional metadata for use in the Asset modal
