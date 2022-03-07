@@ -104,7 +104,7 @@ const AssetModal = () => {
       } else if (index === JSONImage.length - 1) {
         prefix = '}'
       }
-      return <span key={line}>{prefix} {line}</span>
+      return <span key={index}>{prefix} {line}</span>
     })
 
     return (
