@@ -5,7 +5,7 @@ import SearchSvg from 'icons/svgs/search.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedPlanAssets} from 'features/planAssetsSlice'
+import {setSelectedPlanImages} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 
 const PlansList = () => {
@@ -21,7 +21,7 @@ const PlansList = () => {
       dev: devImages,
       staging: stagingImages,
     }
-    dispatch(setSelectedPlanAssets(planAssets))
+    dispatch(setSelectedPlanImages(planAssets))
   }, [uniquePlansList, dispatch])
 
   useEffect(() => {

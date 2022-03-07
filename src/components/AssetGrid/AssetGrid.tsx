@@ -1,21 +1,18 @@
 import React, {useMemo} from 'react'
-import BlockSVG from 'icons/svgs/block.svg'
-
 import Asset from './components/Asset'
-import {SelectedPlanAssets} from 'types'
+import {SelectedPlanImages, AssetType} from 'types'
 
-
+import BlockSVG from 'icons/svgs/block.svg'
 type Props = {
-  planAssets: SelectedPlanAssets
+  planAssets: SelectedPlanImages
 }
 
 const AssetGrid = ({planAssets}: Props) => {
-
   const {dev, staging} = planAssets
 
-  const assetTypeNames = useMemo(() => ['HERO', 'BANNER', 'OFFERS', 'ICON', 'ASSET', 'REFERENCE', 'PERSONAL OFFERS', 'PROMOTIONS', 'TIER', 'ALT HERO'], [])
+  const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
 
-  const assetMatrix = []
+  const assetMatrix:Array<AssetType> = []
 
   assetTypeNames.forEach((typeName, index) => {
     const devAssetsOfType = dev?.filter(asset => asset.type === index)
@@ -26,16 +23,17 @@ const AssetGrid = ({planAssets}: Props) => {
       heading: typeName,
       dev: devAssetsOfType,
       staging: stagingAssetsOfType,
-      longestAssetArray: longestAssetArray,
+      longestAssetArray,
+      hasMultipleImagesOfThisType: longestAssetArray.length > 1,
     })
   })
 
   const renderLabelColumnContents = () => (
     assetMatrix.map(assetType => {
-      const {heading, longestAssetArray} = assetType
+      const {heading, longestAssetArray, hasMultipleImagesOfThisType} = assetType
       return longestAssetArray.map((_, i) => (
         <div key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
-          {heading} { longestAssetArray.length > 1 && i + 1}
+          {heading.toLocaleUpperCase() } { hasMultipleImagesOfThisType && i + 1}
         </div>)
       )
     })
@@ -43,11 +41,16 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
-      if (assetType[env][i]) {
-        const {url, description} = assetType[env][i]
+      const currentImage = assetType[env][i]
+      if (currentImage) {
+        const {url} = currentImage
         return (
-          <div key={url} className='relative w-full h-[100px] grid items-center justify-center'>
-            <Asset description={description} url={url} />
+          <div key={url} className='relative w-full h-[100px] grid items-center'>
+            <Asset
+              image={currentImage}
+              assetType={assetType}
+              typeIndex={i}
+            />
           </div>
         )
       } else {

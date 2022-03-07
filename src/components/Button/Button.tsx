@@ -14,6 +14,7 @@ enum ButtonSize {
   MEDIUM_BODY_FONT,
   SMALL_BODY_FONT,
   SMALL,
+  TINY,
 }
 
 enum ButtonWidth {
@@ -22,6 +23,7 @@ enum ButtonWidth {
   MEDIUM,
   AUTO,
   ICON_TEXT,
+  TINY,
   ICON_ONLY, //TODO: Add mechanism to require alt-text for accessibility
 }
 
@@ -60,12 +62,13 @@ const BUTTON_TYPE_MAPS: Record<ButtonType, string> = {
 }
 
 const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
-  [ButtonSize.LARGE]: 'font-heading text-sm min-h-[48px]',
-  [ButtonSize.MEDIUM]: 'font-heading text-2xs min-h-[38px]',
-  [ButtonSize.SMALL]: 'font-heading text-3xs h-[28px]',
-  [ButtonSize.MEDIUM_ICON]: 'font-heading tracking-[0.6px] text-sm h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
-  [ButtonSize.MEDIUM_BODY_FONT]: 'font-body tracking-[0.1px] text-sm min-h-[38px]',
-  [ButtonSize.SMALL_BODY_FONT]: 'font-body tracking-[0.1px] text-2xs min-h-[28px]',
+  [ButtonSize.LARGE]: 'rounded-[10px] font-heading text-sm min-h-[48px]',
+  [ButtonSize.MEDIUM]: 'rounded-[10px] font-heading text-2xs min-h-[38px]',
+  [ButtonSize.SMALL]: 'rounded-[10px] font-heading text-3xs h-[28px]',
+  [ButtonSize.TINY]: 'rounded-[6.25px] h-[23px]',
+  [ButtonSize.MEDIUM_ICON]: 'rounded-[10px] font-heading tracking-[0.6px] text-sm h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
+  [ButtonSize.MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm min-h-[38px]',
+  [ButtonSize.SMALL_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-2xs min-h-[28px]',
 }
 const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.FULL]: 'w-full',
@@ -73,6 +76,7 @@ const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.MEDIUM]: 'w-[121px] px-2',
   [ButtonWidth.AUTO]: 'w-max px-3',
   [ButtonWidth.ICON_TEXT]: 'w-[86px] px-2',
+  [ButtonWidth.TINY]: 'w-[24px]',
   [ButtonWidth.ICON_ONLY]: 'w-[38px]',
 }
 const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
@@ -130,7 +134,6 @@ const Button = (props: ButtonProps) => {
   return (
     <button
       className={classNames(
-        'rounded-[10px]',
         BUTTON_SIZE_MAPS[buttonSize],
         BUTTON_WIDTH_MAPS[buttonWidth],
         BUTTON_BACKGROUND_MAPS[buttonBackground],
@@ -147,7 +150,6 @@ const Button = (props: ButtonProps) => {
     </button>
   )
 }
-
 
 Button.buttonType = ButtonType
 Button.buttonSize = ButtonSize

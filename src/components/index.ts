@@ -1,4 +1,5 @@
 export {default as AssetGrid} from './AssetGrid'
+export {default as AssetModal} from './AssetModal'
 export {default as Button} from './Button'
 export {default as ContentTile} from './ContentTile'
 export {default as CredentialsModal} from './CredentialsModal'

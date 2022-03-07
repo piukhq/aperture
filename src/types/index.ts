@@ -20,6 +20,14 @@ export type HydratedPlan = Plan & {
   slug: string
 }
 
+export type AssetType = {
+  heading: string
+  dev: Array<PlanImage>,
+  staging: Array<PlanImage>,
+  longestAssetArray: Array<PlanImage>,
+  hasMultipleImagesOfThisType: boolean,
+}
+
 export type PlanImage = {
   id: number,
   type: number,
@@ -29,4 +37,15 @@ export type PlanImage = {
   cta_url: string,
 }
 
-export type SelectedPlanAssets = Record<string, PlanImage[]>
+export type PlanAsset = { // Plan Image with additional metadata used for Asset Modal
+  image: PlanImage,
+  hasMultipleImagesOfThisType: boolean
+  typeIndex: number,
+  heading: string,
+}
+
+export type SelectedPlanImages = Record<string, PlanImage[]>
+
+export type SelectedAssetGroup = Record<string, PlanAsset>
+
+export type SelectedAssetId = number
