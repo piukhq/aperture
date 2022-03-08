@@ -48,4 +48,4 @@ export type SelectedPlanImages = Record<string, PlanImage[]>
 
 export type SelectedAssetGroup = Record<string, PlanAsset>
 
-export type SelectedAssetId = number
+export type SelectedAssetEnvironment = string

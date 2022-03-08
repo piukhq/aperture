@@ -2,13 +2,14 @@ import {useState} from 'react'
 import Image from 'next/image'
 
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedAssetId, setSelectedAssetGroup} from 'features/planAssetsSlice'
+import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/planAssetsSlice'
 
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanImage} from 'types'
+import {getEnvironmentFromApiUrl} from 'utils/api'
 
 type Props = {
   image: PlanImage,
@@ -42,7 +43,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
       assetGroup[env] = currentImage ? buildAssetObject(currentImage) : null
     })
 
-    dispatch(setSelectedAssetId(image.id))
+    dispatch(setSelectedAssetEnvironment(getEnvironmentFromApiUrl(image.url)))
     dispatch(setSelectedAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }

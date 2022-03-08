@@ -7,18 +7,19 @@ import DownloadSvg from 'icons/svgs/download.svg'
 
 import {useAppSelector} from 'app/hooks'
 
-import {getSelectedAssetId, getSelectedAssetGroup} from 'features/planAssetsSlice'
+import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {PlanAsset} from 'types'
+import {getEnvironmentFromApiUrl} from 'utils/api'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
-  const selectedAssetId = useAppSelector(getSelectedAssetId)
+  const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
   const assetEnvironments = Object.values(selectedAssetGroup)
 
-  const selectedAsset:PlanAsset = assetEnvironments.find(env => env?.image?.id === selectedAssetId) // Determine which of the group to be displayed
+  const selectedAsset:PlanAsset = assetEnvironments.find(env => getEnvironmentFromApiUrl(env?.image.url) === selectedAssetEnvironment) // Determine which of the group to be displayed
 
   const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
   const {id, url, description, encoding} = image
