@@ -23,8 +23,6 @@ const AssetModal = () => {
   const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
   const {id, url, description, encoding} = image
 
-
-  console.log(selectedAssetGroup.staging)
   const renderEnvironmentTags = () => {
     const renderNoTag = () => <div className='w-[12px]'></div>
 
