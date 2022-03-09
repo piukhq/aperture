@@ -31,6 +31,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
       hasMultipleImagesOfThisType: assetType.hasMultipleImagesOfThisType,
       typeIndex,
       heading: assetType.heading,
+      isError,
     }
   )
 
@@ -50,7 +51,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
 
   if (isError) {
     return (
-      <div className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load'>
+      <div className='w-[60px] h-[60px] flex justify-center items-center cursor-pointer' title='Asset could not load' onClick={handleAssetClick}>
         <AssetErrorSVG />
       </div>
     ) } else {

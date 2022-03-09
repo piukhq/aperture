@@ -6,6 +6,7 @@ import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
 
 import {useAppSelector} from 'app/hooks'
+import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {getSelectedAssetId, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {PlanAsset} from 'types'
@@ -20,11 +21,9 @@ const AssetModal = () => {
 
   const selectedAsset:PlanAsset = assetEnvironments.find(env => env?.image?.id === selectedAssetId) // Determine which of the group to be displayed
 
-  const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
+  const {hasMultipleImagesOfThisType, typeIndex, image, heading, isError} = selectedAsset
   const {id, url, description, encoding} = image
 
-
-  console.log(selectedAssetGroup.staging)
   const renderEnvironmentTags = () => {
     const renderNoTag = () => <div className='w-[12px]'></div>
 
@@ -36,7 +35,24 @@ const AssetModal = () => {
           {selectedAssetGroup.staging ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
         </div>
       </div>
-    ) }
+    )
+  }
+
+  const renderAssetimage = () => {
+    if (isError) {
+      return <AssetErrorSVG className='h-[22px] w-[22px]' />
+    }
+    return (
+      <Image
+        className={imageClasses}
+        src={url}
+        width={imageDimensions?.naturalWidth || 520}
+        height={imageDimensions?.naturalWeight || 280}
+        objectFit='contain'
+        alt={description || heading}
+        onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+    )
+  }
 
   const renderImageSection = () => {
     const isUniqueAcrossEnvironments = Object.values(selectedAssetGroup).filter(env => env?.image?.id).length === 1
@@ -58,14 +74,7 @@ const AssetModal = () => {
           {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
-          <Image
-            className={imageClasses}
-            src={url}
-            width={imageDimensions?.naturalWidth || 520}
-            height={imageDimensions?.naturalWeight || 280}
-            objectFit='contain'
-            alt={description || heading}
-            onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+          {renderAssetimage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
           {!isUniqueAcrossEnvironments && renderNavigationButton('-rotate-90')}
@@ -146,10 +155,10 @@ const AssetModal = () => {
   )
 
   return (
-    <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}`}>
+    <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError && ' could not load'}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
-      {renderAssetDetails()}
+      {!isError && renderAssetDetails()}
       {renderJSONSection()}
       {renderButtons()}
     </Modal>
