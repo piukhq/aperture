@@ -1,7 +1,8 @@
-import React, {ReactNode, useState} from 'react'
-import {Menu} from '@headlessui/react'
+import React, {ReactNode, useState, useRef} from 'react'
+import {Combobox} from '@headlessui/react'
 import {classNames} from 'utils/classNames'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+import {HydratedPlan} from 'types'
 
 enum InputType {
   TEXT,
@@ -179,6 +180,9 @@ const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: string, i
   },
 }
 
+// This can be expanded when there are additional usecases
+type SelectItem = HydratedPlan
+
 type Props = {
   inputType: InputType
   label: string
@@ -190,8 +194,11 @@ type Props = {
   svgIcon?: ReactNode
   placeholder?: string
   value?: string
-  selectValues?: Array<Record<string, string>> | JSX.Element[]
+  selectValues?: SelectItem[]
+  selectedValue?: SelectItem
+  handleSelectValueChange?: (item: SelectItem) => void
   onChange: (event: { target: { value: string}}) => void
+  renderFn?: (item: SelectItem) => JSX.Element
 }
 const TextInputGroup = (props: Props) => {
   const {
@@ -206,7 +213,10 @@ const TextInputGroup = (props: Props) => {
     placeholder,
     value,
     selectValues,
+    selectedValue,
+    handleSelectValueChange,
     onChange,
+    renderFn,
   } = props
 
   const [selectDefaultValue, setSelectDefaultValue] = useState('default')
@@ -261,38 +271,69 @@ const TextInputGroup = (props: Props) => {
     </select>
   )
 
-  const renderSearchSelectElement = () => {
-    return (
-      <>
-        {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
-        <div className='relative'>
-          {renderInputElement()}
-          <Menu>
-            {({open}) => (
-              <>
-                <Menu.Button className='absolute top-[10px] right-[10px]'>
-                  <div onClick={() => setIsSearchSelectMenuOpen((isOpen) => !isOpen)} className='flex justify-center items-center w-[18px] h-[18px]'>
-                    <ArrowDownSvg className={classNames(
-                      'fill-grey-600',
-                      open && 'rotate-180'
-                    )} />
-                  </div>
-                </Menu.Button>
+  // This is needed to ensure that the input field looses focus when the user selects a an item from the list
+  const [fieldJustBlurred, setFieldJustBlurred] = useState(false)
+  const inputRef = useRef(null)
 
-                <Menu.Items as='ul' className='scrollable bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
-                  {selectValues && selectValues.map((value, _index) => (
-                    <Menu.Item as='li' key={_index} onClick={() => setIsSearchSelectMenuOpen(false)} className='cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center'>
-                      {value}
-                    </Menu.Item>
-                  ))}
-                </Menu.Items>
-              </>
-            )}
-          </Menu>
-        </div>
-      </>
-    )
+  const handleSelectItemClick = (item: SelectItem) => {
+    handleSelectValueChange(item)
+    setIsSearchSelectMenuOpen(false)
+    setFieldJustBlurred(true)
   }
+
+  const renderSearchSelectElement = () => (
+    <>
+      {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
+
+      <div className='relative'>
+        <Combobox value={selectedValue} onChange={handleSelectItemClick}>
+          <Combobox.Input as='input' ref={inputRef}
+            displayValue={() => value}
+            autoComplete='off'
+            onChange={onChange}
+            onFocus={() => {
+              if (fieldJustBlurred) {
+                setFieldJustBlurred(false)
+                inputRef.current.blur()
+              } else {
+                setIsFocused(true)
+                setIsSearchSelectMenuOpen(true)
+              }
+            }}
+            onBlur={() => {
+              setIsFocused(false)
+            }}
+            className={classNames(
+              'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
+              INPUT_COLOUR_MAPS[inputColour].input,
+              INPUT_STYLE_MAPS[inputStyle].input,
+              isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300'
+            )}
+          />
+
+          <button className='absolute top-[10px] right-[10px]'>
+            <div onClick={() => setIsSearchSelectMenuOpen((isOpen) => !isOpen)} className='flex justify-center items-center w-[18px] h-[18px]'>
+              <ArrowDownSvg className={classNames(
+                'fill-grey-600',
+                isSearchSelectMenuOpen && 'rotate-180'
+              )} />
+            </div>
+          </button>
+
+          {isSearchSelectMenuOpen && (
+            <Combobox.Options static as='ul' className='scrollable bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
+              {selectValues.map((value, _index) => (
+                <Combobox.Option as='li' key={_index} value={value} className='cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center'>
+                  {renderFn(value)}
+                </Combobox.Option>
+              ))}
+            </Combobox.Options>
+          )}
+        </Combobox>
+      </div>
+    </>
+  )
+
 
   const renderInputType = (inputType: number): ReactNode => {
     if (inputType === InputType.SEARCH || inputType === InputType.TEXT || inputType === InputType.PASSWORD) {

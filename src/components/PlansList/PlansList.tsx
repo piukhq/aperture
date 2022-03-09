@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState, useCallback} from 'react'
+import {useEffect, useState, useCallback} from 'react'
 import {TextInputGroup, Button} from 'components'
 import Plan from './components/Plan'
 import SearchSvg from 'icons/svgs/search.svg'
@@ -7,16 +7,19 @@ import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedPlanAssets} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
+import {HydratedPlan} from 'types'
 
 const PlansList = () => {
   const {uniquePlansList, devIsLoading, stagingIsLoading} = useGetPlansHook()
   const dispatch = useAppDispatch()
-  const [value, setValue] = useState('')
-  const [selectedPlanSlug, setSelectedPlanSlug] = useState(null)
+  const [searchValue, setSearchValue] = useState('')
+  const [selectedPlan, setSelectedPlan] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
-  const storePlanAssets = useCallback((selectedPlanSlug) => {
-    const {devImages, stagingImages} = uniquePlansList.find(plan => plan.slug === selectedPlanSlug)
+  const filteredPlansList = uniquePlansList.filter(plan => plan.account.plan_name.toLowerCase().includes(searchValue.toLowerCase()))
+
+  const storePlanAssets = useCallback((selectedPlan) => {
+    const {devImages, stagingImages} = uniquePlansList.find(plan => plan.slug === selectedPlan.slug)
     const planAssets = {
       dev: devImages,
       staging: stagingImages,
@@ -26,59 +29,60 @@ const PlansList = () => {
 
   useEffect(() => {
     const cachedPlanSlug = getCachedPlanSlug()
-    if (cachedPlanSlug && !selectedPlanSlug) {
+    if (cachedPlanSlug && !selectedPlan) {
       // Make sure that relevant plans are available before proceeding
       if (!devIsLoading && !stagingIsLoading) {
         // Check if plan still exists
-        const selectedPlan = uniquePlansList.find(plan => plan.slug === cachedPlanSlug)
-        if (selectedPlan) {
-          setValue(selectedPlan.account.plan_name as string)
-          setSelectedPlanSlug(cachedPlanSlug)
-          storePlanAssets(cachedPlanSlug)
+        const plan = uniquePlansList.find(plan => plan.slug === cachedPlanSlug)
+        if (plan) {
+          setSearchValue(plan.account.plan_name as string)
+          setSelectedPlan(plan)
+          storePlanAssets(plan)
         } else {
           removeCachedPlanSlug()
         }
       }
     }
-  }, [devIsLoading, stagingIsLoading, uniquePlansList, selectedPlanSlug, storePlanAssets])
+  }, [devIsLoading, stagingIsLoading, uniquePlansList, selectedPlan, storePlanAssets])
 
-  const handlePlanClick = (item) => {
-    setValue(item.account.plan_name)
-    setSelectedPlanSlug(item.slug)
+  const handlePlanClick = (plan: HydratedPlan) => {
+    setSearchValue(plan.account.plan_name)
+    setSelectedPlan(plan)
     setLoadAssetsError(null)
   }
 
-  const handleLoadAssets = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (selectedPlanSlug) {
-      storePlanAssets(selectedPlanSlug)
-      setCachedPlanSlug(selectedPlanSlug)
+  const handleLoadAssets = () => {
+    if (selectedPlan && selectedPlan.account.plan_name === searchValue) {
+      storePlanAssets(selectedPlan)
+      setCachedPlanSlug(selectedPlan.slug)
     } else {
       setLoadAssetsError('Select a plan above to load assets')
     }
   }
 
-  const list = useMemo(() => {
-    if (uniquePlansList) {
-      return uniquePlansList.map((item, _index) => (
-        <div key={_index} onClick={() => handlePlanClick(item)} className='flex items-center place-content-between w-full'>
-          <Plan plan={item} />
-        </div>
-      ))
-    }
-    return []
-  }, [uniquePlansList])
+  const renderPlan = (plan) => (
+    <div className='flex items-center place-content-between w-full'>
+      <Plan plan={plan} />
+    </div>
+  )
+
+  const handleSearchTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value)
+  }
 
   return (
     <div className='w-full z-20'>
-      <form className='w-full flex gap-[25px]' onSubmit={handleLoadAssets}>
+      <div className='w-full flex gap-[25px]'>
         <TextInputGroup
           name='placeholder'
           label='Search'
           placeholder='Search...'
-          selectValues={list}
-          value={value}
-          onChange={() => null}
+          selectValues={filteredPlansList}
+          renderFn={renderPlan}
+          selectedValue={selectedPlan}
+          handleSelectValueChange={handlePlanClick}
+          value={searchValue}
+          onChange={handleSearchTextChange}
           inputType={TextInputGroup.inputType.SEARCH_SELECT}
           inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
           inputWidth={TextInputGroup.inputWidth.FULL}
@@ -92,9 +96,11 @@ const PlansList = () => {
           buttonBackground={Button.buttonBackground.BLUE}
           labelColour={Button.labelColour.WHITE}
           labelWeight={Button.labelWeight.MEDIUM}
-        > <CheckSvg/>Load Assets
+          handleClick={handleLoadAssets}
+        >
+          <CheckSvg/>Load Assets
         </Button>
-      </form>
+      </div>
       <p className='h-[24px] text-red text-center text-body font-body-3 ml-[160px]'>{loadAssetsError}</p>
     </div>
   )
