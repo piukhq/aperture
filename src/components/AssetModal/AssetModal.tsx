@@ -8,8 +8,6 @@ import DownloadSvg from 'icons/svgs/download.svg'
 import {useAppSelector} from 'app/hooks'
 
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
-import {PlanAsset} from 'types'
-import {getEnvironmentFromApiUrl} from 'utils/api'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
@@ -17,10 +15,9 @@ const AssetModal = () => {
 
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
-  const assetEnvironments = Object.values(selectedAssetGroup)
 
-  const selectedAsset:PlanAsset = assetEnvironments.find(env => getEnvironmentFromApiUrl(env?.image.url) === selectedAssetEnvironment) // Determine which of the group to be displayed
-
+  const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
+  console.log(selectedAsset)
   const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
   const {id, url, description, encoding} = image
 

@@ -25,12 +25,13 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
 
-  const buildAssetObject = (image: PlanImage) => ( // Provides additional metadata for use in the Asset modal
+  const buildAssetObject = (image: PlanImage, env: string) => ( // Provides additional metadata for use in the Asset modal
     {
       image,
       hasMultipleImagesOfThisType: assetType.hasMultipleImagesOfThisType,
       typeIndex,
       heading: assetType.heading,
+      environment: env,
     }
   )
 
@@ -40,7 +41,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
 
     environmentArray.forEach(env => {
       const currentImage = assetType[env][typeIndex]
-      assetGroup[env] = currentImage ? buildAssetObject(currentImage) : null
+      assetGroup[env] = currentImage ? buildAssetObject(currentImage, env) : null
     })
 
     dispatch(setSelectedAssetEnvironment(getEnvironmentFromApiUrl(image.url)))
