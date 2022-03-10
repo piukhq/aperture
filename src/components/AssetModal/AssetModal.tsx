@@ -17,7 +17,6 @@ const AssetModal = () => {
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
-  console.log(selectedAsset) //
   const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
   const {id, url, description, encoding} = image
 

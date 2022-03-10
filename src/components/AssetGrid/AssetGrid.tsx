@@ -46,7 +46,7 @@ const AssetGrid = ({planAssets}: Props) => {
       if (currentImage) {
         const {url} = currentImage
         return (
-          <div key={url} className='relative w-full h-[100px] flex items-center justify-center hover:scale-110 transition-all duration-300'>
+          <div key={url} className='relative w-full h-[100px] flex items-center justify-center hover-scale-regular'>
             <Asset
               image={currentImage}
               assetType={assetType}
