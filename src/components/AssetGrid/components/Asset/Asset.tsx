@@ -9,15 +9,16 @@ import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanImage} from 'types'
-import {getEnvironmentFromApiUrl} from 'utils/api'
+import {EnvironmentShortName} from 'utils/enums'
 
 type Props = {
   image: PlanImage,
   assetType: AssetType,
   typeIndex: number,
+  imageEnv: string,
 }
 
-const Asset = ({image, assetType, typeIndex}: Props) => {
+const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   const dispatch = useAppDispatch()
   const {url, description} = image
   const [isError, setIsError] = useState(false)
@@ -37,14 +38,13 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
 
   const handleAssetClick = () => {
     const assetGroup = {}
-    const environmentArray = ['dev', 'staging']
+    const environmentArray = [EnvironmentShortName.DEV, EnvironmentShortName.STAGING]
 
     environmentArray.forEach(env => {
       const currentImage = assetType[env][typeIndex]
       assetGroup[env] = currentImage ? buildAssetObject(currentImage, env) : null
     })
-
-    dispatch(setSelectedAssetEnvironment(getEnvironmentFromApiUrl(image.url)))
+    dispatch(setSelectedAssetEnvironment(imageEnv))
     dispatch(setSelectedAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }

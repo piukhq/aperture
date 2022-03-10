@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react'
 import Asset from './components/Asset'
 import {SelectedPlanImages, AssetType} from 'types'
+import {EnvironmentShortName} from 'utils/enums'
 
 import BlockSVG from 'icons/svgs/block.svg'
 type Props = {
@@ -41,6 +42,7 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
+      console.log(assetType[env])
       const currentImage = assetType[env][i]
       if (currentImage) {
         const {url} = currentImage
@@ -50,6 +52,7 @@ const AssetGrid = ({planAssets}: Props) => {
               image={currentImage}
               assetType={assetType}
               typeIndex={i}
+              imageEnv={env}
             />
           </div>
         )
@@ -68,8 +71,8 @@ const AssetGrid = ({planAssets}: Props) => {
   return (
     <div className='grid grid-cols-5 gap-2 grid-flow-col w-full text-center mt-[10px]'>
       <div className='flex flex-col'>{renderLabelColumnContents()}</div>
-      <div className='flex flex-col'>{dev?.length > 0 && renderAssetColumnContents('dev')}</div>
-      <div className='flex flex-col'>{staging?.length > 0 && renderAssetColumnContents('staging')}</div>
+      <div className='flex flex-col'>{dev?.length > 0 && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
+      <div className='flex flex-col'>{staging?.length > 0 && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div>
     </div>
   )
 }
