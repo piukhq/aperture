@@ -4,11 +4,10 @@ import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
-
 import {useAppSelector} from 'app/hooks'
-
 import {getSelectedAssetId, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {PlanAsset} from 'types'
+import downloadAsset from 'services/downloadAsset'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
@@ -23,6 +22,8 @@ const AssetModal = () => {
   const {hasMultipleImagesOfThisType, typeIndex, image, heading} = selectedAsset
   const {id, url, description, encoding} = image
 
+  const urlArray = url.split('/')
+  const filename = urlArray[urlArray.length - 1]
 
   console.log(selectedAssetGroup.staging)
   const renderEnvironmentTags = () => {
@@ -74,8 +75,6 @@ const AssetModal = () => {
     ) }
 
   const renderAssetDetails = () => {
-    const urlArray = url.split('/')
-    const filename = urlArray[urlArray.length - 1]
     return (
       <div className='mb-[12px]'>
         <div className='flex justify-between mb-[2px]'>
@@ -122,6 +121,10 @@ const AssetModal = () => {
     )
   }
 
+  const handleDownload = () => {
+    downloadAsset(url, filename)
+  }
+
   const renderButtons = () => (
     <div className='flex justify-end gap-[20px] mb-[24px]'>
       <Button
@@ -131,16 +134,18 @@ const AssetModal = () => {
         buttonBackground={Button.buttonBackground.BLUE}
         labelColour={Button.labelColour.WHITE}
         labelWeight={Button.labelWeight.MEDIUM}
-      > <SearchWhiteSvg />View in Django
+      >
+        <SearchWhiteSvg />View in Django
       </Button>
       <Button
-        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
+        handleClick={handleDownload}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
         buttonWidth={Button.buttonWidth.AUTO}
         buttonBackground={Button.buttonBackground.BLUE}
         labelColour={Button.labelColour.WHITE}
         labelWeight={Button.labelWeight.MEDIUM}
-      > <DownloadSvg/>Download
+      >
+        <DownloadSvg/>Download
       </Button>
     </div>
   )
