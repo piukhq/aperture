@@ -42,7 +42,6 @@ const AssetGrid = ({planAssets}: Props) => {
 
   const renderAssetColumnContents = (env: string) => (
     assetMatrix.map(assetType => assetType.longestAssetArray.map((_, i) => {
-      console.log(assetType[env])
       const currentImage = assetType[env][i]
       if (currentImage) {
         const {url} = currentImage
