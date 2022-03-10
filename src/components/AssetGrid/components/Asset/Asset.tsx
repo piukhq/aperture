@@ -51,7 +51,7 @@ const Asset = ({image, assetType, typeIndex}: Props) => {
 
   if (isError) {
     return (
-      <button className='w-[60px] h-[60px] flex justify-center items-center cursor-pointer' title='Asset could not load' onClick={handleAssetClick}>
+      <button className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load' onClick={handleAssetClick}>
         <AssetErrorSVG />
       </button>
     ) } else {
