@@ -33,6 +33,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       typeIndex,
       heading: assetType.heading,
       environment: env,
+      isError,
     }
   )
 
@@ -52,9 +53,9 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   if (isError) {
     return (
       <div className='w-full h-full flex justify-center items-center'>
-        <div className='w-[60px] h-[60px] flex justify-center items-center hover-scale-large' title='Asset could not load'>
-          <AssetErrorSVG />
-        </div>
+         <button className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load' onClick={handleAssetClick}>
+           <AssetErrorSVG />
+         </button>
       </div>
     ) } else {
     return (
