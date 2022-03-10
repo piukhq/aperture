@@ -2,58 +2,61 @@ import {useState} from 'react'
 import Image from 'next/image'
 
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedAssetId, setSelectedAssetGroup} from 'features/planAssetsSlice'
+import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/planAssetsSlice'
 
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanImage} from 'types'
+import {EnvironmentShortName} from 'utils/enums'
 
 type Props = {
   image: PlanImage,
   assetType: AssetType,
   typeIndex: number,
+  imageEnv: string,
 }
 
-const Asset = ({image, assetType, typeIndex}: Props) => {
+const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   const dispatch = useAppDispatch()
   const {url, description} = image
-
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
 
-  const buildAssetObject = (image: PlanImage) => ( // Provides additional metadata for use in the Asset modal
+  const buildAssetObject = (image: PlanImage, env: string) => ( // Provides additional metadata for use in the Asset modal
     {
       image,
       hasMultipleImagesOfThisType: assetType.hasMultipleImagesOfThisType,
       typeIndex,
       heading: assetType.heading,
+      environment: env,
       isError,
     }
   )
 
   const handleAssetClick = () => {
     const assetGroup = {}
-    const environmentArray = ['dev', 'staging']
+    const environmentArray = [EnvironmentShortName.DEV, EnvironmentShortName.STAGING]
 
     environmentArray.forEach(env => {
       const currentImage = assetType[env][typeIndex]
-      assetGroup[env] = currentImage ? buildAssetObject(currentImage) : null
+      assetGroup[env] = currentImage ? buildAssetObject(currentImage, env) : null
     })
-
-    dispatch(setSelectedAssetId(image.id))
+    dispatch(setSelectedAssetEnvironment(imageEnv))
     dispatch(setSelectedAssetGroup(assetGroup))
     dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
   }
 
   if (isError) {
     return (
-      <button className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load' onClick={handleAssetClick}>
-        <AssetErrorSVG />
-      </button>
+      <div className='w-full h-full flex justify-center items-center'>
+         <button className='w-[60px] h-[60px] flex justify-center items-center' title='Asset could not load' onClick={handleAssetClick}>
+           <AssetErrorSVG />
+         </button>
+      </div>
     ) } else {
     return (
       <button onClick={handleAssetClick}>

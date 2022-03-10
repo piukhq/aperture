@@ -25,6 +25,13 @@ enum EnvironmentName {
   PROD = 'Production',
 }
 
+enum EnvironmentShortName {
+  DEV = 'dev',
+  STAGING = 'staging',
+  SANDBOX = 'sandbox',
+  PROD = 'prod',
+}
+
 enum ImageTypes {
   HERO = 0,
   BANNER = 1,
@@ -38,4 +45,4 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
-export {Url, ClientID, BundleID, VerificationToken, EnvironmentName, ImageTypes}
+export {Url, ClientID, BundleID, VerificationToken, EnvironmentName, EnvironmentShortName, ImageTypes}
