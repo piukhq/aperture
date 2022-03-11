@@ -1,6 +1,21 @@
+type PlanAccount = {
+  add_fields: Array<unknown>,
+  authorise_fields: Array<unknown>,
+  category: string,
+  company_name: string,
+  company_url: string,
+  enrol_fields: Array<unknown>,
+  fees: Array<unknown>,
+  plan_documents: Array<unknown>,
+  plan_name: string,
+  plan_url: string,
+  registration_fields: Array<unknown>,
+  tiers: Array<unknown>,
+}
+
 export type Plan = {
   id: number,
-  account: Record<string, string | Array<unknown>>,
+  account: PlanAccount,
   feature_set: Record<string, string | number | boolean | Array<unknown>>,
   card: Record<string, string | number>,
   uid: string,
@@ -42,10 +57,11 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
   hasMultipleImagesOfThisType: boolean
   typeIndex: number,
   heading: string,
+  isError: boolean,
 }
 
 export type SelectedPlanImages = Record<string, PlanImage[]>
 
 export type SelectedAssetGroup = Record<string, PlanAsset>
 
-export type SelectedAssetId = number
+export type SelectedAssetEnvironment = string
