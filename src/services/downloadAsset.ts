@@ -7,7 +7,7 @@ const downloadAsset = async (url, filename) => {
     },
   }
 
-  fetch(`${url}`, requestOptions)
+  fetch(url, requestOptions)
     .then((res) => {
       res.arrayBuffer().then(function (buffer) {
         const url = window.URL.createObjectURL(new Blob([buffer]))
