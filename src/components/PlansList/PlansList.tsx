@@ -19,7 +19,9 @@ const PlansList = () => {
   const filteredPlansList = uniquePlansList.filter(plan => plan.account.plan_name.toLowerCase().includes(searchValue.toLowerCase()))
 
   const storePlanAssets = useCallback((selectedPlan) => {
-    const {devImages, stagingImages} = uniquePlansList.find(plan => plan.slug === selectedPlan.slug)
+    const plan = uniquePlansList.find(plan => plan.slug === selectedPlan.slug)
+
+    const {devImages = [], stagingImages = []} = plan || {}
     const planAssets = {
       dev: devImages,
       staging: stagingImages,
