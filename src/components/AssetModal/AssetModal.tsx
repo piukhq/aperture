@@ -131,7 +131,7 @@ const AssetModal = () => {
   const renderButtons = () => (
     <div className='flex justify-end gap-[20px] mb-[24px]'>
       <a href={`https://api.${selectedAssetEnvironment}.gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
-        className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] bg-blue text-grey-100 font-medium font-heading tracking-[0.6px] text-sm'
+        className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] bg-blue text-grey-100 font-medium font-heading tracking-[0.6px] text-sm' // Refactor to an @apply if used elsewhere
         target='_blank'
         rel='noreferrer'
       >
