@@ -130,15 +130,13 @@ const AssetModal = () => {
 
   const renderButtons = () => (
     <div className='flex justify-end gap-[20px] mb-[24px]'>
-      <Button
-        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
-        buttonSize={Button.buttonSize.MEDIUM_ICON}
-        buttonWidth={Button.buttonWidth.AUTO}
-        buttonBackground={Button.buttonBackground.BLUE}
-        labelColour={Button.labelColour.WHITE}
-        labelWeight={Button.labelWeight.MEDIUM}
-      > <SearchWhiteSvg />View in Django
-      </Button>
+      <a href={`https://api.${selectedAssetEnvironment}.gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
+        className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] bg-blue text-grey-100 font-medium font-heading tracking-[0.6px] text-sm'
+        target='_blank'
+        rel='noreferrer'
+      >
+        <SearchWhiteSvg />View in Django
+      </a>
       <Button
         handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
         buttonSize={Button.buttonSize.MEDIUM_ICON}
