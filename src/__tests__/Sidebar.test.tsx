@@ -38,6 +38,7 @@ describe('Sidebar', () => {
   describe('Test logo', () => {
     it('should render logo', () => {
       const {queryByTestId} = render(<Sidebar />)
+
       expect(queryByTestId('logo')).toBeInTheDocument()
     })
   })
