@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react'
+import {useState, useEffect} from 'react'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import SidebarOption from './components/SidebarOption'
 
 const Sidebar = () => {
   const router = useRouter()
-  const [selectedTool, setSelectedTool] = React.useState('')
+  const [selectedTool, setSelectedTool] = useState('')
 
   const sideOptions = ['asset-comparator', 'plan-comparator', 'mid-management', 'customer-wallets', 'style-guide']
 
