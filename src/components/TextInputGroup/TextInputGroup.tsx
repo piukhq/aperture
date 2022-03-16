@@ -311,8 +311,12 @@ const TextInputGroup = (props: Props) => {
             )}
           />
 
-          <button className='absolute top-[10px] right-[10px]'>
-            <div onClick={() => setIsSearchSelectMenuOpen((isOpen) => !isOpen)} className='flex justify-center items-center w-[18px] h-[18px]'>
+          <button
+            className='absolute top-[10px] right-[10px]'
+            aria-label={isSearchSelectMenuOpen ? 'Close Menu' : 'Open Menu' }
+            onClick={() => setIsSearchSelectMenuOpen((isOpen) => !isOpen)}
+          >
+            <div className='flex justify-center items-center w-[18px] h-[18px]'>
               <ArrowDownSvg className={classNames(
                 'fill-grey-600',
                 isSearchSelectMenuOpen && 'rotate-180'

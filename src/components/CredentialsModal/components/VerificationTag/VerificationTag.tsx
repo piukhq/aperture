@@ -57,6 +57,7 @@ const VerificationTag = ({
             handleClick={handleRemoveToken}
             buttonWidth={Button.buttonWidth.ICON_ONLY}
             borderColour={Button.borderColour.RED}
+            ariaLabel='Remove Credentials'
           >
             <TrashSvg />
           </Button>

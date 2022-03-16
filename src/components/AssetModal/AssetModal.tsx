@@ -122,7 +122,7 @@ const AssetModal = () => {
 
   const renderJSONSection = () => {
     const JSONImage = JSON.stringify(image).split(/[,{}]+/)
-    const renderLineNumbers = () => JSONImage.map((_, index) => <span key={index} >{index + 1}</span>)
+    const renderLineNumbers = () => JSONImage.map((_, index) => <span aria-hidden='true' key={index} >{index + 1}</span>)
     const renderJson = () => JSONImage.map((line, index) => {
       let prefix = ' '
       if (index === 0) {

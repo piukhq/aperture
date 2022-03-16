@@ -114,8 +114,9 @@ export interface ButtonProps {
   labelColour?: LabelColour,
   labelWeight?: LabelWeight,
   borderColour?: BorderColour,
-  children?: ReactNode
-  handleClick?: () => void
+  children?: ReactNode,
+  handleClick?: () => void,
+  ariaLabel?: string,
 }
 
 const Button = (props: ButtonProps) => {
@@ -128,6 +129,7 @@ const Button = (props: ButtonProps) => {
     labelWeight = LabelWeight.SEMIBOLD,
     borderColour,
     handleClick,
+    ariaLabel,
     children,
   } = props
 
@@ -141,10 +143,11 @@ const Button = (props: ButtonProps) => {
         LABEL_COLOUR_MAPS[labelColour],
         LABEL_WEIGHT_MAPS[labelWeight],
       )}
+      aria-label={ariaLabel}
       onClick={handleClick}
       type={BUTTON_TYPE_MAPS[buttonType]}
     >
-      <div className='flex items-center justify-center whitespace-nowrap gap-2'>
+      <div aria-hidden='true' className='flex items-center justify-center whitespace-nowrap gap-2'>
         {children}
       </div>
     </button>
