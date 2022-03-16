@@ -58,6 +58,7 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
   typeIndex: number,
   heading: string,
   isError: boolean,
+  environment: string,
 }
 
 export type SelectedPlanImages = Record<string, PlanImage[]>

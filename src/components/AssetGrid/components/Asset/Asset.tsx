@@ -8,7 +8,7 @@ import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
-import {AssetType, PlanImage} from 'types'
+import {AssetType, PlanAsset, PlanImage} from 'types'
 import {EnvironmentShortName} from 'utils/enums'
 
 type Props = {
@@ -26,7 +26,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
 
-  const buildAssetObject = (image: PlanImage, env: string) => ( // Provides additional metadata for use in the Asset modal
+  const buildAssetObject = (image: PlanImage, env: string): PlanAsset => ( // Provides additional metadata for use in the Asset modal
     {
       image,
       hasMultipleImagesOfThisType: assetType.hasMultipleImagesOfThisType,
