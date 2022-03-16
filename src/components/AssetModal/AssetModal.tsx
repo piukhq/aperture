@@ -7,8 +7,9 @@ import DownloadSvg from 'icons/svgs/download.svg'
 import {useAppSelector} from 'app/hooks'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 import downloadAsset from 'services/downloadAsset'
-
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
+import {classNames} from 'utils/classNames'
+import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
 
 const AssetModal = () => {
   const [imageDimensions, setImageDimensions] = useState(null)
@@ -18,25 +19,43 @@ const AssetModal = () => {
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
-  const {hasMultipleImagesOfThisType, typeIndex, image, heading, isError} = selectedAsset
+  const {hasMultipleImagesOfThisType, typeIndex, image, heading, isError, environment} = selectedAsset
   const {id, url, description, encoding} = image
 
   const urlArray = url.split('/')
   const filename = urlArray[urlArray.length - 1]
 
-  const renderEnvironmentTags = () => {
-    const renderNoTag = () => <div className='w-[12px]'></div>
-
-    return (
-      <div className='mb-[12px]'>
-        <h3 className='font-heading-9'>Environment</h3>
-        <div className='flex gap-[8px] pt-[7px] mb-[12px]'>
-          {selectedAssetGroup.dev ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='D' /> : renderNoTag()}
-          {selectedAssetGroup.staging ? <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='S' /> : renderNoTag()}
+  const shouldRenderEnvironmentTag = (envKey: string) => {
+    if (selectedAssetGroup[envKey]) {
+      // TODO: This line will need refactoring when there are more than 2 environments
+      const [tagStyle, label, tooltip] = envKey === EnvironmentShortName.DEV
+        ? [Tag.tagStyle.AQUAMARINE_FILLED, 'D', EnvironmentName.DEV]
+        : [Tag.tagStyle.YELLOW_FILLED, 'S', EnvironmentName.STAGING]
+      return (
+        <div title={tooltip} className={classNames(
+          'flex justify-center items-center h-[28px] w-[28px] rounded-[14px]',
+          environment === envKey && 'border border-black dark:border-white'
+        )}>
+          <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={tagStyle} label={label} />
         </div>
-      </div>
-    )
+      )
+    }
+    return <div className='w-[12px]' />
   }
+
+  const renderEnvironmentTags = () => (
+    <div className='mb-[12px]'>
+      <h3 className='font-heading-9'>Environment</h3>
+      <div className='flex gap-[8px] pt-[4px] mb-[12px]'>
+        {Object.keys(selectedAssetGroup).map((envKey: string) => (
+          <div key={envKey}>
+            {shouldRenderEnvironmentTag(envKey)}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
 
   const renderAssetimage = () => {
     if (isError) {

@@ -42,7 +42,7 @@ const TAG_STYLE_MAPS: Record<TagStyle, string> = {
 }
 
 const TEXT_STYLE_MAPS: Record<TextStyle, string> = {
-  [TextStyle.SINGLE_LETTER]: 'text-[11px]',
+  [TextStyle.SINGLE_LETTER]: 'text-[11px] cursor-default',
 }
 
 type Props = {
