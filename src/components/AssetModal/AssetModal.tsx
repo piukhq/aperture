@@ -77,7 +77,8 @@ const AssetModal = () => {
   }
 
   const renderImageSection = () => {
-    const isUniqueAcrossEnvironments = Object.values(selectedAssetGroup).filter(env => env?.image?.id).length === 1
+    const assetArray = Object.values(selectedAssetGroup)
+    const isUniqueAcrossEnvironments = assetArray.filter(asset => asset !== null).length === 1
 
     enum NavigationDirection {
       LEFT = 'rotate-90',
@@ -85,20 +86,18 @@ const AssetModal = () => {
     }
 
     const handleNavigationButtonClick = navigationDirection => {
-
-      const assetArray = Object.values(selectedAssetGroup)
       const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
+      const firstAssetEnvironment = assetArray[0].environment
       const lastAssetEnvironment = assetArray[assetArray.length - 1].environment
 
+      let newEnvironment = selectedAssetEnvironment
+
       if (navigationDirection === NavigationDirection.LEFT) {
-        const newEnvironment = selectedAsset === assetArray[0] ? lastAssetEnvironment : assetArray[currentAssetIndex - 1].environment
-        dispatch(setSelectedAssetEnvironment(newEnvironment))
+        newEnvironment = selectedAssetEnvironment === firstAssetEnvironment ? lastAssetEnvironment : assetArray[currentAssetIndex - 1].environment
       } else {
-        const newEnvironment = selectedAsset.environment === lastAssetEnvironment ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
-        dispatch(setSelectedAssetEnvironment(newEnvironment))
+        newEnvironment = selectedAssetEnvironment === lastAssetEnvironment ? firstAssetEnvironment : assetArray[currentAssetIndex + 1].environment
       }
-
-
+      dispatch(setSelectedAssetEnvironment(newEnvironment))
     }
 
     const renderNavigationButton = navigationDirection => (
