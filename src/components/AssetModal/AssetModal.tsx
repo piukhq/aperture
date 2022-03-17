@@ -89,7 +89,6 @@ const AssetModal = () => {
       const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
       const firstAssetEnvironment = assetArray[0].environment
       const lastAssetEnvironment = assetArray[assetArray.length - 1].environment
-
       let newEnvironment = selectedAssetEnvironment
 
       if (navigationDirection === NavigationDirection.LEFT) {
