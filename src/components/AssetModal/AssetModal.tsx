@@ -4,14 +4,17 @@ import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
-import {useAppSelector} from 'app/hooks'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {setSelectedAssetEnvironment} from 'features/planAssetsSlice'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 import downloadAsset from 'services/downloadAsset'
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
 
+
 const AssetModal = () => {
+  const dispatch = useAppDispatch()
   const [imageDimensions, setImageDimensions] = useState(null)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
@@ -75,28 +78,51 @@ const AssetModal = () => {
 
   const renderImageSection = () => {
     const isUniqueAcrossEnvironments = Object.values(selectedAssetGroup).filter(env => env?.image?.id).length === 1
-    const renderNavigationButton = rotation => (
+
+    enum NavigationDirection {
+      LEFT = 'rotate-90',
+      RIGHT = '-rotate-90'
+    }
+
+    const handleNavigationButtonClick = navigationDirection => {
+
+      const assetArray = Object.values(selectedAssetGroup)
+      const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
+      const lastAssetEnvironment = assetArray[assetArray.length - 1].environment
+
+      if (navigationDirection === NavigationDirection.LEFT) {
+        const newEnvironment = selectedAsset === assetArray[0] ? lastAssetEnvironment : assetArray[currentAssetIndex - 1].environment
+        dispatch(setSelectedAssetEnvironment(newEnvironment))
+      } else {
+        const newEnvironment = selectedAsset.environment === lastAssetEnvironment ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
+        dispatch(setSelectedAssetEnvironment(newEnvironment))
+      }
+
+
+    }
+
+    const renderNavigationButton = navigationDirection => (
       <Button
-        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
+        handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
         buttonWidth={Button.buttonWidth.TINY}
         buttonSize={Button.buttonSize.TINY}
         buttonBackground={Button.buttonBackground.BLUE}
         labelColour={Button.labelColour.WHITE}
       >
-        <ArrowDownSvg fill='white' className={`${rotation} scale-75`} />
+        <ArrowDownSvg fill='white' className={`${navigationDirection} scale-75`} />
       </Button>
     )
 
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT)}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
           {renderAssetimage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('-rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT)}
         </div>
       </div>
     ) }
@@ -143,7 +169,6 @@ const AssetModal = () => {
             {renderJson()}
           </div>
         </pre>
-
       </div>
     )
   }
