@@ -60,7 +60,7 @@ const AssetModal = () => {
   )
 
 
-  const renderAssetimage = () => {
+  const renderAssetImage = () => {
     if (isError) {
       return <AssetErrorSVG className='h-[22px] w-[22px]' />
     }
@@ -118,7 +118,7 @@ const AssetModal = () => {
           {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT)}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
-          {renderAssetimage()}
+          {renderAssetImage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
           {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT)}
