@@ -64,9 +64,7 @@ const AssetModal = () => {
   const renderAssetImage = () => {
     if (isError) {
       return (
-        <div className='min-h-[280px] flex justify-center items-center'>
-          <AssetErrorSVG className='h-[22px] w-[22px]' />
-        </div>
+        <AssetErrorSVG className='h-[22px] w-[22px]' />
       )
     }
     return (
