@@ -17,6 +17,7 @@ const AssetModal = () => {
   const dispatch = useAppDispatch()
   const [imageDimensions, setImageDimensions] = useState(null)
   const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
@@ -62,6 +63,11 @@ const AssetModal = () => {
 
 
   const renderAssetImage = () => {
+
+    const handleOnLoadingComplete = (imageDimensions) => {
+      setImageDimensions(imageDimensions)
+      setIsLoading(false)
+    }
     if (isError) {
       return (
         <AssetErrorSVG className='h-[22px] w-[22px]' />
@@ -75,7 +81,7 @@ const AssetModal = () => {
         height={imageDimensions?.naturalWeight || 280}
         objectFit='contain'
         alt={description || heading}
-        onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}
+        onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
         onError={() => setIsError(true)}/>
     )
   }
@@ -96,6 +102,7 @@ const AssetModal = () => {
       }
       dispatch(setSelectedAssetEnvironment(newEnvironment))
       setIsError(false)
+      setIsLoading(true)
     }
 
     const renderNavigationButton = navigationDirection => (
@@ -126,7 +133,7 @@ const AssetModal = () => {
 
 
   const renderAssetDetails = () => {
-    if (isError) {
+    if (isError || isLoading) {
       return (
         <div className='mb-[12px] min-h-[76px]'></div>
       )
@@ -146,7 +153,8 @@ const AssetModal = () => {
           <span className='font-body-3'>{filename}</span>
         </div>
       </div>
-    ) }
+    )
+  }
 
 
   const renderJSONSection = () => {
