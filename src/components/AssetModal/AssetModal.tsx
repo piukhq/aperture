@@ -89,13 +89,17 @@ const AssetModal = () => {
   const renderImageSection = () => {
     const assetArray = Object.values(selectedAssetGroup)
     const isUniqueAcrossEnvironments = assetArray.filter(asset => asset !== null).length === 1
+    enum NavigationDirection {
+      LEFT = 'rotate-90',
+      RIGHT = '-rotate-90'
+    }
 
     const handleNavigationButtonClick = navigationDirection => {
       const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
       const lastAssetIndex = assetArray.length - 1
 
       let newEnvironment
-      if (navigationDirection === 'rotate-90') {
+      if (navigationDirection === NavigationDirection.LEFT) {
         newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex].environment : assetArray[currentAssetIndex - 1].environment
       } else {
         newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
@@ -120,13 +124,13 @@ const AssetModal = () => {
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT)}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
           {renderAssetImage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('-rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT)}
         </div>
       </div>
     ) }
