@@ -63,7 +63,11 @@ const AssetModal = () => {
 
   const renderAssetImage = () => {
     if (isError) {
-      return <AssetErrorSVG className='h-[22px] w-[22px]' />
+      return (
+        <div className='min-h-[280px] flex justify-center items-center'>
+          <AssetErrorSVG className='h-[22px] w-[22px]' />
+        </div>
+      )
     }
     return (
       <Image
@@ -128,9 +132,15 @@ const AssetModal = () => {
       </div>
     ) }
 
+
   const renderAssetDetails = () => {
+    if (isError) {
+      return (
+        <div className='mb-[12px] min-h-[76px]'></div>
+      )
+    }
     return (
-      <div className='mb-[12px]'>
+      <div className='mb-[12px] min-h-[76px]'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
           <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
@@ -205,7 +215,7 @@ const AssetModal = () => {
     <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
-      {!isError && renderAssetDetails()}
+      {renderAssetDetails()}
       {renderJSONSection()}
       {renderButtons()}
     </Modal>
