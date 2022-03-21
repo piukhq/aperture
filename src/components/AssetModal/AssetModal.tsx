@@ -16,13 +16,14 @@ import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
 const AssetModal = () => {
   const dispatch = useAppDispatch()
   const [imageDimensions, setImageDimensions] = useState(null)
+  const [isError, setIsError] = useState(false)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
-  const {hasMultipleImagesOfThisType, typeIndex, image, heading, isError, environment} = selectedAsset
+  const {hasMultipleImagesOfThisType, typeIndex, image, heading, environment} = selectedAsset
   const {id, url, description, encoding} = image
 
   const urlArray = url.split('/')
@@ -72,7 +73,8 @@ const AssetModal = () => {
         height={imageDimensions?.naturalWeight || 280}
         objectFit='contain'
         alt={description || heading}
-        onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+        onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}
+        onError={() => setIsError(true)}/>
     )
   }
 
@@ -97,6 +99,7 @@ const AssetModal = () => {
         newEnvironment = selectedAssetEnvironment === lastAssetEnvironment ? firstAssetEnvironment : assetArray[currentAssetIndex + 1].environment
       }
       dispatch(setSelectedAssetEnvironment(newEnvironment))
+      setIsError(false)
     }
 
     const renderNavigationButton = navigationDirection => (
