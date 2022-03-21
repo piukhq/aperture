@@ -59,7 +59,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       </div>
     ) } else {
     return (
-      <button aria-label={`${imageEnv} ${description}`} onClick={handleAssetClick}>
+      <button aria-label={`${imageEnv} ${description || assetType.heading}`} onClick={handleAssetClick}>
         <Image
           className={imageClasses}
           alt={description}

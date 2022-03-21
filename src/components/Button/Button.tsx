@@ -147,7 +147,7 @@ const Button = (props: ButtonProps) => {
       onClick={handleClick}
       type={BUTTON_TYPE_MAPS[buttonType]}
     >
-      <div aria-hidden='true' className='flex items-center justify-center whitespace-nowrap gap-2'>
+      <div className='flex items-center justify-center whitespace-nowrap gap-2'>
         {children}
       </div>
     </button>
