@@ -33,7 +33,6 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       typeIndex,
       heading: assetType.heading,
       environment: env,
-      isError,
     }
   )
 
