@@ -4,22 +4,27 @@ import Image from 'next/image'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import SearchWhiteSvg from 'icons/svgs/search-white.svg'
 import DownloadSvg from 'icons/svgs/download.svg'
-import {useAppSelector} from 'app/hooks'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {setSelectedAssetEnvironment} from 'features/planAssetsSlice'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 import downloadAsset from 'services/downloadAsset'
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
 
+
 const AssetModal = () => {
+  const dispatch = useAppDispatch()
   const [imageDimensions, setImageDimensions] = useState(null)
+  const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
-  const {hasMultipleImagesOfThisType, typeIndex, image, heading, isError, environment} = selectedAsset
+  const {hasMultipleImagesOfThisType, typeIndex, image, heading, environment} = selectedAsset
   const {id, url, description, encoding} = image
 
   const urlArray = url.split('/')
@@ -57,9 +62,16 @@ const AssetModal = () => {
   )
 
 
-  const renderAssetimage = () => {
+  const renderAssetImage = () => {
+
+    const handleOnLoadingComplete = (imageDimensions) => {
+      setImageDimensions(imageDimensions)
+      setIsLoading(false)
+    }
     if (isError) {
-      return <AssetErrorSVG className='h-[22px] w-[22px]' />
+      return (
+        <AssetErrorSVG className='h-[22px] w-[22px]' />
+      )
     }
     return (
       <Image
@@ -69,41 +81,69 @@ const AssetModal = () => {
         height={imageDimensions?.naturalWeight || 280}
         objectFit='contain'
         alt={description || heading}
-        onLoadingComplete={(imageDimensions) => setImageDimensions(imageDimensions)}/>
+        onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
+        onError={() => setIsError(true)}/>
     )
   }
 
   const renderImageSection = () => {
-    const isUniqueAcrossEnvironments = Object.values(selectedAssetGroup).filter(env => env?.image?.id).length === 1
-    const renderNavigationButton = rotation => (
+    const assetArray = Object.values(selectedAssetGroup)
+    const isUniqueAcrossEnvironments = assetArray.filter(asset => asset !== null).length === 1
+    enum NavigationDirection {
+      LEFT = 'rotate-90',
+      RIGHT = '-rotate-90'
+    }
+
+    const handleNavigationButtonClick = navigationDirection => {
+      const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
+      const lastAssetIndex = assetArray.length - 1
+
+      let newEnvironment
+      if (navigationDirection === NavigationDirection.LEFT) {
+        newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex].environment : assetArray[currentAssetIndex - 1].environment
+      } else {
+        newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
+      }
+      dispatch(setSelectedAssetEnvironment(newEnvironment))
+      setIsError(false)
+      setIsLoading(true)
+    }
+
+    const renderNavigationButton = navigationDirection => (
       <Button
-        handleClick={() => console.log('clicked')} // TODO: Placeholder for future ticket
+        handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
         buttonWidth={Button.buttonWidth.TINY}
         buttonSize={Button.buttonSize.TINY}
         buttonBackground={Button.buttonBackground.BLUE}
         labelColour={Button.labelColour.WHITE}
       >
-        <ArrowDownSvg fill='white' className={`${rotation} scale-75`} />
+        <ArrowDownSvg fill='white' className={`${navigationDirection} scale-75`} />
       </Button>
     )
 
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT)}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
-          {renderAssetimage()}
+          {renderAssetImage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton('-rotate-90')}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT)}
         </div>
       </div>
     ) }
 
+
   const renderAssetDetails = () => {
+    if (isError || isLoading) {
+      return (
+        <div className='mb-[12px] min-h-[76px]'></div>
+      )
+    }
     return (
-      <div className='mb-[12px]'>
+      <div className='mb-[12px] min-h-[76px]'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
           <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
@@ -117,7 +157,8 @@ const AssetModal = () => {
           <span className='font-body-3'>{filename}</span>
         </div>
       </div>
-    ) }
+    )
+  }
 
 
   const renderJSONSection = () => {
@@ -143,7 +184,6 @@ const AssetModal = () => {
             {renderJson()}
           </div>
         </pre>
-
       </div>
     )
   }
@@ -179,7 +219,7 @@ const AssetModal = () => {
     <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
-      {!isError && renderAssetDetails()}
+      {renderAssetDetails()}
       {renderJSONSection()}
       {renderButtons()}
     </Modal>
