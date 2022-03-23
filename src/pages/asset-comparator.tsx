@@ -110,10 +110,18 @@ const AssetComparatorPage: NextPage = () => {
 
   return (
     <>
-      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
-      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
+      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && (
+        <div data-testid='credentials-modal'>
+          <CredentialsModal />
+        </div>
+      )}
+      {modalRequested === 'ASSET_COMPARATOR_ASSET' && (
+        <div data-testid='asset-comparator-modal'>
+          <AssetModal />
+        </div>
+      )}
       <PageLayout>
-        <div className='flex gap-[20px] h-[40px] justify-end'>
+        <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}
         </div>
 
