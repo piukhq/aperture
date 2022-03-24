@@ -3,8 +3,8 @@ import {classNames} from 'utils/classNames'
 import {TagSize, TagStyle, TextStyle, TAG_SIZE_MAPS, TAG_STYLE_MAPS, TEXT_STYLE_MAPS} from './styles'
 
 type Props = {
-  tagSize?: TagSize,
-  tagStyle?: TagStyle,
+  tagSize: TagSize,
+  tagStyle: TagStyle,
   textStyle?: TextStyle,
   label: string,
 }
