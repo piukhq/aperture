@@ -356,7 +356,7 @@ const TextInputGroup = (props: Props) => {
       INPUT_WIDTH_MAPS[inputWidth],
     )}>
       {label && (
-        <label className={classNames(
+        <label htmlFor={`bink-form-field-${name}`} className={classNames(
           INPUT_STYLE_MAPS[inputStyle].label,
           isOutlineStyle && INPUT_COLOUR_MAPS[inputColour].label,
           isFocused && 'text-lightBlue',
