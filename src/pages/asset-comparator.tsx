@@ -60,11 +60,7 @@ const AssetComparatorPage: NextPage = () => {
 
   const renderHeaderTools = () => (
     <>
-      { isVerified && (
-        <div className='contents' data-testid='plan-list'>
-          <PlansList/>
-        </div>
-      )}
+      { isVerified && <PlansList/>}
       <Button
         handleClick={handleRequestCredentialsModal}
         buttonSize={Button.buttonSize.MEDIUM_ICON}
@@ -94,11 +90,7 @@ const AssetComparatorPage: NextPage = () => {
 
   const renderVerifiedLanding = () => {
     const determineAssetGridStatus = () => (
-      planAssets ? (
-        <div className='contents' data-testid='asset-grid'>
-          <AssetGrid planAssets={planAssets} />
-        </div>
-      ) : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
+      planAssets ? <AssetGrid planAssets={planAssets} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare assets</p>
     )
 
     return (
@@ -118,16 +110,8 @@ const AssetComparatorPage: NextPage = () => {
 
   return (
     <>
-      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && (
-        <div data-testid='credentials-modal'>
-          <CredentialsModal />
-        </div>
-      )}
-      {modalRequested === 'ASSET_COMPARATOR_ASSET' && (
-        <div data-testid='asset-comparator-modal'>
-          <AssetModal />
-        </div>
-      )}
+      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
+      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
       <PageLayout>
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}

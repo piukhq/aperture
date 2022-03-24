@@ -6,10 +6,10 @@ import configureStore from 'redux-mock-store'
 import AssetComparatorPage from 'pages/asset-comparator'
 import * as WindowDimensions from 'utils/windowDimensions'
 
-jest.mock('components/AssetModal', () => () => null)
-jest.mock('components/CredentialsModal', () => () => null)
-jest.mock('components/PlansList', () => () => null)
-jest.mock('components/AssetGrid', () => () => null)
+jest.mock('components/AssetModal', () => () => <div data-testid='asset-comparator-modal' />)
+jest.mock('components/CredentialsModal', () => () => <div data-testid='credentials-modal' />)
+jest.mock('components/PlansList', () => () => <div data-testid='plan-list' />)
+jest.mock('components/AssetGrid', () => () => <div data-testid='asset-grid' />)
 jest.mock('hooks/useGetPlansHook', () => ({
   useGetPlansHook: jest.fn(),
 }))
@@ -40,70 +40,51 @@ describe('AssetComparatorPage', () => {
     React.useState = jest.fn().mockReturnValue([false, jest.fn()])
   })
 
+  const getAssetComparatorComponent = (passedStore = undefined) => (
+    <Provider store={passedStore || store}>
+      <AssetComparatorPage />
+    </Provider>
+  )
+
   describe('Test Credentials Modal', () => {
     it('should not render Credentials Modal', () => {
-      const {queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+      const {queryByTestId} = render(getAssetComparatorComponent())
       expect(queryByTestId('credentials-modal')).not.toBeInTheDocument()
     })
 
     it('should render Credentials Modal', () => {
-      store = mockStoreFn({
+      const store = mockStoreFn({
         ...initialState,
         modal: {
           modalRequested: 'ASSET_COMPARATOR_CREDENTIALS',
         },
       })
-      const {queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+      const {queryByTestId} = render(getAssetComparatorComponent(store))
       expect(queryByTestId('credentials-modal')).toBeInTheDocument()
     })
   })
 
-  describe('Test Asset Comparator Modal', () => {
-    it('should not render Asset Comparator Modal', () => {
-      const {queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+  describe('Test Asset Modal', () => {
+    it('should not render Asset Modal', () => {
+      const {queryByTestId} = render(getAssetComparatorComponent())
       expect(queryByTestId('asset-comparator-modal')).not.toBeInTheDocument()
     })
 
-    it('should render Asset Comparator Modal', () => {
-      store = mockStoreFn({
+    it('should render Asset Modal', () => {
+      const store = mockStoreFn({
         ...initialState,
         modal: {
           modalRequested: 'ASSET_COMPARATOR_ASSET',
         },
       })
-      const {queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+      const {queryByTestId} = render(getAssetComparatorComponent(store))
       expect(queryByTestId('asset-comparator-modal')).toBeInTheDocument()
     })
   })
 
   describe('Test headings', () => {
     it('should render the header container', () => {
-      const {queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+      const {queryByTestId} = render(getAssetComparatorComponent())
       expect(queryByTestId('header')).toBeInTheDocument()
     })
 
@@ -119,12 +100,7 @@ describe('AssetComparatorPage', () => {
     })
 
     it('should render Credentials button', () => {
-      const {getByRole} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
-
+      const {getByRole} = render(getAssetComparatorComponent())
       expect(getByRole('button', {name: /Credentials/i})).toBeInTheDocument()
     })
   })
@@ -132,11 +108,7 @@ describe('AssetComparatorPage', () => {
   describe('Test copy variations', () => {
     it('should render small viewport copy', () => {
       isDesktopViewportDimensionsMock.mockReturnValue(false)
-      const {getByText, queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
+      const {getByText, queryByTestId} = render(getAssetComparatorComponent())
 
       expect(queryByTestId('small-viewport-copy')).toBeInTheDocument()
       expect(getByText('Viewport too small')).toBeInTheDocument()
@@ -146,11 +118,7 @@ describe('AssetComparatorPage', () => {
     })
 
     it('should render unverified landing copy', () => {
-      const {getByText, queryByTestId} = render(
-        <Provider store={store}>
-          <AssetComparatorPage />
-        </Provider>
-      )
+      const {getByText, queryByTestId} = render(getAssetComparatorComponent())
 
       expect(queryByTestId('unverified-landing-copy')).toBeInTheDocument()
       expect(getByText('Welcome to the Bink Asset Comparator')).toBeInTheDocument()
@@ -164,11 +132,7 @@ describe('AssetComparatorPage', () => {
       })
 
       it('should render the environment headers', () => {
-        render(
-          <Provider store={store}>
-            <AssetComparatorPage />
-          </Provider>
-        )
+        render(getAssetComparatorComponent())
 
         const devHeading = screen.getByRole('heading', {
           name: 'DEVELOPMENT',
@@ -193,26 +157,16 @@ describe('AssetComparatorPage', () => {
       })
 
       it('should render verified landing copy', () => {
-        store = mockStoreFn({
+        const store = mockStoreFn({
           ...initialState,
           planAssets: {},
         })
-        const {getByText} = render(
-          <Provider store={store}>
-            <AssetComparatorPage />
-          </Provider>
-        )
-
+        const {getByText} = render(getAssetComparatorComponent(store))
         expect(getByText('Select a plan above to compare assets')).toBeInTheDocument()
       })
 
       it('should render Asset Grid', () => {
-        const {queryByTestId} = render(
-          <Provider store={store}>
-            <AssetComparatorPage />
-          </Provider>
-        )
-
+        const {queryByTestId} = render(getAssetComparatorComponent())
         expect(queryByTestId('asset-grid')).toBeInTheDocument()
       })
     })
