@@ -1,15 +1,19 @@
-import {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, useCallback} from 'react'
 import {Button, Tag} from 'components'
 import TrashSvg from 'icons/svgs/trash.svg'
+import {TagStyle, TagSize} from 'components/Tag/styles'
+import {ButtonWidth, BorderColour} from 'components/Button/styles'
 
 type Props = {
-  isFailure,
+  envKey: string,
+  isFailure: boolean,
   isPending: boolean,
   hasVerificationToken: boolean,
-  removeVerificationToken: () => void
+  removeVerificationToken: (envKey: string) => void
 }
 
 const VerificationTag = ({
+  envKey,
   isFailure,
   isPending,
   hasVerificationToken,
@@ -26,7 +30,7 @@ const VerificationTag = ({
     YELLOW_OUTLINE,
     RED_OUTLINE,
     GREY_OUTLINE,
-  } = Tag.tagStyle
+  } = TagStyle
 
   let tagStyle = GREY_OUTLINE
   let label = 'Unverified'
@@ -43,20 +47,22 @@ const VerificationTag = ({
   }
 
   const handleRemoveToken = useCallback(() => {
-    removeVerificationToken()
+    removeVerificationToken(envKey)
     setIsVerified(false)
-  }, [removeVerificationToken])
+  }, [removeVerificationToken, envKey])
+
+  // console.log('TAG Rendered')
 
   return (
     <div className='flex'>
-      <Tag tagSize={Tag.tagSize.SMALL} tagStyle={tagStyle} label={label} />
+      <Tag tagSize={TagSize.SMALL} tagStyle={tagStyle} label={label} />
 
       {isVerified && (
         <div className='ml-[18px]'>
           <Button
             handleClick={handleRemoveToken}
-            buttonWidth={Button.buttonWidth.ICON_ONLY}
-            borderColour={Button.borderColour.RED}
+            buttonWidth={ButtonWidth.ICON_ONLY}
+            borderColour={BorderColour.RED}
             ariaLabel='Remove Credentials'
           >
             <TrashSvg />
@@ -67,4 +73,4 @@ const VerificationTag = ({
   )
 }
 
-export default VerificationTag
+export default React.memo(VerificationTag)

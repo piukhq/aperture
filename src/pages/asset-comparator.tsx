@@ -2,27 +2,21 @@ import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
-
 import {AssetGrid, AssetModal, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
-
 import SettingsSvg from 'icons/svgs/settings.svg'
-
-
 import {
   useAppDispatch,
   useAppSelector,
 } from 'app/hooks'
-
 import {
   ModalType,
   requestModal,
   selectModal,
 } from 'features/modalSlice'
 import {getSelectedPlanImages} from 'features/planAssetsSlice'
-
 import {SelectedPlanImages} from 'types'
-
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
@@ -63,11 +57,11 @@ const AssetComparatorPage: NextPage = () => {
       { isVerified && <PlansList/>}
       <Button
         handleClick={handleRequestCredentialsModal}
-        buttonSize={Button.buttonSize.MEDIUM_ICON}
-        buttonWidth={Button.buttonWidth.AUTO}
-        buttonBackground={Button.buttonBackground.BLUE}
-        labelColour={Button.labelColour.WHITE}
-        labelWeight={Button.labelWeight.MEDIUM}
+        buttonSize={ButtonSize.MEDIUM_ICON}
+        buttonWidth={ButtonWidth.AUTO}
+        buttonBackground={ButtonBackground.BLUE}
+        labelColour={LabelColour.WHITE}
+        labelWeight={LabelWeight.MEDIUM}
       ><SettingsSvg/>Credentials
       </Button>
     </>
