@@ -1,4 +1,4 @@
-import {ReactNode, useState} from 'react'
+import {ReactNode, useState, useCallback} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
 import {useVerificationHook} from 'hooks/useVerificationHook'
@@ -11,6 +11,8 @@ import {
   removeStagingVerificationToken,
 } from 'utils/storage'
 import {isValidEmail, isValidPassword} from 'utils/validation'
+import {TagStyle, TagSize} from 'components/Tag/styles'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -38,7 +40,7 @@ const CredentialsModal = () => {
     YELLOW_FILLED,
     LIGHT_BLUE_FILLED,
     RED_FILLED,
-  } = Tag.tagStyle
+  } = TagStyle
 
   const ENVIRONMENT_TAG_MAPS = {
     'DEV': AQUAMARINE_FILLED,
@@ -74,7 +76,7 @@ const CredentialsModal = () => {
     }
   }
 
-  const handleRemoveToken = (envKey: string) => {
+  const handleRemoveToken = useCallback((envKey: string) => {
     if (envKey === 'DEV') {
       resetDevToken()
       removeDevVerificationToken()
@@ -84,7 +86,7 @@ const CredentialsModal = () => {
       removeStagingVerificationToken()
       resetStagingPlans()
     }
-  }
+  }, [resetDevToken, resetDevPlans, resetStagingToken, resetStagingPlans])
 
   const renderVerificationTag = (envKey: string): ReactNode => {
     let isSuccessful, isPending, isFailure, hasVerificationToken
@@ -98,20 +100,18 @@ const CredentialsModal = () => {
       hasVerificationToken = isSuccessful || getStagingVerificationToken() !== null
     }
 
-    const removeVerificationToken = () => handleRemoveToken(envKey)
-
     const verificationProps = {
-      isPending, isFailure, hasVerificationToken, removeVerificationToken,
+      isPending, isFailure, hasVerificationToken, envKey,
     }
 
-    return <VerificationTag {...verificationProps} />
+    return <VerificationTag {...verificationProps} removeVerificationToken={handleRemoveToken}/>
   }
 
   const renderTags = () => {
     return Object.keys(EnvironmentName).map((envKey) => {
       return (
         <div key={envKey} className='flex justify-between py-[27px]'>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={ENVIRONMENT_TAG_MAPS[envKey]} label={EnvironmentName[envKey]}/>
+          <Tag tagSize={TagSize.MEDIUM} tagStyle={ENVIRONMENT_TAG_MAPS[envKey]} label={EnvironmentName[envKey]}/>
           {renderVerificationTag(envKey)}
         </div>
       )
@@ -144,12 +144,13 @@ const CredentialsModal = () => {
           inputColour={passwordError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
         />
         <Button
-          buttonType={Button.buttonType.SUBMIT}
-          buttonSize={Button.buttonSize.LARGE}
-          buttonWidth={Button.buttonWidth.FULL}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.SEMIBOLD}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.LARGE}
+          buttonWidth={ButtonWidth.FULL}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          ariaLabel='Verify Credentials'
         > Verify Credentials
         </Button>
       </form>

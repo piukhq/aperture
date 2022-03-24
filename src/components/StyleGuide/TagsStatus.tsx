@@ -1,4 +1,5 @@
 import {Tag} from 'components'
+import {TagStyle, TagSize} from 'components/Tag/styles'
 
 type Props = {
   sectionClass: string,
@@ -54,17 +55,17 @@ const TagsStatus = ({sectionClass}: Props) => {
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>ENVIRONMENT</h4>
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.AQUAMARINE_FILLED} label='Develop' />
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.YELLOW_FILLED} label='Staging' />
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.LIGHT_BLUE_FILLED} label='Sandbox' />
-          <Tag tagSize={Tag.tagSize.MEDIUM} tagStyle={Tag.tagStyle.RED_FILLED} label='Production' />
+          <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.AQUAMARINE_FILLED} label='Develop' />
+          <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.YELLOW_FILLED} label='Staging' />
+          <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='Sandbox' />
+          <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.RED_FILLED} label='Production' />
         </div>
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>STATUS 2</h4>
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.AQUAMARINE_OUTLINE} label='Verified' />
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.YELLOW_OUTLINE} label='Pending' />
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.GREY_OUTLINE} label='Unverified' />
-          <Tag tagSize={Tag.tagSize.SMALL} tagStyle={Tag.tagStyle.RED_OUTLINE} label='Failed' />
+          <Tag tagSize={TagSize.SMALL} tagStyle={TagStyle.AQUAMARINE_OUTLINE} label='Verified' />
+          <Tag tagSize={TagSize.SMALL} tagStyle={TagStyle.YELLOW_OUTLINE} label='Pending' />
+          <Tag tagSize={TagSize.SMALL} tagStyle={TagStyle.GREY_OUTLINE} label='Unverified' />
+          <Tag tagSize={TagSize.SMALL} tagStyle={TagStyle.RED_OUTLINE} label='Failed' />
         </div>
       </div>
     </section>
