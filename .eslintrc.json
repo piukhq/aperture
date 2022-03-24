@@ -59,6 +59,9 @@
     "jest/valid-expect": "error",
     // Typescript Rules
     "@typescript-eslint/no-unused-vars": "error",
-    "no-unused-vars": "off" // See: https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
+    "no-unused-vars": "off", // See: https://stackoverflow.com/questions/57802057/eslint-configuring-no-unused-vars-for-typescript
+    // Rules that conflict with Jest patterns we like and are unlikely to ever break anyhow.
+    "react/display-name": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
