@@ -51,8 +51,6 @@ const VerificationTag = ({
     setIsVerified(false)
   }, [removeVerificationToken, envKey])
 
-  // console.log('TAG Rendered')
-
   return (
     <div className='flex'>
       <Tag tagSize={TagSize.SMALL} tagStyle={tagStyle} label={label} />
