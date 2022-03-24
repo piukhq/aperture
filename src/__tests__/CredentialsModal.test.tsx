@@ -75,7 +75,7 @@ describe('Credentials Modal', () => {
   })
 
   describe('Test Credential Modal', () => {
-    it('should render the correct heading', () => {
+    it('should render the heading', () => {
       render(<CredentialsModal />)
       const verifyCredentialsButton = screen.getByRole('heading', {
         name: 'Enter Environment Credentials',
@@ -84,7 +84,7 @@ describe('Credentials Modal', () => {
       expect(verifyCredentialsButton).toBeInTheDocument()
     })
 
-    it('should render the correct email input', () => {
+    it('should render the email input', () => {
       render(<CredentialsModal />)
 
       const emailInput = screen.getByLabelText('Email')
@@ -92,14 +92,14 @@ describe('Credentials Modal', () => {
       expect(emailInput).toHaveValue(mockEmailValue)
     })
 
-    it('should render the correct email error message', () => {
+    it('should render the email error message', () => {
       render(<CredentialsModal />)
       const emailError = screen.getByText(mockEmailError)
 
       expect(emailError).toBeInTheDocument()
     })
 
-    it('should render the correct password input', () => {
+    it('should render the password input', () => {
       render(<CredentialsModal />)
       const passwordInput = screen.getByLabelText('Password')
 
@@ -107,7 +107,7 @@ describe('Credentials Modal', () => {
       expect(passwordInput).toHaveValue(mockPasswordValue)
     })
 
-    it('should render the correct password error message', () => {
+    it('should render the password error message', () => {
       render(<CredentialsModal />)
       const passwordError = screen.getByText(mockPasswordError)
 
@@ -123,7 +123,7 @@ describe('Credentials Modal', () => {
       expect(verifyCredentialsButton).toBeInTheDocument()
     })
 
-    it('should render the correct environment tags', () => {
+    it('should render all environment tags', () => {
       render(<CredentialsModal />)
       const devTag = screen.getByText('Development')
       const stagingTag = screen.getByText('Staging')
@@ -135,14 +135,14 @@ describe('Credentials Modal', () => {
       expect(sandboxTag).toBeInTheDocument()
       expect(prodTag).toBeInTheDocument()
     })
-    it('should render the correct number of verification tags', () => {
+    it('should render all verification tags', () => {
       render(<CredentialsModal />)
       const verificationTags = screen.getAllByTestId('verification-tag')
 
       expect(verificationTags).toHaveLength(4)
     })
 
-    it('should render the correct footer text', () => {
+    it('should render the footer text', () => {
       render(<CredentialsModal />)
       const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/i)
 
