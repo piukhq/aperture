@@ -3,12 +3,27 @@ import {render, screen} from '@testing-library/react'
 
 import {CredentialsModal} from 'components'
 
+
 jest.mock('hooks/useVerificationHook', () => ({
-  useVerificationHook: jest.fn(),
+  useVerificationHook: jest.fn().mockImplementation(() => ({
+    verifyDevCredentials: jest.fn(),
+    verifyStagingCredentials: jest.fn(),
+    devIsSuccess: jest.fn(),
+    stagingIsSuccess: jest.fn(),
+    devError: jest.fn(),
+    stagingError: jest.fn(),
+    devIsLoading: jest.fn(),
+    stagingIsLoading: jest.fn(),
+    resetDevToken: jest.fn(),
+    resetStagingToken: jest.fn(),
+  })),
 }))
 
 jest.mock('hooks/useGetPlansHook', () => ({
-  useGetPlansHook: jest.fn(),
+  useGetPlansHook: jest.fn().mockImplementation(() => ({
+    resetDevPlans: jest.fn(),
+    resetStagingToken: jest.fn(),
+  })),
 }))
 
 jest.mock('utils/storage', () => ({
@@ -36,7 +51,6 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
-React.useState = jest.fn()
 const mockEmailValue = 'mock_email_value'
 const mockEmailError = 'mock_email_error'
 const mockPasswordValue = 'mock_password_value'
@@ -53,28 +67,9 @@ describe('Credentials Modal', () => {
       .mockReturnValueOnce([mockEmailError, setStateMock])
       .mockReturnValueOnce([mockPasswordValue, setStateMock])
       .mockReturnValueOnce([mockPasswordError, setStateMock])
-
-    jest.spyOn(require('hooks/useVerificationHook'), 'useVerificationHook').mockImplementation(() => ({
-      verifyDevCredentials: jest.fn(),
-      verifyStagingCredentials: jest.fn(),
-      devIsSuccess: jest.fn(),
-      stagingIsSuccess: jest.fn(),
-      devError: jest.fn(),
-      stagingError: jest.fn(),
-      devIsLoading: jest.fn(),
-      stagingIsLoading: jest.fn(),
-      resetDevToken: jest.fn(),
-      resetStagingToken: jest.fn(),
-    }))
-
-    jest.spyOn(require('hooks/useGetPlansHook'), 'useGetPlansHook').mockImplementation(() => ({
-      resetDevPlans: jest.fn(),
-      resetStagingToken: jest.fn(),
-    }))
-
   })
 
-  describe('Test Credential Modal', () => {
+  describe('Test Header and Footer', () => {
     it('should render the heading', () => {
       render(<CredentialsModal />)
       const verifyCredentialsButton = screen.getByRole('heading', {
@@ -84,6 +79,15 @@ describe('Credentials Modal', () => {
       expect(verifyCredentialsButton).toBeInTheDocument()
     })
 
+    it('should render the footer text', () => {
+      render(<CredentialsModal />)
+      const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/i)
+
+      expect(footerText).toBeInTheDocument()
+    })
+  })
+
+  describe('Test Email Field', () => {
     it('should render the email input', () => {
       render(<CredentialsModal />)
 
@@ -98,7 +102,9 @@ describe('Credentials Modal', () => {
 
       expect(emailError).toBeInTheDocument()
     })
+  })
 
+  describe('Test password input', () => {
     it('should render the password input', () => {
       render(<CredentialsModal />)
       const passwordInput = screen.getByLabelText('Password')
@@ -107,13 +113,16 @@ describe('Credentials Modal', () => {
       expect(passwordInput).toHaveValue(mockPasswordValue)
     })
 
+
     it('should render the password error message', () => {
       render(<CredentialsModal />)
       const passwordError = screen.getByText(mockPasswordError)
 
       expect(passwordError).toBeInTheDocument()
     })
+  })
 
+  describe('Test Verify Credentials Button', () => {
     it('should render the verify credentials button', () => {
       render(<CredentialsModal />)
       const verifyCredentialsButton = screen.getByRole('button', {
@@ -122,7 +131,9 @@ describe('Credentials Modal', () => {
 
       expect(verifyCredentialsButton).toBeInTheDocument()
     })
+  })
 
+  describe('Test Tags', () => {
     it('should render all environment tags', () => {
       render(<CredentialsModal />)
       const devTag = screen.getByText('Development')
@@ -142,11 +153,6 @@ describe('Credentials Modal', () => {
       expect(verificationTags).toHaveLength(4)
     })
 
-    it('should render the footer text', () => {
-      render(<CredentialsModal />)
-      const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/i)
-
-      expect(footerText).toBeInTheDocument()
-    })
   })
 })
+
