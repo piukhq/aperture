@@ -1,4 +1,3 @@
-import React from 'react'
 import {render, screen} from '@testing-library/react'
 import VerificationTag from 'components/CredentialsModal/components/VerificationTag'
 
@@ -13,7 +12,6 @@ describe('VerificationTag', () => {
       hasVerificationToken: false,
       removeVerificationToken: jest.fn().mockImplementation(() => null),
     }
-
 
     it('should render Failed status tag', () => {
       render(<VerificationTag isFailure isPending={false} {...mockNonVerifiedVerificationTagProps}/>)
