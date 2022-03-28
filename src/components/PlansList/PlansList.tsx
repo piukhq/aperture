@@ -8,6 +8,7 @@ import {useAppDispatch} from 'app/hooks'
 import {setSelectedPlanImages} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 import {HydratedPlan} from 'types'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const PlansList = () => {
   const {uniquePlansList, devIsLoading, stagingIsLoading} = useGetPlansHook()
@@ -92,12 +93,12 @@ const PlansList = () => {
           svgIcon={<SearchSvg/>}
         />
         <Button
-          buttonType={Button.buttonType.SUBMIT}
-          buttonSize={Button.buttonSize.MEDIUM_ICON}
-          buttonWidth={Button.buttonWidth.AUTO}
-          buttonBackground={Button.buttonBackground.BLUE}
-          labelColour={Button.labelColour.WHITE}
-          labelWeight={Button.labelWeight.MEDIUM}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
           handleClick={handleLoadAssets}
         >
           <CheckSvg/>Load Assets

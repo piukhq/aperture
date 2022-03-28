@@ -3,6 +3,7 @@ import WriteSvg from 'icons/svgs/write.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import SettingsSvg from 'icons/svgs/settings.svg'
+import {ButtonWidth, ButtonSize, ButtonBackground, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
 
 type Props = {
   sectionClass: string,
@@ -19,39 +20,39 @@ const Buttons = ({sectionClass}: Props) => {
             <div className='flex gap-2 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.BLUE}
-                labelColour={Button.labelColour.WHITE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.BLUE}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.BLUE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.WHITE}
+                labelColour={LabelColour.BLUE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.BLUE}
-                labelColour={Button.labelColour.BLUE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.BLUE}
+                labelColour={LabelColour.BLUE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
             </div>
             <Button
               handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.MEDIUM}
-              buttonWidth={Button.buttonWidth.FULL}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.SEMIBOLD}
+              buttonSize={ButtonSize.MEDIUM}
+              buttonWidth={ButtonWidth.FULL}
+              buttonBackground={ButtonBackground.BLUE}
+              labelColour={LabelColour.WHITE}
+              labelWeight={LabelWeight.SEMIBOLD}
             > Primary Button
             </Button>
           </div>
@@ -60,67 +61,67 @@ const Buttons = ({sectionClass}: Props) => {
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.RED}
-                labelColour={Button.labelColour.RED}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.RED}
+                labelColour={LabelColour.RED}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.DARK_GREY}
-                labelColour={Button.labelColour.WHITE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.DARK_GREY}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
             </div>
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.MEDIUM}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.WHITE}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.MEDIUM}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.MEDIUM}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.MEDIUM}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM_BODY_FONT}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.REGULAR}
+                buttonSize={ButtonSize.MEDIUM_BODY_FONT}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.REGULAR}
               > Secondary
               </Button>
             </div>
@@ -132,39 +133,39 @@ const Buttons = ({sectionClass}: Props) => {
             <div className='flex gap-2 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.BLUE}
-                labelColour={Button.labelColour.WHITE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.BLUE}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.BLUE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.WHITE}
+                labelColour={LabelColour.BLUE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.BLUE}
-                labelColour={Button.labelColour.BLUE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.BLUE}
+                labelColour={LabelColour.BLUE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Primary Button
               </Button>
             </div>
             <Button
               handleClick={() => console.log('clicked')}
-              buttonSize={Button.buttonSize.SMALL}
-              buttonWidth={Button.buttonWidth.FULL}
-              buttonBackground={Button.buttonBackground.BLUE}
-              labelColour={Button.labelColour.WHITE}
-              labelWeight={Button.labelWeight.SEMIBOLD}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.FULL}
+              buttonBackground={ButtonBackground.BLUE}
+              labelColour={LabelColour.WHITE}
+              labelWeight={LabelWeight.SEMIBOLD}
             > Primary Button
             </Button>
           </div>
@@ -173,67 +174,67 @@ const Buttons = ({sectionClass}: Props) => {
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.RED}
-                labelColour={Button.labelColour.RED}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.RED}
+                labelColour={LabelColour.RED}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.DARK_GREY}
-                labelColour={Button.labelColour.WHITE}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.DARK_GREY}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
             </div>
             <div className='flex gap-4 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.SEMIBOLD}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.SEMIBOLD}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.MEDIUM}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.WHITE}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.MEDIUM}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.GREY}
-                labelWeight={Button.labelWeight.MEDIUM}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.MEDIUM}
               > Secondary
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.SMALL_BODY_FONT}
-                buttonWidth={Button.buttonWidth.MEDIUM}
-                borderColour={Button.borderColour.GREY}
-                labelColour={Button.labelColour.LIGHT_GREY}
-                labelWeight={Button.labelWeight.REGULAR}
+                buttonSize={ButtonSize.SMALL_BODY_FONT}
+                buttonWidth={ButtonWidth.MEDIUM}
+                borderColour={BorderColour.GREY}
+                labelColour={LabelColour.LIGHT_GREY}
+                labelWeight={LabelWeight.REGULAR}
               > Secondary
               </Button>
             </div>
@@ -246,44 +247,44 @@ const Buttons = ({sectionClass}: Props) => {
             <div className='flex gap-2 py-4'>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.LARGE}
-                buttonWidth={Button.buttonWidth.LARGE}
-                buttonBackground={Button.buttonBackground.WHITE}
-                labelColour={Button.labelColour.DARK_GREY}
+                buttonSize={ButtonSize.LARGE}
+                buttonWidth={ButtonWidth.LARGE}
+                buttonBackground={ButtonBackground.WHITE}
+                labelColour={LabelColour.DARK_GREY}
               > <WriteSvg/> Write Message
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM_ICON}
-                buttonWidth={Button.buttonWidth.ICON_TEXT}
-                buttonBackground={Button.buttonBackground.BLUE}
-                labelColour={Button.labelColour.WHITE}
-                labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.ICON_TEXT}
+                buttonBackground={ButtonBackground.BLUE}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.MEDIUM} // Visual match with Abstract over Semibold
               > <PlusSvg/> New
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM_ICON}
-                buttonWidth={Button.buttonWidth.ICON_TEXT}
-                buttonBackground={Button.buttonBackground.LIGHT_GREY}
-                labelColour={Button.labelColour.DARK_GREY}
-                labelWeight={Button.labelWeight.MEDIUM} // Visual match with Abstract over Semibold
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.ICON_TEXT}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.DARK_GREY}
+                labelWeight={LabelWeight.MEDIUM} // Visual match with Abstract over Semibold
               > <PlusSvg fill='#b5b5be'/> New
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM_ICON}
-                buttonWidth={Button.buttonWidth.ICON_ONLY}
-                buttonBackground={Button.buttonBackground.BLUE}
-                labelColour={Button.labelColour.WHITE}
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.ICON_ONLY}
+                buttonBackground={ButtonBackground.BLUE}
+                labelColour={LabelColour.WHITE}
               ><SettingsSvg/>
               </Button>
               <Button
                 handleClick={() => console.log('clicked')}
-                buttonSize={Button.buttonSize.MEDIUM_ICON}
-                buttonWidth={Button.buttonWidth.ICON_ONLY}
-                borderColour={Button.borderColour.RED}
-                labelColour={Button.labelColour.RED}
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.ICON_ONLY}
+                borderColour={BorderColour.RED}
+                labelColour={LabelColour.RED}
               ><TrashSvg/>
               </Button>
             </div>
