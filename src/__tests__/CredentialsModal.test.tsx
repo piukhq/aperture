@@ -193,32 +193,31 @@ describe('Credentials Modal', () => {
       expect(passwordErrorText).toBeInTheDocument()
     })
   })
-})
 
-describe('Test Credential Modal Invalid Field Errors', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
+  describe('Test Credential Modal Invalid Field Errors', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
 
-    const setStateMock = jest.fn()
-    React.useState = jest
-      .fn()
-      .mockReturnValueOnce(['not_a_valid_email.com', setStateMock])
-      .mockReturnValueOnce([true, setStateMock])
-      .mockReturnValueOnce(['', setStateMock])
-      .mockReturnValueOnce([true, setStateMock])
-  })
+      const setStateMock = jest.fn()
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['not_a_valid_email.com', setStateMock])
+        .mockReturnValueOnce([true, setStateMock])
+        .mockReturnValueOnce(['', setStateMock])
+        .mockReturnValueOnce([true, setStateMock])
+    })
 
+    it('should render the correct error when email field is invalid', () => {
+      jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
+      render(<CredentialsModal />)
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Verify Credentials',
+      }))
+      const emailErrorElement = screen.getByTestId('credentials-email-input-error')
+      const emailErrorText = screen.getByText(/Enter valid email/)
 
-  it('should render the correct error when email field is invalid', () => {
-    jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
-    render(<CredentialsModal />)
-    fireEvent.click(screen.getByRole('button', {
-      name: 'Verify Credentials',
-    }))
-    const emailErrorElement = screen.getByTestId('credentials-email-input-error')
-    const emailErrorText = screen.getByText(/Enter valid email/)
-
-    expect(emailErrorElement).toBeInTheDocument()
-    expect(emailErrorText).toBeInTheDocument()
+      expect(emailErrorElement).toBeInTheDocument()
+      expect(emailErrorText).toBeInTheDocument()
+    })
   })
 })
