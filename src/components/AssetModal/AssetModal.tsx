@@ -11,7 +11,8 @@ import downloadAsset from 'services/downloadAsset'
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
-
+import {TagStyle, TagSize, TextStyle} from 'components/Tag/styles'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const AssetModal = () => {
   const dispatch = useAppDispatch()
@@ -34,14 +35,14 @@ const AssetModal = () => {
     if (selectedAssetGroup[envKey]) {
       // TODO: This line will need refactoring when there are more than 2 environments
       const [tagStyle, label, tooltip] = envKey === EnvironmentShortName.DEV
-        ? [Tag.tagStyle.AQUAMARINE_FILLED, 'D', EnvironmentName.DEV]
-        : [Tag.tagStyle.YELLOW_FILLED, 'S', EnvironmentName.STAGING]
+        ? [TagStyle.AQUAMARINE_FILLED, 'D', EnvironmentName.DEV]
+        : [TagStyle.YELLOW_FILLED, 'S', EnvironmentName.STAGING]
       return (
         <div title={tooltip} className={classNames(
           'flex justify-center items-center h-[28px] w-[28px] rounded-[14px]',
           environment === envKey && 'border border-black dark:border-white'
         )}>
-          <Tag tagSize={Tag.tagSize.MINI} textStyle={Tag.textStyle.SINGLE_LETTER} tagStyle={tagStyle} label={label} />
+          <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={tagStyle} label={label} />
         </div>
       )
     }
@@ -112,10 +113,10 @@ const AssetModal = () => {
     const renderNavigationButton = navigationDirection => (
       <Button
         handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
-        buttonWidth={Button.buttonWidth.TINY}
-        buttonSize={Button.buttonSize.TINY}
-        buttonBackground={Button.buttonBackground.BLUE}
-        labelColour={Button.labelColour.WHITE}
+        buttonWidth={ButtonWidth.TINY}
+        buttonSize={ButtonSize.TINY}
+        buttonBackground={ButtonBackground.BLUE}
+        labelColour={LabelColour.WHITE}
       >
         <ArrowDownSvg fill='white' className={`${navigationDirection} scale-75`} />
       </Button>
@@ -204,11 +205,11 @@ const AssetModal = () => {
       </a>
       <Button
         handleClick={handleDownload}
-        buttonSize={Button.buttonSize.MEDIUM_ICON}
-        buttonWidth={Button.buttonWidth.AUTO}
-        buttonBackground={Button.buttonBackground.BLUE}
-        labelColour={Button.labelColour.WHITE}
-        labelWeight={Button.labelWeight.MEDIUM}
+        buttonSize={ButtonSize.MEDIUM_ICON}
+        buttonWidth={ButtonWidth.AUTO}
+        buttonBackground={ButtonBackground.BLUE}
+        labelColour={LabelColour.WHITE}
+        labelWeight={LabelWeight.MEDIUM}
       >
         <DownloadSvg/>Download
       </Button>
