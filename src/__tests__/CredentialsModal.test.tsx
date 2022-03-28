@@ -155,6 +155,9 @@ describe('Credentials Modal', () => {
     beforeEach(() => {
       jest.clearAllMocks()
 
+      jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
+      jest.spyOn(utils, 'isValidPassword').mockImplementation(() => false)
+
       const setStateMock = jest.fn()
       React.useState = jest
         .fn()
@@ -165,7 +168,6 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when email field is blank', () => {
-      jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
       render(<CredentialsModal />)
 
       fireEvent.click(screen.getByRole('button', {
@@ -180,7 +182,6 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when password field is blank', () => {
-      jest.spyOn(utils, 'isValidPassword').mockImplementation(() => false)
       render(<CredentialsModal />)
 
       fireEvent.click(screen.getByRole('button', {
@@ -208,7 +209,6 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when email field is invalid', () => {
-      jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
       render(<CredentialsModal />)
       fireEvent.click(screen.getByRole('button', {
         name: 'Verify Credentials',
