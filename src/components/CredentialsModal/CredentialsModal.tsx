@@ -16,9 +16,9 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
-  const [emailError, setEmailError] = useState(null)
+  const [isEmailReadyForValidation, setIsEmailReadyForValidation] = useState(false)
   const [passwordValue, setPasswordValue] = useState('')
-  const [passwordError, setPasswordError] = useState(null)
+  const [isPasswordReadyForValidation, setIsPasswordReadyForValidation] = useState(false)
 
   const {
     verifyDevCredentials,
@@ -50,31 +50,26 @@ const CredentialsModal = () => {
   }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailError(null)
     setEmailValue(event.target.value)
+    setIsEmailReadyForValidation(false)
   }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordError(null)
     setPasswordValue(event.target.value)
+    setIsPasswordReadyForValidation(false)
   }
 
   const validateCredentials = (e: React.FormEvent<HTMLFormElement>) => {
+    setIsEmailReadyForValidation(true)
+    setIsPasswordReadyForValidation(true)
     e.preventDefault()
-    const validEmail = isValidEmail(emailValue)
-    const validPassword = isValidPassword(passwordValue)
-
-    if (!validEmail) {
-      emailValue.length === 0 ? setEmailError('Enter email') : setEmailError('Enter valid email')
-    }
-    if (!validPassword) {
-      setPasswordError('Enter password')
-    }
-    if (validEmail && validPassword) {
+    if (isValidEmail(emailValue) && isValidPassword(passwordValue)) {
       !getDevVerificationToken() && verifyDevCredentials({email: emailValue, password: passwordValue})
       !getStagingVerificationToken() && verifyStagingCredentials({email: emailValue, password: passwordValue})
     }
   }
+
+  const getEmailError = () => emailValue.length === 0 ? 'Enter email' : 'Enter valid email'
 
   const handleRemoveToken = useCallback((envKey: string) => {
     if (envKey === 'DEV') {
@@ -124,24 +119,24 @@ const CredentialsModal = () => {
         <TextInputGroup
           name='credentials-email'
           label='Email'
-          error={emailError}
+          error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : null}
           value={emailValue}
           onChange={handleEmailChange}
           inputType={TextInputGroup.inputType.TEXT}
           inputStyle={TextInputGroup.inputStyle.FULL}
           inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={emailError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY} // TODO: If this is common logic for all inputs (including style guide) consider centralising logic into the component itself.
+          inputColour={isEmailReadyForValidation && !isValidEmail(emailValue) ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY} // TODO: If this is common logic for all inputs (including style guide) consider centralising logic into the component itself.
         />
         <TextInputGroup
           name='credentials-password'
           label='Password'
-          error={passwordError}
+          error={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? 'Enter password' : null}
           value={passwordValue}
           onChange={handlePasswordChange}
           inputType={TextInputGroup.inputType.PASSWORD}
           inputStyle={TextInputGroup.inputStyle.FULL}
           inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={passwordError ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
+          inputColour={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
         />
         <Button
           buttonType={ButtonType.SUBMIT}
