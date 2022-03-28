@@ -45,4 +45,21 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
-export {Url, ClientID, BundleID, VerificationToken, EnvironmentName, EnvironmentShortName, ImageTypes}
+enum RouteDisplayNames {
+  'asset-comparator' = 'Asset Comparator',
+  'plan-comparator' = 'Plan Comparator',
+  mids = 'MID Management',
+  'customer-wallets' = 'Customer Wallets',
+  'style-guide' = 'Style Guide',
+}
+
+export {
+  Url,
+  ClientID,
+  BundleID,
+  VerificationToken,
+  EnvironmentName,
+  EnvironmentShortName,
+  ImageTypes,
+  RouteDisplayNames,
+}

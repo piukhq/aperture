@@ -19,7 +19,7 @@ const SidebarOption = ({option, selected}: Props) => {
   } else if (option === 'plan-comparator') {
     displayName = 'Plan Comparator'
     Icon = PlanComparatorIcon
-  } else if (option === 'mid-management') {
+  } else if (option === 'mids') {
     displayName = 'MID Management'
     Icon = MidManagementIcon
   } else if (option === 'customer-wallets') {
