@@ -54,7 +54,6 @@ jest.mock('components/Modal', () => ({
 const mockEmailValue = 'mock_email_value'
 const mockPasswordValue = 'mock_password_value'
 
-
 describe('Credentials Modal', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -150,7 +149,6 @@ describe('Credentials Modal', () => {
 
       expect(verificationTags).toHaveLength(4)
     })
-
   })
 
   describe('Test Credential Modal Blank Field Errors', () => {
@@ -195,7 +193,6 @@ describe('Credentials Modal', () => {
       expect(passwordErrorText).toBeInTheDocument()
     })
   })
-
 })
 
 describe('Test Credential Modal Invalid Field Errors', () => {
