@@ -17,10 +17,11 @@ const Tag = (props: Props) => {
       TAG_SIZE_MAPS[tagSize],
       TAG_STYLE_MAPS[tagStyle],
     )}>
-      <p className={classNames(
-        'text-sm font-heading font-medium tracking-[.1px]',
-        TEXT_STYLE_MAPS[textStyle],
-      )}>{label}</p>
+      <p data-testid='tag-label'
+        className={classNames(
+          'text-sm font-heading font-medium tracking-[.1px]',
+          TEXT_STYLE_MAPS[textStyle],
+        )}>{label}</p>
     </div>
   )
 }
