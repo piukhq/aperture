@@ -1,8 +1,8 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 
 import {CredentialsModal} from 'components'
-
+import * as utils from 'utils/validation'
 
 jest.mock('hooks/useVerificationHook', () => ({
   useVerificationHook: jest.fn().mockImplementation(() => ({
@@ -52,9 +52,8 @@ jest.mock('components/Modal', () => ({
 }))
 
 const mockEmailValue = 'mock_email_value'
-const mockEmailError = 'mock_email_error'
 const mockPasswordValue = 'mock_password_value'
-const mockPasswordError = 'mock_password_error'
+
 
 describe('Credentials Modal', () => {
   beforeEach(() => {
@@ -64,9 +63,9 @@ describe('Credentials Modal', () => {
     React.useState = jest
       .fn()
       .mockReturnValueOnce([mockEmailValue, setStateMock])
-      .mockReturnValueOnce([mockEmailError, setStateMock])
+      .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([mockPasswordValue, setStateMock])
-      .mockReturnValueOnce([mockPasswordError, setStateMock])
+      .mockReturnValueOnce([false, setStateMock])
   })
 
   describe('Test Header and Footer', () => {
@@ -81,7 +80,7 @@ describe('Credentials Modal', () => {
 
     it('should render the footer text', () => {
       render(<CredentialsModal />)
-      const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/i)
+      const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/)
 
       expect(footerText).toBeInTheDocument()
     })
@@ -96,15 +95,15 @@ describe('Credentials Modal', () => {
       expect(emailInput).toHaveValue(mockEmailValue)
     })
 
-    it('should render the email error message', () => {
+    it('should not render the email error message', () => {
       render(<CredentialsModal />)
-      const emailError = screen.getByText(mockEmailError)
+      const emailError = screen.queryByTestId('credentials-email-input-error')
 
-      expect(emailError).toBeInTheDocument()
+      expect(emailError).not.toBeInTheDocument()
     })
   })
 
-  describe('Test password input', () => {
+  describe('Test Password Field', () => {
     it('should render the password input', () => {
       render(<CredentialsModal />)
       const passwordInput = screen.getByLabelText('Password')
@@ -113,12 +112,11 @@ describe('Credentials Modal', () => {
       expect(passwordInput).toHaveValue(mockPasswordValue)
     })
 
-
-    it('should render the password error message', () => {
+    it('should not render the password error message', () => {
       render(<CredentialsModal />)
-      const passwordError = screen.getByText(mockPasswordError)
+      const passwordError = screen.queryByTestId('credentials-password-input-error')
 
-      expect(passwordError).toBeInTheDocument()
+      expect(passwordError).not.toBeInTheDocument()
     })
   })
 
@@ -154,5 +152,76 @@ describe('Credentials Modal', () => {
     })
 
   })
+
+  describe('Test Credential Modal Blank Field Errors', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+
+      const setStateMock = jest.fn()
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['', setStateMock])
+        .mockReturnValueOnce([true, setStateMock])
+        .mockReturnValueOnce(['', setStateMock])
+        .mockReturnValueOnce([true, setStateMock])
+    })
+
+    it('should render the correct error when email field is blank', () => {
+      jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
+      render(<CredentialsModal />)
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Verify Credentials',
+      }))
+
+      const emailErrorElement = screen.getByTestId('credentials-email-input-error')
+      const emailErrorText = screen.getByText(/Enter email/)
+
+      expect(emailErrorElement).toBeInTheDocument()
+      expect(emailErrorText).toBeInTheDocument()
+    })
+
+    it('should render the correct error when password field is blank', () => {
+      jest.spyOn(utils, 'isValidPassword').mockImplementation(() => false)
+      render(<CredentialsModal />)
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Verify Credentials',
+      }))
+      const passwordErrorElement = screen.getByTestId('credentials-password-input-error')
+      const passwordErrorText = screen.getByText(/Enter password/)
+
+      expect(passwordErrorElement).toBeInTheDocument()
+      expect(passwordErrorText).toBeInTheDocument()
+    })
+  })
+
 })
 
+describe('Test Credential Modal Invalid Field Errors', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+
+    const setStateMock = jest.fn()
+    React.useState = jest
+      .fn()
+      .mockReturnValueOnce(['not_a_valid_email.com', setStateMock])
+      .mockReturnValueOnce([true, setStateMock])
+      .mockReturnValueOnce(['', setStateMock])
+      .mockReturnValueOnce([true, setStateMock])
+  })
+
+
+  it('should render the correct error when email field is invalid', () => {
+    jest.spyOn(utils, 'isValidEmail').mockImplementation(() => false)
+    render(<CredentialsModal />)
+    fireEvent.click(screen.getByRole('button', {
+      name: 'Verify Credentials',
+    }))
+    const emailErrorElement = screen.getByTestId('credentials-email-input-error')
+    const emailErrorText = screen.getByText(/Enter valid email/)
+
+    expect(emailErrorElement).toBeInTheDocument()
+    expect(emailErrorText).toBeInTheDocument()
+  })
+})

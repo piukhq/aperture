@@ -373,7 +373,7 @@ const TextInputGroup = (props: Props) => {
         </div>
       )}
       {error && (
-        <span className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
+        <span data-testid={`${name}-input-error`} className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
           {error}
         </span>
       )}
