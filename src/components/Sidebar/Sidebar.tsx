@@ -2,12 +2,13 @@ import {useState, useEffect} from 'react'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import SidebarOption from './components/SidebarOption'
+import {RouteDisplayNames} from 'utils/enums'
 
 const Sidebar = () => {
   const router = useRouter()
   const [selectedTool, setSelectedTool] = useState('')
 
-  const sideOptions = ['asset-comparator', 'plan-comparator', 'mid-management', 'customer-wallets', 'style-guide']
+  const sideOptions = Object.keys(RouteDisplayNames)
 
   useEffect(() => {
     // Remove the / at the start of the route path

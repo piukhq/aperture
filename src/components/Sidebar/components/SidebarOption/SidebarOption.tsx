@@ -4,6 +4,7 @@ import PlanComparatorIcon from 'icons/svgs/plan-comparator.svg'
 import MidManagementIcon from 'icons/svgs/mid-management.svg'
 import CustomerWalletsIcon from 'icons/svgs/customer-wallets.svg'
 import StyleGuideIcon from 'icons/svgs/write.svg'
+import {RouteDisplayNames} from 'utils/enums'
 
 type Props = {
   option: string,
@@ -11,24 +12,20 @@ type Props = {
 }
 
 const SidebarOption = ({option, selected}: Props) => {
-  let displayName, Icon
-
+  let Icon
   if (option === 'asset-comparator') {
-    displayName = 'Asset Comparator'
     Icon = AssetComparatorIcon
   } else if (option === 'plan-comparator') {
-    displayName = 'Plan Comparator'
     Icon = PlanComparatorIcon
-  } else if (option === 'mid-management') {
-    displayName = 'MID Management'
+  } else if (option === 'mids') {
     Icon = MidManagementIcon
   } else if (option === 'customer-wallets') {
-    displayName = 'Customer Wallets'
     Icon = CustomerWalletsIcon
   } else if (option === 'style-guide') {
-    displayName = 'Style Guide'
     Icon = StyleGuideIcon
   }
+
+  const displayName = RouteDisplayNames[option]
 
   return (
     <div className='h-[52px] flex'>
