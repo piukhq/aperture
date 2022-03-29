@@ -66,6 +66,9 @@ module.exports = {
       opacity: {
         '12': '.12',
       },
+      height: {
+        'screen-90': '90vh',
+      },
     },
   },
   plugins: [],
