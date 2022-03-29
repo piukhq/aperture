@@ -9,6 +9,7 @@ import {setSelectedPlanImages} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 import {HydratedPlan} from 'types'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const PlansList = () => {
   const {uniquePlansList, devIsLoading, stagingIsLoading} = useGetPlansHook()
@@ -86,10 +87,10 @@ const PlansList = () => {
           handleSelectValueChange={handlePlanClick}
           value={searchValue}
           onChange={handleSearchTextChange}
-          inputType={TextInputGroup.inputType.SEARCH_SELECT}
-          inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
-          inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+          inputType={InputType.SEARCH_SELECT}
+          inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
+          inputWidth={InputWidth.FULL}
+          inputColour={InputColour.LIGHT_GREY}
           svgIcon={<SearchSvg/>}
         />
         <Button

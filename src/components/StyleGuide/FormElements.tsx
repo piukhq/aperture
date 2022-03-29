@@ -3,7 +3,7 @@ import {TextInputGroup} from 'components'
 import EmailSvg from 'icons/svgs/email.svg'
 import ProfileSvg from 'icons/svgs/profile.svg'
 import SearchSvg from 'icons/svgs/search.svg'
-
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 type Props = {
   sectionClass: string,
@@ -26,30 +26,30 @@ const FormElements = ({sectionClass}: Props) => {
               label='First Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.FULL}
-              inputWidth={TextInputGroup.inputWidth.SMALL}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL}
+              inputWidth={InputWidth.SMALL}
+              inputColour={InputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='desktop-2'
               label='Your Email / Username'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.FULL}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='desktop-3'
               label='Your Email / Username'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.FULL}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.GREY}
             />
             <form action=''>
               <TextInputGroup
@@ -57,10 +57,10 @@ const FormElements = ({sectionClass}: Props) => {
                 label='Enter Password'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.PASSWORD}
-                inputStyle={TextInputGroup.inputStyle.FULL}
-                inputWidth={TextInputGroup.inputWidth.LARGE}
-                inputColour={TextInputGroup.inputColour.RED}
+                inputType={InputType.PASSWORD}
+                inputStyle={InputStyle.FULL}
+                inputWidth={InputWidth.LARGE}
+                inputColour={InputColour.RED}
               />
             </form>
             <h4 className='font-heading-6 text-grey-600'>ONBOARDING 3</h4>
@@ -70,10 +70,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               placeholder='Your Email'
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.LIGHT_GREY}
               svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
@@ -82,10 +82,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               error='Wrong ID'
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.RED}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.RED}
               svgIcon={<EmailSvg/>}
             />
             <TextInputGroup
@@ -94,10 +94,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               placeholder='First Name'
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
-              inputWidth={TextInputGroup.inputWidth.SMALL}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={InputWidth.SMALL}
+              inputColour={InputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -105,10 +105,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Enter Email'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.GREEN}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.GREEN}
               svgIcon={<EmailSvg/>}
             />
           </div>
@@ -119,10 +119,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.LIGHT_GREY}
               svgIcon={<ProfileSvg/>}
             />
             <form action=''>
@@ -131,10 +131,10 @@ const FormElements = ({sectionClass}: Props) => {
                 label='Password'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.PASSWORD}
-                inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
-                inputWidth={TextInputGroup.inputWidth.LARGE}
-                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                inputType={InputType.PASSWORD}
+                inputStyle={InputStyle.UNDERLINE_ICON_RIGHT}
+                inputWidth={InputWidth.LARGE}
+                inputColour={InputColour.LIGHT_GREY}
                 svgIcon={<ProfileSvg/>}
               />
             </form>
@@ -143,10 +143,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.DARK_GREY}
               svgIcon={<ProfileSvg/>}
             />
           </div>
@@ -158,10 +158,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               placeholder='All Emails'
-              inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.SELECT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.LIGHT_GREY}
             />
             <TextInputGroup
               name='desktop-12'
@@ -169,10 +169,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               placeholder='All Emails'
-              inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputType={InputType.SELECT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.BLUE}
             />
             <TextInputGroup
               name='desktop-13'
@@ -180,10 +180,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               placeholder='All Emails'
-              inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              inputType={InputType.SELECT}
+              inputStyle={InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.DARK_GREY}
             />
             <TextInputGroup
               name='desktop-14'
@@ -191,10 +191,10 @@ const FormElements = ({sectionClass}: Props) => {
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
               placeholder='All Emails'
-              inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
-              inputWidth={TextInputGroup.inputWidth.LARGE}
-              inputColour={TextInputGroup.inputColour.BLUE}
+              inputType={InputType.SELECT}
+              inputStyle={InputStyle.UNDERLINE_SMALL_LABEL_HIDDEN}
+              inputWidth={InputWidth.LARGE}
+              inputColour={InputColour.BLUE}
             />
           </div>
           <div className='flex flex-col gap-6'>
@@ -206,10 +206,10 @@ const FormElements = ({sectionClass}: Props) => {
                 placeholder='Search...'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.SEARCH}
-                inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.GREY}
+                inputType={InputType.SEARCH}
+                inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.GREY}
                 svgIcon={<SearchSvg/>}
               />
               <TextInputGroup
@@ -218,10 +218,10 @@ const FormElements = ({sectionClass}: Props) => {
                 placeholder='Search'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.SEARCH}
-                inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                inputType={InputType.SEARCH}
+                inputStyle={InputStyle.WHITE_ICON_RIGHT_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.LIGHT_GREY}
                 svgIcon={<SearchSvg/>}
               />
               <p className='font-heading-7 font-medium'>[Skipping - due to context needed]</p>
@@ -231,10 +231,10 @@ const FormElements = ({sectionClass}: Props) => {
                 placeholder='Search...'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.SEARCH}
-                inputStyle={TextInputGroup.inputStyle.TRANSPARENT_ICON_LEFT_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                inputType={InputType.SEARCH}
+                inputStyle={InputStyle.TRANSPARENT_ICON_LEFT_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.LIGHT_GREY}
                 svgIcon={<SearchSvg/>}
               />
             </div>
@@ -244,10 +244,10 @@ const FormElements = ({sectionClass}: Props) => {
               placeholder='Search...'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.SEARCH}
-              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT}
-              inputWidth={TextInputGroup.inputWidth.FULL}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.SEARCH}
+              inputStyle={InputStyle.WHITE_ICON_RIGHT}
+              inputWidth={InputWidth.FULL}
+              inputColour={InputColour.LIGHT_GREY}
               svgIcon={<SearchSvg/>}
             />
           </div>
@@ -263,11 +263,11 @@ const FormElements = ({sectionClass}: Props) => {
               label='Search'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.SELECT}
-              inputStyle={TextInputGroup.inputStyle.WHITE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
+              inputType={InputType.SELECT}
+              inputStyle={InputStyle.WHITE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
               placeholder='Your Country'
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputColour={InputColour.LIGHT_BLUE}
             />
             <TextInputGroup
               name='mobile-2'
@@ -275,20 +275,20 @@ const FormElements = ({sectionClass}: Props) => {
               placeholder='Mail Address'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.FULL_SMALL_LABEL_HIDDEN}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL_SMALL_LABEL_HIDDEN}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_GREY}
             />
             <TextInputGroup
               name='mobile-3'
               label='Your Email/ Username'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.FULL_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_BLUE}
             />
             <form action=''>
               <TextInputGroup
@@ -296,10 +296,10 @@ const FormElements = ({sectionClass}: Props) => {
                 label='Enter Password'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.PASSWORD}
-                inputStyle={TextInputGroup.inputStyle.FULL_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.RED}
+                inputType={InputType.PASSWORD}
+                inputStyle={InputStyle.FULL_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.RED}
               />
             </form>
           </div>
@@ -310,10 +310,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_GREY}
               svgIcon={<ProfileSvg/>}
             />
             <form action=''>
@@ -322,10 +322,10 @@ const FormElements = ({sectionClass}: Props) => {
                 label='Password'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.PASSWORD}
-                inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+                inputType={InputType.PASSWORD}
+                inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.LIGHT_GREY}
                 svgIcon={<EmailSvg/>}
               />
             </form>
@@ -334,10 +334,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.DARK_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.DARK_GREY}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -345,10 +345,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -356,10 +356,10 @@ const FormElements = ({sectionClass}: Props) => {
               label='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_RIGHT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.RED}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_RIGHT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.RED}
               svgIcon={<ProfileSvg/>}
             />
           </div>
@@ -371,10 +371,10 @@ const FormElements = ({sectionClass}: Props) => {
               placeholder='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_GREY}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_GREY}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -383,10 +383,10 @@ const FormElements = ({sectionClass}: Props) => {
               placeholder='Full Name'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.LIGHT_BLUE}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.LIGHT_BLUE}
               svgIcon={<ProfileSvg/>}
             />
             <TextInputGroup
@@ -396,10 +396,10 @@ const FormElements = ({sectionClass}: Props) => {
               error='Wrong ID'
               value={textFieldValue}
               onChange={event => setTextFieldValue(event.target.value)}
-              inputType={TextInputGroup.inputType.TEXT}
-              inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
-              inputWidth={TextInputGroup.inputWidth.MEDIUM}
-              inputColour={TextInputGroup.inputColour.RED}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.UNDERLINE_ICON_LEFT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.RED}
               svgIcon={<ProfileSvg/>}
             />
             <form action=''>
@@ -410,10 +410,10 @@ const FormElements = ({sectionClass}: Props) => {
                 error='Wrong ID'
                 value={textFieldValue}
                 onChange={event => setTextFieldValue(event.target.value)}
-                inputType={TextInputGroup.inputType.PASSWORD}
-                inputStyle={TextInputGroup.inputStyle.UNDERLINE_ICON_LEFT_SMALL}
-                inputWidth={TextInputGroup.inputWidth.MEDIUM}
-                inputColour={TextInputGroup.inputColour.GREEN}
+                inputType={InputType.PASSWORD}
+                inputStyle={InputStyle.UNDERLINE_ICON_LEFT_SMALL}
+                inputWidth={InputWidth.MEDIUM}
+                inputColour={InputColour.GREEN}
                 svgIcon={<EmailSvg/>}
               />
             </form>
