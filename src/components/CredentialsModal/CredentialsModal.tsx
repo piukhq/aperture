@@ -13,6 +13,7 @@ import {
 import {isValidEmail, isValidPassword} from 'utils/validation'
 import {TagStyle, TagSize} from 'components/Tag/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const CredentialsModal = () => {
   const [emailValue, setEmailValue] = useState('')
@@ -122,10 +123,10 @@ const CredentialsModal = () => {
           error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : null}
           value={emailValue}
           onChange={handleEmailChange}
-          inputType={TextInputGroup.inputType.TEXT}
-          inputStyle={TextInputGroup.inputStyle.FULL}
-          inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={isEmailReadyForValidation && !isValidEmail(emailValue) ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY} // TODO: If this is common logic for all inputs (including style guide) consider centralising logic into the component itself.
+          inputType={InputType.TEXT}
+          inputStyle={InputStyle.FULL}
+          inputWidth={InputWidth.FULL}
+          inputColour={isEmailReadyForValidation && !isValidEmail(emailValue) ? InputColour.RED : InputColour.GREY} // TODO: If this is common logic for all inputs (including style guide) consider centralising logic into the component itself.
         />
         <TextInputGroup
           name='credentials-password'
@@ -133,10 +134,10 @@ const CredentialsModal = () => {
           error={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? 'Enter password' : null}
           value={passwordValue}
           onChange={handlePasswordChange}
-          inputType={TextInputGroup.inputType.PASSWORD}
-          inputStyle={TextInputGroup.inputStyle.FULL}
-          inputWidth={TextInputGroup.inputWidth.FULL}
-          inputColour={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? TextInputGroup.inputColour.RED : TextInputGroup.inputColour.GREY}
+          inputType={InputType.PASSWORD}
+          inputStyle={InputStyle.FULL}
+          inputWidth={InputWidth.FULL}
+          inputColour={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? InputColour.RED : InputColour.GREY}
         />
         <Button
           buttonType={ButtonType.SUBMIT}
