@@ -1,11 +1,19 @@
 import type {NextPage} from 'next'
-import {Button, PageLayout} from 'components'
-import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {Button, MerchantTile, PageLayout, TextInputGroup} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
-import {TextInputGroup} from 'components'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const DatabasePage: NextPage = () => {
+  const mockMerchant = {
+    name: 'Iceland',
+    noOfStores: 4,
+    visa: 54,
+    mastercard: 62,
+    amex: 38,
+  }
+  const merchantList = Array(6).fill(mockMerchant)
   return (
     <PageLayout>
       <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
@@ -18,10 +26,10 @@ const DatabasePage: NextPage = () => {
           placeholder='Search'
           value=''
           onChange={() => null}
-          inputType={TextInputGroup.inputType.SEARCH}
-          inputStyle={TextInputGroup.inputStyle.WHITE_ICON_LEFT_SMALL}
-          inputWidth={TextInputGroup.inputWidth.SMALL}
-          inputColour={TextInputGroup.inputColour.GREY}
+          inputType={InputType.SEARCH}
+          inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
+          inputWidth={InputWidth.SMALL}
+          inputColour={InputColour.GREY}
           svgIcon={<SearchSvg/>}
         />
         <Button
@@ -34,6 +42,14 @@ const DatabasePage: NextPage = () => {
         ><PlusSvg/>New Merchant
         </Button>
       </div>
+
+      {merchantList.length > 0 && (
+        <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+          {merchantList.map((merchant, index) => (
+            <MerchantTile key={index} merchant={merchant} />
+          ))}
+        </div>
+      )}
 
     </PageLayout>
   )
