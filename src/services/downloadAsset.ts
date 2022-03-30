@@ -12,9 +12,10 @@ const downloadAsset = async (url, filename) => {
       res.arrayBuffer().then(function (buffer) {
         const url = window.URL.createObjectURL(new Blob([buffer]))
         const link = document.createElement('a')
+        const modalDownloadTarget = document.querySelector('#modal-download-target') // Modals require a different element due to focus trap
         link.href = url
         link.setAttribute('download', filename)
-        document.body.appendChild(link)
+        modalDownloadTarget ? modalDownloadTarget.appendChild(link) : document.body.appendChild(link)
         link.click()
       })
         .catch((err) => {
@@ -27,3 +28,4 @@ const downloadAsset = async (url, filename) => {
 }
 
 export default downloadAsset
+
