@@ -4,16 +4,13 @@ import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import {Merchant} from 'types'
+import {mockMerchantData} from 'utils/mockMerchantData'
 
 const DatabasePage: NextPage = () => {
-  const mockMerchant = {
-    name: 'Iceland',
-    noOfStores: 4,
-    visa: 54,
-    mastercard: 62,
-    amex: 38,
-  }
-  const merchantList = Array(6).fill(mockMerchant)
+  // TODO: Swap out for real api data
+  const merchantList: Merchant[] = mockMerchantData
+
   return (
     <PageLayout>
       <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
