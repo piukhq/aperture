@@ -28,7 +28,8 @@ const MerchantTile = ({merchant}: Props) => {
         <p className='font-subheading-4'>{label.toLocaleUpperCase()}</p>
         <p className='font-heading-5'>{count}</p>
       </div>
-    ) }
+    )
+  }
 
   return (
     <div className='relative w-[310px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825'>
@@ -43,7 +44,7 @@ const MerchantTile = ({merchant}: Props) => {
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>
-        <Image className='rounded-[30px]' src={iconUrl} height={93} width={93} alt='' />
+        <Image className='rounded-[30px]' src={iconUrl} height={93} width={93} alt='' data-testid='merchant-icon' />
         <p className='font-heading-5 mt-[5px]'>{name}</p>
         <p className='font-subheading-5 mt-[6px]'>{totalLocations} {pluralLocationsLabel}</p>
 
@@ -59,7 +60,7 @@ const MerchantTile = ({merchant}: Props) => {
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
-          ariaLabel={`View merchant ${pluralLocationsLabel}`}
+          ariaLabel={`View ${pluralLocationsLabel}`}
         >View {capitalizeFirstLetter(pluralLocationsLabel)}</Button>
       </div>
     </div>
