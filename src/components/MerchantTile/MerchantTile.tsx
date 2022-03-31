@@ -14,7 +14,7 @@ const MerchantTile = ({merchant}: Props) => {
     name,
     payment_schemes: paymentSchemes,
     icon_url: iconUrl,
-    total_locations: totalLocation,
+    total_locations: totalLocations,
     location_label: locationLabel,
   } = merchant
 
@@ -45,7 +45,7 @@ const MerchantTile = ({merchant}: Props) => {
       <div className='flex flex-col items-center mt-[28px]'>
         <Image className='rounded-[30px]' src={iconUrl} height={93} width={93} alt='' />
         <p className='font-heading-5 mt-[5px]'>{name}</p>
-        <p className='font-subheading-5 mt-[6px]'>{totalLocation} {pluralLocationsLabel}</p>
+        <p className='font-subheading-5 mt-[6px]'>{totalLocations} {pluralLocationsLabel}</p>
 
         <div className='flex mt-[16px] mb-[20px] w-[218px] justify-between'>
           {paymentSchemes.map(scheme => renderPaymentSchemeInfo(scheme))}
