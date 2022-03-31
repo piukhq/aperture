@@ -3,7 +3,7 @@ import {Button} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
 import {Merchant, PaymentScheme} from 'types'
-import {capitalizeFirstLetter} from 'utils/stringFormat'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   merchant: Merchant,
@@ -61,7 +61,7 @@ const MerchantTile = ({merchant}: Props) => {
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
           ariaLabel={`View ${pluralLocationsLabel}`}
-        >View {capitalizeFirstLetter(pluralLocationsLabel)}</Button>
+        >View {capitaliseFirstLetter(pluralLocationsLabel)}</Button>
       </div>
     </div>
   )
