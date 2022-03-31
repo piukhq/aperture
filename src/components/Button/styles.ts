@@ -106,5 +106,5 @@ export const LABEL_WEIGHT_MAPS: Record<LabelWeight, string> = {
 export const BORDER_COLOUR_MAPS: Record<BorderColour, string> = {
   [BorderColour.RED]: 'border border-red',
   [BorderColour.BLUE]: 'border border-blue',
-  [BorderColour.GREY]: 'border border-grey-300',
+  [BorderColour.GREY]: 'border border-grey-300 dark:border-grey-600',
 }
