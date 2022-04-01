@@ -94,6 +94,9 @@
   .font-subheading-4 {
     @apply text-2xs font-body tracking-[0px] text-grey-600 dark:text-grey-100
   }
+  .font-subheading-5 {
+    @apply text-sm font-body tracking-[.1px] text-grey-700 dark:text-grey-500
+  }
   .hover-scale-regular {
      @apply hover:scale-110 transition-transform duration-300
   }

@@ -26,7 +26,8 @@ const Sidebar = () => {
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
             {sideOptions.map(option => {
-              const selected = selectedTool === option
+              // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
+              const selected = selectedTool === option || selectedTool.includes(option)
               return <SidebarOption key={option} option={option} selected={selected} />
             })}
           </nav>

@@ -65,3 +65,19 @@ export type SelectedPlanImages = Record<string, PlanImage[]>
 export type SelectedAssetGroup = Record<string, PlanAsset>
 
 export type SelectedAssetEnvironment = string
+
+export type PaymentScheme = {
+  label: string,
+  count: number,
+}
+
+export type Merchant = {
+  name: string,
+  icon_url: string,
+  slug: string,
+  payment_schemes: Array<PaymentScheme>,
+  plan_id: number,
+  location_label: string,
+  pk: string,
+  total_locations: number,
+}
