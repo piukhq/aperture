@@ -21,8 +21,8 @@ const AssetModal = () => {
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
-  const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
+  const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
   const {hasMultipleImagesOfThisType, typeIndex, image, heading, environment} = selectedAsset
@@ -64,7 +64,6 @@ const AssetModal = () => {
 
 
   const renderAssetImage = () => {
-
     const handleOnLoadingComplete = (imageDimensions) => {
       setImageDimensions(imageDimensions)
       setIsLoading(false)
@@ -110,13 +109,14 @@ const AssetModal = () => {
       setIsLoading(true)
     }
 
-    const renderNavigationButton = navigationDirection => (
+    const renderNavigationButton = (navigationDirection, label) => (
       <Button
         handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
         buttonWidth={ButtonWidth.TINY}
         buttonSize={ButtonSize.TINY}
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
+        ariaLabel={`${label} Environment`}
       >
         <ArrowDownSvg fill='white' className={`${navigationDirection} scale-75`} />
       </Button>
@@ -125,13 +125,13 @@ const AssetModal = () => {
     return (
       <div className='w-full h-[280px] flex mb-[12px]'>
         <div className='w-[50px] h-full flex items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT)}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.LEFT, 'Previous')}
         </div>
         <div className='w-full h-full flex justify-center items-center'>
           {renderAssetImage()}
         </div>
         <div className='w-[50px] h-full flex justify-end items-center'>
-          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT)}
+          {!isUniqueAcrossEnvironments && renderNavigationButton(NavigationDirection.RIGHT, 'Next')}
         </div>
       </div>
     ) }
@@ -140,11 +140,11 @@ const AssetModal = () => {
   const renderAssetDetails = () => {
     if (isError || isLoading) {
       return (
-        <div className='mb-[12px] min-h-[76px]'></div>
+        <div className='mb-[12px] min-h-[76px]' ></div>
       )
     }
     return (
-      <div className='mb-[12px] min-h-[76px]'>
+      <div className='mb-[12px] min-h-[76px]' data-testid='asset-details'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
           <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
@@ -178,10 +178,10 @@ const AssetModal = () => {
     return (
       <div className='h-[212px] mb-[24px] overflow-auto'>
         <pre className='bg-grey-200 flex text-xs text-grey-800'>
-          <div className='flex flex-col basis-[3%] py-[5px] gap-1 bg-grey-300 text-center '>
+          <div className='flex flex-col basis-[3%] py-[5px] gap-1 bg-grey-300 text-center' data-testid='line-numbers'>
             {renderLineNumbers()}
           </div>
-          <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto '>
+          <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto' data-testid='json-block'>
             {renderJson()}
           </div>
         </pre>
