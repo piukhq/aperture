@@ -40,4 +40,4 @@ yarn-error.log*
 .dccache
 
 # VSCode
-.vscode
+.vscode/launch.json
