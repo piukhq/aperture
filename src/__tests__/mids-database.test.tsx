@@ -5,7 +5,7 @@ import DatabasePage from 'pages/mids/database'
 jest.mock('components/TextInputGroup', () => () => <div data-testid='search-bar' />)
 jest.mock('components/MerchantTile', () => () => <div data-testid='merchant-tile' />)
 
-describe('Mid Management DatabasePage', () => {
+describe('MID Management DatabasePage', () => {
   describe('Test header content', () => {
     it('should render correct heading and sun heading text', () => {
       const {getByText} = render(<DatabasePage />)
