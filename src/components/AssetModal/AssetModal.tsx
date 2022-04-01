@@ -140,7 +140,7 @@ const AssetModal = () => {
   const renderAssetDetails = () => {
     if (isError || isLoading) {
       return (
-        <div className='mb-[12px] min-h-[76px]' ></div>
+        <div className='mb-[12px] min-h-[76px]'></div>
       )
     }
     return (
