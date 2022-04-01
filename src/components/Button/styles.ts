@@ -30,6 +30,7 @@ export enum ButtonBackground {
   RED,
   DARK_GREY,
   LIGHT_GREY,
+  LIGHTISH_GREY,
 }
 
 export enum LabelColour {
@@ -84,6 +85,7 @@ export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.BLUE]: 'bg-blue hover:bg-blend-darken',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
+  [ButtonBackground.LIGHTISH_GREY]: 'bg-grey-300',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
 }
 
@@ -97,7 +99,7 @@ export const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
 }
 
 export const LABEL_WEIGHT_MAPS: Record<LabelWeight, string> = {
-  [LabelWeight.SEMIBOLD]: 'font-semibold font-heading',
+  [LabelWeight.SEMIBOLD]: 'font-semibold font-heading tracking-[0.1px]',
   [LabelWeight.MEDIUM]: 'font-medium font-heading',
   [LabelWeight.REGULAR]: 'font-normal font-body',
 

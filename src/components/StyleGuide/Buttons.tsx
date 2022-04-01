@@ -285,7 +285,7 @@ const Buttons = ({sectionClass}: Props) => {
                 buttonWidth={ButtonWidth.ICON_ONLY}
                 borderColour={BorderColour.RED}
                 labelColour={LabelColour.RED}
-              ><TrashSvg/>
+              ><TrashSvg className='fill-red' />
               </Button>
             </div>
           </div>
