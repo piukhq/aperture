@@ -20,22 +20,35 @@ import {ButtonWidth, ButtonSize, BorderColour, ButtonBackground, LabelColour, La
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 import {Listbox} from '@headlessui/react'
+import {useEffect} from 'react'
 
 const LocationsListPage: NextPage = () => {
   // TODO: Use merchant ID in url to find correct merchant in redux
   // const router = useRouter()
   // const {merchantId} = router.query
-  // const [merchantSelected, setMerchantSelected] = useState(true)
-  const merchantSelected = true
-
+  const [atLeastOneRowSelected, setAtLeastOneRowSelected] = useState(false)
   const [displayValue, setDisplayValue] = useState(10)
+  const [checkedRows, setCheckedRows] = useState([false, false, false])
   const [sortValue, setSortValue] = useState('Newest')
 
   // const displayValues = [10, 20, 30, 40]
   // const sortValues = ['Newest', 'Oldest']
 
+  useEffect(() => {
+    if (!checkedRows.find(row => row === true) && atLeastOneRowSelected) {
+      setAtLeastOneRowSelected(false)
+    } else if (checkedRows.find(row => row === true) && !atLeastOneRowSelected) {
+      setAtLeastOneRowSelected(true)
+    }
+  }, [checkedRows, atLeastOneRowSelected])
+
+  const handleCheckboxChange = (rowIndex: number) => {
+    const updatedCheckedRowState = checkedRows.map((item, index) => index === rowIndex ? !item : item)
+    setCheckedRows(updatedCheckedRowState)
+  }
+
   const shouldRenderAdditionalOptions = () => {
-    if(merchantSelected) {
+    if(atLeastOneRowSelected) {
       return (
         <div className='flex gap-[5px]'>
           <Button
@@ -88,6 +101,64 @@ const LocationsListPage: NextPage = () => {
       )
     }
     return null
+  }
+
+  const renderRow = (value, index) => {
+    return (
+      <tr className='h-[48px]' key={index}>
+        <td>
+          <div className='flex items-center justify-center'>
+            <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => handleCheckboxChange(index)} />
+          </div>
+        </td>
+        <td className='font-table-cell truncate'>14 Hills</td>
+        <td className='font-body-3 truncate'>123456789123456</td>
+        <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
+        <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
+        <td className='font-body-3 truncate'>WC2B 4DD</td>
+        <td className='w-auto'>
+          <div className='flex gap-[7px]'>
+            <div className='flex items-center'>
+              <VisaSvg />
+              <span className='mx-[6px] font-body-3'>2</span>
+              <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+            </div>
+
+            <div className='flex items-center'>
+              <MastercardSvg />
+              <span className='mx-[6px] font-body-3'>2</span>
+              <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+            </div>
+
+            <div className='flex items-center'>
+              <AmexSvg />
+              <span className='mx-[6px] font-body-3'>2</span>
+              <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+            </div>
+          </div>
+        </td>
+        <td>
+          <div className='flex justify-center'>
+            <Button
+              handleClick={() => console.log('clicked')}
+              buttonSize={ButtonSize.SMALL_MEDIUM_BODY_FONT}
+              buttonWidth={ButtonWidth.ICON_TEXT}
+              buttonBackground={ButtonBackground.LIGHT_GREY}
+              labelColour={LabelColour.GREY}
+              labelWeight={LabelWeight.MEDIUM}
+            > <EyeSvg fill='#979797' className='w-[20px] h-[25px]'/> View
+            </Button>
+          </div>
+        </td>
+        <td>
+          <Button
+            handleClick={() => console.log('Edit merchant button clicked')}
+            buttonWidth={ButtonWidth.ICON_ONLY}
+            ariaLabel='More'
+          ><DotsSvg/></Button>
+        </td>
+      </tr>
+    )
   }
 
   return (
@@ -228,140 +299,24 @@ const LocationsListPage: NextPage = () => {
           </Listbox>        </div>
 
         {/* Table */}
-        <table className='w-full mt-[33px] rounded-[10px] bg-white table-fixed'>
+        <table className='w-full mt-[33px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
           <thead className='h-[46px] text-left bg-grey-300'>
             <tr>
               <th className='w-[60px]'></th>
-              <th className='font-table-header w-[120px]'>NAME</th>
-              <th className='font-table-header w-[150px]'>LOCATION ID</th>
-              <th className='font-table-header'>ADDRESS</th>
-              <th className='font-table-header'>TOWN</th>
-              <th className='font-table-header w-[100px]'>POSTCODE</th>
-              <th className='font-table-header w-auto'>PAYMENT SCHEME</th>
-              <th className='font-table-header w-[86px]'>VIEW</th>
-              <th className='font-table-header w-[86px]'>MORE</th>
+              <th className='font-table-header text-grey-800 w-[120px]'>NAME</th>
+              <th className='font-table-header text-grey-800 w-[150px]'>LOCATION ID</th>
+              <th className='font-table-header text-grey-800'>ADDRESS</th>
+              <th className='font-table-header text-grey-800'>TOWN</th>
+              <th className='font-table-header text-grey-800 w-[100px]'>POSTCODE</th>
+              <th className='font-table-header text-grey-800 w-auto'>PAYMENT SCHEME</th>
+              <th className='font-table-header text-grey-800 w-[86px]'>VIEW</th>
+              <th className='font-table-header text-grey-800 w-[86px]'>MORE</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr className='h-[48px]'>
-              <td>
-                <div className='flex items-center justify-center'>
-                  <input type='checkbox' className='flex h-[16px] w-[16px]' />
-                </div>
-              </td>
-              <td className='font-table-cell truncate'>14 Hills</td>
-              <td className='font-body-3 truncate'>123456789123456</td>
-              <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
-              <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
-              <td className='font-body-3 truncate'>WC2B 4DD</td>
-              <td className='w-auto'>
-                <div className='flex gap-[7px]'>
-                  <div className='flex items-center'>
-                    <VisaSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-
-                  <div className='flex items-center'>
-                    <MastercardSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-
-                  <div className='flex items-center'>
-                    <AmexSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div className='flex justify-center'>
-                  <Button
-                    handleClick={() => console.log('clicked')}
-                    buttonSize={ButtonSize.SMALL_MEDIUM_BODY_FONT}
-                    buttonWidth={ButtonWidth.ICON_TEXT}
-                    buttonBackground={ButtonBackground.LIGHT_GREY}
-                    labelColour={LabelColour.GREY}
-                    labelWeight={LabelWeight.MEDIUM}
-                  > <EyeSvg fill='#979797' className='w-[20px] h-[25px]'/> View
-                  </Button>
-                </div>
-              </td>
-              <td>
-                <Button
-                  handleClick={() => console.log('Edit merchant button clicked')}
-                  buttonWidth={ButtonWidth.ICON_ONLY}
-                  ariaLabel='More'
-                ><DotsSvg/></Button>
-              </td>
-            </tr>
-            <tr className='h-[48px]'>
-              <td>
-                <div className='flex items-center justify-center'>
-                  <input type='checkbox' className='flex h-[16px] w-[16px]' />
-                </div>
-              </td>
-              <td className='font-table-cell truncate'>20 Stories</td>
-              <td className='font-body-3 truncate'>123456789123456</td>
-              <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
-              <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
-              <td className='font-body-3 truncate'>WC2B 4DD</td>
-              <td className='w-auto'>
-                <div className='flex gap-[7px]'>
-                  <div className='flex items-center'>
-                    <VisaSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-
-                  <div className='flex items-center'>
-                    <MastercardSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-
-                  <div className='flex items-center'>
-                    <AmexSvg />
-                    <span className='mx-[6px]'>
-                    2
-                    </span>
-                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div className='flex justify-center'>
-                  <Button
-                    handleClick={() => console.log('clicked')}
-                    buttonSize={ButtonSize.SMALL_MEDIUM_BODY_FONT}
-                    buttonWidth={ButtonWidth.ICON_TEXT}
-                    buttonBackground={ButtonBackground.LIGHT_GREY}
-                    labelColour={LabelColour.GREY}
-                    labelWeight={LabelWeight.MEDIUM}
-                  > <EyeSvg fill='#979797' className='w-[20px] h-[25px]'/> View
-                  </Button>
-                </div>
-              </td>
-              <td>
-                <Button
-                  handleClick={() => console.log('Edit merchant button clicked')}
-                  buttonWidth={ButtonWidth.ICON_ONLY}
-                  ariaLabel='More'
-                ><DotsSvg/></Button>
-              </td>
-            </tr>
+            {new Array(3).fill({})
+              .map((value, index) => renderRow(value, index))}
           </tbody>
         </table>
       </div>
