@@ -81,7 +81,7 @@ export const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
 
 export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.WHITE]: 'bg-white',
-  [ButtonBackground.BLUE]: 'bg-blue hover:bg-blend-darken',
+  [ButtonBackground.BLUE]: 'bg-blue outline-green outline-offset-2',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',

@@ -10,7 +10,7 @@ import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 import downloadAsset from 'services/downloadAsset'
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {classNames} from 'utils/classNames'
-import {EnvironmentName, EnvironmentShortName} from 'utils/enums'
+import {EnvironmentName, EnvironmentShortName, ModalStyle} from 'utils/enums'
 import {TagStyle, TagSize, TextStyle} from 'components/Tag/styles'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
@@ -217,7 +217,7 @@ const AssetModal = () => {
   )
 
   return (
-    <Modal modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
+    <Modal modalStyle={ModalStyle.REGULAR} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}

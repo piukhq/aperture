@@ -45,12 +45,18 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
+
 enum RouteDisplayNames {
   'asset-comparator' = 'Asset Comparator',
   'plan-comparator' = 'Plan Comparator',
   mids = 'MID Management',
   'customer-wallets' = 'Customer Wallets',
   'style-guide' = 'Style Guide',
+}
+
+enum ModalStyle {
+  REGULAR = 'regular',
+  COMPACT = 'compact'
 }
 
 export {
@@ -62,4 +68,5 @@ export {
   EnvironmentShortName,
   ImageTypes,
   RouteDisplayNames,
+  ModalStyle,
 }
