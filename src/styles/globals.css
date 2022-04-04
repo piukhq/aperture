@@ -68,7 +68,10 @@
   } 
   .font-table-header {
     @apply text-3xs font-heading font-semibold text-grey-800 dark:text-grey-100 tracking-[0.8px]
-  } 
+  }
+  .font-table-cell {
+    @apply text-sm font-heading font-semibold text-grey-800 dark:text-grey-100 tracking-[0.1px]
+  }
 
   .font-body-1 {
     @apply text-lg font-body leading-7 tracking-[.1px] text-grey-800 dark:text-grey-100
@@ -86,7 +89,7 @@
     @apply text-lg font-body tracking-[.1px] text-grey-600 dark:text-grey-300
   }
   .font-subheading-2 {
-    @apply text-base font-body tracking-[.1px] text-grey-700 dark:text-grey-500
+    @apply text-base font-body tracking-[.1px] text-grey-800 dark:text-grey-500
   }
   .font-subheading-3 {
     @apply text-sm font-body tracking-[.1px] text-grey-800 dark:text-grey-100

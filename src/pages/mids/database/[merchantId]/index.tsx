@@ -1,29 +1,38 @@
 import {useState} from 'react'
 import type {NextPage} from 'next'
-import {useRouter} from 'next/router'
+// import {useRouter} from 'next/router'
 import Image from 'next/image'
 import {Button, PageLayout, TextInputGroup} from 'components'
-import DownloadSvg from 'icons/svgs/download.svg'
+import UpArrowSvg from 'icons/svgs/up-arrow.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import ShareSvg from 'icons/svgs/share.svg'
 import TaskSvg from 'icons/svgs/task.svg'
+import EyeSvg from 'icons/svgs/eye.svg'
+import VisaSvg from 'icons/svgs/visa.svg'
+import AmexSvg from 'icons/svgs/amex.svg'
+import MastercardSvg from 'icons/svgs/mastercard.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import TriangleDownSvg from 'icons/svgs/triangle-down.svg'
+import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonWidth, ButtonSize, BorderColour, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 import {Listbox} from '@headlessui/react'
 
-
 const LocationsListPage: NextPage = () => {
-  const router = useRouter()
-  const {merchantId} = router.query
-  const [merchantSelected, setMerchantSelected] = useState(true)
-  const [displayValue, setDisplayValue] = useState(10)
+  // TODO: Use merchant ID in url to find correct merchant in redux
+  // const router = useRouter()
+  // const {merchantId} = router.query
+  // const [merchantSelected, setMerchantSelected] = useState(true)
+  const merchantSelected = true
 
-  const displayValues = [10, 20, 30, 40]
+  const [displayValue, setDisplayValue] = useState(10)
+  const [sortValue, setSortValue] = useState('Newest')
+
+  // const displayValues = [10, 20, 30, 40]
+  // const sortValues = ['Newest', 'Oldest']
 
   const shouldRenderAdditionalOptions = () => {
     if(merchantSelected) {
@@ -31,7 +40,7 @@ const LocationsListPage: NextPage = () => {
         <div className='flex gap-[5px]'>
           <Button
             handleClick={() => console.log('button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.LIGHTISH_GREY}
             labelColour={LabelColour.GREY}
@@ -41,7 +50,7 @@ const LocationsListPage: NextPage = () => {
 
           <Button
             handleClick={() => console.log('button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.LIGHTISH_GREY}
             labelColour={LabelColour.GREY}
@@ -51,7 +60,7 @@ const LocationsListPage: NextPage = () => {
 
           <Button
             handleClick={() => console.log('button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.LIGHTISH_GREY}
             labelColour={LabelColour.GREY}
@@ -61,7 +70,7 @@ const LocationsListPage: NextPage = () => {
 
           <Button
             handleClick={() => console.log('button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.LIGHTISH_GREY}
             labelColour={LabelColour.GREY}
@@ -100,26 +109,61 @@ const LocationsListPage: NextPage = () => {
         />
       </div>
 
-      <div className='flex rounded-[10px] h-[152px] mt-[24px] p-[28px] bg-white dark:bg-grey-825'>
-        <Image className='rounded-[30px]' src='https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png' height={97} width={97} alt='' data-testid='merchant-icon' />
-        <h3 className='font-heading-3 ml-[14px]'>Location list</h3>
+      <div className='flex rounded-[10px] h-[152px] mt-[14px] pl-[28px] pr-[16px] bg-white dark:bg-grey-825'>
+        <div className='flex flex-1 pt-[27px] pb-[32px]'>
+          <Image className='rounded-[30px]' src='https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png' height={97} width={97} alt='' data-testid='merchant-icon' />
+
+          <div className='ml-[21px]'>
+            <h3 className='font-heading-3 mb-[8px]'>SquareMeal</h3>
+
+            <div className='flex flex-row'>
+              <div className='flex flex-col w-[74px]'>
+                <p className='font-subheading-5'>Scheme ID</p>
+                <p className='font-subheading-5'>Slug</p>
+              </div>
+
+              <div className='flex flex-col ml-[91px]'>
+                <p className='font-subheading-5'>286</p>
+                <p className='font-subheading-5'>squaremeal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className='flex flex-1 justify-between pt-[17px]'>
+          <div className='pt-[25px]'>
+            <p className='font-subheading-5'>Supported Payment Schemes</p>
+            <div className='flex'>
+              <VisaSvg />
+              <MastercardSvg />
+              <AmexSvg />
+            </div>
+          </div>
+          <Button
+            handleClick={() => console.log('Edit merchant button clicked')}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.ICON_ONLY}
+            borderColour={BorderColour.GREY}
+            ariaLabel='Edit Merchant'
+          ><DotsSvg/></Button>
+        </div>
       </div>
 
       <div className='flex flex-row-reverse mt-[11px] w-full justify-between'>
         <div className='flex content-center gap-[10px]'>
           <Button
             handleClick={() => console.log('Bulk import button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-          ><DownloadSvg />Bulk Import
+          ><UpArrowSvg />Bulk Import
           </Button>
 
           <Button
             handleClick={() => console.log('New location button clicked')}
-            buttonSize={ButtonSize.MEDIUM}
+            buttonSize={ButtonSize.MEDIUM_LARGE}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
@@ -135,14 +179,20 @@ const LocationsListPage: NextPage = () => {
         {/* Table header */}
         <div className='flex justify-between'>
           <div className='flex gap-[76.5px]'>
+            {/* TODO: Must use location_label from Merchant object */}
             <h1 className='font-heading-4'>All Locations</h1>
 
-            <Listbox className='flex justify-center flex-col' as='div' value={displayValue} onChange={setDisplayValue}>
-              <Listbox.Button className='flex items-center w-[150px] text-grey-600'>
-                Show: <span className='ml-[5px] mr-[15px] text-black'>{displayValue}</span><TriangleDownSvg/>
+            <Listbox className='flex justify-center flex-col bg-white rounded-[10px]' as='div' value={displayValue} onChange={setDisplayValue}>
+              <Listbox.Button className='flex flex-row-reverse items-center w-auto pl-[12px] text-grey-600 h-full'>
+                <div className='flex justify-center items-center w-[28px] ml-[57px] h-full border-l border-grey-200'>
+                  <TriangleDownSvg/>
+                </div>
+                <span className='ml-[7px] mr-[15px] text-black w-auto font-semibold'>{displayValue}</span>
+                Show:
               </Listbox.Button>
 
-              <Listbox.Options as='div'>
+              {/* TODO: To be added in functionality ticket */}
+              {/* <Listbox.Options as='div'>
                 {displayValues.map((value) => (
                   <Listbox.Option
                     key={value}
@@ -151,20 +201,169 @@ const LocationsListPage: NextPage = () => {
                     {value}
                   </Listbox.Option>
                 ))}
-              </Listbox.Options>
+              </Listbox.Options> */}
             </Listbox>
           </div>
 
-          <h1 className='font-heading-4'>All Locations</h1>
-        </div>
+          <Listbox className='flex justify-center flex-col bg-white rounded-[10px]' as='div' value={sortValue} onChange={setSortValue}>
+            <Listbox.Button className='flex flex-row-reverse items-center w-auto pl-[12px] text-grey-600 h-full'>
+              <div className='flex justify-center items-center w-[28px] ml-[57px] h-full border-l border-grey-200'>
+                <TriangleDownSvg/>
+              </div>
+              <span className='ml-[7px] mr-[15px] text-black w-auto font-semibold'>{sortValue}</span>
+                Sort by:
+            </Listbox.Button>
+
+            {/* TODO: To be added in functionality ticket */}
+            {/* <Listbox.Options as='div'>
+                {displayValues.map((value) => (
+                  <Listbox.Option
+                    key={value}
+                    value={value}
+                  >
+                    {value}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options> */}
+          </Listbox>        </div>
 
         {/* Table */}
-        <div className='grid grid-cols-7 gap-2 grid-flow-col w-full text-center mt-[10px]'>
+        <table className='w-full mt-[33px] rounded-[10px] bg-white table-fixed'>
+          <thead className='h-[46px] text-left bg-grey-300'>
+            <tr>
+              <th className='w-[60px]'></th>
+              <th className='font-table-header w-[120px]'>NAME</th>
+              <th className='font-table-header w-[150px]'>LOCATION ID</th>
+              <th className='font-table-header'>ADDRESS</th>
+              <th className='font-table-header'>TOWN</th>
+              <th className='font-table-header w-[100px]'>POSTCODE</th>
+              <th className='font-table-header w-auto'>PAYMENT SCHEME</th>
+              <th className='font-table-header w-[86px]'>VIEW</th>
+              <th className='font-table-header w-[86px]'>MORE</th>
+            </tr>
+          </thead>
 
-          {/* <div className='flex flex-col'>{renderLabelColumnContents()}</div>
-          <div className='flex flex-col'>{dev && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
-          <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div> */}
-        </div>
+          <tbody>
+            <tr className='h-[48px]'>
+              <td>
+                <div className='flex items-center justify-center'>
+                  <input type='checkbox' className='flex h-[16px] w-[16px]' />
+                </div>
+              </td>
+              <td className='font-table-cell truncate'>14 Hills</td>
+              <td className='font-body-3 truncate'>123456789123456</td>
+              <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
+              <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
+              <td className='font-body-3 truncate'>WC2B 4DD</td>
+              <td className='w-auto'>
+                <div className='flex gap-[7px]'>
+                  <div className='flex items-center'>
+                    <VisaSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+
+                  <div className='flex items-center'>
+                    <MastercardSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+
+                  <div className='flex items-center'>
+                    <AmexSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div className='flex justify-center'>
+                  <Button
+                    handleClick={() => console.log('clicked')}
+                    buttonSize={ButtonSize.SMALL_MEDIUM_BODY_FONT}
+                    buttonWidth={ButtonWidth.ICON_TEXT}
+                    buttonBackground={ButtonBackground.LIGHT_GREY}
+                    labelColour={LabelColour.GREY}
+                    labelWeight={LabelWeight.MEDIUM}
+                  > <EyeSvg fill='#979797' className='w-[20px] h-[25px]'/> View
+                  </Button>
+                </div>
+              </td>
+              <td>
+                <Button
+                  handleClick={() => console.log('Edit merchant button clicked')}
+                  buttonWidth={ButtonWidth.ICON_ONLY}
+                  ariaLabel='More'
+                ><DotsSvg/></Button>
+              </td>
+            </tr>
+            <tr className='h-[48px]'>
+              <td>
+                <div className='flex items-center justify-center'>
+                  <input type='checkbox' className='flex h-[16px] w-[16px]' />
+                </div>
+              </td>
+              <td className='font-table-cell truncate'>20 Stories</td>
+              <td className='font-body-3 truncate'>123456789123456</td>
+              <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
+              <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
+              <td className='font-body-3 truncate'>WC2B 4DD</td>
+              <td className='w-auto'>
+                <div className='flex gap-[7px]'>
+                  <div className='flex items-center'>
+                    <VisaSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+
+                  <div className='flex items-center'>
+                    <MastercardSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+
+                  <div className='flex items-center'>
+                    <AmexSvg />
+                    <span className='mx-[6px]'>
+                    2
+                    </span>
+                    <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div className='flex justify-center'>
+                  <Button
+                    handleClick={() => console.log('clicked')}
+                    buttonSize={ButtonSize.SMALL_MEDIUM_BODY_FONT}
+                    buttonWidth={ButtonWidth.ICON_TEXT}
+                    buttonBackground={ButtonBackground.LIGHT_GREY}
+                    labelColour={LabelColour.GREY}
+                    labelWeight={LabelWeight.MEDIUM}
+                  > <EyeSvg fill='#979797' className='w-[20px] h-[25px]'/> View
+                  </Button>
+                </div>
+              </td>
+              <td>
+                <Button
+                  handleClick={() => console.log('Edit merchant button clicked')}
+                  buttonWidth={ButtonWidth.ICON_ONLY}
+                  ariaLabel='More'
+                ><DotsSvg/></Button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </PageLayout>
   )

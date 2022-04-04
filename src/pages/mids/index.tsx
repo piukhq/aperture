@@ -8,7 +8,7 @@ const MidManagementPage: NextPage = () => {
   // TODO: To be removed once Landing page is speced out
   const router = useRouter()
   useEffect(() => {
-    router.replace('/mids/database/1234')
+    router.replace('/mids/database')
   }, [router])
 
   return (

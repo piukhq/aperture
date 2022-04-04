@@ -47,7 +47,6 @@ const DatabasePage: NextPage = () => {
           ))}
         </div>
       )}
-
     </PageLayout>
   )
 }
