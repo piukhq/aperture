@@ -98,6 +98,7 @@ describe('Asset Modal', () => {
       expect(errorHeading).toBeInTheDocument()
     })
 
+    // TODO: Update this test once all environments are implemented
     it('should render the correct environment tags', () => {
       render(getAssetModalComponent())
       const tagLabels = screen.getAllByTestId('tag-label')
