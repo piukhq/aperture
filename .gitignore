@@ -38,3 +38,6 @@ yarn-error.log*
 
 # SNYK
 .dccache
+
+# VSCode
+.vscode/launch.json
