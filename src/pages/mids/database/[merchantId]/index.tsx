@@ -9,9 +9,9 @@ import SearchSvg from 'icons/svgs/search.svg'
 import ShareSvg from 'icons/svgs/share.svg'
 import TaskSvg from 'icons/svgs/task.svg'
 import EyeSvg from 'icons/svgs/eye.svg'
-import VisaSvg from 'icons/svgs/visa.svg'
-import AmexSvg from 'icons/svgs/amex.svg'
-import MastercardSvg from 'icons/svgs/mastercard.svg'
+import VisaSvg from 'icons/svgs/visa-rectangle.svg'
+import AmexSvg from 'icons/svgs/amex-rectangle.svg'
+import MastercardSvg from 'icons/svgs/mastercard-rectangle.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import TriangleDownSvg from 'icons/svgs/triangle-down.svg'
@@ -163,9 +163,11 @@ const LocationsListPage: NextPage = () => {
 
   return (
     <PageLayout>
-      {/* Breadcrumb */}
       <div className='flex w-full items-center justify-between'>
+        {/* TODO: THis breadcrumb functionality will be added at a later date */}
+        {/* Breadcrumb */}
         <p className='font-subheading-6 text-blue'>MERCHANTS / SQUAREMEAL</p>
+
         <TextInputGroup
           name='placeholder'
           label='Search'
