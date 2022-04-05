@@ -16,10 +16,10 @@ import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} fro
 
 const AssetModal = () => {
   const dispatch = useAppDispatch()
-  const [imageDimensions, setImageDimensions] = useState(null)
+  const [imageDimensionsState, setImageDimensionsState] = useState(null)
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const imageClasses = imageDimensions ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
+  const imageClasses = imageDimensionsState ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
@@ -64,22 +64,25 @@ const AssetModal = () => {
 
 
   const renderAssetImage = () => {
-
     const handleOnLoadingComplete = (imageDimensions) => {
-      setImageDimensions(imageDimensions)
+      if(!imageDimensionsState) {
+        setImageDimensionsState(imageDimensions)
+      }
       setIsLoading(false)
     }
+
     if (isError) {
       return (
         <AssetErrorSVG className='h-[22px] w-[22px]' />
       )
     }
+
     return (
       <Image
         className={imageClasses}
         src={url}
-        width={imageDimensions?.naturalWidth || 520}
-        height={imageDimensions?.naturalWeight || 280}
+        width={imageDimensionsState?.naturalWidth || 520}
+        height={imageDimensionsState?.naturalWeight || 280}
         objectFit='contain'
         alt={description || heading}
         onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
@@ -147,7 +150,7 @@ const AssetModal = () => {
       <div className='mb-[12px] min-h-[76px]'>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Dimensions</span>
-          <span className='font-body-3'>{imageDimensions && `${imageDimensions.naturalWidth} x ${imageDimensions.naturalHeight}`}</span>
+          <span className='font-body-3'>{imageDimensionsState && `${imageDimensionsState.naturalWidth} x ${imageDimensionsState.naturalHeight}`}</span>
         </div>
         <div className='flex justify-between mb-[2px]'>
           <span className='font-heading-7'>Filetype</span>
