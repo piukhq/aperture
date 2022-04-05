@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {useRouter} from 'next/router'
 import {Button} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -16,7 +17,10 @@ const MerchantTile = ({merchant}: Props) => {
     icon_url: iconUrl,
     total_locations: totalLocations,
     location_label: locationLabel,
+    pk,
   } = merchant
+
+  const router = useRouter()
 
   const pluralLocationsLabel = `${locationLabel}s`
 
@@ -53,7 +57,7 @@ const MerchantTile = ({merchant}: Props) => {
         </div>
 
         <Button
-          handleClick={() => console.log('View merchant stores button clicked')}
+          handleClick={() => router.push(`/mids/database/${pk}`)}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.LARGE}

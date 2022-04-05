@@ -6,12 +6,14 @@ export enum ButtonType {
 
 export enum ButtonSize {
   LARGE,
+  MEDIUM_LARGE,
   MEDIUM,
   MEDIUM_ICON,
   MEDIUM_BODY_FONT,
   SMALL_BODY_FONT,
   SMALL,
   TINY,
+  SMALL_MEDIUM_BODY_FONT,
 }
 
 export enum ButtonWidth {
@@ -30,6 +32,7 @@ export enum ButtonBackground {
   RED,
   DARK_GREY,
   LIGHT_GREY,
+  LIGHTISH_GREY,
 }
 
 export enum LabelColour {
@@ -61,11 +64,13 @@ export const BUTTON_TYPE_MAPS: Record<ButtonType, string> = {
 
 export const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
   [ButtonSize.LARGE]: 'rounded-[10px] font-heading text-sm min-h-[48px]',
+  [ButtonSize.MEDIUM_LARGE]: 'rounded-[10px] font-heading text-sm min-h-[38px]',
   [ButtonSize.MEDIUM]: 'rounded-[10px] font-heading text-2xs min-h-[38px]',
   [ButtonSize.SMALL]: 'rounded-[10px] font-heading text-3xs h-[28px]',
   [ButtonSize.TINY]: 'rounded-[6.25px] h-[23px]',
   [ButtonSize.MEDIUM_ICON]: 'rounded-[10px] font-heading tracking-[0.6px] text-sm h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
   [ButtonSize.MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm min-h-[38px]',
+  [ButtonSize.SMALL_MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm',
   [ButtonSize.SMALL_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-2xs min-h-[28px]',
 }
 
@@ -84,6 +89,7 @@ export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.BLUE]: 'bg-blue hover:bg-blend-darken',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
+  [ButtonBackground.LIGHTISH_GREY]: 'bg-grey-300',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
 }
 
@@ -97,7 +103,7 @@ export const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
 }
 
 export const LABEL_WEIGHT_MAPS: Record<LabelWeight, string> = {
-  [LabelWeight.SEMIBOLD]: 'font-semibold font-heading',
+  [LabelWeight.SEMIBOLD]: 'font-semibold font-heading tracking-[0.1px]',
   [LabelWeight.MEDIUM]: 'font-medium font-heading',
   [LabelWeight.REGULAR]: 'font-normal font-body',
 
