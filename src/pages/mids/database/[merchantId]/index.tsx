@@ -304,7 +304,7 @@ const LocationsListPage: NextPage = () => {
         <table className='w-full mt-[33px] min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
           <thead className='h-[46px] text-left bg-grey-300'>
             <tr>
-              <th className='px-[9px] w-[60px]'></th>
+              <th className='px-[9px] w-[60px] rounded-tl-[10px]'></th>
               <th className='px-[9px] font-table-header text-grey-800'>NAME</th>
               <th className='px-[9px] font-table-header text-grey-800 '>LOCATION ID</th>
               <th className='px-[9px] font-table-header text-grey-800'>ADDRESS</th>
@@ -312,7 +312,7 @@ const LocationsListPage: NextPage = () => {
               <th className='px-[9px] font-table-header text-grey-800 '>POSTCODE</th>
               <th className='px-[9px] font-table-header text-grey-800 w-[250px]'>PAYMENT SCHEME</th>
               <th className='px-[9px] font-table-header text-grey-800 w-[90px]'>VIEW</th>
-              <th className='px-[9px] font-table-header text-grey-800 w-[80px]'>MORE</th>
+              <th className='px-[9px] font-table-header text-grey-800 w-[80px] rounded-tr-[10px]'>MORE</th>
             </tr>
           </thead>
 
