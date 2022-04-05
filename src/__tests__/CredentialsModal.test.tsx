@@ -70,11 +70,11 @@ describe('Credentials Modal', () => {
   describe('Test Header and Footer', () => {
     it('should render the heading', () => {
       render(<CredentialsModal />)
-      const verifyCredentialsButton = screen.getByRole('heading', {
+      const heading = screen.getByRole('heading', {
         name: 'Enter Environment Credentials',
       })
 
-      expect(verifyCredentialsButton).toBeInTheDocument()
+      expect(heading).toBeInTheDocument()
     })
 
     it('should render the footer text', () => {
