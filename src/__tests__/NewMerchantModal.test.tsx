@@ -66,34 +66,41 @@ describe('New Merchant Modal', () => {
   })
 
   describe('Test Input Fields', () => {
+    it('should render the Add Image input with correct label', () => {
+      render(<NewMerchantModal />)
+      const imageInput = screen.getByLabelText('Add Image')
+
+      expect(imageInput).toBeInTheDocument()
+    })
+
     it('should render the Name input with correct label', () => {
       render(<NewMerchantModal />)
-
       const nameInput = screen.getByLabelText('Name')
+
       expect(nameInput).toBeInTheDocument()
       expect(nameInput).toHaveValue(mockNameValue)
     })
 
     it('should render the Slug input with correct label', () => {
       render(<NewMerchantModal />)
-
       const slugInput = screen.getByLabelText('Slug')
+
       expect(slugInput).toBeInTheDocument()
       expect(slugInput).toHaveValue(mockSlugValue)
     })
 
     it('should render the Scheme Id input with correct label', () => {
       render(<NewMerchantModal />)
-
       const schemeIdInput = screen.getByLabelText('Django Scheme Id')
+
       expect(schemeIdInput).toBeInTheDocument()
       expect(schemeIdInput).toHaveValue(mockSchemeIdValue)
     })
 
     it('should render the Location Label input with correct label', () => {
       render(<NewMerchantModal />)
-
       const locationLabelInput = screen.getByLabelText('Location Label')
+
       expect(locationLabelInput).toBeInTheDocument()
       expect(locationLabelInput).toHaveValue(mockLocationLabelValue)
     })
