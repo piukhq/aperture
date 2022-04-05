@@ -111,13 +111,13 @@ const LocationsListPage: NextPage = () => {
             <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => handleCheckboxChange(index)} />
           </div>
         </td>
-        <td className='font-table-cell truncate'>14 Hills</td>
-        <td className='font-body-3 truncate'>123456789123456</td>
-        <td className='font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
-        <td className='font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
-        <td className='font-body-3 truncate'>WC2B 4DD</td>
-        <td className='w-auto'>
-          <div className='flex gap-[7px]'>
+        <td className='px-[9px] font-table-cell truncate'>14 Hills</td>
+        <td className='px-[9px] font-body-3 truncate'>123456789123456</td>
+        <td className='px-[9px] font-body-3 truncate'>BIG LONG ADDRESS THAT GOES ON AND ON</td>
+        <td className='px-[9px] font-body-3 truncate'>BIG TOWN ADDRESS THAT GOES ON AND ON</td>
+        <td className='px-[9px] font-body-3 truncate'>WC2B 4DD</td>
+        <td className='px-[9px]'>
+          <div className='flex gap-[2px]'>
             <div className='flex items-center'>
               <VisaSvg />
               <span className='mx-[6px] font-body-3'>2</span>
@@ -137,7 +137,7 @@ const LocationsListPage: NextPage = () => {
             </div>
           </div>
         </td>
-        <td>
+        <td className='px-[9px]'>
           <div className='flex justify-center'>
             <Button
               handleClick={() => console.log('clicked')}
@@ -150,7 +150,7 @@ const LocationsListPage: NextPage = () => {
             </Button>
           </div>
         </td>
-        <td>
+        <td className='px-[9px]'>
           <Button
             handleClick={() => console.log('Edit merchant button clicked')}
             buttonWidth={ButtonWidth.ICON_ONLY}
@@ -301,18 +301,18 @@ const LocationsListPage: NextPage = () => {
           </Listbox>        </div>
 
         {/* Table */}
-        <table className='w-full mt-[33px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
+        <table className='w-full mt-[33px] min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
           <thead className='h-[46px] text-left bg-grey-300'>
             <tr>
-              <th className='w-[60px]'></th>
-              <th className='font-table-header text-grey-800 w-[120px]'>NAME</th>
-              <th className='font-table-header text-grey-800 w-[150px]'>LOCATION ID</th>
-              <th className='font-table-header text-grey-800'>ADDRESS</th>
-              <th className='font-table-header text-grey-800'>TOWN</th>
-              <th className='font-table-header text-grey-800 w-[100px]'>POSTCODE</th>
-              <th className='font-table-header text-grey-800 w-auto'>PAYMENT SCHEME</th>
-              <th className='font-table-header text-grey-800 w-[86px]'>VIEW</th>
-              <th className='font-table-header text-grey-800 w-[86px]'>MORE</th>
+              <th className='px-[9px] w-[60px]'></th>
+              <th className='px-[9px] font-table-header text-grey-800'>NAME</th>
+              <th className='px-[9px] font-table-header text-grey-800 '>LOCATION ID</th>
+              <th className='px-[9px] font-table-header text-grey-800'>ADDRESS</th>
+              <th className='px-[9px] font-table-header text-grey-800'>TOWN</th>
+              <th className='px-[9px] font-table-header text-grey-800 '>POSTCODE</th>
+              <th className='px-[9px] font-table-header text-grey-800 w-[250px]'>PAYMENT SCHEME</th>
+              <th className='px-[9px] font-table-header text-grey-800 w-[90px]'>VIEW</th>
+              <th className='px-[9px] font-table-header text-grey-800 w-[80px]'>MORE</th>
             </tr>
           </thead>
 
