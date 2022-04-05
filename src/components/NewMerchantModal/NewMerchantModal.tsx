@@ -6,23 +6,29 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle} from 'utils/enums'
 
-import visaImage from 'images/visa.png'
-import mastercardImage from 'images/mastercard.png'
-import amexImage from 'images/amex.png'
+import visaImage from 'icons/pngs/visa-logo.png'
+import mastercardImage from 'icons/pngs/mastercard-logo.png'
+import amexImage from 'icons/pngs/amex-logo.png'
 
 const NewMerchantModal = () => {
   // TODO: Input field logic could be refactored when functionality story is worked upon
+  const [imageValue, setImageValue] = useState(null)
   const [nameValue, setNameValue] = useState('')
-  const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
   const [slugValue, setSlugValue] = useState('')
-  const [isSlugReadyForValidation, setIsSlugReadyForValidation] = useState(false)
   const [schemeIdValue, setSchemeIdValue] = useState('')
-  const [isSchemeIdReadyForValidation, setIsSchemeIdReadyForValidation] = useState(false)
   const [locationLabelValue, setLocationLabelValue] = useState('')
+
+  const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
+  const [isSlugReadyForValidation, setIsSlugReadyForValidation] = useState(false)
+  const [isSchemeIdReadyForValidation, setIsSchemeIdReadyForValidation] = useState(false)
   const [isLocationLabelReadyForValidation, setIsLocationLabelReadyForValidation] = useState(false)
+
   const [visaValue, setVisaValue] = useState(false)
   const [mastercardValue, setMastercardValue] = useState(false)
   const [amexValue, setAmexValue] = useState(false)
+
+  // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
+  const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -59,6 +65,7 @@ const NewMerchantModal = () => {
 
     // TODO: Perform relevant validation and submit, placeholder for now:
     console.log({
+      image: imageValue,
       name: nameValue,
       slug: slugValue,
       schemeId: schemeIdValue,
@@ -73,7 +80,7 @@ const NewMerchantModal = () => {
     <div className='w-full flex items-center justify-center my-[4px]'>
       <div className='h-[140px] w-[140px] rounded-[35px] border-2 border-grey-400 dark:border-grey-600 flex items-center justify-center focus-within:ring-2 focus-within:ring-lightBlue'>
         <label htmlFor='merchant-add-image' className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center text-center bg-grey-100 dark:bg-grey-800 font-heading-9 text-grey-700 dark:text-grey-300'>Add Image</label>
-        <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image'/>
+        <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image' onChange={handleImageInput}/>
       </div>
     </div>
   )
@@ -198,7 +205,3 @@ const NewMerchantModal = () => {
 
 export default NewMerchantModal
 
-
-// To do
-// Refactor Functions
-// Unit tests

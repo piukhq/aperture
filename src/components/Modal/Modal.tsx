@@ -7,7 +7,7 @@ import {ModalStyle} from 'utils/enums'
 import FocusTrap from 'focus-trap-react'
 
 type Props = {
-  modalStyle: string
+  modalStyle: string,
   modalHeader?: string,
   children: React.ReactNode
 }
@@ -36,7 +36,7 @@ const Modal = ({modalStyle, modalHeader, children}: Props) => {
     </div>
   )
   const renderCompactModal = () => (
-    <div className='h-full w-[485px] pt-[30%] pb-[10%]'>
+    <div className='h-full w-[485px] pt-[20%] pb-[10%]'>
       <div className='flex h-[41px] px-[20px] items-center place-content-between w-full rounded-t-[15px] border-b-[1px] border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850'>
         {modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
         {renderCloseButton()}
