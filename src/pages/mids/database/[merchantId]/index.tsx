@@ -100,7 +100,7 @@ const LocationsListPage: NextPage = () => {
         </div>
       )
     }
-    return null
+    return <div />
   }
 
   const renderRow = (value, index) => {
@@ -222,7 +222,9 @@ const LocationsListPage: NextPage = () => {
         </div>
       </div>
 
-      <div className='flex flex-row-reverse mt-[11px] w-full justify-between'>
+      <div className='flex mt-[11px] w-full justify-between'>
+        {shouldRenderAdditionalOptions()}
+
         <div className='flex content-center gap-[10px]'>
           <Button
             handleClick={() => console.log('Bulk import button clicked')}
@@ -244,8 +246,6 @@ const LocationsListPage: NextPage = () => {
           ><PlusSvg />New Location
           </Button>
         </div>
-
-        {shouldRenderAdditionalOptions()}
       </div>
 
       <div className='mt-[30px]'>
