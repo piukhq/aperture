@@ -23,9 +23,9 @@ const NewMerchantModal = () => {
   const [isSchemeIdReadyForValidation, setIsSchemeIdReadyForValidation] = useState(false)
   const [isLocationLabelReadyForValidation, setIsLocationLabelReadyForValidation] = useState(false)
 
-  const [visaValue, setVisaValue] = useState(false)
-  const [mastercardValue, setMastercardValue] = useState(false)
-  const [amexValue, setAmexValue] = useState(false)
+  const [visaChecked, setVisaChecked] = useState(false)
+  const [mastercardChecked, setMastercardChecked] = useState(false)
+  const [amexChecked, setAmexChecked] = useState(false)
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
@@ -47,13 +47,13 @@ const NewMerchantModal = () => {
     setIsLocationLabelReadyForValidation(false)
   }
   const handleVisaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setVisaValue(event.target.checked)
+    setVisaChecked(event.target.checked)
   }
   const handleMastercardChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMastercardValue(event.target.checked)
+    setMastercardChecked(event.target.checked)
   }
   const handleAmexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmexValue(event.target.checked)
+    setAmexChecked(event.target.checked)
   }
 
   const validateMerchant = (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,9 +70,9 @@ const NewMerchantModal = () => {
       slug: slugValue,
       schemeId: schemeIdValue,
       locationLabel: locationLabelValue,
-      visaValue: visaValue,
-      mastercardValue: mastercardValue,
-      amexValue: amexValue,
+      visaChecked: visaChecked,
+      mastercardChecked: mastercardChecked,
+      amexChecked: amexChecked,
     })
   }
 
@@ -137,7 +137,7 @@ const NewMerchantModal = () => {
   )
   const renderPaymentSchemeInputs = () => (
     <div className='w-full flex flex-col justify-center text-center mt-[12px]'>
-      <div className='flex gap-[40px] justify-center'>
+      <div className='flex gap-[30px] justify-center'>
         <div className='flex flex-col items-center gap-[4px]'>
           <label htmlFor='merchant-visa'>
             <Image
@@ -148,31 +148,31 @@ const NewMerchantModal = () => {
               alt=''
             />
           </label>
-          <input aria-label='Visa' className='h-[19px] w-[19px]' type='checkbox' name='merchant-visa' checked={visaValue} onChange={handleVisaChange}/>
+          <input aria-label='Visa' className='h-[19px] w-[19px]' type='checkbox' name='merchant-visa' checked={visaChecked} onChange={handleVisaChange}/>
         </div>
         <div className='flex flex-col items-center gap-[4px]'>
           <label>
             <Image
               src={mastercardImage}
-              width={70}
+              width={80}
               height={40}
               objectFit='contain'
               alt=''
             />
           </label>
-          <input aria-label='Mastercard' className='h-[19px] w-[19px]' type='checkbox' name='merchant-mastercard' checked={mastercardValue} onChange={handleMastercardChange}/>
+          <input aria-label='Mastercard' className='h-[19px] w-[19px]' type='checkbox' name='merchant-mastercard' checked={mastercardChecked} onChange={handleMastercardChange}/>
         </div>
         <div className='flex flex-col items-center gap-[4px]'>
           <label>
             <Image
               src={amexImage}
-              width={70}
+              width={80}
               height={40}
               objectFit='contain'
               alt=''
             />
           </label>
-          <input aria-label='American Express' className='h-[19px] w-[19px]' type='checkbox' name='merchant-amex' checked={amexValue} onChange={handleAmexChange}/>
+          <input aria-label='American Express' className='h-[19px] w-[19px]' type='checkbox' name='merchant-amex' checked={amexChecked} onChange={handleAmexChange}/>
         </div>
       </div>
       <p className='font-body-4 leading-[9px] text-4xs pt-[20px]'>Some merchants may only have MIDs onboarded for a subset of payment schemes.</p>
