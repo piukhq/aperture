@@ -96,7 +96,7 @@ const NewMerchantModal = () => {
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isNameReadyForValidation ? InputColour.RED : InputColour.GREY}
+        inputColour={isNameReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
       />
       <div className='flex gap-[22px]'>
         <TextInputGroup
@@ -108,7 +108,7 @@ const NewMerchantModal = () => {
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}
           inputWidth={InputWidth.FULL}
-          inputColour={isSlugReadyForValidation ? InputColour.RED : InputColour.GREY}
+          inputColour={isSlugReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
         />
         <TextInputGroup
           name='merchant-scheme-id'
@@ -119,7 +119,7 @@ const NewMerchantModal = () => {
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}
           inputWidth={InputWidth.FULL}
-          inputColour={isSchemeIdReadyForValidation ? InputColour.RED : InputColour.GREY} //
+          inputColour={isSchemeIdReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
         />
       </div>
       <TextInputGroup
@@ -131,54 +131,52 @@ const NewMerchantModal = () => {
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isLocationLabelReadyForValidation ? InputColour.RED : InputColour.GREY}
+        inputColour={isLocationLabelReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
       />
     </>
   )
-  const renderPaymentSchemeInputs = () => (
-    <div className='w-full flex flex-col justify-center text-center mt-[12px]'>
-      <div className='flex gap-[30px] justify-center'>
-        <div className='flex flex-col items-center gap-[4px]'>
-          <label htmlFor='merchant-visa'>
-            <Image
-              src={visaImage}
-              width={80}
-              height={40}
-              objectFit='contain'
-              alt=''
-            />
-          </label>
-          <input aria-label='Visa' className='h-[19px] w-[19px]' type='checkbox' name='merchant-visa' checked={visaChecked} onChange={handleVisaChange}/>
+  const renderPaymentSchemeInputs = () => { //TODO: Generic functions can probably be used for functionality instead of different for each scheme
+    const paymentSchemeArray = [
+      {
+        name: 'visa',
+        imageSrc: visaImage,
+        checkedState: visaChecked,
+        onChangeFn: handleVisaChange,
+      }, {
+        name: 'mastercard',
+        imageSrc: mastercardImage,
+        checkedState: mastercardChecked,
+        onChangeFn: handleMastercardChange,
+      }, {
+        name: 'amex',
+        imageSrc: amexImage,
+        checkedState: amexChecked,
+        onChangeFn: handleAmexChange,
+      },
+    ]
+    return (
+      <div className='w-full flex flex-col justify-center text-center mt-[12px]'>
+        <div className='flex gap-[30px] justify-center'>
+          {paymentSchemeArray.map(scheme => (
+            <div key={scheme.name} className='flex flex-col items-center gap-[4px]'>
+              <label htmlFor={`merchant-${scheme.name}`}>
+                <Image
+                  src={scheme.imageSrc}
+                  width={80}
+                  height={40}
+                  objectFit='contain'
+                  alt=''
+                />
+              </label>
+              <input aria-label={scheme.name} className='h-[19px] w-[19px]' type='checkbox' name='merchant-visa' checked={scheme.checkedState} onChange={scheme.onChangeFn}/>
+            </div>
+          ))}
         </div>
-        <div className='flex flex-col items-center gap-[4px]'>
-          <label>
-            <Image
-              src={mastercardImage}
-              width={80}
-              height={40}
-              objectFit='contain'
-              alt=''
-            />
-          </label>
-          <input aria-label='Mastercard' className='h-[19px] w-[19px]' type='checkbox' name='merchant-mastercard' checked={mastercardChecked} onChange={handleMastercardChange}/>
-        </div>
-        <div className='flex flex-col items-center gap-[4px]'>
-          <label>
-            <Image
-              src={amexImage}
-              width={80}
-              height={40}
-              objectFit='contain'
-              alt=''
-            />
-          </label>
-          <input aria-label='American Express' className='h-[19px] w-[19px]' type='checkbox' name='merchant-amex' checked={amexChecked} onChange={handleAmexChange}/>
-        </div>
+        <p className='font-body-4 leading-[9px] text-4xs pt-[20px]'>Some merchants may only have MIDs onboarded for a subset of payment schemes.</p>
+        <p className='font-body-4 text-4xs'>Select all that are currently supported.</p>
       </div>
-      <p className='font-body-4 leading-[9px] text-4xs pt-[20px]'>Some merchants may only have MIDs onboarded for a subset of payment schemes.</p>
-      <p className='font-body-4 text-4xs'>Select all that are currently supported.</p>
-    </div>
-  )
+    )
+  }
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='New Merchant'>
