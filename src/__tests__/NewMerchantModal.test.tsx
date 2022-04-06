@@ -14,7 +14,7 @@ jest.mock('components/Modal', () => ({
     )
   },
 }))
-// TODO: Fix for Next/Image bug when using local image file.
+// Fix for Next/Image bug when using local image file.
 // eslint-disable-next-line @next/next/no-img-element
 jest.mock('next/image', () => ({src, alt}) => <img src={src} alt={alt} />
 )
@@ -44,7 +44,6 @@ describe('New Merchant Modal', () => {
       .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([false, setStateMock])
-
   })
 
   it('should render the correct Heading', () => {
