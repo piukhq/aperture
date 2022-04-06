@@ -168,7 +168,7 @@ const NewMerchantModal = () => {
                   alt=''
                 />
               </label>
-              <input aria-label={scheme.name} className='h-[19px] w-[19px]' type='checkbox' name='merchant-visa' checked={scheme.checkedState} onChange={scheme.onChangeFn}/>
+              <input aria-label={scheme.name} className='h-[19px] w-[19px]' type='checkbox' name={`merchant-${scheme.name}`} checked={scheme.checkedState} onChange={scheme.onChangeFn}/>
             </div>
           ))}
         </div>
