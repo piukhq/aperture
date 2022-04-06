@@ -55,7 +55,6 @@ const DatabasePage: NextPage = () => {
           ><PlusSvg/>New Merchant
           </Button>
         </div>
-
         {merchantList.length > 0 && (
           <div className='flex mt-[51px] flex-wrap gap-[30px]'>
             {merchantList.map((merchant, index) => (
@@ -63,7 +62,6 @@ const DatabasePage: NextPage = () => {
             ))}
           </div>
         )}
-
       </PageLayout>
     </>
   )

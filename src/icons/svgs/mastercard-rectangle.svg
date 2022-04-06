@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="29px" viewBox="0 0 44 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-labelledby="title">
+    <title>Mastercard</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="36" height="21" rx="8"></rect>
+        <filter x="-19.4%" y="-23.8%" width="138.9%" height="166.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <pattern id="pattern-3" patternUnits="objectBoundingBox" y="1.55279503%" height="98.447205%" width="100%">
+            <use xlink:href="#image-4" transform="scale(0.52173913,0.52173913)"></use>
+        </pattern>
+        <image id="image-4" width="69" height="39" xlink:href="data:image/png;base64,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"></image>
+    </defs>
+    <g id="MID-Management" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Merchant-Page-Nothing-Highlighted" transform="translate(-1119.000000, -563.000000)">
+            <g id="3ake" transform="translate(357.000000, 551.000000)">
+                <g id="Group" transform="translate(766.000000, 12.351351)">
+                    <g id="Mastercard-rectangle" transform="translate(0.000000, 1.648649)">
+                        <g id="Rectangle">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                            <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        </g>
+                        <rect id="Rectangle-Copy-3" fill="url(#pattern-3)" x="0" y="0" width="36" height="21" rx="8"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -63,7 +63,7 @@ const VerificationTag = ({
             borderColour={BorderColour.RED}
             ariaLabel='Remove Credentials'
           >
-            <TrashSvg />
+            <TrashSvg className='fill-red' />
           </Button>
         </div>
       )}
