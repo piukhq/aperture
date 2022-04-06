@@ -120,19 +120,19 @@ const LocationsListPage: NextPage = () => {
           <div className='flex gap-[2px]'>
             <div className='flex items-center'>
               <VisaSvg />
-              <span className='mx-[6px] font-body-3'>2</span>
+              <span className='mx-[6px] font-body-2'>2</span>
               <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
             </div>
 
             <div className='flex items-center'>
               <MastercardSvg />
-              <span className='mx-[6px] font-body-3'>2</span>
+              <span className='mx-[6px] font-body-2'>2</span>
               <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
             </div>
 
             <div className='flex items-center'>
               <AmexSvg />
-              <span className='mx-[6px] font-body-3'>2</span>
+              <span className='mx-[6px] font-body-2'>2</span>
               <div className='w-[10px] h-[10px] rounded-[5px] bg-green' />
             </div>
           </div>
@@ -196,8 +196,8 @@ const LocationsListPage: NextPage = () => {
               </div>
 
               <div className='flex flex-col ml-[91px]'>
-                <p className='font-subheading-5'>286</p>
-                <p className='font-subheading-5'>squaremeal</p>
+                <p className='font-subheading-3'>286</p>
+                <p className='font-subheading-3'>squaremeal</p>
               </div>
             </div>
           </div>
