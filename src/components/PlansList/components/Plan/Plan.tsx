@@ -16,19 +16,11 @@ const Plan = ({plan}: Props) => (
 
     <div className='flex items-center'>
       <div className='h-[24px] w-[24px]'>
-        {plan.isDev && (
-          <div data-testid='dev-tag'>
-            <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.AQUAMARINE_FILLED} label='D' />
-          </div>
-        )}
+        {plan.isDev && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.AQUAMARINE_FILLED} label='D' />}
       </div>
 
       <div className='h-[24px] w-[24px]'>
-        {plan.isStaging && (
-          <div data-testid='staging-tag'>
-            <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.YELLOW_FILLED} label='S' />
-          </div>
-        )}
+        {plan.isStaging && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.YELLOW_FILLED} label='S' />}
       </div>
 
       {/* TODO: To be added once additional environments are set up */}

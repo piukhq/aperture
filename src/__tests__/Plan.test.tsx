@@ -43,22 +43,24 @@ describe('Plan component', () => {
     })
   })
 
-  describe('Test verification tags', () => {
-    it('should not render any verification tags', () => {
-      const {queryByTestId} = render(<Plan plan={defaultMockPlan} />)
-      expect(queryByTestId('dev-tag')).not.toBeInTheDocument()
-      expect(queryByTestId('staging-tag')).not.toBeInTheDocument()
+  describe('Test environment tags', () => {
+    it('should not render any environment tags', () => {
+      const {queryAllByTestId} = render(<Plan plan={defaultMockPlan} />)
+      const tagLabels = queryAllByTestId('tag-label')
+      expect(tagLabels).toHaveLength(0)
     })
 
-    it('should render icon image and plan name', () => {
-      const {queryByTestId} = render(<Plan plan={{
+    it('should render the correct environment tags', () => {
+      const {getAllByTestId} = render(<Plan plan={{
         ...defaultMockPlan,
         isDev: true,
         isStaging: true,
       }} />)
 
-      expect(queryByTestId('dev-tag')).toBeInTheDocument()
-      expect(queryByTestId('staging-tag')).toBeInTheDocument()
+      const tagLabels = getAllByTestId('tag-label')
+      expect(tagLabels).toHaveLength(2)
+      expect(tagLabels[0]).toHaveTextContent('D')
+      expect(tagLabels[1]).toHaveTextContent('S')
     })
   })
 })
