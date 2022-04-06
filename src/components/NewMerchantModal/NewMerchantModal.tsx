@@ -135,6 +135,7 @@ const NewMerchantModal = () => {
       />
     </>
   )
+
   const renderPaymentSchemeInputs = () => { //TODO: Generic functions can probably be used for functionality instead of different for each scheme
     const paymentSchemeArray = [
       {
