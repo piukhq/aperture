@@ -70,9 +70,9 @@ const NewMerchantModal = () => {
       slug: slugValue,
       schemeId: schemeIdValue,
       locationLabel: locationLabelValue,
-      visaChecked: visaChecked,
-      mastercardChecked: mastercardChecked,
-      amexChecked: amexChecked,
+      visaChecked,
+      mastercardChecked,
+      amexChecked,
     })
   }
 
