@@ -70,7 +70,6 @@ describe('Asset', () => {
       render(getAssetComponent())
       const errorButton = screen.getByTitle('Asset could not load')
 
-      screen.debug()
       expect(errorButton).toBeInTheDocument()
     })
   })
