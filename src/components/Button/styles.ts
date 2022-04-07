@@ -70,7 +70,7 @@ export const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
   [ButtonSize.TINY]: 'rounded-[6.25px] h-[23px]',
   [ButtonSize.MEDIUM_ICON]: 'rounded-[10px] font-heading tracking-[0.6px] text-sm h-[38px]', // tracking value visually matches abstract but is shown as 0.1px
   [ButtonSize.MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm min-h-[38px]',
-  [ButtonSize.SMALL_MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm',
+  [ButtonSize.SMALL_MEDIUM_BODY_FONT]: 'rounded-[10px] font-heading tracking-[0.1px] text-sm',
   [ButtonSize.SMALL_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-2xs min-h-[28px]',
 }
 
