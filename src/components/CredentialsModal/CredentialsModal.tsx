@@ -3,7 +3,7 @@ import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
 import {useVerificationHook} from 'hooks/useVerificationHook'
 import {useGetPlansHook} from 'hooks/useGetPlansHook'
-import {EnvironmentName} from 'utils/enums'
+import {EnvironmentName, ModalStyle} from 'utils/enums'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
@@ -115,7 +115,7 @@ const CredentialsModal = () => {
   }
 
   return (
-    <Modal modalHeader='Enter Environment Credentials'>
+    <Modal modalStyle={ModalStyle.REGULAR} modalHeader='Enter Environment Credentials'>
       <form className='flex flex-col gap-[20px] mt-[30px] ' onSubmit={validateCredentials}>
         <TextInputGroup
           name='credentials-email'
