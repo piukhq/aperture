@@ -75,7 +75,7 @@ const PlansList = () => {
   }
 
   return (
-    <div className='w-full z-20'>
+    <div className='w-full z-20' data-testid='plan-list-container'>
       <div className='w-full flex gap-[25px]'>
         <TextInputGroup
           name='placeholder'
@@ -101,6 +101,7 @@ const PlansList = () => {
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
           handleClick={handleLoadAssets}
+          ariaLabel='Load Assets'
         >
           <CheckSvg/>Load Assets
         </Button>
