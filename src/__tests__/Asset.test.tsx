@@ -4,8 +4,6 @@ import Asset from 'components/AssetGrid/components/Asset'
 import configureStore from 'redux-mock-store'
 import {Provider} from 'react-redux'
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({})
 
 const mockImage = {
   id: 1,
@@ -16,24 +14,24 @@ const mockImage = {
   cta_url: 'mock-cta-url',
 }
 
-const mockAsset = {
-  image: mockImage,
-  assetType: {
-    dev: [mockImage],
-    hasMultipleImagesOfThisType: false,
-    heading: 'mock-heading',
-    longestAssetArray: [mockImage],
-    staging: [],
-  },
-  typeIndex: 0,
-  imageEnv: 'dev',
+const mockAssetType = {
+  dev: [mockImage],
+  hasMultipleImagesOfThisType: false,
+  heading: 'mock-heading',
+  longestAssetArray: [mockImage],
+  staging: [],
 }
 
-const {image, assetType, typeIndex, imageEnv} = mockAsset
+const mockTypeIndex = 0
+const mockImageEnv = 'dev'
 
+const setStateMock = jest.fn()
+
+const mockStoreFn = configureStore([])
+const store = mockStoreFn({})
 const getAssetComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <Asset image={image} assetType={assetType} typeIndex={typeIndex} imageEnv={imageEnv}/>
+    <Asset image={mockImage} assetType={mockAssetType} typeIndex={mockTypeIndex} imageEnv={mockImageEnv}/>
   </Provider>
 )
 
@@ -43,7 +41,7 @@ describe('Asset', () => {
     it('should render a button with correct accessible name', () => {
       render(getAssetComponent())
       const assetButton = screen.getByRole('button', {
-        name: `${imageEnv} ${mockImage.description}`,
+        name: `${mockImageEnv} ${mockImage.description}`,
       })
 
       expect(assetButton).toBeInTheDocument()
@@ -60,7 +58,6 @@ describe('Asset', () => {
   describe('Test Asset Load error state', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      const setStateMock = jest.fn()
       React.useState = jest
         .fn()
         .mockReturnValue([true, setStateMock])
@@ -76,7 +73,6 @@ describe('Asset', () => {
 
   describe('Test Asset loading state', () => {
     beforeEach(() => {
-      const setStateMock = jest.fn()
       React.useState = jest
         .fn()
         .mockReturnValueOnce([false, setStateMock])
