@@ -22,7 +22,7 @@ const getPlanListComponent = () => (
   </Provider>
 )
 
-describe('PlanList component', () => {
+describe('PlanList', () => {
   it('should render the planlist container', () => {
     const {queryByTestId} = render(getPlanListComponent())
     expect(queryByTestId('plan-list-container')).toBeInTheDocument()
