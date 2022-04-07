@@ -66,7 +66,7 @@ describe('Asset', () => {
         .mockReturnValue([true, setStateMock])
     })
 
-    it('should render a button with error title', () => {
+    it('should render a error button', () => {
       render(getAssetComponent())
       const errorButton = screen.getByTitle('Asset could not load')
 
