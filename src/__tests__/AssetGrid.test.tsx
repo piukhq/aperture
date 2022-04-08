@@ -1,8 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import AssetGrid from 'components/AssetGrid'
-import configureStore from 'redux-mock-store'
-import {Provider} from 'react-redux'
 
 jest.mock('components/AssetGrid/components/Asset', () => () => <div data-testid='asset'></div>)
 
@@ -23,28 +21,24 @@ const mockBannerImage = {
   ...mockImageBaseProperties,
 }
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({})
-const getAssetGridComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <AssetGrid planAssets={{
-      dev: [mockHeroImage],
-      staging: [mockHeroImage, mockBannerImage],
-    }} />
-  </Provider>
+const mockAssetGridComponent = (
+  <AssetGrid planAssets={{
+    dev: [mockHeroImage],
+    staging: [mockHeroImage, mockBannerImage],
+  }} />
 )
 
 describe('Asset Grid', () => {
   describe('Test Labels', () => {
     it('should render the correct number of labels', () => {
-      render(getAssetGridComponent())
+      render(mockAssetGridComponent)
       const labels = screen.getAllByRole('heading')
 
       expect(labels).toHaveLength(2)
     })
 
     it('should have correct label names', () => {
-      render(getAssetGridComponent())
+      render(mockAssetGridComponent)
       const heroLabel = screen.getByRole('heading', {
         name: 'HERO',
       })
@@ -56,19 +50,15 @@ describe('Asset Grid', () => {
       expect(bannerLabel).toBeInTheDocument()
     })
 
-    it('should have correct label numbering', () => {
-      const mockPlanAssetsWithMultipleBanners = {
-        dev: [mockHeroImage, mockBannerImage],
-        staging: [mockHeroImage, mockBannerImage, {
+    it('should have correct label numbering with multiple assets of the same type', () => {
+      render(<AssetGrid planAssets={{
+        dev: [],
+        staging: [mockBannerImage, {
           type: 1,
           url: 'https://mock-url/mock-path/mock-image2.jpg',
           ...mockImageBaseProperties,
         }],
-      }
-
-      render(<Provider store={store}>
-        <AssetGrid planAssets={mockPlanAssetsWithMultipleBanners} />
-      </Provider>)
+      }} />)
 
       const banner1 = screen.getByText('BANNER 1')
       const banner2 = screen.getByText('BANNER 2')
@@ -82,14 +72,14 @@ describe('Asset Grid', () => {
 
   describe('Test Assets', () => {
     it('should render the correct number of assets', () => {
-      render(getAssetGridComponent())
+      render(mockAssetGridComponent)
       const assets = screen.getAllByTestId('asset')
 
       expect(assets).toHaveLength(3)
     })
 
     it('should render the correct number of Asset Not Found images', () => {
-      render(getAssetGridComponent())
+      render(mockAssetGridComponent)
       const assetNotFoundImage = screen.queryAllByTitle('No asset available')
 
       expect(assetNotFoundImage).toHaveLength(1)
