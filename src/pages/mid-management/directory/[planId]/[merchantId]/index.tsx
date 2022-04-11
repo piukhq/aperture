@@ -15,8 +15,6 @@ const MerchantPage: NextPage = () => {
       <p className='font-subheading-2 mb-[39px]'>This page will show the Merchant with the ID: {merchantId} with PlanId: {planId}.</p>
       <p className='font-subheading-2 mb-[39px]'>Current Tab: {tab}</p>
       <p className='font-subheading-2 mb-[39px]'>Current Ref: {ref}</p>
-
-
       <h4 className='font-heading-5'>Test Tab Switching</h4>
       <ul className='list-disc'>
         <li><Link href={`${tabPath}mids`}>MIDS</Link></li>
