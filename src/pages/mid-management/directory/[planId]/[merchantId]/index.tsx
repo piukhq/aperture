@@ -22,7 +22,7 @@ const MerchantPage: NextPage = () => {
         <li><Link href={`${tabPath}mids`}>MIDS</Link></li>
         <li><Link href={`${tabPath}locations`}>Locations</Link></li>
         <li><Link href={`${tabPath}identifiers`}>Identifiers</Link></li>
-        <li><Link href={`${tabPath}secondary_mids`}>Secondary MIDs</Link></li>
+        <li><Link href={`${tabPath}secondary-mids`}>Secondary MIDs</Link></li>
       </ul>
     </PageLayout>
   )
