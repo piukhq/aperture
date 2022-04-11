@@ -17,7 +17,7 @@ const SidebarOption = ({option, selected}: Props) => {
     Icon = AssetComparatorIcon
   } else if (option === 'plan-comparator') {
     Icon = PlanComparatorIcon
-  } else if (option === 'mids') {
+  } else if (option === 'mid-management') {
     Icon = MidManagementIcon
   } else if (option === 'customer-wallets') {
     Icon = CustomerWalletsIcon

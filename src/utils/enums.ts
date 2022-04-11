@@ -49,7 +49,7 @@ enum ImageTypes {
 enum RouteDisplayNames {
   'asset-comparator' = 'Asset Comparator',
   'plan-comparator' = 'Plan Comparator',
-  mids = 'MID Management',
+  'mid-management' = 'MID Management',
   'customer-wallets' = 'Customer Wallets',
   'style-guide' = 'Style Guide',
 }
