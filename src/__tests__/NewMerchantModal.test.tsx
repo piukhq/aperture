@@ -14,15 +14,9 @@ jest.mock('components/Modal', () => ({
     )
   },
 }))
-// Fix for Next/Image bug when using local image file.
-// eslint-disable-next-line @next/next/no-img-element
-jest.mock('next/image', () => ({src, alt}) => <img src={src} alt={alt} />
-)
 
 const mockImageValue = {}
 const mockNameValue = 'mock_name_value'
-const mockSlugValue = 'mock_slug_value'
-const mockSchemeIdValue = 'mock_scheme_id_value'
 const mockLocationLabelValue = 'mock_location_label_value'
 
 describe('New Merchant Modal', () => {
@@ -34,12 +28,7 @@ describe('New Merchant Modal', () => {
       .fn()
       .mockReturnValueOnce([mockImageValue, setStateMock])
       .mockReturnValueOnce([mockNameValue, setStateMock])
-      .mockReturnValueOnce([mockSlugValue, setStateMock])
-      .mockReturnValueOnce([mockSchemeIdValue, setStateMock])
       .mockReturnValueOnce([mockLocationLabelValue, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([false, setStateMock])
       .mockReturnValueOnce([false, setStateMock])
@@ -78,22 +67,6 @@ describe('New Merchant Modal', () => {
 
       expect(nameInput).toBeInTheDocument()
       expect(nameInput).toHaveValue(mockNameValue)
-    })
-
-    it('should render the Slug input with correct label', () => {
-      render(<NewMerchantModal />)
-      const slugInput = screen.getByLabelText('Slug')
-
-      expect(slugInput).toBeInTheDocument()
-      expect(slugInput).toHaveValue(mockSlugValue)
-    })
-
-    it('should render the Scheme Id input with correct label', () => {
-      render(<NewMerchantModal />)
-      const schemeIdInput = screen.getByLabelText('Django Scheme Id')
-
-      expect(schemeIdInput).toBeInTheDocument()
-      expect(schemeIdInput).toHaveValue(mockSchemeIdValue)
     })
 
     it('should render the Location Label input with correct label', () => {
