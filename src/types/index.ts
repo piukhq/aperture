@@ -68,6 +68,7 @@ export type SelectedAssetEnvironment = string
 
 export type PaymentScheme = {
   label: string,
+  scheme_code: number,
   count: number,
 }
 

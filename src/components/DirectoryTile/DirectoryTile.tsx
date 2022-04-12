@@ -3,30 +3,42 @@ import {useRouter} from 'next/router'
 import {Button} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
-import {Merchant, PaymentScheme} from 'types'
-import {capitaliseFirstLetter} from 'utils/stringFormat'
+import {PaymentScheme} from 'types'
 
 type Props = {
-  merchant: Merchant,
+  id: string,
+  metadata: Record<string, string | number>,
+  counts: Record<string, Array<PaymentScheme> | number>
 }
 
-const MerchantTile = ({merchant}: Props) => {
-  const {
-    name,
-    payment_schemes: paymentSchemes,
-    icon_url: iconUrl,
-    total_locations: totalLocations,
-    location_label: locationLabel,
-    pk,
-  } = merchant
-
+const MerchantTile = ({metadata, counts, id}: Props) => {
   const router = useRouter()
 
-  const pluralLocationsLabel = `${locationLabel}s`
+  const {
+    name,
+    icon_url: iconUrl,
+    plan_id: planId,
+    location_label: locationLabel,
+  } = metadata
+
+  const {
+    merchants,
+    locations,
+    payment_schemes: paymentSchemes,
+  } = counts
+
+  const isPlan = Boolean(planId) // Determines if plan or merchant
+
+  const renderChildCount = () => {
+    if (isPlan) {
+      return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
+    } else {
+      return `${locations} ${locationLabel}s`
+    }
+  }
 
   const renderPaymentSchemeInfo = (paymentScheme: PaymentScheme) => {
     const {label, count} = paymentScheme
-
     return (
       <div key={label} className='flex flex-col items-center'>
         <p className='font-subheading-4'>{label.toLocaleUpperCase()}</p>
@@ -36,36 +48,36 @@ const MerchantTile = ({merchant}: Props) => {
   }
 
   return (
-    <div className='relative w-[310px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825'>
+    <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
         <Button
-          handleClick={() => console.log('Edit merchant button clicked')}
+          handleClick={() => console.log('More Options button clicked')}
           buttonSize={ButtonSize.MEDIUM_ICON}
           buttonWidth={ButtonWidth.ICON_ONLY}
           borderColour={BorderColour.GREY}
-          ariaLabel='Edit Merchant'
+          ariaLabel='Options'
         ><DotsSvg/></Button>
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>
-        <Image className='rounded-[30px]' src={iconUrl} height={93} width={93} alt='' data-testid='merchant-icon' />
+        <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon' />
         <p className='font-heading-5 mt-[5px]'>{name}</p>
-        <p className='font-subheading-5 mt-[6px]'>{totalLocations} {pluralLocationsLabel}</p>
+        <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 
         <div className='flex mt-[16px] mb-[20px] w-[218px] justify-between'>
-          {paymentSchemes.map(scheme => renderPaymentSchemeInfo(scheme))}
+          {paymentSchemes instanceof Array && paymentSchemes.map(scheme => renderPaymentSchemeInfo(scheme))}
         </div>
 
         <Button
-          handleClick={() => router.push(`/mids/database/${pk}`)}
+          handleClick={() => router.push(`${router?.asPath}/${id}`)}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.LARGE}
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
-          ariaLabel={`View ${pluralLocationsLabel}`}
-        >View {capitaliseFirstLetter(pluralLocationsLabel)}</Button>
+          ariaLabel='View'
+        >View</Button>
       </div>
     </div>
   )

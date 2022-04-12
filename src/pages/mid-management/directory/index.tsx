@@ -1,11 +1,11 @@
 import type {NextPage} from 'next'
-import {Button, MerchantTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
+import {Button, DirectoryTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {Merchant} from 'types'
-import {mockMerchantData} from 'utils/mockMerchantData'
+
+import {mockPlanData} from 'utils/mockPlanData'
 import {
   useAppDispatch,
   useAppSelector,
@@ -19,15 +19,16 @@ import {useCallback} from 'react'
 
 const DirectoryPage: NextPage = () => {
   // TODO: Swap out for real api data
-  const merchantList: Merchant[] = mockMerchantData
+  const planList = mockPlanData
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
+  // TODO: To be updated with New Plan modal implementation
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_MERCHANT')) }, [dispatch])
 
   return (
     <>
-      {modalRequested === 'MID_MANAGEMENT_NEW_MERCHANT' && <NewMerchantModal />}
+      {modalRequested === 'MID_MANAGEMENT_NEW_MERCHANT' && <NewMerchantModal /> /* TODO: To be updated with New Plan modal implementation */}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
@@ -55,11 +56,12 @@ const DirectoryPage: NextPage = () => {
           ><PlusSvg/>New Plan
           </Button>
         </div>
-        {merchantList.length > 0 && (
+        {planList.length > 0 && (
           <div className='flex mt-[51px] flex-wrap gap-[30px]'>
-            {merchantList.map((merchant, index) => (
-              <MerchantTile key={index} merchant={merchant} />
-            ))}
+            {planList.map((plan, index) => {
+              const {plan_metadata, plan_counts, plan_ref} = plan
+              return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} />
+            })}
           </div>
         )}
       </PageLayout>
