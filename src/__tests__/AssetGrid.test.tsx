@@ -9,15 +9,14 @@ const mockImageBaseProperties = {
   description: 'mock-description',
   encoding: 'mock-encoding',
   cta_url: 'mock-cta-url',
+  url: 'https://mock-url/mock-path/mock-image.jpg',
 }
 const mockHeroImage = {
   type: 0,
-  url: 'https://mock-url/mock-path/mock-image.jpg',
   ...mockImageBaseProperties,
 }
 const mockBannerImage = {
   type: 1,
-  url: 'https://mock-url/mock-path/mock-image.jpg',
   ...mockImageBaseProperties,
 }
 
@@ -54,9 +53,9 @@ describe('Asset Grid', () => {
       render(<AssetGrid planAssets={{
         dev: [],
         staging: [mockBannerImage, {
+          ...mockImageBaseProperties,
           type: 1,
           url: 'https://mock-url/mock-path/mock-image2.jpg',
-          ...mockImageBaseProperties,
         }],
       }} />)
 
