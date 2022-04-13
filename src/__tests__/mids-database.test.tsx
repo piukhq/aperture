@@ -1,6 +1,6 @@
 import React from 'react'
 import {render} from '@testing-library/react'
-import DatabasePage from 'pages/mids/database'
+import DatabasePage from 'pages/mid-management/database'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
