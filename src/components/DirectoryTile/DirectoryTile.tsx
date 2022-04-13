@@ -28,7 +28,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
   } = counts
 
   const renderChildCount = () => {
-    if (planId) { // Determines if plan or merchant
+    if (planId) { // Determines if this is a plan as opposed ot a merchant
       return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}s`
