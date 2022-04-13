@@ -1,10 +1,10 @@
 import type {NextPage} from 'next'
-import {Button, MerchantTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
+import {Button, DirectoryTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {Merchant} from 'types'
+import {DirectoryMerchant} from 'types'
 import {mockMerchantData} from 'utils/mockMerchantData'
 import {
   useAppDispatch,
@@ -19,7 +19,7 @@ import {useCallback} from 'react'
 
 const DatabasePage: NextPage = () => {
   // TODO: Swap out for real api data
-  const merchantList: Merchant[] = mockMerchantData
+  const merchantList: DirectoryMerchant[] = mockMerchantData
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
@@ -57,9 +57,11 @@ const DatabasePage: NextPage = () => {
         </div>
         {merchantList.length > 0 && (
           <div className='flex mt-[51px] flex-wrap gap-[30px]'>
-            {merchantList.map((merchant, index) => (
-              <MerchantTile key={index} merchant={merchant} />
-            ))}
+            {merchantList.map((merchant, index) => {
+              const {merchant_metadata, merchant_counts, merchant_ref} = merchant
+              return <DirectoryTile key={index} metadata={merchant_metadata} counts={merchant_counts} id={merchant_ref} />
+            }
+            )}
           </div>
         )}
       </PageLayout>
