@@ -4,6 +4,7 @@ import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import {DirectoryPlan} from 'types'
 
 import {mockPlanData} from 'utils/mockPlanData'
 import {
@@ -19,9 +20,10 @@ import {useCallback} from 'react'
 
 const DirectoryPage: NextPage = () => {
   // TODO: Swap out for real api data
-  const planList = mockPlanData
+  const planList: DirectoryPlan[] = mockPlanData
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+
 
   // TODO: To be updated with New Plan modal implementation
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_MERCHANT')) }, [dispatch])

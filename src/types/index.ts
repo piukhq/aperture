@@ -72,13 +72,39 @@ export type PaymentScheme = {
   count: number,
 }
 
-export type Merchant = {
+export type DirectoryPlan = {
+  plan_ref: string,
+  plan_metadata: DirectoryPlanMetadata,
+  plan_counts: DirectoryPlanCounts
+}
+export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
-  slug: string,
-  payment_schemes: Array<PaymentScheme>,
+  slug:string,
   plan_id: number,
-  location_label: string,
-  pk: string,
-  total_locations: number,
 }
+
+export type DirectoryPlanCounts = {
+  merchants: number,
+  locations: number,
+  payment_schemes: Array<PaymentScheme>,
+}
+
+export type DirectoryMerchant = {
+  merchant_ref: string,
+  merchant_metadata: DirectoryMerchantMetadata,
+  merchant_counts: DirectoryMerchantCounts
+}
+
+export type DirectoryMerchantMetadata = {
+  name: string,
+  icon_url: string,
+  location_label: string,
+}
+
+export type DirectoryMerchantCounts = {
+  locations: number,
+  payment_schemes: Array<PaymentScheme>,
+}
+
+

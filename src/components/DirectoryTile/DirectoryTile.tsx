@@ -5,10 +5,25 @@ import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentScheme} from 'types'
 
+
+type DirectoryTileMetadata = {
+  name: string,
+  icon_url: string,
+  slug?:string,
+  plan_id?: number,
+  location_label?: string
+}
+
+type DirectoryTileCounts = {
+  merchants?: number,
+  locations: number,
+  payment_schemes: Array<PaymentScheme>,
+}
+
 type Props = {
   id: string,
-  metadata: Record<string, string | number>,
-  counts: Record<string, Array<PaymentScheme> | number>
+  metadata: DirectoryTileMetadata
+  counts: DirectoryTileCounts
 }
 
 const DirectoryTile = ({metadata, counts, id}: Props) => {
@@ -63,7 +78,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
         <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 
         <div className='flex mt-[16px] mb-[20px] w-[218px] justify-between'>
-          {paymentSchemes instanceof Array && paymentSchemes.map(scheme => renderPaymentSchemeInfo(scheme))}
+          {paymentSchemes.map(scheme => renderPaymentSchemeInfo(scheme))}
         </div>
 
         <Button
