@@ -1,5 +1,5 @@
 import type {NextPage} from 'next'
-import {Button, MerchantTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
+import {Button, MerchantTile, PageLayout, TextInputGroup, NewPlanModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -23,11 +23,11 @@ const DirectoryPage: NextPage = () => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
-  const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_MERCHANT')) }, [dispatch])
+  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_PLAN')) }, [dispatch])
 
   return (
     <>
-      {modalRequested === 'MID_MANAGEMENT_NEW_MERCHANT' && <NewMerchantModal />}
+      {modalRequested === 'MID_MANAGEMENT_NEW_PLAN' && <NewPlanModal />}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
@@ -46,7 +46,7 @@ const DirectoryPage: NextPage = () => {
             svgIcon={<SearchSvg/>}
           />
           <Button
-            handleClick={handleRequestNewMerchantModal}
+            handleClick={handleRequestNewPlanModal}
             buttonSize={ButtonSize.MEDIUM_ICON}
             buttonWidth={ButtonWidth.AUTO}
             buttonBackground={ButtonBackground.BLUE}
