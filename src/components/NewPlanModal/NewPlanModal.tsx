@@ -108,7 +108,7 @@ const NewPlanModal = () => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel='Plan'
+            ariaLabel='Add Plan'
           >Add Plan
           </Button>
         </div>
