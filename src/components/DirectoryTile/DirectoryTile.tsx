@@ -11,7 +11,7 @@ type Props = {
   counts: Record<string, Array<PaymentScheme> | number>
 }
 
-const MerchantTile = ({metadata, counts, id}: Props) => {
+const DirectoryTile = ({metadata, counts, id}: Props) => {
   const router = useRouter()
 
   const {
@@ -27,10 +27,8 @@ const MerchantTile = ({metadata, counts, id}: Props) => {
     payment_schemes: paymentSchemes,
   } = counts
 
-  const isPlan = Boolean(planId) // Determines if plan or merchant
-
   const renderChildCount = () => {
-    if (isPlan) {
+    if (planId) { // Determines if plan or merchant
       return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}s`
@@ -83,4 +81,4 @@ const MerchantTile = ({metadata, counts, id}: Props) => {
   )
 }
 
-export default MerchantTile
+export default DirectoryTile
