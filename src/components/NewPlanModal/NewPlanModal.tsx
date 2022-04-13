@@ -82,7 +82,7 @@ const NewPlanModal = () => {
         inputColour={isPlanIdReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
       />
       <TextInputGroup
-        name='merchant-slug'
+        name='plan-slug'
         label='Slug'
         error={null} // TODO: add any errors as per validation
         value={slugValue}
