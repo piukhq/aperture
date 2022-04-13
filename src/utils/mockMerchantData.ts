@@ -1,120 +1,88 @@
-import {Merchant} from 'types'
+// Dummy merchant data, placeholder for future ticket
 
-// Dummy merchant data
-export const mockMerchantData: Merchant[] = [
+export const mockMerchantData = [
   {
-    name: 'ASOS',
-    icon_url: 'https://api.staging.gb.bink.com/content/media/hermes/schemes/App_icon.png',
-    slug: 'bpl-asos',
-    payment_schemes: [
-      {
-        label: 'visa',
-        count: 54,
-      },
-      {
-        label: 'mastercard',
-        count: 62,
-      },
-      {
-        label: 'amex',
-        count: 38,
-      },
-    ],
-    plan_id: 288,
-    location_label: 'store',
-    pk: '08b5eff1-a54c-4ca0-91a5-47d04b5946e2',
-    total_locations: 15,
+    merchant_ref: 's13fa85f64-5717-4562-b3fc-2c963f66afa6',
+    merchant_metadata: {
+      name: 'Aberdeen Asian',
+      icon_url: 'https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png',
+      location_label: 'restaurant',
+    },
+    merchant_counts: {
+      locations: 33,
+      payment_schemes: [
+        {
+          label: 'VISA',
+          scheme_code: 1,
+          count: 16,
+        },
+        {
+          label: 'MASTERCARD',
+          scheme_code: 2,
+          count: 29,
+        },
+        {
+          label: 'AMEX',
+          scheme_code: 3,
+          count: 54,
+        },
+      ],
+    },
   },
   {
-    'name': 'SquareMeal',
-    'icon_url': 'https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png',
-    slug: 'squaremeal',
-    payment_schemes: [
-      {
-        label: 'visa',
-        count: 54,
-      },
-      {
-        label: 'mastercard',
-        count: 62,
-      },
-      {
-        label: 'amex',
-        count: 38,
-      },
-    ],
-    plan_id: 286,
-    location_label: 'store',
-    pk: '1934ac68-e8f7-493f-a75c-bc8240bd9580',
-    total_locations: 154,
+    merchant_ref: 's23fa85f64-5717-4562-b3fc-2c963f66afa6',
+    merchant_metadata: {
+      name: 'Birmingham Burgers',
+      icon_url: 'https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png',
+      location_label: 'cafe',
+    },
+    merchant_counts: {
+      locations: 3,
+      payment_schemes: [
+        {
+          label: 'VISA',
+          scheme_code: 1,
+          count: 1,
+        },
+        {
+          label: 'MASTERCARD',
+          scheme_code: 2,
+          count: 2,
+        },
+        {
+          label: 'AMEX',
+          scheme_code: 3,
+          count: 5,
+        },
+      ],
+    },
   },
   {
-    'name': 'Trenette',
-    'icon_url': 'https://api.staging.gb.bink.com/content/media/hermes/schemes/trenette-con.png',
-    slug: 'bpl-trenette',
-    payment_schemes: [
-      {
-        label: 'visa',
-        count: 54,
-      },
-      {
-        label: 'mastercard',
-        count: 62,
-      },
-      {
-        label: 'amex',
-        count: 38,
-      },
-    ],
-    plan_id: 284,
-    location_label: 'store',
-    pk: 'f6b81690-ecec-40d7-a552-8c38f076607a',
-    total_locations: 49,
-  },
-  {
-    'name': 'Wasabi',
-    'icon_url': 'https://api.staging.gb.bink.com/content/media/hermes/schemes/Wasabi_Logo.png',
-    slug: 'wasabi-club',
-    payment_schemes: [
-      {
-        label: 'visa',
-        count: 54,
-      },
-      {
-        label: 'mastercard',
-        count: 62,
-      },
-      {
-        label: 'amex',
-        count: 38,
-      },
-    ],
-    plan_id: 281,
-    location_label: 'store',
-    pk: 'ce3f8921-ed3a-4a24-9d38-23224cd89caa',
-    total_locations: 26,
-  },
-  {
-    'name': 'Iceland',
-    'icon_url': 'https://api.staging.gb.bink.com/content/media/hermes/schemes/Iceland-icon4_o9OHvob.png',
-    slug: 'iceland-bonus-card',
-    payment_schemes: [
-      {
-        label: 'visa',
-        count: 54,
-      },
-      {
-        label: 'mastercard',
-        count: 62,
-      },
-      {
-        label: 'amex',
-        count: 38,
-      },
-    ],
-    plan_id: 240,
-    location_label: 'store',
-    pk: '0247dddc-4d69-44e7-8d8c-fa43165f6cb3',
-    total_locations: 37,
+    merchant_ref: 's33fa85f64-5717-4562-b3fc-2c963f66afa6',
+    merchant_metadata: {
+      name: 'Cork Crabshacks',
+      icon_url: 'https://api.staging.gb.bink.com/content/media/hermes/schemes/SquareMeal_Icon.png',
+      location_label: 'crabshack',
+    },
+    merchant_counts: {
+      locations: 3,
+      payment_schemes: [
+        {
+          label: 'VISA',
+          scheme_code: 1,
+          count: 1,
+        },
+        {
+          label: 'MASTERCARD',
+          scheme_code: 2,
+          count: 2,
+        },
+        {
+          label: 'AMEX',
+          scheme_code: 3,
+          count: 3,
+        },
+      ],
+    },
   },
 ]
