@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {Button} from 'components'
-import DotsSvg from 'icons/svgs/dots.svg'
-import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
+
+import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentScheme} from 'types'
+import OptionsButton from 'components/OptionsButton'
+import CheckSvg from 'icons/svgs/check.svg'
 
 
 type DirectoryTileMetadata = {
@@ -63,13 +65,13 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
-        <Button
-          handleClick={() => console.log('More Options button clicked')}
-          buttonSize={ButtonSize.MEDIUM_ICON}
-          buttonWidth={ButtonWidth.ICON_ONLY}
-          borderColour={BorderColour.GREY}
-          ariaLabel='Options'
-        ><DotsSvg/></Button>
+        <OptionsButton>
+          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Add Merchant</button>
+          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Edit</button>
+          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Offboard from Harmonia</button>
+          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Delete</button>
+        </OptionsButton>
+
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>
