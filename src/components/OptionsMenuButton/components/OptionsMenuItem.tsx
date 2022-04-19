@@ -1,6 +1,5 @@
 import React, {ReactNode} from 'react'
 
-
 type Props = {
   icon: ReactNode,
   label: string,
