@@ -26,7 +26,8 @@ const OptionsMenuButton = ({children}: Props) => {
       </Button>
       {isMenuOpen && (
         <>
-          <div className={`flex flex-col gap-[10px] absolute rounded-[6px] border border-grey-200 dark:border-grey-800
+          <div data-testid='options-menu'
+            className={`flex flex-col gap-[10px] absolute rounded-[6px] border border-grey-200 dark:border-grey-800
          translate-y-[-40px] p-[15px] h-max w-max bg-white dark:bg-grey-850 justify-center z-40 shadow-[0_1px_5px_0px_rgba(0,0,0,0.4)]
          ${isElementBeyondRightViewportEdge ? 'translate-x-[-230px]' : 'translate-x-[50px]'}  `}>
             {children}
