@@ -9,7 +9,7 @@ type Props = {
 
 const OptionsMenuItem = ({handleClick, icon, label, isRed = false}: Props) => (
   <button
-    className={`font-subheading-3 flex items-center gap-[10px] h-[15px] ${isRed ? 'text-red' : 'text-grey-700 dark:text-grey-200'}`}
+    className={`font-subheading-3 flex items-center gap-[10px] h-[15px] my-1 ${isRed ? 'text-red' : 'text-grey-700 dark:text-grey-200'}`}
     onClick={handleClick}>
     <span className='w-[20px] flex items-center'>{icon}</span>{label}
   </button>
