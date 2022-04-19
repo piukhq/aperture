@@ -36,9 +36,9 @@ const PlanDetailsPage: NextPage = () => {
         <DirectoryDetailsHeader metadata={planMetadata} newItemButtonHandler={handleRequestNewMerchantModal} />
 
         <div className='flex mt-[30px] flex-wrap gap-[31px]'>
-          {merchants.map((merchant, index) => {
+          {merchants.map((merchant) => {
             const {merchant_metadata, merchant_counts, merchant_ref} = merchant.merchant
-            return <DirectoryTile key={index} metadata={merchant_metadata} counts={merchant_counts} id={merchant_ref} />
+            return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} id={merchant_ref} />
           })}
         </div>
       </PageLayout>
