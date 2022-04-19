@@ -9,7 +9,7 @@ const NewMerchantModal = () => {
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
   const [nameValue, setNameValue] = useState('')
-  const [locationLabelValue, setLocationLabelValue] = useState('')
+  const [locationLabelValue, setLocationLabelValue] = useState('Locations')
 
   const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
   const [isLocationLabelReadyForValidation, setIsLocationLabelReadyForValidation] = useState(false)
