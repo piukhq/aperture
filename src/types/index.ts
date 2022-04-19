@@ -77,6 +77,13 @@ export type DirectoryPlan = {
   plan_metadata: DirectoryPlanMetadata,
   plan_counts: DirectoryPlanCounts
 }
+
+export type DirectoryPlanDetails = {
+  plan_ref: string,
+  plan_metadata: DirectoryPlanMetadata,
+  merchants: Array<DirectoryMerchantDetails>,
+}
+
 export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
@@ -88,6 +95,10 @@ export type DirectoryPlanCounts = {
   merchants: number,
   locations: number,
   payment_schemes: Array<PaymentScheme>,
+}
+
+export type DirectoryMerchantDetails = {
+  merchant: DirectoryMerchant,
 }
 
 export type DirectoryMerchant = {
