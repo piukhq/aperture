@@ -4,8 +4,11 @@ import {Button} from 'components'
 
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentScheme} from 'types'
-import OptionsButton from 'components/OptionsButton'
-import CheckSvg from 'icons/svgs/check.svg'
+import {OptionsMenuButton, OptionsMenuItem} from 'components'
+import AddSvg from 'icons/svgs/plus-filled.svg'
+import EditSvg from 'icons/svgs/project.svg'
+import OffboardSvg from 'icons/svgs/close-square.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 
 type DirectoryTileMetadata = {
@@ -45,7 +48,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
   } = counts
 
   const renderChildCount = () => {
-    if (planId) { // Determines if this is a plan as opposed ot a merchant
+    if (planId) { // Determines if this is a plan as opposed to a merchant
       return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}s`
@@ -65,12 +68,12 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
-        <OptionsButton>
-          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Add Merchant</button>
-          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Edit</button>
-          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Offboard from Harmonia</button>
-          <button className='font-subheading-3 flex items-center gap-[15px] h-[15px] text-grey-700'><CheckSvg/>Delete</button>
-        </OptionsButton>
+        <OptionsMenuButton> {/* TODO: Add conditional to add Merchant menu options when implemented */}
+          <OptionsMenuItem handleClick={() => console.log('Add Merchant Menu Item clicked')} icon={<AddSvg/>} label='Add Merchant'/>
+          <OptionsMenuItem handleClick={() => console.log('Edit Menu Item clicked')} icon={<EditSvg/>} label='Edit'/>
+          <OptionsMenuItem handleClick={() => console.log('Offboard from Harmonia Menu Item clicked')} icon={<OffboardSvg/>} label='Offboard from Harmonia'/>
+          <OptionsMenuItem handleClick={() => console.log('Delete Menu Item clicked')} icon={<DeleteSvg/>} isRed label='Delete'/>
+        </OptionsMenuButton>
 
       </div>
 
