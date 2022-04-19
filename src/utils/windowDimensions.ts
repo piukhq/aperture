@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {RefObject, useEffect, useState} from 'react'
 import debounce from 'just-debounce-it'
 
 export const getWindowDimensions = () => {
@@ -11,7 +11,7 @@ export const getWindowDimensions = () => {
   }
 }
 
-export const useIsElementBeyondRightViewportEdge = (element, buffer: number) => {
+export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivElement>, buffer: number) => {
   const [isBeyondEdge, setIsBeyondEdge] = useState(false)
 
   const handleResize = () => setIsBeyondEdge(element.current.getBoundingClientRect().x > getWindowDimensions().width - buffer)
