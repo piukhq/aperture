@@ -24,7 +24,7 @@ describe('OptionsMenuButton', () => {
     expect(optionsMenu).not.toBeInTheDocument()
   })
 
-  it('should render a menu with children when clicked', () => {
+  it('should render a menu with items when clicked', () => {
     render(<OptionsMenuButton>{mockChildren}</OptionsMenuButton>)
     const optionsButton = screen.getByLabelText('Options')
     fireEvent.click(optionsButton)
