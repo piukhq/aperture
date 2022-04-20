@@ -16,7 +16,6 @@ const DirectoryPlanModal = () => {
   const {name, plan_id, slug} = plan_metadata
 
   const isNewPlan = !plan_ref
-  console.log(selectedPlan)
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
