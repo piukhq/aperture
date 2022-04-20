@@ -1,8 +1,16 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonWidth, ButtonSize, BorderColour} from 'components/Button/styles'
 import {Button} from 'components'
 import {useIsElementBeyondRightViewportEdge} from 'utils/windowDimensions'
+import {
+  useAppSelector,
+} from 'app/hooks'
+import {
+  ModalType,
+  selectModal,
+} from 'features/modalSlice'
+
 
 type Props = {
   children: React.ReactNode
@@ -12,6 +20,12 @@ const OptionsMenuButton = ({children}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const modalRequested: ModalType = useAppSelector(selectModal)
+
+
+  useEffect(() => { // Close menu whenever a modal is open
+    modalRequested !== 'NO_MODAL' && setIsMenuOpen(false)
+  }, [modalRequested])
 
   return (
     <div ref={buttonRef}>

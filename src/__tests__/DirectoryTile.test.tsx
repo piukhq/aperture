@@ -4,6 +4,8 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import DirectoryTile from 'components/DirectoryTile'
 
+jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-button' />)
+
 describe('DirectoryTile', () => {
   const mockName = 'mock_name'
   const mockUrl = '/mock_url'
@@ -16,7 +18,6 @@ describe('DirectoryTile', () => {
       count: mockSchemeCount,
     },
   ]
-
   const mockId = '1'
   const mockPlanMetadata = {
     name: mockName,
@@ -24,6 +25,7 @@ describe('DirectoryTile', () => {
     slug: 'mock_slug',
     plan_id: 1,
   }
+
 
   const mockStoreFn = configureStore([])
   const store = mockStoreFn({})
@@ -47,9 +49,9 @@ describe('DirectoryTile', () => {
 
   describe('Test common elements', () => {
     it('should render Options button', () => {
-      const {getByRole} = render(getPlanDirectoryTile())
+      const {getByTestId} = render(getPlanDirectoryTile())
 
-      expect(getByRole('button', {name: /Options/})).toBeInTheDocument()
+      expect(getByTestId('options-button')).toBeInTheDocument()
     })
 
     it('should render View button', () => {
