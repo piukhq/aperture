@@ -9,13 +9,15 @@ import FocusTrap from 'focus-trap-react'
 type Props = {
   modalStyle: string,
   modalHeader?: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  onCloseFn?: VoidFunction,
 }
 
-const Modal = ({modalStyle, modalHeader, children}: Props) => {
+const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const dispatch = useAppDispatch()
 
   const handleClose = () => {
+    onCloseFn && onCloseFn()
     dispatch(requestModal('NO_MODAL'))
   }
 

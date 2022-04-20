@@ -1,15 +1,28 @@
 import {useState} from 'react'
+import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
+
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle} from 'utils/enums'
 
-const NewPlanModal = () => {
+const DirectoryPlanModal = () => {
+  const dispatch = useAppDispatch()
+
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
+
+  const {plan_ref, plan_metadata} = selectedPlan
+  const {name, plan_id, slug} = plan_metadata
+
+  const isNewPlan = !plan_ref
+  console.log(selectedPlan)
+
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
-  const [nameValue, setNameValue] = useState('')
-  const [planIdValue, setPlanIdValue] = useState('')
-  const [slugValue, setSlugValue] = useState('')
+  const [nameValue, setNameValue] = useState(name || '')
+  const [planIdValue, setPlanIdValue] = useState(`${plan_id || ''}`)
+  const [slugValue, setSlugValue] = useState(slug || '')
 
   const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
   const [isPlanIdReadyForValidation, setIsPlanIdReadyForValidation] = useState(false)
@@ -48,7 +61,7 @@ const NewPlanModal = () => {
     })
   }
 
-  const renderAddImageInput = () => (
+  const renderAddImageInput = () => ( // TODO: Add Image when available
     <div className='w-full flex items-center justify-center my-[4px]'>
       <div className='h-[140px] w-[140px] rounded-[35px] border-2 border-grey-400 dark:border-grey-600 flex items-center justify-center focus-within:ring-2 focus-within:ring-lightBlue'>
         <label htmlFor='merchant-add-image' className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center text-center bg-grey-100 dark:bg-grey-800 font-heading-9 text-grey-700 dark:text-grey-300'>Add Image</label>
@@ -96,7 +109,7 @@ const NewPlanModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader='New Plan'>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePlan}>
         {renderAddImageInput()}
         {renderTextFields()}
@@ -108,8 +121,7 @@ const NewPlanModal = () => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel='Add Plan'
-          >Add Plan
+          >{isNewPlan ? 'Add Plan' : 'Save Changes'}
           </Button>
         </div>
       </form>
@@ -117,5 +129,4 @@ const NewPlanModal = () => {
   )
 }
 
-export default NewPlanModal
-
+export default DirectoryPlanModal

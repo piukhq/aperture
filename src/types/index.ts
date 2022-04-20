@@ -87,7 +87,7 @@ export type DirectoryPlanDetails = {
 export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
-  slug:string,
+  slug?:string,
   plan_id: number,
 }
 

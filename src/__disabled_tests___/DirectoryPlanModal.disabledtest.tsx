@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import {NewPlanModal} from 'components'
+import {DirectoryPlanModal} from 'components'
 
 jest.mock('components/Modal', () => ({
   __esModule: true,
