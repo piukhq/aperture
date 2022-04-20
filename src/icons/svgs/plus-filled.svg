@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg aria-hidden="true" width="24" height="24" viewBox="3 1 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Add</title>
+    <defs>
+        <filter x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Add" stroke="none" stroke-width="0" fill="none" fill-rule="evenodd">
+        <g id="Plan-Page-More-Menu" transform="translate(-1221.000000, -292.000000)">
+            <g id="Group-3" filter="url(#filter-1)" transform="translate(1199.000000, 281.000000)">
+                <g id="Component/icon/ic_Forward" transform="translate(26.000000, 15.000000)">
+                    <!-- <circle id="Shape" fill="#FFFFFF" cx="8" cy="8" r="8"></circle> -->
+                    <circle id="Shape" fill="#92929D" cx="8" cy="8" r="6.66666667"></circle>
+                    <path d="M8.64957265,8.66666667 L8.64957265,11.3333333 C8.64957265,12.2222222 7.31623932,12.2222222 7.31623932,11.3333333 L7.31623932,8.66666667 L4.7008547,8.66666667 C3.81196581,8.66666667 3.81196581,7.33333333 4.7008547,7.33333333 L7.31623932,7.33333333 L7.31623932,4.66666667 C7.31623932,3.77777778 8.64957265,3.77777778 8.64957265,4.66666667 L8.64957265,7.33333333 L11.2649573,7.33333333 C12.1538462,7.33333333 12.1538462,8.66666667 11.2649573,8.66666667 L8.64957265,8.66666667 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
