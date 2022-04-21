@@ -10,10 +10,6 @@ import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 
-import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-import {useAppDispatch} from 'app/hooks'
-import {requestModal} from 'features/modalSlice'
-
 
 type DirectoryTileMetadata = {
   name: string,
@@ -33,17 +29,17 @@ type Props = {
   id: string,
   metadata: DirectoryTileMetadata
   counts: DirectoryTileCounts
+  editFn: VoidFunction
 }
 
-const DirectoryTile = ({metadata, counts, id}: Props) => {
+const DirectoryTile = ({metadata, counts, id, editFn}: Props) => {
   const router = useRouter()
-  const dispatch = useAppDispatch()
+
 
   const {
     name,
     icon_url: iconUrl,
     plan_id: planId,
-    slug,
     location_label: locationLabel,
   } = metadata
 
@@ -71,30 +67,12 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
     )
   }
 
-  const requestEditPlanModal = () => {
-    dispatch(setSelectedDirectoryPlan({
-      plan_ref: id,
-      plan_metadata: {
-        name,
-        icon_url: iconUrl,
-        plan_id: planId,
-        slug,
-      },
-      plan_counts: {
-        merchants,
-        locations,
-        payment_schemes: counts.payment_schemes,
-      },
-    }))
-    dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
-  }
-
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
         <OptionsMenuButton> {/* TODO: Add conditional to add Merchant menu options when implemented */}
           <OptionsMenuItem handleClick={() => console.log('Add Merchant Menu Item clicked')} icon={<AddSvg/>} label='Add Merchant'/>
-          <OptionsMenuItem handleClick={requestEditPlanModal} icon={<EditSvg/>} label='Edit'/>
+          <OptionsMenuItem handleClick={editFn} icon={<EditSvg/>} label='Edit'/>
           <OptionsMenuItem handleClick={() => console.log('Offboard from Harmonia Menu Item clicked')} icon={<OffboardSvg/>} label='Offboard from Harmonia'/>
           <OptionsMenuItem handleClick={() => console.log('Delete Menu Item clicked')} icon={<DeleteSvg/>} isRed label='Delete'/>
         </OptionsMenuButton>

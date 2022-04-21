@@ -16,6 +16,7 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
+import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useCallback} from 'react'
 
 const DirectoryPage: NextPage = () => {
@@ -60,7 +61,26 @@ const DirectoryPage: NextPage = () => {
           <div className='flex mt-[51px] flex-wrap gap-[30px]'>
             {planList.map((plan, index) => {
               const {plan_metadata, plan_counts, plan_ref} = plan
-              return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} />
+              const {name, icon_url, plan_id, slug} = plan_metadata
+              const {merchants, locations, payment_schemes} = plan_counts
+              const requestEditPlanModal = () => {
+                dispatch(setSelectedDirectoryPlan({
+                  plan_ref: plan_ref,
+                  plan_metadata: {
+                    name,
+                    icon_url,
+                    plan_id,
+                    slug,
+                  },
+                  plan_counts: {
+                    merchants,
+                    locations,
+                    payment_schemes,
+                  },
+                }))
+                dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
+              }
+              return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} editFn={requestEditPlanModal}/>
             })}
           </div>
         )}
