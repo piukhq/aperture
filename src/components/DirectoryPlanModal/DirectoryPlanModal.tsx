@@ -61,8 +61,13 @@ const DirectoryPlanModal = () => {
     })
   }
 
-  const renderAddImageLabel = () => <label htmlFor='merchant-add-image' className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'>Add Image</label>
-  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt='Plan Image'/>
+  const renderAddImageLabel = () => (
+    <label
+      htmlFor='merchant-add-image'
+      className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
+    >Add Image</label>
+  )
+  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
     <>
