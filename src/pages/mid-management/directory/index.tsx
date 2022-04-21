@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import type {NextPage} from 'next'
-import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal} from 'components'
+import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal, DirectoryPlanDeleteModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -39,7 +39,7 @@ const DirectoryPage: NextPage = () => {
         const {name, icon_url, plan_id, slug} = plan_metadata
         const {merchants, locations, payment_schemes} = plan_counts
 
-        const requestEditPlanModal = () => {
+        const requestPlanModal = (modalName:ModalType) => {
           dispatch(setSelectedDirectoryPlan({
             plan_ref: plan_ref,
             plan_metadata: {
@@ -56,6 +56,7 @@ const DirectoryPage: NextPage = () => {
           }))
           dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
         }
+
         const optionsMenuItems:OptionsMenuItems = [
           {
             label: 'Add Merchant',
@@ -63,9 +64,9 @@ const DirectoryPage: NextPage = () => {
             clickHandler: () => console.log('Clicked'),
           },
           {
-            label: 'Edit',
+            label: 'Edit Plan',
             icon: <EditSvg/>,
-            clickHandler: requestEditPlanModal,
+            clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN),
           },
           {
             label: 'Offboard from Harmonia',
@@ -73,7 +74,7 @@ const DirectoryPage: NextPage = () => {
             clickHandler: () => console.log('Clicked'),
           },
           {
-            label: 'Delete',
+            label: 'Delete Plan',
             icon: <DeleteSvg/>,
             isRed: true,
             clickHandler: () => console.log('Clicked'),
@@ -88,6 +89,7 @@ const DirectoryPage: NextPage = () => {
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_PLAN && <DirectoryPlanModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE && <DirectoryPlanDeleteModal />}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>

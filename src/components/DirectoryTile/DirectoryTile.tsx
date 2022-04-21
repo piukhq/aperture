@@ -5,6 +5,7 @@ import {Button} from 'components'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {OptionsMenuItems, PaymentScheme} from 'types'
 import {OptionsMenuButton} from 'components'
+import {getCountWithCorrectNoun} from 'utils/stringFormat'
 
 type DirectoryTileMetadata = {
   name: string,
@@ -46,7 +47,7 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
 
   const renderChildCount = () => {
     if (planId) { // Determines if this is a plan as opposed to a merchant
-      return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
+      return merchants === 1 ? getCountWithCorrectNoun(locations, 'Location') : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}`
     }
