@@ -71,7 +71,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
     )
   }
 
-  const requestEditPlanModal = () => { // TEMP WITHOUT OPTIONS MENU
+  const requestEditPlanModal = () => {
     dispatch(setSelectedDirectoryPlan({
       plan_ref: id,
       plan_metadata: {
@@ -98,7 +98,6 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
           <OptionsMenuItem handleClick={() => console.log('Offboard from Harmonia Menu Item clicked')} icon={<OffboardSvg/>} label='Offboard from Harmonia'/>
           <OptionsMenuItem handleClick={() => console.log('Delete Menu Item clicked')} icon={<DeleteSvg/>} isRed label='Delete'/>
         </OptionsMenuButton>
-
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>
