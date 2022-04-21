@@ -3,13 +3,8 @@ import {useRouter} from 'next/router'
 import {Button} from 'components'
 
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
-import {PaymentScheme} from 'types'
-import {OptionsMenuButton, OptionsMenuItem} from 'components'
-import AddSvg from 'icons/svgs/plus-filled.svg'
-import EditSvg from 'icons/svgs/project.svg'
-import OffboardSvg from 'icons/svgs/close-square.svg'
-import DeleteSvg from 'icons/svgs/trash-small.svg'
-
+import {OptionsMenuItems, PaymentScheme} from 'types'
+import {OptionsMenuButton} from 'components'
 
 type DirectoryTileMetadata = {
   name: string,
@@ -29,10 +24,10 @@ type Props = {
   id: string,
   metadata: DirectoryTileMetadata
   counts: DirectoryTileCounts
-  editFn: VoidFunction
+  optionsMenuItems: OptionsMenuItems
 }
 
-const DirectoryTile = ({metadata, counts, id, editFn}: Props) => {
+const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
   const router = useRouter()
 
 
@@ -70,12 +65,8 @@ const DirectoryTile = ({metadata, counts, id, editFn}: Props) => {
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
-        <OptionsMenuButton> {/* TODO: Add conditional to add Merchant menu options when implemented */}
-          <OptionsMenuItem handleClick={() => console.log('Add Merchant Menu Item clicked')} icon={<AddSvg/>} label='Add Merchant'/>
-          <OptionsMenuItem handleClick={editFn} icon={<EditSvg/>} label='Edit'/>
-          <OptionsMenuItem handleClick={() => console.log('Offboard from Harmonia Menu Item clicked')} icon={<OffboardSvg/>} label='Offboard from Harmonia'/>
-          <OptionsMenuItem handleClick={() => console.log('Delete Menu Item clicked')} icon={<DeleteSvg/>} isRed label='Delete'/>
-        </OptionsMenuButton>
+        <OptionsMenuButton optionsMenuItems={optionsMenuItems}/> {/* TODO: Add conditional to add Merchant menu options when implemented */}
+
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>

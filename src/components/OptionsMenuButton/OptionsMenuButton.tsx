@@ -1,31 +1,32 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useRef} from 'react'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonWidth, ButtonSize, BorderColour} from 'components/Button/styles'
-import {Button} from 'components'
+import {Button, OptionsMenuItem} from 'components'
 import {useIsElementBeyondRightViewportEdge} from 'utils/windowDimensions'
-import {
-  useAppSelector,
-} from 'app/hooks'
-import {
-  ModalType,
-  selectModal,
-} from 'features/modalSlice'
+
+import {OptionsMenuItems} from 'types'
 
 
 type Props = {
-  children: React.ReactNode
+  optionsMenuItems: OptionsMenuItems
 }
 
-const OptionsMenuButton = ({children}: Props) => {
+const OptionsMenuButton = ({optionsMenuItems}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const modalRequested: ModalType = useAppSelector(selectModal)
 
+  const renderMenuItem = () => {
+    return optionsMenuItems.map(item => {
+      const {clickHandler, icon, label} = item
 
-  useEffect(() => { // Close menu whenever a modal is open
-    modalRequested !== 'NO_MODAL' && setIsMenuOpen(false)
-  }, [modalRequested])
+      const handleItemClick = () => {
+        setIsMenuOpen(false)
+        clickHandler()
+      }
+      return <OptionsMenuItem key={label} handleClick={handleItemClick} icon={icon} label={label}/>
+    })
+  }
 
   return (
     <div ref={buttonRef}>
@@ -44,7 +45,7 @@ const OptionsMenuButton = ({children}: Props) => {
             className={`flex flex-col gap-[10px] absolute rounded-[6px] border border-grey-200 dark:border-grey-800
          translate-y-[-40px] p-[15px] h-max w-max bg-white dark:bg-grey-850 justify-center z-40 shadow-[0_1px_5px_0px_rgba(0,0,0,0.4)]
          ${isElementBeyondRightViewportEdge ? 'translate-x-[-230px]' : 'translate-x-[50px]'}  `}>
-            {children}
+            {renderMenuItem()}
           </div>
           <div className={`absolute h-[15px] w-[15px] bg-white dark:bg-grey-850 transform origin-top-left top-[20px] z-40
           shadow-[-2px_-2px_3px_0px_rgba(0,0,0,0.15)] dark:shadow-[-1px_-1px_1px_0px_rgb(68,68,79)]
