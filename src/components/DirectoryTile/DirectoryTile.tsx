@@ -41,8 +41,8 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
 
   const {
     name,
-    icon_url,
-    plan_id,
+    icon_url: iconUrl,
+    plan_id: planId,
     slug,
     location_label: locationLabel,
   } = metadata
@@ -54,7 +54,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
   } = counts
 
   const renderChildCount = () => {
-    if (plan_id) { // Determines if this is a plan as opposed to a merchant
+    if (planId) { // Determines if this is a plan as opposed to a merchant
       return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}`
@@ -76,8 +76,8 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
       plan_ref: id,
       plan_metadata: {
         name,
-        icon_url,
-        plan_id,
+        icon_url: iconUrl,
+        plan_id: planId,
         slug,
       },
       plan_counts: {
@@ -102,7 +102,7 @@ const DirectoryTile = ({metadata, counts, id}: Props) => {
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>
-        <Image className='rounded-[30px]' src={icon_url as string} height={93} width={93} alt='' data-testid='icon' />
+        <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon' />
         <p className='font-heading-5 mt-[5px]'>{name}</p>
         <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 
