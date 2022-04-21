@@ -32,6 +32,58 @@ const DirectoryPage: NextPage = () => {
 
   const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN')) }, [dispatch])
 
+  const renderDirectoryPlans = () => (
+    <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+      {planList.map((plan, index) => {
+        const {plan_metadata, plan_counts, plan_ref} = plan
+        const {name, icon_url, plan_id, slug} = plan_metadata
+        const {merchants, locations, payment_schemes} = plan_counts
+
+        const requestEditPlanModal = () => {
+          dispatch(setSelectedDirectoryPlan({
+            plan_ref: plan_ref,
+            plan_metadata: {
+              name,
+              icon_url,
+              plan_id,
+              slug,
+            },
+            plan_counts: {
+              merchants,
+              locations,
+              payment_schemes,
+            },
+          }))
+          dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
+        }
+        const optionsMenuItems:OptionsMenuItems = [
+          {
+            label: 'Add Merchant',
+            icon: <AddSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+          {
+            label: 'Edit',
+            icon: <EditSvg/>,
+            clickHandler: requestEditPlanModal,
+          },
+          {
+            label: 'Offboard from Harmonia',
+            icon: <OffboardSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+          {
+            label: 'Delete',
+            icon: <DeleteSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+        ]
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
+      })}
+    </div>
+  )
+
+
   return (
     <>
       {modalRequested === 'MID_MANAGEMENT_DIRECTORY_PLAN' && <DirectoryPlanModal />}
@@ -62,56 +114,7 @@ const DirectoryPage: NextPage = () => {
           ><PlusSvg/>New Plan
           </Button>
         </div>
-        {planList.length > 0 && (
-          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
-            {planList.map((plan, index) => {
-              const {plan_metadata, plan_counts, plan_ref} = plan
-              const {name, icon_url, plan_id, slug} = plan_metadata
-              const {merchants, locations, payment_schemes} = plan_counts
-
-              const requestEditPlanModal = () => {
-                dispatch(setSelectedDirectoryPlan({
-                  plan_ref: plan_ref,
-                  plan_metadata: {
-                    name,
-                    icon_url,
-                    plan_id,
-                    slug,
-                  },
-                  plan_counts: {
-                    merchants,
-                    locations,
-                    payment_schemes,
-                  },
-                }))
-                dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
-              }
-              const optionsMenuItems:OptionsMenuItems = [
-                {
-                  label: 'Add Merchant',
-                  icon: <AddSvg/>,
-                  clickHandler: () => console.log('Clicked'),
-                },
-                {
-                  label: 'Edit',
-                  icon: <EditSvg/>,
-                  clickHandler: requestEditPlanModal,
-                },
-                {
-                  label: 'Offboard from Harmonia',
-                  icon: <OffboardSvg/>,
-                  clickHandler: () => console.log('Clicked'),
-                },
-                {
-                  label: 'Delete',
-                  icon: <DeleteSvg/>,
-                  clickHandler: () => console.log('Clicked'),
-                },
-              ]
-              return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
-            })}
-          </div>
-        )}
+        {planList.length > 0 && renderDirectoryPlans()}
       </PageLayout>
     </>
   )

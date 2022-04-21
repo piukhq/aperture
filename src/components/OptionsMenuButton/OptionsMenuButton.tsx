@@ -16,7 +16,7 @@ const OptionsMenuButton = ({optionsMenuItems}: Props) => {
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const renderMenuItem = () => {
+  const renderMenuItems = () => {
     return optionsMenuItems.map(item => {
       const {clickHandler, icon, label} = item
 
@@ -45,7 +45,7 @@ const OptionsMenuButton = ({optionsMenuItems}: Props) => {
             className={`flex flex-col gap-[10px] absolute rounded-[6px] border border-grey-200 dark:border-grey-800
          translate-y-[-40px] p-[15px] h-max w-max bg-white dark:bg-grey-850 justify-center z-40 shadow-[0_1px_5px_0px_rgba(0,0,0,0.4)]
          ${isElementBeyondRightViewportEdge ? 'translate-x-[-230px]' : 'translate-x-[50px]'}  `}>
-            {renderMenuItem()}
+            {renderMenuItems()}
           </div>
           <div className={`absolute h-[15px] w-[15px] bg-white dark:bg-grey-850 transform origin-top-left top-[20px] z-40
           shadow-[-2px_-2px_3px_0px_rgba(0,0,0,0.15)] dark:shadow-[-1px_-1px_1px_0px_rgb(68,68,79)]
