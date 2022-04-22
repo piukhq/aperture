@@ -37,14 +37,14 @@ const DirectoryPlanModal = () => {
       <form className='flex flex-col mt-[30px]' onSubmit={verifyName}>
         <div className='font-body-3'>
           <p>Are you sure you want to delete {name}?</p>
-          <p>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
+          <p data-testid='second-paragraph'>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
             {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
           <br/>
           <p>Please enter the Plan Name to confirm.</p>
         </div>
         <TextInputGroup
           name='plan-name'
-          label='Name'
+          label='Plan Name'
           error={null} // TODO: add any errors as per Verification
           value={nameValue}
           onChange={handleNameChange}
@@ -71,6 +71,3 @@ const DirectoryPlanModal = () => {
 }
 
 export default DirectoryPlanModal
-
-// 3. unit tests.
-
