@@ -25,6 +25,7 @@ export enum InputColour {
 
 export enum InputStyle {
   FULL,
+  FULL_LABEL_HIDDEN,
   UNDERLINE_ICON_LEFT,
   UNDERLINE_ICON_RIGHT,
   FULL_SMALL,
@@ -120,6 +121,12 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
   [InputStyle.FULL]: {
     container: 'h-[48px]',
     label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-850 bg-bottom px-1  text-2xs font-body z-10',
+    input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
+    icon: null,
+  },
+  [InputStyle.FULL_LABEL_HIDDEN]: {
+    container: 'h-[48px]',
+    label: 'hidden',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },

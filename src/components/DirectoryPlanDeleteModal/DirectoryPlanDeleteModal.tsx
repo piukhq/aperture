@@ -3,7 +3,7 @@ import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
@@ -35,10 +35,10 @@ const DirectoryPlanModal = () => {
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col mt-[30px]' onSubmit={verifyName}>
-        <div className='font-body-3 mb-[10px]'>
+        <div className='font-body-3'>
           <p>Are you sure you want to delete {name}?</p>
           <p>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
-            {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID record')}</span>.</p>
+            {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
           <br/>
           <p>Please enter the Plan Name to confirm.</p>
         </div>
@@ -49,17 +49,18 @@ const DirectoryPlanModal = () => {
           value={nameValue}
           onChange={handleNameChange}
           inputType={InputType.TEXT}
-          inputStyle={InputStyle.FULL_SMALL_LABEL_HIDDEN}
+          inputStyle={InputStyle.FULL_LABEL_HIDDEN}
           inputWidth={InputWidth.FULL}
           inputColour={isNameReadyForVerification ? InputColour.RED : InputColour.GREY} // TODO: Add verified check conditional
         />
-        <div className='flex justify-end border-t-[1px] border-grey-300 dark:border-grey-800 pt-[16px]'>
+        <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 mt-[13px] pt-[16px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
+            borderColour={BorderColour.RED}
             buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.RED}
-            labelColour={LabelColour.WHITE}
+            buttonBackground={ButtonBackground.WHITE}
+            labelColour={LabelColour.RED}
             labelWeight={LabelWeight.SEMIBOLD}
           >Delete Plan
           </Button>
@@ -71,7 +72,5 @@ const DirectoryPlanModal = () => {
 
 export default DirectoryPlanModal
 
-// 0. calculate 1 merchants, stores
-// 1. style button
-// 2, style input to be bigger
 // 3. unit tests.
+
