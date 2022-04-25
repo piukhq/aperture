@@ -100,7 +100,7 @@ const AssetModal = () => {
   }
 
   const renderImageSection = () => {
-    const assetArray = Object.values(selectedAssetGroup)
+    const assetArray = Object.values(selectedAssetGroup).filter(asset => asset)
     const isUniqueAcrossEnvironments = assetArray.filter(asset => asset !== null).length === 1
     enum NavigationDirection {
       LEFT = 'rotate-90',
@@ -108,7 +108,8 @@ const AssetModal = () => {
     }
 
     const handleNavigationButtonClick = navigationDirection => {
-      const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
+
+      const currentAssetIndex = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
       const lastAssetIndex = assetArray.length - 1
 
       let newEnvironment
@@ -124,7 +125,7 @@ const AssetModal = () => {
 
     const renderNavigationButton = (navigationDirection, label) => (
       <Button
-        handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
+        handleClick={() => handleNavigationButtonClick(navigationDirection)}
         buttonWidth={ButtonWidth.TINY}
         buttonSize={ButtonSize.TINY}
         buttonBackground={ButtonBackground.BLUE}
