@@ -28,10 +28,10 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
     })
   }
 
-  return (
+  return optionsMenuItems.length > 0 && (
     <div ref={buttonRef}>
       <Button
-        handleClick={() => optionsMenuItems.length > 0 && setIsMenuOpen(true)}
+        handleClick={() => setIsMenuOpen(true)}
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.ICON_ONLY}
         borderColour={BorderColour.GREY}

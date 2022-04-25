@@ -3,7 +3,7 @@ import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
+import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
@@ -12,12 +12,12 @@ const DirectoryPlanModal = () => {
   const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const {name} = selectedPlan.plan_metadata
-  const {merchants, locations, payment_schemes} = selectedPlan.plan_counts
+  const {merchants, locations, payment_schemes: paymentSchemes} = selectedPlan.plan_counts
 
   const [nameValue, setNameValue] = useState('')
   const [isNameReadyForVerification, setIsNameReadyForVerification] = useState(false)
 
-  const totalMidCount = payment_schemes.reduce((acc, {count}) => acc + count, 0)
+  const totalMidCount = paymentSchemes.reduce((acc, {count}) => acc + count, 0)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -28,14 +28,13 @@ const DirectoryPlanModal = () => {
     e.preventDefault()
     setIsNameReadyForVerification(true)
 
-    // TODO: Perform relevant Verification actions and submit, placeholder for now:
-    console.log(`Submitted Name: ${nameValue}. Plan Name: ${name}`)
+    // TODO: Perform relevant Verification actions and submit
   }
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col mt-[30px]' onSubmit={verifyName}>
-        <div className='font-body-3'>
+        <div className='font-body-3 mb-[10px]'>
           <p>Are you sure you want to delete {name}?</p>
           <p data-testid='second-paragraph'>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
             {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
@@ -59,7 +58,6 @@ const DirectoryPlanModal = () => {
             buttonSize={ButtonSize.MEDIUM}
             borderColour={BorderColour.RED}
             buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.WHITE}
             labelColour={LabelColour.RED}
             labelWeight={LabelWeight.SEMIBOLD}
           >Delete Plan
