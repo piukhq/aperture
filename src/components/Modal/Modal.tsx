@@ -9,13 +9,15 @@ import FocusTrap from 'focus-trap-react'
 type Props = {
   modalStyle: string,
   modalHeader?: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  onCloseFn?: VoidFunction,
 }
 
-const Modal = ({modalStyle, modalHeader, children}: Props) => {
+const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const dispatch = useAppDispatch()
 
   const handleClose = () => {
+    onCloseFn && onCloseFn()
     dispatch(requestModal('NO_MODAL'))
   }
 
@@ -30,14 +32,16 @@ const Modal = ({modalStyle, modalHeader, children}: Props) => {
   const modalChildrenContainerStyle = modalStyle === ModalStyle.REGULAR ? 'max-h-[calc(100%-61px)] rounded-b-[20px] px-[70px]' : 'max-h-[calc(100%-41px)] rounded-b-[15px] px-[15px] pb-[21px]'
 
   const renderModal = () => (
-    <div className={`h-full ${outerModalStyle}`}>
-      <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
-        {modalStyle !== ModalStyle.REGULAR && modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
-        {renderCloseButton()}
-      </div>
-      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${modalChildrenContainerStyle}`}>
-        {modalStyle === ModalStyle.REGULAR && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
-        {children}
+    <div className={`h-full ${outerModalStyle} z-50`}>
+      <div onClick={(e) => e.stopPropagation()}>
+        <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
+          {modalStyle !== ModalStyle.REGULAR && modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
+          {renderCloseButton()}
+        </div>
+        <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${modalChildrenContainerStyle}`}>
+          {modalStyle === ModalStyle.REGULAR && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -45,8 +49,8 @@ const Modal = ({modalStyle, modalHeader, children}: Props) => {
   return (
     <FocusTrap>
       <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
-        <div className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-50' onClick={handleClose} />
-        <div className='fixed left-2/4 translate-x-[-50%] h-screen justify-center z-50'>
+        <div className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-30' onClick={handleClose} />
+        <div className='fixed left-2/4 translate-x-[-50%] h-screen justify-center z-40' onClick={handleClose}>
           {renderModal()}
         </div>
       </div>

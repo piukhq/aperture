@@ -1,3 +1,5 @@
+import {ReactNode} from 'react'
+
 type PlanAccount = {
   add_fields: Array<unknown>,
   authorise_fields: Array<unknown>,
@@ -87,7 +89,7 @@ export type DirectoryPlanDetails = {
 export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
-  slug:string,
+  slug?:string,
   plan_id: number,
 }
 
@@ -118,4 +120,11 @@ export type DirectoryMerchantCounts = {
   payment_schemes: Array<PaymentScheme>,
 }
 
+export type OptionsMenuItem = {
+  label: string,
+  icon: ReactNode,
+  clickHandler: VoidFunction
+}
+
+export type OptionsMenuItems = Array<OptionsMenuItem>
 

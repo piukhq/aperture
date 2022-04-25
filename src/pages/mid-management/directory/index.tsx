@@ -1,10 +1,10 @@
 import type {NextPage} from 'next'
-import {Button, DirectoryTile, PageLayout, TextInputGroup, NewPlanModal} from 'components'
+import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {DirectoryPlan} from 'types'
+import {DirectoryPlan, OptionsMenuItems} from 'types'
 
 import {mockPlanData} from 'utils/mockPlanData'
 import {
@@ -16,7 +16,13 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
+import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useCallback} from 'react'
+
+import AddSvg from 'icons/svgs/plus-filled.svg'
+import EditSvg from 'icons/svgs/project.svg'
+import OffboardSvg from 'icons/svgs/close-square.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 const DirectoryPage: NextPage = () => {
   // TODO: Swap out for real api data
@@ -24,11 +30,63 @@ const DirectoryPage: NextPage = () => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
-  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_PLAN')) }, [dispatch])
+  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN')) }, [dispatch])
+
+  const renderDirectoryPlans = () => (
+    <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+      {planList.map((plan, index) => {
+        const {plan_metadata, plan_counts, plan_ref} = plan
+        const {name, icon_url, plan_id, slug} = plan_metadata
+        const {merchants, locations, payment_schemes} = plan_counts
+
+        const requestEditPlanModal = () => {
+          dispatch(setSelectedDirectoryPlan({
+            plan_ref: plan_ref,
+            plan_metadata: {
+              name,
+              icon_url,
+              plan_id,
+              slug,
+            },
+            plan_counts: {
+              merchants,
+              locations,
+              payment_schemes,
+            },
+          }))
+          dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
+        }
+        const optionsMenuItems:OptionsMenuItems = [
+          {
+            label: 'Add Merchant',
+            icon: <AddSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+          {
+            label: 'Edit',
+            icon: <EditSvg/>,
+            clickHandler: requestEditPlanModal,
+          },
+          {
+            label: 'Offboard from Harmonia',
+            icon: <OffboardSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+          {
+            label: 'Delete',
+            icon: <DeleteSvg/>,
+            clickHandler: () => console.log('Clicked'),
+          },
+        ]
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
+      })}
+    </div>
+  )
+
 
   return (
     <>
-      {modalRequested === 'MID_MANAGEMENT_NEW_PLAN' && <NewPlanModal />}
+      {modalRequested === 'MID_MANAGEMENT_DIRECTORY_PLAN' && <DirectoryPlanModal />}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
@@ -56,14 +114,7 @@ const DirectoryPage: NextPage = () => {
           ><PlusSvg/>New Plan
           </Button>
         </div>
-        {planList.length > 0 && (
-          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
-            {planList.map((plan, index) => {
-              const {plan_metadata, plan_counts, plan_ref} = plan
-              return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} />
-            })}
-          </div>
-        )}
+        {planList.length > 0 && renderDirectoryPlans()}
       </PageLayout>
     </>
   )
