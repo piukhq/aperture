@@ -54,6 +54,14 @@ enum RouteDisplayNames {
   'style-guide' = 'Style Guide',
 }
 
+enum ModalType {
+  NO_MODAL = 'NO_MODAL',
+  ASSET_COMPARATOR_CREDENTIALS = 'ASSET_COMPARATOR_CREDENTIALS',
+  ASSET_COMPARATOR_ASSET = 'ASSET_COMPARATOR_ASSET',
+  MID_MANAGEMENT_DIRECTORY_PLAN = 'MID_MANAGEMENT_DIRECTORY_PLAN',
+  MID_MANAGEMENT_DIRECTORY_MERCHANT = 'MID_MANAGEMENT_DIRECTORY_MERCHANT',
+}
+
 enum ModalStyle {
   REGULAR = 'regular',
   COMPACT = 'compact'
@@ -68,5 +76,6 @@ export {
   EnvironmentShortName,
   ImageTypes,
   RouteDisplayNames,
+  ModalType,
   ModalStyle,
 }

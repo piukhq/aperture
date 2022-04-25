@@ -1,13 +1,12 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
-
-export type ModalType = 'NO_MODAL' | 'ASSET_COMPARATOR_CREDENTIALS' | 'ASSET_COMPARATOR_ASSET' | 'MID_MANAGEMENT_NEW_MERCHANT' | 'MID_MANAGEMENT_DIRECTORY_PLAN'
+import {ModalType} from 'utils/enums'
 
 export type ModalState = {
   modalRequested: ModalType
 }
 
-const initialState: ModalState = {modalRequested: 'NO_MODAL'}
+const initialState: ModalState = {modalRequested: ModalType.NO_MODAL}
 
 export const modalSlice = createSlice({
   name: 'modal',

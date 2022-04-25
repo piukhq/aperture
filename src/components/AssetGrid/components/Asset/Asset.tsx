@@ -9,7 +9,7 @@ import AssetErrorSVG from 'icons/svgs/asset-error.svg'
 
 import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanAsset, PlanImage} from 'types'
-import {EnvironmentShortName} from 'utils/enums'
+import {EnvironmentShortName, ModalType} from 'utils/enums'
 
 type Props = {
   image: PlanImage,
@@ -46,7 +46,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
     })
     dispatch(setSelectedAssetEnvironment(imageEnv))
     dispatch(setSelectedAssetGroup(assetGroup))
-    dispatch(requestModal('ASSET_COMPARATOR_ASSET'))
+    dispatch(requestModal(ModalType.ASSET_COMPARATOR_ASSET))
   }
 
   if (isError) {

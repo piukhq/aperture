@@ -123,6 +123,7 @@ export type DirectoryMerchantCounts = {
 export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,
+  isRed?: boolean,
   clickHandler: VoidFunction
 }
 

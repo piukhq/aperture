@@ -3,7 +3,7 @@ import CloseIcon from 'icons/svgs/close.svg'
 
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {ModalStyle} from 'utils/enums'
+import {ModalType, ModalStyle} from 'utils/enums'
 import FocusTrap from 'focus-trap-react'
 
 type Props = {
@@ -18,7 +18,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
 
   const handleClose = () => {
     onCloseFn && onCloseFn()
-    dispatch(requestModal('NO_MODAL'))
+    dispatch(requestModal(ModalType.NO_MODAL))
   }
 
   const renderCloseButton = () => (

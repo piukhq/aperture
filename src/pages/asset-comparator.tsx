@@ -10,12 +10,12 @@ import {
   useAppSelector,
 } from 'app/hooks'
 import {
-  ModalType,
   requestModal,
   selectModal,
 } from 'features/modalSlice'
 import {getSelectedPlanImages} from 'features/planAssetsSlice'
 import {SelectedPlanImages} from 'types'
+import {ModalType} from 'utils/enums'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const AssetComparatorPage: NextPage = () => {
@@ -27,7 +27,7 @@ const AssetComparatorPage: NextPage = () => {
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
   useGetPlansHook()
 
-  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal('ASSET_COMPARATOR_CREDENTIALS')) }, [dispatch])
+  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)
@@ -104,8 +104,8 @@ const AssetComparatorPage: NextPage = () => {
 
   return (
     <>
-      {modalRequested === 'ASSET_COMPARATOR_CREDENTIALS' && <CredentialsModal />}
-      {modalRequested === 'ASSET_COMPARATOR_ASSET' && <AssetModal />}
+      {modalRequested === ModalType.ASSET_COMPARATOR_CREDENTIALS && <CredentialsModal />}
+      {modalRequested === ModalType.ASSET_COMPARATOR_ASSET && <AssetModal />}
       <PageLayout>
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
           { isDesktopViewportDimensions && renderHeaderTools()}

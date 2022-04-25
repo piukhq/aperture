@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store'
 
 jest.mock('components/TextInputGroup', () => () => <div data-testid='search-bar' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/NewMerchantModal', () => () => <div data-testid='new-merchant-modal' />) // TODO: To be updated with new plan modal implementation
+jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({modal: {

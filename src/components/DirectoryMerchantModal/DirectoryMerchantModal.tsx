@@ -1,15 +1,26 @@
 import {useState} from 'react'
-import {Button, Modal, TextInputGroup} from 'components'
+import Image from 'next/image'
 
+import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {ModalStyle} from 'utils/enums'
 
-const NewMerchantModal = () => {
+const DirectoryMerchantModal = () => {
+  const dispatch = useAppDispatch()
+  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+
+  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata} = selectedMerchant
+  const {name, icon_url: iconUrl, location_label: locationLabel} = merchantMetadata
+
+  const isNewMerchant = !merchantRef
+
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
-  const [nameValue, setNameValue] = useState('')
-  const [locationLabelValue, setLocationLabelValue] = useState('Locations')
+  const [nameValue, setNameValue] = useState(name || '')
+  const [locationLabelValue, setLocationLabelValue] = useState(locationLabel || 'Locations')
 
   const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
   const [isLocationLabelReadyForValidation, setIsLocationLabelReadyForValidation] = useState(false)
@@ -40,14 +51,13 @@ const NewMerchantModal = () => {
     })
   }
 
-  const renderAddImageInput = () => (
-    <div className='w-full flex items-center justify-center my-[4px]'>
-      <div className='h-[140px] w-[140px] rounded-[35px] border-2 border-grey-400 dark:border-grey-600 flex items-center justify-center focus-within:ring-2 focus-within:ring-lightBlue'>
-        <label htmlFor='merchant-add-image' className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center text-center bg-grey-100 dark:bg-grey-800 font-heading-9 text-grey-700 dark:text-grey-300'>Add Image</label>
-        <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image' onChange={handleImageInput}/>
-      </div>
-    </div>
+  const renderAddImageLabel = () => (
+    <label
+      htmlFor='merchant-add-image'
+      className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
+    >Add Image</label>
   )
+  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
     <>
@@ -77,9 +87,15 @@ const NewMerchantModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader='New Merchant'>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`${isNewMerchant ? 'New' : 'Edit'} Merchant`} onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMerchant}>
-        {renderAddImageInput()}
+        <div className='w-full flex items-center justify-center my-[4px]'>
+          <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>
+            {iconUrl ? renderExistingImage() : renderAddImageLabel()}
+            <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image' onChange={handleImageInput}/>
+          </div>
+        </div>
+
         {renderTextFields()}
         <div className='flex justify-end border-t-[1px] border-grey-300 dark:border-grey-800 pt-[16px]'>
           <Button
@@ -89,8 +105,7 @@ const NewMerchantModal = () => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel='Add Merchant'
-          >Add Merchant
+          >{isNewMerchant ? 'Add Merchant' : 'Save Changes'}
           </Button>
         </div>
       </form>
@@ -98,5 +113,5 @@ const NewMerchantModal = () => {
   )
 }
 
-export default NewMerchantModal
+export default DirectoryMerchantModal
 

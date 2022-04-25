@@ -18,13 +18,13 @@ const OptionsMenuButton = ({optionsMenuItems}: Props) => {
 
   const renderMenuItems = () => {
     return optionsMenuItems.map(item => {
-      const {clickHandler, icon, label} = item
+      const {clickHandler, icon, label, isRed} = item
 
       const handleItemClick = () => {
         setIsMenuOpen(false)
         clickHandler()
       }
-      return <OptionsMenuItem key={label} handleClick={handleItemClick} icon={icon} label={label}/>
+      return <OptionsMenuItem key={label} handleClick={handleItemClick} icon={icon} label={label} isRed={isRed} />
     })
   }
 
