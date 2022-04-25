@@ -7,7 +7,7 @@ enum Url {
 enum ClientID {
   DEV_CLIENT_ID = 'kudr77sTA0t5cvleNquOFUMHl68NMcqoCqRWrjlc3ZO60NFI3s',
   STAGING_CLIENT_ID = 'joqEeXTSKaWTj9rdifFRtbIJD7vWN2YaueJ4zfOnEEO5dPoqcg',
-  PROD_CLIENT_ID = 'MKd3FfDGBi1CIUQwtahmPap64lneCa2R6GvVWKg6dNg4w9Jnpd',
+  PROD_CLIENT_ID = 'igvAWkhM3FbmdjX7Cx09Oa5QGFtmo1KVWDnHyO5LI7kCiaP4g1',
 }
 
 enum BundleID {

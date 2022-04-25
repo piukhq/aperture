@@ -33,10 +33,19 @@ const AssetModal = () => {
 
   const shouldRenderEnvironmentTag = (envKey: string) => {
     if (selectedAssetGroup[envKey]) {
-      // TODO: This line will need refactoring when there are more than 2 environments
-      const [tagStyle, label, tooltip] = envKey === EnvironmentShortName.DEV
-        ? [TagStyle.AQUAMARINE_FILLED, 'D', EnvironmentName.DEV]
-        : [TagStyle.YELLOW_FILLED, 'S', EnvironmentName.STAGING]
+
+      const getEnvironmentTag = () => {
+        if (envKey === EnvironmentShortName.DEV) {
+          return {tagStyle: TagStyle.AQUAMARINE_FILLED, label: 'D', tooltip: EnvironmentName.DEV}
+        } else if (envKey === EnvironmentShortName.STAGING) {
+          return {tagStyle: TagStyle.YELLOW_FILLED, label: 'S', tooltip: EnvironmentName.STAGING}
+        } else if (envKey === EnvironmentShortName.PROD) {
+          return {tagStyle: TagStyle.RED_FILLED, label: 'P', tooltip: EnvironmentName.PROD}
+        }
+      }
+
+      const {tagStyle, label, tooltip} = getEnvironmentTag()
+
       return (
         <div title={tooltip} className={classNames(
           'flex justify-center items-center h-[28px] w-[28px] rounded-[14px]',

@@ -12,7 +12,7 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const PlansList = () => {
-  const {uniquePlansList, devIsLoading, stagingIsLoading} = useGetPlansHook()
+  const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useGetPlansHook()
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState('')
   const [selectedPlan, setSelectedPlan] = useState(null)
@@ -23,10 +23,11 @@ const PlansList = () => {
   const storePlanAssets = useCallback((selectedPlan) => {
     const plan = uniquePlansList.find(plan => plan.slug === selectedPlan.slug)
 
-    const {devImages = [], stagingImages = []} = plan || {}
+    const {devImages = [], stagingImages = [], prodImages = []} = plan || {}
     const planAssets = {
       dev: devImages,
       staging: stagingImages,
+      prod: prodImages,
     }
     dispatch(setSelectedPlanImages(planAssets))
   }, [uniquePlansList, dispatch])
@@ -35,7 +36,7 @@ const PlansList = () => {
     const cachedPlanSlug = getCachedPlanSlug()
     if (cachedPlanSlug && !selectedPlan) {
       // Make sure that relevant plans are available before proceeding
-      if (!devIsLoading && !stagingIsLoading) {
+      if (!devIsLoading && !stagingIsLoading && !prodIsLoading) {
         // Check if plan still exists
         const plan = uniquePlansList.find(plan => plan.slug === cachedPlanSlug)
         if (plan) {
@@ -47,7 +48,7 @@ const PlansList = () => {
         }
       }
     }
-  }, [devIsLoading, stagingIsLoading, uniquePlansList, selectedPlan, storePlanAssets])
+  }, [devIsLoading, stagingIsLoading, prodIsLoading, uniquePlansList, selectedPlan, storePlanAssets])
 
   const handlePlanClick = (plan: HydratedPlan) => {
     setSearchValue(plan.account.plan_name)

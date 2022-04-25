@@ -47,6 +47,7 @@ export const useGetPlansHook = () => {
           ...plan,
           isDev: devPlan ? true : false,
           isStaging: stagingPlan ? true : false,
+          isProd: prodPlan ? true : false,
           devImages: devPlan ? devPlan.images : [],
           stagingImages: stagingPlan ? stagingPlan.images : [],
           prodImages: prodPlan ? prodPlan.images : [],

@@ -30,8 +30,10 @@ export type Plan = {
 export type HydratedPlan = Plan & {
   isDev: boolean,
   isStaging: boolean,
+  isProd: boolean,
   devImages: PlanImage[],
   stagingImages: PlanImage[],
+  prodImages: PlanImage[],
   balances: Array<Record<string, unknown>>
   images: Array<Record<string, unknown>>
   slug: string
@@ -41,6 +43,7 @@ export type AssetType = {
   heading: string
   dev: Array<PlanImage>,
   staging: Array<PlanImage>,
+  prod: Array<PlanImage>,
   longestAssetArray: Array<PlanImage>,
   hasMultipleImagesOfThisType: boolean,
 }
