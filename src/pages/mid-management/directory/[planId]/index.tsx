@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import type {NextPage} from 'next'
-import {useRouter} from 'next/router'
+// import {useRouter} from 'next/router'
 import {
   useAppDispatch,
   useAppSelector,
@@ -24,10 +24,9 @@ const PlanDetailsPage: NextPage = () => {
 
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
 
-  const router = useRouter()
-  const {planId} = router.query
-
-  console.log(`Plan ID ${planId} to be used when real data is used`)
+  // TODO: Use plan ID from URL to query for specific plan
+  // const router = useRouter()
+  // const {planId} = router.query
 
   const renderMerchants = () => {
     return (

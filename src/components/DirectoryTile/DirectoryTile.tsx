@@ -65,7 +65,7 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       <div className='absolute top-[17px] right-[22px]'>
-        <OptionsMenuButton optionsMenuItems={optionsMenuItems}/> {/* TODO: Add conditional to add Merchant menu options when implemented */}
+        <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
       </div>
 
       <div className='flex flex-col items-center mt-[28px]'>

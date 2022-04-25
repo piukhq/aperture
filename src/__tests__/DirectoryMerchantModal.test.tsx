@@ -45,18 +45,12 @@ describe('DirectoryMerchantModal', () => {
     jest.clearAllMocks()
     const setStateMock = jest.fn()
 
-    React.useState = jest
-      .fn()
-      // Image value
-      .mockReturnValueOnce([mockImageValue, setStateMock])
-      // Name value
-      .mockReturnValueOnce([mockNameValue, setStateMock])
-      // Location label value
-      .mockReturnValueOnce([mockLocationLabelValue, setStateMock])
-      // isNameReadyForValidation
-      .mockReturnValueOnce([false, setStateMock])
-      // isLocationLabelReadyForValidation
-      .mockReturnValueOnce([false, setStateMock])
+    React.useState = jest.fn()
+      .mockReturnValueOnce([mockImageValue, setStateMock]) // Image value
+      .mockReturnValueOnce([mockNameValue, setStateMock]) // Name value
+      .mockReturnValueOnce([mockLocationLabelValue, setStateMock]) // Location label value
+      .mockReturnValueOnce([false, setStateMock]) // isNameReadyForValidation
+      .mockReturnValueOnce([false, setStateMock]) // isLocationLabelReadyForValidation
   })
 
   it('should render the Add Image input with correct label', () => {
@@ -135,6 +129,4 @@ describe('DirectoryMerchantModal', () => {
       })
     })
   })
-
-
 })

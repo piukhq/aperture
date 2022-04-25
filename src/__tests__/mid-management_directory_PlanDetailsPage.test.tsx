@@ -7,7 +7,7 @@ import {ModalType} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='directory-merchant-modal' />) // TODO: To be updated with new plan modal implementation
+jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='directory-merchant-modal' />)
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({modal: {
