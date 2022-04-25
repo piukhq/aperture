@@ -54,7 +54,7 @@ const DirectoryPage: NextPage = () => {
               payment_schemes,
             },
           }))
-          dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
+          dispatch(requestModal(modalName))
         }
 
         const optionsMenuItems:OptionsMenuItems = [
@@ -77,7 +77,7 @@ const DirectoryPage: NextPage = () => {
             label: 'Delete Plan',
             icon: <DeleteSvg/>,
             isRed: true,
-            clickHandler: () => console.log('Clicked'),
+            clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
           },
         ]
         return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
