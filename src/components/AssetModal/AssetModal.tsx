@@ -74,9 +74,7 @@ const AssetModal = () => {
 
   const renderAssetImage = () => {
     const handleOnLoadingComplete = (imageDimensions) => {
-      if(!imageDimensionsState) {
-        setImageDimensionsState(imageDimensions)
-      }
+      setImageDimensionsState(imageDimensions)
       setIsLoading(false)
     }
 
@@ -95,7 +93,8 @@ const AssetModal = () => {
         objectFit='contain'
         alt={description || heading}
         onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
-        onError={() => setIsError(true)}/>
+        onError={() => setIsError(true)}
+      />
     )
   }
 
