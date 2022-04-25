@@ -8,14 +8,19 @@ jest.mock('hooks/useVerificationHook', () => ({
   useVerificationHook: jest.fn().mockImplementation(() => ({
     verifyDevCredentials: jest.fn(),
     verifyStagingCredentials: jest.fn(),
+    verifyProdCredentials: jest.fn(),
     devIsSuccess: jest.fn(),
     stagingIsSuccess: jest.fn(),
+    prodIsSuccess: jest.fn(),
     devError: jest.fn(),
     stagingError: jest.fn(),
+    prodError: jest.fn(),
     devIsLoading: jest.fn(),
     stagingIsLoading: jest.fn(),
+    prodIsLoading: jest.fn(),
     resetDevToken: jest.fn(),
     resetStagingToken: jest.fn(),
+    resetProdToken: jest.fn(),
   })),
 }))
 
@@ -23,14 +28,17 @@ jest.mock('hooks/useGetPlansHook', () => ({
   useGetPlansHook: jest.fn().mockImplementation(() => ({
     resetDevPlans: jest.fn(),
     resetStagingToken: jest.fn(),
+    resetProdToken: jest.fn(),
   })),
 }))
 
 jest.mock('utils/storage', () => ({
   getDevVerificationToken: jest.fn(),
   getStagingVerificationToken: jest.fn(),
+  getProdVerificationToken: jest.fn(),
   removeDevVerificationToken: jest.fn(),
   removeStagingVerificationToken: jest.fn(),
+  removeProdVerificationToken: jest.fn(),
 }))
 
 jest.mock('utils/validation', () => ({

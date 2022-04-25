@@ -52,8 +52,28 @@ export const stagingVerifyApi = createApi({
   }),
 })
 
+export const prodVerifyApi = createApi({
+  reducerPath: 'prodVerifyApi',
+  baseQuery: fetchBaseQuery({baseUrl: Url.PROD_BASE_URL}),
+  endpoints: builder => ({
+    verifyProdCredentials: builder.mutation<VerificationResponse, VerificationBody>({
+      query: ({email, password}) => ({
+        url: `${endpointPrefix}/login`,
+        method: 'POST',
+        body: {
+          email,
+          password,
+          client_id: ClientID.PROD_CLIENT_ID,
+          bundle_id: BundleID.PROD_BUNDLE_ID,
+        },
+      }),
+    }),
+  }),
+})
+
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {useVerifyDevCredentialsMutation} = devVerifyApi
 export const {useVerifyStagingCredentialsMutation} = stagingVerifyApi
+export const {useVerifyProdCredentialsMutation} = prodVerifyApi

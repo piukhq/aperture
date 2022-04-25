@@ -14,6 +14,10 @@ const getStagingVerificationToken = () => localStorage.getItem(VerificationToken
 const removeStagingVerificationToken = () => localStorage.removeItem(VerificationToken.STAGING_VERIFICATION_TOKEN)
 const setStagingVerificationToken = (apiKey: string) => localStorage.setItem(VerificationToken.STAGING_VERIFICATION_TOKEN, apiKey)
 
+const getProdVerificationToken = () => localStorage.getItem(VerificationToken.PROD_VERIFICATION_TOKEN)
+const removeProdVerificationToken = () => localStorage.removeItem(VerificationToken.PROD_VERIFICATION_TOKEN)
+const setProdVerificationToken = (apiKey: string) => localStorage.setItem(VerificationToken.PROD_VERIFICATION_TOKEN, apiKey)
+
 const getCachedPlanSlug = () => localStorage.getItem('cachedPlanSlug')
 const removeCachedPlanSlug = () => localStorage.removeItem('cachedPlanSlug')
 const setCachedPlanSlug = (cachedPlanSlug: string) => localStorage.setItem('cachedPlanSlug', cachedPlanSlug)
@@ -26,6 +30,9 @@ export {
   getStagingVerificationToken,
   setStagingVerificationToken,
   removeStagingVerificationToken,
+  getProdVerificationToken,
+  setProdVerificationToken,
+  removeProdVerificationToken,
   getCachedPlanSlug,
   removeCachedPlanSlug,
   setCachedPlanSlug,

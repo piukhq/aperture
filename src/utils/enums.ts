@@ -1,21 +1,25 @@
 enum Url {
   DEV_BASE_URL = 'https://api.dev.gb.bink.com/',
   STAGING_BASE_URL = 'https://api.staging.gb.bink.com/',
+  PROD_BASE_URL = 'https://api.gb.bink.com/',
 }
 
 enum ClientID {
   DEV_CLIENT_ID = 'kudr77sTA0t5cvleNquOFUMHl68NMcqoCqRWrjlc3ZO60NFI3s',
   STAGING_CLIENT_ID = 'joqEeXTSKaWTj9rdifFRtbIJD7vWN2YaueJ4zfOnEEO5dPoqcg',
+  PROD_CLIENT_ID = 'MKd3FfDGBi1CIUQwtahmPap64lneCa2R6GvVWKg6dNg4w9Jnpd',
 }
 
 enum BundleID {
   DEV_BUNDLE_ID = 'com.bink.portal.internal',
   STAGING_BUNDLE_ID = 'com.bink.portal.internal',
+  PROD_BUNDLE_ID = 'com.bink.portal.internal',
 }
 
 enum VerificationToken {
   DEV_VERIFICATION_TOKEN = 'devVerificationToken',
   STAGING_VERIFICATION_TOKEN = 'stagingVerificationToken',
+  PROD_VERIFICATION_TOKEN = 'prodVerificationToken',
 }
 
 enum EnvironmentName {

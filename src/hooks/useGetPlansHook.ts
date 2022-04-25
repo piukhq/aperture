@@ -1,18 +1,20 @@
 import {useEffect, useMemo} from 'react'
 import {useVerificationHook} from './useVerificationHook'
-import {useGetDevPlansMutation, useGetStagingPlansMutation} from 'services/plans'
+import {useGetDevPlansMutation, useGetStagingPlansMutation, useGetProdPlansMutation} from 'services/plans'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
+  getProdVerificationToken,
 } from 'utils/storage'
 import _uniqBy from 'lodash.uniqby'
 import {HydratedPlan} from 'types'
 
 export const useGetPlansHook = () => {
-  const {devToken, stagingToken} = useVerificationHook()
+  const {devToken, stagingToken, prodToken} = useVerificationHook()
 
   const [getDevPlans, {data: devPlans, reset: resetDevPlans, isLoading: devIsLoading}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
   const [getStagingPlans, {data: stagingPlans, reset: resetStagingPlans, isLoading: stagingIsLoading}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
+  const [getProdPlans, {data: prodPlans, reset: resetProdPlans, isLoading: prodIsLoading}] = useGetProdPlansMutation({fixedCacheKey: 'prodPlans'})
 
   useEffect(() => {
     if (!devIsLoading && !devPlans && (getDevVerificationToken() || devToken)) {
@@ -26,13 +28,20 @@ export const useGetPlansHook = () => {
     }
   }, [stagingIsLoading, stagingPlans, stagingToken, getStagingPlans])
 
+  useEffect(() => {
+    if (!prodIsLoading && !prodPlans && (getProdVerificationToken() || prodToken)) {
+      getProdPlans()
+    }
+  }, [prodIsLoading, prodPlans, prodToken, getProdPlans])
+
   const uniquePlansList = useMemo(() => {
-    if (devPlans || stagingPlans) {
-      const list = (devPlans || []).concat(stagingPlans || [])
+    if (devPlans || stagingPlans || prodPlans) {
+      const list = (devPlans || []).concat(stagingPlans || []).concat(prodPlans || [])
 
       const uniqueNameList = _uniqBy(list, 'slug').map(plan => {
         const devPlan = devPlans && devPlans.find(devPlan => devPlan.slug === plan.slug)
         const stagingPlan = stagingPlans && stagingPlans.find(stagingPlan => stagingPlan.slug === plan.slug)
+        const prodPlan = prodPlans && prodPlans.find(prodPlan => prodPlan.slug === plan.slug)
 
         return {
           ...plan,
@@ -40,6 +49,7 @@ export const useGetPlansHook = () => {
           isStaging: stagingPlan ? true : false,
           devImages: devPlan ? devPlan.images : [],
           stagingImages: stagingPlan ? stagingPlan.images : [],
+          prodImages: prodPlan ? prodPlan.images : [],
         }
       })
 
@@ -47,15 +57,18 @@ export const useGetPlansHook = () => {
       return uniqueNameList as HydratedPlan[]
     }
     return []
-  }, [devPlans, stagingPlans])
+  }, [devPlans, stagingPlans, prodPlans])
 
   return {
     devPlans,
     stagingPlans,
+    prodPlans,
     resetDevPlans,
     resetStagingPlans,
+    resetProdPlans,
     uniquePlansList,
     devIsLoading,
     stagingIsLoading,
+    prodIsLoading,
   }
 }
