@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {DirectoryDetailsHeader} from 'components'
 
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/NewMerchantModal', () => () => <div data-testid='new-merchant-modal' />) // TODO: To be updated with new plan modal implementation
+jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />) // TODO: To be updated with new plan modal implementation
 
 const mockName = 'mock_name'
 const mockUrl = '/mock_url'

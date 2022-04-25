@@ -21,10 +21,10 @@ const DirectoryDetailsHeader = ({metadata, newItemButtonHandler}: Props) => {
 
       <div className='ml-[40px]'>
         {/* Icon image div to provide top border shadow */}
-        <div className='absolute z-70 top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' />
+        <div className='absolute top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' />
 
         {/* Icon image div container */}
-        <div className='absolute z-30 top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d]'>
+        <div className='absolute z-20 top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d]'>
           <Image className='z-50 absolute rounded-[30px]' src={iconUrl} height={165} width={165} alt='' data-testid='icon-image' />
         </div>
       </div>

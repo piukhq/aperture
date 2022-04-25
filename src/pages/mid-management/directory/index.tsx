@@ -1,3 +1,4 @@
+import {useCallback} from 'react'
 import type {NextPage} from 'next'
 import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
@@ -12,12 +13,11 @@ import {
   useAppSelector,
 } from 'app/hooks'
 import {
-  ModalType,
   requestModal,
   selectModal,
 } from 'features/modalSlice'
 import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-import {useCallback} from 'react'
+import {ModalType} from 'utils/enums'
 
 import AddSvg from 'icons/svgs/plus-filled.svg'
 import EditSvg from 'icons/svgs/project.svg'
@@ -30,7 +30,7 @@ const DirectoryPage: NextPage = () => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
-  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN')) }, [dispatch])
+  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN)) }, [dispatch])
 
   const renderDirectoryPlans = () => (
     <div className='flex mt-[51px] flex-wrap gap-[30px]'>
@@ -54,7 +54,7 @@ const DirectoryPage: NextPage = () => {
               payment_schemes,
             },
           }))
-          dispatch(requestModal('MID_MANAGEMENT_DIRECTORY_PLAN'))
+          dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
         }
         const optionsMenuItems:OptionsMenuItems = [
           {
@@ -75,6 +75,7 @@ const DirectoryPage: NextPage = () => {
           {
             label: 'Delete',
             icon: <DeleteSvg/>,
+            isRed: true,
             clickHandler: () => console.log('Clicked'),
           },
         ]
@@ -86,7 +87,7 @@ const DirectoryPage: NextPage = () => {
 
   return (
     <>
-      {modalRequested === 'MID_MANAGEMENT_DIRECTORY_PLAN' && <DirectoryPlanModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_PLAN && <DirectoryPlanModal />}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>

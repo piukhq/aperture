@@ -1,5 +1,6 @@
+import {useCallback} from 'react'
 import type {NextPage} from 'next'
-import {Button, DirectoryTile, PageLayout, TextInputGroup, NewMerchantModal} from 'components'
+import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryMerchantModal} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -11,11 +12,10 @@ import {
   useAppSelector,
 } from 'app/hooks'
 import {
-  ModalType,
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import {useCallback} from 'react'
+import {ModalType} from 'utils/enums'
 
 const DatabasePage: NextPage = () => {
   // TODO: Swap out for real api data
@@ -23,11 +23,11 @@ const DatabasePage: NextPage = () => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
 
-  const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal('MID_MANAGEMENT_NEW_MERCHANT')) }, [dispatch])
+  const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
 
   return (
     <>
-      {modalRequested === 'MID_MANAGEMENT_NEW_MERCHANT' && <NewMerchantModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the merchants configured on the platform</p>
