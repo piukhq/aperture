@@ -16,9 +16,9 @@ const AssetGrid = ({planAssets}: Props) => {
   const assetMatrix:Array<AssetType> = []
 
   assetTypeNames.forEach((typeName, index) => {
-    const devAssetsOfType = dev?.filter(asset => asset.type === index)
-    const stagingAssetsOfType = staging?.filter(asset => asset.type === index)
-    const prodAssetsOfType = prod?.filter(asset => asset.type === index)
+    const [devAssetsOfType, stagingAssetsOfType, prodAssetsOfType] = [dev, staging, prod].map(env => {
+      return env?.filter(asset => asset.type === index)
+    })
     const longestAssetArray = [devAssetsOfType, stagingAssetsOfType].sort((a, b) => b.length - a.length)[0]
 
     longestAssetArray.length > 0 && assetMatrix.push({

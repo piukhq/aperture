@@ -33,18 +33,25 @@ const AssetModal = () => {
 
   const shouldRenderEnvironmentTag = (envKey: string) => {
     if (selectedAssetGroup[envKey]) {
-
-      const getEnvironmentTag = () => {
-        if (envKey === EnvironmentShortName.DEV) {
-          return {tagStyle: TagStyle.AQUAMARINE_FILLED, label: 'D', tooltip: EnvironmentName.DEV}
-        } else if (envKey === EnvironmentShortName.STAGING) {
-          return {tagStyle: TagStyle.YELLOW_FILLED, label: 'S', tooltip: EnvironmentName.STAGING}
-        } else if (envKey === EnvironmentShortName.PROD) {
-          return {tagStyle: TagStyle.RED_FILLED, label: 'P', tooltip: EnvironmentName.PROD}
-        }
+      const environmentTagValues = {
+        [EnvironmentShortName.DEV]: {
+          tagStyle: TagStyle.AQUAMARINE_FILLED,
+          label: 'D',
+          tooltip: EnvironmentName.DEV,
+        },
+        [EnvironmentShortName.STAGING]: {
+          tagStyle: TagStyle.YELLOW_FILLED,
+          label: 'S',
+          tooltip: EnvironmentName.STAGING,
+        },
+        [EnvironmentShortName.PROD]: {
+          tagStyle: TagStyle.RED_FILLED,
+          label: 'P',
+          tooltip: EnvironmentName.PROD,
+        },
       }
 
-      const {tagStyle, label, tooltip} = getEnvironmentTag()
+      const {tagStyle, label, tooltip} = environmentTagValues[envKey]
 
       return (
         <div title={tooltip} className={classNames(
@@ -107,7 +114,6 @@ const AssetModal = () => {
     }
 
     const handleNavigationButtonClick = navigationDirection => {
-
       const currentAssetIndex = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
       const lastAssetIndex = assetArray.length - 1
 

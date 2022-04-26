@@ -11,9 +11,7 @@ enum ClientID {
 }
 
 enum BundleID {
-  DEV_BUNDLE_ID = 'com.bink.portal.internal',
-  STAGING_BUNDLE_ID = 'com.bink.portal.internal',
-  PROD_BUNDLE_ID = 'com.bink.portal.internal',
+  BUNDLE_ID = 'com.bink.portal.internal',
 }
 
 enum VerificationToken {
