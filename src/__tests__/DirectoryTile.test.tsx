@@ -42,6 +42,11 @@ describe('DirectoryTile', () => {
             payment_schemes: mockPaymentSchemes,
           }}
           id={mockId}
+          optionsMenuItems={[{
+            label: 'mockItem',
+            icon: jest.fn(),
+            clickHandler: jest.fn(),
+          }]}
         />
       </Provider>
     )

@@ -5,6 +5,7 @@ import {Button} from 'components'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {OptionsMenuItems, PaymentScheme} from 'types'
 import {OptionsMenuButton} from 'components'
+import {getCountWithCorrectNoun} from 'utils/stringFormat'
 
 type DirectoryTileMetadata = {
   name: string,
@@ -46,7 +47,7 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
 
   const renderChildCount = () => {
     if (planId) { // Determines if this is a plan as opposed to a merchant
-      return merchants === 1 ? `${locations} Locations` : `${merchants} Merchants`
+      return merchants === 1 ? getCountWithCorrectNoun(locations, 'Location') : `${merchants} Merchants`
     } else {
       return `${locations} ${locationLabel}`
     }
@@ -64,9 +65,11 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
 
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
-      <div className='absolute top-[17px] right-[22px]'>
-        <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
-      </div>
+      {optionsMenuItems.length > 0 && (
+        <div className='absolute top-[17px] right-[22px]'>
+          <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
+        </div>
+      )}
 
       <div className='flex flex-col items-center mt-[28px]'>
         <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon' />

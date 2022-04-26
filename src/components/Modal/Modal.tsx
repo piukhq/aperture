@@ -34,7 +34,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const renderModal = () => (
     <div className={`h-full ${outerModalStyle} z-50`}>
       <div onClick={(e) => e.stopPropagation()}>
-        <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
+        <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-200 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
           {modalStyle !== ModalStyle.REGULAR && modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
           {renderCloseButton()}
         </div>

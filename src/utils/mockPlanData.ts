@@ -9,13 +9,13 @@ export const mockPlanData = [
       plan_id: 999,
     },
     plan_counts: {
-      merchants: 0,
-      locations: 0,
+      merchants: 1,
+      locations: 1,
       payment_schemes: [
         {
           label: 'VISA',
           scheme_code: 1,
-          count: 0,
+          count: 1,
         },
         {
           label: 'MASTERCARD',

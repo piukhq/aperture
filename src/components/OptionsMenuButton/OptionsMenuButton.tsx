@@ -11,7 +11,7 @@ type Props = {
   optionsMenuItems: OptionsMenuItems
 }
 
-const OptionsMenuButton = ({optionsMenuItems}: Props) => {
+const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)

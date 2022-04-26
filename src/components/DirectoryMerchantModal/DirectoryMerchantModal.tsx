@@ -97,7 +97,7 @@ const DirectoryMerchantModal = () => {
         </div>
 
         {renderTextFields()}
-        <div className='flex justify-end border-t-[1px] border-grey-300 dark:border-grey-800 pt-[16px]'>
+        <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[16px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
