@@ -65,9 +65,11 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
 
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
-      <div className='absolute top-[17px] right-[22px]'>
-        <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
-      </div>
+      {optionsMenuItems.length > 0 && (
+        <div className='absolute top-[17px] right-[22px]'>
+          <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
+        </div>
+      )}
 
       <div className='flex flex-col items-center mt-[28px]'>
         <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon' />

@@ -30,16 +30,14 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
 
   return (
     <div ref={buttonRef}>
-      {optionsMenuItems.length > 0 && (
-        <Button
-          handleClick={() => setIsMenuOpen(true)}
-          buttonSize={ButtonSize.MEDIUM_ICON}
-          buttonWidth={ButtonWidth.ICON_ONLY}
-          borderColour={BorderColour.GREY}
-          ariaLabel='Options'
-        ><DotsSvg/>
-        </Button>
-      )}
+      <Button
+        handleClick={() => setIsMenuOpen(true)}
+        buttonSize={ButtonSize.MEDIUM_ICON}
+        buttonWidth={ButtonWidth.ICON_ONLY}
+        borderColour={BorderColour.GREY}
+        ariaLabel='Options'
+      ><DotsSvg/>
+      </Button>
       {isMenuOpen && (
         <>
           <div
