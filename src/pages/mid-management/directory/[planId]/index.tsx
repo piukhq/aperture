@@ -5,7 +5,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from 'app/hooks'
-import {PageLayout, DirectoryTile, DirectoryMerchantModal, DirectoryDetailsHeader} from 'components'
+import {PageLayout, DirectoryTile, DirectoryMerchantModal, DirectoryDetailsHeader, DirectoryMerchantDeleteModal} from 'components'
 import {requestModal, selectModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
@@ -34,26 +34,26 @@ const PlanDetailsPage: NextPage = () => {
         {merchants.map((merchant) => {
           const {merchant_metadata, merchant_counts, merchant_ref} = merchant.merchant
 
-          const requestEditMerchantModal = () => {
+          const requestMerchantModal = (modalName:ModalType) => {
             dispatch(setSelectedDirectoryMerchant({
               merchant_ref,
               merchant_metadata,
               merchant_counts,
             }))
-            dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
+            dispatch(requestModal(modalName))
           }
 
           const optionsMenuItems:OptionsMenuItems = [
             {
               label: 'Edit',
               icon: <EditSvg/>,
-              clickHandler: requestEditMerchantModal,
+              clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
             },
             {
               label: 'Delete',
               icon: <DeleteSvg/>,
               isRed: true,
-              clickHandler: () => console.log('Clicked'),
+              clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE),
             },
           ]
 
@@ -66,6 +66,7 @@ const PlanDetailsPage: NextPage = () => {
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
       <PageLayout>
         <DirectoryDetailsHeader metadata={planMetadata} newItemButtonHandler={handleRequestNewMerchantModal} />
         {merchants.length > 0 && renderMerchants()}

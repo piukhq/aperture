@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
+import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
@@ -8,11 +8,11 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
 
-const DirectoryPlanDeleteModal = () => {
+const DirectoryMerchantDeleteModal = () => {
   const dispatch = useAppDispatch()
-  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
-  const {name} = selectedPlan.plan_metadata
-  const {merchants, locations, payment_schemes: paymentSchemes} = selectedPlan.plan_counts
+  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const {name, location_label: locationLabel} = selectedMerchant.merchant_metadata
+  const {locations, payment_schemes: paymentSchemes} = selectedMerchant.merchant_counts
 
   const [nameValue, setNameValue] = useState('')
   const [isNameReadyForVerification, setIsNameReadyForVerification] = useState(false)
@@ -32,18 +32,18 @@ const DirectoryPlanDeleteModal = () => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Merchant' onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col mt-[30px]' onSubmit={verifyName}>
         <div className='font-body-3 mb-[10px]'>
           <p>Are you sure you want to delete {name}?</p>
-          <p data-testid='second-paragraph'>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
-            {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
+          <p data-testid='second-paragraph'>This will also delete <span className='font-bold'>
+            {locations} {locationLabel} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
           <br/>
-          <p>Please enter the Plan Name to confirm.</p>
+          <p>Please enter the Merchant Name to confirm.</p>
         </div>
         <TextInputGroup
-          name='plan-name'
-          label='Plan Name'
+          name='merchant-name'
+          label='Merchant Name'
           error={null} // TODO: add any errors as per Verification
           value={nameValue}
           onChange={handleNameChange}
@@ -60,7 +60,7 @@ const DirectoryPlanDeleteModal = () => {
             buttonWidth={ButtonWidth.MEDIUM}
             labelColour={LabelColour.RED}
             labelWeight={LabelWeight.SEMIBOLD}
-          >Delete Plan
+          >Delete Merchant
           </Button>
         </div>
       </form>
@@ -68,4 +68,4 @@ const DirectoryPlanDeleteModal = () => {
   )
 }
 
-export default DirectoryPlanDeleteModal
+export default DirectoryMerchantDeleteModal
