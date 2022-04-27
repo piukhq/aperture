@@ -212,28 +212,31 @@ const AssetModal = () => {
     downloadAsset(url, filename)
   }
 
-  const renderButtons = () => (
-    <div className='flex justify-end gap-[20px] mb-[24px]'>
-      <a href={`https://api.${selectedAssetEnvironment}.gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
-        className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px]
+  const renderButtons = () => {
+    const djangoUrlEnvValue = selectedAssetEnvironment === EnvironmentShortName.PROD ? '' : `${selectedAssetEnvironment}.`
+
+    return (
+      <div className='flex justify-end gap-[20px] mb-[24px]'>
+        <a href={`https://api.${djangoUrlEnvValue}gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
+          className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px]
         bg-blue text-grey-100 font-medium font-heading tracking-[0.6px] text-sm' // Refactor to an @apply if used elsewhere
-        target='_blank'
-        rel='noreferrer'
-      >
-        <SearchWhiteSvg />View in Django
-      </a>
-      <Button
-        handleClick={handleDownload}
-        buttonSize={ButtonSize.MEDIUM_ICON}
-        buttonWidth={ButtonWidth.AUTO}
-        buttonBackground={ButtonBackground.BLUE}
-        labelColour={LabelColour.WHITE}
-        labelWeight={LabelWeight.MEDIUM}
-      >
-        <DownloadSvg/>Download
-      </Button>
-    </div>
-  )
+          target='_blank'
+          rel='noreferrer'
+        >
+          <SearchWhiteSvg />View in Django
+        </a>
+        <Button
+          handleClick={handleDownload}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          <DownloadSvg/>Download
+        </Button>
+      </div>
+    ) }
 
   return (
     <Modal modalStyle={ModalStyle.REGULAR} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
