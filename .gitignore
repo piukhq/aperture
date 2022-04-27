@@ -43,4 +43,4 @@ yarn-error.log*
 .vscode/launch.json
 
 # Typescript build files
-.tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
