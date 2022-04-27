@@ -11,7 +11,11 @@ jest.mock('components/CredentialsModal', () => () => <div data-testid='credentia
 jest.mock('components/PlansList', () => () => <div data-testid='plan-list' />)
 jest.mock('components/AssetGrid', () => () => <div data-testid='asset-grid' />)
 jest.mock('hooks/useGetPlansHook', () => ({
-  useGetPlansHook: jest.fn(),
+  useGetPlansHook: jest.fn().mockImplementation(() => ({
+    resetDevPlans: jest.fn(),
+    resetStagingPlans: jest.fn(),
+    resetProdPlans: jest.fn(),
+  })),
 }))
 
 describe('AssetComparatorPage', () => {

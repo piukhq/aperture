@@ -25,7 +25,8 @@ const AssetComparatorPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
-  useGetPlansHook()
+
+  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlansHook()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 
@@ -102,9 +103,19 @@ const AssetComparatorPage: NextPage = () => {
     )
   }
 
+  const handleTokenRemoval = (envKey: string) => {
+    if (envKey === 'DEV') {
+      resetDevPlans()
+    } else if (envKey === 'STAGING') {
+      resetStagingPlans()
+    } else if (envKey === 'PROD') {
+      resetProdPlans()
+    }
+  }
+
   return (
     <>
-      {modalRequested === ModalType.ASSET_COMPARATOR_CREDENTIALS && <CredentialsModal />}
+      {modalRequested === ModalType.ASSET_COMPARATOR_CREDENTIALS && <CredentialsModal removeTokenHandler={handleTokenRemoval} />}
       {modalRequested === ModalType.ASSET_COMPARATOR_ASSET && <AssetModal />}
       <PageLayout>
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
