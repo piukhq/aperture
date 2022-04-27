@@ -10,8 +10,7 @@
 # v=${b%%[)| ]*}
 
 # export PATH="$NVM_DIR/versions/node/$v/bin:$PATH"
-yarn jest
+npx tsc --noEmit --pretty
 yarn lint --fix
 yarn lint
-
-npx tsc --noEmit --pretty
+yarn jest
