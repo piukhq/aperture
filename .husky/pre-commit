@@ -13,3 +13,5 @@
 yarn jest
 yarn lint -- --fix
 yarn lint
+
+npx tsc --noEmit --pretty

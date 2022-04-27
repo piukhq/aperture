@@ -20,6 +20,7 @@ const mockAssetType = {
   heading: 'mock-heading',
   longestAssetArray: [mockImage],
   staging: [],
+  prod: [],
 }
 
 const mockTypeIndex = 0
