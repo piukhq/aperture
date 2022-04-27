@@ -7,8 +7,10 @@ import {EnvironmentName, ModalStyle} from 'utils/enums'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
+  getProdVerificationToken,
   removeDevVerificationToken,
   removeStagingVerificationToken,
+  removeProdVerificationToken,
 } from 'utils/storage'
 import {isValidEmail, isValidPassword} from 'utils/validation'
 import {TagStyle, TagSize} from 'components/Tag/styles'
@@ -24,17 +26,22 @@ const CredentialsModal = () => {
   const {
     verifyDevCredentials,
     verifyStagingCredentials,
+    verifyProdCredentials,
     devIsSuccess,
     stagingIsSuccess,
+    prodIsSuccess,
     devError,
     stagingError,
+    prodError,
     devIsLoading,
     stagingIsLoading,
+    prodIsLoading,
     resetDevToken,
     resetStagingToken,
+    resetProdToken,
   } = useVerificationHook()
 
-  const {resetDevPlans, resetStagingPlans} = useGetPlansHook()
+  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlansHook()
 
   const {
     AQUAMARINE_FILLED,
@@ -67,6 +74,7 @@ const CredentialsModal = () => {
     if (isValidEmail(emailValue) && isValidPassword(passwordValue)) {
       !getDevVerificationToken() && verifyDevCredentials({email: emailValue, password: passwordValue})
       !getStagingVerificationToken() && verifyStagingCredentials({email: emailValue, password: passwordValue})
+      !getProdVerificationToken() && verifyProdCredentials({email: emailValue, password: passwordValue})
     }
   }
 
@@ -81,8 +89,12 @@ const CredentialsModal = () => {
       resetStagingToken()
       removeStagingVerificationToken()
       resetStagingPlans()
+    } else if (envKey === 'PROD') {
+      resetProdToken()
+      removeProdVerificationToken()
+      resetProdPlans()
     }
-  }, [resetDevToken, resetDevPlans, resetStagingToken, resetStagingPlans])
+  }, [resetDevToken, resetDevPlans, resetStagingToken, resetStagingPlans, resetProdToken, resetProdPlans])
 
   const renderVerificationTag = (envKey: string): ReactNode => {
     let isSuccessful, isPending, isFailure, hasVerificationToken
@@ -94,6 +106,9 @@ const CredentialsModal = () => {
     } else if (envKey === 'STAGING') {
       [isSuccessful, isPending, isFailure] = [stagingIsSuccess, stagingIsLoading, stagingError]
       hasVerificationToken = isSuccessful || getStagingVerificationToken() !== null
+    } else if (envKey === 'PROD') {
+      [isSuccessful, isPending, isFailure] = [prodIsSuccess, prodIsLoading, prodError]
+      hasVerificationToken = isSuccessful || getProdVerificationToken() !== null
     }
 
     const verificationProps = {

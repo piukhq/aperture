@@ -9,21 +9,23 @@ type Props = {
 }
 
 const AssetGrid = ({planAssets}: Props) => {
-  const {dev, staging} = planAssets
+  const {dev, staging, prod} = planAssets
 
   const assetTypeNames = useMemo(() => ['Hero', 'Banner', 'Offers', 'Icon', 'Asset', 'Reference', 'Personal Offers', 'Promotions', 'Tier', 'Alt Hero'], [])
 
   const assetMatrix:Array<AssetType> = []
 
   assetTypeNames.forEach((typeName, index) => {
-    const devAssetsOfType = dev?.filter(asset => asset.type === index)
-    const stagingAssetsOfType = staging?.filter(asset => asset.type === index)
+    const [devAssetsOfType, stagingAssetsOfType, prodAssetsOfType] = [dev, staging, prod].map(env => {
+      return env?.filter(asset => asset.type === index)
+    })
     const longestAssetArray = [devAssetsOfType, stagingAssetsOfType].sort((a, b) => b.length - a.length)[0]
 
     longestAssetArray.length > 0 && assetMatrix.push({
       heading: typeName,
       dev: devAssetsOfType,
       staging: stagingAssetsOfType,
+      prod: prodAssetsOfType,
       longestAssetArray,
       hasMultipleImagesOfThisType: longestAssetArray.length > 1,
     })
@@ -72,6 +74,8 @@ const AssetGrid = ({planAssets}: Props) => {
       <div className='flex flex-col'>{renderLabelColumnContents()}</div>
       <div className='flex flex-col'>{dev && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
       <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div>
+      <div className='flex flex-col'></div>
+      <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.PROD)}</div>
     </div>
   )
 }

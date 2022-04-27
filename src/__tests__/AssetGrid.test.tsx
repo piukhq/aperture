@@ -24,6 +24,7 @@ const mockAssetGridComponent = (
   <AssetGrid planAssets={{
     dev: [mockHeroImage],
     staging: [mockHeroImage, mockBannerImage],
+    prod: [mockHeroImage],
   }} />
 )
 
@@ -57,6 +58,7 @@ describe('Asset Grid', () => {
           type: 1,
           url: 'https://mock-url/mock-path/mock-image2.jpg',
         }],
+        prod: [],
       }} />)
 
       const banner1 = screen.getByText('BANNER 1')
@@ -74,14 +76,14 @@ describe('Asset Grid', () => {
       render(mockAssetGridComponent)
       const assets = screen.getAllByTestId('asset')
 
-      expect(assets).toHaveLength(3)
+      expect(assets).toHaveLength(4)
     })
 
     it('should render the correct number of Asset Not Found images', () => {
       render(mockAssetGridComponent)
       const assetNotFoundImage = screen.queryAllByTitle('No asset available')
 
-      expect(assetNotFoundImage).toHaveLength(1)
+      expect(assetNotFoundImage).toHaveLength(2)
     })
   })
 })

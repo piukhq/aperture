@@ -38,7 +38,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
 
   const handleAssetClick = () => {
     const assetGroup = {}
-    const environmentArray = [EnvironmentShortName.DEV, EnvironmentShortName.STAGING]
+    const environmentArray = [EnvironmentShortName.DEV, EnvironmentShortName.STAGING, EnvironmentShortName.PROD]
 
     environmentArray.forEach(env => {
       const currentImage = assetType[env][typeIndex]

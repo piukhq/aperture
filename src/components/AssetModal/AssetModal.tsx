@@ -33,10 +33,26 @@ const AssetModal = () => {
 
   const shouldRenderEnvironmentTag = (envKey: string) => {
     if (selectedAssetGroup[envKey]) {
-      // TODO: This line will need refactoring when there are more than 2 environments
-      const [tagStyle, label, tooltip] = envKey === EnvironmentShortName.DEV
-        ? [TagStyle.AQUAMARINE_FILLED, 'D', EnvironmentName.DEV]
-        : [TagStyle.YELLOW_FILLED, 'S', EnvironmentName.STAGING]
+      const environmentTagValues = {
+        [EnvironmentShortName.DEV]: {
+          tagStyle: TagStyle.AQUAMARINE_FILLED,
+          label: 'D',
+          tooltip: EnvironmentName.DEV,
+        },
+        [EnvironmentShortName.STAGING]: {
+          tagStyle: TagStyle.YELLOW_FILLED,
+          label: 'S',
+          tooltip: EnvironmentName.STAGING,
+        },
+        [EnvironmentShortName.PROD]: {
+          tagStyle: TagStyle.RED_FILLED,
+          label: 'P',
+          tooltip: EnvironmentName.PROD,
+        },
+      }
+
+      const {tagStyle, label, tooltip} = environmentTagValues[envKey]
+
       return (
         <div title={tooltip} className={classNames(
           'flex justify-center items-center h-[28px] w-[28px] rounded-[14px]',
@@ -65,9 +81,7 @@ const AssetModal = () => {
 
   const renderAssetImage = () => {
     const handleOnLoadingComplete = (imageDimensions) => {
-      if(!imageDimensionsState) {
-        setImageDimensionsState(imageDimensions)
-      }
+      setImageDimensionsState(imageDimensions)
       setIsLoading(false)
     }
 
@@ -86,12 +100,13 @@ const AssetModal = () => {
         objectFit='contain'
         alt={description || heading}
         onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
-        onError={() => setIsError(true)}/>
+        onError={() => setIsError(true)}
+      />
     )
   }
 
   const renderImageSection = () => {
-    const assetArray = Object.values(selectedAssetGroup)
+    const assetArray = Object.values(selectedAssetGroup).filter(asset => asset)
     const isUniqueAcrossEnvironments = assetArray.filter(asset => asset !== null).length === 1
     enum NavigationDirection {
       LEFT = 'rotate-90',
@@ -99,7 +114,7 @@ const AssetModal = () => {
     }
 
     const handleNavigationButtonClick = navigationDirection => {
-      const currentAssetIndex = assetArray.findIndex(asset => asset.environment === selectedAssetEnvironment)
+      const currentAssetIndex = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
       const lastAssetIndex = assetArray.length - 1
 
       let newEnvironment
@@ -115,7 +130,7 @@ const AssetModal = () => {
 
     const renderNavigationButton = (navigationDirection, label) => (
       <Button
-        handleClick={() => handleNavigationButtonClick(navigationDirection)} // TODO: Placeholder for future ticket
+        handleClick={() => handleNavigationButtonClick(navigationDirection)}
         buttonWidth={ButtonWidth.TINY}
         buttonSize={ButtonSize.TINY}
         buttonBackground={ButtonBackground.BLUE}

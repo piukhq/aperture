@@ -23,14 +23,14 @@ const Plan = ({plan}: Props) => (
         {plan.isStaging && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.YELLOW_FILLED} label='S' />}
       </div>
 
-      {/* TODO: To be added once additional environments are set up */}
-      {/* <div className='h-[24px] w-[24px]'>
-        {plan.isSandbox && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='S' />}
+      <div className='h-[24px] w-[24px]'>
+        {/* TODO: To be updated once sandbox is set up */}
+        {/* {plan.isSandbox && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='S' />} */}
       </div>
 
       <div className='h-[24px] w-[24px]'>
         {plan.isProd && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.RED_FILLED} label='P' />}
-      </div> */}
+      </div>
     </div>
   </>
 )

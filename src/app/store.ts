@@ -10,8 +10,8 @@ import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
 import modalReducer from 'features/modalSlice'
 
-import {devVerifyApi, stagingVerifyApi} from 'services/users'
-import {devPlansApi, stagingPlansApi} from 'services/plans'
+import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
+import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
 
 export const store = configureStore({
   reducer: {
@@ -22,16 +22,20 @@ export const store = configureStore({
     // Add the generated reducer as a specific top-level slice
     [devVerifyApi.reducerPath]: devVerifyApi.reducer,
     [stagingVerifyApi.reducerPath]: stagingVerifyApi.reducer,
+    [prodVerifyApi.reducerPath]: prodVerifyApi.reducer,
     [devPlansApi.reducerPath]: devPlansApi.reducer,
     [stagingPlansApi.reducerPath]: stagingPlansApi.reducer,
+    [prodPlansApi.reducerPath]: prodPlansApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
     devVerifyApi.middleware,
     stagingVerifyApi.middleware,
+    prodVerifyApi.middleware,
     devPlansApi.middleware,
     stagingPlansApi.middleware,
+    prodPlansApi.middleware,
   ),
 })
 

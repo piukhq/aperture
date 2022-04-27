@@ -26,7 +26,7 @@ export const devVerifyApi = createApi({
           email,
           password,
           client_id: ClientID.DEV_CLIENT_ID,
-          bundle_id: BundleID.DEV_BUNDLE_ID,
+          bundle_id: BundleID.BUNDLE_ID,
         },
       }),
     }),
@@ -45,7 +45,26 @@ export const stagingVerifyApi = createApi({
           email,
           password,
           client_id: ClientID.STAGING_CLIENT_ID,
-          bundle_id: BundleID.STAGING_BUNDLE_ID,
+          bundle_id: BundleID.BUNDLE_ID,
+        },
+      }),
+    }),
+  }),
+})
+
+export const prodVerifyApi = createApi({
+  reducerPath: 'prodVerifyApi',
+  baseQuery: fetchBaseQuery({baseUrl: Url.PROD_BASE_URL}),
+  endpoints: builder => ({
+    verifyProdCredentials: builder.mutation<VerificationResponse, VerificationBody>({
+      query: ({email, password}) => ({
+        url: `${endpointPrefix}/login`,
+        method: 'POST',
+        body: {
+          email,
+          password,
+          client_id: ClientID.PROD_CLIENT_ID,
+          bundle_id: BundleID.BUNDLE_ID,
         },
       }),
     }),
@@ -57,3 +76,4 @@ export const stagingVerifyApi = createApi({
 // auto-generated based on the defined endpoints
 export const {useVerifyDevCredentialsMutation} = devVerifyApi
 export const {useVerifyStagingCredentialsMutation} = stagingVerifyApi
+export const {useVerifyProdCredentialsMutation} = prodVerifyApi

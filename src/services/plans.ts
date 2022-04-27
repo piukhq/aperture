@@ -3,6 +3,7 @@ import {Url} from 'utils/enums'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
+  getProdVerificationToken,
 } from 'utils/storage'
 import {Plan} from 'types'
 
@@ -50,6 +51,27 @@ export const stagingPlansApi = createApi({
   }),
 })
 
+export const prodPlansApi = createApi({
+  reducerPath: 'prodPlansApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: Url.PROD_BASE_URL,
+    prepareHeaders: (headers) => {
+      headers.set('authorization', `Token ${getProdVerificationToken()}`)
+      headers.set('accept', 'application/json;v=1.3')
+      return headers
+    },
+  }),
+  endpoints: builder => ({
+    getProdPlans: builder.mutation<PlansResponse, void>({
+      query: () => ({
+        url: `${endpointPrefix}/membership_plans`,
+        method: 'GET',
+      }),
+    }),
+  }),
+})
+
 
 export const {useGetDevPlansMutation} = devPlansApi
 export const {useGetStagingPlansMutation} = stagingPlansApi
+export const {useGetProdPlansMutation} = prodPlansApi
