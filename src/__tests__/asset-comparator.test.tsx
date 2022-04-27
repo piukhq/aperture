@@ -5,7 +5,7 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import AssetComparatorPage from 'pages/asset-comparator'
 import * as WindowDimensions from 'utils/windowDimensions'
-
+// test commit change
 jest.mock('components/AssetModal', () => () => <div data-testid='asset-comparator-modal' />)
 jest.mock('components/CredentialsModal', () => () => <div data-testid='credentials-modal' />)
 jest.mock('components/PlansList', () => () => <div data-testid='plan-list' />)
