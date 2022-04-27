@@ -2,7 +2,6 @@ import {ReactNode, useState, useCallback} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
 import {useVerificationHook} from 'hooks/useVerificationHook'
-import {useGetPlansHook} from 'hooks/useGetPlansHook'
 import {EnvironmentName, ModalStyle} from 'utils/enums'
 import {
   getDevVerificationToken,
@@ -17,7 +16,11 @@ import {TagStyle, TagSize} from 'components/Tag/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
-const CredentialsModal = () => {
+type Props = {
+  removeTokenHandler: (envKey: string) => void
+}
+
+const CredentialsModal = ({removeTokenHandler}: Props) => {
   const [emailValue, setEmailValue] = useState('')
   const [isEmailReadyForValidation, setIsEmailReadyForValidation] = useState(false)
   const [passwordValue, setPasswordValue] = useState('')
@@ -40,8 +43,6 @@ const CredentialsModal = () => {
     resetStagingToken,
     resetProdToken,
   } = useVerificationHook()
-
-  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlansHook()
 
   const {
     AQUAMARINE_FILLED,
@@ -84,17 +85,15 @@ const CredentialsModal = () => {
     if (envKey === 'DEV') {
       resetDevToken()
       removeDevVerificationToken()
-      resetDevPlans()
     } else if (envKey === 'STAGING') {
       resetStagingToken()
       removeStagingVerificationToken()
-      resetStagingPlans()
     } else if (envKey === 'PROD') {
       resetProdToken()
       removeProdVerificationToken()
-      resetProdPlans()
     }
-  }, [resetDevToken, resetDevPlans, resetStagingToken, resetStagingPlans, resetProdToken, resetProdPlans])
+    removeTokenHandler(envKey)
+  }, [resetDevToken, resetStagingToken, resetProdToken, removeTokenHandler])
 
   const renderVerificationTag = (envKey: string): ReactNode => {
     let isSuccessful, isPending, isFailure, hasVerificationToken
