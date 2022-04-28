@@ -4,8 +4,8 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import {CredentialsModal} from 'components'
 import * as utils from 'utils/validation'
 
-jest.mock('hooks/useVerificationHook', () => ({
-  useVerificationHook: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useVerification', () => ({
+  useVerification: jest.fn().mockImplementation(() => ({
     verifyDevCredentials: jest.fn(),
     verifyStagingCredentials: jest.fn(),
     verifyProdCredentials: jest.fn(),
@@ -24,8 +24,8 @@ jest.mock('hooks/useVerificationHook', () => ({
   })),
 }))
 
-jest.mock('hooks/useGetPlansHook', () => ({
-  useGetPlansHook: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useGetPlans', () => ({
+  useGetPlans: jest.fn().mockImplementation(() => ({
     resetDevPlans: jest.fn(),
     resetStagingToken: jest.fn(),
     resetProdToken: jest.fn(),

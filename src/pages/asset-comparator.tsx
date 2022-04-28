@@ -3,7 +3,7 @@ import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 import {AssetGrid, AssetModal, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
-import {useGetPlansHook} from 'hooks/useGetPlansHook'
+import {useGetPlans} from 'hooks/useGetPlans'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import {
   useAppDispatch,
@@ -26,7 +26,7 @@ const AssetComparatorPage: NextPage = () => {
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
-  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlansHook()
+  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlans()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 

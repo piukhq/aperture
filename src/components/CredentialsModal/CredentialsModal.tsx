@@ -1,7 +1,7 @@
 import {ReactNode, useState, useCallback} from 'react'
 import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
-import {useVerificationHook} from 'hooks/useVerificationHook'
+import {useVerification} from 'hooks/useVerification'
 import {EnvironmentName, ModalStyle} from 'utils/enums'
 import {
   getDevVerificationToken,
@@ -42,7 +42,7 @@ const CredentialsModal = ({removeTokenHandler}: Props) => {
     resetDevToken,
     resetStagingToken,
     resetProdToken,
-  } = useVerificationHook()
+  } = useVerification()
 
   const {
     AQUAMARINE_FILLED,
