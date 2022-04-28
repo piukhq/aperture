@@ -75,7 +75,7 @@ const AssetGrid = ({planAssets}: Props) => {
       <div className='flex flex-col'>{dev && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
       <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div>
       <div className='flex flex-col'></div>
-      <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.PROD)}</div>
+      <div className='flex flex-col'>{prod && renderAssetColumnContents(EnvironmentShortName.PROD)}</div>
     </div>
   )
 }
