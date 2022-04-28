@@ -5,8 +5,8 @@ import configureStore from 'redux-mock-store'
 import PlanList from 'components/PlansList'
 
 jest.mock('components/TextInputGroup', () => () => <div data-testid='search-input' />)
-jest.mock('hooks/useGetFormattedPlansListHook', () => ({
-  useGetFormattedPlansListHook: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useFormattedPlansListHook', () => ({
+  useFormattedPlansListHook: jest.fn().mockImplementation(() => ({
     uniquePlansList: [],
     devIsLoading: false,
     stagingIsLoading: false,

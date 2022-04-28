@@ -3,7 +3,7 @@ import {useGetDevPlansMutation, useGetStagingPlansMutation, useGetProdPlansMutat
 import _uniqBy from 'lodash.uniqby'
 import {HydratedPlan} from 'types'
 
-export const useGetFormattedPlansListHook = () => {
+export const useFormattedPlansListHook = () => {
   const [, {data: devPlans, isLoading: devIsLoading}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
   const [, {data: stagingPlans, isLoading: stagingIsLoading}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
   const [, {data: prodPlans, isLoading: prodIsLoading}] = useGetProdPlansMutation({fixedCacheKey: 'prodPlans'})
