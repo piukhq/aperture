@@ -61,6 +61,9 @@ jest.mock('components/Modal', () => ({
 
 const mockEmailValue = 'mock_email_value'
 const mockPasswordValue = 'mock_password_value'
+const mockRemoveTokenHandler = jest.fn()
+
+const getCredentialsModal = () => <CredentialsModal removeTokenHandler={mockRemoveTokenHandler}/>
 
 describe('Credentials Modal', () => {
   beforeEach(() => {
@@ -77,7 +80,7 @@ describe('Credentials Modal', () => {
 
   describe('Test Header and Footer', () => {
     it('should render the heading', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const heading = screen.getByRole('heading', {
         name: 'Enter Environment Credentials',
       })
@@ -86,7 +89,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the footer text', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const footerText = screen.getByText(/If you are struggling to verify credentials, email cmorrow@bink.com for support/)
 
       expect(footerText).toBeInTheDocument()
@@ -95,7 +98,7 @@ describe('Credentials Modal', () => {
 
   describe('Test Email Field', () => {
     it('should render the email input', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
 
       const emailInput = screen.getByLabelText('Email')
       expect(emailInput).toBeInTheDocument()
@@ -103,7 +106,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should not render the email error message', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const emailError = screen.queryByTestId('credentials-email-input-error')
 
       expect(emailError).not.toBeInTheDocument()
@@ -112,7 +115,7 @@ describe('Credentials Modal', () => {
 
   describe('Test Password Field', () => {
     it('should render the password input', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const passwordInput = screen.getByLabelText('Password')
 
       expect(passwordInput).toBeInTheDocument()
@@ -120,7 +123,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should not render the password error message', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const passwordError = screen.queryByTestId('credentials-password-input-error')
 
       expect(passwordError).not.toBeInTheDocument()
@@ -129,7 +132,7 @@ describe('Credentials Modal', () => {
 
   describe('Test Verify Credentials Button', () => {
     it('should render the verify credentials button', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const verifyCredentialsButton = screen.getByRole('button', {
         name: 'Verify Credentials',
       })
@@ -140,7 +143,7 @@ describe('Credentials Modal', () => {
 
   describe('Test Tags', () => {
     it('should render all environment tags', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const devTag = screen.getByText('Development')
       const stagingTag = screen.getByText('Staging')
       const sandboxTag = screen.getByText('Sandbox')
@@ -152,7 +155,7 @@ describe('Credentials Modal', () => {
       expect(prodTag).toBeInTheDocument()
     })
     it('should render all verification tags', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       const verificationTags = screen.getAllByTestId('verification-tag')
 
       expect(verificationTags).toHaveLength(4)
@@ -176,7 +179,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when email field is blank', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
 
       fireEvent.click(screen.getByRole('button', {
         name: 'Verify Credentials',
@@ -190,7 +193,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when password field is blank', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
 
       fireEvent.click(screen.getByRole('button', {
         name: 'Verify Credentials',
@@ -217,7 +220,7 @@ describe('Credentials Modal', () => {
     })
 
     it('should render the correct error when email field is invalid', () => {
-      render(<CredentialsModal />)
+      render(getCredentialsModal())
       fireEvent.click(screen.getByRole('button', {
         name: 'Verify Credentials',
       }))
