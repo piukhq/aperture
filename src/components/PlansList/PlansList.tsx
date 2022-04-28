@@ -3,7 +3,7 @@ import {TextInputGroup, Button} from 'components'
 import Plan from './components/Plan'
 import SearchSvg from 'icons/svgs/search.svg'
 import CheckSvg from 'icons/svgs/check.svg'
-import {useGetPlansHook} from 'hooks/useGetPlansHook'
+import {useGetFormattedPlansListHook} from 'hooks/useGetFormattedPlansListHook'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedPlanImages} from 'features/planAssetsSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
@@ -12,7 +12,7 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const PlansList = () => {
-  const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useGetPlansHook()
+  const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useGetFormattedPlansListHook()
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState('')
   const [selectedPlan, setSelectedPlan] = useState(null)
