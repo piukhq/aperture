@@ -14,7 +14,7 @@ import {
   getProdVerificationToken,
 } from 'utils/storage'
 
-export const useVerificationHook = () => {
+export const useVerification = () => {
   const [verifyDevCredentials, {data: devToken, error: devError, isLoading: devIsLoading, isSuccess: devIsSuccess, reset: resetDevToken}] = useVerifyDevCredentialsMutation({fixedCacheKey: 'devVerification'})
   const [verifyStagingCredentials, {data: stagingToken, error: stagingError, isLoading: stagingIsLoading, isSuccess: stagingIsSuccess, reset: resetStagingToken}] = useVerifyStagingCredentialsMutation({fixedCacheKey: 'stagingVerification'})
   const [verifyProdCredentials, {data: prodToken, error: prodError, isLoading: prodIsLoading, isSuccess: prodIsSuccess, reset: resetProdToken}] = useVerifyProdCredentialsMutation({fixedCacheKey: 'prodVerification'})

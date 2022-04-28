@@ -1,5 +1,5 @@
 import {useEffect} from 'react'
-import {useVerificationHook} from './useVerificationHook'
+import {useVerification} from './useVerification'
 import {useGetDevPlansMutation, useGetStagingPlansMutation, useGetProdPlansMutation} from 'services/plans'
 import {
   getDevVerificationToken,
@@ -7,8 +7,8 @@ import {
   getProdVerificationToken,
 } from 'utils/storage'
 
-export const useGetPlansHook = () => {
-  const {devToken, stagingToken, prodToken} = useVerificationHook()
+export const useGetPlans = () => {
+  const {devToken, stagingToken, prodToken} = useVerification()
 
   const [getDevPlans, {data: devPlans, reset: resetDevPlans, isLoading: devIsLoading}] = useGetDevPlansMutation({fixedCacheKey: 'devPlans'})
   const [getStagingPlans, {data: stagingPlans, reset: resetStagingPlans, isLoading: stagingIsLoading}] = useGetStagingPlansMutation({fixedCacheKey: 'stagingPlans'})
