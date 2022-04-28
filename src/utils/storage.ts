@@ -3,6 +3,7 @@ import {VerificationToken} from 'utils/enums'
 const areAnyVerificationTokensStored = () => [
   getDevVerificationToken(),
   getStagingVerificationToken(),
+  getProdVerificationToken(),
 ].some(token => token !== null)
 
 

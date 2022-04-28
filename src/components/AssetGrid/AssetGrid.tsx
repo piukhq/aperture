@@ -19,7 +19,7 @@ const AssetGrid = ({planAssets}: Props) => {
     const [devAssetsOfType, stagingAssetsOfType, prodAssetsOfType] = [dev, staging, prod].map(env => {
       return env?.filter(asset => asset.type === index)
     })
-    const longestAssetArray = [devAssetsOfType, stagingAssetsOfType].sort((a, b) => b.length - a.length)[0]
+    const longestAssetArray = [devAssetsOfType, stagingAssetsOfType, prodAssetsOfType].sort((a, b) => b.length - a.length)[0]
 
     longestAssetArray.length > 0 && assetMatrix.push({
       heading: typeName,
@@ -75,7 +75,7 @@ const AssetGrid = ({planAssets}: Props) => {
       <div className='flex flex-col'>{dev && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
       <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div>
       <div className='flex flex-col'></div>
-      <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.PROD)}</div>
+      <div className='flex flex-col'>{prod && renderAssetColumnContents(EnvironmentShortName.PROD)}</div>
     </div>
   )
 }
