@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 import type {NextPage} from 'next'
 import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal, DirectoryPlanDeleteModal} from 'components'
+import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -29,6 +30,7 @@ const DirectoryPage: NextPage = () => {
   const planList: DirectoryPlan[] = mockPlanData
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+  const router = useRouter()
 
   const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN)) }, [dispatch])
 
@@ -38,6 +40,7 @@ const DirectoryPage: NextPage = () => {
         const {plan_metadata, plan_counts, plan_ref} = plan
         const {name, icon_url, plan_id, slug} = plan_metadata
         const {merchants, locations, payment_schemes} = plan_counts
+
 
         const requestPlanModal = (modalName:ModalType) => {
           dispatch(setSelectedDirectoryPlan({
@@ -55,6 +58,10 @@ const DirectoryPage: NextPage = () => {
             },
           }))
           dispatch(requestModal(modalName))
+        }
+
+        const handleViewClick = () => {
+          router.push(`${router?.asPath}/${plan_ref}`)
         }
 
         const optionsMenuItems:OptionsMenuItems = [
@@ -80,7 +87,7 @@ const DirectoryPage: NextPage = () => {
             clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
           },
         ]
-        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
       })}
     </div>
   )
