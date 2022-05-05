@@ -1,14 +1,28 @@
-import {useState} from 'react'
+import {useEffect, useState, useCallback} from 'react'
 import Image from 'next/image'
 import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {ModalStyle} from 'utils/enums'
+import {ModalStyle, ModalType} from 'utils/enums'
+import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {ErrorResponse} from 'types'
+import {requestModal} from 'features/modalSlice'
+
+type error = {
+  status: string,
+  data: ErrorResponse
+}
 
 const DirectoryPlanModal = () => {
+  const {
+    postPlan,
+    postPlanResponse,
+    postPlanError,
+    resetPostPlanResponse,
+  } = useMidManagementPlans()
+
   const dispatch = useAppDispatch()
 
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
@@ -24,41 +38,72 @@ const DirectoryPlanModal = () => {
   const [planIdValue, setPlanIdValue] = useState(`${planId || ''}`)
   const [slugValue, setSlugValue] = useState(slug || '')
 
-  const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
-  const [isPlanIdReadyForValidation, setIsPlanIdReadyForValidation] = useState(false)
-  const [isSlugReadyForValidation, setIsSlugReadyForValidation] = useState(false)
+  const [nameValidationError, setNameValidationError] = useState(null)
+  const [planIdValidationError, setPlanIdValidationError] = useState(null)
+  const [slugValidationError, setSlugValidationError] = useState(null)
+
+
+  const handlePostPlanError = useCallback(() => {
+    // Needed to ensure that the error is recognised as a 'FetchBaseQueryError' type
+    if ('data' in postPlanError) {
+      const {status, data} = postPlanError as error
+      const {detail} = data
+
+      // TODO: Hanble error responses other that 409 (duplicate) and everything else
+      detail.map(err => {
+        const {loc, msg} = err
+        const location = loc[1]
+        if (location === 'name') {
+          setNameValidationError(status as unknown === 409 ? 'Name already exists.' : msg)
+        } else if (location === 'plan_id') {
+          setPlanIdValidationError(status as unknown === 409 ? 'Plan ID already exists.' : msg)
+        } else if (location === 'slug') {
+          setSlugValidationError(status as unknown === 409 ? 'Slug already exists.' : msg)
+        }
+      })
+    }
+  }, [postPlanError])
+
+  useEffect(() => {
+    if (postPlanError) {
+      handlePostPlanError()
+    } else if (postPlanResponse) {
+      resetPostPlanResponse()
+      reset()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [postPlanError, handlePostPlanError, postPlanResponse, resetPostPlanResponse, dispatch])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setIsNameReadyForValidation(false)
+    setNameValidationError(null)
   }
 
-  const handlePlanChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePlanIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlanIdValue(event.target.value)
-    setIsPlanIdReadyForValidation(false)
+    setPlanIdValidationError(null)
   }
 
   const handleSlugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSlugValue(event.target.value)
-    setIsSlugReadyForValidation(false)
+    setSlugValidationError(null)
+  }
+
+  const handleNameBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setNameValidationError('Enter Name')
+    }
   }
 
   const validatePlan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsNameReadyForValidation(true)
-    setIsPlanIdReadyForValidation(true)
-    setIsSlugReadyForValidation(true)
 
-    // TODO: Perform relevant validation and submit, placeholder for now:
-    console.log({
-      image: imageValue,
-      name: nameValue,
-      planId: planIdValue,
-      slug: slugValue,
-    })
+    if (!nameValidationError && nameValue !== '') {
+      postPlan({name: nameValue, planId: planIdValue, slug: slugValue, iconUrl: imageValue})
+    }
   }
 
   const renderAddImageLabel = () => (
@@ -74,35 +119,39 @@ const DirectoryPlanModal = () => {
       <TextInputGroup
         name='plan-name'
         label='Name'
-        error={null} // TODO: add any errors as per validation
+        error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}
+        onFocus={() => setNameValidationError(null)}
+        onBlur={handleNameBlur}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isNameReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
       />
       <TextInputGroup
         name='plan-id'
         label='Plan ID'
-        error={null} // TODO: add any errors as per validation
+        error={planIdValidationError}
         value={planIdValue}
-        onChange={handlePlanChange}
+        onChange={handlePlanIdChange}
+        onFocus={() => setPlanIdValidationError(null)}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isPlanIdReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={planIdValidationError ? InputColour.RED : InputColour.GREY}
       />
       <TextInputGroup
         name='plan-slug'
         label='Slug'
-        error={null} // TODO: add any errors as per validation
+        error={slugValidationError}
         value={slugValue}
         onChange={handleSlugChange}
+        onFocus={() => setSlugValidationError(null)}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isSlugReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={slugValidationError ? InputColour.RED : InputColour.GREY}
       />
     </>
   )

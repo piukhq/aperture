@@ -16,6 +16,14 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
+jest.mock('hooks/useMidManagementPlans', () => ({
+  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+    postPlan: jest.fn(),
+    postPlanResponse: null,
+    postPlanError: null,
+  })),
+}))
+
 const mockImageValue = {}
 const mockNameValue = 'mock_name_value'
 const mockPlanIdValue = 'mock_plan_id_value'
@@ -52,9 +60,9 @@ describe('DirectoryPlanModal', () => {
       .mockReturnValueOnce([mockNameValue, setStateMock])
       .mockReturnValueOnce([mockPlanIdValue, setStateMock])
       .mockReturnValueOnce([mockSlugValue, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
+      .mockReturnValueOnce([null, setStateMock])
+      .mockReturnValueOnce([null, setStateMock])
+      .mockReturnValueOnce([null, setStateMock])
   })
 
   it('should render the Add Image input with correct label', () => {
