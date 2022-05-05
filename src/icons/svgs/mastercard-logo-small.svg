@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="42px" height="30px" viewBox="0 0 42 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons8-mastercard-logo-48</title>
+    <defs>
+        <filter x="-1.2%" y="-2.5%" width="102.3%" height="104.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="MID-Management-April-Reset" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MIDs-Tab" transform="translate(-222.000000, -679.000000)">
+            <g id="Group-3" filter="url(#filter-1)" transform="translate(162.000000, 309.000000)">
+                <g id="Row" transform="translate(26.000000, 368.000000)">
+                    <image id="icons8-mastercard-logo-48" x="39" y="0" width="32" height="32" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAMKADAAQAAAABAAAAMAAAAADbN2wMAAAEAklEQVRoBe1Y3UtUQRT/zbqrbmTaN6VCppQVPmQUSBrYQ/QmZQpF0JMf9S/kU/XUe9hzUNTDQvvYS6Eh+NQHmVtBaJhlxZKkKK7ubr9Z945379fee7fw5R6YOzNnzu+cOWdmzr1zgYCCCAQRCCIQRCCIQBCBzYuAcGs6C4gPQCvrLmI6WO9jXZfHz1DRHHmjrONHgVdGvdksBIbRymcXSwfHC/Dsz7GMciwuBsx4oz6tX9QBOfFJoIeA2yyHNGCR+iPHh+hIDFSA+8QL73gMICZEToOtOUcH3gGNIeAR0adsNTgMRKuRqOuDiDSh2UHMaWgcZbgi+jBlJ2TrwHugnaAYyx47sBN/63buLzltWkgdASpPOkk7jiW5Br3iOp5bSVk6MAF0cuAZARErUDGenHw994/g8knKZugEnanw70QKIZwT/RhZ17jxzJvYYPCgNnDyT8jxNfny6HrktclLzbIdoeLVadnzReXIIJa9hyYjusABeWDTwGMK7TYKuu3XHgZCYbN0iJYyL8jnaviknTwPD3LZTKegwIEE0MsxXwdW6qzZC0SrdNoNzYpyYNm0CQxCzt02ZrSLehHlgIw+yy39oNf2rvriiPAXytCQbxK4o8cqB3hwT3DAbZ7X68i1t1QDcv8XowhPVooprgRqzg7juIZXDvDgyjesb6ra4R66xgNdIqm5KgfYkHnfNzntfaPS0KKR47G//imSAykHuC1rPaopEHezfTRAmMtdIqm5KgeoUH5c+aYyi9Rpp6xMb9VOyJlv6UApucHZ3L8fVW8TfSy+l2InveYenVbm3WMMkt+0vt6BWY3pp04tu0et/ScHXrqfgllyecHMs+NkttmNuOar97laASaGuGu4heBC0oJpwwrz87pEUnNVDlDnayqVNylftPQHWFkqDl1N8Y1digMCCTGIt5ol5QBXQGahIW3AT538WhyVbqAMjfmmDG7qscoByczdYYFxvYCX9vwPfm1yJexohdGvPGM36oo/hkE81UsWOCBXgYzLFPilF/LSnv0EWKXUDDNPqJOaCix60YwkV+6a8ZJvUsftOU1mD1UzXt5JptNZfqzJa6RGsr16jLeyAxrHc53iRegCf7d8NiJNDkgBOjHCA3GWzZ9GgJv+4m9gZpKXL77cMrzircj7cKsbpKWMjPx5cQOWad7xOMn7Me0/pNo2S9VFmNEaTOR+qzSC8fdFY0wtV/lHYtoObbkCmjADN8WDfZqrcYk8L1/xCe6a7oPzaIncRQsn4Q3PVEl73UyX7U6Tl/N0XAEpoCdepORNSF4mOlj2s9SxSJIJVH6fjLLEGe43rE2Uv0lpvxbNeJH/tdhvjTcpDBhBBIIIBBEIIhBEIIjAJkfgL9CSz5KMUHBlAAAAAElFTkSuQmCC"></image>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

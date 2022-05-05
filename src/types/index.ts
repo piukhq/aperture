@@ -93,7 +93,7 @@ export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
   slug?:string,
-  plan_id: number,
+  plan_id?: number,
 }
 
 export type DirectoryPlanCounts = {
@@ -121,6 +121,22 @@ export type DirectoryMerchantMetadata = {
 export type DirectoryMerchantCounts = {
   locations: number,
   payment_schemes: Array<PaymentScheme>,
+}
+
+export type DirectoryMids = Array<DirectoryMid>
+
+export type DirectoryMid = {
+  mid_ref: string,
+  mid_metadata: DirectoryMidMetadata,
+  date_added: string // TODO: Change this depending on API value
+  txm_status: string // TODO: could be an enum, union type
+}
+
+export type DirectoryMidMetadata = {
+  payment_scheme_code: number,
+  mid: string,
+  visa_bin?: string,
+  payment_enrolment_status: string // TODO: could be an enum/union type
 }
 
 export type OptionsMenuItem = {

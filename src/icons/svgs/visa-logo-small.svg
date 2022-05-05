@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="32px" viewBox="0 0 40 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons8-visa-48</title>
+    <defs>
+        <filter x="-1.2%" y="-2.5%" width="102.3%" height="104.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="MID-Management-April-Reset" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MIDs-Tab" transform="translate(-223.000000, -504.000000)">
+            <g id="Group-3" filter="url(#filter-1)" transform="translate(162.000000, 309.000000)">
+                <g id="Row" transform="translate(26.000000, 198.000000)">
+                    <image id="icons8-visa-48" x="41" y="2" width="28" height="20" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAeCAYAAABaKIzgAAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAKqADAAQAAAABAAAAHgAAAACAu7tNAAAEa0lEQVRYCe1YbUxbZRR++g0Mymhpx8ZHmaNqNqVVxI8li2GYsRn24fxh1Ogy3dQf/jAxBuMfozFGY+ZHDIsxxB9Go47Ej6hb2DLjNii4yAZGxK4oinwVCqVA2aDtrue8l3vbba2JSX/cJZzktuc973nf+9xzznPem6sDiW3/qXKDEe8A0jYaFrBNAzInASeRuPxi6KOtfh2DNBqlHjLaNAAuHYRwIq7z6DmSGgbJwIsMRumQfjnd6Z5ES7YGAqqZmvyvwFgZ6HUhK0CznaaViGY7okZlQ5tlFo9WHUNjRQdMeokOBAm+iWq8cu4ALkty4C0mPfoPbUZ+jgFLcQmepk68/diN2OEtFtvseOM8uv+cRWGeEc82lKNukw3l9hzodcBfkxfxRWcQLT+MKLdE7QYrvm+6TR17m7owGl5Ux6mKCnR60Yr3+x7C8eG78dXeVhTHTsBjD6Aj6CHbXWJN/S02AZIHx3pCmJqLoaokT91vYHwBeRYDvqOb37Q2aWcHj6sAvgsR1ZeVA1tLrxhXk08moNfUqD/iQvPoe4C7GRJMuNMZUDfbVeNQ9Y9Pj8Fk0KHSkStswcgSIgtx7K11qiDb/TPY9VYP6l7txsutf+DUb2F1fclqMxpvT+7HE15Xvjp/taJGNHWi/fcZ4MEnoTM70RhvxmvngBxKe4PHLtw4je3+MDasyRNg2RigaLLY8k3in3/6R6LoCshR7BueV+2s7Lt3nVgbjsYQvZRAGZUIRz2TXBNRdvz1n3nMUHRg3wmna7tYW3+rDasorSyfnBmHRC8IVWvkaLItMCYD/Wkgmd6DlFquwXvcheyiitmox+Nb1orxl2cn0D04J3Tv/wXKROq8QFElyXfth9uxhN01TjGOJSR85hsXemp9KhFloK9/PYg47cHChPnmBS9e2rNejPlnT60DDqtZjD/3BfHLkAzUXmBCmc2i+qUqaSPKDiL9rBgLsdFVim3V8ltgW28Ik7NLPHMFkRSgbH/36JCoSyacIs/dX4FNZXINKiTi0uj9e46AJsvCU5k+/RmBniEiKMI3YTazMIkUSZd6Zc4/GsW+w334tntSMYlo3XGDlUgjg+G6b3l6I565r0z18VSkB5qWTLyKbxSi9lNM6VAiMRS6hNP9Sea6l1vQPJFhbGYRNQTiAWK9j8omPB/DuiKLSpBwNI4uKos3H3GroNY7c8FXqngzRDQjUCYLp5/rSZFP28eo+csjZnfRKpnhA8EFQa4tN6/GU/Wl4lLW8D+3rSc+6EOuWY+dyy3uLIE+0hVU3R7eXCIe1EMtSkcHBN8/VTICZacOakEKUCaHQiKec6c2+mXGD05cxM90MnHb4g4RGI+irXcKH54cwTRFuGl3pdrODp8YxtHzyRrmB+eM8MPzacbZSxWd4+CPV2FPndaOnpFM2oEoI1kBmu2MXFcRlc+vbIcgu/tF6BWZPptoX9r0/G2HcCaPG62BljCVkKTn9fwBir/tEL5WumY1hJOxHElA8k631A3/C59zgZfjjB+eAAAAAElFTkSuQmCC"></image>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

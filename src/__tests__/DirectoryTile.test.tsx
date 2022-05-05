@@ -18,7 +18,6 @@ describe('DirectoryTile', () => {
       count: mockSchemeCount,
     },
   ]
-  const mockId = '1'
   const mockPlanMetadata = {
     name: mockName,
     icon_url: mockUrl,
@@ -36,17 +35,18 @@ describe('DirectoryTile', () => {
       <Provider store={store}>
         <DirectoryTile
           metadata={mockPlanMetadata}
+          viewClickFn={jest.fn()}
           counts={{
             merchants: merchantCount,
             locations: 2,
             payment_schemes: mockPaymentSchemes,
           }}
-          id={mockId}
           optionsMenuItems={[{
             label: 'mockItem',
             icon: jest.fn(),
             clickHandler: jest.fn(),
           }]}
+
         />
       </Provider>
     )

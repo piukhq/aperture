@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="101px" height="58px" viewBox="0 0 101 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Add Visa</title>
+    <defs>
+        <filter x="-1.2%" y="-2.5%" width="102.3%" height="104.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="MID-Management-April-Reset" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="MIDs-Tab" transform="translate(-1095.000000, -377.000000)">
+            <g id="Group-3" filter="url(#filter-1)" transform="translate(162.000000, 309.000000)">
+                <g id="Add-Visa" transform="translate(943.000000, 78.000000)">
+                    <path d="M12.819426,-5.17920154e-16 L68.180574,5.17920154e-16 C72.6381677,-3.00926524e-16 74.2545989,0.464128056 75.8842285,1.33566352 C77.5138581,2.20719898 78.792801,3.48614185 79.6643365,5.11577148 C80.5358719,6.74540111 81,8.3618323 81,12.819426 L81,25.180574 C81,29.6381677 80.5358719,31.2545989 79.6643365,32.8842285 C78.792801,34.5138581 77.5138581,35.792801 75.8842285,36.6643365 C74.2545989,37.5358719 72.6381677,38 68.180574,38 L12.819426,38 C8.3618323,38 6.74540111,37.5358719 5.11577148,36.6643365 C3.48614185,35.792801 2.20719898,34.5138581 1.33566352,32.8842285 C0.464128056,31.2545989 2.00617683e-16,29.6381677 -3.45280103e-16,25.180574 L3.45280103e-16,12.819426 C-2.00617683e-16,8.3618323 0.464128056,6.74540111 1.33566352,5.11577148 C2.20719898,3.48614185 3.48614185,2.20719898 5.11577148,1.33566352 C6.74540111,0.464128056 8.3618323,3.00926524e-16 12.819426,-5.17920154e-16 Z" id="Shape" fill="#4350AF"></path>
+                    <g id="Group-4" transform="translate(7.000000, 8.000000)">
+                        <text id="Text" font-family="Poppins-SemiBold, Poppins" font-size="14" font-weight="500" letter-spacing="0.100000001" fill="#FAFAFB">
+                            <tspan x="0" y="16">Add</tspan>
+                        </text>
+                        <image id="Bitmap" x="32" y="1" width="35" height="20.8333333" xlink:href="data:image/png;base64,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"></image>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
