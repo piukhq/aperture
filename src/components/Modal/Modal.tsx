@@ -32,16 +32,14 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const modalChildrenContainerStyle = modalStyle === ModalStyle.REGULAR ? 'max-h-[calc(100%-61px)] rounded-b-[20px] px-[70px]' : 'max-h-[calc(100%-41px)] rounded-b-[15px] px-[15px] pb-[21px]'
 
   const renderModal = () => (
-    <div className={`h-full ${outerModalStyle} z-50`}>
-      <div onClick={(e) => e.stopPropagation()}>
-        <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-200 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
-          {modalStyle !== ModalStyle.REGULAR && modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
-          {renderCloseButton()}
-        </div>
-        <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${modalChildrenContainerStyle}`}>
-          {modalStyle === ModalStyle.REGULAR && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
-          {children}
-        </div>
+    <div className={`h-full ${outerModalStyle} z-50`} onClick={(e) => e.stopPropagation()}>
+      <div className={`flex px-[20px] items-center w-full border-b-[1px] border-grey-200 dark:border-grey-800 bg-white dark:bg-grey-850 ${modalHeaderContainerStyle}`}>
+        {modalStyle !== ModalStyle.REGULAR && modalHeader && <h1 className='mt-[10px] mb-[5px] font-heading-7 font-medium'>{modalHeader}</h1>}
+        {renderCloseButton()}
+      </div>
+      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${modalChildrenContainerStyle}`}>
+        {modalStyle === ModalStyle.REGULAR && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
+        {children}
       </div>
     </div>
   )

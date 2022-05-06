@@ -32,6 +32,8 @@ type Props = {
   selectedValue?: SelectItem
   handleSelectValueChange?: (item: SelectItem) => void
   onChange: (event: { target: { value: string}}) => void
+  onBlur?: (event: { target: { value: string}}) => void
+  onFocus?: () => void
   renderFn?: (item: SelectItem) => JSX.Element
 }
 const TextInputGroup = (props: Props) => {
@@ -50,6 +52,8 @@ const TextInputGroup = (props: Props) => {
     selectedValue,
     handleSelectValueChange,
     onChange,
+    onBlur,
+    onFocus,
     renderFn,
   } = props
 
@@ -64,8 +68,12 @@ const TextInputGroup = (props: Props) => {
       onFocus={() => {
         setIsFocused(true)
         setIsSearchSelectMenuOpen(false)
+        onFocus && onFocus()
       }}
-      onBlur={() => setIsFocused(false)}
+      onBlur={(event) => {
+        setIsFocused(false)
+        onBlur && onBlur(event)
+      }}
       type={INPUT_TYPE_MAPS[inputType]}
       autoComplete='on'
       name={name}
@@ -207,7 +215,7 @@ const TextInputGroup = (props: Props) => {
         </div>
       )}
       {error && (
-        <span data-testid={`${name}-input-error`} className='w-32 text-body text-sm text-right text-red absolute top-1/4 right-[10px]'>
+        <span data-testid={`${name}-input-error`} className='w-[150px] text-body text-[12px] text-right text-red absolute top-[33%] right-[12px]'>
           {error}
         </span>
       )}
