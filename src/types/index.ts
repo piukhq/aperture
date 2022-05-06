@@ -132,7 +132,12 @@ export type OptionsMenuItem = {
 
 export type OptionsMenuItems = Array<OptionsMenuItem>
 
-export type ErrorResponse = {
+export type RTKQueryErrorResponse = {
+  status: string,
+  data: APIErrorResponse
+}
+
+export type APIErrorResponse = {
   detail: Array<
     {
       loc: string,

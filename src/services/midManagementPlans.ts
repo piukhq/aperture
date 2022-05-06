@@ -3,9 +3,9 @@ import {DirectoryPlan} from 'types'
 
 type PostPlanBody = {
     name: string,
-    planId: string,
-    slug: string,
-    iconUrl: string,
+    planId: string | null,
+    slug: string | null,
+    iconUrl: string | null,
 }
 
 const endpointPrefix = '/api/v1/plans'

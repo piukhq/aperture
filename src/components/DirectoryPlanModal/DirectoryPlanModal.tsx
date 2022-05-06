@@ -7,13 +7,8 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle, ModalType} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
-import {ErrorResponse} from 'types'
+import {RTKQueryErrorResponse} from 'types'
 import {requestModal} from 'features/modalSlice'
-
-type error = {
-  status: string,
-  data: ErrorResponse
-}
 
 const DirectoryPlanModal = () => {
   const {
@@ -42,26 +37,22 @@ const DirectoryPlanModal = () => {
   const [planIdValidationError, setPlanIdValidationError] = useState(null)
   const [slugValidationError, setSlugValidationError] = useState(null)
 
-
   const handlePostPlanError = useCallback(() => {
-    // Needed to ensure that the error is recognised as a 'FetchBaseQueryError' type
-    if ('data' in postPlanError) {
-      const {status, data} = postPlanError as error
-      const {detail} = data
+    const {status, data} = postPlanError as RTKQueryErrorResponse
+    const {detail} = data
 
-      // TODO: Hanble error responses other that 409 (duplicate) and everything else
-      detail.map(err => {
-        const {loc, msg} = err
-        const location = loc[1]
-        if (location === 'name') {
-          setNameValidationError(status as unknown === 409 ? 'Name already exists.' : msg)
-        } else if (location === 'plan_id') {
-          setPlanIdValidationError(status as unknown === 409 ? 'Plan ID already exists.' : msg)
-        } else if (location === 'slug') {
-          setSlugValidationError(status as unknown === 409 ? 'Slug already exists.' : msg)
-        }
-      })
-    }
+    // TODO: Handle error responses other that 409 (duplicate) and everything else
+    detail.map(err => {
+      const {loc, msg} = err
+      const location = loc[1]
+      if (location === 'name') {
+        setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
+      } else if (location === 'plan_id') {
+        setPlanIdValidationError(status as unknown === 409 ? 'Plan ID already exists' : msg)
+      } else if (location === 'slug') {
+        setSlugValidationError(status as unknown === 409 ? 'Slug already exists' : msg)
+      }
+    })
   }, [postPlanError])
 
   useEffect(() => {
@@ -101,8 +92,14 @@ const DirectoryPlanModal = () => {
   const validatePlan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!nameValidationError && nameValue !== '') {
-      postPlan({name: nameValue, planId: planIdValue, slug: slugValue, iconUrl: imageValue})
+    if (!nameValidationError) {
+      if (nameValue === '') {
+        setNameValidationError('Enter Name')
+      } else {
+        // API expects non-required blank values to be null rahter than empty strings
+        const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? null : value)
+        postPlan({name: nameValue, planId, slug, iconUrl: imageValue})
+      }
     }
   }
 
@@ -112,6 +109,7 @@ const DirectoryPlanModal = () => {
       className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
     >Add Image</label>
   )
+
   const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
