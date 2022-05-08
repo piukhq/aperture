@@ -3,16 +3,41 @@ import {Button} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryPlanMetadata} from 'types'
 
 type Props = {
-  metadata: DirectoryPlanMetadata
-  newItemButtonHandler: () => void
+  planId: number,
+  name: string,
+  iconUrl?: string,
+  slug?: string,
+  locationLabel?:string,
+  isMerchant?: boolean,
+  newItemButtonHandler?: () => void
 }
 
-// TODO: This component will need to be dynamic to be used in both Plan and Merchant scenarios
-const DirectoryDetailsHeader = ({metadata, newItemButtonHandler}: Props) => {
-  const {name, icon_url: iconUrl, slug, plan_id: planDetailsId} = metadata
+const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locationLabel, newItemButtonHandler}: Props) => {
+
+  const renderLocationLabel = () => (
+    <>
+      <div className='flex flex-col ml-[91px]'>
+        <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Location Label</p>
+      </div>
+      <div className='flex flex-col ml-[91px]'>
+        <p className='font-subheading-3'>{locationLabel}</p>
+      </div>
+    </>
+  )
+
+  const renderNewMerchantButton = () => (
+    <Button
+      handleClick={newItemButtonHandler}
+      buttonSize={ButtonSize.MEDIUM_ICON}
+      buttonWidth={ButtonWidth.AUTO}
+      buttonBackground={ButtonBackground.BLUE}
+      labelColour={LabelColour.WHITE}
+      labelWeight={LabelWeight.MEDIUM}
+    ><PlusSvg/>New Merchant
+    </Button>
+  )
 
   return (
     <>
@@ -40,30 +65,16 @@ const DirectoryDetailsHeader = ({metadata, newItemButtonHandler}: Props) => {
               </div>
               <div className='flex flex-col ml-[91px]'>
                 <p className='font-subheading-3'>{slug}</p>
-                <p className='font-subheading-3'>{planDetailsId}</p>
+                <p className='font-subheading-3'>{planId}</p>
               </div>
 
-              {/* The location label will only be displayed within a merchant details context */}
-              {/* Logic to conditionally display this to be added at a later date, when real data is used */}
-              <div className='flex flex-col ml-[91px]'>
-                <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Location Label</p>
-              </div>
-              <div className='flex flex-col ml-[91px]'>
-                <p className='font-subheading-3'>Store</p>
-              </div>
+
+              { isMerchant && renderLocationLabel()}
             </div>
           </div>
 
           <div className='flex gap-[22px]'>
-            <Button
-              handleClick={newItemButtonHandler}
-              buttonSize={ButtonSize.MEDIUM_ICON}
-              buttonWidth={ButtonWidth.AUTO}
-              buttonBackground={ButtonBackground.BLUE}
-              labelColour={LabelColour.WHITE}
-              labelWeight={LabelWeight.MEDIUM}
-            ><PlusSvg/>New Merchant
-            </Button>
+            {!isMerchant && renderNewMerchantButton()}
             <Button
               handleClick={() => console.log('More Options button clicked')}
               buttonSize={ButtonSize.MEDIUM_ICON}
