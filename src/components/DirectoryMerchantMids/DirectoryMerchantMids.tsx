@@ -21,17 +21,15 @@ const DirectoryMerchantMids = () => {
 
     return (
       <tr className='h-[60px]' key={index}>
-        <td>
-          <div className='flex items-center justify-center'>
-            <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log(`Checkbox ${index} clicked`)} />
-          </div>
+        <td className='flex items-center justify-center h-[60px]'>
+          <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log(`Checkbox ${index} clicked`)} />
         </td>
         <td>
           {renderPaymentSchemeLogo(index, paymentSchemeCode)}
         </td>
         <td className='px-[9px] font-heading-8 font-regular  truncate'>{mid}</td>
         <td className='px-[9px] font-body-3 text-grey-800 truncate'>{visaBin}</td>
-        <td className='px-[9px] font-body-3 text-grey-800 truncate'>{dateAdded}</td> {/* TODO: Will need formatting when coming from API */ }
+        <td className='px-[9px] font-body-3 text-grey-800 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
         <td className='px-[9px]'></td>
         <td className='px-[9px]'></td>
       </tr>
@@ -63,7 +61,7 @@ const DirectoryMerchantMids = () => {
           <tr>
             <th className='px-[9px] w-[40px] rounded-tl-[10px] rounded-bl-[10px]'>
               <div className='flex items-center justify-center'>
-                <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log('Header Checkbox clicked')} />
+                <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log('Header Checkbox clicked')}/>
               </div>
             </th>
             <th className='px-[9px] w-[40px]'></th>
