@@ -3,7 +3,9 @@ import {useRouter} from 'next/router'
 import {DirectoryMids} from 'types'
 import {PageLayout, DirectoryDetailsHeader} from 'components'
 import {mockMidsData} from 'utils/mockMidsData'
+import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector} from 'app/hooks'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -14,30 +16,29 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 
 const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-  const {planId, tab, ref} = router.query
-
-  // TODO:get Merchant uf not selected..
+  const {merchantId} = router.query
 
   // const tabPath = (tab: string) => `/mid-management/directory/${planId}/${merchantId}?tab=${tab}` //TODO : Add navigation to other tabs?
 
   // TODO: Swap out for real api data
   const midsData: DirectoryMids = mockMidsData
 
+  // TODO: placeholder logic instead of making API calls, probably will become utils.
+  const getPlanDetails = () => {
+    return mockPlanDetailsData
+  }
+  const getMerchant = () => {
+    const merchant = mockPlanDetailsData.merchants.find(merchant => merchant.merchant.merchant_ref === merchantId)
+    return merchant ? merchant : mockPlanDetailsData.merchants[0]
+  }
+  // If plan and merchant is known due to previous API calls use it, else hit the API to get them.
+  const planDetails = selectedPlan.plan_ref ? selectedPlan : getPlanDetails()
+  const merchant = selectedMerchant.merchant_ref ? selectedMerchant : getMerchant().merchant
+  const {slug, plan_id: schemeId} = planDetails.plan_metadata
+  const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
 
-  const getMerchantFromApi = () => ({ // TODO: Placeholder till API is available
-    merchant_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa5',
-    merchant_metadata: {
-      name: 'Cada Bardotti',
-      icon_url: 'https://api.staging.gb.bink.com/content/media/hermes/schemes/trenette-con.png',
-      location_label: 'Locations',
-    },
-  })
-
-
-  const merchant = selectedMerchant.merchant_ref ? selectedMerchant : getMerchantFromApi()
-  const directoryMerchantDetailsMetadata = {...merchant.merchant_metadata, planId}
-  // TODO: Add proper functionality to grab from API from there isn't a selected merchant (i.e coming from a shared link)
 
   const renderMerchantDetailsSection = () => {
     const renderPaymentSchemeLogo = (index:number, paymentSchemeCode) => {
@@ -116,7 +117,7 @@ const MerchantDetailsPage: NextPage = () => {
   return (
     <>
       <PageLayout>
-        <DirectoryDetailsHeader metadata={directoryMerchantDetailsMetadata} newItemButtonHandler={() => console.log('placeholder')} />
+        <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
             <button className='grid gap-1 place-content-center h-[60px] font-heading-8 text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'>
@@ -133,8 +134,6 @@ const MerchantDetailsPage: NextPage = () => {
             </button>
           </nav>
           {renderMerchantDetailsSection()}
-          <p className='font-subheading-2 mb-[39px]'>Current Tab: {tab}</p>
-          <p className='font-subheading-2 mb-[39px]'>Current Ref: {ref}</p>
         </div>
       </PageLayout>
     </>

@@ -18,6 +18,7 @@ const PlanDetailsPage: NextPage = () => {
   // TODO: Swap out for real api data
   const planDetails: DirectoryPlanDetails = mockPlanDetailsData
   const {plan_metadata: planMetadata, merchants} = planDetails
+  const {name, slug, icon_url: iconUrl, plan_id: planId} = planMetadata
 
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
@@ -77,7 +78,7 @@ const PlanDetailsPage: NextPage = () => {
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
       <PageLayout>
-        <DirectoryDetailsHeader metadata={planMetadata} newItemButtonHandler={handleRequestNewMerchantModal} />
+        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} />
         {merchants.length > 0 && renderMerchants()}
       </PageLayout>
     </>
