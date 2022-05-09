@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import MerchantDetailsPage from 'pages/mid-management/directory/[planId]/[merchantId]/index'
+import {ModalType} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryMerchantMids', () => () => <div data-testid='directory-merchant-mids' />)
@@ -23,6 +24,9 @@ const store = mockStoreFn({
       name: 'mock-name',
       iconUrl: 'mock-icon-url',
     },
+  },
+  modal: {
+    modalRequested: ModalType.NO_MODAL,
   },
 })
 

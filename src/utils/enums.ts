@@ -64,11 +64,18 @@ enum ModalType {
   MID_MANAGEMENT_DIRECTORY_PLAN_DELETE = 'MID_MANAGEMENT_DIRECTORY_PLAN_DELETE',
   MID_MANAGEMENT_DIRECTORY_MERCHANT = 'MID_MANAGEMENT_DIRECTORY_MERCHANT',
   MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE = 'MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE',
+  MID_MANAGEMENT_DIRECTORY_MID = 'MID_MANAGEMENT_DIRECTORY_MID',
 }
 
 enum ModalStyle {
   REGULAR = 'regular',
   COMPACT = 'compact'
+}
+
+enum PaymentSchemeName {
+  VISA = 'VISA',
+  MASTERCARD = 'Mastercard',
+  AMEX = 'AMEX'
 }
 
 export {
@@ -82,4 +89,5 @@ export {
   RouteDisplayNames,
   ModalType,
   ModalStyle,
+  PaymentSchemeName,
 }

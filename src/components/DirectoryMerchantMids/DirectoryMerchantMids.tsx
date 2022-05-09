@@ -1,6 +1,11 @@
 import {mockMidsData} from 'utils/mockMidsData'
 import {DirectoryMids} from 'types'
-
+import {ModalType, PaymentSchemeName} from 'utils/enums'
+import {
+  useAppDispatch,
+} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
+import {setSelectedDirectoryMidType} from 'features/directoryMidSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
@@ -10,6 +15,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 
 const DirectoryMerchantMids = () => {
   const midsData: DirectoryMids = mockMidsData
+  const dispatch = useAppDispatch()
 
   const renderPaymentSchemeLogo = (index:number, paymentSchemeCode) => {
     if (paymentSchemeCode === 1) {
@@ -42,21 +48,26 @@ const DirectoryMerchantMids = () => {
     )
   }
 
+  const requestMidModal = (paymentScheme) => {
+    dispatch(setSelectedDirectoryMidType(paymentScheme))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
+  }
+
   return (
     <div className='mx-[10px]'>
       <div className='flex h-[71px] items-center justify-end pr-[9px]'>
         <button
-          onClick={() => console.log('Placeholder: Add Visa MID')}
+          onClick={() => requestMidModal(PaymentSchemeName.VISA)}
           aria-label='Add Visa MID'
         ><AddVisaSvg alt=''/>
         </button>
         <button
-          onClick={() => console.log('Placeholder: Add Mastercard MID')}
+          onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
           aria-label='Add Mastercard MID'
         ><AddMastercardSvg alt=''/>
         </button>
         <button
-          onClick={() => console.log('Placeholder: Add AMEX MID')}
+          onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
           aria-label='Add Amex MID'
         ><AddAmexSvg alt=''/>
         </button>
