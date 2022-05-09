@@ -7,15 +7,12 @@ import {DirectoryMerchantMids} from 'components'
 describe('DirectoryMerchantMids', () => {
   it('should render the add Mid buttons', () => {
     render(<DirectoryMerchantMids/>)
-
     const visaButton = screen.getByRole('button', {
       name: 'Add Visa MID',
     })
-
     const mastercardButton = screen.getByRole('button', {
       name: 'Add Mastercard MID',
     })
-
     const amexButton = screen.getByRole('button', {
       name: 'Add Amex MID',
     })
@@ -25,11 +22,6 @@ describe('DirectoryMerchantMids', () => {
     expect(amexButton).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
-    render(<DirectoryMerchantMids/>)
-    const headings = screen.getAllByTestId('table-header')
-    expect(headings).toHaveLength(7)
-  })
 
   it('should have the correct table headers', () => {
     render(<DirectoryMerchantMids/>)
