@@ -29,8 +29,8 @@ const DirectoryMerchantMids = () => {
           {renderPaymentSchemeLogo(index, paymentSchemeCode)}
         </td>
         <td className='px-[9px] font-heading-8 font-regular  truncate'>{mid}</td>
-        <td className='px-[9px] font-body-3 text-grey-800 truncate'>{visaBin}</td>
-        <td className='px-[9px] font-body-3 text-grey-800 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
+        <td className='px-[9px] font-body-3 truncate'>{visaBin}</td>
+        <td className='px-[9px] font-body-3 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
         <td className='px-[9px]'></td>
         <td className='px-[9px]'></td>
       </tr>
