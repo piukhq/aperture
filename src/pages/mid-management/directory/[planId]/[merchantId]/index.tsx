@@ -1,11 +1,11 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import {PageLayout, DirectoryDetailsHeader} from 'components'
+import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids} from 'components'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector} from 'app/hooks'
-import DirectoryMerchantMids from 'components/DirectoryMerchantMids'
+
 
 const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
@@ -29,7 +29,7 @@ const MerchantDetailsPage: NextPage = () => {
 
 
   const renderMerchantDetailsSection = () => {
-    // TODO: Add logic to render different future components based on tab query string
+    // TODO: Add logic to render different future components based on the tab query string
     return <DirectoryMerchantMids />
   }
 
