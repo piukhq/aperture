@@ -10,8 +10,9 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 
 const DirectoryMerchantMids = () => {
   const midsData: DirectoryMids = mockMidsData
+
   const renderPaymentSchemeLogo = (index:number, paymentSchemeCode) => {
-    const paymentSchemeArray = [<VisaSvg key={index}/>, <MastercardSvg key={index}/>, <AmexSvg key={index}/>]
+    const paymentSchemeArray = [<VisaSvg key={index} alt='Visa'/>, <MastercardSvg key={index} alt='Mastercard' />, <AmexSvg key={index} alt='Amex'/>]
     return paymentSchemeArray[paymentSchemeCode - 1]
   }
 
@@ -51,7 +52,7 @@ const DirectoryMerchantMids = () => {
         </button>
         <button
           onClick={() => console.log('Placeholder: Add AMEX MID')}
-          aria-label='Add AMEX MID'
+          aria-label='Add Amex MID'
         ><AddAmexSvg alt=''/>
         </button>
       </div>
@@ -59,17 +60,17 @@ const DirectoryMerchantMids = () => {
       <table className='w-full min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
         <thead className='h-[38px] text-left bg-grey-200'>
           <tr>
-            <th className='px-[9px] w-[40px] rounded-tl-[10px] rounded-bl-[10px]'>
+            <th data-testid='table-header' aria-label='group-checkbox' className='px-[9px] w-[40px] rounded-tl-[10px] rounded-bl-[10px]'>
               <div className='flex items-center justify-center'>
                 <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log('Header Checkbox clicked')}/>
               </div>
             </th>
-            <th className='px-[9px] w-[40px]'></th>
-            <th className='px-[9px] font-table-header text-grey-800'>VALUE</th>
-            <th className='px-[9px] font-table-header text-grey-800'>BIN</th>
-            <th className='px-[9px] font-table-header text-grey-800'>DATE ADDED</th>
-            <th className='px-[9px] font-table-header text-grey-800'>SCHEME STATUS</th>
-            <th className='px-[9px] font-table-header text-grey-800 rounded-tr-[10px] rounded-br-[10px]'>HARMONIA STATUS</th>
+            <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[40px]'></th>
+            <th data-testid='table-header' className='px-[9px] font-table-header text-grey-800'>VALUE</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header text-grey-800'>BIN</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header text-grey-800'>DATE ADDED</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header text-grey-800'>SCHEME STATUS</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header text-grey-800 rounded-tr-[10px] rounded-br-[10px]'>HARMONIA STATUS</th>
           </tr>
         </thead>
         <tbody>
