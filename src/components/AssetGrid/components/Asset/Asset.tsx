@@ -61,10 +61,9 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       <button aria-label={`${imageEnv} ${description || assetType.heading}`} onClick={handleAssetClick}>
         <Image
           className={imageClasses}
-          alt={description}
+          alt={`${imageEnv} ${assetType.heading} ${assetType.hasMultipleImagesOfThisType && typeIndex + 1}`}
           width={150}
           height={73}
-          aria-hidden='true'
           objectFit='contain'
           src={url}
           quality={25} // TODO: Revisit this once the hover zoom effect is in place

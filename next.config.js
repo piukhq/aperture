@@ -14,6 +14,10 @@ const moduleExports = {
   images: {
     domains: ['api.dev.gb.bink.com', 'api.staging.gb.bink.com', 'api.gb.bink.com'],
   },
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
 }
 
 const sentryWebpackPluginOptions = {

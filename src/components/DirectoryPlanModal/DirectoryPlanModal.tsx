@@ -39,20 +39,22 @@ const DirectoryPlanModal = () => {
 
   const handlePostPlanError = useCallback(() => {
     const {status, data} = postPlanError as RTKQueryErrorResponse
-    const {detail} = data
 
-    // TODO: Handle error responses other that 409 (duplicate) and everything else
-    detail.map(err => {
-      const {loc, msg} = err
-      const location = loc[1]
-      if (location === 'name') {
-        setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
-      } else if (location === 'plan_id') {
-        setPlanIdValidationError(status as unknown === 409 ? 'Plan ID already exists' : msg)
-      } else if (location === 'slug') {
-        setSlugValidationError(status as unknown === 409 ? 'Slug already exists' : msg)
-      }
-    })
+    if (data && data.detail) {
+      const {detail} = data
+      // TODO: Handle error responses other that 409 (duplicate) and everything else
+      detail.map(err => {
+        const {loc, msg} = err
+        const location = loc[1]
+        if (location === 'name') {
+          setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
+        } else if (location === 'plan_id') {
+          setPlanIdValidationError(status as unknown === 409 ? 'Plan ID already exists' : msg)
+        } else if (location === 'slug') {
+          setSlugValidationError(status as unknown === 409 ? 'Slug already exists' : msg)
+        }
+      })
+    }
   }, [postPlanError])
 
   useEffect(() => {
