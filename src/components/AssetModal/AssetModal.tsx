@@ -67,7 +67,7 @@ const AssetModal = () => {
 
   const renderEnvironmentTags = () => (
     <div className='mb-[12px]'>
-      <h3 className='font-heading-9'>Environment</h3>
+      <h2 className='font-heading-9'>Environment</h2>
       <div className='flex gap-[8px] pt-[4px] mb-[12px]'>
         {Object.keys(selectedAssetGroup).map((envKey: string) => (
           <div key={envKey}>
@@ -200,7 +200,7 @@ const AssetModal = () => {
           <div className='flex flex-col basis-[3%] py-[5px] gap-1 bg-grey-300 text-center' data-testid='line-numbers'>
             {renderLineNumbers()}
           </div>
-          <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto' data-testid='json-block'>
+          <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto' data-testid='json-block' tabIndex={0}>
             {renderJson()}
           </div>
         </pre>
