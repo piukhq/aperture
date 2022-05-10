@@ -136,6 +136,7 @@ const CredentialsModal = ({removeTokenHandler}: Props) => {
           label='Email'
           error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : null}
           value={emailValue}
+          ariaRequired
           onChange={handleEmailChange}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}
@@ -147,6 +148,7 @@ const CredentialsModal = ({removeTokenHandler}: Props) => {
           label='Password'
           error={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? 'Enter password' : null}
           value={passwordValue}
+          ariaRequired
           onChange={handlePasswordChange}
           inputType={InputType.PASSWORD}
           inputStyle={InputStyle.FULL}
