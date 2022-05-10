@@ -146,7 +146,7 @@ const TextInputGroup = (props: Props) => {
               setIsFocused(false)
             }}
             className={classNames(
-              'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
+              'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-400 focus:outline-lightBlue',
               INPUT_COLOUR_MAPS[inputColour].input,
               INPUT_STYLE_MAPS[inputStyle].input,
               isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300 dark:border-grey-600'
@@ -169,7 +169,10 @@ const TextInputGroup = (props: Props) => {
           {isSearchSelectMenuOpen && (
             <Combobox.Options static as='ul' className='scrollable bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
               {selectValues.map((value, _index) => (
-                <Combobox.Option as='li' key={_index} value={value} className='cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center'>
+                <Combobox.Option as='li' key={_index} value={value}
+                  className={({active}) => `relative select-none cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center 
+                ${active ? 'bg-grey-300 dark:bg-grey-800 text-white' : 'text-gray-900'}`
+                  }>
                   {renderFn(value)}
                 </Combobox.Option>
               ))}
