@@ -134,6 +134,7 @@ const CredentialsModal = ({removeTokenHandler}: Props) => {
         <TextInputGroup
           name='credentials-email'
           label='Email'
+          autofocus
           error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : null}
           value={emailValue}
           ariaRequired

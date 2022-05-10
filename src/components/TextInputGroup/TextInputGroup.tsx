@@ -27,6 +27,7 @@ type Props = {
   inputStyle: InputStyle
   svgIcon?: ReactNode
   placeholder?: string
+  autofocus?: boolean
   value?: string
   ariaRequired?: boolean
   selectValues?: SelectItem[]
@@ -48,6 +49,7 @@ const TextInputGroup = (props: Props) => {
     error = null,
     name,
     placeholder,
+    autofocus,
     value,
     ariaRequired,
     selectValues,
@@ -76,6 +78,7 @@ const TextInputGroup = (props: Props) => {
         setIsFocused(false)
         onBlur && onBlur(event)
       }}
+      autoFocus={autofocus}
       aria-required={ariaRequired ? 'true' : 'false'}
       type={INPUT_TYPE_MAPS[inputType]}
       autoComplete='on'

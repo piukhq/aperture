@@ -99,10 +99,19 @@ describe('Credentials Modal', () => {
   describe('Test Email Field', () => {
     it('should render the email input', () => {
       render(getCredentialsModal())
-
       const emailInput = screen.getByLabelText('Email')
+
       expect(emailInput).toBeInTheDocument()
+      expect(emailInput).toHaveProperty('autofocus')
       expect(emailInput).toHaveValue(mockEmailValue)
+    })
+
+    it('should be focused by default', () => {
+      render(getCredentialsModal())
+      const emailInput = screen.getByLabelText('Email')
+
+      expect(emailInput).toHaveProperty('autofocus')
+
     })
 
     it('should not render the email error message', () => {
