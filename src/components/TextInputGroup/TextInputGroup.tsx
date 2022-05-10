@@ -130,6 +130,7 @@ const TextInputGroup = (props: Props) => {
       <div className='relative'>
         <Combobox value={selectedValue} onChange={handleSelectItemClick}>
           <Combobox.Input as='input' ref={inputRef}
+            aria-label='Plan List'
             displayValue={() => value}
             autoComplete='off'
             onChange={onChange}
@@ -182,7 +183,6 @@ const TextInputGroup = (props: Props) => {
       </div>
     </>
   )
-
 
   const renderInputType = (inputType: number): ReactNode => {
     if (inputType === InputType.SEARCH || inputType === InputType.TEXT || inputType === InputType.PASSWORD) {
