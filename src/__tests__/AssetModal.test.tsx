@@ -119,6 +119,13 @@ describe('Asset Modal', () => {
       expect(rightArrow).toBeInTheDocument()
     })
 
+    it('should automatically focus on the right Navigation arrow', () => {
+      render(getAssetModalComponent())
+      const rightArrow = screen.getByLabelText('Next Environment')
+
+      expect(rightArrow).toHaveProperty('autofocus')
+    })
+
     it('should not render navigation buttons', () => {
       store = mockStoreFn({ // mocks when only one asset is found
         mockModalObject,
