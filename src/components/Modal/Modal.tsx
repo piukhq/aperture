@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useCallback} from 'react'
 import CloseIcon from 'icons/svgs/close.svg'
 
 import {useAppDispatch} from 'app/hooks'
@@ -13,19 +13,33 @@ type Props = {
   onCloseFn?: VoidFunction,
 }
 
+interface KeyboardEvent {
+  key: string;
+}
+
 const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const dispatch = useAppDispatch()
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     onCloseFn && onCloseFn()
     dispatch(requestModal(ModalType.NO_MODAL))
-  }
+  }, [dispatch, onCloseFn])
 
   const renderCloseButton = () => (
     <button aria-label='Close' onClick={handleClose}>
       <CloseIcon className='w-[14px] h-[14px]' />
     </button>
   )
+
+  useEffect(() => {
+    const closeCheck = (e:KeyboardEvent) => {
+      if(e.key === 'Escape') {
+        handleClose()
+      }
+    }
+    window.addEventListener('keydown', closeCheck)
+    return () => window.removeEventListener('keydown', closeCheck)
+  }, [handleClose])
 
   const outerModalStyle = modalStyle === ModalStyle.REGULAR ? 'w-[750px] py-[53px]' : 'w-[485px] pt-[20%] pb-[10%]'
   const modalHeaderContainerStyle = modalStyle === ModalStyle.REGULAR ? 'h-[61px] flex-row-reverse rounded-t-[20px]' : 'h-[41px] place-content-between rounded-t-[15px]'
