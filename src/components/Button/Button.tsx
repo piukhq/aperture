@@ -27,6 +27,7 @@ export interface ButtonProps {
   children?: ReactNode,
   handleClick?: () => void,
   ariaLabel?: string,
+  autoFocus?:boolean
 }
 
 const Button = (props: ButtonProps) => {
@@ -41,6 +42,7 @@ const Button = (props: ButtonProps) => {
     handleClick,
     ariaLabel,
     children,
+    autoFocus,
   } = props
 
   return (
@@ -54,6 +56,7 @@ const Button = (props: ButtonProps) => {
         LABEL_WEIGHT_MAPS[labelWeight],
       )}
       aria-label={ariaLabel}
+      autoFocus={autoFocus}
       onClick={handleClick}
       type={BUTTON_TYPE_MAPS[buttonType]}
     >

@@ -136,6 +136,7 @@ const AssetModal = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         ariaLabel={`${label} Environment`}
+        autoFocus = {navigationDirection === NavigationDirection.RIGHT ? true : false}
       >
         <ArrowDownSvg fill='white' className={`${navigationDirection} scale-75`} />
       </Button>
