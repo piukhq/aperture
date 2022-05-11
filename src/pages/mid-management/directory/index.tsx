@@ -41,7 +41,7 @@ const DirectoryPage: NextPage = () => {
         const {name, icon_url, plan_id, slug} = plan_metadata
         const {merchants, locations, payment_schemes} = plan_counts
 
-        const selectDirectoryPlan = () => {
+        const setSelectedPlan = () => {
           dispatch(setSelectedDirectoryPlan({
             plan_ref: plan_ref,
             plan_metadata: {
@@ -58,12 +58,12 @@ const DirectoryPage: NextPage = () => {
           }))
         }
         const requestPlanModal = (modalName:ModalType) => {
-          selectDirectoryPlan()
+          setSelectedPlan()
           dispatch(requestModal(modalName))
         }
 
         const handleViewClick = () => {
-          selectDirectoryPlan()
+          setSelectedPlan()
           const planUrl = `${router?.asPath}/${plan_ref}`
           merchants === 1 ? router.push(`${planUrl}/3fa85f64-5717-4562-b3fc-2c963f66afa5?tab=mids`) : router.push(`${planUrl}`) // TODO: Get correct merchant ID from API available
         }
