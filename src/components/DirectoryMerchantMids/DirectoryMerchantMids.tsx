@@ -12,13 +12,18 @@ const DirectoryMerchantMids = () => {
   const midsData: DirectoryMids = mockMidsData
 
   const renderPaymentSchemeLogo = (index:number, paymentSchemeCode) => {
-    const paymentSchemeArray = [<VisaSvg key={index} alt='Visa'/>, <MastercardSvg key={index} alt='Mastercard' />, <AmexSvg key={index} alt='Amex'/>]
-    return paymentSchemeArray[paymentSchemeCode - 1]
+    if (paymentSchemeCode === 1) {
+      return <VisaSvg key={index} alt='Visa'/>
+    } else if (paymentSchemeCode === 2) {
+      return <MastercardSvg key={index} alt='Mastercard' />
+    } else if (paymentSchemeCode === 3) {
+      return <AmexSvg key={index} alt='Amex'/>
+    }
   }
 
   const renderRow = (midElement, index) => {
-    const {date_added: dateAdded} = midElement
-    const {payment_scheme_code: paymentSchemeCode, mid, visa_bin: visaBin} = midElement.mid_metadata
+    const {date_added: dateAdded, mid_metadata: midMetadata} = midElement
+    const {payment_scheme_code: paymentSchemeCode, mid, visa_bin: visaBin} = midMetadata
 
     return (
       <tr className='h-[60px]' key={index}>
