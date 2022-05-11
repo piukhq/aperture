@@ -67,8 +67,6 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
                 <p className='font-subheading-3'>{slug}</p>
                 <p className='font-subheading-3'>{planId}</p>
               </div>
-
-
               { isMerchant && renderLocationLabel()}
             </div>
           </div>

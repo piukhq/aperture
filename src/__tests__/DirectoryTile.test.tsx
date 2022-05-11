@@ -46,7 +46,6 @@ describe('DirectoryTile', () => {
             icon: jest.fn(),
             clickHandler: jest.fn(),
           }]}
-
         />
       </Provider>
     )
