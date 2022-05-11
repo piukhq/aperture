@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import {useRouter} from 'next/router'
 import {Button} from 'components'
 
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -22,15 +21,13 @@ type DirectoryTileCounts = {
 }
 
 type Props = {
-  id: string,
   metadata: DirectoryTileMetadata
   counts: DirectoryTileCounts
   optionsMenuItems: OptionsMenuItems
+  viewClickFn: VoidFunction
 }
 
-const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
-  const router = useRouter()
-
+const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
 
   const {
     name,
@@ -81,7 +78,7 @@ const DirectoryTile = ({metadata, counts, id, optionsMenuItems}: Props) => {
         </div>
 
         <Button
-          handleClick={() => router.push(`${router?.asPath}/${id}`)}
+          handleClick={viewClickFn}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.LARGE}

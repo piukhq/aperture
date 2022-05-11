@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 import type {NextPage} from 'next'
 import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal, DirectoryPlanDeleteModal} from 'components'
+import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
 import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -29,6 +30,7 @@ const DirectoryPage: NextPage = () => {
   const planList: DirectoryPlan[] = mockPlanData
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
+  const router = useRouter()
 
   const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN)) }, [dispatch])
 
@@ -39,7 +41,7 @@ const DirectoryPage: NextPage = () => {
         const {name, icon_url, plan_id, slug} = plan_metadata
         const {merchants, locations, payment_schemes} = plan_counts
 
-        const requestPlanModal = (modalName:ModalType) => {
+        const setSelectedPlan = () => {
           dispatch(setSelectedDirectoryPlan({
             plan_ref: plan_ref,
             plan_metadata: {
@@ -54,7 +56,16 @@ const DirectoryPage: NextPage = () => {
               payment_schemes,
             },
           }))
+        }
+        const requestPlanModal = (modalName:ModalType) => {
+          setSelectedPlan()
           dispatch(requestModal(modalName))
+        }
+
+        const handleViewClick = () => {
+          setSelectedPlan()
+          const planUrl = `${router?.asPath}/${plan_ref}`
+          merchants === 1 ? router.push(`${planUrl}/3fa85f64-5717-4562-b3fc-2c963f66afa5?tab=mids`) : router.push(`${planUrl}`) // TODO: Get correct merchant ID from API available
         }
 
         const optionsMenuItems:OptionsMenuItems = [
@@ -80,7 +91,7 @@ const DirectoryPage: NextPage = () => {
             clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
           },
         ]
-        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} id={plan_ref} optionsMenuItems={optionsMenuItems}/>
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
       })}
     </div>
   )

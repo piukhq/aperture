@@ -58,8 +58,8 @@ const DatabasePage: NextPage = () => {
         {merchantList.length > 0 && (
           <div className='flex mt-[51px] flex-wrap gap-[30px]'>
             {merchantList.map((merchant, index) => {
-              const {merchant_metadata, merchant_counts, merchant_ref} = merchant
-              return <DirectoryTile key={index} metadata={merchant_metadata} counts={merchant_counts} id={merchant_ref} optionsMenuItems={[]}/>
+              const {merchant_metadata, merchant_counts} = merchant
+              return <DirectoryTile key={index} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={[]} viewClickFn={() => console.log('placeholder')}/>
             }
             )}
           </div>

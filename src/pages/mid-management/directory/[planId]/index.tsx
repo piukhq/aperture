@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import type {NextPage} from 'next'
-// import {useRouter} from 'next/router'
+import {useRouter} from 'next/router'
 import {
   useAppDispatch,
   useAppSelector,
@@ -18,6 +18,7 @@ const PlanDetailsPage: NextPage = () => {
   // TODO: Swap out for real api data
   const planDetails: DirectoryPlanDetails = mockPlanDetailsData
   const {plan_metadata: planMetadata, merchants} = planDetails
+  const {name, slug, icon_url: iconUrl, plan_id: planId} = planMetadata
 
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
@@ -25,7 +26,7 @@ const PlanDetailsPage: NextPage = () => {
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
 
   // TODO: Use plan ID from URL to query for specific plan
-  // const router = useRouter()
+  const router = useRouter()
   // const {planId} = router.query
 
   const renderMerchants = () => {
@@ -34,13 +35,22 @@ const PlanDetailsPage: NextPage = () => {
         {merchants.map((merchant) => {
           const {merchant_metadata, merchant_counts, merchant_ref} = merchant.merchant
 
-          const requestMerchantModal = (modalName:ModalType) => {
+          const setSelectedMerchant = () => {
             dispatch(setSelectedDirectoryMerchant({
               merchant_ref,
               merchant_metadata,
               merchant_counts,
             }))
+          }
+
+          const requestMerchantModal = (modalName:ModalType) => {
+            setSelectedMerchant()
             dispatch(requestModal(modalName))
+          }
+
+          const handleViewClick = () => {
+            setSelectedMerchant()
+            router.push(`${router?.asPath}/${merchant_ref}?tab=mids`)
           }
 
           const optionsMenuItems:OptionsMenuItems = [
@@ -57,7 +67,7 @@ const PlanDetailsPage: NextPage = () => {
             },
           ]
 
-          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} id={merchant_ref} optionsMenuItems={optionsMenuItems} />
+          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={optionsMenuItems} viewClickFn={handleViewClick} />
         })}
       </div>
     )
@@ -68,7 +78,7 @@ const PlanDetailsPage: NextPage = () => {
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
       <PageLayout>
-        <DirectoryDetailsHeader metadata={planMetadata} newItemButtonHandler={handleRequestNewMerchantModal} />
+        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} />
         {merchants.length > 0 && renderMerchants()}
       </PageLayout>
     </>
