@@ -1,4 +1,3 @@
-import {useState} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids, DirectoryMidModal} from 'components'
