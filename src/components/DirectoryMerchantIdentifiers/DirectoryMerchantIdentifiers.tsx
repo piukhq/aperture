@@ -9,12 +9,8 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 const DirectoryMerchantIdentifiers = () => {
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
-  const renderPaymentSchemeLogo = (index:number, paymentSchemeCode) => {
-    if (paymentSchemeCode === 1) {
-      return <VisaSvg key={index} alt='Visa'/>
-    } else if (paymentSchemeCode === 2) {
-      return <MastercardSvg key={index} alt='Mastercard' />
-    }
+  const renderPaymentSchemeLogo = (index:number, paymentSchemeCode:number) => {
+    return paymentSchemeCode === 1 ? <VisaSvg key={index} alt='Visa'/> : <MastercardSvg key={index} alt='Mastercard' />
   }
 
   const renderRow = (identifierElement, index) => {
@@ -32,7 +28,7 @@ const DirectoryMerchantIdentifiers = () => {
         <td className='px-[9px] font-heading-8 font-regular truncate'>{value}</td>
         <td className='px-[9px] font-body-3 truncate'>{paymentSchemeMerchantName}</td>
         <td className='px-[9px] font-body-3 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
-        <td className='px-[9px]'></td> {/* TODO: Add Harmonia Status */}
+        <td className='px-[9px]'></td>{/* TODO: Add Harmonia Status */}
       </tr>
     )
   }
