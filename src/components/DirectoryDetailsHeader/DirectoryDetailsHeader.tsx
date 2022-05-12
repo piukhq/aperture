@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import {Button, Breadcrumb} from 'components'
+import {Button, DirectoryBreadcrumb} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -42,7 +42,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
   return (
     <>
       <div className='ml-[245px]'>
-        <Breadcrumb />
+        <DirectoryBreadcrumb />
       </div>
 
       <div className='ml-[40px]'>

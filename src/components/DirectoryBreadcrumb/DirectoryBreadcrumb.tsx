@@ -6,7 +6,7 @@ import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {mockPlanData} from 'utils/mockPlanData'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 
-const Breadcrumb = () => {
+const DirectoryBreadcrumb = () => {
   const router = useRouter()
 
   // Split out '/' and '?' characters from route
@@ -59,4 +59,4 @@ const Breadcrumb = () => {
   )
 }
 
-export default React.memo(Breadcrumb)
+export default React.memo(DirectoryBreadcrumb)
