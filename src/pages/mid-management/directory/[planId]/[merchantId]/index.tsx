@@ -16,11 +16,18 @@ const MerchantDetailsPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const {merchantId, planId, tab} = router.query
 
-  enum TabMenu {
+  enum NavigationTab {
     MIDS = 'mids',
-    SECONDARY_MIDS ='secondary-mids',
     LOCATIONS = 'locations',
+    SECONDARY_MIDS ='secondary-mids',
     IDENTIFIERS ='identifiers'
+  }
+
+  enum NavigationLabel {
+    MIDS = 'MIDs',
+    LOCATIONS = 'Locations',
+    SECONDARY_MIDS ='Secondary MIDs',
+    IDENTIFIERS ='Identifiers'
   }
 
   const getPlanDetails = () => {
@@ -42,13 +49,13 @@ const MerchantDetailsPage: NextPage = () => {
   }
 
   const renderMerchantDetailsSection = () => {
-    if (tab === TabMenu.MIDS) {
+    if (tab === NavigationTab.MIDS) {
       return <DirectoryMerchantMids />
-    } else if (tab === TabMenu.LOCATIONS) {
+    } else if (tab === NavigationTab.LOCATIONS) {
       return null // TODO: Swap out with future locations component
-    } else if (tab === TabMenu.SECONDARY_MIDS) {
+    } else if (tab === NavigationTab.SECONDARY_MIDS) {
       return null // TODO: Swap out with future secondary mids component
-    } else if (tab === TabMenu.IDENTIFIERS) {
+    } else if (tab === NavigationTab.IDENTIFIERS) {
       return <DirectoryMerchantMids/>
     }
   }
@@ -58,6 +65,14 @@ const MerchantDetailsPage: NextPage = () => {
 
   const checkTabSelection = (navigationTab: string) => navigationTab === tab ? tabSelectedClasses : tabUnselectedClasses
 
+
+  const renderNavigationTabs = () => {
+    return Object.keys(NavigationTab).map(navigationKey => (
+      <button key={navigationKey} className={checkTabSelection(NavigationTab[navigationKey])} onClick={() => handleNavigationClick(NavigationTab[navigationKey])}>
+        <span className='place-content-center flex h-[51px] items-center '>{NavigationLabel[navigationKey]}</span>
+      </button>
+    ))
+  }
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
@@ -65,18 +80,7 @@ const MerchantDetailsPage: NextPage = () => {
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
-            <button className={checkTabSelection(TabMenu.MIDS)} onClick={() => handleNavigationClick(TabMenu.MIDS)}>
-              <span className='place-content-center flex h-[51px] items-center'>MIDs</span>
-            </button>
-            <button className={checkTabSelection(TabMenu.SECONDARY_MIDS)} onClick={() => handleNavigationClick(TabMenu.SECONDARY_MIDS)}>
-              <span className='place-content-center flex h-[51px] items-center '>Secondary MIDs</span>
-            </button>
-            <button className={checkTabSelection(TabMenu.LOCATIONS)} onClick={() => handleNavigationClick(TabMenu.LOCATIONS)}>
-              <span className='place-content-center flex h-[51px] items-center'>Locations</span>
-            </button>
-            <button className={checkTabSelection(TabMenu.IDENTIFIERS)} onClick={() => handleNavigationClick(TabMenu.IDENTIFIERS)}>
-              <span className='place-content-center flex h-[51px] items-center'>Identifiers</span>
-            </button>
+            {renderNavigationTabs()}
           </nav>
           {renderMerchantDetailsSection()}
         </div>
