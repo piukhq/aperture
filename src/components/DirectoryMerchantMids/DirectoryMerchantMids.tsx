@@ -5,7 +5,7 @@ import {
   useAppDispatch,
 } from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryMidType} from 'features/directoryMidSlice'
+import {setSelectedDirectoryMidPaymentScheme} from 'features/directoryMidSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
@@ -49,7 +49,7 @@ const DirectoryMerchantMids = () => {
   }
 
   const requestMidModal = (paymentScheme) => {
-    dispatch(setSelectedDirectoryMidType(paymentScheme))
+    dispatch(setSelectedDirectoryMidPaymentScheme(paymentScheme))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
   }
 

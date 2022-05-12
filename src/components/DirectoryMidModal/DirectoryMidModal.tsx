@@ -4,10 +4,10 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle, PaymentSchemeName} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMidType, reset} from 'features/directoryMidSlice'
+import {getSelectedDirectoryMidPaymentScheme, reset} from 'features/directoryMidSlice'
 
 const DirectoryMidModal = () => {
-  const midType = useAppSelector(getSelectedDirectoryMidType).midType
+  const midType = useAppSelector(getSelectedDirectoryMidPaymentScheme).selectedPaymentScheme
   const dispatch = useAppDispatch()
 
   const [midValue, setMidValue] = useState('')

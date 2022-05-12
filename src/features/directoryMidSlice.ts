@@ -3,21 +3,22 @@ import {RootState} from 'app/store'
 import {PaymentSchemeNameType} from 'types'
 
 const initialState = {
-  midType: null,
+  selectedPaymentScheme: null,
 }
 
 export const directoryMidSlice = createSlice({
   name: 'directoryMid',
   initialState,
   reducers: {
-    setSelectedDirectoryMidType: (state, action: PayloadAction<PaymentSchemeNameType>) => {
-      state.midType = action.payload
+    setSelectedDirectoryMidPaymentScheme: (state, action: PayloadAction<PaymentSchemeNameType>) => { // Sets the requested mid payment scheme for a new MID
+      state.selectedPaymentScheme = action.payload
     },
+    // TODO: Add setSelectedDirectoryMid for selecting an existing MID
     reset: () => initialState,
   },
 })
 
-export const {setSelectedDirectoryMidType, reset} = directoryMidSlice.actions
+export const {setSelectedDirectoryMidPaymentScheme, reset} = directoryMidSlice.actions
 
-export const getSelectedDirectoryMidType = (state: RootState) => state.directoryMid
+export const getSelectedDirectoryMidPaymentScheme = (state: RootState) => state.directoryMid
 export default directoryMidSlice.reducer
