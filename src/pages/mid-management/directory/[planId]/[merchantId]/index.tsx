@@ -6,7 +6,6 @@ import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector} from 'app/hooks'
 
-
 const MerchantDetailsPage: NextPage = () => {
   // TODO: Add Tab menu selection functionality when additional tabs are defined
   const router = useRouter()
