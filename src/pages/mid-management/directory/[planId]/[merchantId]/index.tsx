@@ -7,6 +7,7 @@ import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector} from 'app/hooks'
 import {selectModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
+import {useEffect} from 'react'
 
 const MerchantDetailsPage: NextPage = () => {
   // TODO: Add Tab menu selection functionality when additional tabs are defined
@@ -29,6 +30,15 @@ const MerchantDetailsPage: NextPage = () => {
     SECONDARY_MIDS ='Secondary MIDs',
     IDENTIFIERS ='Identifiers'
   }
+  const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
+
+
+  useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the NavigationTab enum
+    if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
+      router.replace(`${baseUrl}?tab=mids`)
+    }
+  }, [tab, NavigationTab, baseUrl, router])
+
 
   const getPlanDetails = () => {
     return mockPlanDetailsData
@@ -42,11 +52,6 @@ const MerchantDetailsPage: NextPage = () => {
   const merchant = selectedMerchant.merchant_ref ? selectedMerchant : getMerchant().merchant
   const {slug, plan_id: schemeId} = planDetails.plan_metadata
   const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
-
-
-  const handleNavigationClick = (selectedTab) => {
-    router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${selectedTab}`)
-  }
 
   const renderMerchantDetailsSection = () => { // TODO: replace with completed components
     if (tab === NavigationTab.MIDS) {
@@ -64,6 +69,7 @@ const MerchantDetailsPage: NextPage = () => {
     const tabSelectedClasses = 'font-heading-8 h-[51px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 duration-200'
     const checkTabSelection = (navigationTab: string) => navigationTab === tab ? tabSelectedClasses : tabUnselectedClasses
+    const handleNavigationClick = (selectedTab) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
     return Object.keys(NavigationTab).map(navigationKey => (
       <button key={navigationKey} className={checkTabSelection(NavigationTab[navigationKey])} onClick={() => handleNavigationClick(NavigationTab[navigationKey])}>
