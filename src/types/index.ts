@@ -134,12 +134,25 @@ export type DirectoryMid = {
   date_added: string // TODO: Change this depending on API value
   txm_status: string // TODO: could be an enum, union type
 }
-
 export type DirectoryMidMetadata = {
   payment_scheme_code: number,
   mid: string,
   visa_bin?: string,
   payment_enrolment_status: string // TODO: could be an enum/union type
+}
+
+export type DirectoryIdentifiers = Array<DirectoryIdentifier>
+
+export type DirectoryIdentifier = {
+  identifier_ref: string,
+  identifier_metadata: DirectoryIdentifierMetadata,
+  date_added: string // TODO: Change this depending on API value
+}
+
+export type DirectoryIdentifierMetadata = {
+  value: string,
+  payment_scheme_merchant_name: string,
+  payment_scheme_code: number
 }
 
 export type OptionsMenuItem = {
