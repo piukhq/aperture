@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMidPaymentScheme, reset} from 'features/directoryMidSlice'
 
 const DirectoryMidModal = () => {
-  const midType = useAppSelector(getSelectedDirectoryMidPaymentScheme).selectedPaymentScheme
+  const paymentScheme = useAppSelector(getSelectedDirectoryMidPaymentScheme).selectedPaymentScheme
   const dispatch = useAppDispatch()
 
   const [midValue, setMidValue] = useState('')
@@ -54,7 +54,7 @@ const DirectoryMidModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${midType} MID`} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMid}>
         <TextInputGroup
           name='mid'
@@ -69,7 +69,7 @@ const DirectoryMidModal = () => {
           inputWidth={InputWidth.FULL}
           inputColour={midValidationError ? InputColour.RED : InputColour.GREY}
         />
-        {midType === PaymentSchemeName.VISA && renderBinField()}
+        {paymentScheme === PaymentSchemeName.VISA && renderBinField()}
         <div className='flex gap-[13.5px] justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[16px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
