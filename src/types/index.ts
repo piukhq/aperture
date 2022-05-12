@@ -1,4 +1,5 @@
 import {ReactNode} from 'react'
+import {PaymentSchemeName} from 'utils/enums'
 
 type PlanAccount = {
   add_fields: Array<unknown>,
@@ -70,6 +71,8 @@ export type SelectedPlanImages = Record<string, PlanImage[]>
 export type SelectedAssetGroup = Record<string, PlanAsset>
 
 export type SelectedAssetEnvironment = string
+
+export type PaymentSchemeNameType = PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX
 
 export type PaymentScheme = {
   label: string,

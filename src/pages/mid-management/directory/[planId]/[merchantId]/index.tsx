@@ -1,10 +1,12 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids} from 'components'
+import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids, DirectoryMidModal} from 'components'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector} from 'app/hooks'
+import {selectModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
 
 
 const MerchantDetailsPage: NextPage = () => {
@@ -12,6 +14,7 @@ const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const modalRequested: ModalType = useAppSelector(selectModal)
   const {merchantId} = router.query
 
   const getPlanDetails = () => {
@@ -38,6 +41,7 @@ const MerchantDetailsPage: NextPage = () => {
 
   return (
     <>
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
       <PageLayout>
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
