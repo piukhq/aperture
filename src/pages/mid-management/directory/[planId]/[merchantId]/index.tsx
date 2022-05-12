@@ -10,7 +10,6 @@ import {ModalType} from 'utils/enums'
 import {useEffect} from 'react'
 
 const MerchantDetailsPage: NextPage = () => {
-  // TODO: Add Tab menu selection functionality when additional tabs are defined
   const router = useRouter()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
@@ -32,13 +31,11 @@ const MerchantDetailsPage: NextPage = () => {
   }
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
-
   useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the NavigationTab enum
     if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
       router.replace(`${baseUrl}?tab=mids`)
     }
   }, [tab, NavigationTab, baseUrl, router])
-
 
   const getPlanDetails = () => {
     return mockPlanDetailsData
@@ -77,6 +74,7 @@ const MerchantDetailsPage: NextPage = () => {
       </button>
     ))
   }
+
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}

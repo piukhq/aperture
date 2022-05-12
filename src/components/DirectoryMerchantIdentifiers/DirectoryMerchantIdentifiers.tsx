@@ -72,4 +72,3 @@ const DirectoryMerchantIdentifiers = () => {
 }
 
 export default DirectoryMerchantIdentifiers
-

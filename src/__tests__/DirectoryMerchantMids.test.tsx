@@ -20,7 +20,6 @@ const getDirectoryMerchantMidsComponent = (passedStore = undefined) => (
 describe('DirectoryMerchantMids', () => {
   it('should render the add Mid buttons', () => {
     render(getDirectoryMerchantMidsComponent())
-
     const visaButton = screen.getByRole('button', {
       name: 'Add Visa MID',
     })
