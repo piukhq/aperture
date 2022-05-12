@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import {Button} from 'components'
+import {Button, DirectoryBreadcrumb} from 'components'
 import DotsSvg from 'icons/svgs/dots.svg'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -41,8 +41,9 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
 
   return (
     <>
-      {/* Breadcrumb */}
-      <p className='font-subheading-6 text-blue ml-[245px] mt-[15px]'>PLANS / SQUAREMEAL</p>
+      <div className='ml-[245px]'>
+        <DirectoryBreadcrumb />
+      </div>
 
       <div className='ml-[40px]'>
         {/* Icon image div to provide top border shadow */}

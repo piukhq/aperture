@@ -8,7 +8,6 @@ import {useAppSelector} from 'app/hooks'
 import {selectModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 
-
 const MerchantDetailsPage: NextPage = () => {
   // TODO: Add Tab menu selection functionality when additional tabs are defined
   const router = useRouter()
