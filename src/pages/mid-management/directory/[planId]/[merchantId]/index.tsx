@@ -1,6 +1,6 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids, DirectoryMidModal} from 'components'
+import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids, DirectoryMerchantIdentifiers, DirectoryMidModal} from 'components'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
@@ -48,28 +48,26 @@ const MerchantDetailsPage: NextPage = () => {
     router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${selectedTab}`)
   }
 
-  const renderMerchantDetailsSection = () => {
+  const renderMerchantDetailsSection = () => { // TODO: replace with completed components
     if (tab === NavigationTab.MIDS) {
       return <DirectoryMerchantMids />
     } else if (tab === NavigationTab.LOCATIONS) {
-      return null // TODO: Swap out with future locations component
-    } else if (tab === NavigationTab.SECONDARY_MIDS) {
-      return null // TODO: Swap out with future secondary mids component
-    } else if (tab === NavigationTab.IDENTIFIERS) {
       return <DirectoryMerchantMids/>
+    } else if (tab === NavigationTab.SECONDARY_MIDS) {
+      return <DirectoryMerchantMids/>
+    } else if (tab === NavigationTab.IDENTIFIERS) {
+      return <DirectoryMerchantIdentifiers/>
     }
   }
 
-  const tabSelectedClasses = 'font-heading-8 text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
-  const tabUnselectedClasses = 'font-heading-8 font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 duration-200'
-
-  const checkTabSelection = (navigationTab: string) => navigationTab === tab ? tabSelectedClasses : tabUnselectedClasses
-
-
   const renderNavigationTabs = () => {
+    const tabSelectedClasses = 'font-heading-8 h-[51px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
+    const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 duration-200'
+    const checkTabSelection = (navigationTab: string) => navigationTab === tab ? tabSelectedClasses : tabUnselectedClasses
+
     return Object.keys(NavigationTab).map(navigationKey => (
       <button key={navigationKey} className={checkTabSelection(NavigationTab[navigationKey])} onClick={() => handleNavigationClick(NavigationTab[navigationKey])}>
-        <span className='place-content-center flex h-[51px] items-center '>{NavigationLabel[navigationKey]}</span>
+        <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
       </button>
     ))
   }
