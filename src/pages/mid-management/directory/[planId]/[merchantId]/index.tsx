@@ -50,7 +50,7 @@ const MerchantDetailsPage: NextPage = () => {
   const {slug, plan_id: schemeId} = planDetails.plan_metadata
   const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
 
-  const renderMerchantDetailsSection = () => { // TODO: replace with completed components
+  const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
     if (tab === NavigationTab.MIDS) {
       return <DirectoryMerchantMids />
     } else if (tab === NavigationTab.LOCATIONS) {
@@ -65,11 +65,14 @@ const MerchantDetailsPage: NextPage = () => {
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[51px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 duration-200'
-    const checkTabSelection = (navigationTab: string) => navigationTab === tab ? tabSelectedClasses : tabUnselectedClasses
-    const handleNavigationClick = (selectedTab) => router.replace(`${baseUrl}?tab=${selectedTab}`)
+    const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
     return Object.keys(NavigationTab).map(navigationKey => (
-      <button key={navigationKey} className={checkTabSelection(NavigationTab[navigationKey])} onClick={() => handleNavigationClick(NavigationTab[navigationKey])}>
+      <button
+        key={navigationKey}
+        className={NavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
+        onClick={() => handleNavigationClick(NavigationTab[navigationKey])}
+      >
         <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
       </button>
     ))
@@ -84,7 +87,7 @@ const MerchantDetailsPage: NextPage = () => {
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
             {renderNavigationTabs()}
           </nav>
-          {renderMerchantDetailsSection()}
+          {renderSelectedTabContent()}
         </div>
       </PageLayout>
     </>
