@@ -1,19 +1,22 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlan} from 'types'
+import {ApiReflectorUrl} from 'utils/enums'
 
-type PostPlanBody = {
+type PostMerchantBody = {
     name: string,
-    planId: string | null,
-    slug: string | null,
+    location_label: string,
     iconUrl: string | null,
+    planRef: string,
 }
 
 const endpointPrefix = '/api/v1/plans'
 
-export const postPlanApi = createApi({
-  reducerPath: 'postPlanApi',
+export const postMerchantApi = createApi({
+  reducerPath: 'postMerchantApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    // TODO: Remove api reflector url when relevant api is deployed
+    // baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization',
         `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
@@ -23,14 +26,13 @@ export const postPlanApi = createApi({
     },
   }),
   endpoints: builder => ({
-    postPlan: builder.mutation<DirectoryPlan, PostPlanBody>({
-      query: ({name, planId, slug, iconUrl}) => ({
-        url: endpointPrefix,
+    postMerchant: builder.mutation<DirectoryPlan, PostMerchantBody>({
+      query: ({name, location_label, iconUrl, planRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants`,
         method: 'POST',
         body: {
           name,
-          plan_id: planId,
-          slug,
+          location_label,
           icon_url: iconUrl,
         },
       }),
@@ -38,4 +40,4 @@ export const postPlanApi = createApi({
   }),
 })
 
-export const {usePostPlanMutation} = postPlanApi
+export const {usePostMerchantMutation} = postMerchantApi

@@ -87,7 +87,7 @@ const DirectoryPlanModal = () => {
 
   const handleNameBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === '') {
-      setNameValidationError('Enter Name')
+      setNameValidationError('Enter name')
     }
   }
 
@@ -96,10 +96,11 @@ const DirectoryPlanModal = () => {
 
     if (!nameValidationError) {
       if (nameValue === '') {
-        setNameValidationError('Enter Name')
+        setNameValidationError('Enter name')
       } else {
         // API expects non-required blank values to be null rahter than empty strings
         const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? null : value)
+        // TODO: add logic to PATCH Plan when updating
         postPlan({name: nameValue, planId, slug, iconUrl: imageValue})
       }
     }

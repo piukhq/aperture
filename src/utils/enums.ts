@@ -4,6 +4,10 @@ enum Url {
   PROD_BASE_URL = 'https://api.gb.bink.com/',
 }
 
+enum ApiReflectorUrl {
+  REFLECTOR_URL = 'https://reflector.dev.gb.bink.com/mock/',
+}
+
 enum ClientID {
   DEV_CLIENT_ID = 'kudr77sTA0t5cvleNquOFUMHl68NMcqoCqRWrjlc3ZO60NFI3s',
   STAGING_CLIENT_ID = 'joqEeXTSKaWTj9rdifFRtbIJD7vWN2YaueJ4zfOnEEO5dPoqcg',
@@ -80,6 +84,7 @@ enum PaymentSchemeName {
 
 export {
   Url,
+  ApiReflectorUrl,
   ClientID,
   BundleID,
   VerificationToken,
