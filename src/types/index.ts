@@ -152,6 +152,20 @@ export type DirectoryIdentifier = {
   date_added: string // TODO: Change this depending on API value
 }
 
+export type DirectorySecondaryMids = Array<DirectorySecondaryMid>
+
+export type DirectorySecondaryMid = {
+  secondary_mid_ref: string,
+  secondary_mid_metadata: {
+    payment_scheme_code: number,
+    mid: string,
+    visa_bin?: string,
+    payment_enrolment_status: string // TODO: could be an enum/union type
+  },
+  date_added: string // TODO: Change this depending on API value
+  txm_status: string // TODO: could be an enum, union type
+}
+
 export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,
