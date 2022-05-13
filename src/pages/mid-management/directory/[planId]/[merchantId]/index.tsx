@@ -33,7 +33,7 @@ const MerchantDetailsPage: NextPage = () => {
 
   useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the NavigationTab enum
     if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
-      router.replace(`${baseUrl}?tab=mids`)
+      router.isReady && router.push(`${baseUrl}?tab=mids`)
     }
   }, [tab, NavigationTab, baseUrl, router])
 
@@ -51,20 +51,19 @@ const MerchantDetailsPage: NextPage = () => {
   const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
-    if (tab === NavigationTab.MIDS) {
-      return <DirectoryMerchantMids />
-    } else if (tab === NavigationTab.LOCATIONS) {
+    switch(tab) {
+    case NavigationTab.MIDS:
       return <DirectoryMerchantMids/>
-    } else if (tab === NavigationTab.SECONDARY_MIDS) {
-      return <DirectoryMerchantMids/>
-    } else if (tab === NavigationTab.IDENTIFIERS) {
+    case NavigationTab.IDENTIFIERS:
       return <DirectoryMerchantIdentifiers/>
+    default:
+      return <DirectoryMerchantMids/>
     }
   }
 
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[51px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 duration-200'
+    const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
     const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
     return Object.keys(NavigationTab).map(navigationKey => (
@@ -73,7 +72,7 @@ const MerchantDetailsPage: NextPage = () => {
         className={NavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
         onClick={() => handleNavigationClick(NavigationTab[navigationKey])}
       >
-        <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
+        <span className='place-content-center flex h-[51px] items-center duration-200'>{NavigationLabel[navigationKey]}</span>
       </button>
     ))
   }

@@ -1,5 +1,5 @@
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
-import {DirectoryIdentifiers} from 'types'
+import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -13,7 +13,7 @@ const DirectoryMerchantIdentifiers = () => {
     return paymentSchemeCode === 1 ? <VisaSvg key={index} alt='Visa'/> : <MastercardSvg key={index} alt='Mastercard' />
   }
 
-  const renderRow = (identifierElement, index) => {
+  const renderRow = (identifierElement:DirectoryIdentifier, index:number) => {
     const {date_added: dateAdded, identifier_metadata: identifierMetadata} = identifierElement
     const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = identifierMetadata
 
@@ -57,10 +57,10 @@ const DirectoryMerchantIdentifiers = () => {
               </div>
             </th>
             <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px]'></th>
-            <th data-testid='table-header' className='px-[9px] font-table-header w-[160px]'>VALUE</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME NAME</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header'>DATE ADDED</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header rounded-r-[10px]'>HARMONIA STATUS</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800 w-[160px]'>VALUE</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>SCHEME NAME</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>DATE ADDED</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800 rounded-r-[10px]'>HARMONIA STATUS</th>
           </tr>
         </thead>
         <tbody>
