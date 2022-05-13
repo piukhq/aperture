@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlan} from 'types'
+import {ApiReflectorUrl} from 'utils/enums'
 
 type PostMerchantBody = {
     name: string,
@@ -15,7 +16,7 @@ export const postMerchantApi = createApi({
   baseQuery: fetchBaseQuery({
     // TODO: Remove api reflector url when relevant api is deployed
     // baseUrl: process.env.NEXT_PUBLIC_API_KEY,
-    baseUrl: 'https://reflector.dev.gb.bink.com/mock/',
+    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization',
         `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
