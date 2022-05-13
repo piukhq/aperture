@@ -83,7 +83,7 @@ describe('MID Management MerchantDetailsPage', () => {
 
       expect(secondaryMidsButton).toBeInTheDocument()
     })
-    // TODO: Add Secondary component Test
+    // TODO: Add Secondary MIDs component Test
   })
 
   describe('Test Locations', () => {
