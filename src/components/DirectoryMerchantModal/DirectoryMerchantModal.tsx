@@ -95,14 +95,6 @@ const DirectoryMerchantModal = () => {
   const validateMerchant = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (nameValue === '') {
-      setNameValidationError('Enter name')
-    }
-
-    if (locationLabelValue === '') {
-      setLocationLabelValue('Enter location label')
-    }
-
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
         // TODO: add logic to PATCH Merchant when updating
