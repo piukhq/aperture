@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {render, screen, fireEvent} from '@testing-library/react'
 import {DirectoryMerchantModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -13,6 +13,21 @@ jest.mock('components/Modal', () => ({
         {children}
       </div>
     )
+  },
+}))
+
+jest.mock('hooks/useMidManagementMerchants', () => ({
+  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+    postMerchant: jest.fn(),
+    postMerchantResponse: null,
+    postMerchantError: null,
+  })),
+}))
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
   },
 }))
 
@@ -46,34 +61,79 @@ describe('DirectoryMerchantModal', () => {
     const setStateMock = jest.fn()
 
     React.useState = jest.fn()
-      .mockReturnValueOnce([mockImageValue, setStateMock]) // Image value
-      .mockReturnValueOnce([mockNameValue, setStateMock]) // Name value
-      .mockReturnValueOnce([mockLocationLabelValue, setStateMock]) // Location label value
-      .mockReturnValueOnce([false, setStateMock]) // isNameReadyForValidation
-      .mockReturnValueOnce([false, setStateMock]) // isLocationLabelReadyForValidation
+      .mockReturnValueOnce([null, setStateMock]) // Image value
+      .mockReturnValueOnce(['', setStateMock]) // Name value
+      .mockReturnValueOnce(['', setStateMock]) // Location label value
+      .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+      .mockReturnValueOnce([null, setStateMock]) // locationLabelValidationError
   })
 
-  it('should render the Add Image input with correct label', () => {
-    render(getDirectoryMerchantModalComponent())
-    const imageInput = screen.getByLabelText('Add Image')
+  describe('Test Edit Plan specifics', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      const setStateMock = jest.fn()
 
-    expect(imageInput).toBeInTheDocument()
-  })
+      React.useState = jest.fn()
+        .mockReturnValueOnce([mockImageValue, setStateMock]) // Image value
+        .mockReturnValueOnce([mockNameValue, setStateMock]) // Name value
+        .mockReturnValueOnce([mockLocationLabelValue, setStateMock]) // Location label value
+        .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+        .mockReturnValueOnce([null, setStateMock]) // locationLabelValidationError
+    })
 
-  it('should render the Name input with correct label', () => {
-    render(getDirectoryMerchantModalComponent())
-    const nameInput = screen.getByLabelText('Name')
+    const mockEditMerchantInitialState = {
+      directoryMerchant: {
+        merchant_ref: 'mock_ref',
+        merchant_metadata: {
+          name: null,
+          location_label: null,
+          icon_url: null,
+        },
+      },
+    }
 
-    expect(nameInput).toBeInTheDocument()
-    expect(nameInput).toHaveValue(mockNameValue)
-  })
+    const editMerchantStore = mockStoreFn({...mockEditMerchantInitialState})
 
-  it('should render the Location Label input with correct label', () => {
-    render(getDirectoryMerchantModalComponent())
-    const planIdInput = screen.getByLabelText('Location Label')
+    it('should render the correct Heading', () => {
+      render(getDirectoryMerchantModalComponent(editMerchantStore))
+      const heading = screen.getByRole('heading', {
+        name: 'Edit Merchant',
+      })
 
-    expect(planIdInput).toBeInTheDocument()
-    expect(planIdInput).toHaveValue(mockLocationLabelValue)
+      expect(heading).toBeInTheDocument()
+    })
+
+    it('should render the Save Changes button', () => {
+      render(getDirectoryMerchantModalComponent(editMerchantStore))
+      const submitButton = screen.getByRole('button', {
+        name: 'Save Changes',
+      })
+
+      expect(submitButton).toBeInTheDocument()
+    })
+
+    it('should render the Add Image input with correct label', () => {
+      render(getDirectoryMerchantModalComponent())
+      const imageInput = screen.getByLabelText('Add Image')
+
+      expect(imageInput).toBeInTheDocument()
+    })
+
+    it('should render the Name input with correct label', () => {
+      render(getDirectoryMerchantModalComponent())
+      const nameInput = screen.getByLabelText('Name')
+
+      expect(nameInput).toBeInTheDocument()
+      expect(nameInput).toHaveValue(mockNameValue)
+    })
+
+    it('should render the Location Label input with correct label', () => {
+      render(getDirectoryMerchantModalComponent())
+      const planIdInput = screen.getByLabelText('Location Label')
+
+      expect(planIdInput).toBeInTheDocument()
+      expect(planIdInput).toHaveValue(mockLocationLabelValue)
+    })
   })
 
   describe('Test New Merchant specifics', () => {
@@ -95,37 +155,49 @@ describe('DirectoryMerchantModal', () => {
       expect(addMerchantButton).toBeInTheDocument()
     })
 
-    describe('Test Edit Plan specifics', () => {
+    describe('Test error scenarios', () => {
+      const mockNameErrorMessage = 'mock_name_error'
+      const mockLocationLabelErrorMessage = 'mock_location_label_error'
 
-      const mockEditMerchantInitialState = {
-        directoryMerchant: {
-          merchant_ref: 'mock_ref',
-          merchant_metadata: {
-            name: null,
-            location_label: null,
-            icon_url: null,
-          },
-        },
-      }
+      beforeEach(() => {
+        jest.clearAllMocks()
+        const setStateMock = jest.fn()
 
-      const editMerchantStore = mockStoreFn({...mockEditMerchantInitialState})
-
-      it('should render the correct Heading', () => {
-        render(getDirectoryMerchantModalComponent(editMerchantStore))
-        const heading = screen.getByRole('heading', {
-          name: 'Edit Merchant',
-        })
-
-        expect(heading).toBeInTheDocument()
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce([null, setStateMock])
+          .mockReturnValueOnce(['', setStateMock])
+          .mockReturnValueOnce(['', setStateMock])
+          .mockReturnValueOnce([mockNameErrorMessage, setStateMock])
+          .mockReturnValueOnce([mockLocationLabelErrorMessage, setStateMock])
       })
 
-      it('should render the Save Changes button', () => {
-        render(getDirectoryMerchantModalComponent(editMerchantStore))
-        const submitButton = screen.getByRole('button', {
-          name: 'Save Changes',
-        })
+      it('should render name field error message', () => {
+        render(getDirectoryMerchantModalComponent())
 
-        expect(submitButton).toBeInTheDocument()
+        fireEvent.click(screen.getByRole('button', {
+          name: 'Add Merchant',
+        }))
+
+        const nameErrorElement = screen.getByTestId('merchant-name-input-error')
+        const nameErrorText = screen.getByText(mockNameErrorMessage)
+
+        expect(nameErrorElement).toBeInTheDocument()
+        expect(nameErrorText).toBeInTheDocument()
+      })
+
+      it('should render location label field error message', () => {
+        render(getDirectoryMerchantModalComponent())
+
+        fireEvent.click(screen.getByRole('button', {
+          name: 'Add Merchant',
+        }))
+
+        const locationLabelErrorElement = screen.getByTestId('merchant-location-label-input-error')
+        const locationLabelErrorText = screen.getByText(mockLocationLabelErrorMessage)
+
+        expect(locationLabelErrorElement).toBeInTheDocument()
+        expect(locationLabelErrorText).toBeInTheDocument()
       })
     })
   })

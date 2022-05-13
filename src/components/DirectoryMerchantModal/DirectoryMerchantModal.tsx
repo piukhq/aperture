@@ -1,14 +1,28 @@
-import {useState} from 'react'
+import {useState, useCallback, useEffect} from 'react'
 import Image from 'next/image'
-
+import {useRouter} from 'next/router'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {ModalStyle} from 'utils/enums'
+import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {RTKQueryErrorResponse} from 'types'
+import {requestModal} from 'features/modalSlice'
+import {ModalStyle, ModalType} from 'utils/enums'
 
 const DirectoryMerchantModal = () => {
+  const router = useRouter()
+
+  const {
+    postMerchant,
+    postMerchantResponse,
+    postMerchantError,
+    resetPostMerchantResponse,
+  } = useMidManagementMerchants()
+
+  const {planId} = router.query
+
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
 
@@ -22,33 +36,87 @@ const DirectoryMerchantModal = () => {
   const [nameValue, setNameValue] = useState(name || '')
   const [locationLabelValue, setLocationLabelValue] = useState(locationLabel || 'Locations')
 
-  const [isNameReadyForValidation, setIsNameReadyForValidation] = useState(false)
-  const [isLocationLabelReadyForValidation, setIsLocationLabelReadyForValidation] = useState(false)
+  const [nameValidationError, setNameValidationError] = useState(null)
+  const [locationLabelValidationError, setLocationLabelValidationError] = useState(null)
+
+  const handlePostMerchantError = useCallback(() => {
+    const {status, data} = postMerchantError as RTKQueryErrorResponse
+
+    if (data && data.detail) {
+      const {detail} = data
+      // TODO: Handle error responses other that 409 (duplicate) and everything else
+      detail.map(err => {
+        const {loc, msg} = err
+        const location = loc[1]
+        if (location === 'name') {
+          setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
+        } else if (location === 'location_label') {
+          setLocationLabelValidationError(msg)
+        }
+      })
+    }
+  }, [postMerchantError])
+
+  useEffect(() => {
+    if (postMerchantError) {
+      handlePostMerchantError()
+    } else if (postMerchantResponse) {
+      resetPostMerchantResponse()
+      reset()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [postMerchantError, handlePostMerchantError, postMerchantResponse, resetPostMerchantResponse, dispatch])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setIsNameReadyForValidation(false)
+    setNameValidationError(null)
   }
 
   const handleLocationLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocationLabelValue(event.target.value)
-    setIsLocationLabelReadyForValidation(false)
+    setLocationLabelValidationError(null)
+  }
+
+  const handleNameBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setNameValidationError('Enter name')
+    }
+  }
+
+  const handleLocationLabelBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setLocationLabelValidationError('Enter location label')
+    }
   }
 
   const validateMerchant = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsNameReadyForValidation(true)
-    setIsLocationLabelReadyForValidation(true)
 
-    // TODO: Perform relevant validation and submit, placeholder for now:
-    console.log({
-      image: imageValue,
-      name: nameValue,
-      locationLabel: locationLabelValue,
-    })
+    if (nameValue === '') {
+      setNameValidationError('Enter name')
+    }
+
+    if (locationLabelValue === '') {
+      setLocationLabelValue('Enter location label')
+    }
+
+    if (!nameValidationError && !locationLabelValidationError) {
+      if (nameValue !== '' && locationLabelValue !== '') {
+        // TODO: add logic to PATCH Merchant when updating
+        postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string})
+      } else {
+        if (nameValue === '') {
+          setNameValidationError('Enter name')
+        }
+
+        if (locationLabelValue === '') {
+          setLocationLabelValue('Enter location label')
+        }
+      }
+    }
   }
 
   const renderAddImageLabel = () => (
@@ -64,24 +132,28 @@ const DirectoryMerchantModal = () => {
       <TextInputGroup
         name='merchant-name'
         label='Name'
-        error={null} // TODO: add any errors as per validation
+        error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}
+        onFocus={() => setNameValidationError(null)}
+        onBlur={handleNameBlur}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isNameReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={nameValidationError ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
       />
       <TextInputGroup
         name='merchant-location-label'
         label='Location Label'
-        error={null} // TODO: add any errors as per validation
+        error={locationLabelValidationError}
         value={locationLabelValue}
         onChange={handleLocationLabelChange}
+        onFocus={() => setLocationLabelValidationError(null)}
+        onBlur={handleLocationLabelBlur}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={isLocationLabelReadyForValidation ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={locationLabelValidationError ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
       />
     </>
   )
