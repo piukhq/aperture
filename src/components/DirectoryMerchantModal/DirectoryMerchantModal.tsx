@@ -105,7 +105,7 @@ const DirectoryMerchantModal = () => {
         }
 
         if (locationLabelValue === '') {
-          setLocationLabelValue('Enter location label')
+          setLocationLabelValidationError('Enter location label')
         }
       }
     }
@@ -132,7 +132,7 @@ const DirectoryMerchantModal = () => {
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={nameValidationError ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
       />
       <TextInputGroup
         name='merchant-location-label'
@@ -145,7 +145,7 @@ const DirectoryMerchantModal = () => {
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
-        inputColour={locationLabelValidationError ? InputColour.RED : InputColour.GREY} // TODO: Add validation check function to conditional
+        inputColour={locationLabelValidationError ? InputColour.RED : InputColour.GREY}
       />
     </>
   )
