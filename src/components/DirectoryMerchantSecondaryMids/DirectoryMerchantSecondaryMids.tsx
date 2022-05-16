@@ -11,7 +11,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const renderRow = (secondaryMidElement, index) => {
     const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata} = secondaryMidElement
-    const {mid, payment_scheme_code: paymentSchemeCode, payment_scheme_merchant_name: storeName} = secondaryMidMetadata
+    const {secondary_mid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = secondaryMidMetadata
 
     return (
       <tr className='h-[60px]' key={index}>
@@ -21,8 +21,8 @@ const DirectoryMerchantSecondaryMids = () => {
         <td>
           {paymentSchemeCode === 1 ? <VisaSvg key={index} alt='Visa'/> : <MastercardSvg key={index} alt='Mastercard' />}
         </td>
-        <td className='px-[9px] font-heading-8 font-regular truncate'>{mid}</td>
-        <td className='px-[9px] font-body-3 truncate'>{storeName}</td>
+        <td className='px-[9px] font-heading-8 font-regular truncate'>{secondary_mid}</td>
+        <td className='px-[9px] font-body-3 truncate'>{paymentSchemeStoreName}</td>
         <td className='px-[9px] font-body-3 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
         <td className='px-[9px]'></td>{/* TODO: Add Scheme Status */}
         <td className='px-[9px]'></td>{/* TODO: Add Harmonia Status */}
