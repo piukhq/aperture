@@ -9,10 +9,6 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 const DirectoryMerchantIdentifiers = () => {
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
-  const renderPaymentSchemeLogo = (index:number, paymentSchemeCode:number) => {
-    return paymentSchemeCode === 1 ? <VisaSvg key={index} alt='Visa'/> : <MastercardSvg key={index} alt='Mastercard' />
-  }
-
   const renderRow = (identifierElement:DirectoryIdentifier, index:number) => {
     const {date_added: dateAdded, identifier_metadata: identifierMetadata} = identifierElement
     const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = identifierMetadata
@@ -23,7 +19,7 @@ const DirectoryMerchantIdentifiers = () => {
           <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log(`Checkbox ${index} clicked`)} />
         </td>
         <td>
-          {renderPaymentSchemeLogo(index, paymentSchemeCode)}
+          {paymentSchemeCode === 1 ? <VisaSvg alt='Visa'/> : <MastercardSvg alt='Mastercard' />}
         </td>
         <td className='px-[9px] font-heading-8 font-regular truncate'>{value}</td>
         <td className='px-[9px] font-body-3 truncate'>{paymentSchemeMerchantName}</td>
@@ -57,10 +53,10 @@ const DirectoryMerchantIdentifiers = () => {
               </div>
             </th>
             <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px]'></th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800 w-[160px]'>VALUE</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>SCHEME NAME</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>DATE ADDED</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800 rounded-r-[10px]'>HARMONIA STATUS</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header w-[160px]'>VALUE</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME NAME</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>DATE ADDED</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header rounded-r-[10px]'>HARMONIA STATUS</th>
           </tr>
         </thead>
         <tbody>

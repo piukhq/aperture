@@ -94,7 +94,7 @@ const AssetComparatorPage: NextPage = () => {
           <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
             <span></span>
             {['DEVELOPMENT', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
-              <h2 key={header} className='grid place-items-center font-table-header text-grey-800'>{header}</h2>
+              <h2 key={header} className='grid place-items-center font-table-header'>{header}</h2>
             ))}
           </span>
         </div>

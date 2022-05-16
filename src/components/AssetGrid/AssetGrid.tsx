@@ -35,7 +35,7 @@ const AssetGrid = ({planAssets}: Props) => {
     assetMatrix.map(assetType => {
       const {heading, longestAssetArray, hasMultipleImagesOfThisType} = assetType
       return longestAssetArray.map((_, i) => (
-        <h3 key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header'>
+        <h3 key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header dark:text-grey-100'>
           {heading.toLocaleUpperCase() } { hasMultipleImagesOfThisType && i + 1}
         </h3>)
       )

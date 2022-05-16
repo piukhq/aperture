@@ -52,12 +52,12 @@ const MerchantDetailsPage: NextPage = () => {
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
     switch(tab) {
-    case NavigationTab.MIDS:
-      return <DirectoryMerchantMids/>
-    case NavigationTab.IDENTIFIERS:
-      return <DirectoryMerchantIdentifiers/>
-    default:
-      return <DirectoryMerchantMids/>
+      case NavigationTab.MIDS:
+        return <DirectoryMerchantMids/>
+      case NavigationTab.IDENTIFIERS:
+        return <DirectoryMerchantIdentifiers/>
+      default:
+        return <DirectoryMerchantMids/>
     }
   }
 

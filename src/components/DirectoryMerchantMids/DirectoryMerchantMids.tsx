@@ -82,11 +82,11 @@ const DirectoryMerchantMids = () => {
               </div>
             </th>
             <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[40px]'></th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>VALUE</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>BIN</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>DATE ADDED</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800'>SCHEME STATUS</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header dark:text-grey-800 rounded-r-[10px]'>HARMONIA STATUS</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>VALUE</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>BIN</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>DATE ADDED</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME STATUS</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header rounded-r-[10px]'>HARMONIA STATUS</th>
           </tr>
         </thead>
         <tbody>

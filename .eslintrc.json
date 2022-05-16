@@ -29,7 +29,7 @@
     "eol-last": 1,  
     "func-call-spacing": 1, 
     "implicit-arrow-linebreak": 1,
-    "indent": [1, 2],
+    "indent": [1, 2, {"SwitchCase" : 1}],
     "jsx-quotes": [1, "prefer-single"],
     "key-spacing": [1, { "beforeColon": false }],
     "newline-per-chained-call": 1,
