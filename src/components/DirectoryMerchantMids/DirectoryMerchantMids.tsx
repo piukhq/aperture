@@ -1,5 +1,5 @@
 import {mockMidsData} from 'utils/mockMidsData'
-import {DirectoryMids} from 'types'
+import {DirectoryMids, DirectoryMid} from 'types'
 import {ModalType, PaymentSchemeName} from 'utils/enums'
 import {
   useAppDispatch,
@@ -27,8 +27,7 @@ const DirectoryMerchantMids = () => {
     }
   }
 
-  const renderRow = (midElement, index) => {
-    const {date_added: dateAdded, mid_metadata: midMetadata} = midElement
+  const renderRow = ({date_added: dateAdded, mid_metadata: midMetadata}:DirectoryMid, index: number) => {
     const {payment_scheme_code: paymentSchemeCode, mid, visa_bin: visaBin} = midMetadata
 
     return (

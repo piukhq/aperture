@@ -9,8 +9,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 const DirectoryMerchantIdentifiers = () => {
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
-  const renderRow = (identifierElement:DirectoryIdentifier, index:number) => {
-    const {date_added: dateAdded, identifier_metadata: identifierMetadata} = identifierElement
+  const renderRow = ({date_added: dateAdded, identifier_metadata: identifierMetadata}:DirectoryIdentifier, index:number) => {
     const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = identifierMetadata
 
     return (
