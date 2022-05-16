@@ -2,7 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
-import {DirectoryMerchantMids} from 'components'
+import {DirectoryMerchantIdentifiers} from 'components'
 
 // TODO: Add tests for actual table content when pulling from the API
 
@@ -11,44 +11,40 @@ const store = mockStoreFn({modal: {
   modalRequested: 'NO_MODAL',
 }})
 
-const getDirectoryMerchantMidsComponent = (passedStore = undefined) => (
+const getDirectoryMerchantIdentifiersComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <DirectoryMerchantMids />
+    <DirectoryMerchantIdentifiers />
   </Provider>
 )
 
-describe('DirectoryMerchantMids', () => {
-  it('should render the add Mid buttons', () => {
-    render(getDirectoryMerchantMidsComponent())
+describe('DirectoryMerchantIdentifiers', () => {
+  it('should render the add Identifier buttons', () => {
+    render(getDirectoryMerchantIdentifiersComponent())
     const visaButton = screen.getByRole('button', {
-      name: 'Add Visa MID',
+      name: 'Add Visa Identifier',
     })
     const mastercardButton = screen.getByRole('button', {
-      name: 'Add Mastercard MID',
-    })
-    const amexButton = screen.getByRole('button', {
-      name: 'Add Amex MID',
+      name: 'Add Mastercard Identifier',
     })
 
     expect(visaButton).toBeInTheDocument()
     expect(mastercardButton).toBeInTheDocument()
-    expect(amexButton).toBeInTheDocument()
   })
 
   it('should have the correct number of table headers', () => {
-    render(getDirectoryMerchantMidsComponent())
+    render(getDirectoryMerchantIdentifiersComponent())
     const headings = screen.getAllByTestId('table-header')
-    expect(headings).toHaveLength(7)
+
+    expect(headings).toHaveLength(6)
   })
 
   it('should have the correct table header labels', () => {
-    render(getDirectoryMerchantMidsComponent())
+    render(getDirectoryMerchantIdentifiersComponent())
     const headings = screen.getAllByTestId('table-header')
 
     expect(headings[2]).toHaveTextContent('VALUE')
-    expect(headings[3]).toHaveTextContent('BIN')
+    expect(headings[3]).toHaveTextContent('SCHEME NAME')
     expect(headings[4]).toHaveTextContent('DATE ADDED')
-    expect(headings[5]).toHaveTextContent('SCHEME STATUS')
-    expect(headings[6]).toHaveTextContent('HARMONIA STATUS')
+    expect(headings[5]).toHaveTextContent('HARMONIA STATUS')
   })
 })

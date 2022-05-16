@@ -7,6 +7,7 @@ import {ModalType} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryMerchantMids', () => () => <div data-testid='directory-merchant-mids' />)
+jest.mock('components/DirectoryMerchantIdentifiers', () => () => <div data-testid='directory-merchant-identifiers' />)
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
@@ -36,15 +37,16 @@ const getMerchantDetailsPageComponent = (passedStore = undefined) => (
   </Provider>
 )
 
-// TODO: Add tests for different tab functionality when implemented properly
 describe('MID Management MerchantDetailsPage', () => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
   beforeEach(() => {
     jest.clearAllMocks()
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter')
     useRouter.mockImplementation(() => ({
       query: {
         planId: 'mock_plan_id',
         merchantId: 'mock_merchant_id',
+        tab: 'mids',
       },
     }))
   })
@@ -54,39 +56,73 @@ describe('MID Management MerchantDetailsPage', () => {
     expect(screen.queryByTestId('directory-details-header')).toBeInTheDocument()
   })
 
-  it('should render MIDs button', () => {
-    render(getMerchantDetailsPageComponent())
-    const midsButton = screen.getByRole('button', {
-      name: 'MIDs',
+  describe('Test MIDs', () => {
+    it('should render the MIDs button', () => {
+      render(getMerchantDetailsPageComponent())
+      const midsButton = screen.getByRole('button', {
+        name: 'MIDs',
+      })
+
+      expect(midsButton).toBeInTheDocument()
     })
 
-    expect(midsButton).toBeInTheDocument()
+    it('should render the MIDs component', () => {
+      render(getMerchantDetailsPageComponent())
+      const midsComponent = screen.queryByTestId('directory-merchant-mids')
+
+      expect(midsComponent).toBeInTheDocument()
+    })
   })
 
-  it('should render Secondary MIDSs button', () => {
-    render(getMerchantDetailsPageComponent())
-    const secondaryMidsButton = screen.getByRole('button', {
-      name: 'Secondary MIDs',
-    })
+  describe('Test Secondary MIDs', () => {
+    it('should render Secondary MIDs button', () => {
+      render(getMerchantDetailsPageComponent())
+      const secondaryMidsButton = screen.getByRole('button', {
+        name: 'Secondary MIDs',
+      })
 
-    expect(secondaryMidsButton).toBeInTheDocument()
+      expect(secondaryMidsButton).toBeInTheDocument()
+    })
+    // TODO: Add Secondary MIDs component Test
   })
 
-  it('should render Locations button', () => {
-    render(getMerchantDetailsPageComponent())
-    const locationsButton = screen.getByRole('button', {
-      name: 'Locations',
-    })
+  describe('Test Locations', () => {
+    it('should render Locations button', () => {
+      render(getMerchantDetailsPageComponent())
+      const locationsButton = screen.getByRole('button', {
+        name: 'Locations',
+      })
 
-    expect(locationsButton).toBeInTheDocument()
+      expect(locationsButton).toBeInTheDocument()
+    })
+    // TODO: Add Locations component Test
   })
 
-  it('should render Identifiers button', () => {
-    render(getMerchantDetailsPageComponent())
-    const identifiersButton = screen.getByRole('button', {
-      name: 'Identifiers',
+  describe('Test Identifiers', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      useRouter.mockImplementation(() => ({
+        query: {
+          planId: 'mock_plan_id',
+          merchantId: 'mock_merchant_id',
+          tab: 'identifiers',
+        },
+      }))
     })
 
-    expect(identifiersButton).toBeInTheDocument()
+    it('should render Identifiers button', () => {
+      render(getMerchantDetailsPageComponent())
+      const identifiersButton = screen.getByRole('button', {
+        name: 'Identifiers',
+      })
+      expect(identifiersButton).toBeInTheDocument()
+    })
+
+    it('should render the Identifiers component', () => {
+      render(getMerchantDetailsPageComponent())
+      const identifiersComponent = screen.queryByTestId('directory-merchant-identifiers')
+
+      expect(identifiersComponent).toBeInTheDocument()
+    })
   })
 })
