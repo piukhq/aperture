@@ -9,7 +9,15 @@ type PostMerchantBody = {
     planRef: string,
 }
 
+type DeleteMerchantBody = {
+  name: string,
+  planRef: string,
+  merchantRef: string,
+}
+
 const endpointPrefix = '/api/v1/plans'
+// Likely to change once the larger authentication method is integrated in
+const authHeader = `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
 
 export const postMerchantApi = createApi({
   reducerPath: 'postMerchantApi',
@@ -18,9 +26,7 @@ export const postMerchantApi = createApi({
     // baseUrl: process.env.NEXT_PUBLIC_API_URL,
     baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
-      headers.set('authorization',
-        `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
-      )
+      headers.set('authorization', authHeader)
       headers.set('accept', 'application/json;v=1.3')
       return headers
     },
@@ -40,4 +46,30 @@ export const postMerchantApi = createApi({
   }),
 })
 
+export const deleteMerchantApi = createApi({
+  reducerPath: 'deleteMerchantApi',
+  baseQuery: fetchBaseQuery({
+    // TODO: Remove api reflector url when relevant api is deployed
+    // baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
+    prepareHeaders: (headers) => {
+      headers.set('authorization', authHeader)
+      headers.set('accept', 'application/json;v=1.3')
+      return headers
+    },
+  }),
+  endpoints: builder => ({
+    deleteMerchant: builder.mutation<DirectoryPlan, DeleteMerchantBody>({
+      query: ({name, planRef, merchantRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}`,
+        method: 'DELETE',
+        body: {
+          name,
+        },
+      }),
+    }),
+  }),
+})
+
 export const {usePostMerchantMutation} = postMerchantApi
+export const {useDeleteMerchantMutation} = deleteMerchantApi

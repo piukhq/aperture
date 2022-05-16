@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {render, screen, fireEvent} from '@testing-library/react'
 import {DirectoryMerchantDeleteModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -13,6 +13,21 @@ jest.mock('components/Modal', () => ({
         {children}
       </div>
     )
+  },
+}))
+
+jest.mock('hooks/useMidManagementMerchants', () => ({
+  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+    deleteMerchant: jest.fn(),
+    deleteMerchantIsSuccess: false,
+    deleteMerchantError: null,
+  })),
+}))
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
   },
 }))
 
@@ -93,5 +108,33 @@ describe('DirectoryMerchantDeleteModal', () => {
     })
 
     expect(button).toBeInTheDocument()
+  })
+
+  describe('Test error scenarios', () => {
+    const mockNameErrorMessage = 'mock_name_error'
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      const setStateMock = jest.fn()
+
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce([mockName, setStateMock])
+        .mockReturnValueOnce([mockNameErrorMessage, setStateMock])
+    })
+
+    it('should render name field error message', () => {
+      render(getDirectoryMerchantDeleteModalComponent())
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Delete Merchant',
+      }))
+
+      const nameErrorElement = screen.getByTestId('merchant-name-input-error')
+      const nameErrorText = screen.getByText(mockNameErrorMessage)
+
+      expect(nameErrorElement).toBeInTheDocument()
+      expect(nameErrorText).toBeInTheDocument()
+    })
   })
 })

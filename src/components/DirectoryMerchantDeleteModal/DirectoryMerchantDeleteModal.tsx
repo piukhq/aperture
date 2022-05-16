@@ -1,34 +1,75 @@
-import {useState} from 'react'
+import {useState, useEffect, useCallback} from 'react'
+import {useRouter} from 'next/router'
 import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
-
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {ModalStyle} from 'utils/enums'
+import {requestModal} from 'features/modalSlice'
+import {ModalStyle, ModalType} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
+import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
+  const router = useRouter()
+
+  const {
+    deleteMerchant,
+    deleteMerchantIsSuccess,
+    deleteMerchantError,
+    resetDeleteMerchantResponse,
+  } = useMidManagementMerchants()
+
+  const {planId} = router.query
+
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-  const {name, location_label: locationLabel} = selectedMerchant.merchant_metadata
-  const {locations, payment_schemes: paymentSchemes} = selectedMerchant.merchant_counts
+
+  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
+
+  const {name, location_label: locationLabel} = merchantMetadata
+  const {locations, payment_schemes: paymentSchemes} = merchantCounts
 
   const [nameValue, setNameValue] = useState('')
-  const [isNameReadyForVerification, setIsNameReadyForVerification] = useState(false)
+  const [nameValidationError, setNameValidationError] = useState(null)
 
   const totalMidCount = paymentSchemes.reduce((acc, {count}) => acc + count, 0)
 
+  const handleDeleteMerchantError = useCallback(() => {
+    const {data} = deleteMerchantError as RTKQueryErrorResponse
+
+    if (data && data.detail) {
+      const {detail} = data
+      setNameValidationError(detail[0].msg)
+    }
+  }, [deleteMerchantError])
+
+  useEffect(() => {
+    if (deleteMerchantError) {
+      handleDeleteMerchantError()
+    } else if (deleteMerchantIsSuccess) {
+      resetDeleteMerchantResponse()
+      reset()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [deleteMerchantError, resetDeleteMerchantResponse, handleDeleteMerchantError, deleteMerchantIsSuccess, dispatch])
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setIsNameReadyForVerification(false)
+    setNameValidationError(null)
   }
 
   const verifyName = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsNameReadyForVerification(true)
 
-    // TODO: Perform relevant Verification actions and submit
+    if (nameValue === '') {
+      setNameValidationError('Enter merchant name')
+    } else if (nameValue !== name) {
+      setNameValidationError('Enter correct merchant name')
+    } else {
+      deleteMerchant({name: nameValue, planRef: planId as string, merchantRef})
+    }
   }
 
   return (
@@ -44,13 +85,13 @@ const DirectoryMerchantDeleteModal = () => {
         <TextInputGroup
           name='merchant-name'
           label='Merchant Name'
-          error={null} // TODO: add any errors as per Verification
+          error={nameValidationError}
           value={nameValue}
           onChange={handleNameChange}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL_LABEL_HIDDEN}
           inputWidth={InputWidth.FULL}
-          inputColour={isNameReadyForVerification ? InputColour.RED : InputColour.GREY} // TODO: Add verified check conditional
+          inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
         />
         <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 mt-[13px] pt-[16px]'>
           <Button

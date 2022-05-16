@@ -1,7 +1,8 @@
-import {usePostMerchantMutation} from 'services/midManagementMerchants'
+import {usePostMerchantMutation, useDeleteMerchantMutation} from 'services/midManagementMerchants'
 
 export const useMidManagementMerchants = () => {
   const [postMerchant, {data: postMerchantResponse, isLoading: postMerchantIsLoading, error: postMerchantError, reset: resetPostMerchantResponse}] = usePostMerchantMutation({fixedCacheKey: 'postMerchant'})
+  const [deleteMerchant, {isSuccess: deleteMerchantIsSuccess, isLoading: deleteMerchantIsLoading, error: deleteMerchantError, reset: resetDeleteMerchantResponse}] = useDeleteMerchantMutation({fixedCacheKey: 'deleteMerchant'})
 
   return {
     postMerchant,
@@ -9,5 +10,10 @@ export const useMidManagementMerchants = () => {
     postMerchantIsLoading,
     postMerchantError,
     resetPostMerchantResponse,
+    deleteMerchant,
+    deleteMerchantIsSuccess,
+    deleteMerchantIsLoading,
+    deleteMerchantError,
+    resetDeleteMerchantResponse,
   }
 }
