@@ -8,8 +8,8 @@ export const mockSecondaryMidsData: DirectorySecondaryMids = [
     secondary_mid_metadata: {
       payment_scheme_code: 1,
       mid: '446720350',
-      visa_bin: '',
       payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_merchant_name: 'Mock Merchant 1',
     },
     date_added: 'Mar 21, 2020, 3:30pm',
     txm_status: 'txm_status 1',
@@ -19,8 +19,8 @@ export const mockSecondaryMidsData: DirectorySecondaryMids = [
     secondary_mid_metadata: {
       payment_scheme_code: 2,
       mid: '222425984',
-      visa_bin: '',
       payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_merchant_name: 'Mock Merchant 2',
     },
     date_added: 'Feb 21, 2020, 2:11pm',
     txm_status: 'txm_status 2',
@@ -30,8 +30,8 @@ export const mockSecondaryMidsData: DirectorySecondaryMids = [
     secondary_mid_metadata: {
       payment_scheme_code: 2,
       mid: '33342598',
-      visa_bin: '',
       payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_merchant_name: 'Mock Merchant 3',
     },
     date_added: 'Jun 24, 2021, 7:49pm',
     txm_status: 'txm_status 3',
@@ -41,8 +41,8 @@ export const mockSecondaryMidsData: DirectorySecondaryMids = [
     secondary_mid_metadata: {
       payment_scheme_code: 1,
       mid: '4444259847329',
-      visa_bin: '44453245',
       payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_merchant_name: 'Mock Merchant 4',
     },
     date_added: 'Oct 1, 2012, 1:02am',
     txm_status: 'txm_status 4',
