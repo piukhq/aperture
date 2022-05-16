@@ -1,5 +1,5 @@
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
-import {DirectorySecondaryMids} from 'types'
+import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -9,7 +9,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 const DirectoryMerchantSecondaryMids = () => {
   const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
-  const renderRow = ({date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata}, index:number) => {
+  const renderRow = ({date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata}:DirectorySecondaryMid, index:number) => {
     const {secondary_mid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = secondaryMidMetadata
 
     return (
