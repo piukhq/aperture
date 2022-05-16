@@ -9,8 +9,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 const DirectoryMerchantSecondaryMids = () => {
   const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
-  const renderRow = (secondaryMidElement, index) => {
-    const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata} = secondaryMidElement
+  const renderRow = ({date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata}, index:number) => {
     const {secondary_mid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = secondaryMidMetadata
 
     return (
@@ -19,7 +18,7 @@ const DirectoryMerchantSecondaryMids = () => {
           <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log(`Checkbox ${index} clicked`)} />
         </td>
         <td>
-          {paymentSchemeCode === 1 ? <VisaSvg key={index} alt='Visa'/> : <MastercardSvg key={index} alt='Mastercard' />}
+          {paymentSchemeCode === 1 ? <VisaSvg alt='Visa'/> : <MastercardSvg alt='Mastercard' />}
         </td>
         <td className='px-[9px] font-heading-8 font-regular truncate'>{secondary_mid}</td>
         <td className='px-[9px] font-body-3 truncate'>{paymentSchemeStoreName}</td>
