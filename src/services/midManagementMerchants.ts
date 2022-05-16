@@ -16,6 +16,8 @@ type DeleteMerchantBody = {
 }
 
 const endpointPrefix = '/api/v1/plans'
+// Likely to change once the larger authentication method is integrated in
+const authHeader = `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
 
 export const postMerchantApi = createApi({
   reducerPath: 'postMerchantApi',
@@ -24,9 +26,7 @@ export const postMerchantApi = createApi({
     // baseUrl: process.env.NEXT_PUBLIC_API_URL,
     baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
-      headers.set('authorization',
-        `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
-      )
+      headers.set('authorization', authHeader)
       headers.set('accept', 'application/json;v=1.3')
       return headers
     },
@@ -53,9 +53,7 @@ export const deleteMerchantApi = createApi({
     // baseUrl: process.env.NEXT_PUBLIC_API_URL,
     baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
-      headers.set('authorization',
-        `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
-      )
+      headers.set('authorization', authHeader)
       headers.set('accept', 'application/json;v=1.3')
       return headers
     },
