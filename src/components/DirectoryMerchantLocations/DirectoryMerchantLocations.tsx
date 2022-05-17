@@ -55,8 +55,8 @@ const DirectoryMerchantLocations = () => {
     )
   }
 
-  const handleAllCheckboxesChange = (e) => {
-    setCheckedRows(new Array(locationsData.length).fill(e.target.checked))
+  const handleAllCheckboxesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckedRows(new Array(locationsData.length).fill(event.target.checked))
   }
 
   return (
