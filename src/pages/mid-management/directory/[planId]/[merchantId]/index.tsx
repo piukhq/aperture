@@ -1,6 +1,13 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import {PageLayout, DirectoryDetailsHeader, DirectoryMerchantMids, DirectoryMerchantIdentifiers, DirectoryMidModal} from 'components'
+import {
+  PageLayout,
+  DirectoryDetailsHeader,
+  DirectoryMerchantMids,
+  DirectoryMerchantSecondaryMids,
+  DirectoryMerchantIdentifiers,
+  DirectoryMidModal,
+} from 'components'
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
@@ -56,6 +63,8 @@ const MerchantDetailsPage: NextPage = () => {
         return <DirectoryMerchantMids/>
       case NavigationTab.IDENTIFIERS:
         return <DirectoryMerchantIdentifiers/>
+      case NavigationTab.SECONDARY_MIDS:
+        return <DirectoryMerchantSecondaryMids/>
       default:
         return <DirectoryMerchantMids/>
     }

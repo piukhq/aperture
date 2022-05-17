@@ -1,16 +1,16 @@
-import {mockIdentifiersData} from 'utils/mockIdentifiersData'
-import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
+import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
+import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import MastercardSvg from 'icons/svgs/mastercard-logo-small.svg'
 import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 
-const DirectoryMerchantIdentifiers = () => {
-  const identifiersData: DirectoryIdentifiers = mockIdentifiersData
+const DirectoryMerchantSecondaryMids = () => {
+  const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
-  const renderRow = ({date_added: dateAdded, identifier_metadata: identifierMetadata}:DirectoryIdentifier, index:number) => {
-    const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = identifierMetadata
+  const renderRow = ({date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata}:DirectorySecondaryMid, index:number) => {
+    const {secondary_mid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = secondaryMidMetadata
 
     return (
       <tr className='h-[60px]' key={index}>
@@ -20,9 +20,10 @@ const DirectoryMerchantIdentifiers = () => {
         <td>
           {paymentSchemeCode === 1 ? <VisaSvg alt='Visa'/> : <MastercardSvg alt='Mastercard' />}
         </td>
-        <td className='px-[9px] font-heading-8 font-regular truncate'>{value}</td>
-        <td className='px-[9px] font-body-3 truncate'>{paymentSchemeMerchantName}</td>
+        <td className='px-[9px] font-heading-8 font-regular truncate'>{secondary_mid}</td>
+        <td className='px-[9px] font-body-3 truncate'>{paymentSchemeStoreName}</td>
         <td className='px-[9px] font-body-3 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
+        <td className='px-[9px]'></td>{/* TODO: Add Scheme Status */}
         <td className='px-[9px]'></td>{/* TODO: Add Harmonia Status */}
       </tr>
     )
@@ -32,13 +33,13 @@ const DirectoryMerchantIdentifiers = () => {
     <div className='mx-[10px]'>
       <div className='flex h-[71px] items-center justify-end pr-[9px]'>
         <button
-          onClick={() => console.log('Placeholder: Request Visa Identifier')}
-          aria-label='Add Visa Identifier'
+          onClick={() => console.log('Placeholder: Request Visa Secondary MID')}
+          aria-label='Add Visa Secondary MID'
         ><AddVisaSvg alt=''/>
         </button>
         <button
-          onClick={() => console.log('Placeholder: Request Mastercard Identifier')}
-          aria-label='Add Mastercard Identifier'
+          onClick={() => console.log('Placeholder: Request Mastercard Secondary MID')}
+          aria-label='Add Mastercard Secondary MID'
         ><AddMastercardSvg alt=''/>
         </button>
       </div>
@@ -53,17 +54,18 @@ const DirectoryMerchantIdentifiers = () => {
             </th>
             <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px]'></th>
             <th data-testid='table-header' className='px-[9px] font-table-header w-[160px]'>VALUE</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME NAME</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>STORE NAME</th>
             <th data-testid='table-header' className='px-[9px] font-table-header'>DATE ADDED</th>
+            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME STATUS</th>
             <th data-testid='table-header' className='px-[9px] font-table-header rounded-r-[10px]'>HARMONIA STATUS</th>
           </tr>
         </thead>
         <tbody>
-          {identifiersData.map((identifier, index) => renderRow(identifier, index))}
+          {secondaryMidsData.map((secondaryMid, index) => renderRow(secondaryMid, index))}
         </tbody>
       </table>
     </div>
   )
 }
 
-export default DirectoryMerchantIdentifiers
+export default DirectoryMerchantSecondaryMids
