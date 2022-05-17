@@ -104,7 +104,7 @@ const PlansList = () => {
           handleClick={handleLoadAssets}
           ariaLabel='Load Assets'
         >
-          <CheckSvg/>Load Assets
+          <CheckSvg fill='white' />Load Assets
         </Button>
       </div>
       <p className='h-[24px] text-red text-center text-body font-body-3 ml-[160px]'>{loadAssetsError}</p>

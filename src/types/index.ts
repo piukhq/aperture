@@ -166,6 +166,21 @@ export type DirectorySecondaryMid = {
   txm_status: string // TODO: could be an enum, union type
 }
 
+export type DirectoryLocations = Array<DirectoryLocation>
+
+export type DirectoryLocation = {
+  name: string,
+  location_ref: string,
+  location_id: string,
+  merchant_internal_id: string,
+  is_physical_location: boolean,
+  address_line_1: string,
+  town_city: string,
+  postcode: string,
+  date_added: string // TODO: Change this depending on API value
+  payment_schemes: Array<PaymentScheme>
+}
+
 export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,

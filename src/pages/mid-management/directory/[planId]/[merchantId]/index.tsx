@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import {
   PageLayout,
   DirectoryDetailsHeader,
+  DirectoryMerchantLocations,
   DirectoryMerchantMids,
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantIdentifiers,
@@ -61,6 +62,8 @@ const MerchantDetailsPage: NextPage = () => {
     switch(tab) {
       case NavigationTab.MIDS:
         return <DirectoryMerchantMids/>
+      case NavigationTab.LOCATIONS:
+        return <DirectoryMerchantLocations />
       case NavigationTab.IDENTIFIERS:
         return <DirectoryMerchantIdentifiers/>
       case NavigationTab.SECONDARY_MIDS:
@@ -71,7 +74,7 @@ const MerchantDetailsPage: NextPage = () => {
   }
 
   const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-heading-8 h-[51px] text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
+    const tabSelectedClasses = 'font-heading-8 h-[51px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
     const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
@@ -81,7 +84,7 @@ const MerchantDetailsPage: NextPage = () => {
         className={NavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
         onClick={() => handleNavigationClick(NavigationTab[navigationKey])}
       >
-        <span className='place-content-center flex h-[51px] items-center duration-200'>{NavigationLabel[navigationKey]}</span>
+        <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
       </button>
     ))
   }
