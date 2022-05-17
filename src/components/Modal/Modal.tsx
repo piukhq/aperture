@@ -27,7 +27,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
 
   const renderCloseButton = () => (
     <button aria-label='Close' onClick={handleClose}>
-      <CloseIcon className='w-[14px] h-[14px]' />
+      <CloseIcon className='w-[14px] h-[14px]' fill='#92929D' />
     </button>
   )
 
