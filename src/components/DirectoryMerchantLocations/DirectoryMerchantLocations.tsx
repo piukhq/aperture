@@ -47,7 +47,7 @@ const DirectoryMerchantLocations = () => {
         <td className='px-[9px] font-heading-8 font-regular truncate'>{name}</td>
         <td className='px-[9px] font-heading-8 font-regular truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
         <td className='px-[9px]'>
-          {isPhysicalLocation ? <CheckSvg className='w-[15px] h-[15px]' fill='aquamarine' /> : <CloseIcon className='w-[15px] h-[15px]' fill='red' />}
+          {isPhysicalLocation ? <CheckSvg className='w-[15px] h-[15px] fill-aquamarine' /> : <CloseIcon className='w-[15px] h-[15px] fill-red' />}
         </td>
         <td className='px-[9px] font-heading-8 font-regular truncate'>{addressLine}</td>
         <td className='px-[9px] font-heading-8 font-regular truncate'>{townCity}</td>
