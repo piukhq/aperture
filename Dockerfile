@@ -1,5 +1,4 @@
 FROM node:slim as deps
-ARG ENVIRONMENT=development
 WORKDIR /app
 COPY . .
 RUN apt-get update
