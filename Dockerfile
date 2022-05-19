@@ -1,12 +1,13 @@
 FROM node:slim as deps
+ARG ENVIRONMENT=development
 WORKDIR /app
 COPY . .
 RUN apt-get update
 RUN apt-get install -y ca-certificates
 RUN yarn install --frozen-lockfile
-RUN yarn build
+RUN npx env-cmd -f .env.${ENVIRONMENT} yarn build
 
-FROM node:slim as runner
+FROM node:slim
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=deps /app/next.config.js /app/package.json ./
