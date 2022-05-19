@@ -55,5 +55,5 @@ jobs:
           tags: |
             binkcore.azurecr.io/${{ github.event.repository.name }}:staging-${{ github.event.release.tag_name }}
             binkcore.azurecr.io/${{ github.event.repository.name }}:staging
-          arguments:
-            --build-arg ENVIRONMENT=staging
+          build-args: |
+            ENVIRONMENT=staging
