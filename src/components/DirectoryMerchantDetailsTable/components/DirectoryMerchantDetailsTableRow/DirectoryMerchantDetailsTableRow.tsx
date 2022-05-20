@@ -5,6 +5,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import CloseIcon from 'icons/svgs/close.svg'
 import {DirectoryMerchantDetailsTableCell} from 'types'
+import {PaymentSchemeCode} from 'utils/enums'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -17,11 +18,11 @@ type Props = {
 
 const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange}: Props) => {
   const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
-    if (paymentSchemeCode === 1) {
+    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
       return <VisaSvg alt='Visa' />
-    } else if (paymentSchemeCode === 2) {
+    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
       return <MastercardSvg alt='Mastercard' />
-    } else if (paymentSchemeCode === 3) {
+    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
       return <AmexSvg alt='Amex' />
     }
   }
