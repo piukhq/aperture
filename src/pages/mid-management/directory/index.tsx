@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {useCallback, useEffect} from 'react'
 import type {NextPage} from 'next'
 import {Button, DirectoryTile, PageLayout, TextInputGroup, DirectoryPlanModal, DirectoryPlanDeleteModal} from 'components'
 import {useRouter} from 'next/router'
@@ -17,7 +17,7 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
+import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
 import {ModalType} from 'utils/enums'
 
 import AddSvg from 'icons/svgs/plus-filled.svg'
@@ -32,7 +32,13 @@ const DirectoryPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const router = useRouter()
 
-  const handleRequestNewPlanModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN)) }, [dispatch])
+  useEffect(() => { // Clear any previously selected plan
+    dispatch(reset())
+  }, [dispatch])
+
+  const handleRequestNewPlanModal = useCallback(() => {
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
+  }, [dispatch])
 
   const renderDirectoryPlans = () => (
     <div className='flex mt-[51px] flex-wrap gap-[30px]'>
