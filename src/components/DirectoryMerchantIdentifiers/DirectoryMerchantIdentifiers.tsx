@@ -5,8 +5,9 @@ import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 
-const identifiersTableHeaders = [
+const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
   },
@@ -30,7 +31,7 @@ const DirectoryMerchantIdentifiers = () => {
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
-  const hydrateIdentifiersTableData = () => {
+  const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return identifiersData.map((identifierObj: DirectoryIdentifier) => {
       const {date_added: dateAdded, identifier_metadata: metadata} = identifierObj
       const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = metadata
@@ -87,7 +88,7 @@ const DirectoryMerchantIdentifiers = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkBoxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
     </>
   )
 }

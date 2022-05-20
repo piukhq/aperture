@@ -206,3 +206,18 @@ export type APIErrorResponse = {
     }
   >
 }
+
+export type DirectoryMerchantDetailsTableHeader = {
+  additionalStyles?: string,
+  isPaymentIcon?: boolean,
+  displayValue?: string
+}
+
+export type DirectoryMerchantDetailsTableCell = {
+  paymentSchemeCode?: number,
+  physicalLocation?: {
+    isPhysicalLocation: boolean
+  },
+  additionalStyles?: string,
+  displayValue?: string
+}

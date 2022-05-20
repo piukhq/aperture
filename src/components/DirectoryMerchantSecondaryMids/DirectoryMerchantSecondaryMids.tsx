@@ -5,8 +5,9 @@ import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 
-const secondaryMidsTableHeaders = [
+const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
   },
@@ -33,7 +34,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
-  const hydrateSecondaryMidsTableData = () => {
+  const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
       const {date_added: dateAdded, secondary_mid_metadata: metadata} = secondaryMidObj
       const {secondary_mid: secondaryMid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = metadata
@@ -91,7 +92,7 @@ const DirectoryMerchantSecondaryMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkBoxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
     </>
   )
 }

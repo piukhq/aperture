@@ -3,8 +3,9 @@ import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {mockLocationData} from 'utils/mockLocationData'
 import {DirectoryLocations, DirectoryLocation} from 'types'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 
-const locationsTableHeaders = [
+const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     displayValue: 'NAME',
   },
@@ -38,7 +39,7 @@ const DirectoryMerchantLocations = () => {
   const locationsData: DirectoryLocations = mockLocationData
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
-  const hydrateLocationTableData = () => {
+  const hydrateLocationTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return locationsData.map((locationObj: DirectoryLocation) => {
       const {date_added: dateAdded, metadata} = locationObj
       const {
@@ -117,7 +118,7 @@ const DirectoryMerchantLocations = () => {
         </Button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkBoxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
     </>
   )
 }

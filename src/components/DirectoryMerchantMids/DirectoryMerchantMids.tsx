@@ -10,8 +10,9 @@ import {setSelectedDirectoryMidPaymentScheme} from 'features/directoryMidSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 
-const midsTableHeaders = [
+const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
   },
@@ -37,7 +38,7 @@ const DirectoryMerchantMids = () => {
   const midsData: DirectoryMids = mockMidsData
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
-  const hydrateMidTableData = () => {
+  const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata} = midObj
       const {payment_scheme_code: paymentSchemeCode, mid, visa_bin: visaBin} = metadata
