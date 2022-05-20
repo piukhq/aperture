@@ -98,7 +98,10 @@ const MerchantDetailsPage: NextPage = () => {
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
             {renderNavigationTabs()}
           </nav>
-          {renderSelectedTabContent()}
+
+          <div className='mx-[10px]'>
+            {renderSelectedTabContent()}
+          </div>
         </div>
       </PageLayout>
     </>
