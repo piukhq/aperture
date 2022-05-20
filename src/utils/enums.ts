@@ -82,6 +82,12 @@ enum PaymentSchemeName {
   AMEX = 'AMEX'
 }
 
+enum PaymentSchemeCode {
+  VISA = 1,
+  MASTERCARD = 2,
+  AMEX = 3
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -95,4 +101,5 @@ export {
   ModalType,
   ModalStyle,
   PaymentSchemeName,
+  PaymentSchemeCode,
 }

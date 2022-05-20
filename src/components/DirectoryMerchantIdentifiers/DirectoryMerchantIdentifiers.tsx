@@ -1,68 +1,95 @@
+import {useState} from 'react'
+import {Button, DirectoryMerchantDetailsTable} from 'components'
+import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
-
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import MastercardSvg from 'icons/svgs/mastercard-logo-small.svg'
-import VisaSvg from 'icons/svgs/visa-logo-small.svg'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+
+const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+  {
+    isPaymentIcon: true,
+  },
+  {
+    displayValue: 'VALUE',
+    additionalStyles: 'w-[160px]',
+  },
+  {
+    displayValue: 'SCHEME NAME',
+  },
+  {
+    displayValue: 'DATE ADDED',
+  },
+  {
+    displayValue: 'HARMONIA STATUS',
+    additionalStyles: 'rounded-r-[10px]',
+  },
+]
 
 const DirectoryMerchantIdentifiers = () => {
+  const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
-  const renderRow = ({date_added: dateAdded, identifier_metadata: identifierMetadata}:DirectoryIdentifier, index:number) => {
-    const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = identifierMetadata
-
-    return (
-      <tr className='h-[60px]' key={index}>
-        <td className='flex items-center justify-center h-[60px]'>
-          <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log(`Checkbox ${index} clicked`)} />
-        </td>
-        <td>
-          {paymentSchemeCode === 1 ? <VisaSvg alt='Visa'/> : <MastercardSvg alt='Mastercard' />}
-        </td>
-        <td className='px-[9px] font-heading-8 font-regular truncate'>{value}</td>
-        <td className='px-[9px] font-body-3 truncate'>{paymentSchemeMerchantName}</td>
-        <td className='px-[9px] font-body-3 truncate'>{dateAdded}</td>{/* TODO: Will need formatting when coming from API */ }
-        <td className='px-[9px]'></td>{/* TODO: Add Harmonia Status */}
-      </tr>
-    )
+  const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
+    return identifiersData.map((identifierObj: DirectoryIdentifier) => {
+      const {date_added: dateAdded, identifier_metadata: metadata} = identifierObj
+      const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = metadata
+      return [
+        {
+          paymentSchemeCode,
+        },
+        {
+          displayValue: value,
+          additionalStyles: 'font-heading-8 font-regular truncate',
+        },
+        {
+          displayValue: paymentSchemeMerchantName,
+          additionalStyles: 'font-body-3 truncate',
+        },
+        {
+          displayValue: dateAdded,
+          additionalStyles: 'font-body-3 truncate',
+        },
+        {},
+      ]
+    })
   }
 
   return (
-    <div className='mx-[10px]'>
-      <div className='flex h-[71px] items-center justify-end pr-[9px]'>
-        <button
-          onClick={() => console.log('Placeholder: Request Visa Identifier')}
-          aria-label='Add Visa Identifier'
-        ><AddVisaSvg alt=''/>
-        </button>
-        <button
-          onClick={() => console.log('Placeholder: Request Mastercard Identifier')}
-          aria-label='Add Mastercard Identifier'
-        ><AddMastercardSvg alt=''/>
-        </button>
+    <>
+      <div className='flex justify-between h-[71px] items-center'>
+        {/* TODO: More auxiliary buttons to be added at a later date */}
+        <div>
+          {shouldDisplayAuxiliaryButtons && (
+            <Button
+              handleClick={() => console.log('Delete button clicked')}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.MEDIUM}
+              labelColour={LabelColour.RED}
+              labelWeight={LabelWeight.SEMIBOLD}
+              borderColour={BorderColour.RED}
+            >Delete
+            </Button>
+          )}
+        </div>
+
+        <div className='flex h-[38px] items-center'>
+          <button
+            onClick={() => console.log('Placeholder: Request Visa Identifier')}
+            aria-label='Add Visa Identifier'
+          ><AddVisaSvg alt=''/>
+          </button>
+          <button
+            onClick={() => console.log('Placeholder: Request Mastercard Identifier')}
+            aria-label='Add Mastercard Identifier'
+          ><AddMastercardSvg alt=''/>
+          </button>
+        </div>
       </div>
 
-      <table className='w-full min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
-        <thead className='h-[38px] text-left bg-grey-200'>
-          <tr>
-            <th data-testid='table-header' aria-label='group-checkbox' className='px-[9px] w-[40px] rounded-l-[10px]'>
-              <div className='flex items-center justify-center'>
-                <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={() => console.log('Header Checkbox clicked')}/>
-              </div>
-            </th>
-            <th data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px]'></th>
-            <th data-testid='table-header' className='px-[9px] font-table-header w-[160px]'>VALUE</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header'>SCHEME NAME</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header'>DATE ADDED</th>
-            <th data-testid='table-header' className='px-[9px] font-table-header rounded-r-[10px]'>HARMONIA STATUS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {identifiersData.map((identifier, index) => renderRow(identifier, index))}
-        </tbody>
-      </table>
-    </div>
+      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+    </>
   )
 }
 

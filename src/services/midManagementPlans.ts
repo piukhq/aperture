@@ -13,10 +13,10 @@ const endpointPrefix = '/api/v1/plans'
 export const postPlanApi = createApi({
   reducerPath: 'postPlanApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization',
-        `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
+        `token ${process.env.NEXT_PUBLIC_PORTAL_API_KEY}`
       )
       headers.set('accept', 'application/json;v=1.3')
       return headers

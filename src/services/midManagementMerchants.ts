@@ -23,7 +23,7 @@ export const postMerchantApi = createApi({
   reducerPath: 'postMerchantApi',
   baseQuery: fetchBaseQuery({
     // TODO: Remove api reflector url when relevant api is deployed
-    // baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
     baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', authHeader)
@@ -50,7 +50,7 @@ export const deleteMerchantApi = createApi({
   reducerPath: 'deleteMerchantApi',
   baseQuery: fetchBaseQuery({
     // TODO: Remove api reflector url when relevant api is deployed
-    // baseUrl: process.env.NEXT_PUBLIC_API_URL,
+    // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
     baseUrl: ApiReflectorUrl.REFLECTOR_URL,
     prepareHeaders: (headers) => {
       headers.set('authorization', authHeader)
