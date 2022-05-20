@@ -57,7 +57,7 @@ const DirectoryMerchantIdentifiers = () => {
 
   return (
     <>
-      <div className='flex justify-between h-[71px] items-center pr-[9px]'>
+      <div className='flex justify-between h-[71px] items-center'>
         {/* TODO: More auxiliary buttons to be added at a later date */}
         <div>
           {shouldDisplayAuxiliaryButtons && (
@@ -73,7 +73,7 @@ const DirectoryMerchantIdentifiers = () => {
           )}
         </div>
 
-        <div>
+        <div className='flex h-[38px] items-center'>
           <button
             onClick={() => console.log('Placeholder: Request Visa Identifier')}
             aria-label='Add Visa Identifier'

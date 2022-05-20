@@ -72,7 +72,7 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      <div className='flex h-[71px] items-center justify-end pr-[9px]'>
+      <div className='flex h-[71px] items-center justify-end'>
         <button
           onClick={() => requestMidModal(PaymentSchemeName.VISA)}
           aria-label='Add Visa MID'

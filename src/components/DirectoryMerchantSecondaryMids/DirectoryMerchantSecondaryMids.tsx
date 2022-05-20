@@ -61,7 +61,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   return (
     <>
-      <div className='flex justify-between h-[71px] items-center pr-[9px]'>
+      <div className='flex justify-between h-[71px] items-center'>
         {/* TODO: More auxiliary buttons to be added at a later date */}
         <div>
           {shouldDisplayAuxiliaryButtons && (
@@ -77,7 +77,7 @@ const DirectoryMerchantSecondaryMids = () => {
           )}
         </div>
 
-        <div>
+        <div className='flex h-[38px] items-center'>
           <button
             onClick={() => console.log('Placeholder: Request Visa Secondary MID')}
             aria-label='Add Visa Secondary MID'
