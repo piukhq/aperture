@@ -7,7 +7,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMidPaymentScheme, reset} from 'features/directoryMidSlice'
 
 const DirectoryMidModal = () => {
-  const paymentScheme = useAppSelector(getSelectedDirectoryMidPaymentScheme).selectedPaymentScheme
+  const paymentScheme = useAppSelector(getSelectedDirectoryMidPaymentScheme)
   const dispatch = useAppDispatch()
 
   const [midValue, setMidValue] = useState('')

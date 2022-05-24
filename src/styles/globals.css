@@ -72,6 +72,9 @@
   .font-table-cell {
     @apply text-sm font-body font-semibold text-grey-800 dark:text-grey-100 tracking-[0.1px]
   }
+  .font-modal-form-label {
+    @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[0.5px] 
+  }
 
   .font-body-1 {
     @apply text-lg font-body leading-7 tracking-[.1px] text-grey-800 dark:text-grey-100

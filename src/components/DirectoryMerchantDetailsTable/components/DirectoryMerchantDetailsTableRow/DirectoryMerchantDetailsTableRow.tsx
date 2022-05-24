@@ -14,9 +14,10 @@ type Props = {
   row: TableRowProps,
   checked: boolean,
   onCheckboxChange: (index: number) => void,
+  onRowClick?: (index: number) => void, // TODO: Optional prop until all tabs have the ability to pass in onRowClick
 }
 
-const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange}: Props) => {
+const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, onRowClick}: Props) => {
   const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
       return <VisaSvg alt='Visa' />
@@ -27,8 +28,12 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
     }
   }
 
+  const handleClick = () => {
+    onRowClick && onRowClick(index) // TODO: Conditional until all Tabs have the ability to pass in onRowClick
+  }
+
   return (
-    <tr className='h-[60px]'>
+    <tr className='h-[60px] hover:bg-aquamarine' onClick={handleClick} role='button' tabIndex={0}>
       <td className='flex items-center justify-center h-[60px]'>
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onChange={() => onCheckboxChange(index)} />
       </td>

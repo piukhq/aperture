@@ -2,8 +2,8 @@ import {useRouter} from 'next/router'
 import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {ModalStyle} from 'utils/enums'
-// import {useAppDispatch, useAppSelector} from 'app/hooks'
-// import {getSelectedDirectoryMid, reset} from 'features/directoryMidSlice'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {getSelectedDirectoryMid, reset} from 'features/directoryMidSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {useState} from 'react'
 
@@ -11,15 +11,16 @@ const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const router = useRouter()
   const {merchantId, planId, tab} = router.query
-  // const item = useAppSelector(getSelectedDirectoryMid)
-  // const dispatch = useAppDispatch()
+  const item = useAppSelector(getSelectedDirectoryMid)
+  const dispatch = useAppDispatch()
 
 
   const closeSingleViewModal = () => {
-    // dispatch(reset())
+    dispatch(reset())
     router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
   }
 
+  console.log(item)
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
@@ -36,7 +37,7 @@ const DirectorySingleViewModal = () => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={'MID - 4444259847329'} onCloseFn={closeSingleViewModal}>
+    <Modal modalStyle={ModalStyle.NARROW} modalHeader={'MID - 4444259847329'} onCloseFn={closeSingleViewModal}>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>

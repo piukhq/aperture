@@ -22,6 +22,7 @@ export const directoryMerchantSlice = createSlice({
       state.merchant_metadata = merchant_metadata
       state.merchant_counts = merchant_counts
     },
+
     reset: () => initialState,
   },
 })

@@ -12,17 +12,19 @@ import {
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-import {useAppSelector} from 'app/hooks'
-import {selectModal} from 'features/modalSlice'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {requestModal, selectModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 import {useEffect} from 'react'
+import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 
 const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const {merchantId, planId, tab} = router.query
+  const {merchantId, planId, tab, ref} = router.query
 
   enum NavigationTab {
     MIDS = 'mids',
@@ -44,6 +46,10 @@ const MerchantDetailsPage: NextPage = () => {
       router.isReady && router.push(`${baseUrl}?tab=mids`)
     }
   }, [tab, NavigationTab, baseUrl, router])
+
+  useEffect(() => {
+    ref && dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
+  }, [ref])
 
   const getPlanDetails = () => {
     return mockPlanDetailsData
@@ -92,6 +98,7 @@ const MerchantDetailsPage: NextPage = () => {
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && <DirectorySingleViewModal />}
       <PageLayout>
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
