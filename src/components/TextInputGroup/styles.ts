@@ -39,6 +39,7 @@ export enum InputStyle {
   WHITE_ICON_LEFT,
   WHITE_ICON_RIGHT_SMALL,
   WHITE_ICON_RIGHT,
+  ICON_LEFT,
 }
 
 export const INPUT_TYPE_MAPS: Record<InputType, string> = {
@@ -177,5 +178,11 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
     label: 'hidden',
     input: 'w-full h-[50px] pl-7 bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
+  },
+  [InputStyle.ICON_LEFT]: {
+    container: 'h-[42px] flex items-center',
+    label: 'hidden',
+    input: 'w-full h-[42px] pl-[50px] bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    icon: 'absolute top-[9px] left-[10px]',
   },
 }
