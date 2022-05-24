@@ -16,7 +16,8 @@ const CustomerWalletsPage: NextPage = () => {
         <Dropdown label='Lookup' displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
 
         <TextInputGroup
-          name='user-token'
+          name='user-identifier'
+          label='User identifier'
           placeholder='Enter JWT from Django'
           error={null}
           value={''}
