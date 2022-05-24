@@ -21,9 +21,9 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue}: Pr
         )}
         >
           {label && (
-            <p className='font-subheading-5 mr-[7px]'>{label}:</p>
+            <Listbox.Label className='font-subheading-5 mr-[7px]'>{label}:</Listbox.Label>
           )}
-          <span className='w-auto font-subheading-7'>{displayValue}</span>
+          <span className='w-auto font-subheading-3 font-medium'>{displayValue}</span>
           <div className='flex justify-center items-center w-[28px] ml-[57px] h-full border-l border-grey-200 dark:border-grey-800'>
             <TriangleDownSvg className={classNames(open && 'rotate-180')} />
           </div>
@@ -35,7 +35,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue}: Pr
               <Listbox.Option
                 key={value}
                 value={value}
-                className='py-[7px] pl-[7px] cursor-pointer font-subheading-7'
+                className='py-[7px] pl-[7px] cursor-pointer font-subheading-3 font-medium'
               >
                 {value}
               </Listbox.Option>
