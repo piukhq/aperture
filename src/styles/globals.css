@@ -103,6 +103,12 @@
   .font-subheading-6 {
     @apply text-2xs font-heading font-[500] tracking-[0.8px]
   }
+  .font-subheading-7 {
+    @apply text-sm font-body font-medium tracking-[.1px] text-grey-800 dark:text-grey-100
+  }
+  .font-subheading-8 {
+    @apply text-sm font-body leading-6 tracking-[.1px] text-grey-600 dark:text-grey-100
+  }
   .hover-scale-regular {
      @apply hover:scale-110 transition-transform duration-300
   }
