@@ -112,7 +112,7 @@ const DirectorySingleViewModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.NARROW} modalHeader={'MID - 4444259847329'} onCloseFn={closeSingleViewModal}>
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={'MID - 4444259847329'} onCloseFn={closeSingleViewModal}>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>

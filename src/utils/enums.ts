@@ -73,8 +73,8 @@ enum ModalType {
 }
 
 enum ModalStyle {
-  REGULAR = 'regular',
-  NARROW = 'narrow',
+  WIDE = 'wide',
+  CENTERED_HEADING = 'centredHeading',
   COMPACT = 'compact'
 }
 

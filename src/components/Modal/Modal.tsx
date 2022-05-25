@@ -44,7 +44,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
 
   const getModalStyle = () => {
     switch(modalStyle) {
-      case ModalStyle.REGULAR:
+      case ModalStyle.WIDE:
         return {
           outerContainer: 'w-[750px] py-[53px]',
           headerContainer: 'h-[61px] flex-row-reverse rounded-t-[20px] border-b-[1px] border-grey-200 dark:border-grey-800',
@@ -60,7 +60,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
           isHeaderAtTop: true,
           header: 'font-heading-7 font-medium',
         }
-      case ModalStyle.NARROW:
+      case ModalStyle.CENTERED_HEADING:
         return {
           outerContainer: 'w-[600px] pt-[20%] pb-[10%]',
           headerContainer: 'h-[41px] place-content-between rounded-t-[15px]',

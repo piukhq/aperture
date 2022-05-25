@@ -129,7 +129,7 @@ const CredentialsModal = ({removeTokenHandler}: Props) => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.REGULAR} modalHeader='Enter Environment Credentials'>
+    <Modal modalStyle={ModalStyle.WIDE} modalHeader='Enter Environment Credentials'>
       <form className='flex flex-col gap-[20px] mt-[30px] ' onSubmit={validateCredentials}>
         <TextInputGroup
           name='credentials-email'
