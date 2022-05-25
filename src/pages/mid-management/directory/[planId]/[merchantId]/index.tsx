@@ -14,7 +14,7 @@ import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {requestModal, selectModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
+import {ModalType, NavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
 import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 
@@ -26,12 +26,6 @@ const MerchantDetailsPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const {merchantId, planId, tab, ref} = router.query
 
-  enum NavigationTab {
-    MIDS = 'mids',
-    LOCATIONS = 'locations',
-    SECONDARY_MIDS ='secondary-mids',
-    IDENTIFIERS ='identifiers'
-  }
 
   enum NavigationLabel {
     MIDS = 'MIDs',
@@ -45,7 +39,7 @@ const MerchantDetailsPage: NextPage = () => {
     if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
       router.isReady && router.push(`${baseUrl}?tab=mids`)
     }
-  }, [tab, NavigationTab, baseUrl, router])
+  }, [tab, baseUrl, router])
 
   useEffect(() => {
     ref && dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
