@@ -73,7 +73,7 @@
     @apply text-sm font-body font-semibold text-grey-800 dark:text-grey-100 tracking-[0.1px]
   }
   .font-single-view-heading {
-    @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[0.5px] 
+    @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[0.5px]  mb-[5px]
   }
   .font-single-view-data {
     @apply font-body-2 font-medium text-grey-800 dark:text-grey-500
