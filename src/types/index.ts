@@ -170,7 +170,7 @@ export type DirectoryLocations = Array<DirectoryLocation>
 
 export type DirectoryLocation = {
   location_ref: string,
-  metadata: {
+  location_metadata: {
     name: string,
     location_id: string,
     merchant_internal_id: string,

@@ -3,9 +3,7 @@ import {useRouter} from 'next/router'
 import {mockMidsData} from 'utils/mockMidsData'
 import {DirectoryMids, DirectoryMid} from 'types'
 import {ModalType, PaymentSchemeName} from 'utils/enums'
-import {
-  useAppDispatch,
-} from 'app/hooks'
+import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
@@ -36,9 +34,10 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 ]
 
 const DirectoryMerchantMids = () => {
-  const midsData: DirectoryMids = mockMidsData
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId, tab} = router.query
+  const midsData: DirectoryMids = mockMidsData
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
@@ -67,7 +66,6 @@ const DirectoryMerchantMids = () => {
     })
   }
 
-  const dispatch = useAppDispatch()
 
   const requestMidModal = (paymentScheme) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))

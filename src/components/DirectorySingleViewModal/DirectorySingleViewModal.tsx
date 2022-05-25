@@ -3,12 +3,19 @@ import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {ModalStyle} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, reset, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryMerchantEntity, reset as merchantReset, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {reset as modalReset} from 'features/modalSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {useEffect, useState} from 'react'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
+
+// Temporary Mock Imports for testing
 import {mockMidsData} from 'utils/mockMidsData'
+import {mockIdentifiersData} from 'utils/mockIdentifiersData'
+import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
+import {mockLocationData} from 'utils/mockLocationData'
+
 
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
@@ -27,19 +34,32 @@ const DirectorySingleViewModal = () => {
       dispatch(setSelectedDirectoryMerchantEntity(entityFromApi))
       return entityFromApi
     }
-
     if (tab === DirectoryNavigationTab.MIDS) {
       const entity = selectedEntity || getEntityFromApiResponse('mid', mockMidsData)
       setEntityHeading(`MID - ${entity.mid_metadata.mid}`)
-      setEntityDetailsComponent(<SingleViewMidDetails mid={entity} />) // TODO: Potentially can be genricised to handle other entity types
-    } else { // Tab is unknown redirect back to mids
-      router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
+      setEntityDetailsComponent(<SingleViewMidDetails mid={entity} />)
+    } else if (tab === DirectoryNavigationTab.IDENTIFIERS) {
+      const entity = selectedEntity || getEntityFromApiResponse('identifier', mockIdentifiersData)
+      setEntityHeading(`Identifier - ${entity.identifier_metadata.value}`)
+      setEntityDetailsComponent(<p>Identifier Details Placeholder</p>)
+    } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
+      const entity = selectedEntity || getEntityFromApiResponse('secondary_mid', mockSecondaryMidsData)
+      setEntityHeading(`Secondary Mid - ${entity.secondary_mid_metadata.secondary_mid}`)
+      setEntityDetailsComponent(<p>Secondary Mid Details Placeholder</p>)
+    } else if (tab === DirectoryNavigationTab.LOCATIONS) {
+      const entity = selectedEntity || getEntityFromApiResponse('location', mockLocationData)
+      setEntityHeading(`Location - ${entity.location_metadata.name}`)
+      setEntityDetailsComponent(<p>Location Details Placeholder</p>)
+    } else { // Tab is unknown redirect back to the merchant details page
+      dispatch(merchantReset())
+      dispatch(modalReset())
+      router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
     }
   }, [tab, selectedEntity, dispatch, ref, merchantId, planId, router])
 
 
   const closeSingleViewModal = () => {
-    dispatch(reset())
+    dispatch(merchantReset())
     router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
   }
 

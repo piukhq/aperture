@@ -18,6 +18,17 @@ const getDirectoryMerchantSecondaryMidsComponent = (passedStore = undefined) => 
 )
 
 describe('DirectoryMerchantSecondaryMids', () => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
+  beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'secondary_mids',
+      },
+    }))
+  })
   it('should render the add Secondary Mid buttons', () => {
     render(getDirectoryMerchantSecondaryMidsComponent())
     const visaButton = screen.getByRole('button', {
