@@ -75,6 +75,12 @@
   .font-modal-section-heading {
     @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[0.5px] 
   }
+  .font-single-view-heading {
+    @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[0.5px] 
+  }
+  .font-single-view-data {
+    @apply font-body-2 font-medium text-grey-800 dark:text-grey-500
+  }
 
   .font-body-1 {
     @apply text-lg font-body leading-7 tracking-[.1px] text-grey-800 dark:text-grey-100

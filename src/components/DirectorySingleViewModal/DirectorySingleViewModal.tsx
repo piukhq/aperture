@@ -7,8 +7,9 @@ import {getSelectedDirectoryMerchantEntity, reset as merchantReset, setSelectedD
 import {reset as modalReset} from 'features/modalSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
-import {useEffect, useState} from 'react'
+import {ReactNode, useEffect, useState} from 'react'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
+import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 
 // Temporary Mock Imports for testing
 import {mockMidsData} from 'utils/mockMidsData'
@@ -16,6 +17,14 @@ import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {mockLocationData} from 'utils/mockLocationData'
 
+enum EntityApiLabel {
+  MID = 'mid',
+  SECONDARY_MID = 'secondary_mid',
+  IDENTIFIER = 'identifier',
+  LOCATION = 'location',
+}
+
+type EntityArray = DirectoryMid[] | DirectorySecondaryMid[] | DirectoryIdentifier[] | DirectoryLocation[]
 
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
@@ -26,37 +35,42 @@ const DirectorySingleViewModal = () => {
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
-  // Address differences between different entity types
+
   useEffect(() => {
-    // TODO: Placeholder logic to be replaced using tab and ref to make the right API call (though watch out for secondary mids hyphen/underscore)
-    const getEntityFromApiResponse = (apiLabel, mockData) => {
-      const entityFromApi = mockData.find(mockEntity => mockEntity[`${apiLabel}_ref`] === ref) || null
+    // TODO: Placeholder logic to simulate using data from API when not in redux
+    const getEntityFromApiResponse = (entityType: EntityApiLabel, apiEntityArray) => {
+      const entityFromApi = apiEntityArray.find(entity => entity[`${entityType}_ref`] === ref)
       dispatch(setSelectedDirectoryMerchantEntity(entityFromApi))
       return entityFromApi
     }
+
+    // Horrible function due to inconsistency between entity types in api
+    const getDataFromEntity = (
+      entityType: EntityApiLabel,
+      apiEntityArray: EntityArray, // TODO: Placeholder, replace with function to get relevant API data if needed
+      entityHeading: string,
+      entityDetailsComponent: ReactNode,
+      valueLabel: string // what metadata property to use to display in the table heading
+    ) => {
+      const entity = selectedEntity || getEntityFromApiResponse(entityType, apiEntityArray)
+      setEntityHeading(`${entityHeading} - ` + entity[`${entityType}_metadata`][valueLabel])
+      setEntityDetailsComponent(entityDetailsComponent)
+    }
+
     if (tab === DirectoryNavigationTab.MIDS) {
-      const entity = selectedEntity || getEntityFromApiResponse('mid', mockMidsData)
-      setEntityHeading(`MID - ${entity.mid_metadata.mid}`)
-      setEntityDetailsComponent(<SingleViewMidDetails mid={entity} />)
+      getDataFromEntity(EntityApiLabel.MID, mockMidsData, 'MID', <SingleViewMidDetails />, 'mid')
     } else if (tab === DirectoryNavigationTab.IDENTIFIERS) {
-      const entity = selectedEntity || getEntityFromApiResponse('identifier', mockIdentifiersData)
-      setEntityHeading(`Identifier - ${entity.identifier_metadata.value}`)
-      setEntityDetailsComponent(<p>Identifier Details Placeholder</p>)
+      getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', <p>Identifier Details placeholder</p>, 'value')
     } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
-      const entity = selectedEntity || getEntityFromApiResponse('secondary_mid', mockSecondaryMidsData)
-      setEntityHeading(`Secondary Mid - ${entity.secondary_mid_metadata.secondary_mid}`)
-      setEntityDetailsComponent(<p>Secondary Mid Details Placeholder</p>)
+      getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', <p>Secondary Mid Details placeholder</p>, 'secondary_mid')
     } else if (tab === DirectoryNavigationTab.LOCATIONS) {
-      const entity = selectedEntity || getEntityFromApiResponse('location', mockLocationData)
-      setEntityHeading(`Location - ${entity.location_metadata.name}`)
-      setEntityDetailsComponent(<p>Location Details Placeholder</p>)
-    } else { // Tab is unknown redirect back to the merchant details page
+      getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', <p>Location Details placeholder</p>, 'name')
+    } else { // If tab is unknown, redirect back to the merchant details page
       dispatch(merchantReset())
       dispatch(modalReset())
       router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
     }
   }, [tab, selectedEntity, dispatch, ref, merchantId, planId, router])
-
 
   const closeSingleViewModal = () => {
     dispatch(merchantReset())
@@ -64,8 +78,8 @@ const DirectorySingleViewModal = () => {
   }
 
   const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
+    const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-850 dark:hover:text-white border-b-2 border-b-blue'
+    const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-850 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
     return ['Details', 'Comments'].map(tab => (
       <button
         key={tab}
