@@ -5,36 +5,37 @@ import {ModalStyle} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, reset, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
-import {NavigationTab} from 'utils/enums'
+import {DirectoryNavigationTab} from 'utils/enums'
 import {useEffect, useState} from 'react'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
 import {mockMidsData} from 'utils/mockMidsData'
 
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
-  const [entityTitle, setEntityTitle] = useState('')
-  const [entityValue, setEntityValue] = useState('')
+  const [entityHeading, setEntityHeading] = useState('')
+  const [entityDetailsComponent, setEntityDetailsComponent] = useState(null)
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
-
   const dispatch = useAppDispatch()
 
-
+  // Address differences between different entity types
   useEffect(() => {
-    // TODO: Placeholder logic to be replaced by API calls, probably will become utils. Add logic to get correct entity based on tab selected
-    const getEntityFromApi = () => {
-      const mid = mockMidsData.find(mid => mid.mid_ref === ref)
-      dispatch(setSelectedDirectoryMerchantEntity(mid))
-      return mid
+    // TODO: Placeholder logic to be replaced using tab and ref to make the right API call (though watch out for secondary mids hyphen/underscore)
+    const getEntityFromApiResponse = (apiLabel, mockData) => {
+      const entityFromApi = mockData.find(mockEntity => mockEntity[`${apiLabel}_ref`] === ref) || null
+      dispatch(setSelectedDirectoryMerchantEntity(entityFromApi))
+      return entityFromApi
     }
-    const entity = selectedEntity || getEntityFromApi()
-    switch(tab) {
-      case NavigationTab.MIDS:
-        setEntityTitle('MID')
-        setEntityValue(entity.mid_metadata.mid)
+
+    if (tab === DirectoryNavigationTab.MIDS) {
+      const entity = selectedEntity || getEntityFromApiResponse('mid', mockMidsData)
+      setEntityHeading(`MID - ${entity.mid_metadata.mid}`)
+      setEntityDetailsComponent(<SingleViewMidDetails mid={entity} />) // TODO: Potentially can be genricised to handle other entity types
+    } else { // Tab is unknown redirect back to mids
+      router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
     }
-  }, [tab, selectedEntity, dispatch, ref])
+  }, [tab, selectedEntity, dispatch, ref, merchantId, planId, router])
 
 
   const closeSingleViewModal = () => {
@@ -51,30 +52,24 @@ const DirectorySingleViewModal = () => {
         className={tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses}
         onClick={() => setTabSelected(tab)}
       >
-        <span className='place-content-center flex h-[51px] items-center'>{tab}</span>
+        <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
       </button>
     ))
   }
 
-
-  const renderDetails = () => { // TODO: Add logic to get correct details based on tab selected
-    return tab === NavigationTab.MIDS ? <SingleViewMidDetails mid={selectedEntity} /> : ''
-  }
-
-
-  const renderComments = () => ( // TODO: placeholder till we have comments to render, check if modal height should be fixed or not
-    <div className='min-h-[200px]'>
+  const renderComments = () => ( // TODO: placeholder till we have comments to render, confirm modal height design
+    <div>
       <i className='font-body-4'> There are no comments to view.</i>
     </div>
   )
 
   return (
-    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={`${entityTitle} - ${entityValue}`} onCloseFn={closeSingleViewModal}>
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
       <div className='px-[40px]'>
-        {selectedEntity && tabSelected === 'Details' ? renderDetails() : renderComments()}
+        {selectedEntity && tabSelected === 'Details' ? entityDetailsComponent : renderComments()}
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 pt-[14px]'>
         <Button

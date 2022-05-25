@@ -28,7 +28,7 @@ export const directoryMerchantSlice = createSlice({
       state.selectedMerchant.merchant_counts = merchant_counts
     },
     setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryMid | DirectoryIdentifier | DirectoryLocation | DirectorySecondaryMid>) => {
-      state.selectedEntity = action.payload
+      state.selectedEntity = action.payload // TODO: Idea to transform each entity type into a generic object that can be used without needing translation of the different types
     },
     setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {
       state.selectedPaymentScheme = action.payload

@@ -51,13 +51,12 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
-enum NavigationTab {
+enum DirectoryNavigationTab {
   MIDS = 'mids',
   LOCATIONS = 'locations',
   SECONDARY_MIDS ='secondary-mids',
   IDENTIFIERS ='identifiers'
 }
-
 
 enum RouteDisplayNames {
   'asset-comparator' = 'Asset Comparator',
@@ -109,7 +108,7 @@ export {
   RouteDisplayNames,
   ModalType,
   ModalStyle,
-  NavigationTab,
+  DirectoryNavigationTab,
   PaymentSchemeName,
   PaymentSchemeCode,
 }

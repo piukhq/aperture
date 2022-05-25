@@ -14,7 +14,7 @@ import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {requestModal, selectModal} from 'features/modalSlice'
-import {ModalType, NavigationTab} from 'utils/enums'
+import {ModalType, DirectoryNavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
 import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 
@@ -35,8 +35,8 @@ const MerchantDetailsPage: NextPage = () => {
   }
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
-  useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the NavigationTab enum
-    if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
+  useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the DirectoryNavigationTab enum
+    if (!Object.values(DirectoryNavigationTab).find(expectedTab => tab === expectedTab)) {
       router.isReady && router.push(`${baseUrl}?tab=mids`)
     }
   }, [tab, baseUrl, router])
@@ -60,13 +60,13 @@ const MerchantDetailsPage: NextPage = () => {
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
     switch(tab) {
-      case NavigationTab.MIDS:
+      case DirectoryNavigationTab.MIDS:
         return <DirectoryMerchantMids/>
-      case NavigationTab.LOCATIONS:
+      case DirectoryNavigationTab.LOCATIONS:
         return <DirectoryMerchantLocations />
-      case NavigationTab.IDENTIFIERS:
+      case DirectoryNavigationTab.IDENTIFIERS:
         return <DirectoryMerchantIdentifiers/>
-      case NavigationTab.SECONDARY_MIDS:
+      case DirectoryNavigationTab.SECONDARY_MIDS:
         return <DirectoryMerchantSecondaryMids/>
       default:
         return <DirectoryMerchantMids/>
@@ -78,11 +78,11 @@ const MerchantDetailsPage: NextPage = () => {
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
     const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
-    return Object.keys(NavigationTab).map(navigationKey => (
+    return Object.keys(DirectoryNavigationTab).map(navigationKey => (
       <button
         key={navigationKey}
-        className={NavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
-        onClick={() => handleNavigationClick(NavigationTab[navigationKey])}
+        className={DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
+        onClick={() => handleNavigationClick(DirectoryNavigationTab[navigationKey])}
       >
         <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
       </button>
