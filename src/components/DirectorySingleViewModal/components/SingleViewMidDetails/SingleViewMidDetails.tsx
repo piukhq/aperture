@@ -76,8 +76,7 @@ const SingleViewMidDetails = () => {
           >Add BIN
           </Button>
         </section>
-      )
-      }
+      )}
       <section className='h-[38px] flex justify-between mb-[34px]'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
