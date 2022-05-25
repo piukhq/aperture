@@ -33,8 +33,14 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
   }
 
   return (
-    <tr className='h-[60px] hover:bg-aquamarine' onClick={handleClick} role='button' tabIndex={0}>
-      <td className='flex items-center justify-center h-[60px]'>
+    <tr
+      className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] h-[10px] my-[-10px]'
+      onClick={handleClick}
+      role='button'
+      aria-label='table-row'
+      tabIndex={0}
+    >
+      <td className='flex items-center justify-center h-[40px] rounded-l-[10px]'>
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
