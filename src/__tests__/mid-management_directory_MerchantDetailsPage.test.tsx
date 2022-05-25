@@ -20,10 +20,12 @@ const store = mockStoreFn({
     },
   },
   directoryMerchant: {
-    merchant_ref: 'mock_merchant_ref',
-    merchant_metadata: {
-      name: 'mock-name',
-      iconUrl: 'mock-icon-url',
+    selectedMerchant: {
+      merchant_ref: 'mock_merchant_ref',
+      merchant_metadata: {
+        name: 'mock-name',
+        iconUrl: 'mock-icon-url',
+      },
     },
   },
   modal: {

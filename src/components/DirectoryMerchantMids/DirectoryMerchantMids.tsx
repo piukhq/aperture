@@ -7,7 +7,7 @@ import {
   useAppDispatch,
 } from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryMidPaymentScheme, setSelectedDirectoryMid} from 'features/directoryMidSlice'
+import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
@@ -70,14 +70,13 @@ const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
 
   const requestMidModal = (paymentScheme) => {
-    dispatch(setSelectedDirectoryMidPaymentScheme(paymentScheme))
+    dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
   }
 
   const handleRowClick = (index) => {
-    dispatch(setSelectedDirectoryMid(midsData[index]))
+    dispatch(setSelectedDirectoryMerchantEntity(midsData[index]))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-    console.log(midsData[index].mid_ref)
     router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}&ref=${midsData[index].mid_ref}`)
   }
 

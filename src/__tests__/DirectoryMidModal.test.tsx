@@ -22,7 +22,7 @@ const mockMidValue = 'mock_mid_value'
 const mockBinValue = 'mock_bin_value'
 
 const mockNewGenericMidState = {
-  directoryMid: {
+  directoryMerchant: {
     selectedPaymentScheme: mockPaymentScheme,
   },
 }
@@ -96,7 +96,7 @@ describe('DirectoryMidModal', () => {
   describe('Test Visa payment scheme specific behaviour', () => {
     it('should render the BIN input with correct label', () => {
       const visaStore = mockStoreFn({
-        directoryMid: {
+        directoryMerchant: {
           selectedPaymentScheme: PaymentSchemeName.VISA,
         },
       })

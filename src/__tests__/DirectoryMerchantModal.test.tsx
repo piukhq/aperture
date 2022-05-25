@@ -37,11 +37,13 @@ const mockLocationLabelValue = 'mock_location_label_value'
 
 const mockNewMerchantInitialState = {
   directoryMerchant: {
-    merchant_ref: null,
-    merchant_metadata: {
-      name: null,
-      location_label: null,
-      icon_url: null,
+    selectedMerchant: {
+      merchant_ref: null,
+      merchant_metadata: {
+        name: null,
+        location_label: null,
+        icon_url: null,
+      },
     },
   },
 }
@@ -83,11 +85,13 @@ describe('DirectoryMerchantModal', () => {
 
     const mockEditMerchantInitialState = {
       directoryMerchant: {
-        merchant_ref: 'mock_ref',
-        merchant_metadata: {
-          name: null,
-          location_label: null,
-          icon_url: null,
+        selectedMerchant: {
+          merchant_ref: 'mock_ref',
+          merchant_metadata: {
+            name: null,
+            location_label: null,
+            icon_url: null,
+          },
         },
       },
     }

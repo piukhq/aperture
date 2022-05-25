@@ -49,7 +49,7 @@ const MerchantDetailsPage: NextPage = () => {
 
   useEffect(() => {
     ref && dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-  }, [ref])
+  }, [ref, dispatch])
 
   const getPlanDetails = () => {
     return mockPlanDetailsData

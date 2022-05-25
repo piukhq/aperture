@@ -37,19 +37,21 @@ const mockCount = 3
 
 const mockNewMerchantInitialState = {
   directoryMerchant: {
-    merchant_ref: null,
-    merchant_metadata: {
-      name: mockName,
-      icon_url: null,
-      location_label: mockLocationLabel,
-    },
-    merchant_counts: {
-      locations: mockCount,
-      payment_schemes: [
-        {count: mockCount},
-        {count: null},
-        {count: null},
-      ],
+    selectedMerchant: {
+      merchant_ref: null,
+      merchant_metadata: {
+        name: mockName,
+        icon_url: null,
+        location_label: mockLocationLabel,
+      },
+      merchant_counts: {
+        locations: mockCount,
+        payment_schemes: [
+          {count: mockCount},
+          {count: null},
+          {count: null},
+        ],
+      },
     },
   },
 }
