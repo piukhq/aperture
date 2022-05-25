@@ -42,7 +42,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   }, [handleClose])
 
 
-  const getModalStyle = () => {
+  const getModalStyle = useCallback(() => {
     switch(modalStyle) {
       case ModalStyle.WIDE:
         return {
@@ -69,12 +69,14 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
           header: 'font-semibold font-heading-5 w-full text-center',
         }
     }
-  }
+  }, [modalStyle])
+
+  const styles = getModalStyle()
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`h-full ${getModalStyle().outerContainer} z-50`} onClick={(e) => e.stopPropagation()}>
-      <div className={`flex px-[20px] items-center w-full bg-white dark:bg-grey-850 ${getModalStyle().headerContainer}`}>
-        {getModalStyle().isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${getModalStyle().header}`}>{modalHeader}</h1>}
+    <div role='dialog' aria-label={modalHeader} className={`h-full ${styles.outerContainer} z-50`} onClick={(e) => e.stopPropagation()}>
+      <div className={`flex px-[20px] items-center w-full bg-white dark:bg-grey-850 ${styles.headerContainer}`}>
+        {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
         {renderCloseButton()}
       </div>
       <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${getModalStyle().childrenContainer}`}>
