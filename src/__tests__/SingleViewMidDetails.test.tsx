@@ -38,7 +38,6 @@ const getSingleViewMidDetailsComponent = (passedStore = undefined) => (
   </Provider>
 )
 
-
 describe('SingleViewMidDetails', () => {
   beforeEach(() => {
     jest.clearAllMocks()

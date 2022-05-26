@@ -35,7 +35,6 @@ const DirectorySingleViewModal = () => {
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
-
   useEffect(() => {
     // TODO: Placeholder logic to simulate using data from API when not in redux
     const getEntityFromApiResponse = (entityType: EntityApiLabel, apiEntityArray) => {

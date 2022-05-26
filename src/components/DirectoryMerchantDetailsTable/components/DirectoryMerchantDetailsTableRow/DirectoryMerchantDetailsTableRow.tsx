@@ -14,7 +14,7 @@ type Props = {
   row: TableRowProps,
   checked: boolean,
   onCheckboxChange: (index: number) => void,
-  onRowClick?: (index: number) => void, // TODO: Optional prop until all tabs have the ability to pass in onRowClick
+  onRowClick: (index: number) => void,
 }
 
 const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, onRowClick}: Props) => {
@@ -28,14 +28,10 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
     }
   }
 
-  const handleClick = () => {
-    onRowClick && onRowClick(index) // TODO: Conditional until all Tabs have the ability to pass in onRowClick
-  }
-
   return (
     <tr
       className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] h-[10px] my-[-10px]'
-      onClick={handleClick}
+      onClick={() => onRowClick(index)}
       role='button'
       aria-label='table-row'
       tabIndex={0}
