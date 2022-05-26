@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {DirectoryPlan} from 'types'
+import {DirectoryPlan, DirectoryMid, DirectoryMidMetadata} from 'types'
 import {ApiReflectorUrl} from 'utils/enums'
 
 type PostMerchantBody = {
@@ -11,6 +11,13 @@ type PostMerchantBody = {
 
 type DeleteMerchantBody = {
   name: string,
+  planRef: string,
+  merchantRef: string,
+}
+
+type PostMerchantMidBody = {
+  onboard: boolean,
+  mid_metadata: DirectoryMidMetadata
   planRef: string,
   merchantRef: string,
 }
@@ -71,5 +78,32 @@ export const deleteMerchantApi = createApi({
   }),
 })
 
+export const postMerchantMidApi = createApi({
+  reducerPath: 'postMerchantMidApi',
+  baseQuery: fetchBaseQuery({
+    // TODO: Remove api reflector url when relevant api is deployed
+    // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
+    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
+    prepareHeaders: (headers) => {
+      headers.set('authorization', authHeader)
+      headers.set('accept', 'application/json;v=1.3')
+      return headers
+    },
+  }),
+  endpoints: builder => ({
+    postMerchantMid: builder.mutation<DirectoryMid, PostMerchantMidBody>({
+      query: ({onboard = false, mid_metadata, planRef, merchantRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids`,
+        method: 'POST',
+        body: {
+          onboard,
+          mid_metadata,
+        },
+      }),
+    }),
+  }),
+})
+
 export const {usePostMerchantMutation} = postMerchantApi
 export const {useDeleteMerchantMutation} = deleteMerchantApi
+export const {usePostMerchantMidMutation} = postMerchantMidApi

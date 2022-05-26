@@ -14,7 +14,7 @@ import modalReducer from 'features/modalSlice'
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
 import {postPlanApi} from 'services/midManagementPlans'
-import {postMerchantApi, deleteMerchantApi} from 'services/midManagementMerchants'
+import {postMerchantApi, deleteMerchantApi, postMerchantMidApi} from 'services/midManagementMerchants'
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +33,7 @@ export const store = configureStore({
     [postPlanApi.reducerPath]: postPlanApi.reducer,
     [postMerchantApi.reducerPath]: postMerchantApi.reducer,
     [deleteMerchantApi.reducerPath]: deleteMerchantApi.reducer,
+    [postMerchantMidApi.reducerPath]: postMerchantMidApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -46,6 +47,7 @@ export const store = configureStore({
     postPlanApi.middleware,
     postMerchantApi.middleware,
     deleteMerchantApi.middleware,
+    postMerchantMidApi.middleware,
   ),
 })
 
