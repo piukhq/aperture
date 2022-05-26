@@ -16,7 +16,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue}: Pr
     {({open}) => (
       <div className='relative'>
         <Listbox.Button className={classNames(
-          'flex flex-row items-center w-auto pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-850 rounded-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]',
+          'flex flex-row items-center w-auto pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]',
           open && 'rounded-none rounded-t-[10px]',
         )}
         >
@@ -30,7 +30,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue}: Pr
         </Listbox.Button>
 
         {open && (
-          <Listbox.Options static className='absolute w-full bg-white dark:bg-grey-850 rounded-b-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
+          <Listbox.Options static className='absolute w-full bg-white dark:bg-grey-825 rounded-b-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
             {displayValues.map((value) => (
               <Listbox.Option
                 key={value}

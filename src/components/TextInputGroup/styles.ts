@@ -103,13 +103,13 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
   },
   [InputStyle.UNDERLINE_ICON_RIGHT]: {
     container: 'h-[58px]',
-    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-850 z-10',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-825 z-10',
     input: 'w-full h-[39px] pl-1 pr-10 border-b-[1px] bg-transparent font-body text-base tracking-[0.1px]',
     icon: 'absolute top-[8px] right-[1px]',
   },
   [InputStyle.UNDERLINE_ICON_RIGHT_SMALL]: {
     container: 'h-[55px]',
-    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-850 z-10 tracking-[0px]',
+    label: 'absolute top-[-13px] px-1 text-2xs text-grey-500 font-body bg-white dark:bg-grey-825 z-10 tracking-[0px]',
     input: 'w-full h-[37px] pr-10 pl-1 border-b-[1px] bg-transparent font-body text-sm tracking-[0.09px]',
     icon: 'absolute top-[5px] right-[10px]',
   },
@@ -121,7 +121,7 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
   },
   [InputStyle.FULL]: {
     container: 'h-[48px]',
-    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-850 bg-bottom px-1  text-2xs font-body z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1  text-2xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -133,7 +133,7 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
   },
   [InputStyle.FULL_SMALL]: {
     container: 'h-[42px]',
-    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-850 bg-bottom px-1 dark:bg-grey-850 text-4xs font-body z-10',
+    label: 'absolute top-[-8px] left-[13px] h-[10px] bg-white dark:bg-grey-825 bg-bottom px-1text-4xs font-body z-10',
     input: 'w-full h-full p-4 bg-transparent border rounded-[10px] font-body text-sm tracking-[0.1px] text-grey-800',
     icon: null,
   },
@@ -152,37 +152,37 @@ export const INPUT_STYLE_MAPS: Record<InputStyle, { container: string, label: st
   [InputStyle.TRANSPARENT_ICON_RIGHT_SMALL]: {
     container: 'h-[50px] flex items-center',
     label: 'hidden',
-    input: 'w-full h-[50px] pl-7 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[50px] pl-7 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
   },
   [InputStyle.WHITE_ICON_LEFT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-12 bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[39px] pl-12 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] left-[20px]',
   },
   [InputStyle.WHITE_ICON_RIGHT_SMALL]: {
     container: 'h-[42px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-7 bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[39px] pl-7 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] right-[10px]',
   },
   [InputStyle.WHITE_ICON_LEFT]: {
     container: 'h-[50px]',
     label: 'hidden',
-    input: 'w-full h-[39px] pl-8 bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[39px] pl-8 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[10px] left-[px]',
   },
   [InputStyle.WHITE_ICON_RIGHT]: {
     container: 'h-[50px] flex items-center',
     label: 'hidden',
-    input: 'w-full h-[50px] pl-7 bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[50px] pl-7 bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute right-[18px]',
   },
   [InputStyle.ICON_LEFT]: {
     container: 'h-[42px] flex items-center',
     label: 'hidden',
-    input: 'w-full h-[42px] pl-[50px] bg-grey-100 dark:bg-grey-850 rounded-[10px] font-body text-sm tracking-[0.1px]',
+    input: 'w-full h-[42px] pl-[50px] bg-grey-100 dark:bg-grey-825 rounded-[10px] font-body text-sm tracking-[0.1px]',
     icon: 'absolute top-[9px] left-[10px]',
   },
 }
