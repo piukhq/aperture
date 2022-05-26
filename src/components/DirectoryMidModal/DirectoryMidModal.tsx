@@ -66,7 +66,7 @@ const DirectoryMidModal = () => {
 
     if (!midValidationError) {
       if (midValue === '') {
-        setMidValidationError('Enter name')
+        setMidValidationError('Enter MID')
       } else {
         const paymentSchemeCode: number = PaymentSchemeCode[paymentScheme]
         const metadata = {
@@ -100,13 +100,13 @@ const DirectoryMidModal = () => {
           <TextInputGroup
             name='bin'
             label='BIN'
-            error={null} // TODO: add any errors as per validation
+            error={null}
             value={binValue}
             onChange={handleBinChange}
             inputType={InputType.TEXT}
             inputStyle={InputStyle.FULL}
             inputWidth={InputWidth.FULL}
-            inputColour={InputColour.GREY} // TODO: Add validation formatting
+            inputColour={InputColour.GREY}
           />
         )}
 
