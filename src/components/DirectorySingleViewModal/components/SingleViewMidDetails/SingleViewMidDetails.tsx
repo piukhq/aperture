@@ -6,7 +6,6 @@ import {useAppSelector} from 'app/hooks'
 import {PaymentSchemeCode} from 'utils/enums'
 import {useState} from 'react'
 
-
 const SingleViewMidDetails = () => {
   const displayValues = ['Not enrolled']
   const [displayValue, setDisplayValue] = useState(displayValues[0])

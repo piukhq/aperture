@@ -101,7 +101,7 @@ const DirectorySingleViewModal = () => {
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[40px]'>
+      <div className='px-[40px] min-h-[300px]'>
         {selectedEntity && tabSelected === 'Details' ? entityDetailsComponent : renderComments()}
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 pt-[14px]'>
