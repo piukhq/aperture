@@ -3,7 +3,8 @@ import CloseIcon from 'icons/svgs/close.svg'
 
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {ModalType, ModalStyle} from 'utils/enums'
+import {ModalType} from 'utils/enums'
+import {MODAL_STYLE_MAPS} from './styles'
 import FocusTrap from 'focus-trap-react'
 
 type Props = {
@@ -12,7 +13,6 @@ type Props = {
   children: React.ReactNode,
   onCloseFn?: VoidFunction,
 }
-
 interface KeyboardEvent {
   key: string;
 }
@@ -41,46 +41,16 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
     return () => window.removeEventListener('keydown', closeCheck)
   }, [handleClose])
 
-
-  const getModalStyle = useCallback(() => {
-    switch(modalStyle) {
-      case ModalStyle.WIDE:
-        return {
-          outerContainer: 'w-[750px] py-[53px]',
-          headerContainer: 'h-[61px] flex-row-reverse rounded-t-[20px] border-b-[1px] border-grey-200 dark:border-grey-800',
-          childrenContainer: 'max-h-[calc(100%-61px)] rounded-b-[20px] px-[70px]',
-          isHeaderAtTop: false,
-          header: 'font-heading-7 font-medium ',
-        }
-      case ModalStyle.COMPACT:
-        return {
-          outerContainer: 'w-[485px] pt-[20%] pb-[10%]',
-          headerContainer: 'h-[41px] place-content-between rounded-t-[15px] border-b-[1px] border-grey-200 dark:border-grey-800',
-          childrenContainer: 'max-h-[calc(100%-41px)] rounded-b-[15px] px-[15px] pb-[21px]',
-          isHeaderAtTop: true,
-          header: 'font-heading-7 font-medium',
-        }
-      case ModalStyle.CENTERED_HEADING:
-        return {
-          outerContainer: 'w-[600px] pt-[20%] pb-[10%]',
-          headerContainer: 'h-[41px] place-content-between rounded-t-[15px]',
-          childrenContainer: 'max-h-[calc(100%-41px)] rounded-b-[15px] px-[15px] pb-[21px]',
-          isHeaderAtTop: true,
-          header: 'font-semibold font-heading-5 w-full text-center',
-        }
-    }
-  }, [modalStyle])
-
-  const styles = getModalStyle()
+  const styles = MODAL_STYLE_MAPS[modalStyle]
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`h-full ${styles.outerContainer} z-50`}>
+    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50`}> IS THIS LINE T?HE BeST WAY?
       <div className={`flex px-[20px] items-center w-full bg-white dark:bg-grey-850 ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
         {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
         {renderCloseButton()}
       </div>
-      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${getModalStyle().childrenContainer}`} onClick={(e) => e.stopPropagation()}>
-        {!getModalStyle().isHeaderAtTop && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
+      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${styles.childrenContainer}`} onClick={(e) => e.stopPropagation()}>
+        {!styles.isHeaderAtTop && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
         {children}
       </div>
     </div>

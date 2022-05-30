@@ -1,9 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 import {PaymentSchemeName} from 'utils/enums'
-import {DirectoryIdentifier, DirectoryLocation, DirectoryMerchant, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {DirectoryMerchant, DirectoryEntity} from 'types'
 
-const initialState = {
+type DirectoryMerchantSliceState = {
+  selectedEntity: DirectoryEntity | null
+  selectedPaymentScheme: PaymentSchemeName | null
+  selectedMerchant: DirectoryMerchant | null
+}
+const initialState: DirectoryMerchantSliceState = {
   selectedEntity: null,
   selectedPaymentScheme: null,
   selectedMerchant: {
@@ -27,7 +32,7 @@ export const directoryMerchantSlice = createSlice({
       state.selectedMerchant.merchant_metadata = merchant_metadata
       state.selectedMerchant.merchant_counts = merchant_counts
     },
-    setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryMid | DirectoryIdentifier | DirectoryLocation | DirectorySecondaryMid>) => {
+    setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryEntity>) => {
       state.selectedEntity = action.payload // TODO: Idea to transform each entity type into a generic object that can be used without needing translation of the different types
     },
     setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {

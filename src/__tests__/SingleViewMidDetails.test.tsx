@@ -88,7 +88,7 @@ describe('SingleViewMidDetails', () => {
       render(getSingleViewMidDetailsComponent())
       expect(screen.getByRole('button', {name: 'Add location'})).toBeInTheDocument()
     })
-    // TODO: Missing value test
+    // TODO: Missing value test till we know how to populate it
   })
 
   describe('Test BIN', () => {

@@ -4,8 +4,6 @@ import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, Bor
 import {mockLocationData} from 'utils/mockLocationData'
 import {useAppDispatch} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {requestModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation} from 'types'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -42,7 +40,6 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantLocations = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {merchantId, planId, tab} = router.query
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const locationsData: DirectoryLocations = mockLocationData
 
@@ -98,10 +95,9 @@ const DirectoryMerchantLocations = () => {
     })
   }
 
-  const handleRowClick = (index: number) => {
+  const requestLocationSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(locationsData[index]))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-    router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}&ref=${locationsData[index].location_ref}`)
+    router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
   }
 
   return (
@@ -132,7 +128,7 @@ const DirectoryMerchantLocations = () => {
         </Button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} rowClickHandler={handleRowClick} />
+      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons}singleViewRequestHandler={requestLocationSingleView} />
     </>
   )
 }

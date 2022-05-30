@@ -183,6 +183,10 @@ export type DirectoryLocation = {
   payment_schemes: Array<PaymentScheme>
 }
 
+export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectorySecondaryMid
+
+export type DirectoryEntities = Array<DirectoryEntity>
+
 export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,

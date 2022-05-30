@@ -4,8 +4,6 @@ import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'c
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {useAppDispatch} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {requestModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
@@ -35,7 +33,6 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantIdentifiers = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {merchantId, planId, tab} = router.query
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
@@ -64,10 +61,9 @@ const DirectoryMerchantIdentifiers = () => {
     })
   }
 
-  const handleRowClick = (index) => {
+  const requestIdentifierSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(identifiersData[index]))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-    router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}&ref=${identifiersData[index].identifier_ref}`)
+    router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
   }
 
   return (
@@ -102,7 +98,7 @@ const DirectoryMerchantIdentifiers = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} rowClickHandler={handleRowClick} />
+      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} />
     </>
   )
 }

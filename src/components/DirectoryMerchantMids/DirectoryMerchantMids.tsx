@@ -36,7 +36,6 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {merchantId, planId, tab} = router.query
   const midsData: DirectoryMids = mockMidsData
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
@@ -66,16 +65,14 @@ const DirectoryMerchantMids = () => {
     })
   }
 
-
   const requestMidModal = (paymentScheme) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
   }
 
-  const handleRowClick = (index) => {
+  const requestMidSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(midsData[index]))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-    router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}&ref=${midsData[index].mid_ref}`)
+    router.push(`${router.asPath}&ref=${midsData[index].mid_ref}`)
   }
 
   return (
@@ -98,7 +95,7 @@ const DirectoryMerchantMids = () => {
         </button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} rowClickHandler={handleRowClick} />
+      <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} />
     </>
   )
 }

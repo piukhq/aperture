@@ -8,10 +8,10 @@ type Props = {
   tableHeaders: DirectoryMerchantDetailsTableHeader[],
   tableRows: TableRowProps[],
   checkboxChangeHandler?: (shouldDisplayButtons: boolean) => void
-  rowClickHandler?: (index: number) => void
+  singleViewRequestHandler: (index: number) => void
 }
 
-const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, rowClickHandler}: Props) => {
+const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler}: Props) => {
   const [checkedRows, setCheckedRows] = useState(new Array(tableRows.length).fill(false))
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
       </thead>
 
       <tbody>
-        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} row={row} checked={checkedRows[index]} onRowClick={rowClickHandler} onCheckboxChange={handleCheckboxChange}/>)}
+        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} row={row} checked={checkedRows[index]} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
       </tbody>
     </table>
   )

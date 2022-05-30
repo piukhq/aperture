@@ -4,9 +4,7 @@ import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'c
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
-import {ModalType} from 'utils/enums'
 import {useAppDispatch} from 'app/hooks'
-import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -38,7 +36,6 @@ const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {merchantId, planId, tab} = router.query
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
@@ -68,10 +65,9 @@ const DirectoryMerchantSecondaryMids = () => {
     })
   }
 
-  const handleRowClick = (index) => {
+  const requestSecondaryMidSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
-    router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
+    router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
   return (
@@ -106,7 +102,7 @@ const DirectoryMerchantSecondaryMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} rowClickHandler={handleRowClick} />
+      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestSecondaryMidSingleView} />
     </>
   )
 }
