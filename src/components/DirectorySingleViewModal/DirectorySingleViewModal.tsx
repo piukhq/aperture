@@ -104,7 +104,7 @@ const DirectorySingleViewModal = () => {
       <div className='px-[40px] min-h-[300px]'>
         {selectedEntity && tabSelected === 'Details' ? entityDetailsComponent : renderComments()}
       </div>
-      <div className='flex justify-between border-t-[1px] border-t-grey-200 pt-[14px]'>
+      <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

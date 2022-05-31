@@ -7,6 +7,7 @@ import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeCode} from 'utils
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMidModal = () => {
