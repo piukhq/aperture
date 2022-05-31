@@ -60,7 +60,7 @@ const store = mockStoreFn({modal: {
   modalRequested: 'NO_MODAL',
 }})
 
-const getDatabasePageComponent = (passedStore = undefined) => (
+const getDirectoryPageComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
     <DirectoryPage />
   </Provider>
@@ -69,13 +69,13 @@ const getDatabasePageComponent = (passedStore = undefined) => (
 describe('MID Management DirectoryPage', () => {
   describe('Test header content', () => {
     it('should render correct heading and sub heading text', () => {
-      const {getByText} = render(getDatabasePageComponent())
+      const {getByText} = render(getDirectoryPageComponent())
       expect(getByText('MID Management')).toBeInTheDocument()
       expect(getByText('Create, view and manage MIDs for the plans configured on the platform')).toBeInTheDocument()
     })
 
     it('should render the search bar and new Plan button', () => {
-      const {queryByTestId, getByRole} = render(getDatabasePageComponent())
+      const {queryByTestId, getByRole} = render(getDirectoryPageComponent())
       expect(queryByTestId('search-bar')).toBeInTheDocument()
       expect(getByRole('button', {name: /New Plan/i})).toBeInTheDocument()
     })
@@ -83,9 +83,8 @@ describe('MID Management DirectoryPage', () => {
 
   describe('Test plan content', () => {
     it('should render correct number of plan tiles', () => {
-      const {getAllByTestId} = render(getDatabasePageComponent())
+      const {getAllByTestId} = render(getDirectoryPageComponent())
       const planTiles = getAllByTestId('directory-tile')
-      // TODO: must fix this test once real plan data is used
       expect(planTiles).toHaveLength(2)
     })
   })

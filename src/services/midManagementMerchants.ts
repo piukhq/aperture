@@ -3,10 +3,10 @@ import {DirectoryPlan, DirectoryMid, DirectoryMidMetadata} from 'types'
 import {ApiReflectorUrl} from 'utils/enums'
 
 type PostMerchantBody = {
-    name: string,
-    location_label: string,
-    iconUrl: string | null,
-    planRef: string,
+  name: string,
+  location_label: string,
+  iconUrl: string | null,
+  planRef: string,
 }
 
 type DeleteMerchantBody = {
@@ -26,8 +26,8 @@ const endpointPrefix = '/api/v1/plans'
 // Likely to change once the larger authentication method is integrated in
 const authHeader = `token ${process.env.NODE_ENV === 'development' ? 'MCVaMiGHRwKVhGTbZXRvOllRkM_cdTZ00o4ZI5O1lhI' : '7eDcxsAhXJbLeLde8v27tK2Kofw50pPW'}`
 
-export const postMerchantApi = createApi({
-  reducerPath: 'postMerchantApi',
+export const midManagementMerchantsApi = createApi({
+  reducerPath: 'midManagementMerchantsApi',
   baseQuery: fetchBaseQuery({
     // TODO: Remove api reflector url when relevant api is deployed
     // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
@@ -50,22 +50,6 @@ export const postMerchantApi = createApi({
         },
       }),
     }),
-  }),
-})
-
-export const deleteMerchantApi = createApi({
-  reducerPath: 'deleteMerchantApi',
-  baseQuery: fetchBaseQuery({
-    // TODO: Remove api reflector url when relevant api is deployed
-    // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
-    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
-    prepareHeaders: (headers) => {
-      headers.set('authorization', authHeader)
-      headers.set('accept', 'application/json;v=1.3')
-      return headers
-    },
-  }),
-  endpoints: builder => ({
     deleteMerchant: builder.mutation<DirectoryPlan, DeleteMerchantBody>({
       query: ({name, planRef, merchantRef}) => ({
         url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}`,
@@ -75,22 +59,6 @@ export const deleteMerchantApi = createApi({
         },
       }),
     }),
-  }),
-})
-
-export const postMerchantMidApi = createApi({
-  reducerPath: 'postMerchantMidApi',
-  baseQuery: fetchBaseQuery({
-    // TODO: Remove api reflector url when relevant api is deployed
-    // baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
-    baseUrl: ApiReflectorUrl.REFLECTOR_URL,
-    prepareHeaders: (headers) => {
-      headers.set('authorization', authHeader)
-      headers.set('accept', 'application/json;v=1.3')
-      return headers
-    },
-  }),
-  endpoints: builder => ({
     postMerchantMid: builder.mutation<DirectoryMid, PostMerchantMidBody>({
       query: ({onboard = false, mid_metadata, planRef, merchantRef}) => ({
         url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids`,
@@ -104,6 +72,4 @@ export const postMerchantMidApi = createApi({
   }),
 })
 
-export const {usePostMerchantMutation} = postMerchantApi
-export const {useDeleteMerchantMutation} = deleteMerchantApi
-export const {usePostMerchantMidMutation} = postMerchantMidApi
+export const {usePostMerchantMutation, useDeleteMerchantMutation, usePostMerchantMidMutation} = midManagementMerchantsApi

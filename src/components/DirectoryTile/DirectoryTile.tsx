@@ -69,7 +69,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
       />
     }
     return (
-      <div className='flex justify-center items-center rounded-[30px] h-[93px] w-[93px] bg-grey-200'>
+      <div data-testid='icon-placeholder' className='flex justify-center items-center rounded-[30px] h-[93px] w-[93px] bg-grey-200'>
         <h1 className='font-heading-1 text-black'>{name.charAt(0)}</h1>
       </div>
     )

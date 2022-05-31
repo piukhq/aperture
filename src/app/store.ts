@@ -13,8 +13,8 @@ import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
-import {portalPlansApi} from 'services/midManagementPlans'
-import {postMerchantApi, deleteMerchantApi, postMerchantMidApi} from 'services/midManagementMerchants'
+import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 
 export const store = configureStore({
   reducer: {
@@ -30,10 +30,8 @@ export const store = configureStore({
     [devPlansApi.reducerPath]: devPlansApi.reducer,
     [stagingPlansApi.reducerPath]: stagingPlansApi.reducer,
     [prodPlansApi.reducerPath]: prodPlansApi.reducer,
-    [portalPlansApi.reducerPath]: portalPlansApi.reducer,
-    [postMerchantApi.reducerPath]: postMerchantApi.reducer,
-    [deleteMerchantApi.reducerPath]: deleteMerchantApi.reducer,
-    [postMerchantMidApi.reducerPath]: postMerchantMidApi.reducer,
+    [midManagementPlansApi.reducerPath]: midManagementPlansApi.reducer,
+    [midManagementMerchantsApi.reducerPath]: midManagementMerchantsApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -44,10 +42,8 @@ export const store = configureStore({
     devPlansApi.middleware,
     stagingPlansApi.middleware,
     prodPlansApi.middleware,
-    portalPlansApi.middleware,
-    postMerchantApi.middleware,
-    deleteMerchantApi.middleware,
-    postMerchantMidApi.middleware,
+    midManagementPlansApi.middleware,
+    midManagementMerchantsApi.middleware,
   ),
 })
 

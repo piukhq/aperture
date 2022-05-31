@@ -14,8 +14,8 @@ type UpdatePlan = PlanBody & {
 
 const endpointPrefix = '/api/v1/plans'
 
-export const portalPlansApi = createApi({
-  reducerPath: 'portalPlansApi',
+export const midManagementPlansApi = createApi({
+  reducerPath: 'midManagementPlansApi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
     prepareHeaders: (headers) => {
@@ -50,8 +50,8 @@ export const portalPlansApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           const {data: newPlan} = await queryFulfilled
-          dispatch(portalPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
-            // Add new plan to existing cahce of plans
+          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+            // Add new plan to existing cache of plans
             existingPlans.push(newPlan)
           })
           )
@@ -76,7 +76,7 @@ export const portalPlansApi = createApi({
       async onQueryStarted ({planRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedPlan} = await queryFulfilled
-          dispatch(portalPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
             // Update existing cached plan
             const index = existingPlans.findIndex(plan => plan.plan_ref === planRef)
             existingPlans[index] = updatedPlan
@@ -90,4 +90,4 @@ export const portalPlansApi = createApi({
   }),
 })
 
-export const {useGetPlansQuery, usePostPlanMutation, useUpdatePlanMutation} = portalPlansApi
+export const {useGetPlansQuery, usePostPlanMutation, useUpdatePlanMutation} = midManagementPlansApi
