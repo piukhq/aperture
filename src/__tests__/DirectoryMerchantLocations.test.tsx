@@ -18,6 +18,17 @@ const getDirectoryMerchantLocationsComponent = (passedStore = undefined) => (
 )
 
 describe('DirectoryMerchantLocations', () => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
+  beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'locations',
+      },
+    }))
+  })
   it('should render the add store button', () => {
     render(getDirectoryMerchantLocationsComponent())
     const addStoreButton = screen.getByRole('button', {

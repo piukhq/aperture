@@ -5,7 +5,7 @@ import {DirectoryLocations} from 'types'
 export const mockLocationData: DirectoryLocations = [
   {
     location_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    metadata: {
+    location_metadata: {
       name: 'HARVEY NICHOLS',
       location_id: '0018',
       merchant_internal_id: '1234',
@@ -36,7 +36,7 @@ export const mockLocationData: DirectoryLocations = [
   },
   {
     location_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
-    metadata: {
+    location_metadata: {
       name: 'HARVEY NICHOLS',
       location_id: '0006',
       merchant_internal_id: '1234',
@@ -66,7 +66,7 @@ export const mockLocationData: DirectoryLocations = [
   },
   {
     location_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa8',
-    metadata: {
+    location_metadata: {
       name: 'HARVEY NICHOLS',
       location_id: '0001',
       merchant_internal_id: '1234',

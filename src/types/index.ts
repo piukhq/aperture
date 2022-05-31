@@ -173,7 +173,7 @@ export type DirectoryLocations = Array<DirectoryLocation>
 
 export type DirectoryLocation = {
   location_ref: string,
-  metadata: {
+  location_metadata: {
     name: string,
     location_id: string,
     merchant_internal_id: string,
@@ -185,6 +185,10 @@ export type DirectoryLocation = {
   date_added: string // TODO: Change this depending on API value
   payment_schemes: Array<PaymentScheme>
 }
+
+export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectorySecondaryMid
+
+export type DirectoryEntities = Array<DirectoryEntity>
 
 export type OptionsMenuItem = {
   label: string,

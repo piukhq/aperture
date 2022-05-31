@@ -12,24 +12,20 @@ import {
 import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-import {useAppSelector} from 'app/hooks'
-import {selectModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {requestModal, selectModal} from 'features/modalSlice'
+import {ModalType, DirectoryNavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
+import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 
 const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const {merchantId, planId, tab} = router.query
+  const {merchantId, planId, tab, ref} = router.query
 
-  enum NavigationTab {
-    MIDS = 'mids',
-    LOCATIONS = 'locations',
-    SECONDARY_MIDS ='secondary-mids',
-    IDENTIFIERS ='identifiers'
-  }
 
   enum NavigationLabel {
     MIDS = 'MIDs',
@@ -39,11 +35,15 @@ const MerchantDetailsPage: NextPage = () => {
   }
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
-  useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the NavigationTab enum
-    if (!Object.values(NavigationTab).find(expectedTab => tab === expectedTab)) {
+  useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the DirectoryNavigationTab enum
+    if (!Object.values(DirectoryNavigationTab).find(expectedTab => tab === expectedTab)) {
       router.isReady && router.push(`${baseUrl}?tab=mids`)
     }
-  }, [tab, NavigationTab, baseUrl, router])
+  }, [tab, baseUrl, router])
+
+  useEffect(() => {
+    ref && dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
+  }, [ref, dispatch])
 
   const getPlanDetails = () => {
     return mockPlanDetailsData
@@ -60,13 +60,13 @@ const MerchantDetailsPage: NextPage = () => {
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
     switch(tab) {
-      case NavigationTab.MIDS:
+      case DirectoryNavigationTab.MIDS:
         return <DirectoryMerchantMids/>
-      case NavigationTab.LOCATIONS:
+      case DirectoryNavigationTab.LOCATIONS:
         return <DirectoryMerchantLocations />
-      case NavigationTab.IDENTIFIERS:
+      case DirectoryNavigationTab.IDENTIFIERS:
         return <DirectoryMerchantIdentifiers/>
-      case NavigationTab.SECONDARY_MIDS:
+      case DirectoryNavigationTab.SECONDARY_MIDS:
         return <DirectoryMerchantSecondaryMids/>
       default:
         return <DirectoryMerchantMids/>
@@ -78,11 +78,11 @@ const MerchantDetailsPage: NextPage = () => {
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
     const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
 
-    return Object.keys(NavigationTab).map(navigationKey => (
+    return Object.keys(DirectoryNavigationTab).map(navigationKey => (
       <button
         key={navigationKey}
-        className={NavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
-        onClick={() => handleNavigationClick(NavigationTab[navigationKey])}
+        className={DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
+        onClick={() => handleNavigationClick(DirectoryNavigationTab[navigationKey])}
       >
         <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
       </button>
@@ -92,6 +92,7 @@ const MerchantDetailsPage: NextPage = () => {
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
       <PageLayout>
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>

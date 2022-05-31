@@ -5,7 +5,9 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import CloseIcon from 'icons/svgs/close.svg'
 import {DirectoryMerchantDetailsTableCell} from 'types'
-import {PaymentSchemeCode} from 'utils/enums'
+import {ModalType, PaymentSchemeCode} from 'utils/enums'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -14,9 +16,11 @@ type Props = {
   row: TableRowProps,
   checked: boolean,
   onCheckboxChange: (index: number) => void,
+  singleViewRequestHandler: (index: number) => void,
 }
 
-const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange}: Props) => {
+const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, singleViewRequestHandler}: Props) => {
+  const dispatch = useAppDispatch()
   const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
       return <VisaSvg alt='Visa' />
@@ -27,9 +31,20 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
     }
   }
 
+  const handleRowClick = () => {
+    singleViewRequestHandler(index)
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
+  }
+
   return (
-    <tr className='h-[60px]'>
-      <td className='flex items-center justify-center h-[60px]'>
+    <tr
+      className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] h-[10px] my-[-10px]'
+      onClick={handleRowClick}
+      role='button'
+      aria-label='table-row'
+      tabIndex={0}
+    >
+      <td className='flex items-center justify-center h-[40px]'>
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {

@@ -240,7 +240,7 @@ const AssetModal = () => {
     ) }
 
   return (
-    <Modal modalStyle={ModalStyle.REGULAR} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
+    <Modal modalStyle={ModalStyle.WIDE} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}

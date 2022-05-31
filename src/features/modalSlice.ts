@@ -15,9 +15,10 @@ export const modalSlice = createSlice({
     requestModal: (state, action: PayloadAction<ModalType>) => {
       state.modalRequested = action.payload
     },
+    reset: () => initialState,
   },
 })
 
-export const {requestModal} = modalSlice.actions
+export const {requestModal, reset} = modalSlice.actions
 export const selectModal = (state: RootState) => state.modal.modalRequested
 export default modalSlice.reducer

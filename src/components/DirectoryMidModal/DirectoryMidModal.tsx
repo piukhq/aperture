@@ -5,9 +5,9 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeCode} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMidPaymentScheme, reset} from 'features/directoryMidSlice'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMidModal = () => {
@@ -21,7 +21,8 @@ const DirectoryMidModal = () => {
     resetPostMerchantMidResponse,
   } = useMidManagementMerchants()
 
-  const paymentScheme = useAppSelector(getSelectedDirectoryMidPaymentScheme).selectedPaymentScheme
+  const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
+
   const dispatch = useAppDispatch()
 
   const [midValue, setMidValue] = useState('')

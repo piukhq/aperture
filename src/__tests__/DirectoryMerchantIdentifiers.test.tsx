@@ -18,6 +18,18 @@ const getDirectoryMerchantIdentifiersComponent = (passedStore = undefined) => (
 )
 
 describe('DirectoryMerchantIdentifiers', () => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
+  beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'identifiers',
+      },
+    }))
+  })
+
   it('should render the add Identifier buttons', () => {
     render(getDirectoryMerchantIdentifiersComponent())
     const visaButton = screen.getByRole('button', {

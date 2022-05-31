@@ -7,7 +7,6 @@ import {setupListeners} from '@reduxjs/toolkit/query'
 
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
-import directoryMidReducer from 'features/directoryMidSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
 import modalReducer from 'features/modalSlice'
 
@@ -22,7 +21,6 @@ export const store = configureStore({
     modal: modalReducer,
     directoryPlan: directoryPlanReducer,
     directoryMerchant: directoryMerchantReducer,
-    directoryMid: directoryMidReducer,
     // Add the generated reducer as a specific top-level slice
     [devVerifyApi.reducerPath]: devVerifyApi.reducer,
     [stagingVerifyApi.reducerPath]: stagingVerifyApi.reducer,
