@@ -51,5 +51,3 @@ const SingleViewIdentifierDetails = () => {
   )
 }
 export default SingleViewIdentifierDetails
-
-
