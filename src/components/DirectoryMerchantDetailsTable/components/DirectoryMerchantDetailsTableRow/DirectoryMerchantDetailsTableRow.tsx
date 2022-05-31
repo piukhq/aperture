@@ -32,8 +32,8 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
   }
 
   const handleRowClick = () => {
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
     singleViewRequestHandler(index)
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
   }
 
   return (

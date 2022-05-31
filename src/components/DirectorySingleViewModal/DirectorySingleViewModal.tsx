@@ -7,9 +7,9 @@ import {getSelectedDirectoryMerchantEntity, reset as merchantReset, setSelectedD
 import {reset as modalReset} from 'features/modalSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
-import {ReactNode, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
-import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {DirectoryEntity} from 'types'
 
 // Temporary Mock Imports for testing
 import {mockMidsData} from 'utils/mockMidsData'
@@ -24,12 +24,11 @@ enum EntityApiLabel {
   LOCATION = 'location',
 }
 
-type EntityArray = DirectoryMid[] | DirectorySecondaryMid[] | DirectoryIdentifier[] | DirectoryLocation[]
+type EntityArray = DirectoryEntity[]
 
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const [entityHeading, setEntityHeading] = useState('')
-  const [entityDetailsComponent, setEntityDetailsComponent] = useState(null)
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
@@ -48,28 +47,27 @@ const DirectorySingleViewModal = () => {
       entityType: EntityApiLabel,
       apiEntityArray: EntityArray, // TODO: Placeholder, replace with function to get relevant API data if needed
       entityHeading: string,
-      entityDetailsComponent: ReactNode,
       valueLabel: string // what metadata property to use to display in the table heading
     ) => {
       const entity = selectedEntity || getEntityFromApiResponse(entityType, apiEntityArray)
       setEntityHeading(`${entityHeading} - ` + entity[`${entityType}_metadata`][valueLabel])
-      setEntityDetailsComponent(entityDetailsComponent)
     }
 
-    if (tab === DirectoryNavigationTab.MIDS) {
-      getDataFromEntity(EntityApiLabel.MID, mockMidsData, 'MID', <SingleViewMidDetails />, 'mid')
-    } else if (tab === DirectoryNavigationTab.IDENTIFIERS) {
-      getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', <p>Identifier Details placeholder</p>, 'value')
-    } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
-      getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', <p>Secondary Mid Details placeholder</p>, 'secondary_mid')
-    } else if (tab === DirectoryNavigationTab.LOCATIONS) {
-      getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', <p>Location Details placeholder</p>, 'name')
-    } else { // If tab is unknown, redirect back to the merchant details page
-      dispatch(merchantReset())
-      dispatch(modalReset())
-      router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
+    switch (tab) {
+      case DirectoryNavigationTab.MIDS:
+        return getDataFromEntity(EntityApiLabel.MID, mockMidsData, 'MID', 'mid')
+      case DirectoryNavigationTab.SECONDARY_MIDS:
+        return getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', 'secondary_mid')
+      case DirectoryNavigationTab.IDENTIFIERS:
+        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'identifier')
+      case DirectoryNavigationTab.LOCATIONS:
+        return getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', 'location')
+      default:
+        dispatch(merchantReset())
+        dispatch(modalReset())
+        router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
     }
-  }, [tab, selectedEntity, dispatch, ref, merchantId, planId, router])
+  }, [dispatch, selectedEntity, ref, tab, merchantId, planId, router])
 
   const closeSingleViewModal = () => {
     dispatch(merchantReset())
@@ -90,11 +88,20 @@ const DirectorySingleViewModal = () => {
     ))
   }
 
-  const renderComments = () => ( // TODO: placeholder till we have comments to render, confirm modal height design
-    <div>
-      <i className='font-body-4'> There are no comments to view.</i>
-    </div>
-  )
+  const renderEntityDetails = () => {
+    switch (tab) {
+      case DirectoryNavigationTab.MIDS:
+        return <SingleViewMidDetails />
+      case DirectoryNavigationTab.SECONDARY_MIDS:
+        return <p>Placeholder for Secondary Mids</p>
+      case DirectoryNavigationTab.IDENTIFIERS:
+        return <p>Placeholder for Identifiers</p>
+      case DirectoryNavigationTab.LOCATIONS:
+        return <p>Placeholder for Locations</p>
+    }
+  }
+
+  const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
 
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
@@ -102,7 +109,7 @@ const DirectorySingleViewModal = () => {
         {renderNavigationTabs()}
       </nav>
       <div className='px-[40px] min-h-[300px]'>
-        {selectedEntity && tabSelected === 'Details' ? entityDetailsComponent : renderComments()}
+        {selectedEntity && tabSelected === 'Details' ? renderEntityDetails() : renderComments()}
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
@@ -129,4 +136,3 @@ const DirectorySingleViewModal = () => {
 }
 
 export default DirectorySingleViewModal
-

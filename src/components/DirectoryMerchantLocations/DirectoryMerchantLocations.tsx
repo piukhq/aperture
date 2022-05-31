@@ -128,7 +128,7 @@ const DirectoryMerchantLocations = () => {
         </Button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons}singleViewRequestHandler={requestLocationSingleView} />
+      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} />
     </>
   )
 }
