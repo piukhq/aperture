@@ -51,6 +51,12 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
+enum DirectoryNavigationTab {
+  MIDS = 'mids',
+  LOCATIONS = 'locations',
+  SECONDARY_MIDS ='secondary-mids',
+  IDENTIFIERS ='identifiers'
+}
 
 enum RouteDisplayNames {
   'asset-comparator' = 'Asset Comparator',
@@ -69,10 +75,12 @@ enum ModalType {
   MID_MANAGEMENT_DIRECTORY_MERCHANT = 'MID_MANAGEMENT_DIRECTORY_MERCHANT',
   MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE = 'MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE',
   MID_MANAGEMENT_DIRECTORY_MID = 'MID_MANAGEMENT_DIRECTORY_MID',
+  MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW = 'MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW',
 }
 
 enum ModalStyle {
-  REGULAR = 'regular',
+  WIDE = 'wide',
+  CENTERED_HEADING = 'centredHeading',
   COMPACT = 'compact'
 }
 
@@ -80,6 +88,13 @@ enum PaymentSchemeName {
   VISA = 'VISA',
   MASTERCARD = 'Mastercard',
   AMEX = 'AMEX'
+}
+
+
+enum PaymentSchemeStartCaseName {
+  VISA = 'Visa',
+  MASTERCARD = 'Mastercard',
+  AMEX = 'Amex'
 }
 
 const PaymentSchemeCode = {
@@ -100,6 +115,8 @@ export {
   RouteDisplayNames,
   ModalType,
   ModalStyle,
+  DirectoryNavigationTab,
   PaymentSchemeName,
+  PaymentSchemeStartCaseName,
   PaymentSchemeCode,
 }

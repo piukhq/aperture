@@ -18,6 +18,18 @@ const getDirectoryMerchantMidsComponent = (passedStore = undefined) => (
 )
 
 describe('DirectoryMerchantMids', () => {
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
+  beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'mids',
+      },
+    }))
+  })
+
   it('should render the add Mid buttons', () => {
     render(getDirectoryMerchantMidsComponent())
     const visaButton = screen.getByRole('button', {

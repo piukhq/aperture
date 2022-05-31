@@ -2,6 +2,9 @@ import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
+import {useAppDispatch} from 'app/hooks'
+import {useRouter} from 'next/router'
+import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -28,6 +31,8 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 ]
 
 const DirectoryMerchantIdentifiers = () => {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
@@ -54,6 +59,11 @@ const DirectoryMerchantIdentifiers = () => {
         {},
       ]
     })
+  }
+
+  const requestIdentifierSingleView = (index:number):void => {
+    dispatch(setSelectedDirectoryMerchantEntity(identifiersData[index]))
+    router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
   }
 
   return (
@@ -88,7 +98,7 @@ const DirectoryMerchantIdentifiers = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} />
     </>
   )
 }

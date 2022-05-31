@@ -13,7 +13,7 @@ const CustomerWalletsPage: NextPage = () => {
   return (
     <PageLayout>
       <div className='flex h-[42px] items-center gap-[25px]'>
-        <Dropdown label='Lookup' displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
+        <Dropdown label='Lookup' displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} hasShadow/>
 
         <TextInputGroup
           name='user-identifier'

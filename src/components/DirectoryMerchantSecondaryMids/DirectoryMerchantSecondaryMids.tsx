@@ -2,7 +2,10 @@ import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
+import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
+import {useAppDispatch} from 'app/hooks'
+import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -31,6 +34,8 @@ const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 ]
 
 const DirectoryMerchantSecondaryMids = () => {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const secondaryMidsData: DirectorySecondaryMids = mockSecondaryMidsData
 
@@ -58,6 +63,11 @@ const DirectoryMerchantSecondaryMids = () => {
         {},
       ]
     })
+  }
+
+  const requestSecondaryMidSingleView = (index:number):void => {
+    dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
+    router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
   return (
@@ -92,7 +102,7 @@ const DirectoryMerchantSecondaryMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestSecondaryMidSingleView} />
     </>
   )
 }

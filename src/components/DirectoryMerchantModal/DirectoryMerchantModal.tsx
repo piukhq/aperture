@@ -25,7 +25,6 @@ const DirectoryMerchantModal = () => {
 
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-
   const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata} = selectedMerchant
   const {name, icon_url: iconUrl, location_label: locationLabel} = merchantMetadata
 

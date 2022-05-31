@@ -2,6 +2,9 @@ import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {mockLocationData} from 'utils/mockLocationData'
+import {useAppDispatch} from 'app/hooks'
+import {useRouter} from 'next/router'
+import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation} from 'types'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 
@@ -35,13 +38,15 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 ]
 
 const DirectoryMerchantLocations = () => {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
   const locationsData: DirectoryLocations = mockLocationData
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateLocationTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return locationsData.map((locationObj: DirectoryLocation) => {
-      const {date_added: dateAdded, metadata} = locationObj
+      const {date_added: dateAdded, location_metadata: locationMetadata} = locationObj
       const {
         name,
         is_physical_location: isPhysicalLocation,
@@ -50,7 +55,7 @@ const DirectoryMerchantLocations = () => {
         postcode,
         location_id: locationId,
         merchant_internal_id: internalId,
-      } = metadata
+      } = locationMetadata
 
       return [
         {
@@ -90,6 +95,11 @@ const DirectoryMerchantLocations = () => {
     })
   }
 
+  const requestLocationSingleView = (index:number):void => {
+    dispatch(setSelectedDirectoryMerchantEntity(locationsData[index]))
+    router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
+  }
+
   return (
     <>
       <div className='flex justify-between h-[71px] items-center px-[9px]'>
@@ -118,7 +128,7 @@ const DirectoryMerchantLocations = () => {
         </Button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} />
+      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} />
     </>
   )
 }
