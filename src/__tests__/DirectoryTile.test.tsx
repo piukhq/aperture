@@ -25,7 +25,6 @@ describe('DirectoryTile', () => {
     plan_id: 1,
   }
 
-
   const mockStoreFn = configureStore([])
   const store = mockStoreFn({})
 
@@ -86,7 +85,6 @@ describe('DirectoryTile', () => {
         expect(screen.getByText(mockName)).toBeInTheDocument()
       })
     })
-
 
     it('should render payment scheme labels and count', () => {
       const {getAllByText} = render(getPlanDirectoryTile())
