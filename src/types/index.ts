@@ -152,7 +152,7 @@ export type DirectoryIdentifier = {
     payment_scheme_merchant_name: string,
     payment_scheme_code: number
   },
-  identifier_status?: string,
+  identifier_status?: string, // Is only present when calling API endpoint for a single Identifier.
   date_added: string // TODO: Change this depending on API value
 }
 
