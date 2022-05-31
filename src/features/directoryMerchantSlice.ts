@@ -27,10 +27,7 @@ export const directoryMerchantSlice = createSlice({
   initialState,
   reducers: {
     setSelectedDirectoryMerchant: (state, action: PayloadAction<DirectoryMerchant>) => {
-      const {merchant_ref, merchant_metadata, merchant_counts} = action.payload
-      state.selectedMerchant.merchant_ref = merchant_ref
-      state.selectedMerchant.merchant_metadata = merchant_metadata
-      state.selectedMerchant.merchant_counts = merchant_counts
+      state.selectedMerchant = {...action.payload}
     },
     setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryEntity>) => {
       state.selectedEntity = action.payload // TODO: Idea to transform each entity type into a generic object that can be used without needing translation of the different types
