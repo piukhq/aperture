@@ -9,6 +9,7 @@ import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {ReactNode, useEffect, useState} from 'react'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
+import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
 import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 
 // Temporary Mock Imports for testing
@@ -59,7 +60,7 @@ const DirectorySingleViewModal = () => {
     if (tab === DirectoryNavigationTab.MIDS) {
       getDataFromEntity(EntityApiLabel.MID, mockMidsData, 'MID', <SingleViewMidDetails />, 'mid')
     } else if (tab === DirectoryNavigationTab.IDENTIFIERS) {
-      getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', <p>Identifier Details placeholder</p>, 'value')
+      getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', <SingleViewIdentifierDetails />, 'value')
     } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
       getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', <p>Secondary Mid Details placeholder</p>, 'secondary_mid')
     } else if (tab === DirectoryNavigationTab.LOCATIONS) {
@@ -101,7 +102,7 @@ const DirectorySingleViewModal = () => {
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[40px] min-h-[300px]'>
+      <div className='px-[40px] min-h-[250px]'> {/* TODO: Consider correct default height whne different details components vs comments section */}
         {selectedEntity && tabSelected === 'Details' ? entityDetailsComponent : renderComments()}
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
