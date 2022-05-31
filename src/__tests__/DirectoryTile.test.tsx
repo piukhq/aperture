@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import DirectoryTile from 'components/DirectoryTile'
@@ -25,28 +25,28 @@ describe('DirectoryTile', () => {
     plan_id: 1,
   }
 
-
   const mockStoreFn = configureStore([])
   const store = mockStoreFn({})
 
+  const mockProps = {
+    metadata: mockPlanMetadata,
+    viewClickFn: jest.fn(),
+    counts: {
+      merchants: 2,
+      locations: 2,
+      payment_schemes: mockPaymentSchemes,
+    },
+    optionsMenuItems: [{
+      label: 'mockItem',
+      icon: jest.fn(),
+      clickHandler: jest.fn(),
+    }],
+  }
 
-  const getPlanDirectoryTile = (merchantCount = 2) => {
+  const getPlanDirectoryTile = (passedProps = {}) => {
     return (
       <Provider store={store}>
-        <DirectoryTile
-          metadata={mockPlanMetadata}
-          viewClickFn={jest.fn()}
-          counts={{
-            merchants: merchantCount,
-            locations: 2,
-            payment_schemes: mockPaymentSchemes,
-          }}
-          optionsMenuItems={[{
-            label: 'mockItem',
-            icon: jest.fn(),
-            clickHandler: jest.fn(),
-          }]}
-        />
+        <DirectoryTile {...mockProps} {...passedProps} />
       </Provider>
     )
   }
@@ -64,11 +64,26 @@ describe('DirectoryTile', () => {
       expect(getByRole('button', {name: /View/})).toBeInTheDocument()
     })
 
-    it('should render image component and name', () => {
-      const {queryByTestId, getByText} = render(getPlanDirectoryTile())
+    describe('Test icon render', () => {
+      it('should render image component and name', () => {
+        render(getPlanDirectoryTile())
 
-      expect(queryByTestId('icon')).toBeInTheDocument()
-      expect(getByText(mockName)).toBeInTheDocument()
+        expect(screen.queryByTestId('icon')).toBeInTheDocument()
+        expect(screen.getByText(mockName)).toBeInTheDocument()
+      })
+
+      it('should render the icon placeholder when the image is not available', () => {
+        const props = {
+          ...mockProps,
+          metadata: {
+            ...mockPlanMetadata,
+            icon_url: null,
+          },
+        }
+        render(getPlanDirectoryTile(props))
+        expect(screen.queryByTestId('icon-placeholder')).toBeInTheDocument()
+        expect(screen.getByText(mockName)).toBeInTheDocument()
+      })
     })
 
     it('should render payment scheme labels and count', () => {
@@ -83,21 +98,42 @@ describe('DirectoryTile', () => {
 
   describe('Test plan specific behavior', () => {
     it('should show merchant count when multiple merchants found', () => {
-      const {queryByText} = render(getPlanDirectoryTile(2))
+      const props = {
+        ...mockProps,
+        counts: {
+          ...mockProps.counts,
+          merchants: 2,
+        },
+      }
+      const {queryByText} = render(getPlanDirectoryTile(props))
       const merchantText = queryByText(/2 Merchants/)
 
       expect(merchantText).toBeInTheDocument()
     })
 
     it('should show zero merchant count when no merchants found', () => {
-      const {queryByText} = render(getPlanDirectoryTile(0))
+      const props = {
+        ...mockProps,
+        counts: {
+          ...mockProps.counts,
+          merchants: 0,
+        },
+      }
+      const {queryByText} = render(getPlanDirectoryTile(props))
       const merchantText = queryByText(/0 Merchants/)
 
       expect(merchantText).toBeInTheDocument()
     })
 
     it('should show locations count when only one merchant found', () => {
-      const {queryByText} = render(getPlanDirectoryTile(1))
+      const props = {
+        ...mockProps,
+        counts: {
+          ...mockProps.counts,
+          merchants: 1,
+        },
+      }
+      const {queryByText} = render(getPlanDirectoryTile(props))
       const locationText = queryByText(/2 Locations/)
 
       expect(locationText).toBeInTheDocument()

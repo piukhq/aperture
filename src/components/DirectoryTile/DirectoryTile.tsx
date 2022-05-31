@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import Image from 'next/image'
 import {Button} from 'components'
 
@@ -28,6 +29,7 @@ type Props = {
 }
 
 const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
+  const [imageLoadError, setImageLoadError] = useState(false)
 
   const {
     name,
@@ -60,6 +62,19 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
     )
   }
 
+  const renderIcon = () => {
+    if (iconUrl && !imageLoadError) {
+      return <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon'
+        onError={() => setImageLoadError(true)}
+      />
+    }
+    return (
+      <div data-testid='icon-placeholder' className='flex justify-center items-center rounded-[30px] h-[93px] w-[93px] bg-grey-200'>
+        <h1 className='font-heading-1 text-black'>{name.charAt(0)}</h1>
+      </div>
+    )
+  }
+
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
       {optionsMenuItems.length > 0 && (
@@ -69,7 +84,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
       )}
 
       <div className='flex flex-col items-center mt-[28px]'>
-        <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon' />
+        {renderIcon()}
         <p className='font-heading-5 mt-[5px]'>{name}</p>
         <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 

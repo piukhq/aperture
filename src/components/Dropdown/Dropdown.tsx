@@ -33,7 +33,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
 
         {open && (
           <Listbox.Options static className={classNames(
-            'absolute w-full bg-white dark:bg-grey-825 rounded-b-[10px]',
+            'absolute z-10 w-full bg-white dark:bg-grey-825 rounded-b-[10px]',
             hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-[1px] border-grey-300 dark:border-grey-700',
           )}
           >
