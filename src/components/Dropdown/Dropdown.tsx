@@ -17,9 +17,9 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
     {({open}) => (
       <div className='relative'>
         <Listbox.Button className={classNames(
-          'flex flex-row items-center w-auto pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px] border-[1px] border-grey-300 dark:border-grey-700',
+          'flex flex-row items-center w-auto pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px]',
           open && 'rounded-none rounded-t-[10px]',
-          hasShadow && 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]',
+          hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-[1px] border-grey-300 dark:border-grey-700',
         )}
         >
           {label && (
@@ -33,8 +33,8 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
 
         {open && (
           <Listbox.Options static className={classNames(
-            'absolute w-full bg-white dark:bg-grey-825 rounded-b-[10px] border-[1px] border-grey-300 dark:border-grey-700',
-            hasShadow && 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]',
+            'absolute w-full bg-white dark:bg-grey-825 rounded-b-[10px]',
+            hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-[1px] border-grey-300 dark:border-grey-700',
           )}
           >
             {displayValues.map((value) => (
