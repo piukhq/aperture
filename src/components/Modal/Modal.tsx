@@ -44,7 +44,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   const styles = MODAL_STYLE_MAPS[modalStyle]
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50`}> IS THIS LINE T?HE BeST WAY?
+    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50`}>
       <div className={`flex px-[20px] items-center w-full bg-white dark:bg-grey-850 ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
         {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
         {renderCloseButton()}

@@ -35,7 +35,7 @@ const SingleViewIdentifierDetails = () => {
       <section className='h-[38px] flex justify-between mb-[34px]'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
-          <p className='font-single-view-data'>{identifierStatus}</p>
+          <p className='font-single-view-data'>{identifierStatus || 'Placeholder Status'}</p> {/* TODO: Add data from API, missing in mocked data */}
         </div>
         <Button
           buttonType={ButtonType.SUBMIT}
