@@ -16,6 +16,7 @@ import {mockMidsData} from 'utils/mockMidsData'
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {mockLocationData} from 'utils/mockLocationData'
+import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 
 enum EntityApiLabel {
   MID = 'mid',
@@ -93,7 +94,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.MIDS:
         return <SingleViewMidDetails />
       case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <p>Placeholder for Secondary Mids</p>
+        return <SingleViewSecondaryMidDetails />
       case DirectoryNavigationTab.IDENTIFIERS:
         return <p>Placeholder for Identifiers</p>
       case DirectoryNavigationTab.LOCATIONS:
