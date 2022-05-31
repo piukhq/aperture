@@ -13,7 +13,7 @@ import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
-import {postPlanApi} from 'services/midManagementPlans'
+import {portalPlansApi} from 'services/midManagementPlans'
 import {postMerchantApi, deleteMerchantApi, postMerchantMidApi} from 'services/midManagementMerchants'
 
 export const store = configureStore({
@@ -30,7 +30,7 @@ export const store = configureStore({
     [devPlansApi.reducerPath]: devPlansApi.reducer,
     [stagingPlansApi.reducerPath]: stagingPlansApi.reducer,
     [prodPlansApi.reducerPath]: prodPlansApi.reducer,
-    [postPlanApi.reducerPath]: postPlanApi.reducer,
+    [portalPlansApi.reducerPath]: portalPlansApi.reducer,
     [postMerchantApi.reducerPath]: postMerchantApi.reducer,
     [deleteMerchantApi.reducerPath]: deleteMerchantApi.reducer,
     [postMerchantMidApi.reducerPath]: postMerchantMidApi.reducer,
@@ -44,7 +44,7 @@ export const store = configureStore({
     devPlansApi.middleware,
     stagingPlansApi.middleware,
     prodPlansApi.middleware,
-    postPlanApi.middleware,
+    portalPlansApi.middleware,
     postMerchantApi.middleware,
     deleteMerchantApi.middleware,
     postMerchantMidApi.middleware,

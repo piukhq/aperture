@@ -30,7 +30,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue}: Pr
         </Listbox.Button>
 
         {open && (
-          <Listbox.Options static className='absolute w-full bg-white dark:bg-grey-850 rounded-b-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
+          <Listbox.Options static className='absolute z-10 w-full bg-white dark:bg-grey-850 rounded-b-[10px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
             {displayValues.map((value) => (
               <Listbox.Option
                 key={value}

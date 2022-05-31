@@ -16,6 +16,10 @@ const DirectoryPlanModal = () => {
     postPlanResponse,
     postPlanError,
     resetPostPlanResponse,
+    updatePlan,
+    updatePlanResponse,
+    updatePlanError,
+    resetUpdatePlanResponse,
   } = useMidManagementPlans()
 
   const dispatch = useAppDispatch()
@@ -37,7 +41,7 @@ const DirectoryPlanModal = () => {
   const [planIdValidationError, setPlanIdValidationError] = useState(null)
   const [slugValidationError, setSlugValidationError] = useState(null)
 
-  const handlePostPlanError = useCallback(() => {
+  const handlePlanError = useCallback(() => {
     const {status, data} = postPlanError as RTKQueryErrorResponse
 
     if (data && data.detail) {
@@ -58,14 +62,14 @@ const DirectoryPlanModal = () => {
   }, [postPlanError])
 
   useEffect(() => {
-    if (postPlanError) {
-      handlePostPlanError()
-    } else if (postPlanResponse) {
-      resetPostPlanResponse()
+    if (postPlanError || updatePlanError) {
+      handlePlanError()
+    } else if (postPlanResponse || updatePlanResponse) {
+      isNewPlan ? resetPostPlanResponse() : resetUpdatePlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
-  }, [postPlanError, handlePostPlanError, postPlanResponse, resetPostPlanResponse, dispatch])
+  }, [isNewPlan, postPlanError, updatePlanError, handlePlanError, postPlanResponse, updatePlanResponse, resetPostPlanResponse, resetUpdatePlanResponse, dispatch])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
@@ -101,7 +105,11 @@ const DirectoryPlanModal = () => {
         // API expects non-required blank values to be null rahter than empty strings
         const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? null : value)
         // TODO: add logic to PATCH Plan when updating
-        postPlan({name: nameValue, planId, slug, iconUrl: imageValue})
+        if (isNewPlan) {
+          postPlan({name: nameValue, planId, slug, iconUrl: imageValue})
+        } else {
+          updatePlan({name: nameValue, planId, slug, iconUrl: imageValue, planRef: plan_ref as string})
+        }
       }
     }
   }

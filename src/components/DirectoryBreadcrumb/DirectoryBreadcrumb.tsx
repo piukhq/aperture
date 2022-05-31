@@ -1,5 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 import {useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
@@ -40,19 +41,25 @@ const DirectoryBreadcrumb = () => {
 
   return (
     <div className='font-subheading-6 text-blue mt-[15px] flex flex-row gap-[15px]'>
-      <a href={`/mid-management/${currentRoute[0]}`}>PLANS</a>
+      <Link href={`/mid-management/${currentRoute[0]}`} passHref>
+        <a>PLANS</a>
+      </Link>
 
       {currentRoute[1] && (
         <>
           <p className='cursor-default'>/</p>
-          <a href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}`}>{getPlanName().toUpperCase()}</a>
+          <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}`} passHref>
+            <a>{getPlanName().toUpperCase()}</a>
+          </Link>
         </>
       )}
 
       {currentRoute[2] && (
         <>
           <p className='cursor-default'>/</p>
-          <a href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}/${currentRoute[2]}`}>{getMerchantName().toUpperCase()}</a>
+          <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}/${currentRoute[2]}`} passHref>
+            <a>{getMerchantName().toUpperCase()}</a>
+          </Link>
         </>
       )}
     </div>
