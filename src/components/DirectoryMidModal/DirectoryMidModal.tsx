@@ -1,19 +1,53 @@
-import {useState} from 'react'
+import {useState, useEffect, useCallback} from 'react'
+import {useRouter} from 'next/router'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {ModalStyle, PaymentSchemeName} from 'utils/enums'
+import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeCode} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
+import {requestModal} from 'features/modalSlice'
+import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMidModal = () => {
+  const router = useRouter()
+  const {planId, merchantId} = router.query
+
+  const {
+    postMerchantMid,
+    postMerchantMidResponse,
+    postMerchantMidError,
+    resetPostMerchantMidResponse,
+  } = useMidManagementMerchants()
+
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
+
   const dispatch = useAppDispatch()
 
   const [midValue, setMidValue] = useState('')
   const [binValue, setBinValue] = useState('')
 
   const [midValidationError, setMidValidationError] = useState(null)
+  const [isOffboardRequired, setIsOffboardRequired] = useState(false)
+
+  const handlePostMerchantMidError = useCallback(() => {
+    const {status, data} = postMerchantMidError as RTKQueryErrorResponse
+
+    if (data && data.detail) {
+      const {detail} = data
+      setMidValidationError(status as unknown === 409 ? 'MID already exists' : detail[0].msg)
+    }
+  }, [postMerchantMidError])
+
+  useEffect(() => {
+    if (postMerchantMidError) {
+      handlePostMerchantMidError()
+    } else if (postMerchantMidResponse) {
+      resetPostMerchantMidResponse()
+      reset()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])
 
   const handleMidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMidValue(event.target.value)
@@ -29,29 +63,21 @@ const DirectoryMidModal = () => {
 
   const validateMid = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // TODO: Perform relevant validation and submit, placeholder for now. Probably don't want to use bin field if not VISA
-    console.log({
-      name: midValue,
-      bin: binValue,
-    })
-  }
 
-  const renderBinField = () => (
-    <>
-      {<TextInputGroup
-        name='bin'
-        label='BIN'
-        error={null} // TODO: add any errors as per validation
-        value={binValue}
-        onChange={handleBinChange}
-        inputType={InputType.TEXT}
-        inputStyle={InputStyle.FULL}
-        inputWidth={InputWidth.FULL}
-        inputColour={InputColour.GREY} // TODO: Add validation formatting
-      />
+    if (!midValidationError) {
+      if (midValue === '') {
+        setMidValidationError('Enter MID')
+      } else {
+        const paymentSchemeCode: number = PaymentSchemeCode[paymentScheme]
+        const metadata = {
+          payment_scheme_code: paymentSchemeCode,
+          mid: midValue,
+          visa_bin: binValue,
+        }
+        postMerchantMid({onboard: isOffboardRequired, planRef: planId as string, merchantRef: merchantId as string, mid_metadata: metadata})
       }
-    </>
-  )
+    }
+  }
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={() => dispatch(reset())}>
@@ -69,9 +95,24 @@ const DirectoryMidModal = () => {
           inputWidth={InputWidth.FULL}
           inputColour={midValidationError ? InputColour.RED : InputColour.GREY}
         />
-        {paymentScheme === PaymentSchemeName.VISA && renderBinField()}
+
+        {paymentScheme === PaymentSchemeName.VISA && (
+          <TextInputGroup
+            name='bin'
+            label='BIN'
+            error={null}
+            value={binValue}
+            onChange={handleBinChange}
+            inputType={InputType.TEXT}
+            inputStyle={InputStyle.FULL}
+            inputWidth={InputWidth.FULL}
+            inputColour={InputColour.GREY}
+          />
+        )}
+
         <div className='flex gap-[13.5px] justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[16px]'>
           <Button
+            handleClick={() => setIsOffboardRequired(false)}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.MEDIUM}
@@ -81,6 +122,7 @@ const DirectoryMidModal = () => {
           >Add MID
           </Button>
           <Button
+            handleClick={() => setIsOffboardRequired(true)}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.AUTO}

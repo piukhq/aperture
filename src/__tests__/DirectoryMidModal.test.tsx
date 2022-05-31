@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {render, screen, fireEvent} from '@testing-library/react'
 import {DirectoryMidModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -14,6 +14,22 @@ jest.mock('components/Modal', () => ({
         {children}
       </div>
     )
+  },
+}))
+
+jest.mock('hooks/useMidManagementMerchants', () => ({
+  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+    postMerchantMid: jest.fn(),
+    postMerchantMidResponse: null,
+    postMerchantMidError: null,
+  })),
+}))
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
+    merchantId: 'mock_merchant_id',
   },
 }))
 
@@ -45,6 +61,7 @@ describe('DirectoryMidModal', () => {
       .mockReturnValueOnce([mockMidValue, setStateMock]) // midValue
       .mockReturnValueOnce([mockBinValue, setStateMock]) // binValue
       .mockReturnValueOnce([null, setStateMock]) // midValidationError
+      .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
   })
 
   describe('Test common behaviour', () => {
@@ -105,7 +122,50 @@ describe('DirectoryMidModal', () => {
       const binInput = screen.getByLabelText('BIN')
 
       expect(binInput).toBeInTheDocument()
-      expect(binInput).toHaveValue('mock_bin_value')
+      expect(binInput).toHaveValue(mockBinValue)
+    })
+  })
+
+  describe('Test error scenarios', () => {
+    const mockMidErrorMessage = 'mock_mid_error'
+
+    beforeEach(() => {
+      jest.clearAllMocks()
+      const setStateMock = jest.fn()
+
+      React.useState = jest.fn()
+        .mockReturnValueOnce(['', setStateMock]) // midValue
+        .mockReturnValueOnce(['', setStateMock]) // binValue
+        .mockReturnValueOnce([mockMidErrorMessage, setStateMock]) // midValidationError
+        .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
+    })
+
+    it('should render mid field error message on Add MID button click', () => {
+      render(getDirectoryMidModalComponent())
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Add MID',
+      }))
+
+      const midErrorElement = screen.getByTestId('mid-input-error')
+      const midErrorText = screen.getByText(mockMidErrorMessage)
+
+      expect(midErrorElement).toBeInTheDocument()
+      expect(midErrorText).toBeInTheDocument()
+    })
+
+    it('should render mid field error message on Add & Onboard MID button click', () => {
+      render(getDirectoryMidModalComponent())
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Add & Onboard MID',
+      }))
+
+      const midErrorElement = screen.getByTestId('mid-input-error')
+      const midErrorText = screen.getByText(mockMidErrorMessage)
+
+      expect(midErrorElement).toBeInTheDocument()
+      expect(midErrorText).toBeInTheDocument()
     })
   })
 })

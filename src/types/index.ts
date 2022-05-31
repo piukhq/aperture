@@ -126,16 +126,19 @@ export type DirectoryMerchantCounts = {
   payment_schemes: Array<PaymentScheme>,
 }
 
+export type DirectoryMidMetadata = {
+  payment_scheme_code: number,
+  mid: string,
+  visa_bin?: string,
+  payment_enrolment_status?: string // TODO: could be an enum/union type
+}
+
 export type DirectoryMids = Array<DirectoryMid>
 
 export type DirectoryMid = {
   mid_ref: string,
-  mid_metadata: {
-    payment_scheme_code: number,
-    mid: string,
-    visa_bin?: string,
-    payment_enrolment_status: string // TODO: could be an enum/union type
-  },
+  mid_metadata: DirectoryMidMetadata,
+  mid_status?: string
   date_added: string // TODO: Change this depending on API value
   txm_status: string // TODO: could be an enum, union type
 }
