@@ -8,15 +8,15 @@ import {reset as modalReset} from 'features/modalSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {useEffect, useState} from 'react'
-import SingleViewMidDetails from './components/SingleViewMidDetails'
 import {DirectoryEntity} from 'types'
-
+import SingleViewMidDetails from './components/SingleViewMidDetails'
+import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
+import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 // Temporary Mock Imports for testing
 import {mockMidsData} from 'utils/mockMidsData'
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {mockLocationData} from 'utils/mockLocationData'
-import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 
 enum EntityApiLabel {
   MID = 'mid',
@@ -60,7 +60,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', 'secondary_mid')
       case DirectoryNavigationTab.IDENTIFIERS:
-        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'identifier')
+        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'value')
       case DirectoryNavigationTab.LOCATIONS:
         return getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', 'location')
       default:
@@ -96,7 +96,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <SingleViewSecondaryMidDetails />
       case DirectoryNavigationTab.IDENTIFIERS:
-        return <p>Placeholder for Identifiers</p>
+        return <SingleViewIdentifierDetails/>
       case DirectoryNavigationTab.LOCATIONS:
         return <p>Placeholder for Locations</p>
     }

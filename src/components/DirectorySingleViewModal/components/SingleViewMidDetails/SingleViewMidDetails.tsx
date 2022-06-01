@@ -90,5 +90,3 @@ const SingleViewMidDetails = () => {
   )
 }
 export default SingleViewMidDetails
-
-
