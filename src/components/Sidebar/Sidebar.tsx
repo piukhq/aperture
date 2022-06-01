@@ -1,11 +1,17 @@
 import {useState, useEffect} from 'react'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import SidebarOption from './components/SidebarOption'
 import {RouteDisplayNames} from 'utils/enums'
+import {toggleUseApiReflector, getUseApiReflector} from 'features/apiReflectorSlice'
 
 const Sidebar = () => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
+
+  const isApiReflectorEnabled = useAppSelector(getUseApiReflector)
+
   const [selectedTool, setSelectedTool] = useState('')
 
   const sideOptions = Object.keys(RouteDisplayNames)
@@ -32,6 +38,13 @@ const Sidebar = () => {
             })}
           </nav>
         </div>
+
+        {process.env.NODE_ENV !== 'production' && (
+          <div className='flex items-center mt-[100px]'>
+            <label className='ml-[20px] mr-[10px] font-bold dark:text-white'>Enable API Reflector</label>
+            <input type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
+          </div>
+        )}
       </div>
     </div>
   )

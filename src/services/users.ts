@@ -1,5 +1,6 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {Url, ClientID, BundleID} from 'utils/enums'
+import {createApi} from '@reduxjs/toolkit/query/react'
+import {EnvironmentShortName, ClientID, BundleID} from 'utils/enums'
+import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 
 const endpointPrefix = '/users'
 
@@ -16,7 +17,7 @@ type VerificationResponse = {
 
 export const devVerifyApi = createApi({
   reducerPath: 'devVerifyApi',
-  baseQuery: fetchBaseQuery({baseUrl: Url.DEV_BASE_URL}),
+  baseQuery: getDynamicBaseQuery({isLoyaltyApi: true, env: EnvironmentShortName.DEV}),
   endpoints: builder => ({
     verifyDevCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
@@ -35,7 +36,7 @@ export const devVerifyApi = createApi({
 
 export const stagingVerifyApi = createApi({
   reducerPath: 'stagingVerifyApi',
-  baseQuery: fetchBaseQuery({baseUrl: Url.STAGING_BASE_URL}),
+  baseQuery: getDynamicBaseQuery({isLoyaltyApi: true, env: EnvironmentShortName.STAGING}),
   endpoints: builder => ({
     verifyStagingCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
@@ -54,7 +55,7 @@ export const stagingVerifyApi = createApi({
 
 export const prodVerifyApi = createApi({
   reducerPath: 'prodVerifyApi',
-  baseQuery: fetchBaseQuery({baseUrl: Url.PROD_BASE_URL}),
+  baseQuery: getDynamicBaseQuery({isLoyaltyApi: true, env: EnvironmentShortName.PROD}),
   endpoints: builder => ({
     verifyProdCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({

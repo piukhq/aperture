@@ -1,12 +1,29 @@
 import React from 'react'
+import * as Redux from 'react-redux'
+import configureStore from 'redux-mock-store'
 import {render, screen} from '@testing-library/react'
 import Sidebar from 'components/Sidebar'
 
 describe('Sidebar', () => {
+  const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
+  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
+  const dummyDispatch = jest.fn()
+
+  const mockStoreFn = configureStore([])
+
+  let store
+  const initialState = {
+    apiReflectorToggle: {
+      useApiReflector: false,
+    },
+  }
+
   beforeEach(() => {
     jest.clearAllMocks()
 
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+    useDispatchMock.mockReturnValue(dummyDispatch)
+    store = mockStoreFn({...initialState})
 
     useRouter.mockImplementation(() => ({
       pathname: '',
@@ -17,9 +34,15 @@ describe('Sidebar', () => {
     jest.spyOn(React, 'useState').mockImplementation(useStateMock)
   })
 
+  const getSidebarComponent = (passedStore = undefined) => (
+    <Redux.Provider store={passedStore || store}>
+      <Sidebar />
+    </Redux.Provider>
+  )
+
   describe('Test headings', () => {
     it('should render correct headings', () => {
-      render(<Sidebar />)
+      render(getSidebarComponent())
 
       const binkHeading = screen.getByRole('heading', {
         name: 'Bink',
@@ -36,15 +59,15 @@ describe('Sidebar', () => {
 
   describe('Test logo', () => {
     it('should render logo', () => {
-      const {queryByTestId} = render(<Sidebar />)
+      render(getSidebarComponent())
 
-      expect(queryByTestId('logo')).toBeInTheDocument()
+      expect(screen.queryByTestId('logo')).toBeInTheDocument()
     })
   })
 
   describe('Test links', () => {
     it('should render correct links', () => {
-      render(<Sidebar />)
+      render(getSidebarComponent())
 
       const assetComparatorLink = screen.getByRole('link', {
         name: 'Asset Comparator',

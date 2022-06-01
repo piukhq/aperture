@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import {setupListeners} from '@reduxjs/toolkit/query'
 
+import apiReflectorReducer from 'features/apiReflectorSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
@@ -19,6 +20,7 @@ export const store = configureStore({
   reducer: {
     planAssets: planAssetsReducer,
     modal: modalReducer,
+    apiReflectorToggle: apiReflectorReducer,
     directoryPlan: directoryPlanReducer,
     directoryMerchant: directoryMerchantReducer,
     // Add the generated reducer as a specific top-level slice

@@ -1,5 +1,6 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlan} from 'types'
+import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 
 type PlanBody = {
   name: string,
@@ -16,16 +17,7 @@ const endpointPrefix = '/api/v1/plans'
 
 export const midManagementPlansApi = createApi({
   reducerPath: 'midManagementPlansApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
-    prepareHeaders: (headers) => {
-      headers.set('authorization',
-        `token ${process.env.NEXT_PUBLIC_PORTAL_API_KEY}`
-      )
-      headers.set('accept', 'application/json;v=1.3')
-      return headers
-    },
-  }),
+  baseQuery: getDynamicBaseQuery(),
   tagTypes: ['Plans'],
   endpoints: builder => ({
     getPlans: builder.query<DirectoryPlan[], void>({
