@@ -8,15 +8,15 @@ import {reset as modalReset} from 'features/modalSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {useEffect, useState} from 'react'
-import SingleViewMidDetails from './components/SingleViewMidDetails'
 import {DirectoryEntity} from 'types'
-
+import SingleViewMidDetails from './components/SingleViewMidDetails'
+import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
+import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 // Temporary Mock Imports for testing
 import {mockMidsData} from 'utils/mockMidsData'
 import {mockIdentifiersData} from 'utils/mockIdentifiersData'
 import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
 import {mockLocationData} from 'utils/mockLocationData'
-import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
 
 enum EntityApiLabel {
   MID = 'mid',
@@ -94,7 +94,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.MIDS:
         return <SingleViewMidDetails />
       case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <p>Placeholder for Secondary Mids</p>
+        return <SingleViewSecondaryMidDetails />
       case DirectoryNavigationTab.IDENTIFIERS:
         return <SingleViewIdentifierDetails/>
       case DirectoryNavigationTab.LOCATIONS:

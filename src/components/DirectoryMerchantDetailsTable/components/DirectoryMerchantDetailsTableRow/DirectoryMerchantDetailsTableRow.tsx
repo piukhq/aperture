@@ -45,7 +45,7 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
       tabIndex={0}
     >
       <td className='flex items-center justify-center h-[40px]'>
-        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onChange={() => onCheckboxChange(index)} />
+        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
         const {paymentSchemeCode, additionalStyles, displayValue, physicalLocation} = rowCell

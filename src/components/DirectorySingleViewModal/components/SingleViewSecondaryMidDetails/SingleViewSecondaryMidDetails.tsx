@@ -1,17 +1,17 @@
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryMid} from 'types'
+import {DirectorySecondaryMid} from 'types'
 import {getSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useAppSelector} from 'app/hooks'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {useState} from 'react'
 
-const SingleViewMidDetails = () => {
+const SingleViewSecondaryMidDetails = () => {
   const displayValues = ['Not enrolled']
   const [displayValue, setDisplayValue] = useState(displayValues[0])
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity) as DirectoryMid
-  const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = selectedEntity
-  const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin} = midMetadata
+  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity) as DirectorySecondaryMid
+  const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = selectedEntity
+  const {payment_scheme_code: paymentSchemeCode} = secondaryMidMetadata
 
   const getPaymentScheme = () => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
@@ -54,23 +54,6 @@ const SingleViewMidDetails = () => {
         >Add location
         </Button>
       </section>
-      { paymentSchemeCode === 1 && (
-        <section className='h-[38px] flex justify-between mb-[34px] items-center'>
-          <div>
-            <h2 className='font-single-view-heading'>BIN</h2>
-            <p className='font-single-view-data'>{visaBin}</p>
-          </div>
-          <Button
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            labelColour={LabelColour.GREY}
-            labelWeight={LabelWeight.SEMIBOLD}
-          >Add BIN
-          </Button>
-        </section>
-      )}
       <section className='h-[38px] flex justify-between mb-[34px] items-center'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
@@ -89,4 +72,5 @@ const SingleViewMidDetails = () => {
     </>
   )
 }
-export default SingleViewMidDetails
+
+export default SingleViewSecondaryMidDetails

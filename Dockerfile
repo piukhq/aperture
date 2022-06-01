@@ -8,7 +8,8 @@ RUN yarn install --frozen-lockfile
 RUN npx env-cmd -f .env.${ENVIRONMENT} yarn build
 
 FROM node:slim
-ENV NODE_ENV=production
+ARG ENVIRONMENT
+ENV NODE_ENV=${ENVIRONMENT}
 WORKDIR /app
 COPY --from=deps /app/next.config.js /app/package.json ./
 COPY --from=deps /app/public ./public/
