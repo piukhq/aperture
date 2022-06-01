@@ -39,7 +39,7 @@ const SingleViewSecondaryMidDetails = () => {
           <Dropdown displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
         </div>
       </section>
-      <section className=' h-[38px] flex justify-between mb-[34px]'>
+      <section className=' h-[38px] flex justify-between mb-[34px] items-end'>
         <div>
           <h2 className='font-single-view-heading'>LOCATION </h2>
           <p className='font-single-view-data'>Unknown</p> {/* TODO: Set location...how exactly? */}
@@ -54,7 +54,7 @@ const SingleViewSecondaryMidDetails = () => {
         >Add location
         </Button>
       </section>
-      <section className='h-[38px] flex justify-between mb-[34px]'>
+      <section className='h-[38px] flex justify-between mb-[34px] items-end '>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
           <p className='font-single-view-data'>{txmStatus}</p>
