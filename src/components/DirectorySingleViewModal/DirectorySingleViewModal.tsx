@@ -60,7 +60,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', 'secondary_mid')
       case DirectoryNavigationTab.IDENTIFIERS:
-        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'identifier')
+        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'value')
       case DirectoryNavigationTab.LOCATIONS:
         return getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', 'location')
       default:
