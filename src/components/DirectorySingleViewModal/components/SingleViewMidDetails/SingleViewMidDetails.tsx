@@ -39,7 +39,7 @@ const SingleViewMidDetails = () => {
           <Dropdown displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
         </div>
       </section>
-      <section className=' h-[38px] flex justify-between mb-[34px] items-end'>
+      <section className=' h-[38px] flex justify-between mb-[34px] items-center'>
         <div>
           <h2 className='font-single-view-heading'>LOCATION </h2>
           <p className='font-single-view-data'>Unknown</p> {/* TODO: Set location...how exactly? */}
@@ -55,7 +55,7 @@ const SingleViewMidDetails = () => {
         </Button>
       </section>
       { paymentSchemeCode === 1 && (
-        <section className='h-[38px] flex justify-between mb-[34px] items-end'>
+        <section className='h-[38px] flex justify-between mb-[34px] items-center'>
           <div>
             <h2 className='font-single-view-heading'>BIN</h2>
             <p className='font-single-view-data'>{visaBin}</p>
@@ -71,7 +71,7 @@ const SingleViewMidDetails = () => {
           </Button>
         </section>
       )}
-      <section className='h-[38px] flex justify-between mb-[34px] items-end'>
+      <section className='h-[38px] flex justify-between mb-[34px] items-center'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
           <p className='font-single-view-data'>{txmStatus}</p>
