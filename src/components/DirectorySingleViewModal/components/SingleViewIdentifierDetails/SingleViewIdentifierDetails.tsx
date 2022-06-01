@@ -32,7 +32,7 @@ const SingleViewIdentifierDetails = () => {
           <p className='font-single-view-data'>{getPaymentScheme()}</p>
         </div>
       </section>
-      <section className='h-[38px] flex justify-between mb-[34px] items-end'>
+      <section className='h-[38px] flex justify-between mb-[34px] items-center'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
           <p className='font-single-view-data'>{identifierStatus || 'Placeholder Status'}</p> {/* TODO: Add data from API, missing in mocked data */}
