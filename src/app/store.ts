@@ -20,7 +20,7 @@ export const store = configureStore({
   reducer: {
     planAssets: planAssetsReducer,
     modal: modalReducer,
-    apiReflectorToggle: apiReflectorReducer,
+    apiReflector: apiReflectorReducer,
     directoryPlan: directoryPlanReducer,
     directoryMerchant: directoryMerchantReducer,
     // Add the generated reducer as a specific top-level slice

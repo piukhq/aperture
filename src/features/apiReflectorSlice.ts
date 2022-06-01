@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 
 export const apiReflectorSlice = createSlice({
-  name: 'apiReflectorToggle',
+  name: 'apiReflector',
   initialState: {
     useApiReflector: false,
   },
@@ -15,5 +15,5 @@ export const apiReflectorSlice = createSlice({
 
 export const {toggleUseApiReflector} = apiReflectorSlice.actions
 
-export const getUseApiReflector = (state: RootState) => state.apiReflectorToggle.useApiReflector
+export const getUseApiReflector = (state: RootState) => state.apiReflector.useApiReflector
 export default apiReflectorSlice.reducer

@@ -14,7 +14,7 @@ describe('Sidebar', () => {
 
   let store
   const initialState = {
-    apiReflectorToggle: {
+    apiReflector: {
       useApiReflector: false,
     },
   }
