@@ -39,7 +39,7 @@ const Sidebar = () => {
           </nav>
         </div>
 
-        {process.env.NODE_ENV !== 'production' && (
+        {process.env.NEXT_PUBLIC_ENV !== 'production' && (
           <div className='fixed bottom-[50px] flex items-center'>
             <label className='ml-[20px] mr-[10px] font-bold dark:text-white'>Enable API Reflector</label>
             <input type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
