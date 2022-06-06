@@ -26,3 +26,5 @@ export {default as PlansList} from './PlansList'
 export {default as Sidebar} from './Sidebar'
 export {default as Tag} from './Tag'
 export {default as TextInputGroup} from './TextInputGroup'
+export {default as UserLookup} from './UserLookup'
+
