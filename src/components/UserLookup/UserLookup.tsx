@@ -1,25 +1,34 @@
-import {useState} from 'react'
+import React, {useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
+import {setJwtToken} from 'features/customerWalletSlice'
 
 const UserLookup = () => {
-  const displayValues = ['JWT']
-  const [displayValue, setDisplayValue] = useState(displayValues[0])
+  const dispatch = useDispatch()
+  const lookupTypeValues = ['JWT']
+  const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
+  const [lookupValue, setLookupValue] = useState('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay5iaW5rMjBkZXYiLCJ1c2VyX2lkIjoiYmlua193ZWJfdXNlcl8xQGJpbmsuY29tIiwic3ViIjo0MDM2MCwiaWF0IjoxNjU0NTA3ODAwfQ.HWmvSJ1ErH07EyxJDQgLHck-reT7SZ4HXdMhSnHJIH0') // TODO: Remove handy placeholder for testing
+
+  const handleSubmit = (e: React.FormEvent) => { // TODO: Handle other lookup types when required
+    e.preventDefault()
+    dispatch(setJwtToken(lookupValue))
+  }
 
   return (
-    <div className='flex h-[42px] items-center gap-[25px]'>
-      <Dropdown label='Lookup' displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} hasShadow/>
+    <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>
+      <Dropdown label='Lookup' displayValue={lookupTypeValue} displayValues={lookupTypeValues} onChangeDisplayValue={setLookupTypeValue} hasShadow/>
       <TextInputGroup
         name='user-identifier'
         label='User identifier'
         placeholder='Enter JWT from Django'
         error={null}
-        value={''}
+        value={lookupValue}
         ariaRequired
-        onChange={() => null}
+        onChange={(e) => setLookupValue(e.target.value)}
         inputType={InputType.SEARCH}
         inputStyle={InputStyle.ICON_LEFT}
         inputWidth={InputWidth.FULL}
@@ -40,7 +49,7 @@ const UserLookup = () => {
       >
         <CheckSvg fill='white' />Load User
       </Button>
-    </div>
+    </form>
   )
 }
 

@@ -18,6 +18,7 @@ import {
 import storage from 'redux-persist/lib/storage'
 
 import apiReflectorReducer from 'features/apiReflectorSlice'
+import customerWalletReducer from 'features/customerWalletSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
@@ -32,8 +33,10 @@ const reducers = combineReducers({
   planAssets: planAssetsReducer,
   modal: modalReducer,
   apiReflector: apiReflectorReducer,
+  customerWallet: customerWalletReducer,
   directoryPlan: directoryPlanReducer,
   directoryMerchant: directoryMerchantReducer,
+
   // Add the generated reducer as a specific top-level slice
   [devVerifyApi.reducerPath]: devVerifyApi.reducer,
   [stagingVerifyApi.reducerPath]: stagingVerifyApi.reducer,
