@@ -114,6 +114,7 @@ const DirectorySingleViewModal = () => {
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
+          handleClick={() => navigator.clipboard.writeText(window.location.href)}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.MEDIUM}
