@@ -95,7 +95,7 @@ const MerchantDetailsPage: NextPage = () => {
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
       <PageLayout>
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
-        <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
+        <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
             {renderNavigationTabs()}
           </nav>

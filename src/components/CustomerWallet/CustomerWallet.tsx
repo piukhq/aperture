@@ -1,22 +1,11 @@
-import React, {useEffect, useState} from 'react'
-import {useCustomerWallet} from 'hooks/useCustomerWallet'
+import React from 'react'
 
-const CustomerWallet = () => {
-  const [loyaltyCards, setLoyaltyCards] = useState(null)
-  const [paymentCards, setPaymentCards] = useState(null)
-  const {getLoyaltyCardsResponse, getPaymentCardsResponse} = useCustomerWallet()
+const CustomerWallet = (paymentCards, loyaltyCards) => {
 
-  useEffect(() => {
-    setLoyaltyCards(getLoyaltyCardsResponse)
-    setPaymentCards(getPaymentCardsResponse)
-  }, [getLoyaltyCardsResponse, getPaymentCardsResponse])
-
-
-  console.log(loyaltyCards)
-  console.log(paymentCards)
   return (
-    <div>
-      <h1> Customer Wallet</h1>
+    <div className='bg-white min-h-[400px] min-w-[1000px] shadow-md rounded-[20px]'>
+      { loyaltyCards.length}
+      { paymentCards.length}
     </div>
   )
 }

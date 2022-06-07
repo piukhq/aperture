@@ -47,7 +47,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
 
       <div className='ml-[40px]'>
         {/* Icon image div to provide top border shadow */}
-        <div className='absolute top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' />
+        <div className='absolute top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md' />
 
         {/* Icon image div container */}
         <div className='absolute z-20 top-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d]'>
@@ -55,7 +55,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
         </div>
       </div>
 
-      <div className='relative flex rounded-[10px] pl-[250px] h-[152px] mt-[15px] pr-[16px] bg-white dark:bg-grey-825 shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]'>
+      <div className='relative flex rounded-[10px] pl-[250px] h-[152px] mt-[15px] pr-[16px] bg-white dark:bg-grey-825 shadow-md'>
         <div className='flex justify-between flex-1 pt-[20px] pb-[32px]'>
           <div>
             <h3 className='font-heading-3 mb-[8px]'>{name}</h3>

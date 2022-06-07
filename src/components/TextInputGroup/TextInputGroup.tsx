@@ -93,7 +93,7 @@ const TextInputGroup = (props: Props) => {
         'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
-        borderShadow && 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]',
+        borderShadow && 'shadow-md',
         isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300'
       )}
     />
