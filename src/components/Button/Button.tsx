@@ -54,6 +54,7 @@ const Button = (props: ButtonProps) => {
         BORDER_COLOUR_MAPS[borderColour],
         LABEL_COLOUR_MAPS[labelColour],
         LABEL_WEIGHT_MAPS[labelWeight],
+        'hover:bg-opacity-[.7] active:bg-opacity-[.55]'
       )}
       aria-label={ariaLabel}
       autoFocus={autoFocus}

@@ -30,6 +30,8 @@ type EntityArray = DirectoryEntity[]
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const [entityHeading, setEntityHeading] = useState('')
+  const [copyButtonClicked, setCopyButtonClicked] = useState(false)
+
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
@@ -104,6 +106,11 @@ const DirectorySingleViewModal = () => {
 
   const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
 
+  const handleCopyLinkClick = () => {
+    navigator.clipboard.writeText(window.location.href)
+    setCopyButtonClicked(true)
+  }
+
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
@@ -114,13 +121,14 @@ const DirectorySingleViewModal = () => {
       </div>
       <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
+          handleClick={handleCopyLinkClick}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.MEDIUM}
           buttonBackground={ButtonBackground.LIGHT_GREY}
           labelColour={LabelColour.GREY}
           labelWeight={LabelWeight.SEMIBOLD}
-        ><LinkSvg/> Copy link
+        ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
         </Button>
         <Button
           buttonType={ButtonType.SUBMIT}
