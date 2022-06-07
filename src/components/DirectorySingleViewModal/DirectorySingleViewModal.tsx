@@ -30,7 +30,7 @@ type EntityArray = DirectoryEntity[]
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const [entityHeading, setEntityHeading] = useState('')
-  const [copyButtonPressed, setCopyButtonPressed] = useState(false)
+  const [copyButtonClicked, setCopyButtonClicked] = useState(false)
 
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
@@ -108,7 +108,7 @@ const DirectorySingleViewModal = () => {
 
   const handleCopyLinkClick = () => {
     navigator.clipboard.writeText(window.location.href)
-    setCopyButtonPressed(true)
+    setCopyButtonClicked(true)
   }
 
   return (
@@ -128,7 +128,7 @@ const DirectorySingleViewModal = () => {
           buttonBackground={ButtonBackground.LIGHT_GREY}
           labelColour={LabelColour.GREY}
           labelWeight={LabelWeight.SEMIBOLD}
-        ><LinkSvg />{copyButtonPressed ? 'Copied' : 'Copy link'}
+        ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
         </Button>
         <Button
           buttonType={ButtonType.SUBMIT}
