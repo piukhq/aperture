@@ -52,6 +52,7 @@ module.exports = {
         950: '#14141A',
         975: '#09090F',
       },
+
     },
     extend: {
       lineHeight: {
@@ -73,3 +74,4 @@ module.exports = {
   },
   plugins: [],
 }
+

@@ -40,7 +40,6 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
           <Listbox.Options static className={classNames(
             'absolute z-10 w-full bg-white dark:bg-grey-825 rounded-b-[10px] overflow-y-auto max-h-[200px]',
             hasShadow ? 'shadow-md' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
-
           )}
           >
             {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value) => (

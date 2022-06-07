@@ -4,7 +4,6 @@ import {useAppSelector} from 'app/hooks'
 import {getJwtToken} from 'features/customerWalletSlice'
 
 const CustomerWalletsPage: NextPage = () => {
-
   const selectedJwtToken = useAppSelector(getJwtToken)
 
   return (
