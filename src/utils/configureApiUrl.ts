@@ -26,11 +26,11 @@ const getLoyaltySpecificValues = (env: string) => {
     case EnvironmentShortName.PROD:
       return [Url.PROD_BASE_URL, `Token ${getProdVerificationToken()}`]
     default:
-      return [Url.DEV_BASE_URL, `Token ${getDevVerificationToken()}`]
+      return [process.env.NEXT_PUBLIC_LOYALTY_API_URL, `Token ${getDevVerificationToken()}`]
   }
 }
 
-export const getDynamicBaseQuery = (configOptions?: {isLoyaltyApi: boolean, env: string}): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
+export const getDynamicBaseQuery = (configOptions?: {isLoyaltyApi: boolean, env?: string}): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
   const {isLoyaltyApi = false, env = ''} = configOptions || {}
 
   const shouldUseApiReflector = getUseApiReflector(api.getState() as RootState)

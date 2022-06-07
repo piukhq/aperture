@@ -7,11 +7,11 @@ import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
 import {setJwtToken} from 'features/customerWalletSlice'
 
-const UserLookup = () => {
+const CustomerLookup = () => {
   const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
-  const [lookupValue, setLookupValue] = useState('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay5iaW5rMjBkZXYiLCJ1c2VyX2lkIjoiYmlua193ZWJfdXNlcl8xQGJpbmsuY29tIiwic3ViIjo0MDM2MCwiaWF0IjoxNjU0NTA3ODAwfQ.HWmvSJ1ErH07EyxJDQgLHck-reT7SZ4HXdMhSnHJIH0') // TODO: Remove handy placeholder for testing
+  const [lookupValue, setLookupValue] = useState('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay53YWxsZXQiLCJ1c2VyX2lkIjoibGtfMUBiaW5rLmNvbSIsInN1YiI6NDA0NTYsImlhdCI6MTY1NDUyNjIyMH0._Vy6BbYd_27K0FCcWWeyxSCKyYyNUy2O2Q_MUeUAOf0') // TODO: Remove handy placeholder for testing when required
 
   const handleSubmit = (e: React.FormEvent) => { // TODO: Handle other lookup types when required
     e.preventDefault()
@@ -44,7 +44,7 @@ const UserLookup = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.MEDIUM}
-        handleClick={() => console.log('Load user clicked')}
+        handleClick={() => handleSubmit}
         ariaLabel='Load User'
       >
         <CheckSvg fill='white' />Load User
@@ -53,4 +53,6 @@ const UserLookup = () => {
   )
 }
 
-export default UserLookup
+export default CustomerLookup
+
+

@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import UserLookup from 'components/UserLookup'
+import CustomerLookup from 'components/CustomerLookup'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
@@ -18,13 +18,13 @@ const store = mockStoreFn({modal: {
   },
 }})
 
-const getUserLookupComponent = (passedStore = undefined) => (
+const getCustomerLookupComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <UserLookup />
+    <CustomerLookup />
   </Provider>
 )
 
-describe('UserLookup', () => {
+describe('CustomerLookup', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -34,17 +34,17 @@ describe('UserLookup', () => {
 
   describe('Test component renders', () => {
     it('should render the Dropdown component', () => {
-      render(getUserLookupComponent())
+      render(getCustomerLookupComponent())
       expect(screen.queryByTestId('dropdown')).toBeInTheDocument()
     })
 
     it('should render the user identifier input field', () => {
-      render(getUserLookupComponent())
+      render(getCustomerLookupComponent())
       expect(screen.queryByTestId('user-identifier')).toBeInTheDocument()
     })
 
     it('should render the Load User button', () => {
-      render(getUserLookupComponent())
+      render(getCustomerLookupComponent())
       expect(screen.queryByTestId('load-user-button')).toBeInTheDocument()
     })
   })
