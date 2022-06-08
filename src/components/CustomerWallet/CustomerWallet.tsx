@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Image from 'next/image'
 
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
@@ -8,7 +8,16 @@ import AmexSvg from 'icons/svgs/amex-logo-small.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
 const CustomerWallet = () => {
-  const {getLoyaltyCardsResponse, getPaymentCardsResponse} = useCustomerWallet()
+  const [customerPlans, setCustomerPlans] = useState(null)
+  const {getLoyaltyCardsResponse, getPaymentCardsResponse, getPlansResponse} = useCustomerWallet()
+
+  console.log
+  useEffect(() => {
+    if (getPlansResponse && getLoyaltyCardsResponse) {
+      const loyaltyCardPlans = getLoyaltyCardsResponse.map((loyaltyCard) => loyaltyCard.membership_plan)
+      setCustomerPlans(getPlansResponse.filter((plan) => loyaltyCardPlans.includes(plan.id)))
+    }
+  }, [getPlansResponse, getLoyaltyCardsResponse])
 
   const renderPaymentSchemeLogo = (paymentSchemeName: string) => {
     if (paymentSchemeName === 'Visa') {
@@ -42,7 +51,7 @@ const CustomerWallet = () => {
           <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
             <p className='font-bold flex items-center gap-[6px]'>
               .... {paymentCard.card.last_four_digits}
-              <div className={`flex items-center justify-center h-[6px] w-[6px] rounded-full bg-${getStatusColour(paymentCard.status)}`}/>
+              <span className={`flex items-center justify-center h-[6px] w-[6px] rounded-full bg-${getStatusColour(paymentCard.status)}`}/>
             </p>
             <p>{paymentCard.id}</p>
           </div>
@@ -55,7 +64,7 @@ const CustomerWallet = () => {
   )
 
 
-  console.log(getLoyaltyCardsResponse)
+  const getPlanName = (planId: number) => customerPlans?.find((plan) => plan.id === planId)?.account.plan_name
 
   const renderLoyaltyIcon = (images) => {
     const icon = images.find((image) => image.type === 3)
@@ -67,16 +76,18 @@ const CustomerWallet = () => {
     return currentVoucher ? `${currentVoucher.earn.value} ${currentVoucher.earn.suffix}` : 'N/A'
   }
 
+
   const renderLoyaltyCardsRow = () => (
     <div>
       {getLoyaltyCardsResponse?.map((loyaltyCard) => {
-        const {id, status, images, vouchers} = loyaltyCard
+        const {id, status, images, vouchers, membership_plan} = loyaltyCard
         return (
           <div key={id} className='h-[90px] mb-[15px]'>
             <div className='flex h-[90px] w-[180px] shadow-md rounded-[8px] items-center p-[6px]'>
               <div className='flex flex-col h-full space-between basis-4/5 font-body-4'>
                 <p className='font-bold flex gap-[6px] items-center h-full leading-snug'>
-                  Missing Plan Name Membership Rewards <span className={`flex items-center justify-center h-[6px] min-w-[6px] rounded-full bg-${getStatusColour(status.state)}`}/>
+                  {getPlanName(membership_plan)}
+                  <span className={`flex items-center justify-center h-[6px] min-w-[6px] rounded-full bg-${getStatusColour(status.state)}`}/>
                 </p>
                 <div className='flex gap-[7px]'>
                   <div className='basis-1/4'>
@@ -115,3 +126,8 @@ export default CustomerWallet
 
 // 3. PLAN NAME?!
 // status check.
+// Linked elsewhere variants
+// Responsive design
+// Dark mode
+
+

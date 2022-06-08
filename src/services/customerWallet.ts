@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {LoyaltyCard, PaymentCard} from 'types'
+import {LoyaltyCard, PaymentCard, Plan} from 'types'
 import type {RootState} from 'app/store'
 
 const endpointPrefix = '/ubiquity'
@@ -37,7 +37,13 @@ export const customerWalletApi = createApi({
         method: 'GET',
       }),
     }),
+    getPlans: builder.query<Plan[], void>({
+      query: () => ({
+        url: `${endpointPrefix}/membership_plans`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
-export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery} = customerWalletApi
+export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
