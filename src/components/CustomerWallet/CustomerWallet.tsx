@@ -62,16 +62,21 @@ const CustomerWallet = () => {
     return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt=''/>
   }
 
+  const getCurrentVoucher = (vouchers) => {
+    const currentVoucher = vouchers.find((voucher) => voucher.state === 'inprogress')
+    return currentVoucher ? `${currentVoucher.earn.value} ${currentVoucher.earn.suffix}` : 'N/A'
+  }
+
   const renderLoyaltyCardsRow = () => (
     <div>
       {getLoyaltyCardsResponse?.map((loyaltyCard) => {
-        const {id, status, images} = loyaltyCard
+        const {id, status, images, vouchers} = loyaltyCard
         return (
           <div key={id} className='h-[90px] mb-[15px]'>
             <div className='flex h-[90px] w-[180px] shadow-md rounded-[8px] items-center p-[6px]'>
               <div className='flex flex-col h-full space-between basis-4/5 font-body-4'>
                 <p className='font-bold flex gap-[6px] items-center h-full leading-snug'>
-                  efweffwe  wef wfe Membership Rewards <div className={`flex items-center justify-center h-[6px] min-w-[6px] rounded-full bg-${getStatusColour(status.state)}`}/>
+                  Missing Plan Name Membership Rewards <span className={`flex items-center justify-center h-[6px] min-w-[6px] rounded-full bg-${getStatusColour(status.state)}`}/>
                 </p>
                 <div className='flex gap-[7px]'>
                   <div className='basis-1/4'>
@@ -79,7 +84,7 @@ const CustomerWallet = () => {
                   </div>
                   <div className='basis-3/4 leading-snug'>
                     <p>{id}</p>
-                    <p>4 stamps</p>
+                    <p>{vouchers ? getCurrentVoucher(vouchers) : 'N/A'}</p>
                   </div>
                 </div>
               </div>
@@ -106,3 +111,7 @@ const CustomerWallet = () => {
 }
 
 export default CustomerWallet
+
+
+// 3. PLAN NAME?!
+// status check.
