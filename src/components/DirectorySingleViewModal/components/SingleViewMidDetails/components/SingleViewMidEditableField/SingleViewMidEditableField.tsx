@@ -54,7 +54,6 @@ const SingleViewMidEditableField = ({
 
   const onSaveHandler = () => {
     // Ensure only numeric value are entered
-
     if (value.match(/^[0-9]*$/)) {
       handleSave()
     } else {
