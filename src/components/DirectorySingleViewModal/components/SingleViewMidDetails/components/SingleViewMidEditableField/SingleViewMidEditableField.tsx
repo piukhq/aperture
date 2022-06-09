@@ -121,33 +121,31 @@ const SingleViewMidEditableField = ({
           </div>
 
           {isInDeleteState ? (
-            <>
-              <div className='flex gap-[10px]'>
-                <div className='w-[160px]'>
-                  <p className='font-body-4 text-red'>Are you sure you want to delete this {label}?</p>
-                </div>
-                <Button
-                  handleClick={onCancelHandler}
-                  buttonSize={ButtonSize.MEDIUM_ICON}
-                  buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-                  buttonBackground={ButtonBackground.LIGHT_GREY}
-                  ariaLabel={`Close ${label} delete`}
-                ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
-                </Button>
-
-                <Button
-                  handleClick={handleDelete}
-                  buttonType={ButtonType.SUBMIT}
-                  buttonSize={ButtonSize.MEDIUM_ICON}
-                  buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
-                  borderColour={BorderColour.RED}
-                  labelColour={LabelColour.RED}
-                  labelWeight={LabelWeight.SEMIBOLD}
-                  ariaLabel={`Delete ${label}`}
-                >Yes, Delete
-                </Button>
+            <div className='flex gap-[10px]'>
+              <div className='w-[160px]'>
+                <p className='font-body-4 text-red'>Are you sure you want to delete this {label}?</p>
               </div>
-            </>
+              <Button
+                handleClick={onCancelHandler}
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                ariaLabel={`Close ${label} delete`}
+              ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
+              </Button>
+
+              <Button
+                handleClick={handleDelete}
+                buttonType={ButtonType.SUBMIT}
+                buttonSize={ButtonSize.MEDIUM_ICON}
+                buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+                borderColour={BorderColour.RED}
+                labelColour={LabelColour.RED}
+                labelWeight={LabelWeight.SEMIBOLD}
+                ariaLabel={`Delete ${label}`}
+              >Yes, Delete
+              </Button>
+            </div>
           ) : (
             <div className='flex gap-[10px]'>
               <Button
@@ -175,7 +173,6 @@ const SingleViewMidEditableField = ({
               )}
             </div>
           )}
-
         </>
       )}
     </section>
