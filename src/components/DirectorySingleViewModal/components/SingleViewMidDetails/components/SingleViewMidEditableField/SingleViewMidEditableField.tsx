@@ -15,7 +15,7 @@ type Props = {
   handleSave: () => void
   handleDelete: () => void
   isSaving: boolean
-  successResponse: DirectoryMid
+  successResponse: DirectoryMid | null
 }
 
 const SingleViewMidEditableField = ({label, value, handleValueChange, handleCancel, handleSave, handleDelete, isSaving, successResponse}: Props) => {
@@ -43,6 +43,7 @@ const SingleViewMidEditableField = ({label, value, handleValueChange, handleCanc
 
   const onSaveHandler = () => {
     // Ensure only numeric value are entered
+
     if (value.match(/^[0-9]*$/)) {
       handleSave()
     } else {
@@ -86,6 +87,7 @@ const SingleViewMidEditableField = ({label, value, handleValueChange, handleCanc
                   buttonBackground={ButtonBackground.BLUE}
                   labelColour={LabelColour.WHITE}
                   labelWeight={LabelWeight.SEMIBOLD}
+                  ariaLabel={`Save ${label}`}
                 >Save
                 </Button>
 
@@ -94,6 +96,7 @@ const SingleViewMidEditableField = ({label, value, handleValueChange, handleCanc
                   buttonSize={ButtonSize.MEDIUM_ICON}
                   buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
                   buttonBackground={ButtonBackground.LIGHT_GREY}
+                  ariaLabel={`Close ${label} edit`}
                 ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
                 </Button>
               </div>
@@ -118,6 +121,7 @@ const SingleViewMidEditableField = ({label, value, handleValueChange, handleCanc
                   buttonSize={ButtonSize.MEDIUM_ICON}
                   buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
                   buttonBackground={ButtonBackground.LIGHT_GREY}
+                  ariaLabel={`Close ${label} delete`}
                 ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
                 </Button>
 
@@ -155,6 +159,7 @@ const SingleViewMidEditableField = ({label, value, handleValueChange, handleCanc
                   buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
                   borderColour={BorderColour.RED}
                   labelColour={LabelColour.RED}
+                  ariaLabel={`Trash ${label}`}
                 ><TrashSvg className='fill-red' />
                 </Button>
               )}
