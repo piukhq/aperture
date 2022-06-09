@@ -112,6 +112,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           handleSave={handleSave({visa_bin: editableVisaBin})}
           handleDelete={handleDelete({visa_bin: null})}
           successResponse={patchMerchantMidResponse}
+          errorResponse={patchMerchantMidError}
         />
       )}
 

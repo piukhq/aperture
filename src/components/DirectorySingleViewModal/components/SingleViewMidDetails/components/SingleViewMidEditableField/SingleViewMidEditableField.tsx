@@ -16,19 +16,30 @@ type Props = {
   handleDelete: () => void
   isSaving: boolean
   successResponse: DirectoryMid | null
+  errorResponse: unknown
 }
 
-const SingleViewMidEditableField = ({label, value, handleValueChange, handleCancel, handleSave, handleDelete, isSaving, successResponse}: Props) => {
+const SingleViewMidEditableField = ({
+  label,
+  value,
+  handleValueChange,
+  handleCancel,
+  handleSave,
+  handleDelete,
+  isSaving,
+  successResponse,
+  errorResponse,
+}: Props) => {
   const [isInEditState, setIsInEditState] = useState(false)
   const [isInDeleteState, setIsInDeleteState] = useState(false)
   const [validationError, setValidationError] = useState(null)
 
   useEffect(() => {
-    if (successResponse) {
+    if (successResponse || errorResponse) {
       setIsInEditState(false)
       setIsInDeleteState(false)
     }
-  }, [successResponse])
+  }, [successResponse, errorResponse])
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValidationError(null)

@@ -14,6 +14,7 @@ const mockProps = {
   handleDelete: jest.fn(),
   isSaving: false,
   successResponse: null,
+  errorResponse: null,
 }
 
 const getSingleViewMidEditableField = (passedProps = {}) => (
