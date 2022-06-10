@@ -7,8 +7,8 @@ import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMid} from 'types'
 import {getSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
-
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {isNumberOnlyString} from 'utils/validation'
 
 type Props = {
   resetError: () => void
@@ -61,13 +61,13 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
   }, [patchMerchantMidError, setError, visaBin])
 
   // Using currying here to keep the function generic
-  const handleSave = (obj: {visa_bin: string | null} | {payment_enrolment_status: string | null}) => () => {
-    patchMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, ...obj})
+  const handleSave = (fieldValueObj: {visa_bin: string | null} | {payment_enrolment_status: string | null}) => () => {
+    patchMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, ...fieldValueObj})
   }
 
-  const handleDelete = (obj: {visa_bin: null} | {payment_enrolment_status: null}) => () => {
+  const handleDelete = (fieldValueObj: {visa_bin: null} | {payment_enrolment_status: null}) => () => {
     setEditableVisaBin(null)
-    handleSave(obj)()
+    handleSave(fieldValueObj)()
   }
 
   return (
@@ -113,6 +113,8 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           handleDelete={handleDelete({visa_bin: null})}
           successResponse={patchMerchantMidResponse}
           errorResponse={patchMerchantMidError}
+          validationFunc={isNumberOnlyString}
+          validationErrorMessage='Enter numeric value'
         />
       )}
 
