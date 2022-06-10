@@ -16,7 +16,7 @@ const mockProps = {
   isSaving: false,
   successResponse: null,
   errorResponse: null,
-  validationFunc: jest.fn(),
+  handleValidation: jest.fn(),
   validationErrorMessage: mockValidationErrorMessage,
 }
 
@@ -81,7 +81,7 @@ describe('SingleViewMidEditableField', () => {
     describe('Test save validation', () => {
       it('should fail validation when non-numeric value is entered', () => {
         const mockValidationFunc = jest.fn().mockImplementation(() => false)
-        render(getSingleViewMidEditableField({...mockProps, validationFunc: mockValidationFunc}))
+        render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
         fireEvent.click(screen.getByRole('button', {
           name: `Save ${mockLabel}`,
@@ -92,7 +92,7 @@ describe('SingleViewMidEditableField', () => {
 
       it('should pass validation when numeric value is entered', () => {
         const mockValidationFunc = jest.fn().mockImplementation(() => true)
-        render(getSingleViewMidEditableField({...mockProps, validationFunc: mockValidationFunc}))
+        render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
         fireEvent.click(screen.getByRole('button', {
           name: `Save ${mockLabel}`,

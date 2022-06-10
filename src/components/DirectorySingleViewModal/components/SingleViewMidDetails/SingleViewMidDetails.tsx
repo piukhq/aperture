@@ -113,7 +113,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           handleDelete={handleDelete({visa_bin: null})}
           successResponse={patchMerchantMidResponse}
           errorResponse={patchMerchantMidError}
-          validationFunc={isNumberOnlyString}
+          handleValidation={isNumberOnlyString}
           validationErrorMessage='Enter numeric value'
         />
       )}

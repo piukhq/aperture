@@ -17,7 +17,7 @@ type Props = {
   isSaving: boolean
   successResponse: DirectoryMid | null
   errorResponse: unknown
-  validationFunc?: (value: string) => unknown
+  handleValidation?: (value: string) => unknown
   validationErrorMessage?: string
 }
 
@@ -31,7 +31,7 @@ const SingleViewMidEditableField = ({
   isSaving,
   successResponse,
   errorResponse,
-  validationFunc,
+  handleValidation,
   validationErrorMessage,
 }: Props) => {
   const [isInEditState, setIsInEditState] = useState(false)
@@ -57,8 +57,8 @@ const SingleViewMidEditableField = ({
   }
 
   const onSaveHandler = () => {
-    if (validationFunc) {
-      if (validationFunc(value)) {
+    if (handleValidation) {
+      if (handleValidation(value)) {
         handleSave()
       } else {
         setValidationError(validationErrorMessage)
