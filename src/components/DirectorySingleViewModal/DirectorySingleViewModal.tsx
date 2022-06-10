@@ -31,6 +31,7 @@ const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
@@ -94,7 +95,7 @@ const DirectorySingleViewModal = () => {
   const renderEntityDetails = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
-        return <SingleViewMidDetails />
+        return <SingleViewMidDetails setError={setErrorMessage} resetError={() => setErrorMessage(null)} />
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <SingleViewSecondaryMidDetails />
       case DirectoryNavigationTab.IDENTIFIERS:
@@ -119,7 +120,7 @@ const DirectorySingleViewModal = () => {
       <div className='px-[40px] min-h-[300px]'>
         {selectedEntity && tabSelected === 'Details' ? renderEntityDetails() : renderComments()}
       </div>
-      <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
+      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
           handleClick={handleCopyLinkClick}
           buttonType={ButtonType.SUBMIT}
@@ -130,6 +131,11 @@ const DirectorySingleViewModal = () => {
           labelWeight={LabelWeight.SEMIBOLD}
         ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
         </Button>
+
+        {errorMessage && (
+          <p className='font-body-4 text-red'>{errorMessage}</p>
+        )}
+
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

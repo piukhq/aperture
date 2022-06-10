@@ -22,6 +22,14 @@ type PostMerchantMidBody = {
   merchantRef: string,
 }
 
+type PatchMerchantMidBody = {
+  planRef: string,
+  merchantRef: string,
+  midRef: string,
+  visa_bin?: string | null,
+  payment_enrolment_status?: string | null
+}
+
 const endpointPrefix = '/api/v1/plans'
 
 export const midManagementMerchantsApi = createApi({
@@ -58,7 +66,21 @@ export const midManagementMerchantsApi = createApi({
         },
       }),
     }),
+    patchMerchantMid: builder.mutation<DirectoryMid, PatchMerchantMidBody>({
+      query: ({planRef, merchantRef, midRef, ...rest}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/${midRef}`,
+        method: 'PATCH',
+        body: {
+          ...rest,
+        },
+      }),
+    }),
   }),
 })
 
-export const {usePostMerchantMutation, useDeleteMerchantMutation, usePostMerchantMidMutation} = midManagementMerchantsApi
+export const {
+  usePostMerchantMutation,
+  useDeleteMerchantMutation,
+  usePostMerchantMidMutation,
+  usePatchMerchantMidMutation,
+} = midManagementMerchantsApi

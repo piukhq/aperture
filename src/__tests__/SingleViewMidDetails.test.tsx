@@ -5,6 +5,25 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/DirectorySingleViewModal/components/SingleViewMidDetails/components/SingleViewMidEditableField', () => () => <div data-testid='SingleViewMidEditableField' />)
+
+jest.mock('hooks/useMidManagementMerchants', () => ({
+  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+    patchMerchantMid: jest.fn(),
+    patchMerchantMidError: null,
+    patchMerchantMidIsLoading: null,
+    resetPatchMerchantMidResponse: jest.fn(),
+  })),
+}))
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
+    merchantId: 'mock_merchant_id',
+    ref: 'mock_ref',
+  },
+}))
 
 const mockMidRef = 'mock_mid_ref'
 const mockMid = 'mock_mid'
@@ -34,7 +53,7 @@ const store = mockStoreFn({...mockMerchantDetailsState})
 
 const getSingleViewMidDetailsComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <SingleViewMidDetails />
+    <SingleViewMidDetails resetError={jest.fn()} setError={jest.fn()} />
   </Provider>
 )
 
@@ -92,46 +111,16 @@ describe('SingleViewMidDetails', () => {
   })
 
   describe('Test BIN', () => {
-    it('should render the BIN heading', () => {
+    it('should render the SingleViewMidEditableField component', () => {
       render(getSingleViewMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('BIN')
-    })
-    it('should render the correct Bin value', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByText(mockVisaBin)).toBeInTheDocument()
-    })
-    it('should render the Add BIN button', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Add BIN'})).toBeInTheDocument()
-    })
-
-    it('should NOT render the BIN section if not Visa', () => {
-      const mockNonVisaState = {
-        directoryMerchant: {
-          selectedEntity: {
-            mid_ref: mockMidRef,
-            mid_metadata: {
-              payment_scheme_code: 2,
-              mid: mockMid,
-              visa_bin: mockVisaBin,
-              payment_enrolment_status: mockPayrollEnrollmentStatus,
-            },
-            date_added: mockDateAdded,
-            txm_status: mockTxmStatus,
-          },
-        },
-      }
-      render(getSingleViewMidDetailsComponent(mockStoreFn({...mockNonVisaState})))
-      expect(screen.getAllByRole('heading')[3]).not.toHaveTextContent('BIN')
-      expect(screen.queryByText(mockVisaBin)).not.toBeInTheDocument()
-      expect(screen.queryByRole('button', {name: 'Add BIN'})).not.toBeInTheDocument()
+      expect(screen.queryByTestId('SingleViewMidEditableField')).toBeInTheDocument()
     })
   })
 
   describe('Test Harmonia Status', () => {
     it('should render the Harmonia Status heading', () => {
       render(getSingleViewMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[4]).toHaveTextContent('HARMONIA STATUS')
+      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('HARMONIA STATUS')
     })
     it('should render the Edit button', () => {
       render(getSingleViewMidDetailsComponent())
