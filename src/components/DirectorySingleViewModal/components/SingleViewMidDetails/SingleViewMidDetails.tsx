@@ -32,8 +32,8 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
   } = useMidManagementMerchants()
 
   const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
-
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState(paymentEnrolmentStatus)
+
   const [editableVisaBin, setEditableVisaBin] = useState(visaBin)
 
   const getPaymentScheme = () => {

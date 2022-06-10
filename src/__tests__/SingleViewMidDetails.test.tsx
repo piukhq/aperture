@@ -7,10 +7,12 @@ import configureStore from 'redux-mock-store'
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/DirectorySingleViewModal/components/SingleViewMidDetails/components/SingleViewMidEditableField', () => () => <div data-testid='SingleViewMidEditableField' />)
 
+let mockErrorResponse = null
+
 jest.mock('hooks/useMidManagementMerchants', () => ({
   useMidManagementMerchants: jest.fn().mockImplementation(() => ({
     patchMerchantMid: jest.fn(),
-    patchMerchantMidError: null,
+    patchMerchantMidError: mockErrorResponse,
     patchMerchantMidIsLoading: null,
     resetPatchMerchantMidResponse: jest.fn(),
   })),
@@ -48,12 +50,19 @@ const mockMerchantDetailsState = {
   },
 }
 
+const mockSetError = jest.fn()
+
+const mockProps = {
+  resetError: jest.fn(),
+  setError: mockSetError,
+}
+
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
 
-const getSingleViewMidDetailsComponent = (passedStore = undefined) => (
+const getSingleViewMidDetailsComponent = (passedStore = undefined, passedProps = {}) => (
   <Provider store={passedStore || store}>
-    <SingleViewMidDetails resetError={jest.fn()} setError={jest.fn()} />
+    <SingleViewMidDetails {...mockProps} {...passedProps} />
   </Provider>
 )
 
@@ -96,6 +105,24 @@ describe('SingleViewMidDetails', () => {
       render(getSingleViewMidDetailsComponent())
       expect(screen.queryByTestId('dropdown')).toBeInTheDocument()
     })
+
+    it('should render the correct error message', () => {
+      mockErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'payment_enrolment_status',
+              ],
+            },
+          ],
+        },
+      }
+
+      render(getSingleViewMidDetailsComponent(null, {setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Failed to update Payment Scheme Status')
+    })
   })
 
   describe('Test Location', () => {
@@ -114,6 +141,24 @@ describe('SingleViewMidDetails', () => {
     it('should render the SingleViewMidEditableField component', () => {
       render(getSingleViewMidDetailsComponent())
       expect(screen.queryByTestId('SingleViewMidEditableField')).toBeInTheDocument()
+    })
+
+    it('should render the correct error message', () => {
+      mockErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'visa_bin',
+              ],
+            },
+          ],
+        },
+      }
+
+      render(getSingleViewMidDetailsComponent(null, {setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Failed to update BIN association')
     })
   })
 
