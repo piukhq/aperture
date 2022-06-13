@@ -51,7 +51,6 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
 
     if (data && data.detail) {
       const {detail} = data
-      // TODO: Handle error responses other that 409 (duplicate) and everything else
       detail.map(err => {
         const {loc} = err
         const location = loc[1]
