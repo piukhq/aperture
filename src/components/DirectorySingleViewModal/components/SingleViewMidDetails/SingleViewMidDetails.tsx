@@ -1,10 +1,10 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {useAppSelector} from 'app/hooks'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
-import {DirectoryMid} from 'types'
+import {DirectoryMid, RTKQueryErrorResponse} from 'types'
 import {getSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
@@ -21,7 +21,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity) as DirectoryMid
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = selectedEntity
-  const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin} = midMetadata
+  const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
 
   const {
     patchMerchantMid,
@@ -31,9 +31,9 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     resetPatchMerchantMidResponse,
   } = useMidManagementMerchants()
 
-  const displayValues = ['Not enrolled']
+  const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState(paymentEnrolmentStatus)
 
-  const [displayValue, setDisplayValue] = useState(displayValues[0])
   const [editableVisaBin, setEditableVisaBin] = useState(visaBin)
 
   const getPaymentScheme = () => {
@@ -46,19 +46,33 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     }
   }
 
-  useEffect(() => {
-    if (patchMerchantMidResponse) {
-      resetError()
-      resetPatchMerchantMidResponse()
+  const handleErrorResponse = useCallback(() => {
+    const {data} = patchMerchantMidError as RTKQueryErrorResponse
+
+    if (data && data.detail) {
+      const {detail} = data
+      detail.map(err => {
+        const {loc} = err
+        const location = loc[1]
+        if (location === 'visa_bin') {
+          setError('Failed to update BIN association')
+          setEditableVisaBin(null)
+        } else if (location === 'payment_enrolment_status') {
+          setError('Failed to update Payment Scheme Status')
+          setPaymentSchemeStatus(paymentEnrolmentStatus)
+        }
+      })
     }
-  }, [patchMerchantMidResponse, resetError, resetPatchMerchantMidResponse])
+  }, [patchMerchantMidError, paymentEnrolmentStatus, setError])
 
   useEffect(() => {
     if (patchMerchantMidError) {
-      setError('Failed to update BIN association')
-      setEditableVisaBin(null)
+      handleErrorResponse()
+    } else if (patchMerchantMidResponse) {
+      resetError()
+      resetPatchMerchantMidResponse()
     }
-  }, [patchMerchantMidError, setError, visaBin])
+  }, [patchMerchantMidResponse, patchMerchantMidError, resetError, resetPatchMerchantMidResponse, handleErrorResponse])
 
   // Using currying here to keep the function generic
   const handleSave = (fieldValueObj: {visa_bin: string | null} | {payment_enrolment_status: string | null}) => () => {
@@ -68,6 +82,12 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
   const handleDelete = (fieldValueObj: {visa_bin: null} | {payment_enrolment_status: null}) => () => {
     setEditableVisaBin(null)
     handleSave(fieldValueObj)()
+  }
+
+  const handlePaymentStatusChange = (selectedPaymentSchemeStatus: string) => {
+    resetError()
+    setPaymentSchemeStatus(selectedPaymentSchemeStatus)
+    handleSave({payment_enrolment_status: selectedPaymentSchemeStatus})()
   }
 
   return (
@@ -81,9 +101,9 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           <h2 className='font-single-view-heading'>PAYMENT SCHEME</h2>
           <p className='font-single-view-data'>{getPaymentScheme()}</p>
         </div>
-        <div className='flex flex-col h-[50px]'>
-          <label className='font-single-view-heading pl-[15px]'>PAYMENT SCHEME STATUS</label>
-          <Dropdown displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
+        <div className='flex flex-col h-[50px] pl-[15px]'>
+          <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
+          <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} />
         </div>
       </section>
       <section className=' h-[38px] flex justify-between mb-[34px] items-center'>

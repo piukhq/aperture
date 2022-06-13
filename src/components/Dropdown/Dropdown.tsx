@@ -12,7 +12,7 @@ type Props = {
 
 const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow}: Props) => (
   <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue}
-    className='flex h-full w-[200px] justify-center'
+    className='flex h-full w-[200px]'
   >
     {({open}) => (
       <div className='relative'>
@@ -37,7 +37,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
             hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
           )}
           >
-            {displayValues.map((value) => (
+            {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value) => (
               <Listbox.Option
                 key={value}
                 value={value}
