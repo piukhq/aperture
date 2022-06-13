@@ -90,7 +90,7 @@ const TextInputGroup = (props: Props) => {
       value={value}
       onChange={onChange}
       className={classNames(
-        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 focus:outline-lightBlue',
+        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-300 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
         borderShadow && 'shadow-md',

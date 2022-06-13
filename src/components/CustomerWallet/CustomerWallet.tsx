@@ -46,7 +46,7 @@ const CustomerWallet = () => {
     <div className={'h-[92px] pl-[180px] flex'}>
       <div className={`grid grid-cols-${getPaymentCardsResponse?.length} gap-[15px]`}>
         {getPaymentCardsResponse?.map((paymentCard) => (
-          <div key={paymentCard.id} className='h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] items-center space-between'>
+          <div key={paymentCard.id} className='dark:bg-grey-825 h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] items-center space-between'>
             <div className='basis-1/5'>
               {renderPaymentSchemeLogo(paymentCard.card.provider)}
             </div>
@@ -100,7 +100,7 @@ const CustomerWallet = () => {
 
         return (
           <div key={id} className='flex space-between mb-[17px]'>
-            <div className='flex h-[90px] min-w-[180px] shadow-md rounded-[8px] items-center p-[6px]'>
+            <div className='dark:bg-grey-825 flex h-[90px] min-w-[180px] shadow-md rounded-[8px] items-center p-[6px]'>
               <div className='flex flex-col h-full space-between basis-4/5 font-body-4'>
                 <p className='font-bold flex gap-[6px] items-center h-full leading-snug'>
                   {plan?.account.plan_name}
@@ -135,7 +135,7 @@ const CustomerWallet = () => {
 
   )
   return (
-    <div className={'bg-white min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'}>
+    <div className={'bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'}>
       { !getLoyaltyCardsIsError && !getPaymentCardsIsError && !getPlansIsError ? (
         <>
           {renderPaymentCards()}
@@ -148,8 +148,8 @@ const CustomerWallet = () => {
 
 export default CustomerWallet
 
-// Linked elsewhere card variants
+
 // squaremeal points
 // Refactor into components
-// Dark mode
+// // Linked elsewhere card variants Dark mode
 // Wierd dot thing asnd into ticks
