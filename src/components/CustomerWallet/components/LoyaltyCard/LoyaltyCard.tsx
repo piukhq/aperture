@@ -1,11 +1,12 @@
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import Image from 'next/image'
+import {ReactNode} from 'react'
 import {LoyaltyCard, Plan} from 'types'
 
 
 type Props = {
   card: LoyaltyCard
-  getStatusFn: (status: string) => string
+  getStatusFn: (status: string) => ReactNode
   plan: Plan
 }
 
@@ -34,26 +35,26 @@ const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
     return 'N/A'
   }
   return (
-    <div className='dark:bg-grey-825 flex h-[90px] min-w-[180px] shadow-md rounded-[8px] items-center p-[6px]'>
+    <button className='dark:bg-grey-825 flex h-[90px] w-[180px]  shadow-md rounded-[8px] text-left items-center p-[6px]'>
       <div className='flex flex-col h-full space-between basis-4/5 font-body-4'>
-        <p className='font-bold flex gap-[6px] items-center h-full leading-snug'>
-          {plan?.account.plan_name}
-          <span className={`flex items-center justify-center h-[6px] min-w-[6px] rounded-full bg-${getStatusFn(status.state)}`}/>
-        </p>
+        <div className='font-bold h-full leading-snug flex items-center'>
+          <span><span className='mr-[5px]'>{plan?.account.plan_name}</span>{getStatusFn(status.state)}</span>
+        </div>
+
         <div className='flex gap-[7px]'>
           <div className='basis-1/4'>
             {renderLoyaltyIcon(images)}
           </div>
-          <div className='basis-3/4 leading-snug'>
+          <div className='basis-3/4 leading-snug inline'>
             <p>{id}</p>
             <p>{isPllCard ? getBalanceString(card, plan) : 'N/A'}</p>
           </div>
         </div>
       </div>
       <div className='basis-1/5 flex justify-end'>
-        <ArrowDownSvg className={'-rotate-90 scale-75'} />
+        <ArrowDownSvg className={'-rotate-90 scale-75 dark:fill-grey-400'} />
       </div>
-    </div>
+    </button>
   )
 }
 
