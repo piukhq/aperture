@@ -9,9 +9,15 @@ import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import CloseSvg from 'icons/svgs/close.svg'
 
-
 const CustomerWallet = () => {
-  const {getLoyaltyCardsResponse, getPaymentCardsResponse, getPlansResponse} = useCustomerWallet()
+  const {
+    getLoyaltyCardsResponse,
+    getPaymentCardsResponse,
+    getPlansResponse,
+    getLoyaltyCardsIsError,
+    getPaymentCardsIsError,
+    getPlansIsError,
+  } = useCustomerWallet()
 
 
   const renderPaymentSchemeLogo = (paymentSchemeName: string) => {
@@ -37,24 +43,26 @@ const CustomerWallet = () => {
   }
 
   const renderPaymentCards = () => (
-    <div className={`grid grid-cols-${getPaymentCardsResponse?.length} gap-[15px]`}>
-      {getPaymentCardsResponse?.map((paymentCard) => (
-        <div key={paymentCard.id} className='h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] items-center space-between'>
-          <div className='basis-1/5'>
-            {renderPaymentSchemeLogo(paymentCard.card.provider)}
+    <div className={'h-[92px] pl-[180px] flex'}>
+      <div className={`grid grid-cols-${getPaymentCardsResponse?.length} gap-[15px]`}>
+        {getPaymentCardsResponse?.map((paymentCard) => (
+          <div key={paymentCard.id} className='h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] items-center space-between'>
+            <div className='basis-1/5'>
+              {renderPaymentSchemeLogo(paymentCard.card.provider)}
+            </div>
+            <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
+              <p className='font-bold flex items-center gap-[6px]'>
+                .... {paymentCard.card.last_four_digits}
+                <span className={`flex items-center justify-center h-[6px] w-[6px] rounded-full bg-${getStatusColour(paymentCard.status)}`}/>
+              </p>
+              <p>{paymentCard.id}</p>
+            </div>
+            <div className='basis-1/5 flex justify-end'>
+              <ArrowDownSvg className={'-rotate-90 scale-75'} />
+            </div>
           </div>
-          <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
-            <p className='font-bold flex items-center gap-[6px]'>
-              .... {paymentCard.card.last_four_digits}
-              <span className={`flex items-center justify-center h-[6px] w-[6px] rounded-full bg-${getStatusColour(paymentCard.status)}`}/>
-            </p>
-            <p>{paymentCard.id}</p>
-          </div>
-          <div className='basis-1/5 flex justify-end'>
-            <ArrowDownSvg className={'-rotate-90 scale-75'} />
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 
@@ -82,7 +90,6 @@ const CustomerWallet = () => {
     }
     return 'N/A'
   }
-
 
   const renderLoyaltyCardsRow = () => (
     <div>
@@ -129,20 +136,20 @@ const CustomerWallet = () => {
   )
   return (
     <div className={'bg-white min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'}>
-      <div className={'h-[92px] pl-[180px] flex'}>
-        {renderPaymentCards()}
-      </div>
-      {renderLoyaltyCardsRow()}
+      { !getLoyaltyCardsIsError && !getPaymentCardsIsError && !getPlansIsError ? (
+        <>
+          {renderPaymentCards()}
+          {renderLoyaltyCardsRow()}
+        </>
+      ) : <p className='w-full text-center body-text-4'>Error loading wallet</p>}
     </div>
   )
 }
 
 export default CustomerWallet
 
-
 // Linked elsewhere card variants
-
+// squaremeal points
 // Refactor into components
-// change jwt
 // Dark mode
 // Wierd dot thing asnd into ticks

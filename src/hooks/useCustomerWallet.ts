@@ -1,19 +1,39 @@
 import {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} from 'services/customerWallet'
 
 export const useCustomerWallet = () => {
-  const {data: getLoyaltyCardsResponse, isLoading: getLoyaltyCardsIsLoading, error: getLoyaltyCardsError} = useGetLoyaltyCardsQuery()
-  const {data: getPaymentCardsResponse, isLoading: getPaymentCardsIsLoading, error: getPaymentCardsError} = useGetPaymentCardsQuery()
-  const {data: getPlansResponse, isLoading: getPlansIsLoading, error: getPlansError} = useGetPlansQuery()
+  const {
+    data: getLoyaltyCardsResponse,
+    isLoading: getLoyaltyCardsIsLoading,
+    isError: getLoyaltyCardsIsError,
+    refetch: getLoyaltyCardsRefresh,
+  } = useGetLoyaltyCardsQuery()
+
+  const {
+    data: getPaymentCardsResponse,
+    isLoading: getPaymentCardsIsLoading,
+    isError: getPaymentCardsIsError,
+    refetch: getPaymentCardsRefresh,
+  } = useGetPaymentCardsQuery()
+
+  const {
+    data: getPlansResponse,
+    isLoading: getPlansIsLoading,
+    error: getPlansIsError,
+    refetch: getPlansRefresh,
+  } = useGetPlansQuery()
 
   return {
     getLoyaltyCardsResponse,
+    getLoyaltyCardsRefresh,
     getLoyaltyCardsIsLoading,
-    getLoyaltyCardsError,
+    getLoyaltyCardsIsError,
     getPaymentCardsResponse,
+    getPaymentCardsRefresh,
     getPaymentCardsIsLoading,
-    getPaymentCardsError,
+    getPaymentCardsIsError,
     getPlansResponse,
+    getPlansRefresh,
     getPlansIsLoading,
-    getPlansError,
+    getPlansIsError,
   }
 }

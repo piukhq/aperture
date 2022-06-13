@@ -8,15 +8,19 @@ jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
-
-// TODO: Add tests for actual table content when pulling from the API
+jest.mock('hooks/useCustomerWallet', () => ({
+  useCustomerWallet: jest.fn().mockImplementation(() => ({
+    getPaymentCardsResponse: [],
+    getLoyaltyCardsResponse: [],
+    getPlansResponse: [],
+  })),
+}))
 
 const mockStoreFn = configureStore([])
-const store = mockStoreFn({modal: {
-  customerWallet: {
-    jwtToken: 'mock_jwt_token',
-  },
-}})
+const store = mockStoreFn({customerWallet: {
+  jwtToken: 'mock_jwt_token',
+},
+})
 
 const getCustomerLookupComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>

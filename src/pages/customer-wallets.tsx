@@ -6,6 +6,7 @@ import {getJwtToken} from 'features/customerWalletSlice'
 const CustomerWalletsPage: NextPage = () => {
 
   const selectedJwtToken = useAppSelector(getJwtToken)
+
   return (
     <PageLayout>
       <section className='mb-[30px]'>
