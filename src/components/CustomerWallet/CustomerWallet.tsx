@@ -62,12 +62,12 @@ const CustomerWallet = () => {
             {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
           </div>
         </>
-      ) : <p className='w-full text-center body-text-4'>Error loading wallet</p>}
+      ) : <p className='w-full text-center font-body-4'>Error loading wallet</p>}
     </div>
   )
 }
 
 export default CustomerWallet
 
-// squaremeal points
 // // Linked elsewhere card variants
+// unit tests

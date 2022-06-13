@@ -22,7 +22,11 @@ const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
 
   const getBalanceString = (loyaltyCard, plan) => {
     if (plan.slug === 'iceland-bonus-card') {
-      return `${loyaltyCard.balances[0].prefix}${loyaltyCard.balances[0].value} spent`
+      return `${loyaltyCard.balances[0].prefix} ${loyaltyCard.balances[0].value} spent`
+    }
+
+    if (plan.feature_set.has_points && loyaltyCard.balances.length > 0) {
+      return `${loyaltyCard.balances[0]?.value} ${loyaltyCard.balances[0]?.suffix}`
     }
 
     const currentVoucherEarn = loyaltyCard.vouchers?.find((voucher) => voucher.state === 'inprogress').earn

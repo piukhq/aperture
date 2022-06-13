@@ -19,6 +19,7 @@ jest.mock('hooks/useCustomerWallet', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({customerWallet: {
   jwtToken: 'mock_jwt_token',
+  decodedJwtToken: 'mock_decoded_jwt_token',
 },
 })
 

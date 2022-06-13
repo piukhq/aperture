@@ -230,6 +230,14 @@ export type DirectoryMerchantDetailsTableCell = {
   displayValue?: string
 }
 
+export type DecodedUserToken = {
+  bundleId: string,
+  user_id: string,
+  sub: number,
+  iat: number,
+}
+
+
 export type LoyaltyCardPaymentCardReference = {
   id: number,
   active_link: true,

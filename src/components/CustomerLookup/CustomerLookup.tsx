@@ -5,21 +5,28 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
-import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
+import {setJwtToken, getJwtToken, setDecodedJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useAppSelector} from 'app/hooks'
+import {decodeJwtToken} from 'utils/jwtToken'
 
 const CustomerLookup = () => {
+  // const barclaysSam = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmFyY2xheXMuYm1iIiwidXNlcl9pZCI6ImN1c3RvbWVyX3dhbGxldDFAYmluay5jb20iLCJzdWIiOjQwNjUyLCJpYXQiOjE2NTQ3Nzg3MTF9.DXzUBmpNMSpsRpdbMLqd5c-6aBgZ8qf3MeGmyQ5tWHA'
+  const binkSam = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay53YWxsZXQiLCJ1c2VyX2lkIjoiY3VzdG9tZXJfd2FsbGV0MUBiaW5rLmNvbSIsInN1YiI6NDA2NTEsImlhdCI6MTY1NDc3ODUxMX0.MoHe5vbxmYBUI2zFREQ4MgPfYPee_wBfgUMq64kqvNQ'
+  // const regular = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay53YWxsZXQiLCJ1c2VyX2lkIjoibGtfMUBiaW5rLmNvbSIsInN1YiI6NDA0NTYsImlhdCI6MTY1NDUyNjIyMH0._Vy6BbYd_27K0FCcWWeyxSCKyYyNUy2O2Q_MUeUAOf0'
+
   const dispatch = useDispatch()
   const selectedJwtToken = useAppSelector(getJwtToken)
   const {getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh} = useCustomerWallet()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
-  const [lookupValue, setLookupValue] = useState('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJidW5kbGVfaWQiOiJjb20uYmluay53YWxsZXQiLCJ1c2VyX2lkIjoibGtfMUBiaW5rLmNvbSIsInN1YiI6NDA0NTYsImlhdCI6MTY1NDUyNjIyMH0._Vy6BbYd_27K0FCcWWeyxSCKyYyNUy2O2Q_MUeUAOf0') // TODO: Remove handy placeholder for testing when required
+  const [lookupValue, setLookupValue] = useState(binkSam) // TODO: Remove handy placeholder for testing when required
 
   const handleSubmit = (e: React.FormEvent) => { // TODO: Handle other lookup types when required
     e.preventDefault()
     dispatch(setJwtToken(lookupValue))
+    dispatch(setDecodedJwtToken(decodeJwtToken(lookupValue)))
+
     if(lookupTypeValue !== selectedJwtToken) {
       getLoyaltyCardsRefresh()
       getPaymentCardsRefresh()
