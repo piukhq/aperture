@@ -4,7 +4,6 @@ import type {RootState} from 'app/store'
 
 const endpointPrefix = '/ubiquity'
 
-
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_LOYALTY_API_URL,
   prepareHeaders: (headers, {getState}) => {
@@ -17,7 +16,6 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
-
 export const customerWalletApi = createApi({
   reducerPath: 'customerWalletApi',
   baseQuery,
@@ -25,6 +23,12 @@ export const customerWalletApi = createApi({
     getLoyaltyCards: builder.query<LoyaltyCard[], void>({
       query: () => ({
         url: `${endpointPrefix}/membership_cards`,
+        method: 'GET',
+      }),
+    }),
+    getLoyaltyCard: builder.query<LoyaltyCard[], void>({
+      query: (id) => ({
+        url: `${endpointPrefix}/membership_card/${id}`,
         method: 'GET',
       }),
     }),
@@ -43,4 +47,4 @@ export const customerWalletApi = createApi({
   }),
 })
 
-export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
+export const {useGetLoyaltyCardsQuery, useGetLoyaltyCardQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
