@@ -5,10 +5,9 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryLocations, RTKQueryErrorResponse} from 'types'
 import {mockLocationData} from 'utils/mockLocationData'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
-// import {constructMidLocationString} from 'utils/stringFormat'
 
 type Props = {
   resetError: () => void
@@ -52,7 +51,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
-  } = useMidManagementMerchants(planId, merchantId, ref)
+  } = useMidManagementMids(false, planId as string, merchantId as string, ref as string)
 
   const midDetails = getMerchantMidResponse || defaultMidDetails
   const {location = {location_ref: '', location_title: ''}, mid} = midDetails
