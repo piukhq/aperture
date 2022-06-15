@@ -3,7 +3,6 @@ import Image from 'next/image'
 import {ReactNode} from 'react'
 import {LoyaltyCard, Plan} from 'types'
 
-
 type Props = {
   card: LoyaltyCard
   getStatusFn: (status: string) => ReactNode
@@ -17,7 +16,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
 
   const renderLoyaltyIcon = (images) => {
     const icon = images.find((image) => image.type === 3)
-    return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt=''/>
+    return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt='Plan icon'/>
   }
 
   const getBalanceString = (loyaltyCard, plan) => {
@@ -26,7 +25,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
     }
 
     if (plan.feature_set.has_points && loyaltyCard.balances.length > 0) {
-      return `${loyaltyCard.balances[0]?.value} ${loyaltyCard.balances[0]?.suffix}`
+      return `${loyaltyCard.balances[0].value} ${loyaltyCard.balances[0].suffix}`
     }
 
     const currentVoucherEarn = loyaltyCard.vouchers?.find((voucher) => voucher.state === 'inprogress').earn

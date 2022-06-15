@@ -237,12 +237,6 @@ export type DecodedUserToken = {
   iat: number,
 }
 
-
-export type LoyaltyCardPaymentCardReference = {
-  id: number,
-  active_link: true,
-}
-
 export type LoyaltyCardTransaction = {
   id: number,
   status: string,
@@ -255,12 +249,13 @@ export type LoyaltyCardTransaction = {
 
 export type LoyaltyBalance = {
   value: number,
+  prefix?: string,
   suffix: string,
   currency: string,
   updated_at: number
 }
 
-export type LoyaltyVoucher = {
+export type LoyaltyVoucher = { // TODO: May require adjustment for different voucher types
   burn: {
     type: string,
     prefix: string,
@@ -283,7 +278,10 @@ export type LoyaltyVoucher = {
 export type LoyaltyCard = {
   id: number,
   membership_plan: number,
-  payment_cards: Array<LoyaltyCardPaymentCardReference>,
+  payment_cards: Array<{
+    id: number
+    link_active: boolean
+  }>,
   membership_transactions: Array<LoyaltyCardTransaction>,
   status: {
     state: string
@@ -303,12 +301,10 @@ export type LoyaltyCard = {
 
 export type PaymentCard = {
   id: number,
-    membership_cards: [
-      {
-        id: number
-        link_active: boolean
-      }
-    ],
+    membership_cards: Array<{
+      id: number
+      link_active: boolean
+    }>,
     status: string,
     card: {
       last_four_digits: string,
@@ -326,13 +322,12 @@ export type PaymentCard = {
     account: {
       status: number,
       verification_in_progress: boolean,
-      consents: [
-        {
+      consents: Array<{
           type: number,
           latitude: number,
           longitude: number,
           timestamp: number,
         }
-      ]
+      >,
     }
 }
