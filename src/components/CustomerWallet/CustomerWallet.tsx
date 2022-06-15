@@ -6,7 +6,6 @@ import LoyaltyCard from './components/LoyaltyCard'
 import LinkStatus from './components/LinkStatus'
 import ExternalCard from './components/ExternalCard'
 
-
 const CustomerWallet = () => {
   const {
     getLoyaltyCardsResponse,
@@ -16,10 +15,6 @@ const CustomerWallet = () => {
     getPaymentCardsIsError,
     getPlansIsError,
   } = useCustomerWallet()
-
-  // const {data: externalLoyaltyCardResponse} = useGetLoyaltyCardQuery('243425')
-
-  // console.log(externalLoyaltyCardResponse)
 
 
   const getStatusIcon = (status: string) => {
@@ -34,7 +29,7 @@ const CustomerWallet = () => {
     }
   }
 
-  // Function to get any additional payment/loyalty cards that are found on the loyalty/payment (i.e opposite) card
+  // Get any additional payment/loyalty cards that are found on the loyalty/payment (i.e opposite) card
   const getExternalCardIds = useCallback((sourceCards, comparatorCards, comparatorContainer) => {
     const ids = []
     const sourceIdArray = sourceCards.map(sourceCard => sourceCard.id)
@@ -63,29 +58,48 @@ const CustomerWallet = () => {
     )
   }
 
-  const renderLoyaltyCardsRow = (loyaltyCard, isExternalCard) => {
+  const getAllPaymentCardIds = useCallback(() => {
+    return getPaymentCardsResponse?.map((paymentCard) => paymentCard.id)
+      .concat(getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards'))
+  }, [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
+
+
+  // Renders loyalty cards that are found directly on the user's account
+  const renderLoyaltyCardsRow = (loyaltyCard) => {
     const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
     const {id, payment_cards: paymentCards} = loyaltyCard
-    const allPaymentCardIds = getPaymentCardsResponse?.map((paymentCard) => paymentCard.id)
-      .concat(getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards'))
-
+    const allPaymentCardIds = getAllPaymentCardIds()
     return (
       <div key={id} className='flex space-between mb-[17px]'>
-        {isExternalCard ? <ExternalCard key={id} id={loyaltyCard.id}/> : <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />}
-        <div key={id} className={`grid grid-cols-${getPaymentCardsResponse?.length} gap-[15px]`}>
+        <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
+        <div key={id} className={`grid grid-cols-${allPaymentCardIds.length} gap-[15px]`}>
           {allPaymentCardIds?.map((_, index) => (
-            <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCards={paymentCards} paymentCardIndex={index} />
+            <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
           ))}
         </div>
       </div>
     )
   }
 
-  const getExternalLoyaltyCards = () => {
-    const externalLoyaltyCardIds = getExternalCardIds(getLoyaltyCardsResponse, getPaymentCardsResponse, 'membership_cards')
-    return externalLoyaltyCardIds.map(id => {
-      return [{id, membership_cards: [{id, membership_plan: '', payment_cards: []}]}]
+  // Render the loyalty cards and status that were found on the payment cards for the user
+  const renderExternalLoyaltyCardsRow = (loyaltyCardId: number) => {
+    const allPaymentCardIds = getAllPaymentCardIds()
+
+    const sourcePaymentCardIds = getPaymentCardsResponse.map(paymentCard => {
+      const membershipCards = paymentCard.membership_cards.filter(card => card.id === loyaltyCardId)
+      return membershipCards.length > 0 ? paymentCard.id : null
     })
+
+    return (
+      <div key={loyaltyCardId} className='flex space-between mb-[17px]'>
+        <ExternalCard key={loyaltyCardId} id={loyaltyCardId}/>
+        <div key={loyaltyCardId} className={`grid grid-cols-${allPaymentCardIds?.length} gap-[15px]`}>
+          {allPaymentCardIds?.map((_, index) => (
+            <LinkStatus key={index} isPllCard loyaltyCardPaymentCardIds={sourcePaymentCardIds} paymentCardIndex={index} />
+          ))}
+        </div>
+      </div>
+    )
   }
 
   if (getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError) {
@@ -98,10 +112,9 @@ const CustomerWallet = () => {
         <>
           {renderPaymentCards()}
           <div>
-            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard, false))}
-            {getExternalLoyaltyCards().map((externalLoyaltyCard) => (
-              renderLoyaltyCardsRow(externalLoyaltyCard, true)
-            ))}
+            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+            {getExternalCardIds(getLoyaltyCardsResponse, getPaymentCardsResponse, 'membership_cards').map(id => renderExternalLoyaltyCardsRow(id))}
+
           </div>
         </>
       ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>}
@@ -110,7 +123,3 @@ const CustomerWallet = () => {
 }
 
 export default CustomerWallet
-
-// // Linked elsewhere card variants
-// select from for plans?
-// unit tests-

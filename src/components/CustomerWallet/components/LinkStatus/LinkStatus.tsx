@@ -2,12 +2,18 @@ import CheckSvg from 'icons/svgs/check.svg'
 import CloseSvg from 'icons/svgs/close.svg'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 
-const LinkStatus = ({isPllCard, loyaltyCardPaymentCards, paymentCardIndex}) => {
+type Props = {
+  isPllCard: boolean,
+  loyaltyCardPaymentCardIds: number[],
+  paymentCardIndex: number,
+}
+
+const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Props) => {
   const {getPaymentCardsResponse} = useCustomerWallet()
 
   const getLinkStatus = () => {
     const paymentCardId = getPaymentCardsResponse[paymentCardIndex].id
-    const isPaymentCardLinkedToThisLoyaltyCard = loyaltyCardPaymentCards.some((loyaltyCardPaymentCard) => loyaltyCardPaymentCard.id === paymentCardId)
+    const isPaymentCardLinkedToThisLoyaltyCard = loyaltyCardPaymentCardIds.some((id:number) => id === paymentCardId)
     return isPaymentCardLinkedToThisLoyaltyCard ? <CheckSvg fill='green' className='scale-125' /> : <CloseSvg fill='red' className={'h-[15px]'} />
   }
 

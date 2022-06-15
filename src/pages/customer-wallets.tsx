@@ -14,10 +14,12 @@ const CustomerWalletsPage: NextPage = () => {
       </section>
 
       {selectedJwtToken && (
+        // TODO: Add CustomerRecentTokens component when required
         <section>
           <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
           <CustomerWallet />
         </section>
+        // TODO: Add CustomerTransactions component when required
       )}
     </PageLayout>
   )

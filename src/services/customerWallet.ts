@@ -26,12 +26,6 @@ export const customerWalletApi = createApi({
         method: 'GET',
       }),
     }),
-    getLoyaltyCard: builder.query<LoyaltyCard[], void>({
-      query: (id) => ({
-        url: `${endpointPrefix}/membership_card/${id}`,
-        method: 'GET',
-      }),
-    }),
     getPaymentCards: builder.query<PaymentCard[], void>({
       query: () => ({
         url: `${endpointPrefix}/payment_cards`,
@@ -47,4 +41,4 @@ export const customerWalletApi = createApi({
   }),
 })
 
-export const {useGetLoyaltyCardsQuery, useGetLoyaltyCardQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
+export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
