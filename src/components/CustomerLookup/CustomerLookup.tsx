@@ -5,10 +5,9 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
-import {setJwtToken, getJwtToken, setDecodedJwtToken} from 'features/customerWalletSlice'
+import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useAppSelector} from 'app/hooks'
-import {decodeJwtToken} from 'utils/jwtToken'
 
 const CustomerLookup = () => {
   const dispatch = useDispatch()
@@ -20,16 +19,14 @@ const CustomerLookup = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (lookupTypeValue === 'JWT' && lookupValue.length > 190) { // TODO: Add better validation rules
+    if (lookupTypeValue === 'JWT') { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
-      dispatch(setDecodedJwtToken(decodeJwtToken(lookupValue)))
       if(lookupTypeValue !== selectedJwtToken) {
         getLoyaltyCardsRefresh()
         getPaymentCardsRefresh()
         getPlansRefresh()
       }
     }
-
   }
 
   return (
