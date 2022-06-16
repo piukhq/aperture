@@ -11,9 +11,6 @@ const CustomerWallet = () => {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
     getPlansResponse,
-    getLoyaltyCardsIsError,
-    getPaymentCardsIsError,
-    getPlansIsError,
   } = useCustomerWallet()
 
 
@@ -50,8 +47,8 @@ const CustomerWallet = () => {
           {getPaymentCardsResponse?.map((paymentCard) => (
             <PaymentCard key={paymentCard.id} card={paymentCard} getStatusFn={getStatusIcon}/>
           ))}
-          {externalPaymentCardIds.map((id) => (
-            <ExternalCard key={id} id={id} isPaymentCard/>
+          {externalPaymentCardIds.map((id, index) => (
+            <ExternalCard key={index} id={id} isPaymentCard/>
           ))}
         </div>
       </div>
@@ -72,7 +69,7 @@ const CustomerWallet = () => {
     return (
       <div key={id} className='flex space-between mb-[17px]'>
         <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
-        <div key={id} className={`grid grid-cols-${allPaymentCardIds.length} gap-[15px]`}>
+        <div className={`grid grid-cols-${allPaymentCardIds.length} gap-[15px]`}>
           {allPaymentCardIds?.map((_, index) => (
             <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
           ))}
@@ -85,25 +82,21 @@ const CustomerWallet = () => {
   const renderExternalLoyaltyCardsRow = (loyaltyCardId: number) => {
     const allPaymentCardIds = getAllPaymentCardIds()
 
-    const sourcePaymentCardIds = getPaymentCardsResponse.map(paymentCard => {
+    const sourcePaymentCardIds = getPaymentCardsResponse.map((paymentCard) => {
       const membershipCards = paymentCard.membership_cards.filter(card => card.id === loyaltyCardId)
       return membershipCards.length > 0 ? paymentCard.id : null
     })
 
     return (
       <div key={loyaltyCardId} className='flex space-between mb-[17px]'>
-        <ExternalCard key={loyaltyCardId} id={loyaltyCardId}/>
-        <div key={loyaltyCardId} className={`grid grid-cols-${allPaymentCardIds?.length} gap-[15px]`}>
+        <ExternalCard id={loyaltyCardId}/>
+        <div className={`grid grid-cols-${allPaymentCardIds?.length} gap-[15px]`}>
           {allPaymentCardIds?.map((_, index) => (
             <LinkStatus key={index} isPllCard loyaltyCardPaymentCardIds={sourcePaymentCardIds} paymentCardIndex={index} />
           ))}
         </div>
       </div>
     )
-  }
-
-  if (getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError) {
-    return <p className='w-full text-center font-body-4'>Error loading wallet.</p>
   }
 
   return (
@@ -117,7 +110,7 @@ const CustomerWallet = () => {
 
           </div>
         </>
-      ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>}
+      ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
     </div>
   )
 }

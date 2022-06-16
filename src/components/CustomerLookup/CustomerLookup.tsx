@@ -20,14 +20,16 @@ const CustomerLookup = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    dispatch(setJwtToken(lookupValue))
-    dispatch(setDecodedJwtToken(decodeJwtToken(lookupValue)))
-
-    if(lookupTypeValue !== selectedJwtToken) {
-      getLoyaltyCardsRefresh()
-      getPaymentCardsRefresh()
-      getPlansRefresh()
+    if (lookupTypeValue === 'JWT' && lookupValue.length > 190) { // TODO: Add better validation rules
+      dispatch(setJwtToken(lookupValue))
+      dispatch(setDecodedJwtToken(decodeJwtToken(lookupValue)))
+      if(lookupTypeValue !== selectedJwtToken) {
+        getLoyaltyCardsRefresh()
+        getPaymentCardsRefresh()
+        getPlansRefresh()
+      }
     }
+
   }
 
   return (
