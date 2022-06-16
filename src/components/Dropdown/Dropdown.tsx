@@ -13,12 +13,12 @@ type Props = {
 
 const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow, selectedValueStyles = ''}: Props) => (
   <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue}
-    className='flex h-full'
+    className='flex h-full w-auto'
   >
     {({open}) => (
-      <div className='relative'>
+      <div className='relative w-full'>
         <Listbox.Button className={classNames(
-          'flex flex-row items-center w-auto pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px]',
+          'flex flex-row items-center w-full pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px] justify-between',
           open && 'rounded-none rounded-t-[10px]',
           hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-[1px] border-grey-500 dark:border-grey-700',
         )}
@@ -27,10 +27,11 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
             <Listbox.Label className='font-subheading-5 mr-[7px]'>{label}:</Listbox.Label>
           )}
           <span className={classNames(
-            'w-auto font-subheading-3 font-medium',
+            'font-subheading-3 font-medium truncate',
             selectedValueStyles
           )}>{displayValue}</span>
-          <div className='flex justify-center items-center w-[28px] ml-[42px] h-full border-l border-grey-200 dark:border-grey-800'>
+
+          <div className='flex justify-center items-center min-w-[28px] ml-[42px] h-full border-l border-grey-200 dark:border-grey-800'>
             <TriangleDownSvg className={classNames(open && 'rotate-180')} />
           </div>
         </Listbox.Button>

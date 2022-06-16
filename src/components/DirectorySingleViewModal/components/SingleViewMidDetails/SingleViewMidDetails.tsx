@@ -46,6 +46,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     putMerchantMidLocation,
     putMerchantMidLocationResponse,
     putMerchantMidLocationError,
+    putMerchantMidLocationIsLoading,
     resetPutMerchantMidLocationResponse,
     deleteMerchantMidLocation,
     deleteMerchantMidLocationIsSuccess,
@@ -193,7 +194,9 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           </div>
           <div className='flex flex-col h-[50px] pl-[15px]'>
             <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
-            <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} />
+            <div className='w-[180px]'>
+              <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} />
+            </div>
           </div>
         </section>
 
@@ -202,7 +205,7 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           header='LOCATION'
           label='location'
           value={getAssociatedLocationString()}
-          isSaving={patchMerchantMidIsLoading}
+          isSaving={putMerchantMidLocationIsLoading}
           handleValueChange={handleLocationChange}
           handleCancel={() => setAssociatedLocationRef(locationRef)}
           handleSave={handleLocationSave}

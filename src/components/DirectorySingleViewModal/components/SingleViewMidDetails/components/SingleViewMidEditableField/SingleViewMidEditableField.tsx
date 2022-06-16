@@ -147,44 +147,60 @@ const SingleViewMidEditableField = ({
     </div>
   )
 
+  const renderEditSaveAndCloseButtons = () => {
+    if (isSaving) {
+      return (
+        <Tag
+          tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
+          textStyle={TextStyle.MEDIUM}
+          tagStyle={TagStyle.LIGHT_GREY_FILLED}
+          label='Saving...'
+        />
+      )
+    }
+    return (
+      <div className='flex gap-[10px]'>
+        <Button
+          handleClick={onSaveHandler}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          ariaLabel={`Save ${label}`}
+        >Save
+        </Button>
+
+        <Button
+          handleClick={onCancelHandler}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+          buttonBackground={ButtonBackground.LIGHT_GREY}
+          ariaLabel={`Close ${label} edit`}
+        ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
+        </Button>
+      </div>
+    )
+  }
+
   const renderEditableDropdownMenu = () => (
-    <div>
+    <div className='w-full'>
       <div className='mb-[3px]'>
         {renderHeader()}
       </div>
-      <div className='flex h-[36px] gap-[10px] justify-between'>
+      <div className='flex h-[36px] w-full gap-[10px] justify-between'>
         <div className='w-[392px]'>
           <Dropdown displayValue={value} displayValues={dropdownValues} onChangeDisplayValue={handleValueChange} selectedValueStyles='font-normal text-grey-600' />
         </div>
 
-        <div className='flex gap-[10px]'>
-          <Button
-            handleClick={onSaveHandler}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-            buttonBackground={ButtonBackground.BLUE}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel={`Save ${label}`}
-          >Save
-          </Button>
-
-          <Button
-            handleClick={onCancelHandler}
-            buttonSize={ButtonSize.MEDIUM_ICON}
-            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            ariaLabel={`Close ${label} edit`}
-          ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
-          </Button>
-        </div>
+        {renderEditSaveAndCloseButtons()}
       </div>
     </div>
   )
 
   const renderEditableInputField = () => (
-    <>
+    <div className='flex mt-[13px] w-full justify-between items-center'>
       <TextInputGroup
         name={`${label}-input-field`}
         label={label}
@@ -200,39 +216,9 @@ const SingleViewMidEditableField = ({
       />
 
       <div className='ml-[10px] flex'>
-        {isSaving ? (
-          <Tag
-            tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
-            textStyle={TextStyle.MEDIUM}
-            tagStyle={TagStyle.LIGHT_GREY_FILLED}
-            label='Saving...'
-          />
-        ) : (
-          <div className='flex gap-[10px]'>
-            <Button
-              handleClick={onSaveHandler}
-              buttonType={ButtonType.SUBMIT}
-              buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-              buttonBackground={ButtonBackground.BLUE}
-              labelColour={LabelColour.WHITE}
-              labelWeight={LabelWeight.SEMIBOLD}
-              ariaLabel={`Save ${label}`}
-            >Save
-            </Button>
-
-            <Button
-              handleClick={onCancelHandler}
-              buttonSize={ButtonSize.MEDIUM_ICON}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-              buttonBackground={ButtonBackground.LIGHT_GREY}
-              ariaLabel={`Close ${label} edit`}
-            ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
-            </Button>
-          </div>
-        )}
+        {renderEditSaveAndCloseButtons()}
       </div>
-    </>
+    </div>
   )
 
   const renderEditState = () => {
@@ -241,7 +227,7 @@ const SingleViewMidEditableField = ({
 
 
   return (
-    <section className='h-[38px] flex justify-between mb-[34px] items-center'>
+    <section className='flex mb-[34px] items-center'>
       {isInEditState ? renderEditState() : renderReadOnlyState()}
     </section>
   )
