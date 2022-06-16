@@ -83,7 +83,7 @@ const SingleViewMidEditableField = ({
   )
 
   const renderDeleteState = () => (
-    <div className='flex gap-[10px]'>
+    <div className='flex gap-[10px] h-[38px]'>
       <div className='w-[160px]'>
         <p className='font-body-4 text-red'>Are you sure you want to delete this {label}?</p>
       </div>
@@ -99,10 +99,10 @@ const SingleViewMidEditableField = ({
       <Button
         handleClick={handleDelete}
         buttonType={ButtonType.SUBMIT}
-        buttonSize={ButtonSize.MEDIUM_ICON}
-        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
-        borderColour={BorderColour.RED}
-        labelColour={LabelColour.RED}
+        buttonSize={ButtonSize.MEDIUM}
+        buttonWidth={ButtonWidth.MEDIUM}
+        buttonBackground={ButtonBackground.RED}
+        labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         ariaLabel={`Delete ${label}`}
       >Yes, Delete
