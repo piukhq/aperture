@@ -63,7 +63,8 @@ const CustomerWallet = () => {
 
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
-    const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan) // TODO: As this is the only place where we need to look through the plans, we can look through them all. But refactor for transactions to keep the only the relevant plans for the user.
+    // TODO: As this is the only place where we need to look through the plans, we can look through them all. But should refactor for Transactions to keep the only the relevant plans for the user.
+    const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
     const {id, payment_cards: paymentCards} = loyaltyCard
     const allPaymentCardIds = getAllPaymentCardIds()
     return (
