@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useMemo} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import PaymentCard from './components/PaymentCard'
@@ -13,7 +13,6 @@ const CustomerWallet = () => {
     getPlansResponse,
   } = useCustomerWallet()
 
-
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'authorised':
@@ -27,9 +26,9 @@ const CustomerWallet = () => {
   }
 
   // Get any additional payment/loyalty cards that are found on the loyalty/payment (i.e comparator) card
-  const getExternalCardIds = useCallback((sourceCards, comparatorCards, comparatorContainer) => {
+  const getExternalCardIds = useCallback((sourceCards = [], comparatorCards = [], comparatorContainer) => {
     const ids = []
-    const sourceIdArray = sourceCards.map(sourceCard => sourceCard.id)
+    const sourceIdArray = sourceCards?.map(sourceCard => sourceCard.id)
     comparatorCards.forEach(comparatorCard => {
       comparatorCard[comparatorContainer].forEach(comparatorCardSourceCard => {
         !sourceIdArray.includes(comparatorCardSourceCard.id) && ids.push(comparatorCardSourceCard.id)
@@ -38,9 +37,10 @@ const CustomerWallet = () => {
     return ids
   }, [])
 
+  const externalPaymentCardIds = useMemo(() => getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards'), [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
+  const externalMembershipCardIds = useMemo(() => getExternalCardIds(getLoyaltyCardsResponse, getPaymentCardsResponse, 'membership_cards'), [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
 
   const renderPaymentCards = () => {
-    const externalPaymentCardIds = getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards')
     return (
       <div className={'h-[92px] pl-[180px] flex'}>
         <div className={`grid grid-cols-${getPaymentCardsResponse?.length + externalPaymentCardIds.length} gap-[15px]`}>
@@ -57,21 +57,18 @@ const CustomerWallet = () => {
 
   const getAllPaymentCardIds = useCallback(() => {
     return getPaymentCardsResponse?.map((paymentCard) => paymentCard.id)
-      .concat(getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards'))
-  }, [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
-
-
+      .concat(externalPaymentCardIds)
+  }, [externalPaymentCardIds, getPaymentCardsResponse])
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
-    // TODO: As this is the only place where we need to look through the plans, we can look through them all. But should refactor for Transactions to keep the only the relevant plans for the user.
+    // TODO: As this is the only place where we need to look through the plans, we can look through them all. But should refactor for Transactions to keep only the relevant plans for the user.
     const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
     const {id, payment_cards: paymentCards} = loyaltyCard
-    const allPaymentCardIds = getAllPaymentCardIds()
     return (
       <div key={id} className='flex space-between mb-[17px]'>
         <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
-        <div className={`grid grid-cols-${allPaymentCardIds.length} gap-[15px]`}>
-          {allPaymentCardIds?.map((_, index) => (
+        <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
+          {getAllPaymentCardIds().map((_, index) => (
             <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
           ))}
         </div>
@@ -81,8 +78,6 @@ const CustomerWallet = () => {
 
   // Render the loyalty cards and status that were found on the payment cards for the user
   const renderExternalLoyaltyCardsRow = (loyaltyCardId: number) => {
-    const allPaymentCardIds = getAllPaymentCardIds()
-
     const sourcePaymentCardIds = getPaymentCardsResponse.map((paymentCard) => {
       const membershipCards = paymentCard.membership_cards.filter(card => card.id === loyaltyCardId)
       return membershipCards.length > 0 ? paymentCard.id : null
@@ -91,8 +86,8 @@ const CustomerWallet = () => {
     return (
       <div key={loyaltyCardId} className='flex space-between mb-[17px]'>
         <ExternalCard id={loyaltyCardId}/>
-        <div className={`grid grid-cols-${allPaymentCardIds?.length} gap-[15px]`}>
-          {allPaymentCardIds?.map((_, index) => (
+        <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
+          {getAllPaymentCardIds().map((_, index) => (
             <LinkStatus key={index} isPllCard loyaltyCardPaymentCardIds={sourcePaymentCardIds} paymentCardIndex={index} />
           ))}
         </div>
@@ -105,11 +100,9 @@ const CustomerWallet = () => {
       { getLoyaltyCardsResponse && getPaymentCardsResponse && getPlansResponse ? (
         <>
           {renderPaymentCards()}
-          <div>
-            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
-            {getExternalCardIds(getLoyaltyCardsResponse, getPaymentCardsResponse, 'membership_cards').map(id => renderExternalLoyaltyCardsRow(id))}
+          {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+          {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
 
-          </div>
         </>
       ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
     </div>
