@@ -21,7 +21,5 @@ export const customerWalletSlice = createSlice({
 })
 
 export const {setJwtToken, reset} = customerWalletSlice.actions
-
-export const getCustomerWallet = (state: RootState) => state.customerWallet
 export const getJwtToken = (state: RootState) => state.customerWallet.jwtToken
 export default customerWalletSlice.reducer

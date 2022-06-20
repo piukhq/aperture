@@ -13,7 +13,7 @@ const CustomerWallet = () => {
     getPlansResponse,
   } = useCustomerWallet()
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = useCallback((status: string) => {
     switch (status) {
       case 'authorised':
       case 'active':
@@ -23,7 +23,7 @@ const CustomerWallet = () => {
       default:
         return <Image width={8} height={8} src='/icons/svgs/red-close.svg' alt='Failed status'/>
     }
-  }
+  }, [])
 
   // Get any additional payment/loyalty cards that are found on the loyalty/payment (i.e comparator) card
   const getExternalCardIds = useCallback((sourceCards = [], comparatorCards = [], comparatorContainer) => {
@@ -45,7 +45,7 @@ const CustomerWallet = () => {
       <div className={'h-[92px] pl-[180px] flex'}>
         <div className={`grid grid-cols-${getPaymentCardsResponse?.length + externalPaymentCardIds.length} gap-[15px]`}>
           {getPaymentCardsResponse?.map((paymentCard) => (
-            <PaymentCard key={paymentCard.id} card={paymentCard} getStatusFn={getStatusIcon}/>
+            <PaymentCard key={paymentCard.id} paymentCard={paymentCard} getStatusFn={getStatusIcon}/>
           ))}
           {externalPaymentCardIds.map((id, index) => (
             <ExternalCard key={index} id={id} isPaymentCard/>

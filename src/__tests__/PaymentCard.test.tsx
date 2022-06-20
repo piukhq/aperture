@@ -54,7 +54,7 @@ const mockPaymentCard = {
 }
 
 const getPaymentCardComponent = () => (
-  <PaymentCard card={mockPaymentCard} getStatusFn={jest.fn()} />
+  <PaymentCard paymentCard={mockPaymentCard} getStatusFn={jest.fn()} />
 )
 
 describe('PaymentCard', () => {

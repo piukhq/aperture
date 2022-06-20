@@ -7,11 +7,13 @@ import {PaymentCard} from 'types'
 import {ReactNode} from 'react'
 
 type Props = {
-  card: PaymentCard
+  paymentCard: PaymentCard
   getStatusFn: (status: string) => ReactNode
 }
 
-const PaymentCard = ({getStatusFn, card}:Props) => {
+const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
+  const {card, id, status} = paymentCard
+  const {provider, last_four_digits} = card
 
   const renderPaymentSchemeLogo = (paymentSchemeName: string) => {
     if (paymentSchemeName === 'Visa') {
@@ -24,18 +26,21 @@ const PaymentCard = ({getStatusFn, card}:Props) => {
   }
 
   return (
-    <button key={card.id} className='dark:bg-grey-825 h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center space-between'>
+    <button key={id}
+      onClick={() => console.log('Payment Card clicked')}
+      className='dark:bg-grey-825 h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center space-between'
+    >
       <div className='basis-1/5'>
-        {renderPaymentSchemeLogo(card.card.provider)}
+        {renderPaymentSchemeLogo(provider)}
       </div>
       <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
         <span>
           <span className='font-bold gap-[6px] pr-[5px]'>
-          .... {card.card.last_four_digits}
+          .... {last_four_digits}
           </span>
-          {getStatusFn(card.status)}
+          {getStatusFn(status)}
         </span>
-        <p>{card.id}</p>
+        <p>{id}</p>
       </div>
       <div className='basis-1/5 flex justify-end'>
         <ArrowDownSvg className={'-rotate-90 scale-75 dark:fill-grey-400'} />

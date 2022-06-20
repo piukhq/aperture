@@ -156,7 +156,7 @@ describe('LoyaltyCard', () => {
       const mockIcelandPlan = {...mockPlan, feature_set: {card_type: 2}, slug: 'iceland-bonus-card'}
       render(<LoyaltyCard card={mockLoyaltyCard} getStatusFn={jest.fn()} plan={mockIcelandPlan} />)
 
-      expect(screen.getByText(`${mockLoyaltyBalance.prefix} ${mockLoyaltyBalance.value} spent`)).toBeInTheDocument()
+      expect(screen.getByText(`${mockLoyaltyBalance.prefix}${mockLoyaltyBalance.value} spent`)).toBeInTheDocument()
     })
 
     it('should render correct balance string for points cards', () => {

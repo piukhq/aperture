@@ -20,12 +20,12 @@ const CustomerLookup = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (lookupTypeValue === 'JWT') { // TODO: Add better validation rules
-      dispatch(setJwtToken(lookupValue))
-      if(lookupTypeValue !== selectedJwtToken) {
+      if(lookupTypeValue !== selectedJwtToken) { // If a previous token exists that is not this one, clear the api data
         getLoyaltyCardsRefresh()
         getPaymentCardsRefresh()
         getPlansRefresh()
       }
+      dispatch(setJwtToken(lookupValue))
     }
   }
 
@@ -55,7 +55,6 @@ const CustomerLookup = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.MEDIUM}
-        handleClick={() => handleSubmit}
         ariaLabel='Load User'
       >
         <CheckSvg fill='white' />Load User
