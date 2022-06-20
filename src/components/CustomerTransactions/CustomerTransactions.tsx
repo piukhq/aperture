@@ -55,7 +55,6 @@ const CustomerTransactions = () => {
               {renderTableHeaders()}
             </tr>
           </thead>
-
           {selectedPlan ? <TransactionsTableBody transactions={getLoyaltyCardTransactions()} /> : <p className='font-body-4 '>Select a plan above to see transactions</p>}
         </table>
       </div>

@@ -20,7 +20,7 @@ const TransactionsTable = ({transactions}) => {
     ]
 
     return (
-      <tr className='border-[20px] border-transparent'>
+      <tr className='border-b-[20px] border-transparent'>
         {transactionRowArray.map((row, index) => <td key={index} className={'px-[9px] font-body-3'}>{row}</td>)}
       </tr>
     ) }
