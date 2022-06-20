@@ -21,11 +21,11 @@ const CustomerLookup = () => {
     e.preventDefault()
     if (lookupTypeValue === 'JWT') { // TODO: Add better validation rules
       if(lookupTypeValue !== selectedJwtToken) { // If a previous token exists that is not this one, clear the api data
+        dispatch(setJwtToken(lookupValue))
         getLoyaltyCardsRefresh()
         getPaymentCardsRefresh()
         getPlansRefresh()
       }
-      dispatch(setJwtToken(lookupValue))
     }
   }
 
