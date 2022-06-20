@@ -55,7 +55,7 @@ export type PlanImage = {
   url: string,
   encoding: string,
   description: string,
-  cta_url: string,
+  cta_url?: string,
 }
 
 export type PlanAsset = { // Plan Image with additional metadata used for Asset Modal
@@ -237,4 +237,106 @@ export type DirectoryMerchantDetailsTableCell = {
   },
   additionalStyles?: string,
   displayValue?: string
+}
+
+export type DecodedUserToken = {
+  bundleId: string,
+  user_id: string,
+  sub: number,
+  iat: number,
+}
+
+export type LoyaltyCardTransaction = {
+  id: number,
+  status: string,
+  amounts: Array<{
+    currency: string,
+    suffix: string,
+    value: number,
+  }>,
+}
+
+export type LoyaltyBalance = {
+  value: number,
+  prefix?: string,
+  suffix: string,
+  currency: string,
+  updated_at: number
+}
+
+export type LoyaltyVoucher = { // TODO: May require adjustment for different voucher types
+  burn: {
+    type: string,
+    prefix: string,
+    suffix: string,
+  },
+  code?: string,
+  earn: {
+    type: string,
+    value: number,
+    suffix: string,
+    target_value: number,
+  },
+  state: string,
+  headline: string
+  date_issued: number,
+  expiry_date: number,
+  barcode_type: number,
+}
+
+export type LoyaltyCard = {
+  id: number,
+  membership_plan: number,
+  payment_cards: Array<{
+    id: number
+    link_active: boolean
+  }>,
+  membership_transactions: Array<LoyaltyCardTransaction>,
+  status: {
+    state: string
+    reason_codes: Array<string>
+  }
+  card: {
+    membership_id: string,
+    colour: string,
+  },
+  images: Array<PlanImage>,
+  account: {
+    tier: number,
+  },
+  balances: Array<LoyaltyBalance>,
+  vouchers: Array<LoyaltyVoucher>,
+}
+
+export type PaymentCard = {
+  id: number,
+    membership_cards: Array<{
+      id: number
+      link_active: boolean
+    }>,
+    status: string,
+    card: {
+      last_four_digits: string,
+      first_six_digits: string,
+      month: number,
+      year: number,
+      country: string,
+      currency_code: string,
+      name_on_card: string,
+      provider: string,
+      issuer_name: string,
+      type: string,
+    },
+    images: Array<PlanImage>,
+    account: {
+      status: number,
+      verification_in_progress: boolean,
+      consents: Array<{
+          type: number,
+          latitude: number,
+          longitude: number,
+          timestamp: number,
+        }
+      >,
+    }
 }

@@ -66,6 +66,9 @@ module.exports = {
       opacity: {
         '12': '.12',
       },
+      boxShadow: {
+        'md': '0 1px 6px 0px rgba(0,0,0,0.5)',
+      },
     },
   },
   plugins: [],

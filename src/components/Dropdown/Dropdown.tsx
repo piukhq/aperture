@@ -20,7 +20,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
         <Listbox.Button className={classNames(
           'flex flex-row items-center w-full pl-[12px] text-grey-600 h-full bg-white dark:bg-grey-825 rounded-[10px] justify-between',
           open && 'rounded-none rounded-t-[10px]',
-          hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-[1px] border-grey-500 dark:border-grey-700',
+          hasShadow ? 'shadow-md' : 'border-[1px] border-grey-500 dark:border-grey-700',
         )}
         >
           {label && (
@@ -39,7 +39,8 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
         {open && (
           <Listbox.Options static className={classNames(
             'absolute z-10 w-full bg-white dark:bg-grey-825 rounded-b-[10px] overflow-y-auto max-h-[200px]',
-            hasShadow ? 'shadow-[0_1px_6px_0px_rgba(0,0,0,0.5)]' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
+            hasShadow ? 'shadow-md' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
+
           )}
           >
             {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value) => (
