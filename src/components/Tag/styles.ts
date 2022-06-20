@@ -2,6 +2,7 @@ export enum TagSize {
   MEDIUM,
   SMALL,
   MINI,
+  SINGLE_VIEW_MID_MEDIUM
 }
 
 export enum TagStyle {
@@ -14,16 +15,19 @@ export enum TagStyle {
   RED_FILLED,
   RED_OUTLINE,
   GREY_OUTLINE,
+  LIGHT_GREY_FILLED
 }
 
 export enum TextStyle {
   SINGLE_LETTER,
+  MEDIUM
 }
 
 export const TAG_SIZE_MAPS: Record<TagSize, string> = {
   [TagSize.MEDIUM]: 'h-[38px] w-[129px]',
   [TagSize.SMALL]: 'h-[38px] w-[93px]',
   [TagSize.MINI]: 'h-[24px] w-[24px] rounded-[12px]',
+  [TagSize.SINGLE_VIEW_MID_MEDIUM]: 'h-[36px] w-[118px]',
 }
 
 export const TAG_STYLE_MAPS: Record<TagStyle, string> = {
@@ -36,8 +40,10 @@ export const TAG_STYLE_MAPS: Record<TagStyle, string> = {
   [TagStyle.RED_FILLED]: 'bg-red text-white',
   [TagStyle.RED_OUTLINE]: 'border border-red text-red',
   [TagStyle.GREY_OUTLINE]: 'border border-grey-600 text-grey-600',
+  [TagStyle.LIGHT_GREY_FILLED]: 'bg-grey-200',
 }
 
 export const TEXT_STYLE_MAPS: Record<TextStyle, string> = {
   [TextStyle.SINGLE_LETTER]: 'text-[11px] cursor-default',
+  [TextStyle.MEDIUM]: 'font-semibold text-2xs text-grey-700 cursor-default',
 }
