@@ -24,11 +24,18 @@ const CustomerTransactions = () => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id).membership_transactions
   }, [getLoyaltyCardsResponse, selectedPlan])
 
-  const renderTableHeaders = () => (
-    ['REWARD', 'DATE', 'DETAILS', 'AMOUNT', 'CHANGE'].map(header => (
-      <th key={header} data-testid='table-header' className={'px-[9px] font-table-header'}>{header}</th>
+  const renderTableHeaders = () => {
+    const headers = ['REWARD', 'DATE', 'DETAILS', 'AMOUNT', 'CHANGE']
+    return headers.map((header, index) => (
+      <th key={header}
+        data-testid='table-header'
+        className={`px-[9px] font-table-header flex-col w-full ${index === 0 && 'rounded-l-[10px]'} ${index === headers.length - 1 && 'rounded-r-[10px]'} `}
+      >
+        {header}
+      </th>
     ))
-  )
+  }
+
   return (
     <>
       <div className='mb-[30px]'>
@@ -41,9 +48,9 @@ const CustomerTransactions = () => {
         />
       </div>
 
-      <div className={'bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] shadow-md rounded-[20px] py-[20px]'}>
+      <div className={'bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px]'}>
         <table className='w-full min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
-          <thead className='h-[38px] text-left bg-grey-200 rounded-l-[10px] mt-[18px]'>
+          <thead className='h-[40px] w-full text-left bg-grey-200 px-[30px]'>
             <tr>
               {renderTableHeaders()}
             </tr>
