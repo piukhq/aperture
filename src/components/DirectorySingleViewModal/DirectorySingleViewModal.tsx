@@ -61,7 +61,7 @@ const DirectorySingleViewModal = () => {
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [isInDeleteState, setIsInDeleteState] = useState(false)
+  const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState(false)
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
@@ -193,7 +193,7 @@ const DirectorySingleViewModal = () => {
         deleteMerchantLocation({...refs, locationRefs: [locationRef]})
       }
     }
-    setIsInDeleteState(false)
+    setIsInDeleteConfirmationState(false)
   }
 
   const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantIdentifierIsLoading
@@ -218,11 +218,11 @@ const DirectorySingleViewModal = () => {
         ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
         </Button>
 
-        {isInDeleteState ? (
+        {isInDeleteConfirmationState ? (
           <div className='flex items-center justify-between gap-[5px]'>
             <p className='font-body-4 text-red mr-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
             <Button
-              handleClick={() => setIsInDeleteState(false)}
+              handleClick={() => setIsInDeleteConfirmationState(false)}
               buttonSize={ButtonSize.MEDIUM_ICON}
               buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
               buttonBackground={ButtonBackground.LIGHT_GREY}
@@ -257,7 +257,7 @@ const DirectorySingleViewModal = () => {
               />
             ) : (
               <Button
-                handleClick={() => setIsInDeleteState(true)}
+                handleClick={() => setIsInDeleteConfirmationState(true)}
                 buttonType={ButtonType.SUBMIT}
                 buttonSize={ButtonSize.MEDIUM}
                 buttonWidth={ButtonWidth.MEDIUM}
