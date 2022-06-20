@@ -30,6 +30,9 @@ type EntityArray = DirectoryEntity[]
 const DirectorySingleViewModal = () => {
   const [tabSelected, setTabSelected] = useState('Details')
   const [entityHeading, setEntityHeading] = useState('')
+  const [copyButtonClicked, setCopyButtonClicked] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
+
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
@@ -92,7 +95,7 @@ const DirectorySingleViewModal = () => {
   const renderEntityDetails = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
-        return <SingleViewMidDetails />
+        return <SingleViewMidDetails setError={setErrorMessage} resetError={() => setErrorMessage(null)} />
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <SingleViewSecondaryMidDetails />
       case DirectoryNavigationTab.IDENTIFIERS:
@@ -104,24 +107,35 @@ const DirectorySingleViewModal = () => {
 
   const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
 
+  const handleCopyLinkClick = () => {
+    navigator.clipboard.writeText(window.location.href)
+    setCopyButtonClicked(true)
+  }
+
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[40px] min-h-[300px]'>
+      <div className='px-[25px] min-h-[300px]'>
         {selectedEntity && tabSelected === 'Details' ? renderEntityDetails() : renderComments()}
       </div>
-      <div className='flex justify-between border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
+      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
         <Button
+          handleClick={handleCopyLinkClick}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.MEDIUM}
           buttonBackground={ButtonBackground.LIGHT_GREY}
           labelColour={LabelColour.GREY}
           labelWeight={LabelWeight.SEMIBOLD}
-        ><LinkSvg/> Copy link
+        ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
         </Button>
+
+        {errorMessage && (
+          <p className='font-body-4 text-red'>{errorMessage}</p>
+        )}
+
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

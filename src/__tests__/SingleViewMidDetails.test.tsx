@@ -1,41 +1,64 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewMidDetails from 'components/DirectorySingleViewModal/components/SingleViewMidDetails'
-import {Provider} from 'react-redux'
-import configureStore from 'redux-mock-store'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/DirectorySingleViewModal/components/SingleViewMidDetails/components/SingleViewMidEditableField', () => () => <div data-testid='SingleViewMidEditableField' />)
 
-const mockMidRef = 'mock_mid_ref'
-const mockMid = 'mock_mid'
 const mockVisaBin = 'mock_visa_bin'
-const mockPayrollEnrollmentStatus = 'mock_payroll_enrollment_status'
 const mockDateAdded = 'mock_date_added'
 const mockTxmStatus = 'mock_txm_status'
 
-const mockMerchantDetailsState = {
-  directoryMerchant: {
-    selectedEntity: {
-      mid_ref: mockMidRef,
-      mid_metadata: {
-        payment_scheme_code: 1,
-        mid: mockMid,
-        visa_bin: mockVisaBin,
-        payment_enrolment_status: mockPayrollEnrollmentStatus,
-      },
-      date_added: mockDateAdded,
-      txm_status: mockTxmStatus,
+let mockPatchErrorResponse = null
+let mockPutErrorResponse = null
+let mockDeleteErrorResponse = null
+
+const mockGetMidResponse = {
+  location: {
+    location_ref: '',
+    location_title: '',
+  },
+  mid: {
+    date_added: mockDateAdded,
+    txm_status: mockTxmStatus,
+    mid_metadata: {
+      payment_scheme_code: 1,
+      visa_bin: mockVisaBin,
+      payment_enrolment_status: '',
     },
   },
 }
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({...mockMerchantDetailsState})
+jest.mock('hooks/useMidManagementMids', () => ({
+  useMidManagementMids: jest.fn().mockImplementation(() => ({
+    getMerchantMidResponse: mockGetMidResponse,
+    patchMerchantMid: jest.fn(),
+    patchMerchantMidError: mockPatchErrorResponse,
+    patchMerchantMidIsLoading: null,
+    resetPatchMerchantMidResponse: jest.fn(),
+    putMerchantMidLocationError: mockPutErrorResponse,
+    deleteMerchantMidLocationError: mockDeleteErrorResponse,
+  })),
+}))
 
-const getSingleViewMidDetailsComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <SingleViewMidDetails />
-  </Provider>
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
+    merchantId: 'mock_merchant_id',
+    ref: 'mock_ref',
+  },
+}))
+
+const mockSetError = jest.fn()
+
+const mockProps = {
+  resetError: jest.fn(),
+  setError: mockSetError,
+}
+
+const getSingleViewMidDetailsComponent = (passedProps = {}) => (
+  <SingleViewMidDetails {...mockProps} {...passedProps} />
 )
 
 describe('SingleViewMidDetails', () => {
@@ -77,61 +100,93 @@ describe('SingleViewMidDetails', () => {
       render(getSingleViewMidDetailsComponent())
       expect(screen.queryByTestId('dropdown')).toBeInTheDocument()
     })
-  })
 
-  describe('Test Location', () => {
-    it('should render the Location heading', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('LOCATION')
-    })
-    it('should render the Add Location button', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Add location'})).toBeInTheDocument()
-    })
-    // TODO: Missing value test till we know how to populate it
-  })
-
-  describe('Test BIN', () => {
-    it('should render the BIN heading', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('BIN')
-    })
-    it('should render the correct Bin value', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByText(mockVisaBin)).toBeInTheDocument()
-    })
-    it('should render the Add BIN button', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Add BIN'})).toBeInTheDocument()
-    })
-
-    it('should NOT render the BIN section if not Visa', () => {
-      const mockNonVisaState = {
-        directoryMerchant: {
-          selectedEntity: {
-            mid_ref: mockMidRef,
-            mid_metadata: {
-              payment_scheme_code: 2,
-              mid: mockMid,
-              visa_bin: mockVisaBin,
-              payment_enrolment_status: mockPayrollEnrollmentStatus,
+    it('should render the correct error message', () => {
+      mockPatchErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'payment_enrolment_status',
+              ],
             },
-            date_added: mockDateAdded,
-            txm_status: mockTxmStatus,
-          },
+          ],
         },
       }
-      render(getSingleViewMidDetailsComponent(mockStoreFn({...mockNonVisaState})))
-      expect(screen.getAllByRole('heading')[3]).not.toHaveTextContent('BIN')
-      expect(screen.queryByText(mockVisaBin)).not.toBeInTheDocument()
-      expect(screen.queryByRole('button', {name: 'Add BIN'})).not.toBeInTheDocument()
+
+      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Failed to update Payment Scheme Status')
+    })
+  })
+
+  describe('Test Location and BIN', () => {
+    it('should render the correct number of SingleViewMidEditableField components', () => {
+      render(getSingleViewMidDetailsComponent())
+      expect(screen.queryAllByTestId('SingleViewMidEditableField')).toHaveLength(2)
+    })
+
+    it('should render the correct BIN error message', () => {
+      mockPatchErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'visa_bin',
+              ],
+            },
+          ],
+        },
+      }
+
+      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Failed to update BIN association')
+    })
+
+    it('should render the correct PUT Location error message', () => {
+      mockPutErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'location',
+              ],
+            },
+          ],
+        },
+      }
+
+      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Add location failed')
+    })
+
+    it('should render the correct DELETE Location error message', () => {
+      mockPutErrorResponse = null
+
+      mockDeleteErrorResponse = {
+        data: {
+          detail: [
+            {
+              loc: [
+                'body',
+                'location',
+              ],
+            },
+          ],
+        },
+      }
+
+      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      expect(mockSetError).toBeCalledWith('Delete location failed')
     })
   })
 
   describe('Test Harmonia Status', () => {
     it('should render the Harmonia Status heading', () => {
       render(getSingleViewMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[4]).toHaveTextContent('HARMONIA STATUS')
+      expect(screen.getByText('HARMONIA STATUS')).toBeInTheDocument()
     })
     it('should render the Edit button', () => {
       render(getSingleViewMidDetailsComponent())

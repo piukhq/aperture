@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react'
 
-// Used tor eference previous state values
+// Used to reference previous state values
 const usePrevious = (value) => {
   const ref = useRef()
   useEffect(() => {

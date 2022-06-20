@@ -6,7 +6,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeCode} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -19,7 +19,7 @@ const DirectoryMidModal = () => {
     postMerchantMidResponse,
     postMerchantMidError,
     resetPostMerchantMidResponse,
-  } = useMidManagementMerchants()
+  } = useMidManagementMids(true) // Don't call GET mid details
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

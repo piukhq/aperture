@@ -24,6 +24,9 @@ export enum ButtonWidth {
   ICON_TEXT,
   TINY,
   ICON_ONLY, //TODO: Add mechanism to require alt-text for accessibility
+  SINGLE_VIEW_MID_ICON_ONLY,
+  SINGLE_VIEW_MID_SMALL,
+  SINGLE_VIEW_MID_MEDIUM,
 }
 
 export enum ButtonBackground {
@@ -82,6 +85,9 @@ export const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
   [ButtonWidth.ICON_TEXT]: 'w-[86px] px-2',
   [ButtonWidth.TINY]: 'w-[24px]',
   [ButtonWidth.ICON_ONLY]: 'w-[38px]',
+  [ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY]: 'w-[36px]',
+  [ButtonWidth.SINGLE_VIEW_MID_SMALL]: 'w-[72px]',
+  [ButtonWidth.SINGLE_VIEW_MID_MEDIUM]: 'w-[118px]',
 }
 
 export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
