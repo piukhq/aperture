@@ -38,7 +38,7 @@ const CustomerTransactions = () => {
 
   return (
     <>
-      <div className='mb-[30px]'>
+      <div className='mb-[30px] h-[42px] w-[280px]'>
         <Dropdown
           label=''
           displayValue={selectedPlanName}
