@@ -194,8 +194,8 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
           </div>
           <div className='flex flex-col h-[50px] pl-[15px]'>
             <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
-            <div className='w-[180px]'>
-              <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} />
+            <div className='w-[180px] h-[28px]'>
+              <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} selectedValueStyles='font-normal text-grey-600' />
             </div>
           </div>
         </section>
