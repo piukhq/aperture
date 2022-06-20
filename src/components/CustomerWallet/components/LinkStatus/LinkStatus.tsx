@@ -12,7 +12,7 @@ const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Pr
   const {getPaymentCardsResponse} = useCustomerWallet()
 
   const getLinkStatus = () => {
-    const paymentCardId = getPaymentCardsResponse[paymentCardIndex].id
+    const paymentCardId = getPaymentCardsResponse[paymentCardIndex]?.id
     const isPaymentCardLinkedToThisLoyaltyCard = loyaltyCardPaymentCardIds.some((id:number) => id === paymentCardId)
     return isPaymentCardLinkedToThisLoyaltyCard ? <CheckSvg fill='green' className='scale-125' alt='Linked' /> : <CloseSvg fill='red' className={'h-[15px]'} alt='Not linked'/>
   }
