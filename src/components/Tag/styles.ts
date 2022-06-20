@@ -23,6 +23,11 @@ export enum TextStyle {
   MEDIUM
 }
 
+export enum TextColour {
+  WHITE,
+  GREY
+}
+
 export const TAG_SIZE_MAPS: Record<TagSize, string> = {
   [TagSize.MEDIUM]: 'h-[38px] w-[129px]',
   [TagSize.SMALL]: 'h-[38px] w-[93px]',
@@ -46,4 +51,9 @@ export const TAG_STYLE_MAPS: Record<TagStyle, string> = {
 export const TEXT_STYLE_MAPS: Record<TextStyle, string> = {
   [TextStyle.SINGLE_LETTER]: 'text-[11px] cursor-default',
   [TextStyle.MEDIUM]: 'font-semibold text-2xs text-grey-700 cursor-default',
+}
+
+export const TEXT_COLOUR_MAPS: Record<TextColour, string> = {
+  [TextColour.WHITE]: 'text-white',
+  [TextColour.GREY]: 'text-grey-700',
 }
