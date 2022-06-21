@@ -42,9 +42,9 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
             hasShadow ? 'shadow-md' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
           )}
           >
-            {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value) => (
+            {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value, index) => (
               <Listbox.Option
-                key={value}
+                key={index}
                 value={value}
                 className='py-[7px] pl-[7px] cursor-pointer font-subheading-3 font-medium'
               >

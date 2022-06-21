@@ -1,22 +1,40 @@
 import {timeStampToDate} from 'utils/date'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+import {LoyaltyCardTransaction, Plan} from 'types'
 
-const TransactionsTable = ({transactions}) => {
+type Props = {
+  transactions: LoyaltyCardTransaction[],
+  plan: Plan,
+}
 
-  const renderTransactionRow = (transaction) => {
+const TransactionsTable = ({transactions, plan}: Props) => {
+  const isIceland = plan.slug === 'iceland-bonus-card'
+
+  const renderTransactionRow = (transaction) => { // TODO: Test accumulator transactions
     const {amounts, timestamp, description} = transaction
     const {value, currency} = amounts[0]
 
-    const rewardCell = `${value > 0 ? '+' : ''}${value} ${currency}`
-    const detailsAmountCell = description.split('£')
-    const changeCell = <ArrowDownSvg className={value > 0 ? 'rotate-180 fill-green' : 'rotate-90 fill-orange'} />
+    const rewardCell = isIceland ? 'N/A' : `${value > 0 ? '+' : ''}${value} ${currency}`
+    const detailsAmountCells = description.split('£')
+
+    const getChangeCell = () => {
+      if (value > 0) {
+        return <ArrowDownSvg className={'rotate-180 fill-green'} />
+      } else if (value < 0) {
+        return <ArrowDownSvg className={'fill-red'}/>
+      } else {
+        return <ArrowDownSvg className={'rotate-90 fill-orange'}/>
+      }
+    }
+
+    const getNullAmountCell = () => isIceland ? `£${Math.abs(value)}` : rewardCell
 
     const transactionRowArray = [
-      rewardCell,
-      timeStampToDate(timestamp),
-      detailsAmountCell[0],
-      `£${detailsAmountCell[1]}`,
-      changeCell,
+      rewardCell, // REWARD
+      timeStampToDate(timestamp), //DATE
+      detailsAmountCells[0], // DETAILS
+      detailsAmountCells[1] ? `£${detailsAmountCells[1]}` : getNullAmountCell(), // AMOUNT
+      getChangeCell(), // CHANGE
     ]
 
     return (
@@ -27,8 +45,7 @@ const TransactionsTable = ({transactions}) => {
 
   return (
     <tbody>
-      { transactions.length > 0 ? transactions.map(transaction => renderTransactionRow(transaction))
-        : <p>No transactions to show</p>}
+      { transactions.map(transaction => renderTransactionRow(transaction))}
     </tbody>
 
   )
