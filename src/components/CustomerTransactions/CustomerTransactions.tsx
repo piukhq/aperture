@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
+import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import Dropdown from 'components/Dropdown'
 import TransactionsTableBody from './components/TransactionsTableBody'
+import {Plan} from 'types'
 
 const CustomerTransactions = () => {
-  const [selectedPlanName, setSelectedPlanName] = useState('Select Plan')
   const [selectedPlan, setSelectedPlan] = useState(null)
   const {
     getLoyaltyCardsResponse,
@@ -15,10 +16,6 @@ const CustomerTransactions = () => {
     return getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
     // TODO: Refactor for Transactions AND Wallet to keep only the relevant plans for the user to reduce the number of plans to go through, probably via saving to redux?
   })
-
-  useEffect(() => {
-    getLoyaltyCardsResponse && getPlansResponse && setSelectedPlan(userPlans.find(plan => plan.account.plan_name === selectedPlanName))
-  }, [getLoyaltyCardsResponse, getPlansResponse, selectedPlanName, userPlans])
 
   const getLoyaltyCardTransactions = useCallback(() => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id)?.membership_transactions
@@ -36,18 +33,34 @@ const CustomerTransactions = () => {
     ))
   }
 
+  const renderDropdownPlan = (plan: Plan) => {
+    const {images} = plan
+    const image = images.find(image => image.type === 3)
+
+    const src = image?.url
+
+    return (
+      <div className='flex items-center ml-[5px]'>
+        <div className='h-[24px] w-[24px] mr-[10px]'>
+          {src && <Image src={src} height={24} width={24} alt='' />}
+        </div>
+
+        <p className='font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
+      </div>
+    )
+  }
+
   return (
     <>
       {getLoyaltyCardsResponse && getPlansResponse && (
         <>
           <div className='mb-[30px] h-[42px] w-[280px]'>
             <Dropdown
-              label=''
-              displayValue={selectedPlanName}
-              displayValues={userPlans.map(plan => plan.account.plan_name)}
-              onChangeDisplayValue={setSelectedPlanName}
+              displayValue={selectedPlan || 'Select Plan'}
+              displayValues={userPlans}
+              onChangeDisplayValue={setSelectedPlan}
+              renderFn={renderDropdownPlan}
               hasShadow
-              // TODO: Figure out a way of allowing the values to contain an icon as well as value.
             />
           </div>
 
