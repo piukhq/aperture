@@ -4,6 +4,8 @@ import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
+jest.mock('components/Tag', () => () => <div data-testid='tag'></div>)
+
 jest.mock('components/Modal', () => ({
   __esModule: true,
   default ({modalHeader, children}: Record<string, unknown>) {
@@ -14,6 +16,33 @@ jest.mock('components/Modal', () => ({
       </div>
     )
   },
+}))
+
+let mockDeleteMidIsLoading = false
+
+jest.mock('hooks/useMidManagementMids', () => ({
+  useMidManagementMids: jest.fn().mockImplementation(() => ({
+    deleteMerchantMid: jest.fn(),
+    deleteMerchantMidIsSuccess: false,
+    deleteMerchantMidIsLoading: mockDeleteMidIsLoading,
+    deleteMerchantMidError: null,
+    resetDeleteMerchantMidResponse: jest.fn(),
+    deleteMerchantSecondaryMid: jest.fn(),
+    deleteMerchantSecondaryMidIsSuccess: false,
+    deleteMerchantSecondaryMidIsLoading: false,
+    deleteMerchantSecondaryMidError: null,
+    resetDeleteMerchantSecondaryMidResponse: jest.fn(),
+    deleteMerchantLocation: jest.fn(),
+    deleteMerchantLocationIsSuccess: false,
+    deleteMerchantLocationIsLoading: false,
+    deleteMerchantLocationError: null,
+    resetDeleteMerchantLocationResponse: jest.fn(),
+    deleteMerchantIdentifier: jest.fn(),
+    deleteMerchantIdentifierIsSuccess: false,
+    deleteMerchantIdentifierIsLoading: false,
+    deleteMerchantIdentifierError: null,
+    resetDeleteMerchantIdentifierResponse: jest.fn(),
+  })),
 }))
 
 const mockMidRef = 'mock_mid_ref'
@@ -39,6 +68,8 @@ const mockMerchantDetailsState = {
   },
 }
 
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
 
@@ -49,8 +80,9 @@ const getDirectorySingleViewModalComponent = (passedStore = undefined) => (
 )
 
 describe('DirectorySingleViewModal', () => {
-  const useRouter = jest.spyOn(require('next/router'), 'useRouter')
   beforeEach(() => {
+    jest.clearAllMocks()
+
     useRouter.mockImplementation(() => ({
       query: {
         planId: 'mock_plan_id',
@@ -60,9 +92,12 @@ describe('DirectorySingleViewModal', () => {
       },
     }))
 
-    React.useState = jest.fn().mockReturnValueOnce(['Details', jest.fn()])
-    React.useState = jest.fn().mockReturnValueOnce(['', jest.fn()])
-    React.useState = jest.fn().mockReturnValue([null, jest.fn()])
+    React.useState = jest.fn()
+      .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
+      .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
+      .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
+      .mockReturnValue([null, jest.fn()]) // setErrorMessage
+      .mockReturnValue([false, jest.fn()]) // setIsInDeleteConfirmationState
   })
 
   it('should render the Navigation tabs', () => {
@@ -79,6 +114,46 @@ describe('DirectorySingleViewModal', () => {
   it('should render the Delete button', () => {
     render(getDirectorySingleViewModalComponent())
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
+  })
+
+  it('should render the error message', () => {
+    const mockErrorMessage = 'mock_error_message'
+
+    React.useState = jest.fn()
+      .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
+      .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
+      .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
+      .mockReturnValueOnce([mockErrorMessage, jest.fn()]) // setErrorMessage
+      .mockReturnValue([false, jest.fn()]) // setIsInDeleteConfirmationState
+
+    render(getDirectorySingleViewModalComponent())
+    expect(screen.getByText(mockErrorMessage)).toBeInTheDocument()
+  })
+
+  describe('Test is deleting state', () => {
+    it('should display', () => {
+      mockDeleteMidIsLoading = true
+      render(getDirectorySingleViewModalComponent())
+      expect(screen.getByTestId('tag')).toBeInTheDocument()
+    })
+  })
+
+  describe('Test delete confirmation state', () => {
+    beforeEach(() => {
+      React.useState = jest.fn()
+        .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
+        .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
+        .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
+        .mockReturnValueOnce([null, jest.fn()]) // setErrorMessage
+        .mockReturnValue([true, jest.fn()]) // setIsInDeleteConfirmationState
+    })
+
+    it('should display delete confirmation message with correct buttons', () => {
+      render(getDirectorySingleViewModalComponent())
+      expect(screen.getByText('Are you sure you want to delete this MID?')).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: 'Close MID delete'})).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: 'Delete MID'})).toBeInTheDocument()
+    })
   })
 })
 
