@@ -39,7 +39,7 @@ const TransactionsTable = ({transactions, plan}: Props) => {
 
     return (
       <tr className='border-b-[20px] border-transparent'>
-        {transactionRowArray.map((row, index) => <td key={index} className={'px-[9px] font-body-3'}>{row}</td>)}
+        {transactionRowArray.map((row, index) => <td key={index} className={`px-[9px] font-body-3 ${index === 0 && 'pl-[38px]'}`}>{row}</td>)}
       </tr>
     ) }
 
