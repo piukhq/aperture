@@ -13,6 +13,7 @@ const CustomerTransactions = () => {
 
   const userPlans = getLoyaltyCardsResponse?.map(loyaltyCard => {
     return getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
+    // TODO: Refactor for Transactions AND Wallet to keep only the relevant plans for the user to reduce the number of plans to go through, probably via saving to redux?
   })
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const CustomerTransactions = () => {
               displayValues={userPlans.map(plan => plan.account.plan_name)}
               onChangeDisplayValue={setSelectedPlanName}
               hasShadow
+              // TODO: Figure out a way of allowing the values to contain an icon as well as value.
             />
           </div>
 
