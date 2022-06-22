@@ -1,8 +1,7 @@
 import type {NextPage} from 'next'
-import {PageLayout, CustomerLookup, CustomerWallet, CustomerTransactions} from 'components'
+import {PageLayout, CustomerLookup, CustomerWalletsContainer} from 'components'
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken} from 'features/customerWalletSlice'
-
 
 const CustomerWalletsPage: NextPage = () => {
   const selectedJwtToken = useAppSelector(getJwtToken)
@@ -14,17 +13,9 @@ const CustomerWalletsPage: NextPage = () => {
       </section>
 
       {selectedJwtToken && (
-        // TODO: Add CustomerLookupHistory component when required
-        <>
-          <section className='mb-[30px]'>
-            <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
-            <CustomerWallet />
-          </section>
-          <section>
-            <h1 className='font-heading-4 mb-[10px]'>Transactions</h1>
-            <CustomerTransactions />
-          </section>
-        </>
+      // TODO: Add CustomerLookupHistory component when required
+
+        <CustomerWalletsContainer />
       )}
     </PageLayout>
   )

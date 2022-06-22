@@ -1,13 +1,13 @@
 import {render, screen} from '@testing-library/react'
-import CustomerWallet from 'components/CustomerWallet'
+import CustomerWallet from 'components/CustomerWalletsContainer/components/CustomerWallet'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
 
-jest.mock('components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
-jest.mock('components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
-jest.mock('components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
-jest.mock('components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
 
 jest.mock('hooks/useCustomerWallet', () => ({
   useCustomerWallet: jest.fn().mockImplementation(() => ({
@@ -75,7 +75,7 @@ const store = mockStoreFn({...mockCustomerWalletApiState})
 
 const getExternalPaymentCardComponent = () => (
   <Provider store={store}>
-    <CustomerWallet />
+    <CustomerWallet userPlans={[]} />
   </Provider>
 )
 

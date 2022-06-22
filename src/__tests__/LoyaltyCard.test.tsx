@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import LoyaltyCard from 'components/CustomerWallet/components/LoyaltyCard'
+import LoyaltyCard from 'components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard'
 
 const mockId = 12345
 const mockStatus = 'mock_status'

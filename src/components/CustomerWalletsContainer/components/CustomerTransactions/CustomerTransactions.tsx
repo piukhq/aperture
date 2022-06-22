@@ -5,17 +5,16 @@ import Dropdown from 'components/Dropdown'
 import TransactionsTableBody from './components/TransactionsTableBody'
 import {Plan} from 'types'
 
-const CustomerTransactions = () => {
+type Props = {
+  userPlans: Plan[]
+}
+
+const CustomerTransactions = ({userPlans}: Props) => {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const {
     getLoyaltyCardsResponse,
     getPlansResponse,
   } = useCustomerWallet()
-
-  const userPlans = getLoyaltyCardsResponse?.map(loyaltyCard => {
-    return getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
-    // TODO: Refactor for Transactions AND Wallet to keep only the relevant plans for the user to reduce the number of plans to go through, probably via saving to redux?
-  })
 
   const getLoyaltyCardTransactions = useCallback(() => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id)?.membership_transactions
@@ -52,6 +51,7 @@ const CustomerTransactions = () => {
 
   return (
     <>
+      <h1 className='font-heading-4 mb-[10px]'>Transactions</h1>
       {getLoyaltyCardsResponse && getPlansResponse && (
         <>
           <div className='mb-[30px] h-[42px] w-[280px]'>

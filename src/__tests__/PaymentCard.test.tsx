@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import PaymentCard from 'components/CustomerWallet/components/PaymentCard'
+import PaymentCard from 'components/CustomerWalletsContainer/components/CustomerWallet/components/PaymentCard'
 
 const mockId = 12345
 const mockStatus = 'mock_status'

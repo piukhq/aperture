@@ -10,7 +10,6 @@ type Props = {
 }
 
 const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
-
   const isPllCard = plan?.feature_set.card_type === 2
   const {id, status, images} = card
 

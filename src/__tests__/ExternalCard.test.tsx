@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import ExternalCard from 'components/CustomerWallet/components/ExternalCard'
+import ExternalCard from 'components/CustomerWalletsContainer/components/CustomerWallet/components/ExternalCard'
 
 const mockId = 12345
 
