@@ -4,7 +4,7 @@ import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-jest.mock('components/Tag', () => () => <div data-testid='tag'></div>)
+jest.mock('components/Tag', () => () => <div data-testid='deleting-tag'></div>)
 
 jest.mock('components/Modal', () => ({
   __esModule: true,
@@ -131,10 +131,10 @@ describe('DirectorySingleViewModal', () => {
   })
 
   describe('Test is deleting state', () => {
-    it('should display', () => {
+    it('should display the deleting tag', () => {
       mockDeleteMidIsLoading = true
       render(getDirectorySingleViewModalComponent())
-      expect(screen.getByTestId('tag')).toBeInTheDocument()
+      expect(screen.getByTestId('deleting-tag')).toBeInTheDocument()
     })
   })
 
