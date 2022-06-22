@@ -1,7 +1,7 @@
 import {Tag} from 'components'
 import IconImage from '../IconImage'
 import {HydratedPlan} from 'types'
-import {TagStyle, TagSize, TextStyle} from 'components/Tag/styles'
+import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 
 type Props = {
   plan: HydratedPlan
@@ -16,20 +16,20 @@ const Plan = ({plan}: Props) => (
 
     <div className='flex items-center'>
       <div className='h-[24px] w-[24px]'>
-        {plan.isDev && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.AQUAMARINE_FILLED} label='D' />}
+        {plan.isDev && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.AQUAMARINE_FILLED} label='D' />}
       </div>
 
       <div className='h-[24px] w-[24px]'>
-        {plan.isStaging && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.YELLOW_FILLED} label='S' />}
+        {plan.isStaging && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.YELLOW_FILLED} label='S' />}
       </div>
 
       <div className='h-[24px] w-[24px]'>
         {/* TODO: To be updated once sandbox is set up */}
-        {/* {plan.isSandbox && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='S' />} */}
+        {/* {plan.isSandbox && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='S' />} */}
       </div>
 
       <div className='h-[24px] w-[24px]'>
-        {plan.isProd && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={TagStyle.RED_FILLED} label='P' />}
+        {plan.isProd && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.RED_FILLED} label='P' />}
       </div>
     </div>
   </>

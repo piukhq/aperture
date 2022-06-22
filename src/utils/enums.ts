@@ -51,6 +51,13 @@ enum ImageTypes {
   ALTERNATIVE = 9
 }
 
+const DirectorySingleViewEntities = {
+  'mids': 'MID',
+  'locations': 'location',
+  'secondary-mids': 'secondary MID',
+  'identifiers': 'identifier',
+}
+
 enum DirectoryNavigationTab {
   MIDS = 'mids',
   LOCATIONS = 'locations',
@@ -119,4 +126,5 @@ export {
   PaymentSchemeName,
   PaymentSchemeStartCaseName,
   PaymentSchemeCode,
+  DirectorySingleViewEntities,
 }
