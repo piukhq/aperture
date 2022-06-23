@@ -8,11 +8,15 @@ import UserSvg from 'icons/svgs/user.svg'
 import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useAppSelector} from 'app/hooks'
+import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
+import {decodeJwtToken} from 'utils/jwtToken'
 
 const CustomerLookup = () => {
+  const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
+
   const dispatch = useDispatch()
   const selectedJwtToken = useAppSelector(getJwtToken)
-  const {getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh} = useCustomerWallet()
+  // const {getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh} = useCustomerWallet()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')
@@ -22,11 +26,28 @@ const CustomerLookup = () => {
     if (lookupTypeValue === 'JWT') { // TODO: Add better validation rules
       if(lookupTypeValue !== selectedJwtToken) { // If a previous token exists that is not this one, clear the api data
         dispatch(setJwtToken(lookupValue))
-        getLoyaltyCardsRefresh()
-        getPaymentCardsRefresh()
-        getPlansRefresh()
+        // getLoyaltyCardsRefresh()
+        // getPaymentCardsRefresh()
+        // getPlansRefresh()
+
+        const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(lookupValue)
+
+        putLookHistoryEntry({
+          user: {
+            channel,
+            user_id: userId,
+            display_text: userEmail,
+          },
+          lookup: {
+            type: lookupTypeValue,
+            datetime: JSON.stringify(new Date()),
+            // This will need to be dynamic based on the lookup type
+            criteria: lookupValue,
+          },
+        })
       }
     }
+
   }
 
   return (

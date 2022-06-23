@@ -102,7 +102,6 @@ const CustomerWallet = () => {
           {renderPaymentCards()}
           {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
           {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
-
         </>
       ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
     </div>

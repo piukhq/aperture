@@ -29,6 +29,7 @@ import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
 import {midManagementPlansApi} from 'services/midManagementPlans'
 import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {customerWalletApi} from 'services/customerWallet'
+import {customerWalletLookupHistoryApi} from 'services/customerWalletLookupHistory'
 
 const reducers = combineReducers({
   planAssets: planAssetsReducer,
@@ -46,6 +47,7 @@ const reducers = combineReducers({
   [stagingPlansApi.reducerPath]: stagingPlansApi.reducer,
   [prodPlansApi.reducerPath]: prodPlansApi.reducer,
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
+  [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
   [midManagementPlansApi.reducerPath]: midManagementPlansApi.reducer,
   [midManagementMerchantsApi.reducerPath]: midManagementMerchantsApi.reducer,
 })
@@ -75,6 +77,7 @@ export const store = configureStore({
     stagingPlansApi.middleware,
     prodPlansApi.middleware,
     customerWalletApi.middleware,
+    customerWalletLookupHistoryApi.middleware,
     midManagementPlansApi.middleware,
     midManagementMerchantsApi.middleware,
   ),
