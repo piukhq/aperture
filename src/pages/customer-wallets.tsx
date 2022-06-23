@@ -18,9 +18,9 @@ const CustomerWalletsPage: NextPage = () => {
       const {type, criteria} = lookup
 
       // TODO: Handle other types
-      // if (type === 'JWT') {
-      //   dispatch(setJwtToken(criteria as string))
-      // }
+      if (type === 'JWT') {
+        dispatch(setJwtToken(criteria as string))
+      }
     }
   }, [getCustomerLookupHistoryResponse, selectedJwtToken, dispatch])
 

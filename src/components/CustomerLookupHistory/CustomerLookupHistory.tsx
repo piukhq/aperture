@@ -5,7 +5,6 @@ import {LookupUserHistoryEntity} from 'types'
 import {shortHandMonths, determineDateSuffix} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
-import {useCustomerWallet} from 'hooks/useCustomerWallet'
 
 type Props = {
     lookupHistory: LookupUserHistoryEntity[]
@@ -13,7 +12,6 @@ type Props = {
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
-  //   const {getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh} = useCustomerWallet()
 
   const dispatch = useDispatch()
 
@@ -31,7 +29,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           {/* TODO: Add channel image */}
           <div className='h-[40px] w-[40px] rounded-[8px] bg-red' />
 
-          <div className='ml-[6px]'>
+          <div className='flex flex-col justify-center items-start ml-[6px]'>
             <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px]'}`}>{displayText}</p>
             <p className='font-body-4'>{dateString}</p>
           </div>
@@ -48,10 +46,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     // TODO: Handle other types
     if (type === 'JWT') {
       dispatch(setJwtToken(criteria as string))
-
-      //   getLoyaltyCardsRefresh()
-      //   getPaymentCardsRefresh()
-      //   getPlansRefresh()
 
       putLookHistoryEntry({
         user,

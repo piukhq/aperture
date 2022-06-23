@@ -1,5 +1,7 @@
-import React, {useCallback, useMemo} from 'react'
+import React, {useCallback, useEffect, useMemo} from 'react'
 import Image from 'next/image'
+import {useAppSelector} from 'app/hooks'
+import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
@@ -11,7 +13,19 @@ const CustomerWallet = () => {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
     getPlansResponse,
+    getLoyaltyCardsRefresh,
+    getPaymentCardsRefresh,
+    getPlansRefresh,
   } = useCustomerWallet()
+
+  const selectedJwtToken = useAppSelector(getJwtToken)
+
+  // If the selected token changes, refetch data
+  useEffect(() => {
+    getLoyaltyCardsRefresh()
+    getPaymentCardsRefresh()
+    getPlansRefresh()
+  }, [selectedJwtToken, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh])
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
