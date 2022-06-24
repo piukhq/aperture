@@ -24,8 +24,6 @@ const CustomerWalletsPage: NextPage = () => {
     }
   }, [getCustomerLookupHistoryResponse, selectedJwtToken, dispatch])
 
-  console.log(selectedJwtToken)
-
   return (
     <PageLayout>
       <div className='flex flex-col gap-[30px]'>

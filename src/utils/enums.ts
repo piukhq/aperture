@@ -15,7 +15,9 @@ enum ClientID {
 }
 
 enum BundleID {
-  BUNDLE_ID = 'com.bink.portal.internal',
+  BINK_INTERNAL_BUNDLE_ID = 'com.bink.portal.internal',
+  BINK_WALLET_BUNDLE_ID = 'com.bink.wallet',
+  BARCLAYS_BUNDLE_ID = 'com.barclays.bmb',
 }
 
 enum VerificationToken {

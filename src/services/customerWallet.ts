@@ -8,7 +8,6 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_LOYALTY_API_URL,
   prepareHeaders: (headers, {getState}) => {
     const token = (getState() as RootState).customerWallet.jwtToken
-    console.log(token)
     if (token) {
       headers.set('authorization', `Token ${token}`)
       headers.set('accept', 'application/json;v=1.3')
