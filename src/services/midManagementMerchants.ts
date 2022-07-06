@@ -1,11 +1,23 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryPlan, DirectoryMerchantMid, DirectoryMid, DirectoryMidMetadata} from 'types'
+import {
+  DirectoryPlan,
+  DirectoryMerchantMid,
+  DirectoryLocations,
+  DirectoryMid,
+  DirectoryMidMetadata,
+  DirectoryLocation,
+  DirectoryIdentifier,
+  DirectorySecondaryMid,
+} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 
 type PlansEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   midRef?: string,
+  locationRef?: string,
+  identifierRef?: string,
+  secondaryMidRef?: string,
 }
 
 type PostMerchantBody = PlansEndpointRefs & {
@@ -44,7 +56,13 @@ const endpointPrefix = '/api/v1/plans'
 export const midManagementMerchantsApi = createApi({
   reducerPath: 'midManagementMerchantsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantMid'],
+  tagTypes: [
+    'MerchantLocations',
+    'MerchantMid',
+    'MerchantLocation',
+    'MerchantIdentifier',
+    'MerchantSecondaryMid',
+  ],
   endpoints: builder => ({
     postMerchant: builder.mutation<DirectoryPlan, PostMerchantBody>({
       query: ({name, location_label, iconUrl, planRef}) => ({
@@ -65,6 +83,13 @@ export const midManagementMerchantsApi = createApi({
           name,
         },
       }),
+    }),
+    getMerchantLocations: builder.query<DirectoryLocations, PlansEndpointRefs>({
+      query: ({planRef, merchantRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/locations`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocations'],
     }),
     postMerchantMid: builder.mutation<DirectoryMid, PostMerchantMidBody>({
       query: ({onboard = false, mid_metadata, planRef, merchantRef}) => ({
@@ -118,14 +143,12 @@ export const midManagementMerchantsApi = createApi({
         ],
       }),
     }),
-    deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantEntity>({
-      query: ({planRef, merchantRef, secondaryMidRefs}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
-        method: 'POST',
-        body: [
-          ...secondaryMidRefs,
-        ],
+    getMerchantLocation: builder.query<DirectoryLocation, PlansEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/locations/${locationRef}`,
+        method: 'GET',
       }),
+      providesTags: ['MerchantLocation'],
     }),
     deleteMerchantLocation: builder.mutation<void, DeleteMerchantEntity>({
       query: ({planRef, merchantRef, locationRefs}) => ({
@@ -135,6 +158,29 @@ export const midManagementMerchantsApi = createApi({
           ...locationRefs,
         ],
       }),
+    }),
+    getMerchantSecondaryMid: builder.query<DirectorySecondaryMid, PlansEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantSecondaryMid'],
+    }),
+    deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantEntity>({
+      query: ({planRef, merchantRef, secondaryMidRefs}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
+        method: 'POST',
+        body: [
+          ...secondaryMidRefs,
+        ],
+      }),
+    }),
+    getMerchantIdentifier: builder.query<DirectoryIdentifier, PlansEndpointRefs>({
+      query: ({planRef, merchantRef, identifierRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/identifiers/${identifierRef}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantIdentifier'],
     }),
     deleteMerchantIdentifier: builder.mutation<void, DeleteMerchantEntity>({
       query: ({planRef, merchantRef, identifierRefs}) => ({
@@ -149,11 +195,15 @@ export const midManagementMerchantsApi = createApi({
 })
 
 export const {
+  useGetMerchantLocationsQuery,
+  useGetMerchantMidQuery,
+  useGetMerchantLocationQuery,
+  useGetMerchantIdentifierQuery,
+  useGetMerchantSecondaryMidQuery,
   usePostMerchantMutation,
   useDeleteMerchantMutation,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
-  useGetMerchantMidQuery,
   usePutMerchantMidLocationMutation,
   useDeleteMerchantMidLocationMutation,
   useDeleteMerchantMidMutation,

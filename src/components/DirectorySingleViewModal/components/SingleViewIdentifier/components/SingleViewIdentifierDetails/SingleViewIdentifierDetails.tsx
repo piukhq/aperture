@@ -1,13 +1,14 @@
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryIdentifier} from 'types'
-import {getSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useAppSelector} from 'app/hooks'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {DirectoryIdentifier} from 'types'
 
-const SingleViewIdentifierDetails = () => {
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity) as DirectoryIdentifier
-  const {date_added: dateAdded, identifier_metadata: identifierMetadata, identifier_status: identifierStatus} = selectedEntity
+type Props = {
+  identifier: DirectoryIdentifier
+}
+
+const SingleViewIdentifierDetails = ({identifier}: Props) => {
+  const {date_added: dateAdded, identifier_metadata: identifierMetadata, identifier_status: identifierStatus} = identifier
   const {payment_scheme_code: paymentSchemeCode} = identifierMetadata
 
   const getPaymentScheme = () => {

@@ -14,6 +14,7 @@ export const mockLocationData: DirectoryLocations = [
       town_city: 'Liverpool',
       postcode: 'L1 3D',
     },
+    location_status: 'status',
     date_added: 'Mar 21, 2019, 3:30pm',
     payment_schemes: [
       {
@@ -32,7 +33,6 @@ export const mockLocationData: DirectoryLocations = [
         count: 1,
       },
     ],
-
   },
   {
     location_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa7',
@@ -45,6 +45,7 @@ export const mockLocationData: DirectoryLocations = [
       town_city: 'Manchester',
       postcode: 'M1 1AD',
     },
+    location_status: 'status',
     date_added: 'Mar 21, 2019, 3:30pm',
     payment_schemes: [
       {
@@ -75,6 +76,7 @@ export const mockLocationData: DirectoryLocations = [
       town_city: 'London',
       postcode: 'SW1X 7RJ',
     },
+    location_status: 'status',
     date_added: 'Mar 21, 2019, 3:30pm',
     payment_schemes: [
       {

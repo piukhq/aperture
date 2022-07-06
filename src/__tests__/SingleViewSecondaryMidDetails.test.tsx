@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import SingleViewSecondaryMidDetails from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMidDetails'
+import SingleViewSecondaryMidDetails from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 

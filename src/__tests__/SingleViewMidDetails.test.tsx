@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import SingleViewMidDetails from 'components/DirectorySingleViewModal/components/SingleViewMidDetails'
+import SingleViewMidDetails from 'components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/DirectorySingleViewModal/components/SingleViewMidDetails/components/SingleViewMidEditableField', () => () => <div data-testid='SingleViewMidEditableField' />)

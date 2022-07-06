@@ -4,31 +4,17 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {ModalStyle} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, reset as merchantReset, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {reset as modalReset} from 'features/modalSlice'
+import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
-import {DirectoryEntity, DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import SingleViewMidDetails from './components/SingleViewMidDetails'
-import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
-import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 import CloseIcon from 'icons/svgs/close.svg'
-// Temporary Mock Imports for testing
-import {mockMidsData} from 'utils/mockMidsData'
-import {mockIdentifiersData} from 'utils/mockIdentifiersData'
-import {mockSecondaryMidsData} from 'utils/mockSecondaryMidsData'
-import {mockLocationData} from 'utils/mockLocationData'
-
-enum EntityApiLabel {
-  MID = 'mid',
-  SECONDARY_MID = 'secondary_mid',
-  IDENTIFIER = 'identifier',
-  LOCATION = 'location',
-}
-
-type EntityArray = DirectoryEntity[]
+import SingleViewMid from './components/SingleViewMid'
+import SingleViewIdentifier from './components/SingleViewIdentifier'
+import SingleViewSecondaryMid from './components/SingleViewSecondaryMid'
+import SingleViewLocation from './components/SingleViewLocation'
 
 const DirectorySingleViewModal = () => {
   const router = useRouter()
@@ -55,13 +41,15 @@ const DirectorySingleViewModal = () => {
     deleteMerchantIdentifierIsLoading,
     deleteMerchantIdentifierError,
     resetDeleteMerchantIdentifierResponse,
-  } = useMidManagementMids(false, planId as string, merchantId as string, ref as string)
+  } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
 
-  const [tabSelected, setTabSelected] = useState('Details')
+
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState(false)
+
+  const [isInLocationEditState, setIsInLocationEditState] = useState(false)
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
@@ -100,70 +88,6 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantIdentifierResponse,
   ])
 
-  useEffect(() => {
-    // TODO: Placeholder logic to simulate using data from API when not in redux
-    const getEntityFromApiResponse = (entityType: EntityApiLabel, apiEntityArray) => {
-      const entityFromApi = apiEntityArray.find(entity => entity[`${entityType}_ref`] === ref)
-      dispatch(setSelectedDirectoryMerchantEntity(entityFromApi))
-      return entityFromApi
-    }
-
-    // Horrible function due to inconsistency between entity types in api
-    const getDataFromEntity = (
-      entityType: EntityApiLabel,
-      apiEntityArray: EntityArray, // TODO: Placeholder, replace with function to get relevant API data if needed
-      entityHeading: string,
-      valueLabel: string // what metadata property to use to display in the table heading
-    ) => {
-      const entity = selectedEntity || getEntityFromApiResponse(entityType, apiEntityArray)
-      setEntityHeading(`${entityHeading} - ` + entity[`${entityType}_metadata`][valueLabel])
-    }
-
-    switch (tab) {
-      case DirectoryNavigationTab.MIDS:
-        return getDataFromEntity(EntityApiLabel.MID, mockMidsData, 'MID', 'mid')
-      case DirectoryNavigationTab.SECONDARY_MIDS:
-        return getDataFromEntity(EntityApiLabel.SECONDARY_MID, mockSecondaryMidsData, 'Secondary MID', 'secondary_mid')
-      case DirectoryNavigationTab.IDENTIFIERS:
-        return getDataFromEntity(EntityApiLabel.IDENTIFIER, mockIdentifiersData, 'Identifier', 'value')
-      case DirectoryNavigationTab.LOCATIONS:
-        return getDataFromEntity(EntityApiLabel.LOCATION, mockLocationData, 'Location', 'location')
-      default:
-        dispatch(merchantReset())
-        dispatch(modalReset())
-        router.isReady && router.push(`/mid-management/directory/${planId}/${merchantId}?tab=mids`)
-    }
-  }, [dispatch, selectedEntity, ref, tab, merchantId, planId, router])
-
-  const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-850 dark:hover:text-white border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-850 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
-    return ['Details', 'Comments'].map(tab => (
-      <button
-        key={tab}
-        className={tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses}
-        onClick={() => setTabSelected(tab)}
-      >
-        <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
-      </button>
-    ))
-  }
-
-  const renderEntityDetails = () => {
-    switch (tab) {
-      case DirectoryNavigationTab.MIDS:
-        return <SingleViewMidDetails setError={setErrorMessage} resetError={() => setErrorMessage(null)} />
-      case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <SingleViewSecondaryMidDetails />
-      case DirectoryNavigationTab.IDENTIFIERS:
-        return <SingleViewIdentifierDetails/>
-      case DirectoryNavigationTab.LOCATIONS:
-        return <p>Placeholder for Locations</p>
-    }
-  }
-
-  const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
-
   const handleCopyLinkClick = () => {
     navigator.clipboard.writeText(window.location.href)
     setCopyButtonClicked(true)
@@ -198,15 +122,52 @@ const DirectorySingleViewModal = () => {
 
   const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantIdentifierIsLoading
 
-  return (
-    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
-      <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
-        {renderNavigationTabs()}
-      </nav>
-      <div className='px-[25px] min-h-[300px]'>
-        {selectedEntity && tabSelected === 'Details' ? renderEntityDetails() : renderComments()}
-      </div>
-      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
+  const renderContent = () => {
+    switch (tab) {
+      case DirectoryNavigationTab.MIDS:
+        return <SingleViewMid setError={setErrorMessage} resetError={() => setErrorMessage(null)} setHeader={setEntityHeading} />
+      case DirectoryNavigationTab.SECONDARY_MIDS:
+        return <SingleViewSecondaryMid setHeader={setEntityHeading} />
+      case DirectoryNavigationTab.IDENTIFIERS:
+        return <SingleViewIdentifier setHeader={setEntityHeading} />
+      case DirectoryNavigationTab.LOCATIONS:
+        return <SingleViewLocation setHeader={setEntityHeading} isInEditState={isInLocationEditState} />
+    }
+  }
+
+  const renderFormButtons = () => {
+    if (tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) {
+      return (
+        <div className='flex w-full justify-end items-center gap-[15px]'>
+          <Button
+            handleClick={() => setIsInLocationEditState(false)}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.MEDIUM}
+            buttonBackground={ButtonBackground.LIGHT_GREY}
+            labelColour={LabelColour.GREY}
+            labelWeight={LabelWeight.SEMIBOLD}
+            ariaLabel='Cancel location edit'
+          >Cancel
+          </Button>
+
+          <Button
+            handleClick={() => null}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.MEDIUM}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.SEMIBOLD}
+            ariaLabel='Save location edit'
+          >Save
+          </Button>
+        </div>
+      )
+    }
+
+    return (
+      <>
         <Button
           handleClick={handleCopyLinkClick}
           buttonType={ButtonType.SUBMIT}
@@ -256,19 +217,44 @@ const DirectorySingleViewModal = () => {
                 label='Deleting...'
               />
             ) : (
-              <Button
-                handleClick={() => setIsInDeleteConfirmationState(true)}
-                buttonType={ButtonType.SUBMIT}
-                buttonSize={ButtonSize.MEDIUM}
-                buttonWidth={ButtonWidth.MEDIUM}
-                buttonBackground={ButtonBackground.RED}
-                labelColour={LabelColour.WHITE}
-                labelWeight={LabelWeight.SEMIBOLD}
-              >Delete
-              </Button>
+              <div className='flex gap-[15px]'>
+                {tab === DirectoryNavigationTab.LOCATIONS && (
+                  <Button
+                    handleClick={() => setIsInLocationEditState(true)}
+                    buttonType={ButtonType.SUBMIT}
+                    buttonSize={ButtonSize.MEDIUM}
+                    buttonWidth={ButtonWidth.MEDIUM}
+                    buttonBackground={ButtonBackground.LIGHT_GREY}
+                    labelColour={LabelColour.GREY}
+                    labelWeight={LabelWeight.SEMIBOLD}
+                  >Edit
+                  </Button>
+                )}
+
+                <Button
+                  handleClick={() => setIsInDeleteConfirmationState(true)}
+                  buttonType={ButtonType.SUBMIT}
+                  buttonSize={ButtonSize.MEDIUM}
+                  buttonWidth={ButtonWidth.MEDIUM}
+                  buttonBackground={ButtonBackground.RED}
+                  labelColour={LabelColour.WHITE}
+                  labelWeight={LabelWeight.SEMIBOLD}
+                >Delete
+                </Button>
+              </div>
             )}
           </>
         )}
+      </>
+    )
+  }
+
+  return (
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
+      {renderContent()}
+
+      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
+        {renderFormButtons()}
       </div>
     </Modal>
   )
