@@ -43,7 +43,6 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantIdentifierResponse,
   } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
 
-
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -249,8 +248,22 @@ const DirectorySingleViewModal = () => {
     )
   }
 
+  const handleModelClose = useCallback(() => {
+    resetDeleteMerchantMidResponse()
+    resetDeleteMerchantSecondaryMidResponse()
+    resetDeleteMerchantLocationResponse()
+    resetDeleteMerchantIdentifierResponse()
+    closeSingleViewModal()
+  }, [
+    resetDeleteMerchantMidResponse,
+    resetDeleteMerchantSecondaryMidResponse,
+    resetDeleteMerchantLocationResponse,
+    resetDeleteMerchantIdentifierResponse,
+    closeSingleViewModal,
+  ])
+
   return (
-    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={closeSingleViewModal}>
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModelClose}>
       {renderContent()}
 
       <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>

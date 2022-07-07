@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementLocation} from 'hooks/useMidManagementLocation'
 import SingleViewLocationDetails from './components/SingleViewLocationDetails'
 
@@ -21,14 +23,21 @@ const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
 
   const {getMerchantLocationResponse} = useMidManagementLocation(false, planId as string, merchantId as string, ref as string)
 
+  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
     if (getMerchantLocationResponse) {
+      if (!selectedEntity) {
+        dispatch(setSelectedDirectoryMerchantEntity(getMerchantLocationResponse))
+      }
+
       const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationResponse.location_metadata
 
       const title = name || addressLine1 || `Location ${locationId}`
       setHeader(`${isInEditState ? 'Editing - ' : ''}${title}`)
     }
-  }, [getMerchantLocationResponse, setHeader, isInEditState])
+  }, [getMerchantLocationResponse, setHeader, isInEditState, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 
@@ -64,7 +73,7 @@ const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
       <nav className='h-[60px] w-full grid grid-cols-4 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[25px] min-h-[300px]'>
+      <div className='px-[25px]'>
         {renderSelectedTabContent()}
       </div>
     </>

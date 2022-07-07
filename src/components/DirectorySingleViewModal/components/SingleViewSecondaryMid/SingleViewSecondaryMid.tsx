@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 
@@ -13,12 +15,19 @@ const SingleViewSecondaryMid = ({setHeader}: Props) => {
 
   const {getMerchantSecondaryMidResponse} = useMidManagementSecondaryMids(false, planId as string, merchantId as string, ref as string)
 
+  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
+  const dispatch = useAppDispatch()
+
   useEffect(() => {
     if (getMerchantSecondaryMidResponse) {
+      if (!selectedEntity) {
+        dispatch(setSelectedDirectoryMerchantEntity(getMerchantSecondaryMidResponse))
+      }
+
       const {secondary_mid_metadata: secondaryMidMetadata} = getMerchantSecondaryMidResponse
       setHeader(`Secondary MID - ${secondaryMidMetadata.secondary_mid}`)
     }
-  }, [getMerchantSecondaryMidResponse, setHeader])
+  }, [getMerchantSecondaryMidResponse, setHeader, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 
@@ -45,7 +54,7 @@ const SingleViewSecondaryMid = ({setHeader}: Props) => {
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[25px] min-h-[300px]'>
+      <div className='px-[25px]'>
         {tabSelected === 'Details' ? renderDetails() : renderComments()}
       </div>
     </>

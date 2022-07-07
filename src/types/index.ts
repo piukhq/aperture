@@ -202,7 +202,7 @@ export type DirectoryLocation = {
   linked_secondary_mids_count?: number,
 }
 
-export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectorySecondaryMid
+export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
 
 export type DirectoryEntities = Array<DirectoryEntity>
 
