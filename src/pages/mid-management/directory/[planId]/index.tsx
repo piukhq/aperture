@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {
@@ -34,7 +34,7 @@ const PlanDetailsPage: NextPage = () => {
   const router = useRouter()
   // const {planId} = router.query
 
-  const headerOptionsMenuItems:OptionsMenuItems = [
+  const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
     {
       label: 'Edit',
       icon: <EditSvg/>,
@@ -51,7 +51,7 @@ const PlanDetailsPage: NextPage = () => {
       isRed: true,
       clickHandler: () => console.log('Launch Delete Modal Placeholder'),
     },
-  ]
+  ], [])
 
   const renderMerchants = () => {
     return (
