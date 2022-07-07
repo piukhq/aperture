@@ -36,7 +36,7 @@ const CustomerLookup = () => {
           lookup: {
             type: lookupTypeValue,
             datetime: JSON.stringify(new Date()),
-            // This will need to be dynamic based on the lookup type
+            // TODO: This will need to be dynamic based on the lookup type
             criteria: lookupValue,
           },
         })

@@ -2,7 +2,7 @@ import React from 'react'
 import {useDispatch} from 'react-redux'
 import {setJwtToken} from 'features/customerWalletSlice'
 import {LookupUserHistoryEntity} from 'types'
-import {shortHandMonths, determineDateSuffix} from 'utils/dateFormat'
+import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
@@ -34,10 +34,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     const {datetime} = lookup
     const {channel, display_text: displayText} = user
 
-    const date = new Date(datetime)
-    const day = date.getDate()
-    const dateString = `${day}${determineDateSuffix(day)} ${shortHandMonths[date.getMonth()]} ${date.getFullYear()}`
-
     return (
       <div className='flex h-full items-center p-[6px] justify-between'>
         <div className='flex items-center'>
@@ -46,8 +42,8 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           </div>
 
           <div className='flex flex-col justify-center items-start ml-[6px]'>
-            <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px]'}`}>{displayText}</p>
-            <p className='font-body-4' data-testid='date-string'>{dateString}</p>
+            <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px] dark:text-grey-600'}`}>{displayText}</p>
+            <p className={`font-body-4 ${!isFirstEntity && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
           </div>
         </div>
 
@@ -81,7 +77,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           )
         }
         return (
-          <button data-testid='history-entity' onClick={() => handleEntityClick(historyEntity)} key={index} className='h-[52px] w-[220px] shadow-md bg-white dark:bg-grey-825 rounded-[8px]'>
+          <button data-testid='history-entity' onClick={() => handleEntityClick(historyEntity)} key={index} className='h-[52px] w-[220px] shadow-md bg-white dark:bg-grey-950 rounded-[8px]'>
             <div className='absolute h-[52px] w-[220px] bg-white rounded-[8px] bg-opacity-50 dark:bg-opacity-20' />
             {renderInnerMetadata(historyEntity)}
           </button>

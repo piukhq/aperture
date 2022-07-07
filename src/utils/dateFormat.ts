@@ -1,12 +1,21 @@
-export const shortHandMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-export const determineDateSuffix = (date: number): string => {
-  if ([1, 21, 31].includes(date)) {
-    return 'st'
-  } else if ([2, 22].includes(date)) {
-    return 'nd'
-  } else if ([3, 23].includes(date)) {
-    return 'rd'
+const numberWithOrdinal = (n: number) => {
+  const pluralRule = new Intl.PluralRules('en-GB', {type: 'ordinal'})
+  const ordinals = {
+    one: 'st',
+    two: 'nd',
+    few: 'rd',
+    many: 'th',
+    zero: 'th',
+    other: 'th',
   }
-  return 'th'
+  return `${n}${ordinals[pluralRule.select(n)]}`
+}
+
+export const timeStampToDate = (timestamp: number | string) => {
+  const time = typeof(timestamp) === 'number' ? timestamp * 1000 : timestamp
+  const date = new Date(time)
+  const day = numberWithOrdinal(date.getDate())
+  const month = date.toLocaleString('default', {month: 'long'})
+  const year = date.getFullYear()
+  return `${day} ${month} ${year}`
 }
