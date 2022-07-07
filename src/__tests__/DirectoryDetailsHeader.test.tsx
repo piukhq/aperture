@@ -3,20 +3,22 @@ import {render, screen} from '@testing-library/react'
 import {DirectoryDetailsHeader} from 'components'
 
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />) // TODO: To be updated with new plan modal implementation
+jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 jest.mock('components/DirectoryBreadcrumb', () => () => <div data-testid='breadcrumb' />)
+jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
 
 const mockName = 'mock_name'
 const mockIconUrl = '/mock_url'
 const mockSlug = 'mock_slug'
 const mockPlanId = 1234
 const mockLocationLabel = 'mock_cafe'
+const mockOptionsMenuItems = [{label: 'mock_option_1', icon: jest.fn(), clickHandler: jest.fn()}]
 
 const getDirectoryDetailsHeaderPlanComponent = () => (
-  <DirectoryDetailsHeader name={mockName} iconUrl={mockIconUrl} slug={mockSlug} planId={mockPlanId} newItemButtonHandler={() => null} />
+  <DirectoryDetailsHeader name={mockName} iconUrl={mockIconUrl} slug={mockSlug} planId={mockPlanId} newItemButtonHandler={() => null} optionsMenuItems={mockOptionsMenuItems}/>
 )
 const getDirectoryDetailsHeaderMerchantComponent = () => (
-  <DirectoryDetailsHeader name={mockName} iconUrl={mockIconUrl} slug={mockSlug} planId={mockPlanId} locationLabel={mockLocationLabel} isMerchant />
+  <DirectoryDetailsHeader name={mockName} iconUrl={mockIconUrl} slug={mockSlug} planId={mockPlanId} locationLabel={mockLocationLabel} optionsMenuItems={mockOptionsMenuItems} isMerchant />
 )
 
 describe('DirectoryDetailsHeader', () => {
@@ -45,11 +47,10 @@ describe('DirectoryDetailsHeader', () => {
     expect(screen.queryByTestId('icon-image')).toBeInTheDocument()
   })
 
-  it('should render the Options button', () => {
+  it('should render the OptionsMenuButton component', () => {
     render(getDirectoryDetailsHeaderPlanComponent())
-    expect(screen.getByRole('button', {name: 'Options'})).toBeInTheDocument()
+    expect(screen.getByTestId('options-menu-button')).toBeInTheDocument()
   })
-
 
   describe('Plan-specific behavior', () => {
     it('should not render the location label', () => {
@@ -76,7 +77,6 @@ describe('DirectoryDetailsHeader', () => {
       expect(locationLabel).toBeInTheDocument()
       expect(locationLabelHeader).toBeInTheDocument()
     })
-
     it('should not render the New Merchant button', () => {
       render(getDirectoryDetailsHeaderMerchantComponent())
       expect(screen.queryByRole('button', {name: 'New Merchant'})).not.toBeInTheDocument()

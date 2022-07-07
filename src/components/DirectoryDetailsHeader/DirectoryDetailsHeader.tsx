@@ -1,8 +1,8 @@
 import Image from 'next/image'
-import {Button, DirectoryBreadcrumb} from 'components'
-import DotsSvg from 'icons/svgs/dots.svg'
+import {Button, DirectoryBreadcrumb, OptionsMenuButton} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
-import {ButtonBackground, ButtonWidth, ButtonSize, BorderColour, LabelColour, LabelWeight} from 'components/Button/styles'
+import {ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
+import {OptionsMenuItems} from 'types'
 
 type Props = {
   planId: number,
@@ -12,9 +12,10 @@ type Props = {
   locationLabel?:string,
   isMerchant?: boolean,
   newItemButtonHandler?: () => void
+  optionsMenuItems: OptionsMenuItems,
 }
 
-const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locationLabel, newItemButtonHandler}: Props) => {
+const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locationLabel, newItemButtonHandler, optionsMenuItems}: Props) => {
 
   const renderLocationLabel = () => (
     <>
@@ -74,13 +75,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
 
           <div className='flex gap-[22px]'>
             {!isMerchant && renderNewMerchantButton()}
-            <Button
-              handleClick={() => console.log('More Options button clicked')}
-              buttonSize={ButtonSize.MEDIUM_ICON}
-              buttonWidth={ButtonWidth.ICON_ONLY}
-              borderColour={BorderColour.GREY}
-              ariaLabel='Options'
-            ><DotsSvg/></Button>
+            <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
           </div>
         </div>
       </div>

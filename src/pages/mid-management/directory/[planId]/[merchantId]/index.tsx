@@ -17,6 +17,9 @@ import {requestModal, selectModal} from 'features/modalSlice'
 import {ModalType, DirectoryNavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
 import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
+import EditSvg from 'icons/svgs/project.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
+import {OptionsMenuItems} from 'types'
 
 const MerchantDetailsPage: NextPage = () => {
   const router = useRouter()
@@ -89,12 +92,26 @@ const MerchantDetailsPage: NextPage = () => {
     ))
   }
 
+  const optionsMenuItems:OptionsMenuItems = [
+    {
+      label: 'Edit',
+      icon: <EditSvg/>,
+      clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+    },
+    {
+      label: 'Delete',
+      icon: <DeleteSvg/>,
+      isRed: true,
+      clickHandler: () => console.log('Launch Delete Modal Placeholder'),
+    },
+  ]
+
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
       <PageLayout>
-        <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant />
+        <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
         <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
           <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
             {renderNavigationTabs()}
