@@ -77,7 +77,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           )
         }
         return (
-          <button data-testid='history-entity' onClick={() => handleEntityClick(historyEntity)} key={index} className='h-[52px] w-[220px] shadow-md bg-white dark:bg-grey-950 rounded-[8px]'>
+          <button data-testid='previous-history-entity' onClick={() => handleEntityClick(historyEntity)} key={index} className='h-[52px] w-[220px] shadow-md bg-white dark:bg-grey-950 rounded-[8px]'>
             <div className='absolute h-[52px] w-[220px] bg-white rounded-[8px] bg-opacity-50 dark:bg-opacity-20' />
             {renderInnerMetadata(historyEntity)}
           </button>
