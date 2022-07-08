@@ -100,12 +100,6 @@ describe('DirectorySingleViewModal', () => {
       .mockReturnValue([false, jest.fn()]) // setIsInDeleteConfirmationState
   })
 
-  it('should render the Navigation tabs', () => {
-    render(getDirectorySingleViewModalComponent())
-    expect(screen.getByText('Details')).toBeInTheDocument()
-    expect(screen.getByText('Comments')).toBeInTheDocument()
-  })
-
   it('should render the Copy Link button', () => {
     render(getDirectorySingleViewModalComponent())
     expect(screen.getByRole('button', {name: 'Copy link'})).toBeInTheDocument()
@@ -120,7 +114,6 @@ describe('DirectorySingleViewModal', () => {
     const mockErrorMessage = 'mock_error_message'
 
     React.useState = jest.fn()
-      .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
       .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
       .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
       .mockReturnValueOnce([mockErrorMessage, jest.fn()]) // setErrorMessage
@@ -141,7 +134,6 @@ describe('DirectorySingleViewModal', () => {
   describe('Test delete confirmation state', () => {
     beforeEach(() => {
       React.useState = jest.fn()
-        .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
         .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
         .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
         .mockReturnValueOnce([null, jest.fn()]) // setErrorMessage

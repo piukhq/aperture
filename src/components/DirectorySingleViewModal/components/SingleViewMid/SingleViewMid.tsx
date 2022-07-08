@@ -7,9 +7,9 @@ import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
 
 type Props = {
-    resetError: () => void
-    setError: (errorMessage: string) => void
-    setHeader: (header: string) => void
+  resetError: () => void
+  setError: (errorMessage: string) => void
+  setHeader: (header: string) => void
 }
 
 const SingleViewMid = ({setError, resetError, setHeader}: Props) => {

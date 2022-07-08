@@ -1,3 +1,4 @@
+import React from 'react'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -80,4 +81,4 @@ const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
   )
 }
 
-export default SingleViewLocation
+export default React.memo(SingleViewLocation)

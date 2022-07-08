@@ -1,3 +1,4 @@
+import React from 'react'
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -61,4 +62,4 @@ const SingleViewSecondaryMid = ({setHeader}: Props) => {
   )
 }
 
-export default SingleViewSecondaryMid
+export default React.memo(SingleViewSecondaryMid)

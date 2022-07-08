@@ -31,12 +31,11 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
 
   const [isPhysicalLocation, setIsPhysicalLocation] = useState(is_physical_location)
 
-
   const renderEditState = () => {
     return (
-      <form>
+      <form data-testid='location-editing-form'>
         {/* Identifiers */}
-        <section>
+        <section data-testid='identifiers-section'>
           <h2 className='font-single-view-heading pb-[19px]'>IDENTIFIERS</h2>
 
           <TextInputGroup
@@ -83,14 +82,14 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
         </section>
 
         {/* Is physical address */}
-        <div className='flex py-[18px] items-center'>
-          <input type='checkbox' className='flex h-[16px] w-[16px]' checked={isPhysicalLocation} onClick={(e) => e.stopPropagation()} onChange={() => setIsPhysicalLocation(!isPhysicalLocation)} />
-          <p className='ml-[12.5px]'>Physical location</p>
+        <div className='flex pt-[18px] items-center'>
+          <input data-testid='is-physical-location-checkbox' type='checkbox' className='flex h-[16px] w-[16px]' checked={isPhysicalLocation} onClick={(e) => e.stopPropagation()} onChange={() => setIsPhysicalLocation(!isPhysicalLocation)} />
+          <p className='ml-[12.5px] dark:text-white'>Physical location</p>
         </div>
 
         {/* Address */}
         {isPhysicalLocation && (
-          <section>
+          <section data-testid='address-section' className='pt-[18px]'>
             <h2 className='font-single-view-heading pb-[19px]'>ADDRESS</h2>
 
             <div className='flex flex-col gap-[24px]'>
@@ -185,16 +184,17 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
   const renderReadOnlyState = () => {
     return (
       <div className='grid grid-cols-2 gap-[32px]'>
-        <div>
+        <section>
           <h2 className='font-single-view-heading'>DATE ADDED</h2>
           <p className='font-single-view-data'>{dateAdded}</p>
-        </div>
-        <div>
+        </section>
+
+        <section>
           <h2 className='font-single-view-heading'>LOCATION ID</h2>
           <p className='font-single-view-data'>{locationId}</p>
-        </div>
+        </section>
 
-        <div>
+        <section>
           <h2 className='font-single-view-heading'>ADDRESS</h2>
           {addressLine1 && <p className='font-single-view-data'>{addressLine1}</p>}
           {addressLine2 && <p className='font-single-view-data'>{addressLine2}</p>}
@@ -202,28 +202,29 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
           {county && <p className='font-single-view-data'>{county}</p>}
           {country && <p className='font-single-view-data'>{country}</p>}
           {postcode && <p className='font-single-view-data'>{postcode}</p>}
-        </div>
+        </section>
 
         <div className='flex flex-col gap-[32px]'>
-          <div>
+          <section>
             <h2 className='font-single-view-heading'>MERCHANT ID</h2>
             <p className='font-single-view-data'>{merchantInternalId}</p>
-          </div>
-          <div>
+          </section>
+
+          <section>
             <h2 className='font-single-view-heading'>NUMBER OF MIDS</h2>
             <p className='font-single-view-data'>{linkedMidsCount}</p>
-          </div>
+          </section>
         </div>
 
-        <div>
+        <section>
           <h2 className='font-single-view-heading'>PHYSICAL LOCATION</h2>
           <p className='font-single-view-data'>{isPhysicalLocation ? 'Yes' : 'No'}</p>
-        </div>
+        </section>
 
-        <div>
+        <section>
           <h2 className='font-single-view-heading'>SECONDARY MIDS</h2>
           <p className='font-single-view-data'>{linkedSecondaryMidsCount}</p>
-        </div>
+        </section>
       </div>
     )
   }

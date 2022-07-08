@@ -3,7 +3,8 @@ import {render, screen} from '@testing-library/react'
 import SingleViewMidDetails from 'components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
-jest.mock('components/DirectorySingleViewModal/components/SingleViewMidDetails/components/SingleViewMidEditableField', () => () => <div data-testid='SingleViewMidEditableField' />)
+jest.mock('components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField',
+  () => () => <div data-testid='SingleViewMidEditableField' />)
 
 const mockVisaBin = 'mock_visa_bin'
 const mockDateAdded = 'mock_date_added'
@@ -13,15 +14,18 @@ let mockPatchErrorResponse = null
 let mockPutErrorResponse = null
 let mockDeleteErrorResponse = null
 
-const mockGetMidResponse = {
+const mockMerchantMid = {
   location: {
+    link_ref: '',
     location_ref: '',
     location_title: '',
   },
   mid: {
+    mid_ref: '',
     date_added: mockDateAdded,
     txm_status: mockTxmStatus,
     mid_metadata: {
+      mid: '',
       payment_scheme_code: 1,
       visa_bin: mockVisaBin,
       payment_enrolment_status: '',
@@ -29,15 +33,54 @@ const mockGetMidResponse = {
   },
 }
 
+const mockGetLocationsResponse = [
+  {
+    location_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    location_metadata: {
+      name: 'HARVEY NICHOLS',
+      location_id: '0018',
+      merchant_internal_id: '1234',
+      is_physical_location: true,
+      address_line_1: '16 Manesty\'s Lane',
+      town_city: 'Liverpool',
+      postcode: 'L1 3D',
+    },
+    location_status: 'status',
+    date_added: 'Mar 21, 2019, 3:30pm',
+    payment_schemes: [
+      {
+        label: 'VISA',
+        scheme_code: 1,
+        count: 1,
+      },
+      {
+        label: 'MASTERCARD',
+        scheme_code: 2,
+        count: 2,
+      },
+      {
+        label: 'AMEX',
+        scheme_code: 3,
+        count: 1,
+      },
+    ],
+  },
+]
+
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
-    getMerchantMidResponse: mockGetMidResponse,
     patchMerchantMid: jest.fn(),
     patchMerchantMidError: mockPatchErrorResponse,
     patchMerchantMidIsLoading: null,
     resetPatchMerchantMidResponse: jest.fn(),
     putMerchantMidLocationError: mockPutErrorResponse,
     deleteMerchantMidLocationError: mockDeleteErrorResponse,
+  })),
+}))
+
+jest.mock('hooks/useMidManagementLocations', () => ({
+  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+    getMerchantLocationsResponse: mockGetLocationsResponse,
   })),
 }))
 
@@ -55,6 +98,7 @@ const mockSetError = jest.fn()
 const mockProps = {
   resetError: jest.fn(),
   setError: mockSetError,
+  merchantMid: mockMerchantMid,
 }
 
 const getSingleViewMidDetailsComponent = (passedProps = {}) => (
