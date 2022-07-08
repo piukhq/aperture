@@ -14,6 +14,9 @@ jest.mock('hooks/useCustomerWallet', () => ({
     getPaymentCardsResponse: [mockPaymentCard],
     getLoyaltyCardsResponse: [mockLoyaltyCard],
     getPlansResponse: [mockPlan],
+    getLoyaltyCardsRefresh: jest.fn(),
+    getPaymentCardsRefresh: jest.fn(),
+    getPlansRefresh: jest.fn(),
   })),
 }))
 
@@ -70,7 +73,11 @@ const mockPlan = {
 }
 
 const mockStoreFn = configureStore([])
-const mockCustomerWalletApiState = {}
+const mockCustomerWalletApiState = {
+  customerWallet: {
+    jwtToken: '',
+  },
+}
 const store = mockStoreFn({...mockCustomerWalletApiState})
 
 const getExternalPaymentCardComponent = () => (

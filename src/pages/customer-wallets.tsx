@@ -1,26 +1,50 @@
 import type {NextPage} from 'next'
-import {PageLayout, CustomerLookup, CustomerWallet} from 'components'
+import {useEffect} from 'react'
+import {useDispatch} from 'react-redux'
+import {PageLayout, CustomerLookup, CustomerWallet, CustomerLookupHistory} from 'components'
 import {useAppSelector} from 'app/hooks'
-import {getJwtToken} from 'features/customerWalletSlice'
+import {getJwtToken, setJwtToken} from 'features/customerWalletSlice'
+import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
 
 const CustomerWalletsPage: NextPage = () => {
-
   const selectedJwtToken = useAppSelector(getJwtToken)
+  const {getCustomerLookupHistoryResponse} = useGetCustomerWalletLookupHistory()
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (getCustomerLookupHistoryResponse && getCustomerLookupHistoryResponse.length > 0 && !selectedJwtToken) {
+      const {lookup} = getCustomerLookupHistoryResponse[0]
+      const {type, criteria} = lookup
+
+      // TODO: Handle other types
+      if (type === 'JWT') {
+        dispatch(setJwtToken(criteria as string))
+      }
+    }
+  }, [getCustomerLookupHistoryResponse, selectedJwtToken, dispatch])
 
   return (
     <PageLayout>
-      <section className='mb-[30px]'>
-        <CustomerLookup />
-      </section>
-
-      {selectedJwtToken && (
-        // TODO: Add CustomerLookupHistory component when required
+      <div className='flex flex-col gap-[30px]'>
         <section>
-          <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
-          <CustomerWallet />
+          <CustomerLookup />
         </section>
-        // TODO: Add CustomerTransactions component when required
-      )}
+
+        {getCustomerLookupHistoryResponse && getCustomerLookupHistoryResponse.length > 0 && (
+          <section>
+            <CustomerLookupHistory lookupHistory={getCustomerLookupHistoryResponse} />
+          </section>
+        )}
+
+        {selectedJwtToken && (
+          <section>
+            <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
+            <CustomerWallet />
+          </section>
+          // TODO: Add CustomerTransactions component when required
+        )}
+      </div>
     </PageLayout>
   )
 }
