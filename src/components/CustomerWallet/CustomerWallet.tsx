@@ -77,17 +77,21 @@ const CustomerWallet = () => {
   const renderLoyaltyCardsRow = (loyaltyCard) => {
     // TODO: As this is the only place where we need to look through the plans, we can look through them all. But should refactor for Transactions to keep only the relevant plans for the user.
     const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
-    const {id, payment_cards: paymentCards} = loyaltyCard
-    return (
-      <div key={id} className='flex space-between mb-[17px]'>
-        <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
-        <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
-          {getAllPaymentCardIds().map((_, index) => (
-            <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
-          ))}
+
+    if (plan) {
+      const {id, payment_cards: paymentCards} = loyaltyCard
+      return (
+        <div key={id} className='flex space-between mb-[17px]'>
+          <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
+          <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
+            {getAllPaymentCardIds().map((_, index) => (
+              <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
+            ))}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+    return null
   }
 
   // Render the loyalty cards and status that were found on the payment cards for the user

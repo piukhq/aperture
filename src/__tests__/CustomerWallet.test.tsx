@@ -3,22 +3,10 @@ import CustomerWallet from 'components/CustomerWallet'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-
 jest.mock('components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
 jest.mock('components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
 jest.mock('components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
 jest.mock('components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
-
-jest.mock('hooks/useCustomerWallet', () => ({
-  useCustomerWallet: jest.fn().mockImplementation(() => ({
-    getPaymentCardsResponse: [mockPaymentCard],
-    getLoyaltyCardsResponse: [mockLoyaltyCard],
-    getPlansResponse: [mockPlan],
-    getLoyaltyCardsRefresh: jest.fn(),
-    getPaymentCardsRefresh: jest.fn(),
-    getPlansRefresh: jest.fn(),
-  })),
-}))
 
 const mockMatchingId = 12345
 const mockPlanNumber = 123
@@ -61,6 +49,9 @@ const mockLoyaltyCard = {
 }
 
 const mockPlan = {
+  feature_set: {
+    card_type: 1,
+  },
   account: {
     plan_name: 'mock_plan_name',
     category: 'mock_category',
@@ -68,9 +59,21 @@ const mockPlan = {
     company_url: 'mock_company_url',
     plan_url: 'mock_plan_url',
   },
-  id: 1234,
+  id: mockPlanNumber,
   membership_cards: [{id: 'mock_plan_id', link_active: true}],
 }
+
+jest.mock('hooks/useCustomerWallet', () => ({
+  useCustomerWallet: jest.fn().mockImplementation(() => ({
+    getPaymentCardsResponse: [mockPaymentCard],
+    getLoyaltyCardsResponse: [mockLoyaltyCard],
+    getPlansResponse: [mockPlan],
+    getLoyaltyCardsRefresh: jest.fn(),
+    getPaymentCardsRefresh: jest.fn(),
+    getPlansRefresh: jest.fn(),
+  })),
+}))
+
 
 const mockStoreFn = configureStore([])
 const mockCustomerWalletApiState = {
@@ -80,7 +83,7 @@ const mockCustomerWalletApiState = {
 }
 const store = mockStoreFn({...mockCustomerWalletApiState})
 
-const getExternalPaymentCardComponent = () => (
+const getCustomerWalletComponent = () => (
   <Provider store={store}>
     <CustomerWallet />
   </Provider>
@@ -90,23 +93,27 @@ describe('CustomerWallet', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
+
   it('should render the correct number of Loyalty Cards', () => {
-    render(getExternalPaymentCardComponent())
+    render(getCustomerWalletComponent())
 
     expect(screen.getAllByTestId('loyalty-card')).toHaveLength(1)
   })
+
   it('should render the correct number of Payment Cards', () => {
-    render(getExternalPaymentCardComponent())
+    render(getCustomerWalletComponent())
 
     expect(screen.getAllByTestId('payment-card')).toHaveLength(1)
   })
+
   it('should render the correct number of External Cards', () => {
-    render(getExternalPaymentCardComponent())
+    render(getCustomerWalletComponent())
 
     expect(screen.getAllByTestId('external-card')).toHaveLength(1)
   })
+
   it('should render the correct number of Link Statuses', () => {
-    render(getExternalPaymentCardComponent())
+    render(getCustomerWalletComponent())
 
     expect(screen.getAllByTestId('link-status')).toHaveLength(2)
   })
