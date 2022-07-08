@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {
@@ -13,6 +13,7 @@ import {DirectoryPlanDetails, OptionsMenuItems} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import OffboardSvg from 'icons/svgs/close-square.svg'
 
 const PlanDetailsPage: NextPage = () => {
   // TODO: Swap out for real api data
@@ -32,6 +33,25 @@ const PlanDetailsPage: NextPage = () => {
   // TODO: Use plan ID from URL to query for specific plan
   const router = useRouter()
   // const {planId} = router.query
+
+  const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
+    {
+      label: 'Edit',
+      icon: <EditSvg/>,
+      clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+    },
+    {
+      label: 'Offboard from Harmonia',
+      icon: <OffboardSvg/>,
+      clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
+    },
+    {
+      label: 'Delete',
+      icon: <DeleteSvg/>,
+      isRed: true,
+      clickHandler: () => console.log('Launch Delete Modal Placeholder'),
+    },
+  ], [])
 
   const renderMerchants = () => {
     return (
@@ -57,7 +77,7 @@ const PlanDetailsPage: NextPage = () => {
             router.push(`${router?.asPath}/${merchant_ref}?tab=mids`)
           }
 
-          const optionsMenuItems:OptionsMenuItems = [
+          const tileOptionsMenuItems:OptionsMenuItems = [
             {
               label: 'Edit',
               icon: <EditSvg/>,
@@ -71,7 +91,7 @@ const PlanDetailsPage: NextPage = () => {
             },
           ]
 
-          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={optionsMenuItems} viewClickFn={handleViewClick} />
+          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={tileOptionsMenuItems} viewClickFn={handleViewClick} />
         })}
       </div>
     )
@@ -82,7 +102,7 @@ const PlanDetailsPage: NextPage = () => {
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
       <PageLayout>
-        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} />
+        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
         {merchants.length > 0 && renderMerchants()}
       </PageLayout>
     </>
