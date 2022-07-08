@@ -7,15 +7,15 @@ import {useMidManagementLocation} from 'hooks/useMidManagementLocation'
 import SingleViewLocationDetails from './components/SingleViewLocationDetails'
 
 type Props = {
-    setHeader: (header: string) => void
-    isInEditState: boolean
+  setHeader: (header: string) => void
+  isInEditState: boolean
 }
 
 enum SingleViewLocationTabs {
-    DETAILS = 'Details',
-    MIDS = 'MIDs',
-    SECONDARY_MIDS = 'Secondary MIDs',
-    COMMENTS = 'Comments'
+  DETAILS = 'Details',
+  MIDS = 'MIDs',
+  SECONDARY_MIDS = 'Secondary MIDs',
+  COMMENTS = 'Comments'
 }
 
 const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
