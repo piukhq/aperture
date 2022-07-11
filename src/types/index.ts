@@ -274,6 +274,7 @@ export type LoyaltyVoucher = { // TODO: May require adjustment for different vou
   earn: {
     type: string,
     value: number,
+    prefix?: string,
     suffix: string,
     target_value: number,
   },

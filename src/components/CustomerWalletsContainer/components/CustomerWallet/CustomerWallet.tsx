@@ -7,12 +7,16 @@ import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
 import LinkStatus from './components/LinkStatus'
 import ExternalCard from './components/ExternalCard'
+import {Plan} from 'types'
 
-const CustomerWallet = () => {
+type Props = {
+  userPlans: Plan[]
+}
+
+const CustomerWallet = ({userPlans}: Props) => {
   const {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
-    getPlansResponse,
     getLoyaltyCardsRefresh,
     getPaymentCardsRefresh,
     getPlansRefresh,
@@ -73,11 +77,10 @@ const CustomerWallet = () => {
     return getPaymentCardsResponse?.map((paymentCard) => paymentCard.id)
       .concat(externalPaymentCardIds)
   }, [externalPaymentCardIds, getPaymentCardsResponse])
+
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
-    // TODO: As this is the only place where we need to look through the plans, we can look through them all. But should refactor for Transactions to keep only the relevant plans for the user.
-    const plan = getPlansResponse?.find((plan) => plan.id === loyaltyCard.membership_plan)
-
+    const plan = userPlans.find((plan) => plan.id === loyaltyCard.membership_plan)
     if (plan) {
       const {id, payment_cards: paymentCards} = loyaltyCard
       return (
@@ -114,15 +117,18 @@ const CustomerWallet = () => {
   }
 
   return (
-    <div className={'bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'}>
-      { getLoyaltyCardsResponse && getPaymentCardsResponse && getPlansResponse ? (
-        <>
-          {renderPaymentCards()}
-          {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
-          {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
-        </>
-      ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
-    </div>
+    <>
+      <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
+      <div className={'bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'}>
+        { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
+          <>
+            {renderPaymentCards()}
+            {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+            {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
+          </>
+        ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
+      </div>
+    </>
   )
 }
 

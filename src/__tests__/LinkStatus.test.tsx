@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import LinkStatus from 'components/CustomerWallet/components/LinkStatus'
+import LinkStatus from 'components/CustomerWalletsContainer/components/CustomerWallet/components/LinkStatus'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 

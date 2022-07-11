@@ -18,21 +18,23 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
     return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt='Plan icon'/>
   }
 
-  const getBalanceString = (loyaltyCard, plan) => {
+  const getBalanceString = (loyaltyCard: LoyaltyCard, plan: Plan) => {
     if (plan.slug === 'iceland-bonus-card') {
       return `${loyaltyCard.balances[0].prefix}${loyaltyCard.balances[0].value} spent`
     }
 
-    if (plan.feature_set.has_points && loyaltyCard.balances.length > 0) {
-      return `${loyaltyCard.balances[0].value} ${loyaltyCard.balances[0].suffix}`
-    }
-
     const currentVoucherEarn = loyaltyCard.vouchers?.find((voucher) => voucher.state === 'inprogress').earn
 
-    if (currentVoucherEarn?.type === 'stamps') {
-      return `${currentVoucherEarn.value} ${currentVoucherEarn.suffix}`
-    } else if (currentVoucherEarn?.type === 'accumulator') {
-      return `${currentVoucherEarn.value} / ${currentVoucherEarn.target_value} spent`
+    if(currentVoucherEarn) {
+      const {value, type, prefix, suffix, target_value: targetValue} = currentVoucherEarn
+      if (type === 'stamps') {
+        return `${value} ${suffix}`
+      } else if (type === 'accumulator') {
+        return `${prefix}${value} / ${prefix}${targetValue} spent`
+      }
+    }
+    if (plan.feature_set.has_points && loyaltyCard.balances.length > 0) {
+      return `${loyaltyCard.balances[0].value} ${loyaltyCard.balances[0].suffix}`
     }
     return 'N/A'
   }

@@ -1,12 +1,13 @@
 import {render, screen} from '@testing-library/react'
-import CustomerWallet from 'components/CustomerWallet'
+import CustomerWallet from 'components/CustomerWalletsContainer/components/CustomerWallet'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-jest.mock('components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
-jest.mock('components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
-jest.mock('components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
-jest.mock('components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
+
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
+jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
 
 const mockMatchingId = 12345
 const mockPlanNumber = 123
@@ -49,18 +50,30 @@ const mockLoyaltyCard = {
 }
 
 const mockPlan = {
+  id: mockPlanNumber,
+  account: {
+    add_fields: [],
+    authorise_fields: [],
+    category: '',
+    company_name: '',
+    company_url: '',
+    enrol_fields: [],
+    fees: [],
+    plan_documents: [],
+    plan_name: '',
+    plan_url: '',
+    registration_fields: [],
+    tiers: [],
+  },
   feature_set: {
     card_type: 1,
   },
-  account: {
-    plan_name: 'mock_plan_name',
-    category: 'mock_category',
-    company_name: 'mock_company_name',
-    company_url: 'mock_company_url',
-    plan_url: 'mock_plan_url',
-  },
-  id: mockPlanNumber,
-  membership_cards: [{id: 'mock_plan_id', link_active: true}],
+  card: {},
+  uid: '',
+  status: '',
+  balances: [],
+  images: [],
+  slug: '',
 }
 
 jest.mock('hooks/useCustomerWallet', () => ({
@@ -85,7 +98,7 @@ const store = mockStoreFn({...mockCustomerWalletApiState})
 
 const getCustomerWalletComponent = () => (
   <Provider store={store}>
-    <CustomerWallet />
+    <CustomerWallet userPlans={[mockPlan]} />
   </Provider>
 )
 

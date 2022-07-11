@@ -4,14 +4,15 @@ import TriangleDownSvg from 'icons/svgs/triangle-down.svg'
 
 type Props = {
   label?: string
-  displayValue: string
-  displayValues: string[]
+  displayValue: string | unknown
+  displayValues: string[] | unknown[]
   hasShadow?: boolean
   onChangeDisplayValue: (displayValue: string) => void
   selectedValueStyles?: string
+  renderFn?: (item: unknown) => JSX.Element
 }
 
-const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow, selectedValueStyles = ''}: Props) => (
+const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow, selectedValueStyles = '', renderFn}: Props) => (
   <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue}
     className='flex h-full w-auto'
   >
@@ -29,7 +30,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
           <span className={classNames(
             'font-subheading-3 font-medium truncate',
             selectedValueStyles
-          )}>{displayValue}</span>
+          )}>{(typeof(displayValue) !== 'string' && renderFn) ? renderFn(displayValue) : displayValue}</span>
 
           <div className='flex justify-center items-center min-w-[28px] ml-[42px] h-full border-l border-grey-200 dark:border-grey-800'>
             <TriangleDownSvg className={classNames(open && 'rotate-180')} />
@@ -38,18 +39,17 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
 
         {open && (
           <Listbox.Options static className={classNames(
-            'absolute z-10 w-full bg-white dark:bg-grey-825 rounded-b-[10px] overflow-y-auto max-h-[200px]',
+            'absolute z-10 w-full bg-white dark:bg-grey-825 rounded-b-[10px] overflow-y-auto max-h-[200px] pb-[8px]',
             hasShadow ? 'shadow-md' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
-
           )}
           >
-            {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value) => (
+            {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value, index) => (
               <Listbox.Option
-                key={value}
+                key={index}
                 value={value}
                 className='py-[7px] pl-[7px] cursor-pointer font-subheading-3 font-medium'
               >
-                {value}
+                {renderFn ? renderFn(value) : value}
               </Listbox.Option>
             ))}
           </Listbox.Options>

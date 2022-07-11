@@ -1,7 +1,7 @@
 import type {NextPage} from 'next'
 import {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
-import {PageLayout, CustomerLookup, CustomerWallet, CustomerLookupHistory} from 'components'
+import {PageLayout, CustomerLookup, CustomerLookupHistory, CustomerWalletsContainer} from 'components'
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken, setJwtToken} from 'features/customerWalletSlice'
 import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
@@ -37,13 +37,7 @@ const CustomerWalletsPage: NextPage = () => {
           </section>
         )}
 
-        {selectedJwtToken && (
-          <section>
-            <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
-            <CustomerWallet />
-          </section>
-          // TODO: Add CustomerTransactions component when required
-        )}
+        {selectedJwtToken && <CustomerWalletsContainer />}
       </div>
     </PageLayout>
   )

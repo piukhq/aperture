@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import LoyaltyCard from 'components/CustomerWallet/components/LoyaltyCard'
+import LoyaltyCard from 'components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard'
 
 const mockId = 12345
 const mockStatus = 'mock_status'
@@ -52,6 +52,7 @@ const mockLoyaltyCardVoucher = {
   earn: {
     type: 'mock_type',
     value: 12345,
+    prefix: 'mock_prefix',
     suffix: 'mock_suffix',
     target_value: 12345,
   },
@@ -198,13 +199,14 @@ describe('LoyaltyCard', () => {
               value: 5,
               target_value: 100,
               suffix: 'mock_suffix',
+              prefix: 'mock_prefix',
             },
           }],
       }
-      const {value, target_value: targetValue} = mockAccumulatorLoyaltyCard.vouchers[0].earn
+      const {value, prefix, target_value: targetValue} = mockAccumulatorLoyaltyCard.vouchers[0].earn
       render(<LoyaltyCard card={mockAccumulatorLoyaltyCard} getStatusFn={jest.fn()} plan={mockPllPlan} />)
 
-      expect(screen.getByText(`${value} / ${targetValue} spent`)).toBeInTheDocument()
+      expect(screen.getByText(`${prefix}${value} / ${prefix}${targetValue} spent`)).toBeInTheDocument()
     })
   })
 })
