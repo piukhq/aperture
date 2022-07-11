@@ -3,36 +3,21 @@ import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
-import {DirectoryLocations, RTKQueryErrorResponse} from 'types'
-import {mockLocationData} from 'utils/mockLocationData'
+import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 
 type Props = {
   resetError: () => void
   setError: (errorMessage: string) => void
+  merchantMid: DirectoryMerchantMid
 }
 
-const defaultMidDetails = {
-  location: {
-    location_ref: '',
-    location_title: '',
-  },
-  mid: {
-    date_added: '',
-    txm_status: '',
-    mid_metadata: {
-      payment_scheme_code: '',
-      visa_bin: '',
-      payment_enrolment_status: '',
-    },
-  },
-}
+const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postcode = ''}) => `${addressLine1}, ${townCity}, ${postcode}`
 
-const constructMidLocationString = ({address_line_1: addressLine1, town_city: townCity, postcode}) => `${addressLine1}, ${townCity}, ${postcode}`
-
-const SingleViewMidDetails = ({setError, resetError}: Props) => {
+const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const router = useRouter()
   const {planId, merchantId, ref} = router.query
 
@@ -42,7 +27,6 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     patchMerchantMidError,
     patchMerchantMidIsLoading,
     resetPatchMerchantMidResponse,
-    getMerchantMidResponse,
     putMerchantMidLocation,
     putMerchantMidLocationResponse,
     putMerchantMidLocationError,
@@ -52,16 +36,16 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
-  } = useMidManagementMids(false, planId as string, merchantId as string, ref as string)
+  } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
 
-  const midDetails = getMerchantMidResponse || defaultMidDetails
-  const {location = {location_ref: '', location_title: ''}, mid} = midDetails
+  const {getMerchantLocationsResponse} = useMidManagementLocations(false, planId as string, merchantId as string)
+
+  const {location = {location_ref: '', location_title: ''}, mid} = merchantMid
   const {location_ref: locationRef} = location
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
   const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
 
-  // TODO: Check if location data exists in redux, else retrieve from api
-  const locationsData: DirectoryLocations = mockLocationData
+  const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
   const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
@@ -180,85 +164,81 @@ const SingleViewMidDetails = ({setError, resetError}: Props) => {
 
   const locationValues = useMemo(() => locationStringsList ? locationStringsList.map(location => location.title) : [], [locationStringsList])
 
-  if (getMerchantMidResponse) {
-    return (
-      <>
-        <div className='mb-[34px]'>
-          <h2 className='font-single-view-heading'>DATE ADDED</h2>
-          <p className='font-single-view-data'>{dateAdded}</p>
+  return (
+    <>
+      <div className='mb-[34px]'>
+        <h2 className='font-single-view-heading'>DATE ADDED</h2>
+        <p className='font-single-view-data'>{dateAdded}</p>
+      </div>
+      <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
+        <div>
+          <h2 className='font-single-view-heading'>PAYMENT SCHEME</h2>
+          <p className='font-single-view-data'>{getPaymentScheme()}</p>
         </div>
-        <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
-          <div>
-            <h2 className='font-single-view-heading'>PAYMENT SCHEME</h2>
-            <p className='font-single-view-data'>{getPaymentScheme()}</p>
+        <div className='flex flex-col h-[50px] pl-[15px]'>
+          <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
+          <div className='w-[180px] h-[28px]'>
+            <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} selectedValueStyles='font-normal text-grey-600' />
           </div>
-          <div className='flex flex-col h-[50px] pl-[15px]'>
-            <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
-            <div className='w-[180px] h-[28px]'>
-              <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} selectedValueStyles='font-normal text-grey-600' />
-            </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
+      <SingleViewMidEditableField
+        dropdownValues={locationValues}
+        header='LOCATION'
+        label='location'
+        value={getAssociatedLocationString()}
+        isSaving={putMerchantMidLocationIsLoading}
+        handleValueChange={handleLocationChange}
+        handleCancel={() => setAssociatedLocationRef(locationRef)}
+        handleSave={handleLocationSave}
+        handleDelete={handleLocationDelete}
+        onEdit={() => {
+          resetError()
+          resetPutMerchantMidLocationResponse()
+          resetDeleteMerchantMidLocationResponse()
+        }}
+        successResponse={putMerchantMidLocationResponse || deleteMerchantMidLocationIsSuccess}
+        errorResponse={putMerchantMidLocationError || deleteMerchantMidLocationError}
+      />
+
+      { paymentSchemeCode === 1 && (
         <SingleViewMidEditableField
-          dropdownValues={locationValues}
-          header='LOCATION'
-          label='location'
-          value={getAssociatedLocationString()}
-          isSaving={putMerchantMidLocationIsLoading}
-          handleValueChange={handleLocationChange}
-          handleCancel={() => setAssociatedLocationRef(locationRef)}
-          handleSave={handleLocationSave}
-          handleDelete={handleLocationDelete}
+          header='BIN'
+          label='BIN'
+          value={editableVisaBin}
+          isSaving={patchMerchantMidIsLoading}
+          handleValueChange={setEditableVisaBin}
+          handleCancel={() => setEditableVisaBin(visaBin)}
+          handleSave={handleBinOrPaymentStatusSave({visa_bin: editableVisaBin})}
+          handleDelete={handleBinDelete({visa_bin: null})}
           onEdit={() => {
             resetError()
-            resetPutMerchantMidLocationResponse()
-            resetDeleteMerchantMidLocationResponse()
+            resetPatchMerchantMidResponse()
           }}
-          successResponse={putMerchantMidLocationResponse || deleteMerchantMidLocationIsSuccess}
-          errorResponse={putMerchantMidLocationError || deleteMerchantMidLocationError}
+          successResponse={patchMerchantMidResponse}
+          errorResponse={patchMerchantMidError}
+          handleValidation={isNumberOnlyString}
+          validationErrorMessage='Enter numeric value'
         />
+      )}
 
-        { paymentSchemeCode === 1 && (
-          <SingleViewMidEditableField
-            header='BIN'
-            label='BIN'
-            value={editableVisaBin}
-            isSaving={patchMerchantMidIsLoading}
-            handleValueChange={setEditableVisaBin}
-            handleCancel={() => setEditableVisaBin(visaBin)}
-            handleSave={handleBinOrPaymentStatusSave({visa_bin: editableVisaBin})}
-            handleDelete={handleBinDelete({visa_bin: null})}
-            onEdit={() => {
-              resetError()
-              resetPatchMerchantMidResponse()
-            }}
-            successResponse={patchMerchantMidResponse}
-            errorResponse={patchMerchantMidError}
-            handleValidation={isNumberOnlyString}
-            validationErrorMessage='Enter numeric value'
-          />
-        )}
-
-        <section className='h-[38px] flex mb-[34px] flex-col'>
-          <p className='font-single-view-heading m-0'>HARMONIA STATUS</p>
-          <div className='flex justify-between items-center'>
-            <p className='font-single-view-data'>{txmStatus}</p>
-            <Button
-              buttonType={ButtonType.SUBMIT}
-              buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
-              buttonBackground={ButtonBackground.LIGHT_GREY}
-              labelColour={LabelColour.GREY}
-              labelWeight={LabelWeight.SEMIBOLD}
-            >Edit
-            </Button>
-          </div>
-        </section>
-      </>
-    )
-  }
-
-  return null
+      <section className='h-[38px] flex mb-[34px] flex-col'>
+        <p className='font-single-view-heading m-0'>HARMONIA STATUS</p>
+        <div className='flex justify-between items-center'>
+          <p className='font-single-view-data'>{txmStatus}</p>
+          <Button
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+            buttonBackground={ButtonBackground.LIGHT_GREY}
+            labelColour={LabelColour.GREY}
+            labelWeight={LabelWeight.SEMIBOLD}
+          >Edit
+          </Button>
+        </div>
+      </section>
+    </>
+  )
 }
 export default SingleViewMidDetails

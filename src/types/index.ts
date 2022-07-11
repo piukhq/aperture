@@ -184,19 +184,25 @@ export type DirectoryLocations = Array<DirectoryLocation>
 export type DirectoryLocation = {
   location_ref: string,
   location_metadata: {
-    name: string,
+    name?: string,
     location_id: string,
-    merchant_internal_id: string,
+    merchant_internal_id?: string,
     is_physical_location: boolean,
-    address_line_1: string,
-    town_city: string,
+    address_line_1?: string,
+    address_line_2?: string,
+    town_city?: string,
+    county?: string,
+    country?: string,
     postcode: string,
   },
+  location_status: string,
   date_added: string // TODO: Change this depending on API value
-  payment_schemes: Array<PaymentScheme>
+  payment_schemes?: Array<PaymentScheme>,
+  linked_mids_count?: number,
+  linked_secondary_mids_count?: number,
 }
 
-export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectorySecondaryMid
+export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
 
 export type DirectoryEntities = Array<DirectoryEntity>
 

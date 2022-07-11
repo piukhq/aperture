@@ -1,39 +1,30 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import SingleViewSecondaryMidDetails from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMidDetails'
-import {Provider} from 'react-redux'
-import configureStore from 'redux-mock-store'
+import SingleViewSecondaryMidDetails from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 
 const mockSecondaryMidRef = 'mock_secondary_mid_ref'
 const mockSecondaryMid = 'mock_secondary_mid'
 const mockPayrollEnrollmentStatus = 'mock_payroll_enrollment_status'
+const mockPaymentSchemeStoreName = 'mock_payment_scheme_store_name'
 const mockDateAdded = 'mock_date_added'
 const mockTxmStatus = 'mock_txm_status'
 
-const mockMerchantDetailsState = {
-  directoryMerchant: {
-    selectedEntity: {
-      secondary_mid_ref: mockSecondaryMidRef,
-      secondary_mid_metadata: {
-        payment_scheme_code: 1,
-        mid: mockSecondaryMid,
-        payment_enrolment_status: mockPayrollEnrollmentStatus,
-      },
-      date_added: mockDateAdded,
-      txm_status: mockTxmStatus,
-    },
+const mockMerchantSecondaryMid = {
+  secondary_mid_ref: mockSecondaryMidRef,
+  secondary_mid_metadata: {
+    payment_scheme_code: 1,
+    secondary_mid: mockSecondaryMid,
+    payment_enrolment_status: mockPayrollEnrollmentStatus,
+    payment_scheme_store_name: mockPaymentSchemeStoreName,
   },
+  date_added: mockDateAdded,
+  txm_status: mockTxmStatus,
 }
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({...mockMerchantDetailsState})
-
-const getSingleViewSecondaryMidDetailsComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <SingleViewSecondaryMidDetails />
-  </Provider>
+const getSingleViewSecondaryMidDetailsComponent = () => (
+  <SingleViewSecondaryMidDetails secondaryMid={mockMerchantSecondaryMid} />
 )
 
 describe('SingleViewSecondaryMidDetails', () => {

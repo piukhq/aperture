@@ -1,16 +1,18 @@
+import {useState} from 'react'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectorySecondaryMid} from 'types'
-import {getSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useAppSelector} from 'app/hooks'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
-import {useState} from 'react'
+import {DirectorySecondaryMid} from 'types'
 
-const SingleViewSecondaryMidDetails = () => {
+type Props = {
+  secondaryMid: DirectorySecondaryMid
+}
+
+const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const displayValues = ['Not enrolled']
   const [displayValue, setDisplayValue] = useState(displayValues[0])
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity) as DirectorySecondaryMid
-  const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = selectedEntity
+
+  const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
   const {payment_scheme_code: paymentSchemeCode} = secondaryMidMetadata
 
   const getPaymentScheme = () => {
