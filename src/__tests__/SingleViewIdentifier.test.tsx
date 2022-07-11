@@ -27,12 +27,12 @@ jest.mock('features/directoryMerchantSlice', () => ({
   getSelectedDirectoryMerchantEntity: jest.fn().mockReturnValue(null),
 }))
 
-const mockSetHeaderProp = jest.fn()
+const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
   resetError: jest.fn(),
   setError: jest.fn(),
-  setHeader: mockSetHeaderProp,
+  setHeaderFn: mockSetHeaderFnProp,
 }
 
 const mockMerchantDetailsState = {
@@ -79,7 +79,7 @@ describe('SingleViewIdentifier', () => {
 
   it('should call prop function to set header', () => {
     render(getSingleViewIdentifierComponent())
-    expect(mockSetHeaderProp).toBeCalledWith(`Identifier - ${mockIdentifierValue}`)
+    expect(mockSetHeaderFnProp).toBeCalledWith(`Identifier - ${mockIdentifierValue}`)
   })
 
   it('should render SingleViewIdentifierDetails component', () => {

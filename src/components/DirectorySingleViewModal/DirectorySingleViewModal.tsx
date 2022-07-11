@@ -124,13 +124,13 @@ const DirectorySingleViewModal = () => {
   const renderContent = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
-        return <SingleViewMid setError={setErrorMessage} resetError={() => setErrorMessage(null)} setHeader={setEntityHeading} />
+        return <SingleViewMid setError={setErrorMessage} resetError={() => setErrorMessage(null)} setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <SingleViewSecondaryMid setHeader={setEntityHeading} />
+        return <SingleViewSecondaryMid setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.IDENTIFIERS:
-        return <SingleViewIdentifier setHeader={setEntityHeading} />
+        return <SingleViewIdentifier setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.LOCATIONS:
-        return <SingleViewLocation setHeader={setEntityHeading} isInEditState={isInLocationEditState} />
+        return <SingleViewLocation setHeaderFn={setEntityHeading} isInEditState={isInLocationEditState} />
     }
   }
 

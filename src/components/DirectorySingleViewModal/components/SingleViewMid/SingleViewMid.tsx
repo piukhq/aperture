@@ -9,10 +9,10 @@ import SingleViewMidDetails from './components/SingleViewMidDetails'
 type Props = {
   resetError: () => void
   setError: (errorMessage: string) => void
-  setHeader: (header: string) => void
+  setHeaderFn: (header: string) => void
 }
 
-const SingleViewMid = ({setError, resetError, setHeader}: Props) => {
+const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -29,9 +29,9 @@ const SingleViewMid = ({setError, resetError, setHeader}: Props) => {
 
       const {mid} = getMerchantMidResponse
       const {mid_metadata: midMetadata} = mid
-      setHeader(`MID - ${midMetadata.mid}`)
+      setHeaderFn(`MID - ${midMetadata.mid}`)
     }
-  }, [getMerchantMidResponse, setHeader, dispatch, selectedEntity])
+  }, [getMerchantMidResponse, setHeaderFn, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 

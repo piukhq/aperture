@@ -7,7 +7,7 @@ import {useMidManagementLocation} from 'hooks/useMidManagementLocation'
 import SingleViewLocationDetails from './components/SingleViewLocationDetails'
 
 type Props = {
-  setHeader: (header: string) => void
+  setHeaderFn: (header: string) => void
   isInEditState: boolean
 }
 
@@ -18,7 +18,7 @@ enum SingleViewLocationTabs {
   COMMENTS = 'Comments'
 }
 
-const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
+const SingleViewLocation = ({setHeaderFn, isInEditState}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -36,9 +36,9 @@ const SingleViewLocation = ({setHeader, isInEditState}: Props) => {
       const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationResponse.location_metadata
 
       const title = name || addressLine1 || `Location ${locationId}`
-      setHeader(`${isInEditState ? 'Editing - ' : ''}${title}`)
+      setHeaderFn(`${isInEditState ? 'Editing - ' : ''}${title}`)
     }
-  }, [getMerchantLocationResponse, setHeader, isInEditState, dispatch, selectedEntity])
+  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 

@@ -7,10 +7,10 @@ import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
 
 type Props = {
-  setHeader: (header: string) => void
+  setHeaderFn: (header: string) => void
 }
 
-const SingleViewIdentifier = ({setHeader}: Props) => {
+const SingleViewIdentifier = ({setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -26,9 +26,9 @@ const SingleViewIdentifier = ({setHeader}: Props) => {
       }
 
       const {identifier_metadata: identifierMetadata} = getMerchantIdentifierResponse
-      setHeader(`Identifier - ${identifierMetadata.value}`)
+      setHeaderFn(`Identifier - ${identifierMetadata.value}`)
     }
-  }, [getMerchantIdentifierResponse, setHeader, dispatch, selectedEntity])
+  }, [getMerchantIdentifierResponse, setHeaderFn, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 

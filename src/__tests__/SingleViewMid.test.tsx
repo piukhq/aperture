@@ -29,12 +29,12 @@ jest.mock('features/directoryMerchantSlice', () => ({
   getSelectedDirectoryMerchantEntity: jest.fn().mockReturnValue(null),
 }))
 
-const mockSetHeaderProp = jest.fn()
+const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
   resetError: jest.fn(),
   setError: jest.fn(),
-  setHeader: mockSetHeaderProp,
+  setHeaderFn: mockSetHeaderFnProp,
 }
 
 const mockMerchantDetailsState = {
@@ -81,7 +81,7 @@ describe('SingleViewMid', () => {
 
   it('should call prop function to set header', () => {
     render(getSingleViewMidComponent())
-    expect(mockSetHeaderProp).toBeCalledWith(`MID - ${mockMidValue}`)
+    expect(mockSetHeaderFnProp).toBeCalledWith(`MID - ${mockMidValue}`)
   })
 
   it('should render SingleViewMidDetails component', () => {

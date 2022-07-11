@@ -7,10 +7,10 @@ import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids
 import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
 
 type Props = {
-  setHeader: (header: string) => void
+  setHeaderFn: (header: string) => void
 }
 
-const SingleViewSecondaryMid = ({setHeader}: Props) => {
+const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -26,9 +26,9 @@ const SingleViewSecondaryMid = ({setHeader}: Props) => {
       }
 
       const {secondary_mid_metadata: secondaryMidMetadata} = getMerchantSecondaryMidResponse
-      setHeader(`Secondary MID - ${secondaryMidMetadata.secondary_mid}`)
+      setHeaderFn(`Secondary MID - ${secondaryMidMetadata.secondary_mid}`)
     }
-  }, [getMerchantSecondaryMidResponse, setHeader, dispatch, selectedEntity])
+  }, [getMerchantSecondaryMidResponse, setHeaderFn, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 
