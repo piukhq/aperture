@@ -128,6 +128,16 @@ describe('LoyaltyCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
+
+  it('should render as a link to the relevant Django page', () => {
+    const mockDjangoUrl = `${process.env.NEXT_PUBLIC_LOYALTY_API_URL}/admin/scheme/schemeaccount/${mockId}/change/`
+    render(getLoyaltyCardComponent())
+    const loyaltyCardLink = screen.getByRole('link')
+
+    expect(loyaltyCardLink).toBeInTheDocument()
+    expect(loyaltyCardLink).toHaveAttribute('href', mockDjangoUrl)
+  })
+
   it('should render the plan name', () => {
     render(getLoyaltyCardComponent())
 

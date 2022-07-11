@@ -61,6 +61,16 @@ describe('PaymentCard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
+
+  it('should render as a link to the relevant Django page', () => {
+    const mockDjangoUrl = `${process.env.NEXT_PUBLIC_LOYALTY_API_URL}/admin/payment_card/paymentcardaccount/${mockId}/change/`
+    render(getPaymentCardComponent())
+    const paymentCardLink = screen.getByRole('link')
+
+    expect(paymentCardLink).toBeInTheDocument()
+    expect(paymentCardLink).toHaveAttribute('href', mockDjangoUrl)
+  })
+
   it('should render the last four digits with preceding ellipses', () => {
     render(getPaymentCardComponent())
 
