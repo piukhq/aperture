@@ -26,7 +26,10 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
   }
 
   return (
-    <button key={id}
+    <a
+      href={`${process.env.NEXT_PUBLIC_LOYALTY_API_URL}/admin/payment_card/paymentcardaccount/${id}/change/`}
+      target='blank'
+      key={id}
       onClick={() => console.log('Payment Card clicked')}
       className='dark:bg-grey-825 h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center space-between'
     >
@@ -45,7 +48,7 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
       <div className='basis-1/5 flex justify-end'>
         <ArrowDownSvg className={'-rotate-90 scale-75 dark:fill-grey-400'} />
       </div>
-    </button>
+    </a>
   )
 }
 
