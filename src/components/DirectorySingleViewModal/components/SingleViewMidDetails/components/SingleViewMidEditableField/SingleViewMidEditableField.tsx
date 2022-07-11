@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import {Button, Tag, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, BorderColour, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {TagStyle, TagSize, TextStyle} from 'components/Tag/styles'
+import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
@@ -153,6 +153,7 @@ const SingleViewMidEditableField = ({
         <Tag
           tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
           textStyle={TextStyle.MEDIUM}
+          textColour={TextColour.GREY}
           tagStyle={TagStyle.LIGHT_GREY_FILLED}
           label='Saving...'
         />

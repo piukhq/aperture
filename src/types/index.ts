@@ -240,7 +240,7 @@ export type DirectoryMerchantDetailsTableCell = {
 }
 
 export type DecodedUserToken = {
-  bundleId: string,
+  bundle_id: string,
   user_id: string,
   sub: number,
   iat: number,
@@ -340,4 +340,17 @@ export type PaymentCard = {
         }
       >,
     }
+}
+
+export type LookupUserHistoryEntity = {
+  user: {
+    user_id: number | string,
+    channel: string,
+    display_text: string
+  },
+  lookup: {
+    type: string,
+    criteria: unknown,
+    datetime: string
+  }
 }

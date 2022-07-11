@@ -9,8 +9,8 @@ type Props = {
   plan: Plan
 }
 
-const LoyaltyCard = ({getStatusFn, card, plan}:Props) => {
-  const isPllCard = plan?.feature_set.card_type === 2
+const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
+  const isPllCard = plan.feature_set.card_type === 2
   const {id, status, images} = card
 
   const renderLoyaltyIcon = (images) => {

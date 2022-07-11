@@ -29,7 +29,7 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
   }
 
   return (
-    <div ref={buttonRef}>
+    <div ref={buttonRef} className='relative'>
       <Button
         handleClick={() => setIsMenuOpen(true)}
         buttonSize={ButtonSize.MEDIUM_ICON}

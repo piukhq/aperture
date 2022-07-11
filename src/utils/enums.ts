@@ -15,7 +15,9 @@ enum ClientID {
 }
 
 enum BundleID {
-  BUNDLE_ID = 'com.bink.portal.internal',
+  BINK_INTERNAL_BUNDLE_ID = 'com.bink.portal.internal',
+  BINK_WALLET_BUNDLE_ID = 'com.bink.wallet',
+  BARCLAYS_BUNDLE_ID = 'com.barclays.bmb',
 }
 
 enum VerificationToken {
@@ -49,6 +51,13 @@ enum ImageTypes {
   PROMOTIONS = 7,
   TIER = 8,
   ALTERNATIVE = 9
+}
+
+const DirectorySingleViewEntities = {
+  'mids': 'MID',
+  'locations': 'location',
+  'secondary-mids': 'secondary MID',
+  'identifiers': 'identifier',
 }
 
 enum DirectoryNavigationTab {
@@ -119,4 +128,5 @@ export {
   PaymentSchemeName,
   PaymentSchemeStartCaseName,
   PaymentSchemeCode,
+  DirectorySingleViewEntities,
 }

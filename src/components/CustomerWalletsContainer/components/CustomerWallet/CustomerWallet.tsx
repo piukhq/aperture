@@ -1,5 +1,7 @@
-import React, {useCallback, useMemo} from 'react'
+import React, {useCallback, useEffect, useMemo} from 'react'
 import Image from 'next/image'
+import {useAppSelector} from 'app/hooks'
+import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
@@ -15,7 +17,19 @@ const CustomerWallet = ({userPlans}: Props) => {
   const {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
+    getLoyaltyCardsRefresh,
+    getPaymentCardsRefresh,
+    getPlansRefresh,
   } = useCustomerWallet()
+
+  const selectedJwtToken = useAppSelector(getJwtToken)
+
+  // If the selected token changes, refetch data
+  useEffect(() => {
+    getLoyaltyCardsRefresh()
+    getPaymentCardsRefresh()
+    getPlansRefresh()
+  }, [selectedJwtToken, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh])
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
@@ -67,17 +81,20 @@ const CustomerWallet = ({userPlans}: Props) => {
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
     const plan = userPlans.find((plan) => plan.id === loyaltyCard.membership_plan)
-    const {id, payment_cards: paymentCards} = loyaltyCard
-    return (
-      <div key={id} className='flex space-between mb-[17px]'>
-        <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
-        <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
-          {getAllPaymentCardIds().map((_, index) => (
-            <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
-          ))}
+    if (plan) {
+      const {id, payment_cards: paymentCards} = loyaltyCard
+      return (
+        <div key={id} className='flex space-between mb-[17px]'>
+          <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
+          <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
+            {getAllPaymentCardIds().map((_, index) => (
+              <LinkStatus key={index} isPllCard={plan?.feature_set.card_type === 2} loyaltyCardPaymentCardIds={paymentCards.map(card => card.id)} paymentCardIndex={index} />
+            ))}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
+    return null
   }
 
   // Render the loyalty cards and status that were found on the payment cards for the user

@@ -32,6 +32,13 @@ type PutMerchantMidLocationBody = PlansEndpointRefs & {
   location_ref: string,
 }
 
+type DeleteMerchantEntity = PlansEndpointRefs & {
+  midRefs?: Array<string>,
+  locationRefs?: Array<string>,
+  identifierRefs?: Array<string>,
+  secondaryMidRefs?: Array<string>,
+}
+
 const endpointPrefix = '/api/v1/plans'
 
 export const midManagementMerchantsApi = createApi({
@@ -102,6 +109,42 @@ export const midManagementMerchantsApi = createApi({
       }),
       invalidatesTags: ['MerchantMid'],
     }),
+    deleteMerchantMid: builder.mutation<void, DeleteMerchantEntity>({
+      query: ({planRef, merchantRef, midRefs}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/deletion`,
+        method: 'POST',
+        body: [
+          ...midRefs,
+        ],
+      }),
+    }),
+    deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantEntity>({
+      query: ({planRef, merchantRef, secondaryMidRefs}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
+        method: 'POST',
+        body: [
+          ...secondaryMidRefs,
+        ],
+      }),
+    }),
+    deleteMerchantLocation: builder.mutation<void, DeleteMerchantEntity>({
+      query: ({planRef, merchantRef, locationRefs}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/locations/deletion`,
+        method: 'POST',
+        body: [
+          ...locationRefs,
+        ],
+      }),
+    }),
+    deleteMerchantIdentifier: builder.mutation<void, DeleteMerchantEntity>({
+      query: ({planRef, merchantRef, identifierRefs}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/identifiers/deletion`,
+        method: 'POST',
+        body: [
+          ...identifierRefs,
+        ],
+      }),
+    }),
   }),
 })
 
@@ -113,4 +156,8 @@ export const {
   useGetMerchantMidQuery,
   usePutMerchantMidLocationMutation,
   useDeleteMerchantMidLocationMutation,
+  useDeleteMerchantMidMutation,
+  useDeleteMerchantSecondaryMidMutation,
+  useDeleteMerchantLocationMutation,
+  useDeleteMerchantIdentifierMutation,
 } = midManagementMerchantsApi

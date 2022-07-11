@@ -49,7 +49,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
         {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
         {renderCloseButton()}
       </div>
-      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden bg-white dark:bg-grey-850 ${styles.childrenContainer}`} onClick={(e) => e.stopPropagation()}>
+      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden max-h-[80vh] bg-white dark:bg-grey-850 ${styles.childrenContainer}`} onClick={(e) => e.stopPropagation()}>
         {!styles.isHeaderAtTop && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
         {children}
       </div>
@@ -60,7 +60,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
     <FocusTrap>
       <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
         <div className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-30' onClick={handleClose} />
-        <div className='fixed left-2/4 translate-x-[-50%] h-screen justify-center z-40' onClick={handleClose}>
+        <div className='absolute left-2/4 translate-x-[-50%] justify-center z-40' onClick={handleClose}>
           {renderModal()}
         </div>
       </div>

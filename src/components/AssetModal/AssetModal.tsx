@@ -11,7 +11,7 @@ import downloadAsset from 'services/downloadAsset'
 import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/planAssetsSlice'
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName, ModalStyle} from 'utils/enums'
-import {TagStyle, TagSize, TextStyle} from 'components/Tag/styles'
+import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const AssetModal = () => {
@@ -58,7 +58,7 @@ const AssetModal = () => {
           'flex justify-center items-center h-[28px] w-[28px] rounded-[14px]',
           environment === envKey && 'border border-black dark:border-white'
         )}>
-          <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} tagStyle={tagStyle} label={label} />
+          <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={tagStyle} label={label} />
         </div>
       )
     }
