@@ -87,7 +87,7 @@ describe('SingleViewSecondaryMid', () => {
     expect(screen.getByTestId('SingleViewSecondaryMidDetails')).toBeInTheDocument()
   })
 
-  it('should call function if selected entity is not present', () => {
+  it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewSecondaryMidComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantSecondaryMidResponse)
   })

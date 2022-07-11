@@ -87,7 +87,7 @@ describe('SingleViewIdentifier', () => {
     expect(screen.getByTestId('SingleViewIdentifierDetails')).toBeInTheDocument()
   })
 
-  it('should call function if selected entity is not present', () => {
+  it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewIdentifierComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantIdentifierResponse)
   })
