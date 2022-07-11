@@ -10,6 +10,7 @@ import {DirectoryNavigationTab, DirectorySingleViewEntities} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import CloseIcon from 'icons/svgs/close.svg'
 import SingleViewMid from './components/SingleViewMid'
 import SingleViewIdentifier from './components/SingleViewIdentifier'
@@ -31,17 +32,24 @@ const DirectorySingleViewModal = () => {
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-    deleteMerchantLocation,
-    deleteMerchantLocationIsSuccess,
-    deleteMerchantLocationIsLoading,
-    deleteMerchantLocationError,
-    resetDeleteMerchantLocationResponse,
     deleteMerchantIdentifier,
     deleteMerchantIdentifierIsSuccess,
     deleteMerchantIdentifierIsLoading,
     deleteMerchantIdentifierError,
     resetDeleteMerchantIdentifierResponse,
   } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
+
+  const {
+    deleteMerchantLocation,
+    deleteMerchantLocationIsSuccess,
+    deleteMerchantLocationIsLoading,
+    deleteMerchantLocationError,
+    resetDeleteMerchantLocationResponse,
+  } = useMidManagementLocations({
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
 
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)

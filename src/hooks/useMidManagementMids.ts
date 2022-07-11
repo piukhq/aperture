@@ -6,7 +6,6 @@ import {
   useDeleteMerchantMidLocationMutation,
   useDeleteMerchantMidMutation,
   useDeleteMerchantSecondaryMidMutation,
-  useDeleteMerchantLocationMutation,
   useDeleteMerchantIdentifierMutation,
 } from 'services/midManagementMerchants'
 
@@ -36,10 +35,6 @@ export const useMidManagementMids = (skip, planRef = '', merchantRef = '', midRe
   const [deleteMerchantSecondaryMid,
     {isSuccess: deleteMerchantSecondaryMidIsSuccess, isLoading: deleteMerchantSecondaryMidIsLoading, error: deleteMerchantSecondaryMidError, reset: resetDeleteMerchantSecondaryMidResponse},
   ] = useDeleteMerchantSecondaryMidMutation({fixedCacheKey: 'deleteMerchantSecondaryMid'})
-
-  const [deleteMerchantLocation,
-    {isSuccess: deleteMerchantLocationIsSuccess, isLoading: deleteMerchantLocationIsLoading, error: deleteMerchantLocationError, reset: resetDeleteMerchantLocationResponse},
-  ] = useDeleteMerchantLocationMutation({fixedCacheKey: 'deleteMerchantLocation'})
 
   const [deleteMerchantIdentifier,
     {isSuccess: deleteMerchantIdentifierIsSuccess, isLoading: deleteMerchantIdentifierIsLoading, error: deleteMerchantIdentifierError, reset: resetDeleteMerchantIdentifierResponse},
@@ -79,11 +74,6 @@ export const useMidManagementMids = (skip, planRef = '', merchantRef = '', midRe
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-    deleteMerchantLocation,
-    deleteMerchantLocationIsSuccess,
-    deleteMerchantLocationIsLoading,
-    deleteMerchantLocationError,
-    resetDeleteMerchantLocationResponse,
     deleteMerchantIdentifier,
     deleteMerchantIdentifierIsSuccess,
     deleteMerchantIdentifierIsLoading,

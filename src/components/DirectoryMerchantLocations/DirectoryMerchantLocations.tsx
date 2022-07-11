@@ -1,12 +1,11 @@
 import {useState} from 'react'
+import {useRouter} from 'next/router'
+import {useAppDispatch} from 'app/hooks'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {mockLocationData} from 'utils/mockLocationData'
-import {useAppDispatch} from 'app/hooks'
-import {useRouter} from 'next/router'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {DirectoryLocations, DirectoryLocation} from 'types'
-import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -38,10 +37,19 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 ]
 
 const DirectoryMerchantLocations = () => {
-  const dispatch = useAppDispatch()
   const router = useRouter()
+  const {merchantId, planId} = router.query
+
+  const dispatch = useAppDispatch()
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
-  const locationsData: DirectoryLocations = mockLocationData
+
+  const {getMerchantLocationsResponse} = useMidManagementLocations({
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const locationsData: DirectoryLocations = getMerchantLocationsResponse
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateLocationTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
@@ -128,7 +136,9 @@ const DirectoryMerchantLocations = () => {
         </Button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} />
+      {getMerchantLocationsResponse && (
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} />
+      )}
     </>
   )
 }
