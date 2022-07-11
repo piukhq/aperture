@@ -132,4 +132,4 @@ const CustomerWallet = ({userPlans}: Props) => {
   )
 }
 
-export default CustomerWallet
+export default React.memo(CustomerWallet)
