@@ -22,7 +22,7 @@ export const timeStampToDate = (timestamp: number | string) => {
 
 export const iso8601ToDateTime = (iso8601Timestamp: string) => {
   const date = new Date(iso8601Timestamp)
-  const isValidDate = date instanceof Date && !isNaN(Number(date)) // Handles mock data, consider removing if mock data no longer needed
+  const isValidDate = date instanceof Date && !isNaN(Number(date))
   if (!isValidDate) {
     return iso8601Timestamp
   }
