@@ -3,6 +3,7 @@ import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {DirectorySecondaryMid} from 'types'
+import {iso8601ToDateTime} from 'utils/dateFormat'
 
 type Props = {
   secondaryMid: DirectorySecondaryMid
@@ -29,7 +30,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     <>
       <div className='mb-[34px]'>
         <h2 className='font-single-view-heading'>DATE ADDED</h2>
-        <p className='font-single-view-data'>{dateAdded}</p>
+        <p className='font-single-view-data'>{iso8601ToDateTime(dateAdded)}</p>
       </div>
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
