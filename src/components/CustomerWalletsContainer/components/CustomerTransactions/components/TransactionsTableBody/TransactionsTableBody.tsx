@@ -1,4 +1,4 @@
-import {timeStampToDate} from 'utils/date'
+import {timeStampToDate} from 'utils/dateFormat'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import {LoyaltyCardTransaction, Plan} from 'types'
 
