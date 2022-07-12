@@ -1,24 +1,19 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryPlan} from 'types'
+import {DirectoryPlanMetadata, DirectoryPlan, DirectoryPlanDetails} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 
-type PlanBody = {
-  name: string,
-  planId: string | null,
-  slug: string | null,
-  iconUrl: string | null,
-}
-
-type UpdatePlan = PlanBody & {
+type PlansEndpointRefs = {
   planRef: string,
 }
+
+type UpdatePlan = DirectoryPlanMetadata & PlansEndpointRefs
 
 const endpointPrefix = '/api/v1/plans'
 
 export const midManagementPlansApi = createApi({
   reducerPath: 'midManagementPlansApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['Plans'],
+  tagTypes: ['Plans', 'Plan'],
   endpoints: builder => ({
     getPlans: builder.query<DirectoryPlan[], void>({
       query: () => ({
@@ -27,15 +22,15 @@ export const midManagementPlansApi = createApi({
       }),
       providesTags: ['Plans'],
     }),
-    postPlan: builder.mutation<DirectoryPlan, PlanBody>({
-      query: ({name, planId, slug, iconUrl}) => ({
+    postPlan: builder.mutation<DirectoryPlan, DirectoryPlanMetadata>({
+      query: ({name, plan_id, slug, icon_url}) => ({
         url: endpointPrefix,
         method: 'POST',
         body: {
           name,
-          plan_id: planId,
+          plan_id,
           slug,
-          icon_url: iconUrl,
+          icon_url,
         },
       }),
       // Update the cache with the newly created plan
@@ -53,15 +48,22 @@ export const midManagementPlansApi = createApi({
         }
       },
     }),
+    getPlan: builder.query<DirectoryPlanDetails, PlansEndpointRefs>({
+      query: ({planRef}) => ({
+        url: `${endpointPrefix}/${planRef}`,
+        method: 'GET',
+      }),
+      providesTags: ['Plan'],
+    }),
     updatePlan: builder.mutation<DirectoryPlan, UpdatePlan>({
-      query: ({name, planId, slug, iconUrl, planRef}) => ({
+      query: ({name, plan_id, slug, icon_url, planRef}) => ({
         url: `${endpointPrefix}/${planRef}`,
         method: 'PUT',
         body: {
           name,
-          plan_id: planId,
+          plan_id,
           slug,
-          icon_url: iconUrl,
+          icon_url,
         },
       }),
       // Update the cache with the newly created plan
@@ -82,4 +84,9 @@ export const midManagementPlansApi = createApi({
   }),
 })
 
-export const {useGetPlansQuery, usePostPlanMutation, useUpdatePlanMutation} = midManagementPlansApi
+export const {
+  useGetPlansQuery,
+  useGetPlanQuery,
+  usePostPlanMutation,
+  useUpdatePlanMutation,
+} = midManagementPlansApi

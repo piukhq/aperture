@@ -109,6 +109,12 @@ export type DirectoryMerchantDetails = {
   merchant: DirectoryMerchant,
 }
 
+export type DirectorySingleMerchant = {
+  merchant_ref: string,
+  plan_metadata: DirectoryPlanMetadata,
+  merchant_metadata: DirectoryMerchantMetadata,
+}
+
 export type DirectoryMerchant = {
   merchant_ref: string,
   merchant_metadata: DirectoryMerchantMetadata,

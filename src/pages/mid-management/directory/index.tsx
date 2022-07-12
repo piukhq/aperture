@@ -25,7 +25,7 @@ import OffboardSvg from 'icons/svgs/close-square.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 const DirectoryPage: NextPage = () => {
-  const {getPlansResponse} = useMidManagementPlans()
+  const {getPlansResponse} = useMidManagementPlans({skipGetPlan: true})
 
   const planList: DirectoryPlan[] = getPlansResponse
 

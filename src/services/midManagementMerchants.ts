@@ -1,8 +1,8 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryPlan} from 'types'
+import {DirectoryPlan, DirectorySingleMerchant} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 
-type PlansEndpointRefs = {
+type MerchantsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   midRef?: string,
@@ -10,13 +10,13 @@ type PlansEndpointRefs = {
   secondaryMidRef?: string,
 }
 
-type PostMerchantBody = PlansEndpointRefs & {
+type PostMerchantBody = MerchantsEndpointRefs & {
   name: string,
   location_label: string,
   iconUrl: string | null,
 }
 
-type DeleteMerchantBody = PlansEndpointRefs & {
+type DeleteMerchantBody = MerchantsEndpointRefs & {
   name: string,
 }
 
@@ -26,6 +26,12 @@ export const midManagementMerchantsApi = createApi({
   reducerPath: 'midManagementMerchantsApi',
   baseQuery: getDynamicBaseQuery(),
   endpoints: builder => ({
+    getMerchant: builder.query<DirectorySingleMerchant, MerchantsEndpointRefs>({
+      query: ({planRef, merchantRef}) => ({
+        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}`,
+        method: 'GET',
+      }),
+    }),
     postMerchant: builder.mutation<DirectoryPlan, PostMerchantBody>({
       query: ({name, location_label, iconUrl, planRef}) => ({
         url: `${endpointPrefix}/${planRef}/merchants`,
@@ -50,6 +56,7 @@ export const midManagementMerchantsApi = createApi({
 })
 
 export const {
+  useGetMerchantQuery,
   usePostMerchantMutation,
   useDeleteMerchantMutation,
 } = midManagementMerchantsApi
