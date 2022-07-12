@@ -19,7 +19,7 @@ const DirectoryMidModal = () => {
     postMerchantMidResponse,
     postMerchantMidError,
     resetPostMerchantMidResponse,
-  } = useMidManagementMids(true) // Don't call GET mid details
+  } = useMidManagementMids({skipGetMids: true, skipGetMid: true}) // Don't call GET MIDs or GET MID details
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

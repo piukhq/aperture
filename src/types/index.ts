@@ -133,12 +133,14 @@ export type DirectoryMidMetadata = {
   payment_enrolment_status?: string // TODO: could be an enum/union type
 }
 
+export type DirectoryMerchantMidLocation = {
+  link_ref: string,
+  location_ref: string,
+  location_title: string,
+}
+
 export type DirectoryMerchantMid = {
-  location: {
-    link_ref: string,
-    location_ref: string,
-    location_title: string,
-  },
+  location: DirectoryMerchantMidLocation,
   mid: DirectoryMid
 }
 

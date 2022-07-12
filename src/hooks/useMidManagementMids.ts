@@ -1,16 +1,17 @@
 import {
+  useGetMerchantMidsQuery,
+  useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
-  useGetMerchantMidQuery,
   usePutMerchantMidLocationMutation,
   useDeleteMerchantMidLocationMutation,
   useDeleteMerchantMidMutation,
-  useDeleteMerchantSecondaryMidMutation,
-  useDeleteMerchantIdentifierMutation,
-} from 'services/midManagementMerchants'
+} from 'services/midManagementMerchantMids'
 
-export const useMidManagementMids = (skip, planRef = '', merchantRef = '', midRef = '') => {
-  const {data: getMerchantMidResponse, isLoading: getMerchantMidIsLoading, error: getMerchantMidError} = useGetMerchantMidQuery({planRef, merchantRef, midRef}, {skip})
+export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = ''}) => {
+  const {data: getMerchantMidsResponse, isLoading: getMerchantMidsIsLoading, error: getMerchantMidsError} = useGetMerchantMidsQuery({planRef, merchantRef, midRef}, {skip: skipGetMids})
+
+  const {data: getMerchantMidResponse, isLoading: getMerchantMidIsLoading, error: getMerchantMidError} = useGetMerchantMidQuery({planRef, merchantRef, midRef}, {skip: skipGetMid})
 
   const [postMerchantMid,
     {data: postMerchantMidResponse, isLoading: postMerchantMidIsLoading, error: postMerchantMidError, reset: resetPostMerchantMidResponse},
@@ -32,52 +33,44 @@ export const useMidManagementMids = (skip, planRef = '', merchantRef = '', midRe
     {isSuccess: deleteMerchantMidIsSuccess, isLoading: deleteMerchantMidIsLoading, error: deleteMerchantMidError, reset: resetDeleteMerchantMidResponse},
   ] = useDeleteMerchantMidMutation({fixedCacheKey: 'deleteMerchantMid'})
 
-  const [deleteMerchantSecondaryMid,
-    {isSuccess: deleteMerchantSecondaryMidIsSuccess, isLoading: deleteMerchantSecondaryMidIsLoading, error: deleteMerchantSecondaryMidError, reset: resetDeleteMerchantSecondaryMidResponse},
-  ] = useDeleteMerchantSecondaryMidMutation({fixedCacheKey: 'deleteMerchantSecondaryMid'})
-
-  const [deleteMerchantIdentifier,
-    {isSuccess: deleteMerchantIdentifierIsSuccess, isLoading: deleteMerchantIdentifierIsLoading, error: deleteMerchantIdentifierError, reset: resetDeleteMerchantIdentifierResponse},
-  ] = useDeleteMerchantIdentifierMutation({fixedCacheKey: 'deleteMerchantIdentifier'})
-
   return {
+    // GET MIDs
+    getMerchantMidsResponse,
+    getMerchantMidsIsLoading,
+    getMerchantMidsError,
+    // GET MID
+    getMerchantMidResponse,
+    getMerchantMidIsLoading,
+    getMerchantMidError,
+    // POST MID
     postMerchantMid,
     postMerchantMidResponse,
     postMerchantMidIsLoading,
     postMerchantMidError,
     resetPostMerchantMidResponse,
+    // PATCH MID
     patchMerchantMid,
     patchMerchantMidResponse,
     patchMerchantMidIsLoading,
     patchMerchantMidError,
     resetPatchMerchantMidResponse,
-    getMerchantMidResponse,
-    getMerchantMidIsLoading,
-    getMerchantMidError,
+    // PUT MID
     putMerchantMidLocation,
     putMerchantMidLocationResponse,
     putMerchantMidLocationIsLoading,
     putMerchantMidLocationError,
     resetPutMerchantMidLocationResponse,
+    // DELETE MID Location
     deleteMerchantMidLocation,
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationIsLoading,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
+    // DELETE MID
     deleteMerchantMid,
     deleteMerchantMidIsSuccess,
     deleteMerchantMidIsLoading,
     deleteMerchantMidError,
     resetDeleteMerchantMidResponse,
-    deleteMerchantSecondaryMid,
-    deleteMerchantSecondaryMidIsSuccess,
-    deleteMerchantSecondaryMidIsLoading,
-    deleteMerchantSecondaryMidError,
-    resetDeleteMerchantSecondaryMidResponse,
-    deleteMerchantIdentifier,
-    deleteMerchantIdentifierIsSuccess,
-    deleteMerchantIdentifierIsLoading,
-    deleteMerchantIdentifierError,
-    resetDeleteMerchantIdentifierResponse,
   }
 }

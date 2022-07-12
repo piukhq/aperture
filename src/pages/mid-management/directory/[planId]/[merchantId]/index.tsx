@@ -71,8 +71,6 @@ const MerchantDetailsPage: NextPage = () => {
         return <DirectoryMerchantIdentifiers/>
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <DirectoryMerchantSecondaryMids/>
-      default:
-        return <DirectoryMerchantMids/>
     }
   }
 

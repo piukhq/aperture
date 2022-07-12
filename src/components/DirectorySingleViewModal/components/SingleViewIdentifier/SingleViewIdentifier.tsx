@@ -14,7 +14,12 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantIdentifierResponse} = useMidManagementIdentifiers(false, planId as string, merchantId as string, ref as string)
+  const {getMerchantIdentifierResponse} = useMidManagementIdentifiers({
+    skipGetIdentifiers: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    identifierRef: ref as string,
+  })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()

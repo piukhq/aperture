@@ -16,7 +16,12 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantMidResponse} = useMidManagementMids(false, planId as string, merchantId as string, ref as string)
+  const {getMerchantMidResponse} = useMidManagementMids({
+    skipGetMids: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    midRef: ref as string,
+  })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
