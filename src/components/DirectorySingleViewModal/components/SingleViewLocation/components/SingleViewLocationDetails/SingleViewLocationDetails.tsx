@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {DirectoryLocation} from 'types'
 import {TextInputGroup} from 'components'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {iso8601ToDateTime} from 'utils/dateFormat'
+import {isoToDateTime} from 'utils/dateFormat'
 
 type Props = {
   isInEditState: boolean
@@ -187,7 +187,7 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
       <div className='grid grid-cols-2 gap-[32px]'>
         <section>
           <h2 className='font-single-view-heading'>DATE ADDED</h2>
-          <p className='font-single-view-data'>{iso8601ToDateTime(dateAdded)}</p>
+          <p className='font-single-view-data'>{isoToDateTime(dateAdded)}</p>
         </section>
 
         <section>

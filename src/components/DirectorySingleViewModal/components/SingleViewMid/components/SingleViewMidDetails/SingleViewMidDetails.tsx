@@ -8,7 +8,7 @@ import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
-import {iso8601ToDateTime} from 'utils/dateFormat'
+import {isoToDateTime} from 'utils/dateFormat'
 
 type Props = {
   resetError: () => void
@@ -169,7 +169,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     <>
       <div className='mb-[34px]'>
         <h2 className='font-single-view-heading'>DATE ADDED</h2>
-        <p className='font-single-view-data'>{iso8601ToDateTime(dateAdded)}</p>
+        <p className='font-single-view-data'>{isoToDateTime(dateAdded)}</p>
       </div>
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>

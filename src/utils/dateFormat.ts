@@ -20,11 +20,11 @@ export const timeStampToDate = (timestamp: number | string) => {
   return `${day} ${month} ${year}`
 }
 
-export const iso8601ToDateTime = (iso8601Timestamp: string) => {
-  const date = new Date(iso8601Timestamp)
+export const isoToDateTime = (isoTimestamp: string) => {
+  const date = new Date(isoTimestamp)
   const isValidDate = date instanceof Date && !isNaN(Number(date))
   if (!isValidDate) {
-    return iso8601Timestamp
+    return isoTimestamp
   }
   const day = date.getDate()
   const month = date.toLocaleString('default', {month: 'long'})
