@@ -13,8 +13,8 @@ const mockGetMerchantLocationResponse = {
   },
 }
 
-jest.mock('hooks/useMidManagementLocation', () => ({
-  useMidManagementLocation: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useMidManagementLocations', () => ({
+  useMidManagementLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationResponse: mockGetMerchantLocationResponse,
   })),
 }))

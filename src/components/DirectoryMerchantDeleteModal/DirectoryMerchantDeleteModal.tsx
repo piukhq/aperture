@@ -13,15 +13,18 @@ import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
   const router = useRouter()
+  const {planId, merchantId} = router.query
 
   const {
     deleteMerchant,
     deleteMerchantIsSuccess,
     deleteMerchantError,
     resetDeleteMerchantResponse,
-  } = useMidManagementMerchants()
-
-  const {planId} = router.query
+  } = useMidManagementMerchants({
+    skipGetMerchant: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
 
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)

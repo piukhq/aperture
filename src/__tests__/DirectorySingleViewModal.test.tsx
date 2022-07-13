@@ -27,21 +27,36 @@ jest.mock('hooks/useMidManagementMids', () => ({
     deleteMerchantMidIsLoading: mockDeleteMidIsLoading,
     deleteMerchantMidError: null,
     resetDeleteMerchantMidResponse: jest.fn(),
+  })),
+}))
+
+jest.mock('hooks/useMidManagementSecondaryMids', () => ({
+  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
     deleteMerchantSecondaryMid: jest.fn(),
     deleteMerchantSecondaryMidIsSuccess: false,
     deleteMerchantSecondaryMidIsLoading: false,
     deleteMerchantSecondaryMidError: null,
     resetDeleteMerchantSecondaryMidResponse: jest.fn(),
-    deleteMerchantLocation: jest.fn(),
-    deleteMerchantLocationIsSuccess: false,
-    deleteMerchantLocationIsLoading: false,
-    deleteMerchantLocationError: null,
-    resetDeleteMerchantLocationResponse: jest.fn(),
+  })),
+}))
+
+jest.mock('hooks/useMidManagementIdentifiers', () => ({
+  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
     deleteMerchantIdentifier: jest.fn(),
     deleteMerchantIdentifierIsSuccess: false,
     deleteMerchantIdentifierIsLoading: false,
     deleteMerchantIdentifierError: null,
     resetDeleteMerchantIdentifierResponse: jest.fn(),
+  })),
+}))
+
+jest.mock('hooks/useMidManagementLocations', () => ({
+  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+    deleteMerchantLocation: jest.fn(),
+    deleteMerchantLocationIsSuccess: false,
+    deleteMerchantLocationIsLoading: false,
+    deleteMerchantLocationError: null,
+    resetDeleteMerchantLocationResponse: jest.fn(),
   })),
 }))
 

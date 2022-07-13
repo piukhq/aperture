@@ -13,15 +13,17 @@ import {ModalStyle, ModalType} from 'utils/enums'
 
 const DirectoryMerchantModal = () => {
   const router = useRouter()
+  const {planId} = router.query
 
   const {
     postMerchant,
     postMerchantResponse,
     postMerchantError,
     resetPostMerchantResponse,
-  } = useMidManagementMerchants()
-
-  const {planId} = router.query
+  } = useMidManagementMerchants({
+    skipGetMerchant: true,
+    planRef: planId as string,
+  })
 
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)

@@ -9,6 +9,30 @@ jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='dir
 jest.mock('components/DirectoryMerchantMids', () => () => <div data-testid='directory-merchant-mids' />)
 jest.mock('components/DirectoryMerchantIdentifiers', () => () => <div data-testid='directory-merchant-identifiers' />)
 
+const mockGetPlanResponse = {
+  plan_ref: 'mock_plan_ref',
+  plan_metadata: {},
+  merchants: [],
+}
+
+jest.mock('hooks/useMidManagementPlans', () => ({
+  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+    getPlanResponse: mockGetPlanResponse,
+  })),
+}))
+
+const mockGetMerchantResponse = {
+  merchant_ref: 'mock_merchant_ref',
+  plan_metadata: {},
+  merchant_metadata: {},
+}
+
+jest.mock('hooks/useMidManagementMerchants', () => ({
+  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+    getMerchantResponse: mockGetMerchantResponse,
+  })),
+}))
+
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryPlan: {
