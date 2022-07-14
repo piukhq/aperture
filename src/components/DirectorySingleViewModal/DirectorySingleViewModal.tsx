@@ -10,6 +10,9 @@ import {DirectoryNavigationTab, DirectorySingleViewEntities} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import CloseIcon from 'icons/svgs/close.svg'
 import SingleViewMid from './components/SingleViewMid'
 import SingleViewIdentifier from './components/SingleViewIdentifier'
@@ -26,22 +29,55 @@ const DirectorySingleViewModal = () => {
     deleteMerchantMidIsLoading,
     deleteMerchantMidError,
     resetDeleteMerchantMidResponse,
+  } = useMidManagementMids({
+    skipGetMids: true,
+    skipGetMid: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    midRef: ref as string,
+  })
+
+  const {
     deleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsSuccess,
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-    deleteMerchantLocation,
-    deleteMerchantLocationIsSuccess,
-    deleteMerchantLocationIsLoading,
-    deleteMerchantLocationError,
-    resetDeleteMerchantLocationResponse,
+  } = useMidManagementSecondaryMids({
+    skipGetSecondaryMids: true,
+    skipGetSecondaryMid: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    secondaryMidRef: ref as string,
+  })
+
+  const {
     deleteMerchantIdentifier,
     deleteMerchantIdentifierIsSuccess,
     deleteMerchantIdentifierIsLoading,
     deleteMerchantIdentifierError,
     resetDeleteMerchantIdentifierResponse,
-  } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
+  } = useMidManagementIdentifiers({
+    skipGetIdentifiers: true,
+    skipGetIdentifier: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    identifierRef: ref as string,
+  })
+
+  const {
+    deleteMerchantLocation,
+    deleteMerchantLocationIsSuccess,
+    deleteMerchantLocationIsLoading,
+    deleteMerchantLocationError,
+    resetDeleteMerchantLocationResponse,
+  } = useMidManagementLocations({
+    skipGetLocations: true,
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
 
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)

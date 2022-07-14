@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {mockIdentifiersData} from 'utils/mockIdentifiersData'
+import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {useAppDispatch} from 'app/hooks'
 import {useRouter} from 'next/router'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -33,8 +33,17 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantIdentifiers = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const {merchantId, planId} = router.query
+
+  const {getMerchantIdentifiersResponse} = useMidManagementIdentifiers({
+    skipGetIdentifier: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const identifiersData: DirectoryIdentifiers = getMerchantIdentifiersResponse
+
   const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
-  const identifiersData: DirectoryIdentifiers = mockIdentifiersData
 
   const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return identifiersData.map((identifierObj: DirectoryIdentifier) => {
@@ -98,7 +107,9 @@ const DirectoryMerchantIdentifiers = () => {
         </div>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} />
+      {identifiersData && (
+        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} />
+      )}
     </>
   )
 }

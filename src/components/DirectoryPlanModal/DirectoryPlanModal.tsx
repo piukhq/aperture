@@ -20,7 +20,10 @@ const DirectoryPlanModal = () => {
     updatePlanResponse,
     updatePlanError,
     resetUpdatePlanResponse,
-  } = useMidManagementPlans()
+  } = useMidManagementPlans({
+    skipGetPlans: true,
+    skipGetPlan: true,
+  })
 
   const dispatch = useAppDispatch()
 
@@ -106,9 +109,9 @@ const DirectoryPlanModal = () => {
         const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? null : value)
         // TODO: add logic to PATCH Plan when updating
         if (isNewPlan) {
-          postPlan({name: nameValue, planId, slug, iconUrl: imageValue})
+          postPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue})
         } else {
-          updatePlan({name: nameValue, planId, slug, iconUrl: imageValue, planRef: plan_ref as string})
+          updatePlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
         }
       }
     }

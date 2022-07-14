@@ -8,6 +8,12 @@ enum ApiReflectorUrl {
   REFLECTOR_URL = 'https://reflector.dev.gb.bink.com/mock/',
 }
 
+enum UrlEndpoint {
+  UBIQUITY = '/ubiquity',
+  USERS = '/users',
+  PLANS = '/api/v1/plans',
+}
+
 enum ClientID {
   DEV_CLIENT_ID = 'kudr77sTA0t5cvleNquOFUMHl68NMcqoCqRWrjlc3ZO60NFI3s',
   STAGING_CLIENT_ID = 'joqEeXTSKaWTj9rdifFRtbIJD7vWN2YaueJ4zfOnEEO5dPoqcg',
@@ -115,6 +121,7 @@ const PaymentSchemeCode = {
 export {
   Url,
   ApiReflectorUrl,
+  UrlEndpoint,
   ClientID,
   BundleID,
   VerificationToken,

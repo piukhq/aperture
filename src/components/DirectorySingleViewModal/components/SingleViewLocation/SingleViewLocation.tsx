@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementLocation} from 'hooks/useMidManagementLocation'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import SingleViewLocationDetails from './components/SingleViewLocationDetails'
 
 type Props = {
@@ -22,7 +22,11 @@ const SingleViewLocation = ({setHeaderFn, isInEditState}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantLocationResponse} = useMidManagementLocation(false, planId as string, merchantId as string, ref as string)
+  const {getMerchantLocationResponse} = useMidManagementLocations({
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()

@@ -8,18 +8,25 @@ import {
 import {PageLayout, DirectoryTile, DirectoryMerchantModal, DirectoryDetailsHeader, DirectoryMerchantDeleteModal} from 'components'
 import {requestModal, selectModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
-import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
-import {DirectoryPlanDetails, OptionsMenuItems} from 'types'
+import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchantDetails} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 
 const PlanDetailsPage: NextPage = () => {
-  // TODO: Swap out for real api data
-  const planDetails: DirectoryPlanDetails = mockPlanDetailsData
-  const {plan_metadata: planMetadata, merchants} = planDetails
-  const {name, slug, icon_url: iconUrl, plan_id: planId} = planMetadata
+  const router = useRouter()
+  const {planId: planRef} = router.query
+
+  const {
+    getPlanResponse,
+  } = useMidManagementPlans({
+    skipGetPlans: true,
+    planRef: planRef as string,
+  })
+
+  const planDetails: DirectoryPlanDetails = getPlanResponse
 
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
@@ -29,10 +36,6 @@ const PlanDetailsPage: NextPage = () => {
   }, [dispatch])
 
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
-
-  // TODO: Use plan ID from URL to query for specific plan
-  const router = useRouter()
-  // const {planId} = router.query
 
   const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
     {
@@ -53,7 +56,7 @@ const PlanDetailsPage: NextPage = () => {
     },
   ], [])
 
-  const renderMerchants = () => {
+  const renderMerchants = (merchants: Array<DirectoryMerchantDetails>) => {
     return (
       <div className='flex mt-[30px] flex-wrap gap-[31px]'>
         {merchants.map((merchant) => {
@@ -97,13 +100,24 @@ const PlanDetailsPage: NextPage = () => {
     )
   }
 
+  const renderPlanDetailsContent = () => {
+    const {plan_metadata: planMetadata, merchants} = planDetails
+    const {name, slug, icon_url: iconUrl, plan_id: planId} = planMetadata
+
+    return (
+      <>
+        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
+        {merchants.length > 0 && renderMerchants(merchants)}
+      </>
+    )
+  }
+
   return (
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
       <PageLayout>
-        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
-        {merchants.length > 0 && renderMerchants()}
+        {planDetails && renderPlanDetailsContent()}
       </PageLayout>
     </>
   )

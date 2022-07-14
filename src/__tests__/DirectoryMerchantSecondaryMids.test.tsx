@@ -4,7 +4,36 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {DirectoryMerchantSecondaryMids} from 'components'
 
-// TODO: Add tests for actual table content when pulling from the API
+const mockGetMerchantSecondaryMidsResponse = [
+  {
+    secondary_mid_ref: 'SMID13fa85f64-5717-4562-b3fc-2c963f66afa6',
+    secondary_mid_metadata: {
+      payment_scheme_code: 1,
+      secondary_mid: '446720350',
+      payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_store_name: 'Mock Merchant 1',
+    },
+    date_added: 'Mar 21, 2020, 3:30pm',
+    txm_status: 'txm_status 1',
+  },
+  {
+    secondary_mid_ref: 'SMID23fa85f64-5717-4562-b3fc-2c963f66afa6',
+    secondary_mid_metadata: {
+      payment_scheme_code: 2,
+      secondary_mid: '222425984',
+      payment_enrolment_status: 'payroll_enrollment_status',
+      payment_scheme_store_name: 'Mock Merchant 2',
+    },
+    date_added: 'Feb 21, 2020, 2:11pm',
+    txm_status: 'txm_status 2',
+  },
+]
+
+jest.mock('hooks/useMidManagementSecondaryMids', () => ({
+  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+    getMerchantSecondaryMidsResponse: mockGetMerchantSecondaryMidsResponse,
+  })),
+}))
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({modal: {

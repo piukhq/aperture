@@ -1,6 +1,5 @@
 import {DirectoryMerchantDetailsTable} from 'components'
 import {useRouter} from 'next/router'
-import {mockMidsData} from 'utils/mockMidsData'
 import {DirectoryMids, DirectoryMid} from 'types'
 import {ModalType, PaymentSchemeName} from 'utils/enums'
 import {useAppDispatch} from 'app/hooks'
@@ -10,6 +9,7 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -36,7 +36,15 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const midsData: DirectoryMids = mockMidsData
+  const {merchantId, planId} = router.query
+
+  const {getMerchantMidsResponse} = useMidManagementMids({
+    skipGetMid: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const midsData: DirectoryMids = getMerchantMidsResponse
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
@@ -95,7 +103,9 @@ const DirectoryMerchantMids = () => {
         </button>
       </div>
 
-      <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} />
+      {midsData && (
+        <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} />
+      )}
     </>
   )
 }

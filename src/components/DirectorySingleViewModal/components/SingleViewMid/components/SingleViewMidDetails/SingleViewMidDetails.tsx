@@ -37,9 +37,19 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
-  } = useMidManagementMids(true, planId as string, merchantId as string, ref as string)
+  } = useMidManagementMids({
+    skipGetMids: true,
+    skipGetMid: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    midRef: ref as string,
+  })
 
-  const {getMerchantLocationsResponse} = useMidManagementLocations(false, planId as string, merchantId as string)
+  const {getMerchantLocationsResponse} = useMidManagementLocations({
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
 
   const {location = {location_ref: '', location_title: ''}, mid} = merchantMid
   const {location_ref: locationRef} = location

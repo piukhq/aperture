@@ -1,8 +1,7 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {LoyaltyCard, PaymentCard, Plan} from 'types'
 import type {RootState} from 'app/store'
-
-const endpointPrefix = '/ubiquity'
+import {UrlEndpoint} from 'utils/enums'
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_LOYALTY_API_URL,
@@ -22,19 +21,19 @@ export const customerWalletApi = createApi({
   endpoints: builder => ({
     getLoyaltyCards: builder.query<LoyaltyCard[], void>({
       query: () => ({
-        url: `${endpointPrefix}/membership_cards`,
+        url: `${UrlEndpoint.UBIQUITY}/membership_cards`,
         method: 'GET',
       }),
     }),
     getPaymentCards: builder.query<PaymentCard[], void>({
       query: () => ({
-        url: `${endpointPrefix}/payment_cards`,
+        url: `${UrlEndpoint.UBIQUITY}/payment_cards`,
         method: 'GET',
       }),
     }),
     getPlans: builder.query<Plan[], void>({
       query: () => ({
-        url: `${endpointPrefix}/membership_plans`,
+        url: `${UrlEndpoint.UBIQUITY}/membership_plans`,
         method: 'GET',
       }),
     }),

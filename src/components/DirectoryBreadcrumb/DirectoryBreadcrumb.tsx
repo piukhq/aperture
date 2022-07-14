@@ -4,11 +4,18 @@ import Link from 'next/link'
 import {useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
-import {mockPlanData} from 'utils/mockPlanData'
-import {mockPlanDetailsData} from 'utils/mockPlanDetailsData'
+import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 
 const DirectoryBreadcrumb = () => {
   const router = useRouter()
+  const {planId} = router.query
+
+  const {
+    getPlanResponse,
+  } = useMidManagementPlans({
+    skipGetPlans: true,
+    planRef: planId as string,
+  })
 
   // Split out '/' and '?' characters from route
   const currentRoute = router.asPath.split(/(?:\/|\?)+/).slice(2)
@@ -16,17 +23,7 @@ const DirectoryBreadcrumb = () => {
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
 
-  const planList = mockPlanData
-  const planDetailsList = mockPlanDetailsData
-
-  // TODO: Should get these plan and merchant names from the api response if not available
-  const getPlanNameFromApi = () => {
-    const plan = planList.find(plan => plan.plan_ref === currentRoute[1])
-    if (plan) {
-      return plan.plan_metadata.name
-    }
-    return ''
-  }
+  const planDetailsList = getPlanResponse
 
   const getMerchantNameFromApi = () => {
     const merchantDetails = planDetailsList.merchants.find(merchant => merchant.merchant.merchant_ref === currentRoute[2])
@@ -36,7 +33,7 @@ const DirectoryBreadcrumb = () => {
     return ''
   }
 
-  const getPlanName = () => selectedPlan.plan_metadata.name || getPlanNameFromApi()
+  const getPlanName = () => selectedPlan.plan_metadata.name || planDetailsList.plan_metadata.name
   const getMerchantName = () => selectedMerchant.merchant_metadata.name || getMerchantNameFromApi()
 
   return (
@@ -45,21 +42,25 @@ const DirectoryBreadcrumb = () => {
         <a>PLANS</a>
       </Link>
 
-      {currentRoute[1] && (
+      {planDetailsList && (
         <>
-          <p className='cursor-default'>/</p>
-          <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}`} passHref>
-            <a>{getPlanName().toUpperCase()}</a>
-          </Link>
-        </>
-      )}
+          {currentRoute[1] && (
+            <>
+              <p className='cursor-default'>/</p>
+              <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}`} passHref>
+                <a>{getPlanName().toUpperCase()}</a>
+              </Link>
+            </>
+          )}
 
-      {currentRoute[2] && (
-        <>
-          <p className='cursor-default'>/</p>
-          <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}/${currentRoute[2]}`} passHref>
-            <a>{getMerchantName().toUpperCase()}</a>
-          </Link>
+          {currentRoute[2] && (
+            <>
+              <p className='cursor-default'>/</p>
+              <Link href={`/mid-management/${currentRoute[0]}/${currentRoute[1]}/${currentRoute[2]}`} passHref>
+                <a>{getMerchantName().toUpperCase()}</a>
+              </Link>
+            </>
+          )}
         </>
       )}
     </div>
