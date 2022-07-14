@@ -30,5 +30,5 @@ export const isoToDateTime = (isoTimestamp: string) => {
   const month = date.toLocaleString('default', {month: 'long'})
   const year = date.getFullYear()
   const time = date.toLocaleString('default', {hour: 'numeric', minute: 'numeric', hour12: true}).replace(/\s/g, '')
-  return `${month} ${day} ${year}, ${time}`
+  return `${month} ${day}, ${year}, ${time}`
 }
