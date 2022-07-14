@@ -21,6 +21,14 @@ const store = mockStoreFn({customerWallet: {
 },
 })
 
+jest.mock('hooks/useCustomerWallet', () => ({
+  useCustomerWallet: jest.fn().mockImplementation(() => ({
+    getLoyaltyCardsRefresh: jest.fn(),
+    getPaymentCardsRefresh: jest.fn(),
+    getPlansRefresh: jest.fn(),
+  })),
+}))
+
 const getCustomerLookupComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
     <CustomerLookup />
