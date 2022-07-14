@@ -19,3 +19,16 @@ export const timeStampToDate = (timestamp: number | string) => {
   const year = date.getFullYear()
   return `${day} ${month} ${year}`
 }
+
+export const isoToDateTime = (isoTimestamp: string) => {
+  const date = new Date(isoTimestamp)
+  const isValidDate = date instanceof Date && !isNaN(Number(date))
+  if (!isValidDate) {
+    return isoTimestamp
+  }
+  const day = date.getDate()
+  const month = date.toLocaleString('default', {month: 'long'})
+  const year = date.getFullYear()
+  const time = date.toLocaleString('default', {hour: 'numeric', minute: 'numeric', hour12: true}).replace(/\s/g, '')
+  return `${month} ${day} ${year}, ${time}`
+}

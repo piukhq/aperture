@@ -2,6 +2,7 @@ import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {DirectoryIdentifier} from 'types'
+import {isoToDateTime} from 'utils/dateFormat'
 
 type Props = {
   identifier: DirectoryIdentifier
@@ -25,7 +26,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     <>
       <div className='mb-[34px]'>
         <h2 className='font-single-view-heading'>DATE ADDED</h2>
-        <p className='font-single-view-data'>{dateAdded}</p>
+        <p className='font-single-view-data'>{isoToDateTime(dateAdded)}</p>
       </div>
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
