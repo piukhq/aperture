@@ -1,8 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {EnvironmentShortName, ClientID, BundleID} from 'utils/enums'
+import {EnvironmentShortName, ClientID, BundleID, UrlEndpoint} from 'utils/enums'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
-
-const endpointPrefix = '/users'
 
 type VerificationBody = {
   email: string,
@@ -21,7 +19,7 @@ export const devVerifyApi = createApi({
   endpoints: builder => ({
     verifyDevCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
-        url: `${endpointPrefix}/login`,
+        url: `${UrlEndpoint.USERS}/login`,
         method: 'POST',
         body: {
           email,
@@ -40,7 +38,7 @@ export const stagingVerifyApi = createApi({
   endpoints: builder => ({
     verifyStagingCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
-        url: `${endpointPrefix}/login`,
+        url: `${UrlEndpoint.USERS}/login`,
         method: 'POST',
         body: {
           email,
@@ -59,7 +57,7 @@ export const prodVerifyApi = createApi({
   endpoints: builder => ({
     verifyProdCredentials: builder.mutation<VerificationResponse, VerificationBody>({
       query: ({email, password}) => ({
-        url: `${endpointPrefix}/login`,
+        url: `${UrlEndpoint.USERS}/login`,
         method: 'POST',
         body: {
           email,

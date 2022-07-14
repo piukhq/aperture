@@ -1,6 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryIdentifiers, DirectoryIdentifier} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
+import {UrlEndpoint} from 'utils/enums'
 
 type MerchantIdentifiersEndpointRefs = {
   planRef: string,
@@ -12,8 +13,6 @@ type DeleteMerchantIdentifierRefs = MerchantIdentifiersEndpointRefs & {
   identifierRefs?: Array<string>,
 }
 
-const endpointPrefix = '/api/v1/plans'
-
 export const midManagementMerchantIdentifiersApi = createApi({
   reducerPath: 'midManagementMerchantIdentifiersApi',
   baseQuery: getDynamicBaseQuery(),
@@ -21,26 +20,27 @@ export const midManagementMerchantIdentifiersApi = createApi({
   endpoints: builder => ({
     getMerchantIdentifiers: builder.query<DirectoryIdentifiers, MerchantIdentifiersEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/identifiers`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers`,
         method: 'GET',
       }),
       providesTags: ['MerchantIdentifiers'],
     }),
     getMerchantIdentifier: builder.query<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
       query: ({planRef, merchantRef, identifierRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/identifiers/${identifierRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/${identifierRef}`,
         method: 'GET',
       }),
       providesTags: ['MerchantIdentifier'],
     }),
     deleteMerchantIdentifier: builder.mutation<void, DeleteMerchantIdentifierRefs>({
       query: ({planRef, merchantRef, identifierRefs}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/identifiers/deletion`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/deletion`,
         method: 'POST',
         body: [
           ...identifierRefs,
         ],
       }),
+      invalidatesTags: ['MerchantIdentifiers'],
     }),
   }),
 })

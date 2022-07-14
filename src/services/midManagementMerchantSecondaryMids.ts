@@ -1,6 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
+import {UrlEndpoint} from 'utils/enums'
 
 type MerchantSecondaryMidsEndpointRefs = {
   planRef: string,
@@ -12,8 +13,6 @@ type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
   secondaryMidRefs?: Array<string>,
 }
 
-const endpointPrefix = '/api/v1/plans'
-
 export const midManagementMerchantSecondaryMidsApi = createApi({
   reducerPath: 'midManagementMerchantSecondaryMidsApi',
   baseQuery: getDynamicBaseQuery(),
@@ -21,26 +20,27 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMids'],
     }),
     getMerchantSecondaryMid: builder.query<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMid'],
     }),
     deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantSecondaryMidRefs>({
       query: ({planRef, merchantRef, secondaryMidRefs}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
         method: 'POST',
         body: [
           ...secondaryMidRefs,
         ],
       }),
+      invalidatesTags: ['MerchantSecondaryMids'],
     }),
   }),
 })

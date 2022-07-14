@@ -1,6 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryMerchantMid, DirectoryMids, DirectoryMid, DirectoryMerchantMidLocation, DirectoryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
+import {UrlEndpoint} from 'utils/enums'
 
 type MerchantMidsEndpointRefs = {
   planRef: string,
@@ -26,8 +27,6 @@ type DeleteMerchantMidRefs = MerchantMidsEndpointRefs & {
   midRefs?: Array<string>,
 }
 
-const endpointPrefix = '/api/v1/plans'
-
 export const midManagementMerchantMidsApi = createApi({
   reducerPath: 'midManagementMerchantMidsApi',
   baseQuery: getDynamicBaseQuery(),
@@ -35,14 +34,14 @@ export const midManagementMerchantMidsApi = createApi({
   endpoints: builder => ({
     getMerchantMids: builder.query<DirectoryMids, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
     }),
     postMerchantMid: builder.mutation<DirectoryMid, PostMerchantMidBody>({
       query: ({onboard = false, mid_metadata, planRef, merchantRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids`,
         method: 'POST',
         body: {
           onboard,
@@ -52,7 +51,7 @@ export const midManagementMerchantMidsApi = createApi({
     }),
     patchMerchantMid: builder.mutation<DirectoryMid, PatchMerchantMidBody>({
       query: ({planRef, merchantRef, midRef, ...rest}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/${midRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}`,
         method: 'PATCH',
         body: {
           ...rest,
@@ -61,14 +60,14 @@ export const midManagementMerchantMidsApi = createApi({
     }),
     getMerchantMid: builder.query<DirectoryMerchantMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/${midRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}`,
         method: 'GET',
       }),
       providesTags: ['MerchantMid'],
     }),
     putMerchantMidLocation: builder.mutation<DirectoryMerchantMidLocation, PutMerchantMidLocationBody>({
       query: ({planRef, merchantRef, midRef, location_ref}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
         method: 'PUT',
         body: {
           location_ref,
@@ -78,19 +77,20 @@ export const midManagementMerchantMidsApi = createApi({
     }),
     deleteMerchantMidLocation: builder.mutation<void, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
         method: 'DELETE',
       }),
       invalidatesTags: ['MerchantMid'],
     }),
     deleteMerchantMid: builder.mutation<void, DeleteMerchantMidRefs>({
       query: ({planRef, merchantRef, midRefs}) => ({
-        url: `${endpointPrefix}/${planRef}/merchants/${merchantRef}/mids/deletion`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/deletion`,
         method: 'POST',
         body: [
           ...midRefs,
         ],
       }),
+      invalidatesTags: ['MerchantMids'],
     }),
   }),
 })

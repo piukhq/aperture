@@ -1,14 +1,13 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlanMetadata, DirectoryPlan, DirectoryPlanDetails} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
+import {UrlEndpoint} from 'utils/enums'
 
 type PlansEndpointRefs = {
   planRef: string,
 }
 
 type UpdatePlan = DirectoryPlanMetadata & PlansEndpointRefs
-
-const endpointPrefix = '/api/v1/plans'
 
 export const midManagementPlansApi = createApi({
   reducerPath: 'midManagementPlansApi',
@@ -17,14 +16,14 @@ export const midManagementPlansApi = createApi({
   endpoints: builder => ({
     getPlans: builder.query<DirectoryPlan[], void>({
       query: () => ({
-        url: endpointPrefix,
+        url: UrlEndpoint.PLANS,
         method: 'GET',
       }),
       providesTags: ['Plans'],
     }),
     postPlan: builder.mutation<DirectoryPlan, DirectoryPlanMetadata>({
       query: ({name, plan_id, slug, icon_url}) => ({
-        url: endpointPrefix,
+        url: UrlEndpoint.PLANS,
         method: 'POST',
         body: {
           name,
@@ -50,14 +49,14 @@ export const midManagementPlansApi = createApi({
     }),
     getPlan: builder.query<DirectoryPlanDetails, PlansEndpointRefs>({
       query: ({planRef}) => ({
-        url: `${endpointPrefix}/${planRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}`,
         method: 'GET',
       }),
       providesTags: ['Plan'],
     }),
     updatePlan: builder.mutation<DirectoryPlan, UpdatePlan>({
       query: ({name, plan_id, slug, icon_url, planRef}) => ({
-        url: `${endpointPrefix}/${planRef}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}`,
         method: 'PUT',
         body: {
           name,

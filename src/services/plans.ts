@@ -1,9 +1,7 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {EnvironmentShortName} from 'utils/enums'
+import {EnvironmentShortName, UrlEndpoint} from 'utils/enums'
 import {Plan} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
-
-const endpointPrefix = '/ubiquity'
 
 type PlansResponse = Plan[]
 
@@ -13,7 +11,7 @@ export const devPlansApi = createApi({
   endpoints: builder => ({
     getDevPlans: builder.mutation<PlansResponse, void>({
       query: () => ({
-        url: `${endpointPrefix}/membership_plans`,
+        url: `${UrlEndpoint.UBIQUITY}/membership_plans`,
         method: 'GET',
       }),
     }),
@@ -26,7 +24,7 @@ export const stagingPlansApi = createApi({
   endpoints: builder => ({
     getStagingPlans: builder.mutation<PlansResponse, void>({
       query: () => ({
-        url: `${endpointPrefix}/membership_plans`,
+        url: `${UrlEndpoint.UBIQUITY}/membership_plans`,
         method: 'GET',
       }),
     }),
@@ -39,7 +37,7 @@ export const prodPlansApi = createApi({
   endpoints: builder => ({
     getProdPlans: builder.mutation<PlansResponse, void>({
       query: () => ({
-        url: `${endpointPrefix}/membership_plans`,
+        url: `${UrlEndpoint.UBIQUITY}/membership_plans`,
         method: 'GET',
       }),
     }),

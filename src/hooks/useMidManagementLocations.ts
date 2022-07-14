@@ -22,7 +22,7 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     getMerchantLocationResponse,
     getMerchantLocationIsLoading,
     getMerchantLocationError,
-    // GET Delete Location
+    // DELETE Location
     deleteMerchantLocation,
     deleteMerchantLocationIsSuccess,
     deleteMerchantLocationIsLoading,
