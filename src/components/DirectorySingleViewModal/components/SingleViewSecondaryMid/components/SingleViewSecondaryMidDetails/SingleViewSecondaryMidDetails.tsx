@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useMemo} from 'react'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
@@ -9,8 +9,8 @@ type Props = {
 }
 
 const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
-  const displayValues = ['Not enrolled']
-  const [displayValue, setDisplayValue] = useState(displayValues[0])
+  const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('Not enrolled')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
   const {payment_scheme_code: paymentSchemeCode} = secondaryMidMetadata
@@ -36,9 +36,9 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
           <h2 className='font-single-view-heading'>PAYMENT SCHEME</h2>
           <p className='font-single-view-data'>{getPaymentScheme()}</p>
         </div>
-        <div className='flex flex-col h-[50px]'>
-          <label className='font-single-view-heading pl-[15px]'>PAYMENT SCHEME STATUS</label>
-          <Dropdown displayValue={displayValue} displayValues={displayValues} onChangeDisplayValue={setDisplayValue} />
+        <div className='flex flex-col h-[50px] pl-[15px]'>
+          <label className='font-single-view-heading'>PAYMENT SCHEME STATUS</label>
+          <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={setPaymentSchemeStatus} />
         </div>
       </section>
       <section className=' h-[38px] flex justify-between mb-[34px] items-center'>

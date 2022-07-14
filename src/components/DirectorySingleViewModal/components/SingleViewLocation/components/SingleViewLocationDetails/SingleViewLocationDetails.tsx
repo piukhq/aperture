@@ -206,7 +206,7 @@ const SingleViewLocationDetails = ({isInEditState, location}: Props) => {
 
         <div className='flex flex-col gap-[32px]'>
           <section>
-            <h2 className='font-single-view-heading'>MERCHANT ID</h2>
+            <h2 className='font-single-view-heading'>MERCHANT INTERNAL ID</h2>
             <p className='font-single-view-data'>{merchantInternalId}</p>
           </section>
 
