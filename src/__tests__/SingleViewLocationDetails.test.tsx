@@ -95,7 +95,7 @@ describe('SingleViewLocationDetails', () => {
 
     it('should render the Merchant ID heading and value', () => {
       render(getSingleViewLocationDetailsComponent())
-      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('MERCHANT ID')
+      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('MERCHANT INTERNAL ID')
       expect(screen.getByText(mockMerchantInternalId)).toBeInTheDocument()
     })
 
