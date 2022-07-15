@@ -18,14 +18,15 @@ export const useCustomerWallet = () => {
   const {
     data: getPlansResponse,
     isLoading: getPlansIsLoading,
-    error: getPlansIsError,
+    isError: getPlansIsError,
     refetch: getPlansRefresh,
   } = useGetPlansQuery()
 
   const {
     data: getServiceResponse,
     isLoading: getServiceIsLoading,
-    error: getServiceIsError,
+    isError: getServiceIsError,
+    error: getServiceError,
     refetch: getServiceRefresh,
   } = useGetServiceQuery()
 
@@ -50,5 +51,6 @@ export const useCustomerWallet = () => {
     getServiceRefresh,
     getServiceIsLoading,
     getServiceIsError,
+    getServiceError,
   }
 }

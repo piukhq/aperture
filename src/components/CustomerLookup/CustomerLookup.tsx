@@ -20,6 +20,7 @@ const CustomerLookup = () => {
     getPlansRefresh,
     getServiceResponse,
     getServiceIsError,
+    getServiceError,
     getServiceIsLoading,
     getServiceRefresh,
   } = useCustomerWallet()
@@ -33,14 +34,16 @@ const CustomerLookup = () => {
     e.preventDefault()
     if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
+      console.log('refreshing service')
       getServiceRefresh()
     }
   }
 
   useEffect(() => {
-    if (getServiceIsError && getServiceResponse) {
-      console.log('Error getting service for this token')
-    } else if (getServiceResponse && !getServiceIsLoading) {
+    if (getServiceError) {
+      console.log('Error getting service for this token:', getServiceError)
+    } else if (getServiceResponse && getServiceResponse.length > 0) {
+      console.log('Refreshing loyalty cards and other stuff')
       getLoyaltyCardsRefresh()
       getPaymentCardsRefresh()
       getPlansRefresh()
@@ -60,7 +63,7 @@ const CustomerLookup = () => {
         },
       })
     }
-  }, [getServiceResponse, getServiceIsError, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, putLookHistoryEntry, lookupTypeValue, getServiceIsLoading, selectedJwtToken])
+  }, [getServiceResponse, getServiceIsError, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, putLookHistoryEntry, lookupTypeValue, getServiceIsLoading, selectedJwtToken, getServiceError])
 
   return (
     <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>
