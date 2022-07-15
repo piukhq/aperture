@@ -7,7 +7,7 @@ import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
 import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
 import {useAppSelector} from 'app/hooks'
-import {useCustomerWallet} from 'hooks/useCustomerWallet'
+import {useService} from 'hooks/useService'
 import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
 import {decodeJwtToken} from 'utils/jwtToken'
 
@@ -15,15 +15,9 @@ const CustomerLookup = () => {
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
   const selectedJwtToken = useAppSelector(getJwtToken)
   const {
-    getLoyaltyCardsRefresh,
-    getPaymentCardsRefresh,
-    getPlansRefresh,
     getServiceResponse,
-    getServiceIsError,
-    getServiceError,
-    getServiceIsLoading,
     getServiceRefresh,
-  } = useCustomerWallet()
+  } = useService()
 
   const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
@@ -34,20 +28,12 @@ const CustomerLookup = () => {
     e.preventDefault()
     if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
-      console.log('refreshing service')
       getServiceRefresh()
     }
   }
 
   useEffect(() => {
-    if (getServiceError) {
-      console.log('Error getting service for this token:', getServiceError)
-    } else if (getServiceResponse && getServiceResponse.length > 0) {
-      console.log('Refreshing loyalty cards and other stuff')
-      getLoyaltyCardsRefresh()
-      getPaymentCardsRefresh()
-      getPlansRefresh()
-
+    if (getServiceResponse && selectedJwtToken) {
       const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(selectedJwtToken)
       putLookHistoryEntry({
         user: {
@@ -63,7 +49,7 @@ const CustomerLookup = () => {
         },
       })
     }
-  }, [getServiceResponse, getServiceIsError, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, putLookHistoryEntry, lookupTypeValue, getServiceIsLoading, selectedJwtToken, getServiceError])
+  }, [getServiceResponse, putLookHistoryEntry, lookupTypeValue, selectedJwtToken])
 
   return (
     <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>

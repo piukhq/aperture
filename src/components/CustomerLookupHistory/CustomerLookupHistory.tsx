@@ -8,7 +8,6 @@ import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
 import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
 import {BundleID} from 'utils/enums'
-import {useCustomerWallet} from 'hooks/useCustomerWallet'
 
 type Props = {
   lookupHistory: LookupUserHistoryEntity[]
@@ -16,12 +15,6 @@ type Props = {
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
-  const {
-    getLoyaltyCardsRefresh,
-    getPaymentCardsRefresh,
-    getPlansRefresh,
-  } = useCustomerWallet()
-
   const dispatch = useDispatch()
 
   const renderBundleIcon = (channel: string) => {
@@ -64,10 +57,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     // TODO: Handle other types
     if (type === 'JWT') {
       dispatch(setJwtToken(criteria as string))
-      getLoyaltyCardsRefresh()
-      getPaymentCardsRefresh()
-      getPlansRefresh()
-
       putLookHistoryEntry({
         user,
         lookup,

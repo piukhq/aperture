@@ -3,6 +3,7 @@ import Image from 'next/image'
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
+import {useService} from 'hooks/useService'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
 import LinkStatus from './components/LinkStatus'
@@ -22,14 +23,20 @@ const CustomerWallet = ({userPlans}: Props) => {
     getPlansRefresh,
   } = useCustomerWallet()
 
+  const {getServiceResponse, getServiceRefresh} = useService()
+
   const selectedJwtToken = useAppSelector(getJwtToken)
 
-  // If the selected token changes, refetch data
+  // If the selected token changes and service checks pass, refetch data
   useEffect(() => {
-    getLoyaltyCardsRefresh()
-    getPaymentCardsRefresh()
-    getPlansRefresh()
-  }, [selectedJwtToken, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh])
+    getServiceRefresh()
+    if (getServiceResponse) {
+      getLoyaltyCardsRefresh()
+      getPaymentCardsRefresh()
+      getPlansRefresh()
+    }
+  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse, selectedJwtToken])
+
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {

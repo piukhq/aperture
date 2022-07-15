@@ -29,6 +29,17 @@ jest.mock('hooks/useCustomerWallet', () => ({
   })),
 }))
 
+jest.mock('hooks/useService', () => ({
+  useService: jest.fn().mockImplementation(() => ({
+    getServiceRefresh: jest.fn(),
+    getServiceResponse: jest.fn(),
+  })),
+}))
+
+jest.mock('utils/jwtToken', () => ({
+  decodeJwtToken: jest.fn().mockImplementation(() => 'mock_jwt_token'),
+}))
+
 const getCustomerLookupComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
     <CustomerLookup />

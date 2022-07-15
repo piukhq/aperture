@@ -18,14 +18,6 @@ jest.mock('features/customerWalletSlice', () => ({
   setJwtToken: jest.fn(),
 }))
 
-jest.mock('hooks/useCustomerWallet', () => ({
-  useCustomerWallet: jest.fn().mockImplementation(() => ({
-    getLoyaltyCardsRefresh: jest.fn(),
-    getPaymentCardsRefresh: jest.fn(),
-    getPlansRefresh: jest.fn(),
-  })),
-}))
-
 const mockDisplayText = 'mock_display_text'
 
 const mockLookupHistory = [
