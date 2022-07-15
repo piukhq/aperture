@@ -22,7 +22,7 @@ const Sidebar = () => {
   }, [router.pathname])
 
   return (
-    <div className='pr-64'>
+    <div className='pr-64 z-[1]'>
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 '>
         <div className='flex h-16 border-b border-grey-300 dark:border-grey-800 pl-[25px] items-center'>
           <Image data-testid='logo' src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
