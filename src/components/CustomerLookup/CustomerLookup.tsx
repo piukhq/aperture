@@ -1,21 +1,27 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
-import {setJwtToken} from 'features/customerWalletSlice'
+import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
+import {useAppSelector} from 'app/hooks'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
 import {decodeJwtToken} from 'utils/jwtToken'
 
 const CustomerLookup = () => {
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
+  const selectedJwtToken = useAppSelector(getJwtToken)
   const {
     getLoyaltyCardsRefresh,
     getPaymentCardsRefresh,
     getPlansRefresh,
+    getServiceResponse,
+    getServiceIsError,
+    getServiceIsLoading,
+    getServiceRefresh,
   } = useCustomerWallet()
 
   const dispatch = useDispatch()
@@ -25,13 +31,21 @@ const CustomerLookup = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (lookupTypeValue === 'JWT') { // TODO: Add better validation rules
+    if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
+      getServiceRefresh()
+    }
+  }
+
+  useEffect(() => {
+    if (getServiceIsError && getServiceResponse) {
+      console.log('Error getting service for this token')
+    } else if (getServiceResponse && !getServiceIsLoading) {
       getLoyaltyCardsRefresh()
       getPaymentCardsRefresh()
       getPlansRefresh()
-      const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(lookupValue)
 
+      const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(selectedJwtToken)
       putLookHistoryEntry({
         user: {
           channel,
@@ -42,13 +56,11 @@ const CustomerLookup = () => {
           type: lookupTypeValue,
           datetime: JSON.stringify(new Date()),
           // TODO: This will need to be dynamic based on the lookup type
-          criteria: lookupValue,
+          criteria: selectedJwtToken,
         },
       })
-
     }
-
-  }
+  }, [getServiceResponse, getServiceIsError, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, putLookHistoryEntry, lookupTypeValue, getServiceIsLoading, selectedJwtToken])
 
   return (
     <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} from 'services/customerWallet'
+import {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery, useGetServiceQuery} from 'services/customerWallet'
 
 export const useCustomerWallet = () => {
   const {
@@ -22,18 +22,33 @@ export const useCustomerWallet = () => {
     refetch: getPlansRefresh,
   } = useGetPlansQuery()
 
+  const {
+    data: getServiceResponse,
+    isLoading: getServiceIsLoading,
+    error: getServiceIsError,
+    refetch: getServiceRefresh,
+  } = useGetServiceQuery()
+
   return {
+    // Loyalty cards
     getLoyaltyCardsResponse,
     getLoyaltyCardsRefresh,
     getLoyaltyCardsIsLoading,
     getLoyaltyCardsIsError,
+    // Payment Cards
     getPaymentCardsResponse,
     getPaymentCardsRefresh,
     getPaymentCardsIsLoading,
     getPaymentCardsIsError,
+    // Plans
     getPlansResponse,
     getPlansRefresh,
     getPlansIsLoading,
     getPlansIsError,
+    // Service
+    getServiceResponse,
+    getServiceRefresh,
+    getServiceIsLoading,
+    getServiceIsError,
   }
 }
