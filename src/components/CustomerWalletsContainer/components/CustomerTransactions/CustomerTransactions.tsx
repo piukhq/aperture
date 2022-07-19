@@ -1,6 +1,7 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
+import {useService} from 'hooks/useService'
 import Dropdown from 'components/Dropdown'
 import TransactionsTableBody from './components/TransactionsTableBody'
 import {Plan} from 'types'
@@ -13,8 +14,20 @@ const CustomerTransactions = ({userPlans}: Props) => {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const {
     getLoyaltyCardsResponse,
+    getLoyaltyCardsRefresh,
+    getPlansRefresh,
     getPlansResponse,
   } = useCustomerWallet()
+
+  const {getServiceResponse, getServiceRefresh} = useService()
+
+  useEffect(() => {
+    getServiceRefresh()
+    if (getServiceResponse) {
+      getLoyaltyCardsRefresh()
+      getPlansRefresh()
+    }
+  }, [getLoyaltyCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse])
 
   const getLoyaltyCardTransactions = useCallback(() => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id)?.membership_transactions
@@ -71,10 +84,10 @@ const CustomerTransactions = ({userPlans}: Props) => {
                   {renderTableHeaders()}
                 </tr>
               </thead>
-              {selectedPlan && <TransactionsTableBody transactions={getLoyaltyCardTransactions()} plan={selectedPlan} />}
+              {selectedPlan && getLoyaltyCardTransactions()?.length > 0 && <TransactionsTableBody transactions={getLoyaltyCardTransactions()} plan={selectedPlan} />}
             </table>
             {!selectedPlan && <p className='font-body-4 text-center'>Select a plan above to see transactions</p>}
-            {selectedPlan && getLoyaltyCardTransactions().length === 0 && <p className='font-body-4 text-center'>There are no transactions to view</p>}
+            {selectedPlan && getLoyaltyCardTransactions()?.length === 0 && <p className='font-body-4 text-center'>There are no transactions to view</p>}
           </div>
         </>
       )}
