@@ -34,7 +34,7 @@ const CustomerLookup = () => {
 
   useEffect(() => {
     if (getServiceResponse && selectedJwtToken) {
-      const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(selectedJwtToken)
+      const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(selectedJwtToken) || {}
       putLookHistoryEntry({
         user: {
           channel,
