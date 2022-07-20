@@ -6,7 +6,7 @@ import CustomerTransactions from './components/CustomerTransactions'
 const CustomerWalletsContainer = () => {
   const {
     userPlans,
-  } = useCustomerWalletUserPlans({skipGetLoyaltyCards: false, skipGetPlansResponse: false})
+  } = useCustomerWalletUserPlans()
 
   return (
     <>

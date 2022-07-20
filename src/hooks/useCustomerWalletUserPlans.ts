@@ -1,9 +1,9 @@
 import {useMemo} from 'react'
 import {useGetLoyaltyCardsQuery, useGetPlansQuery} from 'services/customerWallet'
 
-export const useCustomerWalletUserPlans = ({skipGetLoyaltyCards = false, skipGetPlansResponse = false}) => {
-  const {data: getLoyaltyCardsResponse} = useGetLoyaltyCardsQuery(null, {skip: skipGetLoyaltyCards})
-  const {data: getPlansResponse} = useGetPlansQuery(null, {skip: skipGetPlansResponse})
+export const useCustomerWalletUserPlans = () => {
+  const {data: getLoyaltyCardsResponse} = useGetLoyaltyCardsQuery()
+  const {data: getPlansResponse} = useGetPlansQuery()
 
   const userPlans = useMemo(() => {
     if (getLoyaltyCardsResponse && getPlansResponse) {

@@ -20,7 +20,7 @@ const CustomerWallet = ({userPlans}: Props) => {
     getLoyaltyCardsRefresh,
     getPaymentCardsRefresh,
     getPlansRefresh,
-  } = useCustomerWallet({skipGetLoyaltyCards: false, skipGetPaymentCards: false, skipGetPlans: false})
+  } = useCustomerWallet()
 
   const {getServiceResponse, getServiceRefresh} = useService()
 
