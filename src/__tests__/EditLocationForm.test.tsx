@@ -306,7 +306,7 @@ describe('EditLocationForm', () => {
       })
     })
 
-    it('should display field specific error messages when mandatory field is left blank', () => {
+    it('should display field specific error messages when mandatory fields are left blank', () => {
       const mockSetNameValidationError = jest.fn()
       const mockSetLocationIdValidationError = jest.fn()
       const mockSetAddressLine1ValidationError = jest.fn()
