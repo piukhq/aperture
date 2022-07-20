@@ -1,4 +1,4 @@
-import {useState, useMemo, useEffect, useCallback} from 'react'
+import {useState, useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {DirectoryLocation} from 'types'
 import {Button, TextInputGroup, Tag} from 'components'
@@ -74,7 +74,7 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const baseRoute = useMemo(() => `/mid-management/directory/${planId}/${merchantId}?tab=${tab}`, [planId, merchantId, tab])
+  const baseRoute = `/mid-management/directory/${planId}/${merchantId}?tab=${tab}`
 
   // TODO: Handle unhappy path
   const handleErrorResponse = useCallback(() => {
@@ -166,8 +166,7 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
     }
   }
 
-  const formIsInvalid = useMemo(() => nameValidationError || locationIdValidationError || (isPhysicalLocation && (addressLine1ValidationError || postcodeValidationError)),
-    [nameValidationError, locationIdValidationError, isPhysicalLocation, addressLine1ValidationError, postcodeValidationError])
+  const formIsInvalid = nameValidationError || locationIdValidationError || (isPhysicalLocation && (addressLine1ValidationError || postcodeValidationError))
 
   const handleSave = () => {
     if (formIsInvalid) {

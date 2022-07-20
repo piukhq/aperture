@@ -160,6 +160,10 @@ const DirectorySingleViewModal = () => {
 
   const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantIdentifierIsLoading
 
+  const onCancelEditState = useCallback(() => {
+    setIsInLocationEditState(false)
+  }, [])
+
   const renderContent = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
@@ -172,7 +176,7 @@ const DirectorySingleViewModal = () => {
         return <SingleViewLocation
           setHeaderFn={setEntityHeading}
           isInEditState={isInLocationEditState}
-          onCancelEditState={() => setIsInLocationEditState(false)}
+          onCancelEditState={onCancelEditState}
         />
     }
   }
@@ -279,6 +283,7 @@ const DirectorySingleViewModal = () => {
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModelClose}>
       {renderContent()}
 
+      {/* Form buttons shall appear except when editing a location, then the EditLocationForm will handle the form's buttons */}
       {!(tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) && (
         <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
           {renderFormButtons()}

@@ -155,19 +155,19 @@ describe('EditLocationForm', () => {
   })
 
   describe('Test physical location', () => {
-    it('should render the Physical Loaction checkbox with text', () => {
+    it('should render the Physical Location checkbox with text', () => {
       render(getEditLocationFormComponent())
       expect(screen.getByTestId('is-physical-location-checkbox')).toBeInTheDocument()
       expect(screen.getByText('Physical location')).toBeInTheDocument()
     })
 
-    it('should render the enabled Physical Loaction', () => {
+    it('should render the enabled Physical Location', () => {
       render(getEditLocationFormComponent())
       const isPhysicalLocationCheckbox = screen.getByTestId('is-physical-location-checkbox')
       expect(isPhysicalLocationCheckbox).toBeChecked()
     })
 
-    it('should render the disabled Physical Loaction', () => {
+    it('should render the disabled Physical Location', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce([mockName, setStateMock]) // nameValue

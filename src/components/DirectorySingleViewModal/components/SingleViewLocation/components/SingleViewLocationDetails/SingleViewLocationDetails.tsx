@@ -1,3 +1,4 @@
+import {useEffect} from 'react'
 import {DirectoryLocation} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import EditLocationForm from './components/EditLocationForm'
@@ -9,6 +10,13 @@ type Props = {
 }
 
 const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState}: Props) => {
+  // Take component out of edit state when unmounted
+  useEffect(() => {
+    return () => {
+      onCancelEditState()
+    }
+  }, [onCancelEditState])
+
   const {
     date_added: dateAdded,
     linked_mids_count: linkedMidsCount,
