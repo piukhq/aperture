@@ -15,7 +15,8 @@ export enum TagStyle {
   RED_FILLED,
   RED_OUTLINE,
   GREY_OUTLINE,
-  LIGHT_GREY_FILLED
+  LIGHT_GREY_FILLED,
+  BLUE_FILLED
 }
 
 export enum TextStyle {
@@ -46,6 +47,7 @@ export const TAG_STYLE_MAPS: Record<TagStyle, string> = {
   [TagStyle.RED_OUTLINE]: 'border border-red text-red',
   [TagStyle.GREY_OUTLINE]: 'border border-grey-600 text-grey-600',
   [TagStyle.LIGHT_GREY_FILLED]: 'bg-grey-200',
+  [TagStyle.BLUE_FILLED]: 'bg-blue text-white',
 }
 
 export const TEXT_STYLE_MAPS: Record<TextStyle, string> = {

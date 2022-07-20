@@ -9,6 +9,7 @@ import SingleViewLocationDetails from './components/SingleViewLocationDetails'
 type Props = {
   setHeaderFn: (header: string) => void
   isInEditState: boolean
+  onCancelEditState: () => void
 }
 
 enum SingleViewLocationTabs {
@@ -18,7 +19,7 @@ enum SingleViewLocationTabs {
   COMMENTS = 'Comments'
 }
 
-const SingleViewLocation = ({setHeaderFn, isInEditState}: Props) => {
+const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -63,7 +64,13 @@ const SingleViewLocation = ({setHeaderFn, isInEditState}: Props) => {
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case SingleViewLocationTabs.DETAILS:
-        return getMerchantLocationResponse ? <SingleViewLocationDetails location={getMerchantLocationResponse} isInEditState={isInEditState} /> : null
+        return getMerchantLocationResponse ? (
+          <SingleViewLocationDetails
+            location={getMerchantLocationResponse}
+            isInEditState={isInEditState}
+            onCancelEditState={onCancelEditState}
+          />
+        ) : null
       case SingleViewLocationTabs.COMMENTS:
         return <i className='font-body-4'> There are no comments to view.</i>
       case SingleViewLocationTabs.MIDS:

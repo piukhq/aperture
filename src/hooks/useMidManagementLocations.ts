@@ -1,6 +1,7 @@
 import {
   useGetMerchantLocationsQuery,
   useGetMerchantLocationQuery,
+  usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
 } from 'services/midManagementMerchantLocations'
 
@@ -8,6 +9,10 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
   const {data: getMerchantLocationsResponse, isLoading: getMerchantLocationsIsLoading, error: getMerchantLocationsError} = useGetMerchantLocationsQuery({planRef, merchantRef}, {skip: skipGetLocations})
 
   const {data: getMerchantLocationResponse, isLoading: getMerchantLocationIsLoading, error: getMerchantLocationError} = useGetMerchantLocationQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocation})
+
+  const [putMerchantLocation,
+    {isSuccess: putMerchantLocationIsSuccess, isLoading: putMerchantLocationIsLoading, error: putMerchantLocationError, reset: resetPutMerchantLocationResponse},
+  ] = usePutMerchantLocationMutation({fixedCacheKey: 'putMerchantLocation'})
 
   const [deleteMerchantLocation,
     {isSuccess: deleteMerchantLocationIsSuccess, isLoading: deleteMerchantLocationIsLoading, error: deleteMerchantLocationError, reset: resetDeleteMerchantLocationResponse},
@@ -22,6 +27,12 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     getMerchantLocationResponse,
     getMerchantLocationIsLoading,
     getMerchantLocationError,
+    // PUT Location
+    putMerchantLocation,
+    putMerchantLocationIsSuccess,
+    putMerchantLocationIsLoading,
+    putMerchantLocationError,
+    resetPutMerchantLocationResponse,
     // DELETE Location
     deleteMerchantLocation,
     deleteMerchantLocationIsSuccess,
