@@ -353,7 +353,7 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
       {renderForm()}
       <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[42px] pt-[14px]'>
         {errorMessage && (
-          <p className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
+          <p data-testid='error-message' className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
         )}
 
         <div className='flex w-full justify-end items-center gap-[15px]'>

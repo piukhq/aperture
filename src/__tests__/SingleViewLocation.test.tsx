@@ -31,6 +31,7 @@ const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
   isInEditState: false,
+  onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
 }
 
