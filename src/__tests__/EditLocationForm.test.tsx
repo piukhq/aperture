@@ -305,5 +305,48 @@ describe('EditLocationForm', () => {
         ...locationBody,
       })
     })
+
+    it('should display field specific error messages when mandatory field is left blank', () => {
+      const mockSetNameValidationError = jest.fn()
+      const mockSetLocationIdValidationError = jest.fn()
+      const mockSetAddressLine1ValidationError = jest.fn()
+      const mockSetPostcodeValidationError = jest.fn()
+
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['', setStateMock]) // nameValue
+        .mockReturnValueOnce([null, mockSetNameValidationError]) // nameValidationError
+        .mockReturnValueOnce(['', setStateMock]) // locationIdValue
+        .mockReturnValueOnce([null, mockSetLocationIdValidationError]) // locationIdValidationError
+        .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
+        .mockReturnValueOnce([mockIsPhysicalLocation, setIsPhysicalLocationStateMock]) // isPhysicalLocation
+        .mockReturnValueOnce(['', setStateMock]) // addressLine1Value
+        .mockReturnValueOnce([null, mockSetAddressLine1ValidationError]) // addressLine1ValidationError
+        .mockReturnValueOnce([mockAddressLine2, setStateMock]) // addressLine2Value
+        .mockReturnValueOnce([mockTownCity, setStateMock]) // townCityValue
+        .mockReturnValueOnce([mockCounty, setStateMock]) // countyValue
+        .mockReturnValueOnce([mockCountry, setStateMock]) // countryValue
+        .mockReturnValueOnce(['', setStateMock]) // postcodeValue
+        .mockReturnValueOnce([null, mockSetPostcodeValidationError]) // postcodeValidationError
+        .mockReturnValueOnce([null, setStateMock]) // errorMessage
+
+      render(getEditLocationFormComponent())
+
+      const nameInput = screen.getByLabelText('Name')
+      fireEvent.blur(nameInput)
+      expect(mockSetNameValidationError).toHaveBeenCalledWith('Enter name')
+
+      const locationIdInput = screen.getByLabelText('Location ID')
+      fireEvent.blur(locationIdInput)
+      expect(mockSetLocationIdValidationError).toHaveBeenCalledWith('Enter location ID')
+
+      const addressLine1Input = screen.getByLabelText('Line 1')
+      fireEvent.blur(addressLine1Input)
+      expect(mockSetAddressLine1ValidationError).toHaveBeenCalledWith('Enter address line 1')
+
+      const postcodeInput = screen.getByLabelText('Postcode')
+      fireEvent.blur(postcodeInput)
+      expect(mockSetPostcodeValidationError).toHaveBeenCalledWith('Enter postcode')
+    })
   })
 })
