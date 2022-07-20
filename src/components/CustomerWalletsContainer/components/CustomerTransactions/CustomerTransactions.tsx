@@ -17,7 +17,7 @@ const CustomerTransactions = ({userPlans}: Props) => {
     getLoyaltyCardsRefresh,
     getPlansRefresh,
     getPlansResponse,
-  } = useCustomerWallet()
+  } = useCustomerWallet({skipGetLoyaltyCards: false, skipGetPlans: false})
 
   const {getServiceResponse, getServiceRefresh} = useService()
 
@@ -56,7 +56,6 @@ const CustomerTransactions = ({userPlans}: Props) => {
         <div className='h-[24px] w-[24px] mr-[10px]'>
           {src && <Image src={src} height={24} width={24} alt='' />}
         </div>
-
         <p className='font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
       </div>
     )
@@ -96,4 +95,3 @@ const CustomerTransactions = ({userPlans}: Props) => {
 }
 
 export default CustomerTransactions
-

@@ -37,7 +37,7 @@ export const customerWalletApi = createApi({
         method: 'GET',
       }),
     }),
-    getService: builder.query<Service[], void>({
+    getService: builder.query<Service, void>({
       query: () => ({
         url: `${UrlEndpoint.UBIQUITY}/service`,
         method: 'GET',

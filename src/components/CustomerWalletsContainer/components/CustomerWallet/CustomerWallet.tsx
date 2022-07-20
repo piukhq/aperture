@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useMemo} from 'react'
+import React, {useCallback, useEffect, useMemo, useState} from 'react'
 import Image from 'next/image'
-import {useAppSelector} from 'app/hooks'
-import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useService} from 'hooks/useService'
 import PaymentCard from './components/PaymentCard'
@@ -15,28 +13,29 @@ type Props = {
 }
 
 const CustomerWallet = ({userPlans}: Props) => {
+  const [isService, setIsService] = useState(false)
   const {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
     getLoyaltyCardsRefresh,
     getPaymentCardsRefresh,
     getPlansRefresh,
-  } = useCustomerWallet()
+  } = useCustomerWallet({skipGetLoyaltyCards: false, skipGetPaymentCards: false, skipGetPlans: false})
 
   const {getServiceResponse, getServiceRefresh} = useService()
 
-  const selectedJwtToken = useAppSelector(getJwtToken)
-
   // If the selected token changes and service checks pass, refetch data
   useEffect(() => {
-    getServiceRefresh()
-    if (getServiceResponse) {
+    if (isService) {
       getLoyaltyCardsRefresh()
       getPaymentCardsRefresh()
       getPlansRefresh()
     }
-  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse, selectedJwtToken])
+  }, [getLoyaltyCardsRefresh, getLoyaltyCardsResponse, getPaymentCardsRefresh, getPaymentCardsResponse, getPlansRefresh, getServiceRefresh, getServiceResponse, isService])
 
+  useEffect(() => {
+    getServiceResponse?.consent && setIsService(true)
+  }, [getServiceResponse])
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
@@ -130,8 +129,8 @@ const CustomerWallet = ({userPlans}: Props) => {
         { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
           <>
             {renderPaymentCards()}
-            {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
-            {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
+            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+            {externalMembershipCardIds?.map(id => renderExternalLoyaltyCardsRow(id))}
           </>
         ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
       </div>

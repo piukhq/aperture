@@ -1,26 +1,26 @@
 import {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} from 'services/customerWallet'
 
-export const useCustomerWallet = () => {
+export const useCustomerWallet = ({skipGetLoyaltyCards = false, skipGetPaymentCards = false, skipGetPlans = false}) => {
   const {
     data: getLoyaltyCardsResponse,
     isLoading: getLoyaltyCardsIsLoading,
     isError: getLoyaltyCardsIsError,
     refetch: getLoyaltyCardsRefresh,
-  } = useGetLoyaltyCardsQuery()
+  } = useGetLoyaltyCardsQuery(null, {skip: skipGetLoyaltyCards})
 
   const {
     data: getPaymentCardsResponse,
     isLoading: getPaymentCardsIsLoading,
     isError: getPaymentCardsIsError,
     refetch: getPaymentCardsRefresh,
-  } = useGetPaymentCardsQuery()
+  } = useGetPaymentCardsQuery(null, {skip: skipGetPaymentCards})
 
   const {
     data: getPlansResponse,
     isLoading: getPlansIsLoading,
     isError: getPlansIsError,
     refetch: getPlansRefresh,
-  } = useGetPlansQuery()
+  } = useGetPlansQuery(null, {skip: skipGetPlans})
 
   return {
     // Loyalty cards

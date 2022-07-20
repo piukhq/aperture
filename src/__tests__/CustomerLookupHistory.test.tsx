@@ -8,11 +8,12 @@ jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
-jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
-  useGetCustomerWalletLookupHistory: jest.fn().mockImplementation(() => ({
-    putLookHistoryEntry: jest.fn(),
+jest.mock('hooks/useService', () => ({
+  useService: jest.fn().mockImplementation(() => ({
+    getServiceRefresh: jest.fn(),
   })),
 }))
+
 
 jest.mock('features/customerWalletSlice', () => ({
   setJwtToken: jest.fn(),
