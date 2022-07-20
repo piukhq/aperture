@@ -2,6 +2,10 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewLocationDetails from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails'
 
+jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm',
+  () => () => <div data-testid='EditLocationForm' />)
+
+
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'
 const mockLocationId = 'mock_location_id'
@@ -55,6 +59,7 @@ const mockLocation = {
 
 const mockProps = {
   isInEditState: false,
+  onCancelEditState: jest.fn(),
   location: mockLocation,
 }
 
@@ -123,9 +128,13 @@ describe('SingleViewLocationDetails', () => {
       })
 
       it('should render disabled Physical Location text', () => {
-        React.useState = jest.fn().mockReturnValueOnce([false, jest.fn()]) // isPhysicalLocation
-
-        render(getSingleViewLocationDetailsComponent())
+        const location = {
+          ...mockLocation,
+          location_metadata: {
+            is_physical_location: false,
+          },
+        }
+        render(getSingleViewLocationDetailsComponent({location}))
         expect(screen.getByText('No')).toBeInTheDocument()
       })
     })
@@ -133,126 +142,9 @@ describe('SingleViewLocationDetails', () => {
 
   // TODO: Add functionality tests into each section
   describe('Test edit state', () => {
-    let editingSingleViewLocationDetailsComponent
-
-    beforeEach(() => {
-      jest.clearAllMocks()
-
-      editingSingleViewLocationDetailsComponent = getSingleViewLocationDetailsComponent({isInEditState: true})
-    })
-
-    it('should render the edit location form', () => {
-      render(editingSingleViewLocationDetailsComponent)
-      expect(screen.getByTestId('location-editing-form')).toBeInTheDocument()
-    })
-
-    describe('Test Identifiers section', () => {
-      it('should render the Identifiers section and header', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        expect(screen.getAllByRole('heading')[0]).toHaveTextContent('IDENTIFIERS')
-        expect(screen.getByTestId('identifiers-section')).toBeInTheDocument()
-      })
-
-      it('should render the Location Name field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const nameInput = screen.getByLabelText('Name')
-        expect(nameInput).toBeInTheDocument()
-        expect(nameInput).toHaveProperty('autofocus')
-        expect(nameInput).toHaveValue(mockName)
-      })
-
-      it('should render the Location ID field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const locationIdInput = screen.getByLabelText('Location ID')
-        expect(locationIdInput).toBeInTheDocument()
-        expect(locationIdInput).toHaveValue(mockLocationId)
-      })
-
-      it('should render the Merchant Internal ID field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const merchantInternalIdInput = screen.getByLabelText('Merchant Internal ID')
-        expect(merchantInternalIdInput).toBeInTheDocument()
-        expect(merchantInternalIdInput).toHaveValue(mockMerchantInternalId)
-      })
-    })
-
-    describe('Test physical location', () => {
-      it('should render the Physical Loaction checkbox with text', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        expect(screen.getByTestId('is-physical-location-checkbox')).toBeInTheDocument()
-        expect(screen.getByText('Physical location')).toBeInTheDocument()
-      })
-
-      it('should render the enabled Physical Loaction', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const isPhysicalLocationCheckbox = screen.getByTestId('is-physical-location-checkbox')
-        expect(isPhysicalLocationCheckbox).toBeChecked()
-      })
-
-      it('should render the disabled Physical Loaction', () => {
-        React.useState = jest.fn().mockReturnValueOnce([false, jest.fn()]) // isPhysicalLocation
-
-        render(editingSingleViewLocationDetailsComponent)
-        const isPhysicalLocationCheckbox = screen.getByTestId('is-physical-location-checkbox')
-        expect(isPhysicalLocationCheckbox).not.toBeChecked()
-      })
-    })
-
-    describe('Test Address section', () => {
-      it('should not render the Address section', () => {
-        React.useState = jest.fn().mockReturnValueOnce([false, jest.fn()]) // isPhysicalLocation
-
-        render(editingSingleViewLocationDetailsComponent)
-        expect(screen.queryByTestId('address-section')).not.toBeInTheDocument()
-      })
-
-      it('should render the Address section and header', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        expect(screen.getAllByRole('heading')[1]).toHaveTextContent('ADDRESS')
-        expect(screen.getByTestId('address-section')).toBeInTheDocument()
-      })
-
-      it('should render the Line 1 field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const line1Input = screen.getByLabelText('Line 1')
-        expect(line1Input).toBeInTheDocument()
-        expect(line1Input).toHaveValue(mockAddressLine1)
-      })
-
-      it('should render the Line 2 field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const line2Input = screen.getByLabelText('Line 2')
-        expect(line2Input).toBeInTheDocument()
-        expect(line2Input).toHaveValue(mockAddressLine2)
-      })
-
-      it('should render the Town / City field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const townCityInput = screen.getByLabelText('Town / City')
-        expect(townCityInput).toBeInTheDocument()
-        expect(townCityInput).toHaveValue(mockTownCity)
-      })
-
-      it('should render the County field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const countyInput = screen.getByLabelText('County')
-        expect(countyInput).toBeInTheDocument()
-        expect(countyInput).toHaveValue(mockCounty)
-      })
-
-      it('should render the Country field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const countryInput = screen.getByLabelText('Country')
-        expect(countryInput).toBeInTheDocument()
-        expect(countryInput).toHaveValue(mockCountry)
-      })
-
-      it('should render the Postcode field', () => {
-        render(editingSingleViewLocationDetailsComponent)
-        const postcodeInput = screen.getByLabelText('Postcode')
-        expect(postcodeInput).toBeInTheDocument()
-        expect(postcodeInput).toHaveValue(mockPostcode)
-      })
+    it('should render the EditLocationForm', () => {
+      render(getSingleViewLocationDetailsComponent({isInEditState: true}))
+      expect(screen.getByTestId('EditLocationForm')).toBeInTheDocument()
     })
   })
 })

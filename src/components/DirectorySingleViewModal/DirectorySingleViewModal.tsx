@@ -18,6 +18,8 @@ import SingleViewMid from './components/SingleViewMid'
 import SingleViewIdentifier from './components/SingleViewIdentifier'
 import SingleViewSecondaryMid from './components/SingleViewSecondaryMid'
 import SingleViewLocation from './components/SingleViewLocation'
+import {requestModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
 
 const DirectorySingleViewModal = () => {
   const router = useRouter()
@@ -93,6 +95,7 @@ const DirectorySingleViewModal = () => {
 
   const closeSingleViewModal = useCallback(() => {
     dispatch(merchantReset())
+    dispatch(requestModal(ModalType.NO_MODAL))
     router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
   }, [dispatch, router, planId, merchantId, tab])
 
@@ -157,6 +160,10 @@ const DirectorySingleViewModal = () => {
 
   const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantIdentifierIsLoading
 
+  const onCancelEditState = useCallback(() => {
+    setIsInLocationEditState(false)
+  }, [])
+
   const renderContent = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
@@ -166,41 +173,15 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.IDENTIFIERS:
         return <SingleViewIdentifier setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.LOCATIONS:
-        return <SingleViewLocation setHeaderFn={setEntityHeading} isInEditState={isInLocationEditState} />
+        return <SingleViewLocation
+          setHeaderFn={setEntityHeading}
+          isInEditState={isInLocationEditState}
+          onCancelEditState={onCancelEditState}
+        />
     }
   }
 
   const renderFormButtons = () => {
-    if (tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) {
-      return (
-        <div className='flex w-full justify-end items-center gap-[15px]'>
-          <Button
-            handleClick={() => setIsInLocationEditState(false)}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            labelColour={LabelColour.GREY}
-            labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel='Cancel location edit'
-          >Cancel
-          </Button>
-
-          <Button
-            handleClick={() => null}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.BLUE}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel='Save location edit'
-          >Save
-          </Button>
-        </div>
-      )
-    }
-
     return (
       <>
         <Button
@@ -302,9 +283,12 @@ const DirectorySingleViewModal = () => {
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModelClose}>
       {renderContent()}
 
-      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
-        {renderFormButtons()}
-      </div>
+      {/* Form buttons shall appear except when editing a location, then the EditLocationForm will handle the form's buttons */}
+      {!(tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) && (
+        <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>
+          {renderFormButtons()}
+        </div>
+      )}
     </Modal>
   )
 }
