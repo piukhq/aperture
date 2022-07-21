@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react'
+import React, {useCallback, useMemo} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
-import {useService} from 'hooks/useService'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
 import LinkStatus from './components/LinkStatus'
@@ -13,29 +12,10 @@ type Props = {
 }
 
 const CustomerWallet = ({userPlans}: Props) => {
-  const [isService, setIsService] = useState(false)
   const {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
-    getLoyaltyCardsRefresh,
-    getPaymentCardsRefresh,
-    getPlansRefresh,
   } = useCustomerWallet()
-
-  const {getServiceResponse, getServiceRefresh} = useService()
-
-  // If the selected token changes and service checks pass, refetch data
-  useEffect(() => {
-    if (isService) {
-      getLoyaltyCardsRefresh()
-      getPaymentCardsRefresh()
-      getPlansRefresh()
-    }
-  }, [getLoyaltyCardsRefresh, getLoyaltyCardsResponse, getPaymentCardsRefresh, getPaymentCardsResponse, getPlansRefresh, getServiceRefresh, getServiceResponse, isService])
-
-  useEffect(() => {
-    getServiceResponse?.consent && setIsService(true)
-  }, [getServiceResponse])
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
