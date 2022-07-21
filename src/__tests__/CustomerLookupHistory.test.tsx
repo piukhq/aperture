@@ -14,6 +14,11 @@ jest.mock('hooks/useService', () => ({
   })),
 }))
 
+jest.mock('hooks/useCustomerLookup', () => ({
+  useCustomerLookup: jest.fn().mockImplementation(() => ({
+    jwtCustomerLookup: jest.fn(),
+  })),
+}))
 
 jest.mock('features/customerWalletSlice', () => ({
   setJwtToken: jest.fn(),

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useCustomerWalletUserPlans} from 'hooks/useCustomerWalletUserPlans'
 import CustomerWallet from './components/CustomerWallet'
 import CustomerTransactions from './components/CustomerTransactions'
@@ -10,7 +10,6 @@ const CustomerWalletsContainer = () => {
     userPlans,
   } = useCustomerWalletUserPlans()
 
-  const [isService, setIsService] = useState(false)
   const {
     getLoyaltyCardsRefresh,
     getPaymentCardsRefresh,
@@ -20,16 +19,12 @@ const CustomerWalletsContainer = () => {
   const {getServiceResponse, getServiceRefresh} = useService()
 
   useEffect(() => {
-    if (isService) {
+    if (getServiceResponse) {
       getLoyaltyCardsRefresh()
       getPaymentCardsRefresh()
       getPlansRefresh()
     }
-  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse, isService])
-
-  useEffect(() => {
-    getServiceResponse?.consent && setIsService(true)
-  }, [getServiceResponse])
+  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse])
 
   return (
     <>

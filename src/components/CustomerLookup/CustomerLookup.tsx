@@ -1,23 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
-import {setJwtToken, getJwtToken} from 'features/customerWalletSlice'
-import {useAppSelector} from 'app/hooks'
+import {setJwtToken} from 'features/customerWalletSlice'
 import {useService} from 'hooks/useService'
-import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
-import {decodeJwtToken} from 'utils/jwtToken'
+import {useCustomerLookup} from 'hooks/useCustomerLookup'
 
 const CustomerLookup = () => {
-  const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
-  const selectedJwtToken = useAppSelector(getJwtToken)
   const {
-    getServiceResponse,
     getServiceRefresh,
   } = useService()
+  const {jwtCustomerLookup} = useCustomerLookup()
 
   const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
@@ -29,27 +25,9 @@ const CustomerLookup = () => {
     if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
       getServiceRefresh()
+      jwtCustomerLookup(lookupValue, lookupTypeValue)
     }
   }
-
-  useEffect(() => {
-    if (getServiceResponse && selectedJwtToken) {
-      const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(selectedJwtToken) || {}
-      channel && userId && userEmail && putLookHistoryEntry({
-        user: {
-          channel,
-          user_id: userId,
-          display_text: userEmail,
-        },
-        lookup: {
-          type: lookupTypeValue,
-          datetime: JSON.stringify(new Date()),
-          // TODO: This will need to be dynamic based on the lookup type
-          criteria: selectedJwtToken,
-        },
-      })
-    }
-  }, [getServiceResponse, putLookHistoryEntry, lookupTypeValue, selectedJwtToken])
 
   return (
     <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>

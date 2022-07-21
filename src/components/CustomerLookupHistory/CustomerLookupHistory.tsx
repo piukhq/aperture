@@ -6,6 +6,7 @@ import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
+import {useCustomerLookup} from 'hooks/useCustomerLookup'
 
 import {BundleID} from 'utils/enums'
 import {useService} from 'hooks/useService'
@@ -16,8 +17,8 @@ type Props = {
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
   const {getServiceRefresh} = useService()
+  const {jwtCustomerLookup} = useCustomerLookup()
   const dispatch = useDispatch()
-
   const renderBundleIcon = (channel: string) => {
     switch (channel) {
       case BundleID.BINK_WALLET_BUNDLE_ID:
@@ -46,7 +47,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
             <p className={`font-body-4 ${!isFirstEntity && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
           </div>
         </div>
-
         <ArrowRightSvg className='h-[20px] w-[20px]' />
       </div>
     )
@@ -58,8 +58,9 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     // TODO: Handle other types
     if (type === 'JWT') {
       dispatch(setJwtToken(criteria as string))
-      getServiceRefresh()
+      jwtCustomerLookup(criteria as string, type)
     }
+    getServiceRefresh()
   }
 
   return (
