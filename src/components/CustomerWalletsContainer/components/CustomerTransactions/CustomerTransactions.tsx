@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
-import {useService} from 'hooks/useService'
 import Dropdown from 'components/Dropdown'
 import TransactionsTableBody from './components/TransactionsTableBody'
 import {Plan} from 'types'
@@ -14,20 +13,12 @@ const CustomerTransactions = ({userPlans}: Props) => {
   const [selectedPlan, setSelectedPlan] = useState(null)
   const {
     getLoyaltyCardsResponse,
-    getLoyaltyCardsRefresh,
-    getPlansRefresh,
     getPlansResponse,
   } = useCustomerWallet()
 
-  const {getServiceResponse, getServiceRefresh} = useService()
-
   useEffect(() => {
-    getServiceRefresh()
-    if (getServiceResponse) {
-      getLoyaltyCardsRefresh()
-      getPlansRefresh()
-    }
-  }, [getLoyaltyCardsRefresh, getPlansRefresh, getServiceRefresh, getServiceResponse])
+    setSelectedPlan(null)
+  }, [getLoyaltyCardsResponse, getPlansResponse])
 
   const getLoyaltyCardTransactions = useCallback(() => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id)?.membership_transactions
@@ -48,7 +39,6 @@ const CustomerTransactions = ({userPlans}: Props) => {
   const renderDropdownPlan = (plan: Plan) => {
     const {images} = plan
     const image = images.find(image => image.type === 3)
-
     const src = image?.url
 
     return (
