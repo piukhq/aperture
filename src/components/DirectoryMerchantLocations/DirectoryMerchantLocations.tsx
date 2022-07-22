@@ -103,6 +103,8 @@ const DirectoryMerchantLocations = () => {
     })
   }
 
+  const refArray = locationsData?.map(location => location.location_ref)
+
   const requestLocationSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(locationsData[index]))
     router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
@@ -137,7 +139,7 @@ const DirectoryMerchantLocations = () => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )

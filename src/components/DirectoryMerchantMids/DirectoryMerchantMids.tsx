@@ -73,6 +73,8 @@ const DirectoryMerchantMids = () => {
     })
   }
 
+  const refArray = midsData?.map(mid => mid.mid_ref)
+
   const requestMidModal = (paymentScheme) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
@@ -104,7 +106,7 @@ const DirectoryMerchantMids = () => {
       </div>
 
       {midsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} />
+        <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} refArray={refArray} />
       )}
     </>
   )

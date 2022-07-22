@@ -8,6 +8,7 @@ import {DirectoryMerchantDetailsTableCell} from 'types'
 import {ModalType, PaymentSchemeCode} from 'utils/enums'
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
+import LinkSvg from 'icons/svgs/link.svg'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -17,9 +18,13 @@ type Props = {
   checked: boolean,
   onCheckboxChange: (index: number) => void,
   singleViewRequestHandler: (index: number) => void,
+  copyRow: number | null
+  setCopyRow: (index: number | null) => void
+  refValue: string
 }
 
-const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, singleViewRequestHandler}: Props) => {
+const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, singleViewRequestHandler, copyRow, setCopyRow, refValue}: Props) => {
+
   const dispatch = useAppDispatch()
   const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
@@ -34,6 +39,13 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
   const handleRowClick = () => {
     singleViewRequestHandler(index)
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
+  }
+
+  const handleCopyButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    navigator.clipboard.writeText(`${window.location.href}&ref=${refValue}`)
+    console.log(refValue)
+    setCopyRow(index)
   }
 
   return (
@@ -64,6 +76,14 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
         }
         return <td key={index} className={`px-[9px] ${additionalStyles}`}>{displayValue}</td>
       })}
+      <td className='flex items-center justify-center h-[40px]'>
+        <button
+          className='flex items-center justify-center h-[40px] w-[40px]'
+          onClick={(e) => handleCopyButtonClick(e)}
+        >
+          {copyRow === index ? 'Copied' : <LinkSvg />}
+        </button>
+      </td>
     </tr>
   )
 }

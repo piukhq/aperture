@@ -81,7 +81,7 @@ describe('DirectoryMerchantIdentifiers', () => {
     render(getDirectoryMerchantIdentifiersComponent())
     const headings = screen.getAllByTestId('table-header')
 
-    expect(headings).toHaveLength(6)
+    expect(headings).toHaveLength(7)
   })
 
   it('should have the correct table header labels', () => {
