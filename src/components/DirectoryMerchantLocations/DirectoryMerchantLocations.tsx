@@ -31,7 +31,6 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
     displayValue: 'LOCATION ID',
   },
   {
-    additionalStyles: 'rounded-r-[10px]',
     displayValue: 'INTERNAL ID',
   },
 ]

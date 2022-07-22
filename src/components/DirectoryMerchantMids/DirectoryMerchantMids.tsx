@@ -28,7 +28,6 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
     displayValue: 'SCHEME STATUS',
   },
   {
-    additionalStyles: 'rounded-r-[10px]',
     displayValue: 'HARMONIA STATUS',
   },
 ]

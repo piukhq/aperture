@@ -8,7 +8,7 @@ import {DirectoryMerchantDetailsTableCell} from 'types'
 import {ModalType, PaymentSchemeCode} from 'utils/enums'
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import LinkSvg from 'icons/svgs/link.svg'
+import ShareSvg from 'icons/svgs/share.svg'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -44,7 +44,6 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
   const handleCopyButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     navigator.clipboard.writeText(`${window.location.href}&ref=${refValue}`)
-    console.log(refValue)
     setCopyRow(index)
   }
 
@@ -76,12 +75,12 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
         }
         return <td key={index} className={`px-[9px] ${additionalStyles}`}>{displayValue}</td>
       })}
-      <td className='flex items-center justify-center h-[40px]'>
+      <td className='flex items-center justify-center'>
         <button
-          className='flex items-center justify-center h-[40px] w-[40px]'
+          className='flex items-center justify-center h-[40px] w-[50px]'
           onClick={(e) => handleCopyButtonClick(e)}
         >
-          {copyRow === index ? 'Copied' : <LinkSvg />}
+          {copyRow === index ? <p className='font-table-cell'>Copied</p> : <ShareSvg />}
         </button>
       </td>
     </tr>

@@ -52,7 +52,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
             </div>
           </th>
           {renderTableHeaders()}
-          { <th key={234234} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[20px]' /> }
+          { <th key={'copy-header'} data-testid='table-header' aria-label='payment-scheme' className=' w-[50px] rounded-r-[10px]' /> }
         </tr>
       </thead>
 

@@ -26,7 +26,6 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   },
   {
     displayValue: 'HARMONIA STATUS',
-    additionalStyles: 'rounded-r-[10px]',
   },
 ]
 
