@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -25,9 +25,14 @@ const CustomerLookup = () => {
     if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
       getServiceRefresh()
-      jwtCustomerLookup(lookupValue, lookupTypeValue)
     }
   }
+
+  useEffect(() => {
+    if (lookupTypeValue === 'JWT' && lookupValue) {
+      jwtCustomerLookup(lookupValue, lookupTypeValue)
+    }
+  }, [jwtCustomerLookup, lookupValue, lookupTypeValue])
 
   return (
     <form className='flex h-[42px] items-center gap-[25px]' onSubmit={handleSubmit}>

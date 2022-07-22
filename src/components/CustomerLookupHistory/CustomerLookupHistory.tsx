@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {setJwtToken} from 'features/customerWalletSlice'
 import {LookupUserHistoryEntity} from 'types'
@@ -16,6 +16,9 @@ type Props = {
 }
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
+  const [token, setToken] = useState(null)
+  const [lookupType, setLookupType] = useState(null)
+
   const {getServiceRefresh} = useService()
   const {jwtCustomerLookup} = useCustomerLookup()
   const dispatch = useDispatch()
@@ -31,6 +34,13 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (lookupType === 'JWT' && token && lookupType) {
+      jwtCustomerLookup(token, lookupType)
+    }
+  }, [jwtCustomerLookup, token, lookupType])
+
+
   const renderInnerMetadata = ({lookup, user}: LookupUserHistoryEntity, isFirstEntity = false) => {
     const {datetime} = lookup
     const {channel, display_text: displayText} = user
@@ -41,7 +51,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           <div data-testid='bundle-icon'>
             {renderBundleIcon(channel)}
           </div>
-
           <div className='flex flex-col justify-center items-start ml-[6px]'>
             <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px] dark:text-grey-600'}`}>{displayText}</p>
             <p className={`font-body-4 ${!isFirstEntity && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
@@ -53,12 +62,11 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
   }
 
   const handleEntityClick = ({lookup}: LookupUserHistoryEntity) => {
-    const {type, criteria} = lookup
-
     // TODO: Handle other types
-    if (type === 'JWT') {
-      dispatch(setJwtToken(criteria as string))
-      jwtCustomerLookup(criteria as string, type)
+    if (lookup.type === 'JWT') {
+      dispatch(setJwtToken(lookup.criteria as string))
+      setToken(lookup.criteria as string)
+      setLookupType('JWT')
     }
     getServiceRefresh()
   }
