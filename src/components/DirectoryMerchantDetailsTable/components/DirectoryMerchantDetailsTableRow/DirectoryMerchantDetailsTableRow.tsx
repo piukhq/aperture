@@ -76,12 +76,16 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
         return <td key={index} className={`px-[9px] ${additionalStyles}`}>{displayValue}</td>
       })}
       <td className='flex items-center justify-center'>
-        <button
-          className='flex items-center justify-center h-[40px] w-[50px]'
-          onClick={(e) => handleCopyButtonClick(e)}
-        >
-          {copyRow === index ? <p className='font-table-cell'>Copied</p> : <ShareSvg />}
-        </button>
+        {copyRow === index ? 'Copied' : (
+          <button
+            className='flex items-center justify-center font-table-cell h-[40px] w-[50px]'
+            onClick={(e) => handleCopyButtonClick(e)}
+            aria-label='Copy URL'
+          >
+            {copyRow === index ? 'Copied' : <ShareSvg />}
+          </button>
+        )}
+
       </td>
     </tr>
   )
