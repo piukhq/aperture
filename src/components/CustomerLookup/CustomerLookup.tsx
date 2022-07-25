@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -17,8 +17,8 @@ const CustomerLookup = () => {
 
   const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
-  const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
-  const [lookupValue, setLookupValue] = useState('')
+  const [lookupTypeValue, setLookupTypeValue] = React.useState(lookupTypeValues[0])
+  const [lookupValue, setLookupValue] = React.useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

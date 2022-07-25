@@ -8,9 +8,11 @@ jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
+const mockServiceRefresh = jest.fn()
+
 jest.mock('hooks/useService', () => ({
   useService: jest.fn().mockImplementation(() => ({
-    getServiceRefresh: jest.fn(),
+    getServiceRefresh: mockServiceRefresh,
   })),
 }))
 
@@ -85,13 +87,15 @@ describe('CustomerLookupHistory', () => {
     })
   })
 
-  // TODO: test other entity types
+  // TODO: Make tests to cover other entity types, below assumes JWT
   describe('Test past history entities clicks', () => {
-    it('should call appropriate function when clicked', () => {
+
+    it('should call appropriate functions when clicked', () => {
       render(getCustomerLookupHistoryComponent())
 
       fireEvent.click(screen.getByRole('button'))
-      expect(setJwtToken).toBeCalled()
+      expect(setJwtToken).toHaveBeenCalledWith('mock_criteria')
+      expect(mockServiceRefresh).toHaveBeenCalledTimes(1)
     })
   })
 })
