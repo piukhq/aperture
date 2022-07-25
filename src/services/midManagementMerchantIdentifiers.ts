@@ -40,8 +40,23 @@ export const midManagementMerchantIdentifiersApi = createApi({
           ...identifierRefs,
         ],
       }),
-      invalidatesTags: ['MerchantIdentifiers'],
-    }),
+      // Update the cache with the removed Identifier
+      async onQueryStarted ({planRef, merchantRef, identifierRefs}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantIdentifiersApi.util.updateQueryData('getMerchantIdentifiers', ({planRef, merchantRef}), (existingIdentifiers) => {
+            // For each Identifier, remove from existing list of Identifiers
+            identifierRefs.forEach(identifierRef => {
+              const index = existingIdentifiers.findIndex(identifier => identifier.identifier_ref === identifierRef)
+              index !== -1 && existingIdentifiers.splice(index, 1)
+            })
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      }}),
   }),
 })
 

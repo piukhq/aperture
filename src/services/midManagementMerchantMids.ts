@@ -90,7 +90,23 @@ export const midManagementMerchantMidsApi = createApi({
           ...midRefs,
         ],
       }),
-      invalidatesTags: ['MerchantMids'],
+      // Update the cache with the removed MID
+      async onQueryStarted ({planRef, merchantRef, midRefs}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+            // For each MID, remove from existing list of MIDs
+            midRefs.forEach(midRef => {
+              const index = existingMids.findIndex(mid => mid.mid_ref === midRef)
+              index !== -1 && existingMids.splice(index, 1)
+            })
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })
