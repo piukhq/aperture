@@ -64,8 +64,23 @@ export const midManagementMerchantLocationsApi = createApi({
           ...locationRefs,
         ],
       }),
-      invalidatesTags: ['MerchantLocations'],
-    }),
+      // Update the cache with the removed Location
+      async onQueryStarted ({planRef, merchantRef, locationRefs}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef}), (existingLocations) => {
+            // For each Location, remove from existing list of Locations
+            locationRefs.forEach(locationRef => {
+              const index = existingLocations.findIndex(location => location.location_ref === locationRef)
+              index !== -1 && existingLocations.splice(index, 1)
+            })
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      }}),
   }),
 })
 

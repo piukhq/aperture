@@ -40,8 +40,23 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
           ...secondaryMidRefs,
         ],
       }),
-      invalidatesTags: ['MerchantSecondaryMids'],
-    }),
+      // Update the cache with the removed Secondary MID
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRefs}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
+            // For each Secondary MID, remove from existing list of Secondary MIDs
+            secondaryMidRefs.forEach(secondaryMidRef => {
+              const index = existingSecondaryMids.findIndex(secondaryMid => secondaryMid.secondary_mid_ref === secondaryMidRef)
+              index !== -1 && existingSecondaryMids.splice(index, 1)
+            })
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      }}),
   }),
 })
 

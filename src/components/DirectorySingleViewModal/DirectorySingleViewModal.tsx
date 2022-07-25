@@ -132,6 +132,8 @@ const DirectorySingleViewModal = () => {
   }
 
   const handleDelete = () => {
+    setErrorMessage(null)
+
     const refs = {planRef: planId as string, merchantRef: merchantId as string}
 
     switch (tab) {
@@ -197,7 +199,7 @@ const DirectorySingleViewModal = () => {
 
         {isInDeleteConfirmationState ? (
           <div className='flex items-center justify-between gap-[5px]'>
-            <p className='font-body-4 text-red mr-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
+            <p className='font-body-4 text-red px-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
             <Button
               handleClick={() => setIsInDeleteConfirmationState(false)}
               buttonSize={ButtonSize.MEDIUM_ICON}

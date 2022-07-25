@@ -9,7 +9,7 @@ import {
 } from 'services/midManagementMerchantMids'
 
 export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = ''}) => {
-  const {data: getMerchantMidsResponse, isLoading: getMerchantMidsIsLoading, error: getMerchantMidsError} = useGetMerchantMidsQuery({planRef, merchantRef, midRef}, {skip: skipGetMids})
+  const {data: getMerchantMidsResponse, isLoading: getMerchantMidsIsLoading, error: getMerchantMidsError} = useGetMerchantMidsQuery({planRef, merchantRef}, {skip: skipGetMids})
 
   const {data: getMerchantMidResponse, isLoading: getMerchantMidIsLoading, error: getMerchantMidError} = useGetMerchantMidQuery({planRef, merchantRef, midRef}, {skip: skipGetMid})
 
