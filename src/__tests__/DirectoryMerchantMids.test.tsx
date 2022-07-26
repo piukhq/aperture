@@ -78,7 +78,7 @@ describe('DirectoryMerchantMids', () => {
   it('should have the correct number of table headers', () => {
     render(getDirectoryMerchantMidsComponent())
     const headings = screen.getAllByTestId('table-header')
-    expect(headings).toHaveLength(7)
+    expect(headings).toHaveLength(8)
   })
 
   it('should have the correct table header labels', () => {

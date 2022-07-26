@@ -26,7 +26,6 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   },
   {
     displayValue: 'HARMONIA STATUS',
-    additionalStyles: 'rounded-r-[10px]',
   },
 ]
 
@@ -70,6 +69,8 @@ const DirectoryMerchantIdentifiers = () => {
     })
   }
 
+  const refArray = identifiersData?.map(identifier => identifier.identifier_ref)
+
   const requestIdentifierSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(identifiersData[index]))
     router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
@@ -108,7 +109,7 @@ const DirectoryMerchantIdentifiers = () => {
       </div>
 
       {identifiersData && (
-        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} />
+        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
       )}
     </>
   )

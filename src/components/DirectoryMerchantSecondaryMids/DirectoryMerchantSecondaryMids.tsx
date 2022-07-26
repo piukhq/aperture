@@ -29,7 +29,6 @@ const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   },
   {
     displayValue: 'HARMONIA STATUS',
-    additionalStyles: 'rounded-r-[10px]',
   },
 ]
 
@@ -74,6 +73,8 @@ const DirectoryMerchantSecondaryMids = () => {
     })
   }
 
+  const refArray = secondaryMidsData?.map(secondaryMid => secondaryMid.secondary_mid_ref)
+
   const requestSecondaryMidSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
     router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
@@ -112,7 +113,7 @@ const DirectoryMerchantSecondaryMids = () => {
       </div>
 
       {secondaryMidsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestSecondaryMidSingleView} />
+        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
     </>
   )

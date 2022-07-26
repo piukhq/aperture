@@ -9,10 +9,12 @@ type Props = {
   tableRows: TableRowProps[],
   checkboxChangeHandler?: (shouldDisplayButtons: boolean) => void
   singleViewRequestHandler: (index: number) => void
+  refArray: string[]
 }
 
-const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler}: Props) => {
+const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler, refArray}: Props) => {
   const [checkedRows, setCheckedRows] = useState(new Array(tableRows.length).fill(false))
+  const [copyRow, setCopyRow] = useState(null)
 
   useEffect(() => {
     // If actions are to occur in parent when checkboxes change, emit event to parent
@@ -50,11 +52,12 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
             </div>
           </th>
           {renderTableHeaders()}
+          { <th key={'copy-header'} data-testid='table-header' aria-label='payment-scheme' className=' w-[50px] rounded-r-[10px]' /> }
         </tr>
       </thead>
 
       <tbody>
-        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} row={row} checked={checkedRows[index]} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
+        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} refValue={refArray[index]} row={row} copyRow={copyRow} setCopyRow={setCopyRow} checked={checkedRows[index]} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
       </tbody>
     </table>
   )

@@ -80,7 +80,7 @@ describe('DirectoryMerchantLocations', () => {
     render(getDirectoryMerchantLocationsComponent())
     const headings = screen.getAllByTestId('table-header')
 
-    expect(headings).toHaveLength(9)
+    expect(headings).toHaveLength(10)
   })
 
   it('should have the correct table header labels', () => {
