@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useState, useEffect, FormEvent} from 'react'
 import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -17,10 +17,10 @@ const CustomerLookup = () => {
 
   const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
-  const [lookupTypeValue, setLookupTypeValue] = React.useState(lookupTypeValues[0])
-  const [lookupValue, setLookupValue] = React.useState('')
+  const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
+  const [lookupValue, setLookupValue] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
       dispatch(setJwtToken(lookupValue))
