@@ -99,14 +99,21 @@ const DirectoryMerchantSecondaryMids = () => {
 
         <div className='flex h-[38px] items-center'>
           <button
+            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-[#2100c4] rounded-[10px]'
             onClick={() => console.log('Placeholder: Request Visa Secondary MID')}
             aria-label='Add Visa Secondary MID'
-          ><AddVisaSvg alt=''/>
+          >
+            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <AddVisaSvg className='w-[35px]' alt=''/>
           </button>
+
           <button
+            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-[#3f51b5] rounded-[10px]'
             onClick={() => console.log('Placeholder: Request Mastercard Secondary MID')}
             aria-label='Add Mastercard Secondary MID'
-          ><AddMastercardSvg alt=''/>
+          >
+            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <AddMastercardSvg className='w-[35px]' alt=''/>
           </button>
         </div>
       </div>
