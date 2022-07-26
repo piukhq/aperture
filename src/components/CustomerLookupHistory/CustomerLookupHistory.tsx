@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {setJwtToken} from 'features/customerWalletSlice'
 import {LookupUserHistoryEntity} from 'types'
@@ -6,18 +6,22 @@ import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
-import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLookupHistory'
+import {useCustomerLookup} from 'hooks/useCustomerLookup'
+
 import {BundleID} from 'utils/enums'
+import {useService} from 'hooks/useService'
 
 type Props = {
   lookupHistory: LookupUserHistoryEntity[]
 }
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
-  const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
+  const [token, setToken] = useState(null)
+  const [lookupType, setLookupType] = useState(null)
 
+  const {getServiceRefresh} = useService()
+  const {jwtCustomerLookup} = useCustomerLookup()
   const dispatch = useDispatch()
-
   const renderBundleIcon = (channel: string) => {
     switch (channel) {
       case BundleID.BINK_WALLET_BUNDLE_ID:
@@ -30,6 +34,13 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (lookupType === 'JWT' && token && lookupType) {
+      jwtCustomerLookup(token, lookupType)
+    }
+  }, [jwtCustomerLookup, token, lookupType])
+
+
   const renderInnerMetadata = ({lookup, user}: LookupUserHistoryEntity, isFirstEntity = false) => {
     const {datetime} = lookup
     const {channel, display_text: displayText} = user
@@ -40,30 +51,24 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
           <div data-testid='bundle-icon'>
             {renderBundleIcon(channel)}
           </div>
-
           <div className='flex flex-col justify-center items-start ml-[6px]'>
             <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px] dark:text-grey-600'}`}>{displayText}</p>
             <p className={`font-body-4 ${!isFirstEntity && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
           </div>
         </div>
-
         <ArrowRightSvg className='h-[20px] w-[20px]' />
       </div>
     )
   }
 
-  const handleEntityClick = ({lookup, user}: LookupUserHistoryEntity) => {
-    const {type, criteria} = lookup
-
+  const handleEntityClick = ({lookup}: LookupUserHistoryEntity) => {
     // TODO: Handle other types
-    if (type === 'JWT') {
-      dispatch(setJwtToken(criteria as string))
-
-      putLookHistoryEntry({
-        user,
-        lookup,
-      })
+    if (lookup.type === 'JWT') {
+      dispatch(setJwtToken(lookup.criteria as string))
+      setToken(lookup.criteria as string)
+      setLookupType('JWT')
     }
+    getServiceRefresh()
   }
 
   return (

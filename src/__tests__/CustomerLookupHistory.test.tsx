@@ -8,14 +8,22 @@ jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
-jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
-  useGetCustomerWalletLookupHistory: jest.fn().mockImplementation(() => ({
-    putLookHistoryEntry: jest.fn(),
+const mockServiceRefresh = jest.fn()
+
+jest.mock('hooks/useService', () => ({
+  useService: jest.fn().mockImplementation(() => ({
+    getServiceRefresh: mockServiceRefresh,
+  })),
+}))
+
+jest.mock('hooks/useCustomerLookup', () => ({
+  useCustomerLookup: jest.fn().mockImplementation(() => ({
+    jwtCustomerLookup: jest.fn(),
   })),
 }))
 
 jest.mock('features/customerWalletSlice', () => ({
-  setJwtToken: jest.fn()
+  setJwtToken: jest.fn(),
 }))
 
 const mockDisplayText = 'mock_display_text'
@@ -44,7 +52,7 @@ const mockLookupHistory = [
       channel: 'mock_channel',
       display_text: 'mock_display_text_2',
     },
-  }
+  },
 ]
 
 const getCustomerLookupHistoryComponent = () => (
@@ -64,7 +72,7 @@ describe('CustomerLookupHistory', () => {
     it('should render the correct number of bundle icons', () => {
       render(getCustomerLookupHistoryComponent())
       const bundleIcons = screen.queryAllByTestId('bundle-icon')
-      expect(bundleIcons.length).toEqual(2)
+      expect(bundleIcons).toHaveLength(2)
     })
 
     it('should render the correct display text', () => {
@@ -75,17 +83,19 @@ describe('CustomerLookupHistory', () => {
     it('should render the correct number of date strings', () => {
       render(getCustomerLookupHistoryComponent())
       const dateStrings = screen.queryAllByTestId('date-string')
-      expect(dateStrings.length).toEqual(2)
+      expect(dateStrings).toHaveLength(2)
     })
   })
 
-  // TODO: test other entity types
+  // TODO: Make tests to cover other entity types, below assumes JWT
   describe('Test past history entities clicks', () => {
-    it('should call appropriate function when clicked', () => {
+
+    it('should call appropriate functions when clicked', () => {
       render(getCustomerLookupHistoryComponent())
-      
+
       fireEvent.click(screen.getByRole('button'))
-      expect(setJwtToken).toBeCalled()
+      expect(setJwtToken).toHaveBeenCalledWith('mock_criteria')
+      expect(mockServiceRefresh).toHaveBeenCalledTimes(1)
     })
   })
 })

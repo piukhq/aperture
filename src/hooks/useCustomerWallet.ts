@@ -18,19 +18,22 @@ export const useCustomerWallet = () => {
   const {
     data: getPlansResponse,
     isLoading: getPlansIsLoading,
-    error: getPlansIsError,
+    isError: getPlansIsError,
     refetch: getPlansRefresh,
   } = useGetPlansQuery()
 
   return {
+    // Loyalty cards
     getLoyaltyCardsResponse,
     getLoyaltyCardsRefresh,
     getLoyaltyCardsIsLoading,
     getLoyaltyCardsIsError,
+    // Payment Cards
     getPaymentCardsResponse,
     getPaymentCardsRefresh,
     getPaymentCardsIsLoading,
     getPaymentCardsIsError,
+    // Plans
     getPlansResponse,
     getPlansRefresh,
     getPlansIsLoading,

@@ -3,7 +3,6 @@ import CustomerWallet from 'components/CustomerWalletsContainer/components/Custo
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
@@ -87,6 +86,12 @@ jest.mock('hooks/useCustomerWallet', () => ({
   })),
 }))
 
+jest.mock('hooks/useService', () => ({
+  useService: jest.fn().mockImplementation(() => ({
+    getServiceRefresh: jest.fn(),
+    getServiceResponse: jest.fn(),
+  })),
+}))
 
 const mockStoreFn = configureStore([])
 const mockCustomerWalletApiState = {

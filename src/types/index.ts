@@ -356,6 +356,15 @@ export type PaymentCard = {
     }
 }
 
+export type Service = {
+  consent: {
+    email: string,
+    latitude: number,
+    longitude: number,
+    timestamp: number,
+  }
+}
+
 export type LookupUserHistoryEntity = {
   user: {
     user_id: number | string,

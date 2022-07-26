@@ -1,7 +1,5 @@
-import React, {useCallback, useEffect, useMemo} from 'react'
+import React, {useCallback, useMemo} from 'react'
 import Image from 'next/image'
-import {useAppSelector} from 'app/hooks'
-import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
@@ -17,19 +15,7 @@ const CustomerWallet = ({userPlans}: Props) => {
   const {
     getLoyaltyCardsResponse,
     getPaymentCardsResponse,
-    getLoyaltyCardsRefresh,
-    getPaymentCardsRefresh,
-    getPlansRefresh,
   } = useCustomerWallet()
-
-  const selectedJwtToken = useAppSelector(getJwtToken)
-
-  // If the selected token changes, refetch data
-  useEffect(() => {
-    getLoyaltyCardsRefresh()
-    getPaymentCardsRefresh()
-    getPlansRefresh()
-  }, [selectedJwtToken, getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh])
 
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
@@ -119,12 +105,12 @@ const CustomerWallet = ({userPlans}: Props) => {
   return (
     <>
       <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
-      <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col justify-center'>
+      <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col'>
         { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
           <>
             {renderPaymentCards()}
-            {getLoyaltyCardsResponse.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
-            {externalMembershipCardIds.map(id => renderExternalLoyaltyCardsRow(id))}
+            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+            {externalMembershipCardIds?.map(id => renderExternalLoyaltyCardsRow(id))}
           </>
         ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
       </div>

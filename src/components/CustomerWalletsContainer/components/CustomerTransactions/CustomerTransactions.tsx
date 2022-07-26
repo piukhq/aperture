@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import Dropdown from 'components/Dropdown'
@@ -15,6 +15,10 @@ const CustomerTransactions = ({userPlans}: Props) => {
     getLoyaltyCardsResponse,
     getPlansResponse,
   } = useCustomerWallet()
+
+  useEffect(() => {
+    setSelectedPlan(null)
+  }, [getLoyaltyCardsResponse, getPlansResponse])
 
   const getLoyaltyCardTransactions = useCallback(() => {
     return getLoyaltyCardsResponse.find(card => card.membership_plan === selectedPlan.id)?.membership_transactions
@@ -35,7 +39,6 @@ const CustomerTransactions = ({userPlans}: Props) => {
   const renderDropdownPlan = (plan: Plan) => {
     const {images} = plan
     const image = images.find(image => image.type === 3)
-
     const src = image?.url
 
     return (
@@ -43,7 +46,6 @@ const CustomerTransactions = ({userPlans}: Props) => {
         <div className='h-[24px] w-[24px] mr-[10px]'>
           {src && <Image src={src} height={24} width={24} alt='' />}
         </div>
-
         <p className='font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
       </div>
     )
@@ -71,10 +73,10 @@ const CustomerTransactions = ({userPlans}: Props) => {
                   {renderTableHeaders()}
                 </tr>
               </thead>
-              {selectedPlan && <TransactionsTableBody transactions={getLoyaltyCardTransactions()} plan={selectedPlan} />}
+              {selectedPlan && getLoyaltyCardTransactions()?.length > 0 && <TransactionsTableBody transactions={getLoyaltyCardTransactions()} plan={selectedPlan} />}
             </table>
             {!selectedPlan && <p className='font-body-4 text-center'>Select a plan above to see transactions</p>}
-            {selectedPlan && getLoyaltyCardTransactions().length === 0 && <p className='font-body-4 text-center'>There are no transactions to view</p>}
+            {selectedPlan && getLoyaltyCardTransactions()?.length === 0 && <p className='font-body-4 text-center'>There are no transactions to view</p>}
           </div>
         </>
       )}
@@ -83,4 +85,3 @@ const CustomerTransactions = ({userPlans}: Props) => {
 }
 
 export default CustomerTransactions
-
