@@ -86,21 +86,32 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      <div className='flex h-[71px] items-center justify-end'>
+      <div className='flex gap-[10px] h-[71px] items-center justify-end'>
         <button
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.VISA)}
           aria-label='Add Visa MID'
-        ><AddVisaSvg alt=''/>
+        >
+          <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+          <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
         </button>
+
         <button
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
           aria-label='Add Mastercard MID'
-        ><AddMastercardSvg alt=''/>
+        >
+          <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+          <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
         </button>
+
         <button
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-amexBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
           aria-label='Add Amex MID'
-        ><AddAmexSvg alt=''/>
+        >
+          <p className='pr-[3px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+          <AddAmexSvg className='pb-[2px] w-[55px]' alt=''/>
         </button>
       </div>
 
