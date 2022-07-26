@@ -52,7 +52,9 @@ module.exports = {
         950: '#14141A',
         975: '#09090F',
       },
-
+      'visaBlue': '#2100c4',
+      'mastercardBlue': '#3f51b5',
+      'amexBlue': '#1976d2',
     },
     extend: {
       lineHeight: {

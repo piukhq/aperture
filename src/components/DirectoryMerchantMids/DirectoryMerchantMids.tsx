@@ -87,30 +87,30 @@ const DirectoryMerchantMids = () => {
     <>
       <div className='flex gap-[10px] h-[71px] items-center justify-end'>
         <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-[#2100c4] rounded-[10px]'
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.VISA)}
           aria-label='Add Visa MID'
         >
           <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddVisaSvg className='w-[35px]' alt=''/>
+          <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
         </button>
 
         <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-[#3f51b5] rounded-[10px]'
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
           aria-label='Add Mastercard MID'
         >
           <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddMastercardSvg className='w-[35px]' alt=''/>
+          <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
         </button>
 
         <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-[#1976d2] rounded-[10px]'
+          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-amexBlue rounded-[10px]'
           onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
           aria-label='Add Amex MID'
         >
           <p className='pr-[3px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddAmexSvg className='w-[55px]' alt=''/>
+          <AddAmexSvg className='pb-[2px] w-[55px]' alt=''/>
         </button>
       </div>
 
