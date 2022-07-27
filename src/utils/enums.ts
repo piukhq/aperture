@@ -61,9 +61,9 @@ enum ImageTypes {
 
 const DirectorySingleViewEntities = {
   'mids': 'MID',
-  'locations': 'location',
-  'secondary-mids': 'secondary MID',
-  'identifiers': 'identifier',
+  'locations': 'Location',
+  'secondary-mids': 'Secondary MID',
+  'identifiers': 'Identifier',
 }
 
 enum DirectoryNavigationTab {
