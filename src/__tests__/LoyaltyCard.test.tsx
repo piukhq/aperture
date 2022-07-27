@@ -162,7 +162,25 @@ describe('LoyaltyCard', () => {
     expect(screen.getByText('N/A')).toBeInTheDocument()
   })
 
-  describe('Test PLL balance strings', () => {
+  it('should render N/A for unauthorised PLL loyalty cards', () => {
+    const mockPllPlan = {...mockPlan, feature_set: {card_type: 2}, slug: 'iceland-bonus-card'} // Otherwise valid PLL plan
+    const mockUnauthorisedLoyaltyCard = {
+      ...mockLoyaltyCard,
+      status: {
+        state: 'Not authorised',
+        reason_codes: ['mock_reason_code'],
+      },
+    }
+    render(<LoyaltyCard card={mockUnauthorisedLoyaltyCard} getStatusFn={jest.fn()} plan={mockPllPlan} />)
+
+    expect(screen.getByText('N/A')).toBeInTheDocument()
+  })
+
+  describe('Test authorised PLL balance strings', () => {
+    beforeAll(() => {
+      mockLoyaltyCard.status.state = 'authorised'
+    })
+
     it('should render correct balance string for Iceland cards', () => {
       const mockIcelandPlan = {...mockPlan, feature_set: {card_type: 2}, slug: 'iceland-bonus-card'}
       render(<LoyaltyCard card={mockLoyaltyCard} getStatusFn={jest.fn()} plan={mockIcelandPlan} />)

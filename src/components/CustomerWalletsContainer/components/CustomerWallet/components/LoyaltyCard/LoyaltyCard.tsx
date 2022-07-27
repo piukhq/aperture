@@ -56,7 +56,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
           </div>
           <div className='basis-3/4 leading-snug inline'>
             <p>{id}</p>
-            <p>{isPllCard ? getBalanceString(card, plan) : 'N/A'}</p>
+            <p>{isPllCard && status.state === 'authorised' ? getBalanceString(card, plan) : 'N/A'}</p>
           </div>
         </div>
       </div>
