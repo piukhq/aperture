@@ -1,27 +1,19 @@
-import React, {useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {setJwtToken} from 'features/customerWalletSlice'
+import React from 'react'
 import {LookupUserHistoryEntity} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
 import {useCustomerLookup} from 'hooks/useCustomerLookup'
-
 import {BundleID} from 'utils/enums'
-import {useService} from 'hooks/useService'
 
 type Props = {
   lookupHistory: LookupUserHistoryEntity[]
 }
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
-  const [token, setToken] = useState(null)
-  const [lookupType, setLookupType] = useState(null)
-
-  const {getServiceRefresh} = useService()
   const {jwtCustomerLookup} = useCustomerLookup()
-  const dispatch = useDispatch()
+
   const renderBundleIcon = (channel: string) => {
     switch (channel) {
       case BundleID.BINK_WALLET_BUNDLE_ID:
@@ -33,13 +25,6 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
         return <BinkBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
     }
   }
-
-  useEffect(() => {
-    if (lookupType === 'JWT' && token && lookupType) {
-      jwtCustomerLookup(token, lookupType)
-    }
-  }, [jwtCustomerLookup, token, lookupType])
-
 
   const renderInnerMetadata = ({lookup, user}: LookupUserHistoryEntity, isFirstEntity = false) => {
     const {datetime} = lookup
@@ -61,14 +46,8 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     )
   }
 
-  const handleEntityClick = ({lookup}: LookupUserHistoryEntity) => {
-    // TODO: Handle other types
-    if (lookup.type === 'JWT') {
-      dispatch(setJwtToken(lookup.criteria as string))
-      setToken(lookup.criteria as string)
-      setLookupType('JWT')
-    }
-    getServiceRefresh()
+  const handleEntityClick = ({lookup}: LookupUserHistoryEntity) => { // TODO: Handle other lookup types
+    lookup.type === 'JWT' && jwtCustomerLookup(lookup.criteria as string)
   }
 
   return (

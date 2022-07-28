@@ -22,30 +22,12 @@ const store = mockStoreFn({customerWallet: {
 },
 })
 
-const mockServiceRefresh = jest.fn()
+const mockJwtCustomerLookup = jest.fn()
 
-jest.mock('hooks/useCustomerWallet', () => ({
-  useCustomerWallet: jest.fn().mockImplementation(() => ({
-    getLoyaltyCardsRefresh: jest.fn(),
-    getPaymentCardsRefresh: jest.fn(),
-    getPlansRefresh: jest.fn(),
+jest.mock('hooks/useCustomerLookup', () => ({
+  useCustomerLookup: jest.fn().mockImplementation(() => ({
+    jwtCustomerLookup: mockJwtCustomerLookup,
   })),
-}))
-
-
-jest.mock('hooks/useService', () => ({
-  useService: jest.fn().mockImplementation(() => ({
-    getServiceRefresh: mockServiceRefresh,
-    getServiceResponse: jest.fn(),
-  })),
-}))
-
-jest.mock('utils/jwtToken', () => ({
-  decodeJwtToken: jest.fn().mockImplementation(() => 'mock_jwt_token'),
-}))
-
-jest.mock('features/customerWalletSlice', () => ({
-  setJwtToken: jest.fn(),
 }))
 
 const getCustomerLookupComponent = (passedStore = undefined) => (
@@ -55,7 +37,6 @@ const getCustomerLookupComponent = (passedStore = undefined) => (
 )
 
 describe('CustomerLookup', () => {
-
   describe('Test component rendering', () => {
     it('should render the Dropdown component', () => {
       render(getCustomerLookupComponent())
@@ -82,7 +63,7 @@ describe('CustomerLookup', () => {
       useDispatchMock.mockReturnValue(dummyDispatch)
     })
 
-    it('should not dispatch setJWTToken and refresh service when load user is clicked with invalid values', () => {
+    it('should not call jwtCustomerLookup when load user is clicked with invalid values', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce(['Not Valid Lookup Value', jest.fn()]) // Invalid LookupTypeValue state value
@@ -92,11 +73,10 @@ describe('CustomerLookup', () => {
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
 
-      expect(setJwtToken).not.toBeCalled()
-      expect(mockServiceRefresh).toHaveBeenCalledTimes(0)
+      expect(mockJwtCustomerLookup).not.toBeCalled()
     })
 
-    it('should dispatch setJWTToken and refresh service when load user is clicked with valid values', () => {
+    it('should call jwtCustomerLookup when load user is clicked with valid values', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce(['JWT', jest.fn()]) // Valid LookupTypeValue state value
@@ -106,8 +86,7 @@ describe('CustomerLookup', () => {
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
 
-      expect(setJwtToken).toBeCalledWith('mock_token_string')
-      expect(mockServiceRefresh).toHaveBeenCalledTimes(1)
+      expect(mockJwtCustomerLookup).toBeCalledWith('mock_token_string')
     })
   })
 })

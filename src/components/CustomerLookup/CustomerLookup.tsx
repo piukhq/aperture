@@ -1,32 +1,20 @@
 import {useState, FormEvent} from 'react'
-import {useDispatch} from 'react-redux'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import {useCustomerLookup} from 'hooks/useCustomerLookup'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
-import {setJwtToken} from 'features/customerWalletSlice'
-import {useService} from 'hooks/useService'
-import {useCustomerLookup} from 'hooks/useCustomerLookup'
 
 const CustomerLookup = () => {
-  const {
-    getServiceRefresh,
-  } = useService()
   const {jwtCustomerLookup} = useCustomerLookup()
-
-  const dispatch = useDispatch()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (lookupTypeValue === 'JWT' && lookupValue.length > 0) { // TODO: Add better validation rules
-      dispatch(setJwtToken(lookupValue))
-      getServiceRefresh()
-      jwtCustomerLookup(lookupValue, lookupTypeValue)
-    }
+    lookupValue.length > 0 && lookupTypeValue === 'JWT' && jwtCustomerLookup(lookupValue)
   }
 
   return (
