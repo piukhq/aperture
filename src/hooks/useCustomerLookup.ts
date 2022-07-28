@@ -23,7 +23,7 @@ export const useCustomerLookup = () => {
   useEffect(() => { // TODO: Make this lookup type agnostic when other lookups are implemented
     if (lookupType && jwtToken) {
       const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(jwtToken) || {}
-      if (userEmail === getServiceResponse?.consent?.email && setLookupType && jwtToken) {
+      if (userEmail === getServiceResponse?.consent?.email) {
         getLoyaltyCardsRefresh()
         getPaymentCardsRefresh()
         getPlansRefresh()
