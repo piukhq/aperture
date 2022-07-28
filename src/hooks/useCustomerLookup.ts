@@ -20,6 +20,7 @@ export const useCustomerLookup = () => {
   const dispatch = useDispatch()
   const jwtToken = useAppSelector(getJwtToken)
 
+  // TODO: Consider refactoring this to avoid using the useEffect hook
   useEffect(() => { // TODO: Make this lookup type agnostic when other lookups are implemented
     if (lookupType && jwtToken) {
       const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(jwtToken) || {}
