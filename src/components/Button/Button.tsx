@@ -28,6 +28,7 @@ export interface ButtonProps {
   handleClick?: () => void,
   ariaLabel?: string,
   autoFocus?:boolean
+  additionalStyles?: string,
 }
 
 const Button = (props: ButtonProps) => {
@@ -43,6 +44,7 @@ const Button = (props: ButtonProps) => {
     ariaLabel,
     children,
     autoFocus,
+    additionalStyles = '',
   } = props
 
   return (
@@ -54,7 +56,7 @@ const Button = (props: ButtonProps) => {
         BORDER_COLOUR_MAPS[borderColour],
         LABEL_COLOUR_MAPS[labelColour],
         LABEL_WEIGHT_MAPS[labelWeight],
-        'hover:bg-opacity-[.7] active:bg-opacity-[.55]'
+        `hover:bg-opacity-[.7] active:bg-opacity-[.55] ${additionalStyles}`
       )}
       aria-label={ariaLabel}
       autoFocus={autoFocus}

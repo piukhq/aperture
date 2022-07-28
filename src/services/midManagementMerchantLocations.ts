@@ -1,5 +1,11 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryLocations, DirectoryLocation} from 'types'
+import {
+  DirectoryLocations,
+  DirectoryLocation,
+  DirectoryMerchantLocationMid,
+  DirectoryMerchantLocationAvailableMids,
+  DirectoryMerchantLocationSecondaryMid,
+} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -30,7 +36,7 @@ type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
 export const midManagementMerchantLocationsApi = createApi({
   reducerPath: 'midManagementMerchantLocationsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantLocations', 'MerchantLocation'],
+  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids'],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
@@ -80,7 +86,28 @@ export const midManagementMerchantLocationsApi = createApi({
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
         }
-      }}),
+      },
+    }),
+    getMerchantLocationLinkedMids: builder.query<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocationLinkedMids'],
+    }),
+    getMerchantLocationUnlinkedMids: builder.query<DirectoryMerchantLocationAvailableMids, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
+        method: 'GET',
+      }),
+    }),
+    getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_links`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocationLinkedSecondaryMids'],
+    }),
   }),
 })
 
@@ -89,4 +116,7 @@ export const {
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
+  useGetMerchantLocationLinkedMidsQuery,
+  useGetMerchantLocationUnlinkedMidsQuery,
+  useGetMerchantLocationLinkedSecondaryMidsQuery,
 } = midManagementMerchantLocationsApi
