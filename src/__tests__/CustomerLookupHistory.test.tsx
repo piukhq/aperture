@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen, fireEvent} from '@testing-library/react'
 import CustomerLookupHistory from 'components/CustomerLookupHistory'
 
@@ -48,12 +47,8 @@ const getCustomerLookupHistoryComponent = () => (
 )
 
 describe('CustomerLookupHistory', () => {
-  const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-
   beforeEach(() => {
     jest.clearAllMocks()
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
   })
 
   describe('Test component renders', () => {
@@ -77,8 +72,7 @@ describe('CustomerLookupHistory', () => {
 
   // TODO: Make tests to cover other entity types, below assumes JWT
   describe('Test past history entities clicks', () => {
-
-    it('should call appropriate functions when clicked', () => {
+    it('should call jwtTokenLookup when clicked', () => {
       render(getCustomerLookupHistoryComponent())
 
       fireEvent.click(screen.getByRole('button'))
