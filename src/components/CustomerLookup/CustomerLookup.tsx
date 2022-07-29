@@ -14,7 +14,7 @@ const CustomerLookup = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    lookupValue.length > 0 && lookupTypeValue === 'JWT' && jwtCustomerLookup(lookupValue)
+    lookupValue.length > 0 && lookupTypeValue === 'JWT' && jwtCustomerLookup(lookupValue, lookupTypeValue)
   }
 
   return (

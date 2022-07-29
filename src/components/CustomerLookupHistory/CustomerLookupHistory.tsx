@@ -47,7 +47,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
   }
 
   const handleEntityClick = ({lookup}: LookupUserHistoryEntity) => { // TODO: Handle other lookup types
-    lookup.type === 'JWT' && jwtCustomerLookup(lookup.criteria as string)
+    lookup.type === 'JWT' && jwtCustomerLookup(lookup.criteria as string, lookup.type)
   }
 
   return (

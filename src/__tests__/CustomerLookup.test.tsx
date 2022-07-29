@@ -66,7 +66,7 @@ describe('CustomerLookup', () => {
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
 
-      expect(mockJwtCustomerLookup).toBeCalledWith('mock_token_string')
+      expect(mockJwtCustomerLookup).toBeCalledWith('mock_token_string', 'JWT')
     })
   })
 })

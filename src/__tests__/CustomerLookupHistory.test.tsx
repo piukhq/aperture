@@ -76,7 +76,7 @@ describe('CustomerLookupHistory', () => {
       render(getCustomerLookupHistoryComponent())
 
       fireEvent.click(screen.getByRole('button'))
-      expect(mockJwtCustomerLookup).toHaveBeenCalledWith('mock_criteria')
+      expect(mockJwtCustomerLookup).toHaveBeenCalledWith('mock_criteria', 'JWT')
     })
   })
 })
