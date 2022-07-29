@@ -6,7 +6,7 @@ const url = '/api/v1/customer_wallet/user_lookups'
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
   prepareHeaders: (headers) => {
-    headers.set('authorization', `Bearer ${process.env.NEXT_PUBLIC_PORTAL_API_KEY}`)
+    headers.set('authorization', `token ${process.env.NEXT_PUBLIC_PORTAL_API_KEY}`)
     headers.set('accept', 'application/json;v=1.3')
     headers.set('user', 'mock_session_id')
     return headers
