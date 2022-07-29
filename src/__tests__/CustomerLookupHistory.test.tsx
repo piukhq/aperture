@@ -1,29 +1,16 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen, fireEvent} from '@testing-library/react'
 import CustomerLookupHistory from 'components/CustomerLookupHistory'
-import {setJwtToken} from 'features/customerWalletSlice'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
-const mockServiceRefresh = jest.fn()
-
-jest.mock('hooks/useService', () => ({
-  useService: jest.fn().mockImplementation(() => ({
-    getServiceRefresh: mockServiceRefresh,
-  })),
-}))
-
+const mockJwtCustomerLookup = jest.fn()
 jest.mock('hooks/useCustomerLookup', () => ({
   useCustomerLookup: jest.fn().mockImplementation(() => ({
-    jwtCustomerLookup: jest.fn(),
+    jwtCustomerLookup: mockJwtCustomerLookup,
   })),
-}))
-
-jest.mock('features/customerWalletSlice', () => ({
-  setJwtToken: jest.fn(),
 }))
 
 const mockDisplayText = 'mock_display_text'
@@ -60,12 +47,8 @@ const getCustomerLookupHistoryComponent = () => (
 )
 
 describe('CustomerLookupHistory', () => {
-  const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-
   beforeEach(() => {
     jest.clearAllMocks()
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
   })
 
   describe('Test component renders', () => {
@@ -89,13 +72,11 @@ describe('CustomerLookupHistory', () => {
 
   // TODO: Make tests to cover other entity types, below assumes JWT
   describe('Test past history entities clicks', () => {
-
-    it('should call appropriate functions when clicked', () => {
+    it('should call jwtTokenLookup when clicked', () => {
       render(getCustomerLookupHistoryComponent())
 
       fireEvent.click(screen.getByRole('button'))
-      expect(setJwtToken).toHaveBeenCalledWith('mock_criteria')
-      expect(mockServiceRefresh).toHaveBeenCalledTimes(1)
+      expect(mockJwtCustomerLookup).toHaveBeenCalledWith('mock_criteria', 'JWT')
     })
   })
 })
