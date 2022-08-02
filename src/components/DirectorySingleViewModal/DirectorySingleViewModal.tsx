@@ -88,7 +88,7 @@ const DirectorySingleViewModal = () => {
 
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
 
-  const [shouldDisplayEditButton, setShouldDisplayEditButton] = useState(false)
+  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
@@ -181,7 +181,7 @@ const DirectorySingleViewModal = () => {
           setHeaderFn={setEntityHeading}
           isInEditState={isInLocationEditState}
           onCancelEditState={onCancelEditState}
-          setShouldDisplayEditButton={setShouldDisplayEditButton}
+          setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
         />
     }
   }
@@ -239,7 +239,7 @@ const DirectorySingleViewModal = () => {
             />
           ) : (
             <div className='flex gap-[15px]'>
-              {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayEditButton && (
+              {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayFooterEditButton && (
                 <Button
                   handleClick={() => setIsInLocationEditState(true)}
                   buttonType={ButtonType.SUBMIT}

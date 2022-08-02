@@ -18,24 +18,25 @@ const LocationMidsListItem = ({index, paymentSchemeCode, value, refValue}: Props
   const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
 
   const renderPaymentCardIcon = (paymentSchemeCode: number) => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
-      return (
-        <div className={`${paymentSchemeIconStyles} bg-visaBlue`}>
-          <VisaSvg data-testid='visa-icon' className='scale-[90%] mr-[1px]' alt='Visa' />
-        </div>
-      )
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
-      return (
-        <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
-          <MastercardSvg data-testid='mastercard-icon' className='scale-[78%] mb-[1px]' alt='Mastercard' />
-        </div>
-      )
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
-      return (
-        <div className={`${paymentSchemeIconStyles} bg-amexBlue`}>
-          <AmexSvg data-testid='amex-icon' className='scale-[85%]' alt='Amex' />
-        </div>
-      )
+    switch (paymentSchemeCode) {
+      case PaymentSchemeCode.VISA:
+        return (
+          <div className={`${paymentSchemeIconStyles} bg-visaBlue`}>
+            <VisaSvg data-testid='visa-icon' className='scale-[90%] mr-[1px]' alt='Visa' />
+          </div>
+        )
+      case PaymentSchemeCode.MASTERCARD:
+        return (
+          <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
+            <MastercardSvg data-testid='mastercard-icon' className='scale-[78%] mb-[1px]' alt='Mastercard' />
+          </div>
+        )
+      case PaymentSchemeCode.AMEX:
+        return (
+          <div className={`${paymentSchemeIconStyles} bg-amexBlue`}>
+            <AmexSvg data-testid='amex-icon' className='scale-[85%]' alt='Amex' />
+          </div>
+        )
     }
   }
 

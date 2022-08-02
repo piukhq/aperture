@@ -16,7 +16,7 @@ const SingleViewLocationMids = () => {
     skipGetLocationLinkedSecondaryMids: true,
   })
 
-  const noLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
+  const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
 
   const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index) => {
     const {payment_scheme_code: paymentSchemeCode, mid_value: midValue, mid_ref: midRef} = locationMid
@@ -24,7 +24,7 @@ const SingleViewLocationMids = () => {
   }
 
   const renderContent = () => {
-    if (noLinkedMids) {
+    if (hasNoLinkedMids) {
       return <i className='font-body-4'>There are no MIDs to view.</i>
     }
     return (

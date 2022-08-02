@@ -95,7 +95,7 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       providesTags: ['MerchantLocationLinkedMids'],
     }),
-    getMerchantLocationUnlinkedMids: builder.query<DirectoryMerchantLocationAvailableMids, MerchantLocationsEndpointRefs>({
+    getMerchantLocationAvailableMids: builder.query<DirectoryMerchantLocationAvailableMids, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
         method: 'GET',
@@ -117,6 +117,6 @@ export const {
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
-  useGetMerchantLocationUnlinkedMidsQuery,
+  useGetMerchantLocationAvailableMidsQuery,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
 } = midManagementMerchantLocationsApi
