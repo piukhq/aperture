@@ -4,12 +4,13 @@ import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import SingleViewLocationDetails from './components/SingleViewLocationDetails'
+import {SingleViewLocationDetails, SingleViewLocationMids, SingleViewLocationSecondaryMids} from './components'
 
 type Props = {
   setHeaderFn: (header: string) => void
   isInEditState: boolean
   onCancelEditState: () => void
+  setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
 }
 
 enum SingleViewLocationTabs {
@@ -19,7 +20,7 @@ enum SingleViewLocationTabs {
   COMMENTS = 'Comments'
 }
 
-const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState}: Props) => {
+const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -31,6 +32,13 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState}: Pro
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
+
+  const [tabSelected, setTabSelected] = useState('Details')
+
+  useEffect(() => {
+    // Edit button should only be visible (currently) on the details tab
+    setShouldDisplayEditButton(tabSelected === SingleViewLocationTabs.DETAILS)
+  }, [tabSelected, setShouldDisplayEditButton])
 
   useEffect(() => {
     if (getMerchantLocationResponse) {
@@ -45,7 +53,6 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState}: Pro
     }
   }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity])
 
-  const [tabSelected, setTabSelected] = useState('Details')
 
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-850 dark:hover:text-white border-b-2 border-b-blue'
@@ -71,12 +78,12 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState}: Pro
             onCancelEditState={onCancelEditState}
           />
         ) : null
+      case SingleViewLocationTabs.MIDS:
+        return <SingleViewLocationMids />
+      case SingleViewLocationTabs.SECONDARY_MIDS:
+        return <SingleViewLocationSecondaryMids />
       case SingleViewLocationTabs.COMMENTS:
         return <i className='font-body-4'> There are no comments to view.</i>
-      case SingleViewLocationTabs.MIDS:
-        return <i className='font-body-4'> There are no MIDs to view.</i>
-      case SingleViewLocationTabs.SECONDARY_MIDS:
-        return <i className='font-body-4'> There are no Secondary MIDs to view.</i>
     }
   }
 

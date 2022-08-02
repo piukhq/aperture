@@ -145,6 +145,26 @@ export type DirectoryMerchantMidLocation = {
   location_title: string,
 }
 
+export type DirectoryMerchantLocationMid = {
+  mid_ref: string,
+  mid_value: string,
+  payment_scheme_code?: number,
+}
+
+export type DirectoryMerchantLocationSecondaryMid = {
+  link_ref: string,
+  secondary_mid_ref: string,
+  secondary_mid_value: string
+  payment_scheme_code?: number,
+}
+
+export type DirectoryMerchantLocationAvailableMid = {
+  location: DirectoryMerchantMidLocation,
+  mid: DirectoryMerchantLocationMid
+}
+
+export type DirectoryMerchantLocationAvailableMids = Array<DirectoryMerchantLocationMid>
+
 export type DirectoryMerchantMid = {
   location: DirectoryMerchantMidLocation,
   mid: DirectoryMid

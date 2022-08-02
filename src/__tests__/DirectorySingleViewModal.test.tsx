@@ -108,7 +108,6 @@ describe('DirectorySingleViewModal', () => {
     }))
 
     React.useState = jest.fn()
-      .mockReturnValueOnce(['Details', jest.fn()]) // setTabSelected
       .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
       .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
       .mockReturnValue([null, jest.fn()]) // setErrorMessage
@@ -138,6 +137,28 @@ describe('DirectorySingleViewModal', () => {
     expect(screen.getByText(mockErrorMessage)).toBeInTheDocument()
   })
 
+  it('should render the location Edit button', () => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'locations',
+        ref: mockMidRef,
+      },
+    }))
+
+    React.useState = jest.fn()
+      .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
+      .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
+      .mockReturnValueOnce([null, jest.fn()]) // setErrorMessage
+      .mockReturnValueOnce([false, jest.fn()]) // setIsInDeleteConfirmationState
+      .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
+      .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
+
+    render(getDirectorySingleViewModalComponent())
+    expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+  })
+
   describe('Test is deleting state', () => {
     it('should display the deleting tag', () => {
       mockDeleteMidIsLoading = true
@@ -163,5 +184,3 @@ describe('DirectorySingleViewModal', () => {
     })
   })
 })
-
-

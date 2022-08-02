@@ -88,6 +88,8 @@ const DirectorySingleViewModal = () => {
 
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
 
+  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
+
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
@@ -179,93 +181,94 @@ const DirectorySingleViewModal = () => {
           setHeaderFn={setEntityHeading}
           isInEditState={isInLocationEditState}
           onCancelEditState={onCancelEditState}
+          setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
         />
     }
   }
 
-  const renderFormButtons = () => {
-    return (
-      <>
-        <Button
-          handleClick={handleCopyLinkClick}
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.LIGHT_GREY}
-          labelColour={LabelColour.GREY}
-          labelWeight={LabelWeight.SEMIBOLD}
-        ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
-        </Button>
 
-        {isInDeleteConfirmationState ? (
-          <div className='flex items-center justify-between gap-[5px]'>
-            <p className='font-body-4 text-red px-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
-            <Button
-              handleClick={() => setIsInDeleteConfirmationState(false)}
-              buttonSize={ButtonSize.MEDIUM_ICON}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-              buttonBackground={ButtonBackground.LIGHT_GREY}
-              ariaLabel={`Close ${singleViewEntityLabel} delete`}
-            ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
-            </Button>
+  const renderFormButtons = () => (
+    <>
+      <Button
+        handleClick={handleCopyLinkClick}
+        buttonType={ButtonType.SUBMIT}
+        buttonSize={ButtonSize.MEDIUM}
+        buttonWidth={ButtonWidth.MEDIUM}
+        buttonBackground={ButtonBackground.LIGHT_GREY}
+        labelColour={LabelColour.GREY}
+        labelWeight={LabelWeight.SEMIBOLD}
+      ><LinkSvg />{copyButtonClicked ? 'Copied' : 'Copy link'}
+      </Button>
 
-            <Button
-              handleClick={handleDelete}
-              buttonType={ButtonType.SUBMIT}
-              buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={ButtonWidth.MEDIUM}
-              buttonBackground={ButtonBackground.RED}
-              labelColour={LabelColour.WHITE}
-              labelWeight={LabelWeight.SEMIBOLD}
-              ariaLabel={`Delete ${singleViewEntityLabel}`}
-            >Yes, Delete
-            </Button>
-          </div>
-        ) : (
-          <>
-            {errorMessage && (
-              <p className='font-body-4 text-red'>{errorMessage}</p>
-            )}
-            {isDeleting ? (
-              <Tag
-                tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
-                textStyle={TextStyle.MEDIUM}
-                textColour={TextColour.WHITE}
-                tagStyle={TagStyle.RED_FILLED}
-                label='Deleting...'
-              />
-            ) : (
-              <div className='flex gap-[15px]'>
-                {tab === DirectoryNavigationTab.LOCATIONS && (
-                  <Button
-                    handleClick={() => setIsInLocationEditState(true)}
-                    buttonType={ButtonType.SUBMIT}
-                    buttonSize={ButtonSize.MEDIUM}
-                    buttonWidth={ButtonWidth.MEDIUM}
-                    buttonBackground={ButtonBackground.LIGHT_GREY}
-                    labelColour={LabelColour.GREY}
-                    labelWeight={LabelWeight.SEMIBOLD}
-                  >Edit
-                  </Button>
-                )}
+      {isInDeleteConfirmationState ? (
+        <div className='flex items-center justify-between gap-[5px]'>
+          <p className='font-body-4 text-red px-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
+          <Button
+            handleClick={() => setIsInDeleteConfirmationState(false)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+            buttonBackground={ButtonBackground.LIGHT_GREY}
+            ariaLabel={`Close ${singleViewEntityLabel} delete`}
+          ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
+          </Button>
 
+          <Button
+            handleClick={handleDelete}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.MEDIUM}
+            buttonBackground={ButtonBackground.RED}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.SEMIBOLD}
+            ariaLabel={`Delete ${singleViewEntityLabel}`}
+          >Yes, Delete
+          </Button>
+        </div>
+      ) : (
+        <>
+          {errorMessage && (
+            <p className='font-body-4 text-red'>{errorMessage}</p>
+          )}
+          {isDeleting ? (
+            <Tag
+              tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
+              textStyle={TextStyle.MEDIUM}
+              textColour={TextColour.WHITE}
+              tagStyle={TagStyle.RED_FILLED}
+              label='Deleting...'
+            />
+          ) : (
+            <div className='flex gap-[15px]'>
+              {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayFooterEditButton && (
                 <Button
-                  handleClick={() => setIsInDeleteConfirmationState(true)}
+                  handleClick={() => setIsInLocationEditState(true)}
                   buttonType={ButtonType.SUBMIT}
                   buttonSize={ButtonSize.MEDIUM}
                   buttonWidth={ButtonWidth.MEDIUM}
-                  buttonBackground={ButtonBackground.RED}
-                  labelColour={LabelColour.WHITE}
+                  buttonBackground={ButtonBackground.LIGHT_GREY}
+                  labelColour={LabelColour.GREY}
                   labelWeight={LabelWeight.SEMIBOLD}
-                >Delete
+                >Edit
                 </Button>
-              </div>
-            )}
-          </>
-        )}
-      </>
-    )
-  }
+              )}
+
+              <Button
+                handleClick={() => setIsInDeleteConfirmationState(true)}
+                buttonType={ButtonType.SUBMIT}
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.MEDIUM}
+                buttonBackground={ButtonBackground.RED}
+                labelColour={LabelColour.WHITE}
+                labelWeight={LabelWeight.SEMIBOLD}
+              >Delete
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+    </>
+  )
+
 
   const handleModelClose = useCallback(() => {
     resetDeleteMerchantMidResponse()
