@@ -7,7 +7,6 @@ jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/com
 jest.mock('components/DropDown',
   () => () => <div data-testid='Dropdown' />)
 
-
 let mockGetMerchantLocationLinkedSecondaryMidsResponse = [
   {
     link_ref: 'mock_link_ref',
@@ -36,11 +35,12 @@ const mockGetMerchantSecondaryMidsResponse = [
   },
 ]
 
+const mockPostMerchantLocationLinkedSecondaryMid = jest.fn()
 jest.mock('hooks/useMidManagementLocationSecondaryMids', () => ({
   useMidManagementLocationSecondaryMids: jest.fn().mockImplementation(() => ({
     getMerchantLocationLinkedSecondaryMidsResponse: mockGetMerchantLocationLinkedSecondaryMidsResponse,
     getMerchantLocationLinkedSecondaryMidsIsLoading: false,
-    postMerchantLocationLinkedSecondaryMid: jest.fn(),
+    postMerchantLocationLinkedSecondaryMid: mockPostMerchantLocationLinkedSecondaryMid,
     postMerchantLocationLinkedSecondaryMidIsLoading: false,
   })),
 }))
@@ -91,6 +91,7 @@ describe('SingleViewLocationSecondaryMids', () => {
 
   it('should not render the Secondary Mid linking elements', () => {
     render(<SingleViewLocationSecondaryMids />)
+
     expect(screen.queryByLabelText('Save Secondary Mid')).not.toBeInTheDocument()
     expect(screen.queryByLabelText('Cancel New Secondary Mid Link')).not.toBeInTheDocument()
     expect(screen.queryByTestId('Dropdown')).not.toBeInTheDocument()
@@ -119,7 +120,6 @@ describe('SingleViewLocationSecondaryMids', () => {
 
         expect(screen.queryByLabelText('Save Secondary Mid')).toBeInTheDocument()
       })
-      // TODO: Add something to test when it has been clicked
     })
 
     describe('Test Secondary Mid link cancel button', () => {

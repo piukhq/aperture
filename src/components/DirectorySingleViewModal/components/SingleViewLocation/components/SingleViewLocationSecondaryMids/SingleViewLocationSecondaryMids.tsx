@@ -60,9 +60,7 @@ const SingleViewLocationSecondaryMids = () => {
     </section>
   )
 
-
   const renderAvailableMidSelection = () => {
-    const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
 
     const onSaveHandler = () => {
       if (selectedAvailableMid) {
@@ -79,6 +77,8 @@ const SingleViewLocationSecondaryMids = () => {
       setIsInNewLinkSelectionState(false)
       setSelectedAvailableMid(null)
     }
+
+    const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
 
     const renderPaymentCardIcon = (paymentSchemeCode: number) => {
       switch (paymentSchemeCode) {
