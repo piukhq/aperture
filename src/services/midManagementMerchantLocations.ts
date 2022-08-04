@@ -10,10 +10,11 @@ import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
 type MerchantLocationsEndpointRefs = {
-  planRef: string,
+  planRef?: string,
   merchantRef?: string,
   midRef?: string,
   locationRef?: string,
+  secondaryMidRef?: string,
 }
 
 type PutMerchantLocationBody = MerchantLocationsEndpointRefs & {
@@ -103,11 +104,20 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_links`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`, // TODO: This endpoint apparently should be 'secondary_mid_links'
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedSecondaryMids'],
     }),
+    postMerchantLocationLinkedSecondaryMid: builder.mutation<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`,
+        method: 'POST',
+        body: secondaryMidRef,
+      }),
+      invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
+    }),
+
   }),
 })
 
@@ -119,4 +129,5 @@ export const {
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
+  usePostMerchantLocationLinkedSecondaryMidMutation,
 } = midManagementMerchantLocationsApi

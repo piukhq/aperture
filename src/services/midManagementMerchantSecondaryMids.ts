@@ -7,6 +7,7 @@ type MerchantSecondaryMidsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   secondaryMidRef?: string,
+  locationRef?: string,
 }
 
 type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
@@ -19,8 +20,8 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
   tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid'],
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
-      query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids`,
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids${locationRef ? `?exclude_location=${locationRef}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMids'],

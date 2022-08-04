@@ -1,8 +1,8 @@
-import {useMemo, useState} from 'react'
+import {useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
+import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LocationMidsListItem from '../LocationMidsListItem'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
@@ -18,40 +18,26 @@ const SingleViewLocationSecondaryMids = () => {
   const [isInNewLinkSelectionState, setIsInNewLinkSelectionState] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
 
-  const {getMerchantLocationLinkedSecondaryMidsResponse, getMerchantLocationLinkedSecondaryMidsIsLoading} = useMidManagementLocationMids({
+  const {
+    getMerchantLocationLinkedSecondaryMidsResponse,
+    getMerchantLocationLinkedSecondaryMidsIsLoading,
+    postMerchantLocationLinkedSecondaryMid,
+    postMerchantLocationLinkedSecondaryMidIsLoading,
+  } = useMidManagementLocationSecondaryMids({
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
     skipGetLocationLinkedMids: true,
   })
-  const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
+
+  const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({ // Using location ref in query string to only return secondary mids NOT linked to this location
     planRef: planId as string,
     merchantRef: merchantId as string,
     skipGetSecondaryMids: false,
+    locationRef: ref as string,
   })
 
-  const availableSecondaryMids: DirectorySecondaryMid[] = useMemo(() => { // filter getMerchantSecondaryMidsResponse to only include MIDs that are not already linked
-    if (getMerchantSecondaryMidsResponse) {
-      return getMerchantSecondaryMidsResponse.filter(
-        (secondaryMid: DirectorySecondaryMid) => !getMerchantLocationLinkedSecondaryMidsResponse?.some(
-          (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid) => locationSecondaryMid.secondary_mid_ref === secondaryMid.secondary_mid_ref
-        )
-      )
-    }
-    return []
-  }, [getMerchantLocationLinkedSecondaryMidsResponse, getMerchantSecondaryMidsResponse])
-
   const noLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
-
-  const onSaveHandler = () => {
-    console.log('Save button clicked')
-    console.log('Selected available mid: ', selectedAvailableMid)
-  }
-
-  const onCloseHandler = () => {
-    setIsInNewLinkSelectionState(false)
-    setSelectedAvailableMid(null)
-  }
 
   const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
     const {payment_scheme_code: paymentSchemeCode, secondary_mid_value: secondaryMidValue, secondary_mid_ref: secondaryMidRef} = locationSecondaryMid
@@ -61,7 +47,7 @@ const SingleViewLocationSecondaryMids = () => {
   const renderLinkNewSecondaryMidButton = () => (
     <section className='flex justify-end items-center mb-[10px]'>
       <Button
-        handleClick={() => setIsInNewLinkSelectionState(true)}
+        handleClick={() => getMerchantSecondaryMidsResponse?.length > 0 && setIsInNewLinkSelectionState(true)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -77,6 +63,22 @@ const SingleViewLocationSecondaryMids = () => {
 
   const renderAvailableMidSelection = () => {
     const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
+
+    const onSaveHandler = () => {
+      if (selectedAvailableMid) {
+        postMerchantLocationLinkedSecondaryMid({
+          planRef: planId as string,
+          merchantRef: merchantId as string,
+          locationRef: ref as string,
+          secondaryMidRef: selectedAvailableMid.secondary_mid_ref,
+        })
+      }
+    }
+
+    const onCloseHandler = () => {
+      setIsInNewLinkSelectionState(false)
+      setSelectedAvailableMid(null)
+    }
 
     const renderPaymentCardIcon = (paymentSchemeCode: number) => {
       switch (paymentSchemeCode) {
@@ -101,7 +103,7 @@ const SingleViewLocationSecondaryMids = () => {
       }
     }
 
-    const renderDropdownMid = (secondaryMid: DirectorySecondaryMid) => {
+    const renderDropdownSecondaryMid = (secondaryMid: DirectorySecondaryMid) => {
       const {secondary_mid: midValue, payment_scheme_code: paymentSchemeCode} = secondaryMid.secondary_mid_metadata
       return (
         <div className='flex items-center'>
@@ -119,10 +121,10 @@ const SingleViewLocationSecondaryMids = () => {
       <section className='flex items-center justify-end gap-[10px] mb-[10px]'>
         <div className='h-[36px] w-[210px]'>
           <Dropdown
-            displayValue={selectedAvailableMid || 'Secondary Mid'}
-            displayValues={availableSecondaryMids}
+            displayValue={selectedAvailableMid || 'Select Mid'}
+            displayValues={getMerchantSecondaryMidsResponse}
             onChangeDisplayValue={setSelectedAvailableMid}
-            renderFn={renderDropdownMid}
+            renderFn={renderDropdownSecondaryMid}
           />
         </div>
 
@@ -136,7 +138,7 @@ const SingleViewLocationSecondaryMids = () => {
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
             ariaLabel={'Save Secondary Mid'}
-          >Save
+          >{postMerchantLocationLinkedSecondaryMidIsLoading ? 'Saving...' : 'Save'}
           </Button>
 
           <Button

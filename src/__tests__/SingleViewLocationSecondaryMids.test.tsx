@@ -36,12 +36,15 @@ const mockGetMerchantSecondaryMidsResponse = [
   },
 ]
 
-jest.mock('hooks/useMidManagementLocationMids', () => ({
-  useMidManagementLocationMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useMidManagementLocationSecondaryMids', () => ({
+  useMidManagementLocationSecondaryMids: jest.fn().mockImplementation(() => ({
     getMerchantLocationLinkedSecondaryMidsResponse: mockGetMerchantLocationLinkedSecondaryMidsResponse,
     getMerchantLocationLinkedSecondaryMidsIsLoading: false,
+    postMerchantLocationLinkedSecondaryMid: jest.fn(),
+    postMerchantLocationLinkedSecondaryMidIsLoading: false,
   })),
 }))
+
 
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
