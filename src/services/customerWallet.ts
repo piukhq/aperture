@@ -8,8 +8,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_LOYALTY_API_URL,
   prepareHeaders: (headers, {getState}) => {
     const token = (getState() as RootState).customerWallet.jwtToken
-    const channel = decodeJwtToken(token).bundle_id
-
+    const channel = decodeJwtToken(token)?.bundle_id
     if (token) {
       headers.set('authorization', `${channel === BundleID.BARCLAYS_BUNDLE_ID ? 'Bearer' : 'Token'} ${token}`)
       headers.set('accept', 'application/json;v=1.3')
