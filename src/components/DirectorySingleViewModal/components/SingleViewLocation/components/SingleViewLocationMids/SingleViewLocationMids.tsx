@@ -13,7 +13,6 @@ const SingleViewLocationMids = () => {
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
-    skipGetLocationLinkedSecondaryMids: true,
   })
 
   const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading

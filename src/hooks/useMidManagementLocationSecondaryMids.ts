@@ -1,8 +1,6 @@
-import {useGetMerchantLocationLinkedMidsQuery, useGetMerchantLocationLinkedSecondaryMidsQuery, usePostMerchantLocationLinkedSecondaryMidMutation} from 'services/midManagementMerchantLocations'
+import {useGetMerchantLocationLinkedSecondaryMidsQuery, usePostMerchantLocationLinkedSecondaryMidMutation} from 'services/midManagementMerchantLocations'
 
-export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedMids = false, skipGetLocationLinkedSecondaryMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
-  const {data: getMerchantLocationLinkedMidsResponse, isLoading: getMerchantLocationLinkedMidsIsLoading, error: getMerchantLocationLinkedMidsError} = useGetMerchantLocationLinkedMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationLinkedMids})
-
+export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedSecondaryMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
   const {data: getMerchantLocationLinkedSecondaryMidsResponse, isLoading: getMerchantLocationLinkedSecondaryMidsIsLoading, error: getMerchantLocationLinkedSecondaryMidsError} = useGetMerchantLocationLinkedSecondaryMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationLinkedSecondaryMids})
 
   const [
@@ -14,12 +12,7 @@ export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedMids
       reset: resetPostMerchantLocationLinkedSecondaryMidResponse},
   ] = usePostMerchantLocationLinkedSecondaryMidMutation({fixedCacheKey: 'postMerchantLocationLinkedSecondaryMid'})
 
-
   return {
-    // GET Location Linked MIDs
-    getMerchantLocationLinkedMidsResponse,
-    getMerchantLocationLinkedMidsIsLoading,
-    getMerchantLocationLinkedMidsError,
     // GET Location Linked Secondary MIDs
     getMerchantLocationLinkedSecondaryMidsResponse,
     getMerchantLocationLinkedSecondaryMidsIsLoading,

@@ -104,7 +104,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`, // TODO: This endpoint apparently should be 'secondary_mid_links'
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedSecondaryMids'],
