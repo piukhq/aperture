@@ -16,7 +16,7 @@ const SingleViewLocationSecondaryMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
   const [isInNewLinkSelectionState, setIsInNewLinkSelectionState] = useState(false)
-  const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
+  const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
@@ -61,21 +61,20 @@ const SingleViewLocationSecondaryMids = () => {
   )
 
   const renderAvailableMidSelection = () => {
-
     const onSaveHandler = () => {
-      if (selectedAvailableMid) {
+      if (selectedAvailableSecondaryMid) {
         postMerchantLocationLinkedSecondaryMid({
           planRef: planId as string,
           merchantRef: merchantId as string,
           locationRef: ref as string,
-          secondaryMidRef: selectedAvailableMid.secondary_mid_ref,
+          secondaryMidRef: selectedAvailableSecondaryMid.secondary_mid_ref,
         })
       }
     }
 
     const onCloseHandler = () => {
       setIsInNewLinkSelectionState(false)
-      setSelectedAvailableMid(null)
+      setSelectedAvailableSecondaryMid(null)
     }
 
     const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
@@ -121,16 +120,16 @@ const SingleViewLocationSecondaryMids = () => {
       <section className='flex items-center justify-end gap-[10px] mb-[10px]'>
         <div className='h-[36px] w-[210px]'>
           <Dropdown
-            displayValue={selectedAvailableMid || 'Select Mid'}
+            displayValue={selectedAvailableSecondaryMid || 'Select Mid'}
             displayValues={getMerchantSecondaryMidsResponse}
-            onChangeDisplayValue={setSelectedAvailableMid}
+            onChangeDisplayValue={setSelectedAvailableSecondaryMid}
             renderFn={renderDropdownSecondaryMid}
           />
         </div>
 
         <div className='flex items-center gap-[10px]'>
           <Button
-            handleClick={onSaveHandler}
+            handleClick={!postMerchantLocationLinkedSecondaryMidIsLoading ? onSaveHandler : null}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
