@@ -4,8 +4,8 @@ import {
   useDeleteMerchantSecondaryMidMutation,
 } from 'services/midManagementMerchantSecondaryMids'
 
-export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, planRef = '', merchantRef = '', secondaryMidRef = ''}) => {
-  const {data: getMerchantSecondaryMidsResponse, isLoading: getMerchantSecondaryMidsIsLoading, error: getMerchantSecondaryMidsError} = useGetMerchantSecondaryMidsQuery({planRef, merchantRef}, {skip: skipGetSecondaryMids})
+export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = ''}) => {
+  const {data: getMerchantSecondaryMidsResponse, isLoading: getMerchantSecondaryMidsIsLoading, error: getMerchantSecondaryMidsError} = useGetMerchantSecondaryMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetSecondaryMids})
 
   const {data: getMerchantSecondaryMidResponse, isLoading: getMerchantSecondaryMidIsLoading, error: getMerchantSecondaryMidError} = useGetMerchantSecondaryMidQuery({planRef, merchantRef, secondaryMidRef}, {skip: skipGetSecondaryMid})
 
