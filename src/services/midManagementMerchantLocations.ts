@@ -10,7 +10,7 @@ import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
 type MerchantLocationsEndpointRefs = {
-  planRef?: string,
+  planRef: string,
   merchantRef?: string,
   midRef?: string,
   locationRef?: string,
