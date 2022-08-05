@@ -16,19 +16,19 @@ const PaymentCardIcon = ({paymentSchemeCode}: Props) => {
       case PaymentSchemeCode.VISA:
         return (
           <div className={`${paymentSchemeIconStyles} bg-visaBlue`}>
-            <VisaSvg data-testid='visa-icon' className='scale-[90%] mr-[1px]' alt='Visa' />
+            <VisaSvg className='scale-[90%] mr-[1px]' alt='Visa' />
           </div>
         )
       case PaymentSchemeCode.MASTERCARD:
         return (
           <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
-            <MastercardSvg data-testid='mastercard-icon' className='scale-[78%] mb-[1px]' alt='Mastercard' />
+            <MastercardSvg className='scale-[78%] mb-[1px]' alt='Mastercard' />
           </div>
         )
       case PaymentSchemeCode.AMEX:
         return (
           <div className={`${paymentSchemeIconStyles} bg-amexBlue`}>
-            <AmexSvg data-testid='amex-icon' className='scale-[85%]' alt='Amex' />
+            <AmexSvg className='scale-[85%]' alt='Amex' />
           </div>
         )
     }
