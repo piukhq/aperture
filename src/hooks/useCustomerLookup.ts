@@ -31,7 +31,7 @@ export const useCustomerLookup = () => {
         putLookHistoryEntry({
           user: {
             channel,
-            user_id: userId,
+            user_id: userId || userEmail, // Barclays uses user_id, other channels use sub from the token
             display_text: userEmail,
           },
           lookup: {
