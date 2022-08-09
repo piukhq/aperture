@@ -34,6 +34,7 @@ describe('LocationMidsListItem', () => {
     render(getLocationMidsListItemComponent())
     expect(screen.getByTestId('payment-card-icon')).toBeInTheDocument()
   }),
+
   it('should render the value', () => {
     render(getLocationMidsListItemComponent())
     expect(screen.getByText(mockValue)).toBeInTheDocument()
@@ -49,10 +50,9 @@ describe('LocationMidsListItem', () => {
     render(getLocationMidsListItemComponent())
     fireEvent.click(screen.getByLabelText(`Unlink ${mockRefValue}`))
     expect(mockProps.setUnlinkingMidFn).toHaveBeenCalledWith(mockProps.index)
-  }),
+  })
 
   describe('Test unlinking confirmation state', () => {
-
     const getUnlinkingConfirmingStateComponent = getLocationMidsListItemComponent({
       isInUnlinkingConfirmationState: true,
     })
