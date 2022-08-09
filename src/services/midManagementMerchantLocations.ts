@@ -15,6 +15,7 @@ type MerchantLocationsEndpointRefs = {
   midRef?: string,
   locationRef?: string,
   secondaryMidRef?: string,
+  linkRef?: string,
 }
 
 type PutMerchantLocationBody = MerchantLocationsEndpointRefs & {
@@ -117,6 +118,14 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
     }),
+    deleteMerchantSecondaryMidLocationLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, linkRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
+    }),
+
 
   }),
 })
@@ -130,4 +139,5 @@ export const {
   useGetMerchantLocationAvailableMidsQuery,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
+  useDeleteMerchantSecondaryMidLocationLinkMutation,
 } = midManagementMerchantLocationsApi

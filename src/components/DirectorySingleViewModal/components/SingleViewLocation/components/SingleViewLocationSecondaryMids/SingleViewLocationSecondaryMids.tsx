@@ -14,12 +14,17 @@ const SingleViewLocationSecondaryMids = () => {
   const {merchantId, planId, ref} = router.query
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
+  const [unlinkingSecondaryMid, setUnlinkingSecondaryMid] = useState(null)
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
     getMerchantLocationLinkedSecondaryMidsIsLoading,
     postMerchantLocationLinkedSecondaryMid,
     postMerchantLocationLinkedSecondaryMidIsLoading,
+    deleteMerchantSecondaryMidLocationLink,
+    deleteMerchantSecondaryMidLocationLinkIsLoading,
+    deleteMerchantSecondaryMidLocationLinkIsSuccess,
+
   } = useMidManagementLocationSecondaryMids({
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -36,14 +41,44 @@ const SingleViewLocationSecondaryMids = () => {
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
   const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
-    const {payment_scheme_code: paymentSchemeCode, secondary_mid_value: secondaryMidValue, secondary_mid_ref: secondaryMidRef} = locationSecondaryMid
-    return <LocationMidsListItem key={index} index={index} paymentSchemeCode={paymentSchemeCode} value={secondaryMidValue} refValue={secondaryMidRef} />
+    const {
+      payment_scheme_code: paymentSchemeCode,
+      secondary_mid_value: secondaryMidValue,
+      secondary_mid_ref: secondaryMidRef,
+      link_ref: linkRef,
+    } = locationSecondaryMid
+
+    return <LocationMidsListItem
+      key={index}
+      index={index}
+      paymentSchemeCode={paymentSchemeCode}
+      value={secondaryMidValue}
+      refValue={secondaryMidRef}
+      setUnlinkingMidFn={setUnlinkingSecondaryMid}
+      isInUnlinkingConfirmationState={unlinkingSecondaryMid === index}
+      unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
+        linkRef,
+        planRef: planId as string,
+        merchantRef: merchantId as string,
+      })}
+      isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
+      isUnlinkSuccess={deleteMerchantSecondaryMidLocationLinkIsSuccess}
+      setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
+      isSecondaryMid
+    />
+  }
+
+  const handleLinkNewSecondaryMidButtonClick = () => {
+    if (getMerchantSecondaryMidsResponse?.length > 0) {
+      setShouldRenderDropdownMenu(true)
+      setUnlinkingSecondaryMid(null)
+    }
   }
 
   const renderLinkNewSecondaryMidButton = () => (
     <section className='flex justify-end items-center mb-[10px]'>
       <Button
-        handleClick={() => getMerchantSecondaryMidsResponse?.length > 0 && setShouldRenderDropdownMenu(true)}
+        handleClick={handleLinkNewSecondaryMidButtonClick}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}

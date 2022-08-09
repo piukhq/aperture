@@ -19,7 +19,19 @@ const SingleViewLocationMids = () => {
 
   const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index) => {
     const {payment_scheme_code: paymentSchemeCode, mid_value: midValue, mid_ref: midRef} = locationMid
-    return <LocationMidsListItem key={index} index={index} paymentSchemeCode={paymentSchemeCode} value={midValue} refValue={midRef} />
+    return <LocationMidsListItem // TODO: Replace placeholder functionality with actual functionality as per Secondary Mids
+      key={index}
+      index={index}
+      paymentSchemeCode={paymentSchemeCode}
+      value={midValue}
+      refValue={midRef}
+      setUnlinkingMidFn={() => console.log('Placeholder setUnlinkingMidFn')}
+      isInUnlinkingConfirmationState={false} // Placeholder value
+      unlinkFn={() => console.log('Placeholder unlinkFn')}
+      isUnlinking={false} // Placeholder value
+      isUnlinkSuccess={false} // Placeholder value
+      setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
+    />
   }
 
   const renderContent = () => {

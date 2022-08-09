@@ -12,6 +12,13 @@ const mockProps = {
   paymentSchemeCode: 1,
   value: mockValue,
   refValue: mockRefValue,
+  setUnlinkingMidFn: jest.fn(),
+  isInUnlinkingConfirmationState: false,
+  unlinkFn: jest.fn(),
+  isUnlinking: false,
+  isUnlinkSuccess: false,
+  setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
+  isSecondaryMid: false,
 }
 
 const getLocationMidsListItemComponent = (passedProps = {}) => (
