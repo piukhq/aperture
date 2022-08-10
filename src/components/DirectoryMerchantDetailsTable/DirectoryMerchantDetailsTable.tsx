@@ -7,29 +7,37 @@ type TableRowProps = DirectoryMerchantDetailsTableCell[]
 type Props = {
   tableHeaders: DirectoryMerchantDetailsTableHeader[],
   tableRows: TableRowProps[],
-  checkboxChangeHandler?: (shouldDisplayButtons: boolean) => void
+  checkboxChangeHandler?: (childCheckedRefArray: string[]) => void
   singleViewRequestHandler: (index: number) => void
   refArray: string[]
 }
 
 const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler, refArray}: Props) => {
   const [checkedRows, setCheckedRows] = useState(new Array(tableRows.length).fill(false))
+  const [checkedRefArr, setCheckedRefArr] = useState([])
   const [copyRow, setCopyRow] = useState(null)
+  const [isAllChecked, setIsAllChecked] = useState(false)
 
   useEffect(() => {
     // If actions are to occur in parent when checkboxes change, emit event to parent
     if (checkboxChangeHandler) {
-      checkboxChangeHandler(checkedRows.some(row => row === true))
+      checkboxChangeHandler(checkedRefArr)
     }
-  }, [checkboxChangeHandler, checkedRows])
+  }, [checkboxChangeHandler, checkedRefArr])
 
   const handleCheckboxChange = useCallback((rowIndex: number) => {
     const updatedCheckedRowState = checkedRows.map((item, index) => index === rowIndex ? !item : item)
     setCheckedRows(updatedCheckedRowState)
-  }, [checkedRows])
+    setIsAllChecked(false)
 
-  const handleAllCheckboxesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckedRows(new Array(tableRows.length).fill(event.target.checked))
+    const checkedRefArray = refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement)
+    setCheckedRefArr(checkedRefArray)
+  }, [checkedRows, refArray])
+
+  const handleAllCheckboxesChange = () => {
+    setCheckedRefArr(checkedRows.some(row => row === true && isAllChecked) ? [] : refArray)
+    setCheckedRows(new Array(tableRows.length).fill(!isAllChecked))
+    isAllChecked ? setIsAllChecked(false) : setIsAllChecked(true)
   }
 
   const renderTableHeaders = () => (
@@ -48,7 +56,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
         <tr>
           <th data-testid='table-header' aria-label='group-checkbox' className='px-[9px] w-[40px] rounded-l-[10px]'>
             <div className='flex items-center justify-center'>
-              <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={handleAllCheckboxesChange} />
+              <input type='checkbox' className='flex h-[16px] w-[16px]' onChange={handleAllCheckboxesChange} checked={isAllChecked}/>
             </div>
           </th>
           {renderTableHeaders()}

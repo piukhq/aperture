@@ -40,7 +40,7 @@ const DirectoryMerchantLocations = () => {
   const {merchantId, planId} = router.query
 
   const dispatch = useAppDispatch()
-  const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
+  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const {getMerchantLocationsResponse} = useMidManagementLocations({
     skipGetLocation: true,
@@ -113,7 +113,7 @@ const DirectoryMerchantLocations = () => {
     <>
       <div className='flex justify-between h-[71px] items-center px-[9px]'>
         <div>
-          {shouldDisplayAuxiliaryButtons && (
+          { checkedRefArray.length > 0 && (
             <Button
               handleClick={() => console.log('Delete button clicked')}
               buttonSize={ButtonSize.SMALL}
@@ -138,7 +138,7 @@ const DirectoryMerchantLocations = () => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )

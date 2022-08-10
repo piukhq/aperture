@@ -42,7 +42,7 @@ const DirectoryMerchantIdentifiers = () => {
 
   const identifiersData: DirectoryIdentifiers = getMerchantIdentifiersResponse
 
-  const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
+  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return identifiersData.map((identifierObj: DirectoryIdentifier) => {
@@ -76,12 +76,13 @@ const DirectoryMerchantIdentifiers = () => {
     router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
   }
 
+
   return (
     <>
       <div className='flex justify-between h-[71px] items-center'>
         {/* TODO: More auxiliary buttons to be added at a later date */}
         <div>
-          {shouldDisplayAuxiliaryButtons && (
+          {checkedRefArray.length > 0 && (
             <Button
               handleClick={() => console.log('Delete button clicked')}
               buttonSize={ButtonSize.SMALL}
@@ -116,7 +117,7 @@ const DirectoryMerchantIdentifiers = () => {
       </div>
 
       {identifiersData && (
-        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
       )}
     </>
   )
