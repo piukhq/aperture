@@ -136,7 +136,7 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE && <DirectoryMidDeleteModal checkedMidsArray={getCheckedMidsArray()} />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE && <DirectoryMidDeleteModal checkedMidsArray={getCheckedMidsArray()}/>}
       <div className='flex items-center justify-between'>
         {checkedRefArray.length > 0 ? renderCheckedItemButtons() : <div />}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>

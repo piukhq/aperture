@@ -1,8 +1,13 @@
-import {useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {Modal, Button} from 'components'
-import {ModalStyle} from 'utils/enums'
+import {useRouter} from 'next/router'
+import {ModalStyle, ModalType} from 'utils/enums'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryMids} from 'types'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {RTKQueryErrorResponse} from 'types'
 
 type Props = {
   checkedMidsArray: DirectoryMids
@@ -10,13 +15,42 @@ type Props = {
 
 const DirectoryMidModal = ({checkedMidsArray}:Props) => {
   const [errorMessage, setErrorMessage] = useState('')
-  // const [isDeleting, setIsDeleting] = useState(false)
+  const router = useRouter()
+  const {merchantId, planId} = router.query
+  const dispatch = useAppDispatch()
+
+  const {
+    deleteMerchantMid,
+    deleteMerchantMidIsSuccess,
+    deleteMerchantMidIsLoading,
+    deleteMerchantMidError,
+    resetDeleteMerchantMidResponse,
+  } = useMidManagementMids({
+    skipGetMid: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const handleDeleteMerchantMidError = useCallback(() => {
+    const {data} = deleteMerchantMidError as RTKQueryErrorResponse
+    deleteMerchantMidError && setErrorMessage(data.detail[0].msg)
+  }, [deleteMerchantMidError])
+
+  useEffect(() => {
+    if (deleteMerchantMidError) {
+      handleDeleteMerchantMidError()
+    } else if (deleteMerchantMidIsSuccess) {
+      resetDeleteMerchantMidResponse()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [dispatch, deleteMerchantMidError, deleteMerchantMidIsSuccess, handleDeleteMerchantMidError, resetDeleteMerchantMidResponse])
+
 
   const midLabel = checkedMidsArray.length > 1 ? 'MIDs' : 'MID'
 
   const handleDeleteButtonClick = () => {
-    console.log('isDeleting')
-    setErrorMessage('hello')
+    const checkedMidsRefs = checkedMidsArray.map(mid => mid.mid_ref)
+    deleteMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRefs: checkedMidsRefs})
   }
 
   const renderMidList = () => {
@@ -25,10 +59,8 @@ const DirectoryMidModal = ({checkedMidsArray}:Props) => {
     ))
   }
 
-
-  console.log('checkedMidsArray', checkedMidsArray)
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${midLabel}`} onCloseFn={() => console.log('do somethign resetty here')}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${midLabel}`}>
       <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
         <p>Are you sure you want to <strong>delete</strong> the following {midLabel}:</p>
         <ul>
@@ -39,14 +71,14 @@ const DirectoryMidModal = ({checkedMidsArray}:Props) => {
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
         <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
         <Button
-          handleClick={handleDeleteButtonClick}
+          handleClick={() => !deleteMerchantMidIsLoading && handleDeleteButtonClick()}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.MEDIUM}
           buttonBackground={ButtonBackground.RED}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.SEMIBOLD}
-        >Delete {midLabel}
+        >{deleteMerchantMidIsLoading ? 'Deleting...' : `Delete ${midLabel}`}
         </Button>
       </section>
 
