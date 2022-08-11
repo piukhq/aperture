@@ -2,16 +2,16 @@ import {DirectoryMerchantDetailsTable} from 'components'
 import {useRouter} from 'next/router'
 import {DirectoryMids, DirectoryMid} from 'types'
 import {ModalType, PaymentSchemeName} from 'utils/enums'
-import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {requestModal, selectModal} from 'features/modalSlice'
-import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
+import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useState} from 'react'
-import {Button, DirectoryMidDeleteModal} from 'components'
+import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
 
 
@@ -48,7 +48,6 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId as string,
   })
 
-  const modalRequested: ModalType = useAppSelector(selectModal)
   const midsData: DirectoryMids = getMerchantMidsResponse
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
@@ -91,6 +90,12 @@ const DirectoryMerchantMids = () => {
   }
 
   const requestMidDeleteModal = ():void => {
+    const checkedMids = midsData.filter((mid) => {
+      if (checkedRefArray.includes(mid.mid_ref)) {
+        return mid
+      }
+    })
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMids))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE))
   }
 
@@ -126,17 +131,8 @@ const DirectoryMerchantMids = () => {
     </div>
   )
 
-  const getCheckedMidsArray = () => {
-    return midsData.filter((mid) => {
-      if (checkedRefArray.includes(mid.mid_ref)) {
-        return mid
-      }
-    })
-  }
-
   return (
     <>
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE && <DirectoryMidDeleteModal checkedMidsArray={getCheckedMidsArray()}/>}
       <div className='flex items-center justify-between'>
         {checkedRefArray.length > 0 ? renderCheckedItemButtons() : <div />}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>

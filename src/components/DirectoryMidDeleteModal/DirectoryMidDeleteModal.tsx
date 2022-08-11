@@ -3,21 +3,20 @@ import {Modal, Button} from 'components'
 import {useRouter} from 'next/router'
 import {ModalStyle, ModalType} from 'utils/enums'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryMids} from 'types'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {RTKQueryErrorResponse} from 'types'
+import {DirectoryMids, RTKQueryErrorResponse} from 'types'
+import {getSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
-type Props = {
-  checkedMidsArray: DirectoryMids
-}
-
-const DirectoryMidModal = ({checkedMidsArray}:Props) => {
+const DirectoryMidModal = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
   const {merchantId, planId} = router.query
   const dispatch = useAppDispatch()
+
+  const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
+  const selectedCheckedMidsArray = directoryEntityCheckedSelection as DirectoryMids
 
   const {
     deleteMerchantMid,
@@ -46,21 +45,25 @@ const DirectoryMidModal = ({checkedMidsArray}:Props) => {
   }, [dispatch, deleteMerchantMidError, deleteMerchantMidIsSuccess, handleDeleteMerchantMidError, resetDeleteMerchantMidResponse])
 
 
-  const midLabel = checkedMidsArray.length > 1 ? 'MIDs' : 'MID'
+  const midLabel = selectedCheckedMidsArray.length > 1 ? 'MIDs' : 'MID'
 
   const handleDeleteButtonClick = () => {
-    const checkedMidsRefs = checkedMidsArray.map(mid => mid.mid_ref)
+    const checkedMidsRefs = selectedCheckedMidsArray.map(mid => mid.mid_ref)
     deleteMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRefs: checkedMidsRefs})
   }
 
   const renderMidList = () => {
-    return checkedMidsArray.map(mid => (
+    return selectedCheckedMidsArray.map(mid => (
       <li className='font-bold' key={mid.mid_ref}>{mid.mid_metadata.mid}</li>
     ))
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${midLabel}`}>
+    <Modal
+      modalStyle={ModalStyle.COMPACT}
+      modalHeader={`Delete ${midLabel}`}
+      onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}
+    >
       <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
         <p>Are you sure you want to <strong>delete</strong> the following {midLabel}:</p>
         <ul>

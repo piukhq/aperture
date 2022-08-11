@@ -7,6 +7,7 @@ type DirectoryMerchantSliceState = {
   selectedEntity: DirectoryEntity | null
   selectedPaymentScheme: PaymentSchemeName | null
   selectedMerchant: DirectoryMerchant | null
+  selectedEntityCheckedSelection: DirectoryEntity[]
 }
 const initialState: DirectoryMerchantSliceState = {
   selectedEntity: null,
@@ -20,6 +21,7 @@ const initialState: DirectoryMerchantSliceState = {
     merchant_ref: null,
     merchant_counts: null,
   },
+  selectedEntityCheckedSelection: [],
 }
 
 export const directoryMerchantSlice = createSlice({
@@ -35,13 +37,17 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {
       state.selectedPaymentScheme = action.payload
     },
+    setSelectedDirectoryEntityCheckedSelection: (state, action) => {
+      state.selectedEntityCheckedSelection = action.payload
+    },
     reset: () => initialState,
   },
 })
 
-export const {setSelectedDirectoryMerchant, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme, reset} = directoryMerchantSlice.actions
+export const {setSelectedDirectoryMerchant, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme, setSelectedDirectoryEntityCheckedSelection, reset} = directoryMerchantSlice.actions
 
 export const getSelectedDirectoryMerchant = (state: RootState) => state.directoryMerchant.selectedMerchant
 export const getSelectedDirectoryMerchantEntity = (state: RootState) => state.directoryMerchant.selectedEntity
 export const getSelectedDirectoryMerchantPaymentScheme = (state: RootState) => state.directoryMerchant.selectedPaymentScheme
+export const getSelectedDirectoryEntityCheckedSelection = (state: RootState) => state.directoryMerchant.selectedEntityCheckedSelection
 export default directoryMerchantSlice.reducer

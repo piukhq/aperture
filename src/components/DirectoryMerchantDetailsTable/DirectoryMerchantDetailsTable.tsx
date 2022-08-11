@@ -29,9 +29,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
     const updatedCheckedRowState = checkedRows.map((item, index) => index === rowIndex ? !item : item)
     setCheckedRows(updatedCheckedRowState)
     setIsAllChecked(false)
-
-    const checkedRefArray = refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement)
-    setCheckedRefArr(checkedRefArray)
+    setCheckedRefArr(refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement))
   }, [checkedRows, refArray])
 
   const handleAllCheckboxesChange = () => {
