@@ -1,6 +1,8 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import DirectoryMerchantDetailsTableRow from './components/DirectoryMerchantDetailsTableRow'
+import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -13,10 +15,12 @@ type Props = {
 }
 
 const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler, refArray}: Props) => {
-  const [checkedRows, setCheckedRows] = useState(new Array(tableRows.length).fill(false))
   const [checkedRefArr, setCheckedRefArr] = useState([])
   const [copyRow, setCopyRow] = useState(null)
   const [isAllChecked, setIsAllChecked] = useState(false)
+
+  const dispatch = useAppDispatch()
+  const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
 
   useEffect(() => {
     // If actions are to occur in parent when checkboxes change, emit event to parent
@@ -25,16 +29,24 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
     }
   }, [checkboxChangeHandler, checkedRefArr])
 
+  useEffect(() => { // This should trigger when entity is deleted to reset checked rows
+    if (selectedCheckedRows.length === 0) {
+      dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(false)))
+      setIsAllChecked(false)
+      setCheckedRefArr([])
+    }
+  }, [dispatch, selectedCheckedRows, tableRows.length])
+
   const handleCheckboxChange = useCallback((rowIndex: number) => {
-    const updatedCheckedRowState = checkedRows.map((item, index) => index === rowIndex ? !item : item)
-    setCheckedRows(updatedCheckedRowState)
+    const updatedCheckedRowState = selectedCheckedRows.map((item, index) => index === rowIndex ? !item : item)
+    dispatch(setSelectedDirectoryTableCheckedRows(updatedCheckedRowState))
     setIsAllChecked(false)
     setCheckedRefArr(refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement))
-  }, [checkedRows, refArray])
+  }, [dispatch, refArray, selectedCheckedRows])
 
   const handleAllCheckboxesChange = () => {
-    setCheckedRefArr(checkedRows.some(row => row === true && isAllChecked) ? [] : refArray)
-    setCheckedRows(new Array(tableRows.length).fill(!isAllChecked))
+    setCheckedRefArr(selectedCheckedRows.some(row => row === true && isAllChecked) ? [] : refArray)
+    dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(!isAllChecked)))
     isAllChecked ? setIsAllChecked(false) : setIsAllChecked(true)
   }
 
@@ -63,7 +75,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
       </thead>
 
       <tbody>
-        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} refValue={refArray[index]} row={row} copyRow={copyRow} setCopyRow={setCopyRow} checked={checkedRows[index]} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
+        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} refValue={refArray[index]} row={row} copyRow={copyRow} setCopyRow={setCopyRow} checked={selectedCheckedRows[index]} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
       </tbody>
     </table>
   )

@@ -45,9 +45,11 @@ jest.mock('hooks/useMidManagementLocations', () => ({
 }))
 
 const mockStoreFn = configureStore([])
-const store = mockStoreFn({modal: {
-  modalRequested: 'NO_MODAL',
-}})
+const store = mockStoreFn({
+  directoryMerchant: {
+    selectedTableCheckedRows: [],
+  },
+})
 
 const getDirectoryMerchantLocationsComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>

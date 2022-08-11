@@ -8,6 +8,7 @@ type DirectoryMerchantSliceState = {
   selectedPaymentScheme: PaymentSchemeName | null
   selectedMerchant: DirectoryMerchant | null
   selectedEntityCheckedSelection: DirectoryEntity[]
+  selectedTableCheckedRows: boolean[]
 }
 const initialState: DirectoryMerchantSliceState = {
   selectedEntity: null,
@@ -22,6 +23,7 @@ const initialState: DirectoryMerchantSliceState = {
     merchant_counts: null,
   },
   selectedEntityCheckedSelection: [],
+  selectedTableCheckedRows: [],
 }
 
 export const directoryMerchantSlice = createSlice({
@@ -32,7 +34,7 @@ export const directoryMerchantSlice = createSlice({
       state.selectedMerchant = {...action.payload}
     },
     setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryEntity>) => {
-      state.selectedEntity = action.payload // TODO: Idea to transform each entity type into a generic object that can be used without needing translation of the different types
+      state.selectedEntity = action.payload
     },
     setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {
       state.selectedPaymentScheme = action.payload
@@ -40,14 +42,25 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryEntityCheckedSelection: (state, action) => {
       state.selectedEntityCheckedSelection = action.payload
     },
+    setSelectedDirectoryTableCheckedRows: (state, action) => { //
+      state.selectedTableCheckedRows = action.payload
+    },
     reset: () => initialState,
   },
 })
 
-export const {setSelectedDirectoryMerchant, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme, setSelectedDirectoryEntityCheckedSelection, reset} = directoryMerchantSlice.actions
+export const {
+  setSelectedDirectoryMerchant,
+  setSelectedDirectoryMerchantEntity,
+  setSelectedDirectoryMerchantPaymentScheme,
+  setSelectedDirectoryEntityCheckedSelection,
+  setSelectedDirectoryTableCheckedRows,
+  reset,
+} = directoryMerchantSlice.actions
 
 export const getSelectedDirectoryMerchant = (state: RootState) => state.directoryMerchant.selectedMerchant
 export const getSelectedDirectoryMerchantEntity = (state: RootState) => state.directoryMerchant.selectedEntity
 export const getSelectedDirectoryMerchantPaymentScheme = (state: RootState) => state.directoryMerchant.selectedPaymentScheme
 export const getSelectedDirectoryEntityCheckedSelection = (state: RootState) => state.directoryMerchant.selectedEntityCheckedSelection
+export const getSelectedDirectoryTableCheckedRows = (state: RootState) => state.directoryMerchant.selectedTableCheckedRows
 export default directoryMerchantSlice.reducer

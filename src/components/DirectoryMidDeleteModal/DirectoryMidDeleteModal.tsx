@@ -7,7 +7,11 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {DirectoryMids, RTKQueryErrorResponse} from 'types'
-import {getSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {
+  getSelectedDirectoryEntityCheckedSelection,
+  setSelectedDirectoryEntityCheckedSelection,
+  setSelectedDirectoryTableCheckedRows,
+} from 'features/directoryMerchantSlice'
 
 const DirectoryMidModal = () => {
   const [errorMessage, setErrorMessage] = useState('')
@@ -40,10 +44,10 @@ const DirectoryMidModal = () => {
       handleDeleteMerchantMidError()
     } else if (deleteMerchantMidIsSuccess) {
       resetDeleteMerchantMidResponse()
+      dispatch(setSelectedDirectoryTableCheckedRows([]))
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [dispatch, deleteMerchantMidError, deleteMerchantMidIsSuccess, handleDeleteMerchantMidError, resetDeleteMerchantMidResponse])
-
 
   const midLabel = selectedCheckedMidsArray.length > 1 ? 'MIDs' : 'MID'
 
