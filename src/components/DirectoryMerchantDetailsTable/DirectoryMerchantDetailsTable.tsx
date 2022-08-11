@@ -22,14 +22,13 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
   const dispatch = useAppDispatch()
   const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
 
-  useEffect(() => {
-    // If actions are to occur in parent when checkboxes change, emit event to parent
+  useEffect(() => { // If actions are to occur in parent when checkboxes change, emit event to parent
     if (checkboxChangeHandler) {
       checkboxChangeHandler(checkedRefArr)
     }
   }, [checkboxChangeHandler, checkedRefArr])
 
-  useEffect(() => { // This should trigger when entity is deleted to reset checked rows
+  useEffect(() => { // This should trigger when the entity is deleted to reset checked rows
     if (selectedCheckedRows.length === 0) {
       dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(false)))
       setIsAllChecked(false)

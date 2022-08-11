@@ -36,7 +36,7 @@ const DirectoryMidModal = () => {
 
   const handleDeleteMerchantMidError = useCallback(() => {
     const {data} = deleteMerchantMidError as RTKQueryErrorResponse
-    deleteMerchantMidError && setErrorMessage(data.detail[0].msg)
+    setErrorMessage(data.detail[0].msg)
   }, [deleteMerchantMidError])
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const DirectoryMidModal = () => {
       onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}
     >
       <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
-        <p>Are you sure you want to <strong>delete</strong> the following {midLabel}:</p>
+        <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {midLabel}:</p>
         <ul>
           {renderMidList()}
         </ul>
@@ -88,7 +88,6 @@ const DirectoryMidModal = () => {
         >{deleteMerchantMidIsLoading ? 'Deleting...' : `Delete ${midLabel}`}
         </Button>
       </section>
-
     </Modal>
   )
 }
