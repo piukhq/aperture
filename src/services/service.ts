@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {LoyaltyCard, PaymentCard, Plan} from 'types'
+import {Service} from 'types'
 import type {RootState} from 'app/store'
 import {BundleID, UrlEndpoint} from 'utils/enums'
 import {decodeJwtToken} from 'utils/jwtToken'
@@ -17,29 +17,19 @@ const baseQuery = fetchBaseQuery({
   },
 })
 
-export const customerWalletApi = createApi({
-  reducerPath: 'customerWalletApi',
+export const serviceApi = createApi({
+  reducerPath: 'serviceApi',
   baseQuery,
+  tagTypes: ['Service'],
   endpoints: builder => ({
-    getLoyaltyCards: builder.query<LoyaltyCard[], void>({
+    getService: builder.query<Service, void>({
       query: () => ({
-        url: `${UrlEndpoint.UBIQUITY}/membership_cards`,
+        url: `${UrlEndpoint.UBIQUITY}/service`,
         method: 'GET',
       }),
-    }),
-    getPaymentCards: builder.query<PaymentCard[], void>({
-      query: () => ({
-        url: `${UrlEndpoint.UBIQUITY}/payment_cards`,
-        method: 'GET',
-      }),
-    }),
-    getPlans: builder.query<Plan[], void>({
-      query: () => ({
-        url: `${UrlEndpoint.UBIQUITY}/membership_plans`,
-        method: 'GET',
-      }),
+      providesTags: ['Service'],
     }),
   }),
 })
 
-export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi
+export const {useGetServiceQuery} = serviceApi

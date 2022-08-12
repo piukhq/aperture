@@ -1,4 +1,4 @@
-import {useGetServiceQuery} from 'services/customerWallet'
+import {useGetServiceQuery} from 'services/service'
 
 export const useService = () => {
   const {
@@ -17,3 +17,4 @@ export const useService = () => {
     getServiceError,
   }
 }
+
