@@ -14,7 +14,6 @@ import {useState} from 'react'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
 
-
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
@@ -95,7 +94,14 @@ const DirectoryMerchantMids = () => {
         return mid
       }
     })
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMids))
+
+    const checkedMidsToEntity = checkedMids.map((mid) => {
+      return {
+        entityRef: mid.mid_ref,
+        entityValue: mid.mid_metadata.mid,
+      }
+    })
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE))
   }
 

@@ -234,6 +234,12 @@ export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | Director
 
 export type DirectoryEntities = Array<DirectoryEntity>
 
+export type DirectoryMerchantEntityDeletionItem = {
+  entityRef: string,
+  entityValue: string,
+}
+
+
 export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,

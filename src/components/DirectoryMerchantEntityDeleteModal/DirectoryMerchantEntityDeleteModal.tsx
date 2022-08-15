@@ -1,28 +1,29 @@
 import {useCallback, useEffect, useState} from 'react'
 import {Modal, Button} from 'components'
 import {useRouter} from 'next/router'
-import {ModalStyle, ModalType} from 'utils/enums'
+import {DirectorySingleViewEntities, ModalStyle, ModalType} from 'utils/enums'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {DirectoryMids, RTKQueryErrorResponse} from 'types'
+import {RTKQueryErrorResponse, DirectoryMerchantEntityDeletionItem} from 'types'
 import {
   getSelectedDirectoryEntityCheckedSelection,
   setSelectedDirectoryEntityCheckedSelection,
   setSelectedDirectoryTableCheckedRows,
 } from 'features/directoryMerchantSlice'
 
-const DirectoryMidModal = () => {
+const DirectoryMerchantEntityDeleteModal = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId, tab} = router.query
   const dispatch = useAppDispatch()
 
-  const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
-  const selectedCheckedMidsArray = directoryEntityCheckedSelection as DirectoryMids
+  const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntityDeletionItem[]
 
-  const {
+  const entityLabel = `${DirectorySingleViewEntities[tab as keyof typeof DirectorySingleViewEntities]}${directoryEntityCheckedSelection.length > 1 ? 's' : ''}`
+
+  const { // TODO: Replace hardcoded MID hooks with mechanism based on entity
     deleteMerchantMid,
     deleteMerchantMidIsSuccess,
     deleteMerchantMidIsLoading,
@@ -34,46 +35,44 @@ const DirectoryMidModal = () => {
     merchantRef: merchantId as string,
   })
 
-  const handleDeleteMerchantMidError = useCallback(() => {
+  const handleDeleteMerchantEntityError = useCallback(() => {
     const {data} = deleteMerchantMidError as RTKQueryErrorResponse
     setErrorMessage(data.detail[0].msg)
   }, [deleteMerchantMidError])
 
   useEffect(() => {
     if (deleteMerchantMidError) {
-      handleDeleteMerchantMidError()
+      handleDeleteMerchantEntityError()
     } else if (deleteMerchantMidIsSuccess) {
       resetDeleteMerchantMidResponse()
       dispatch(setSelectedDirectoryTableCheckedRows([]))
       dispatch(requestModal(ModalType.NO_MODAL))
     }
-  }, [dispatch, deleteMerchantMidError, deleteMerchantMidIsSuccess, handleDeleteMerchantMidError, resetDeleteMerchantMidResponse])
-
-  const midLabel = selectedCheckedMidsArray.length > 1 ? 'MIDs' : 'MID'
+  }, [dispatch, deleteMerchantMidError, deleteMerchantMidIsSuccess, handleDeleteMerchantEntityError, resetDeleteMerchantMidResponse])
 
   const handleDeleteButtonClick = () => {
-    const checkedMidsRefs = selectedCheckedMidsArray.map(mid => mid.mid_ref)
+    const checkedMidsRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
     deleteMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRefs: checkedMidsRefs})
   }
 
   const renderMidList = () => {
-    return selectedCheckedMidsArray.map(mid => (
-      <li className='font-bold' key={mid.mid_ref}>{mid.mid_metadata.mid}</li>
+    return directoryEntityCheckedSelection.map(entity => (
+      <li className='font-bold' key={entity.entityRef}>{entity.entityValue}</li>
     ))
   }
 
   return (
     <Modal
       modalStyle={ModalStyle.COMPACT}
-      modalHeader={`Delete ${midLabel}`}
+      modalHeader={`Delete ${entityLabel}`}
       onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}
     >
       <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
-        <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {midLabel}:</p>
+        <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {entityLabel}:</p>
         <ul>
           {renderMidList()}
         </ul>
-        <p>{midLabel} will also be offboarded from Harmonia</p>
+        <p>{entityLabel} will also be offboarded from Harmonia</p>
       </section>
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
         <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
@@ -85,11 +84,11 @@ const DirectoryMidModal = () => {
           buttonBackground={ButtonBackground.RED}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.SEMIBOLD}
-        >{deleteMerchantMidIsLoading ? 'Deleting...' : `Delete ${midLabel}`}
+        >{deleteMerchantMidIsLoading ? 'Deleting...' : `Delete ${entityLabel}`}
         </Button>
       </section>
     </Modal>
   )
 }
 
-export default DirectoryMidModal
+export default DirectoryMerchantEntityDeleteModal

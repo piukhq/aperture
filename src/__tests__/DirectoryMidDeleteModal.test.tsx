@@ -1,6 +1,6 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
-import {DirectoryMidDeleteModal} from 'components'
+import {DirectoryMerchantEntityDeleteModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
@@ -21,6 +21,7 @@ useRouter.mockImplementation(() => ({
   query: {
     planId: 'mock_plan_id',
     merchantId: 'mock_merchant_id',
+    tab: 'mids', // This must match once of the enum values in DirectorySingleViewEntities
   },
 }))
 
@@ -33,73 +34,59 @@ jest.mock('hooks/useMidManagementMids', () => ({
   })),
 }))
 
-
-const mockMidValue1 = 'mock_mid_value'
-const mockMidRefValue1 = 'mock_mid_ref_value'
-const mockMid1 = {
-  mid_ref: mockMidRefValue1,
-  mid_metadata: {
-    mid: mockMidValue1,
-  },
-}
-
-const mockMidValue2 = 'mock_mid_value2'
-const mockMidRefValue2 = 'mock_mid_ref_value2'
-const mockMid2 = {
-  mid_ref: mockMidRefValue2,
-  mid_metadata: {
-    mid: mockMidValue2,
-  },
-}
+const mockEntityValue1 = 'mock_entity_value_1'
+const mockEntityValue2 = 'mock_entity_value_2'
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedEntityCheckedSelection: [mockMid1, mockMid2],
+    selectedEntityCheckedSelection: [
+      {entityRef: mockEntityValue1, entityValue: mockEntityValue1},
+      {entityRef: mockEntityValue2, entityValue: mockEntityValue2}],
   },
 })
 
-const getDirectoryMidDeleteModalComponent = (passedStore = undefined) => (
+const getDirectoryMerchantEntityDeleteModalComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <DirectoryMidDeleteModal />
+    <DirectoryMerchantEntityDeleteModal />
   </Provider>
 )
 
-describe('DirectoryMidDeleteModal', () => {
+describe('DirectoryMerchantEntityDeleteModal', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   describe('Test static content', () => {
-    it('should render the correct Heading for multiple mids', () => {
-      render(getDirectoryMidDeleteModalComponent())
+    it('should render the correct Heading for multiple entities', () => {
+      render(getDirectoryMerchantEntityDeleteModalComponent())
       expect(screen.getByRole('heading', {name: 'Delete MIDs'})).toBeInTheDocument()
     })
 
     it('should render the correct copy for the modal', () => {
-      render(getDirectoryMidDeleteModalComponent())
+      render(getDirectoryMerchantEntityDeleteModalComponent())
 
       expect(screen.getByTestId('paragraph-1')).toHaveTextContent('Are you sure you want to delete the following MIDs:')
       expect(screen.getByText(/MIDs will also be offboarded from Harmonia/)).toBeInTheDocument()
     })
 
-    it('should render the correct mids values', () => {
-      render(getDirectoryMidDeleteModalComponent())
+    it('should render the correct entity values', () => {
+      render(getDirectoryMerchantEntityDeleteModalComponent())
 
-      expect(screen.getByText(mockMidValue1)).toBeInTheDocument()
-      expect(screen.getByText(mockMidValue2)).toBeInTheDocument()
+      expect(screen.getByText(mockEntityValue1)).toBeInTheDocument()
+      expect(screen.getByText(mockEntityValue2)).toBeInTheDocument()
     })
 
     it('should render the delete button with correct label', () => {
-      render(getDirectoryMidDeleteModalComponent())
+      render(getDirectoryMerchantEntityDeleteModalComponent())
       expect(screen.getByRole('button', {name: 'Delete MIDs'})).toBeInTheDocument()
     })
 
-    it('should render singular mid copy when only one mid is present', () => {
-      render(getDirectoryMidDeleteModalComponent(
+    it('should render singular mid copy when only one entity is present', () => {
+      render(getDirectoryMerchantEntityDeleteModalComponent(
         mockStoreFn({
           directoryMerchant: {
-            selectedEntityCheckedSelection: [mockMid1],
+            selectedEntityCheckedSelection: [{entityRef: mockEntityValue1, entityValue: mockEntityValue1}],
           },
         })
       ))
@@ -113,7 +100,7 @@ describe('DirectoryMidDeleteModal', () => {
 
   describe('Test happy path functionality', () => {
     it('should call the deleteMerchantMid function when the delete button is clicked', () => {
-      render(getDirectoryMidDeleteModalComponent())
+      render(getDirectoryMerchantEntityDeleteModalComponent())
       fireEvent.click(screen.getByRole('button', {name: 'Delete MIDs'}))
 
       expect(mockDeleteMerchantMid).toHaveBeenCalledTimes(1)
@@ -129,14 +116,13 @@ describe('DirectoryMidDeleteModal', () => {
     })
 
     it('should render an error message if present', () => {
-      render(getDirectoryMidDeleteModalComponent())
+      render(getDirectoryMerchantEntityDeleteModalComponent())
       expect(screen.getByText('mock_error')).toBeInTheDocument()
     })
 
     it('should label the delete button correctly when deletion is in progress', () => {
-      render(getDirectoryMidDeleteModalComponent())
+      render(getDirectoryMerchantEntityDeleteModalComponent())
       expect(screen.getByRole('button', {name: 'Deleting...'})).toBeInTheDocument()
     })
   })
-
 })

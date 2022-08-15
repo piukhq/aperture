@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 import {PaymentSchemeName} from 'utils/enums'
-import {DirectoryMerchant, DirectoryEntity} from 'types'
+import {DirectoryMerchant, DirectoryEntity, DirectoryMerchantEntityDeletionItem} from 'types'
 
 type DirectoryMerchantSliceState = {
   selectedEntity: DirectoryEntity | null
   selectedPaymentScheme: PaymentSchemeName | null
   selectedMerchant: DirectoryMerchant | null
-  selectedEntityCheckedSelection: DirectoryEntity[]
+  selectedEntityCheckedSelection: DirectoryMerchantEntityDeletionItem[]
   selectedTableCheckedRows: boolean[]
 }
 const initialState: DirectoryMerchantSliceState = {
