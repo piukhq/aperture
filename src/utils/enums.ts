@@ -66,6 +66,14 @@ const DirectorySingleViewEntities = {
   'identifiers': 'Identifier',
 }
 
+enum DirectorySingleViewTabs {
+  DETAILS = 'Details',
+  MIDS = 'MIDs',
+  SECONDARY_MIDS = 'Secondary MIDs',
+  COMMENTS = 'Comments',
+  LOCATIONS = 'Locations'
+}
+
 enum DirectoryNavigationTab {
   MIDS = 'mids',
   LOCATIONS = 'locations',
@@ -136,4 +144,5 @@ export {
   PaymentSchemeStartCaseName,
   PaymentSchemeCode,
   DirectorySingleViewEntities,
+  DirectorySingleViewTabs,
 }

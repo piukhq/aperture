@@ -4,6 +4,7 @@ import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {DirectorySingleViewTabs} from 'utils/enums'
 import {SingleViewLocationDetails, SingleViewLocationMids, SingleViewLocationSecondaryMids} from './components'
 
 type Props = {
@@ -11,13 +12,6 @@ type Props = {
   isInEditState: boolean
   onCancelEditState: () => void
   setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
-}
-
-enum SingleViewLocationTabs {
-  DETAILS = 'Details',
-  MIDS = 'MIDs',
-  SECONDARY_MIDS = 'Secondary MIDs',
-  COMMENTS = 'Comments'
 }
 
 const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton}: Props) => {
@@ -37,7 +31,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
 
   useEffect(() => {
     // Edit button should only be visible (currently) on the details tab
-    setShouldDisplayEditButton(tabSelected === SingleViewLocationTabs.DETAILS)
+    setShouldDisplayEditButton(tabSelected === DirectorySingleViewTabs.DETAILS)
   }, [tabSelected, setShouldDisplayEditButton])
 
   useEffect(() => {
@@ -57,7 +51,12 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-850 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-850 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
-    return ['Details', 'MIDs', 'Secondary MIDs', 'Comments'].map(tab => (
+    return [
+      DirectorySingleViewTabs.DETAILS,
+      DirectorySingleViewTabs.MIDS,
+      DirectorySingleViewTabs.SECONDARY_MIDS,
+      DirectorySingleViewTabs.COMMENTS,
+    ].map(tab => (
       <button
         key={tab}
         className={tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses}
@@ -70,7 +69,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
 
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
-      case SingleViewLocationTabs.DETAILS:
+      case DirectorySingleViewTabs.DETAILS:
         return getMerchantLocationResponse ? (
           <SingleViewLocationDetails
             location={getMerchantLocationResponse}
@@ -78,11 +77,11 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
             onCancelEditState={onCancelEditState}
           />
         ) : null
-      case SingleViewLocationTabs.MIDS:
+      case DirectorySingleViewTabs.MIDS:
         return <SingleViewLocationMids />
-      case SingleViewLocationTabs.SECONDARY_MIDS:
+      case DirectorySingleViewTabs.SECONDARY_MIDS:
         return <SingleViewLocationSecondaryMids />
-      case SingleViewLocationTabs.COMMENTS:
+      case DirectorySingleViewTabs.COMMENTS:
         return <i className='font-body-4'> There are no comments to view.</i>
     }
   }
