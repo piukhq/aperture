@@ -6,6 +6,8 @@ import CheckSvg from 'icons/svgs/check.svg'
 import CloseIcon from 'icons/svgs/close.svg'
 import {DirectoryMerchantDetailsTableCell} from 'types'
 import {ModalType, PaymentSchemeCode} from 'utils/enums'
+import {getSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {useAppSelector} from 'app/hooks'
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import ShareSvg from 'icons/svgs/share.svg'
@@ -15,7 +17,6 @@ type TableRowProps = DirectoryMerchantDetailsTableCell[]
 type Props = {
   index: number,
   row: TableRowProps,
-  checked: boolean,
   onCheckboxChange: (index: number) => void,
   singleViewRequestHandler: (index: number) => void,
   copyRow: number | null
@@ -23,7 +24,8 @@ type Props = {
   refValue: string
 }
 
-const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange, singleViewRequestHandler, copyRow, setCopyRow, refValue}: Props) => {
+const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleViewRequestHandler, copyRow, setCopyRow, refValue}: Props) => {
+  const selectedCheckedRow = useAppSelector(getSelectedDirectoryTableCheckedRows)[index] || false
 
   const dispatch = useAppDispatch()
   const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
@@ -57,7 +59,7 @@ const DirectoryMerchantDetailsTableRow = ({index, row, checked, onCheckboxChange
       tabIndex={0}
     >
       <td className='flex items-center justify-center h-[40px]'>
-        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checked} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
+        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
         const {paymentSchemeCode, additionalStyles, displayValue, physicalLocation} = rowCell

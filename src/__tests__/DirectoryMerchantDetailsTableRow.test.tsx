@@ -11,7 +11,11 @@ const mockRow = [
 ]
 
 const mockStoreFn = configureStore([])
-const store = mockStoreFn({})
+const store = mockStoreFn({
+  directoryMerchant: {
+    selectedTableCheckedRows: [],
+  },
+})
 
 let mockCopyRow = 0
 
@@ -22,7 +26,6 @@ const getDirectoryMerchantTableRow = () => (
         <DirectoryMerchantDetailsTableRow
           index={1}
           row={mockRow}
-          checked={false}
           onCheckboxChange={jest.fn()}
           singleViewRequestHandler={jest.fn()}
           setCopyRow={jest.fn()}
