@@ -1,8 +1,9 @@
 import {useCallback, useEffect, useState} from 'react'
-import {Modal, Button} from 'components'
+import {Modal, Button, Tag} from 'components'
 import {useRouter} from 'next/router'
 import {DirectorySingleViewEntities, ModalStyle, ModalType} from 'utils/enums'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
@@ -76,16 +77,26 @@ const DirectoryMerchantEntityDeleteModal = () => {
       </section>
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
         <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
-        <Button
-          handleClick={() => !deleteMerchantMidIsLoading && handleDeleteButtonClick()}
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.RED}
-          labelColour={LabelColour.WHITE}
-          labelWeight={LabelWeight.SEMIBOLD}
-        >{deleteMerchantMidIsLoading ? 'Deleting...' : `Delete ${entityLabel}`}
-        </Button>
+        {deleteMerchantMidIsLoading ? (
+          <Tag
+            tagSize={TagSize.MEDIUM}
+            textStyle={TextStyle.MEDIUM}
+            textColour={TextColour.WHITE}
+            tagStyle={TagStyle.RED_FILLED}
+            label='Deleting...'
+          />
+        ) : (
+          <Button
+            handleClick={handleDeleteButtonClick}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.MEDIUM}
+            buttonBackground={ButtonBackground.RED}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.SEMIBOLD}
+          >{`Delete ${entityLabel}`}
+          </Button>
+        )}
       </section>
     </Modal>
   )

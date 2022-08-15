@@ -89,18 +89,10 @@ const DirectoryMerchantMids = () => {
   }
 
   const requestMidDeleteModal = ():void => {
-    const checkedMids = midsData.filter((mid) => {
-      if (checkedRefArray.includes(mid.mid_ref)) {
-        return mid
-      }
-    })
-
-    const checkedMidsToEntity = checkedMids.map((mid) => {
-      return {
-        entityRef: mid.mid_ref,
-        entityValue: mid.mid_metadata.mid,
-      }
-    })
+    const checkedMidsToEntity = midsData.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
+      entityRef: mid.mid_ref,
+      entityValue: mid.mid_metadata.mid,
+    }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE))
   }
@@ -140,8 +132,8 @@ const DirectoryMerchantMids = () => {
   return (
     <>
       <div className='flex items-center justify-between'>
-        {checkedRefArray.length > 0 ? renderCheckedItemButtons() : <div />}
-        <div className='flex gap-[10px] h-[71px] items-center justify-end'>
+        {checkedRefArray.length > 0 && renderCheckedItemButtons() }
+        <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
             onClick={() => requestMidModal(PaymentSchemeName.VISA)}

@@ -120,9 +120,10 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
       expect(screen.getByText('mock_error')).toBeInTheDocument()
     })
 
-    it('should label the delete button correctly when deletion is in progress', () => {
+    it('should render a tag with correct label when deletion is in progress', () => {
       render(getDirectoryMerchantEntityDeleteModalComponent())
-      expect(screen.getByRole('button', {name: 'Deleting...'})).toBeInTheDocument()
+
+      expect(screen.getByTestId('tag-label')).toHaveTextContent('Deleting...')
     })
   })
 })
