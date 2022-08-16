@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import {LoyaltyCard, PaymentCard, Plan, Service} from 'types'
+import {LoyaltyCard, PaymentCard, Plan} from 'types'
 import type {RootState} from 'app/store'
 import {BundleID, UrlEndpoint} from 'utils/enums'
 import {decodeJwtToken} from 'utils/jwtToken'
@@ -39,13 +39,7 @@ export const customerWalletApi = createApi({
         method: 'GET',
       }),
     }),
-    getService: builder.query<Service, void>({
-      query: () => ({
-        url: `${UrlEndpoint.UBIQUITY}/service`,
-        method: 'GET',
-      }),
-    }),
   }),
 })
 
-export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery, useGetServiceQuery} = customerWalletApi
+export const {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} = customerWalletApi

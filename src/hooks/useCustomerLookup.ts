@@ -6,10 +6,10 @@ import {decodeJwtToken} from 'utils/jwtToken'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken, setJwtToken} from 'features/customerWalletSlice'
+import {serviceApi} from 'services/service'
 
 export const useCustomerLookup = () => {
   const [lookupType, setLookupType] = useState(null)
-  const [loadTrigger, setLoadTrigger] = useState(true) // enables the useEffect to reoccur with no other changes
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
   const {getServiceResponse, getServiceRefresh} = useService()
   const {
@@ -20,18 +20,18 @@ export const useCustomerLookup = () => {
   const dispatch = useDispatch()
   const jwtToken = useAppSelector(getJwtToken)
 
-  // TODO: Consider refactoring this to avoid using the useEffect hook and/or loadtrigger
+  // TODO: Consider refactoring this to avoid using the useEffect hook
   useEffect(() => { // TODO: Make this lookup type agnostic when other lookups are implemented
-    if (lookupType && jwtToken) {
+    if (lookupType && jwtToken && getServiceResponse) {
       const {bundle_id: channel, sub: userId, user_id: userEmail} = decodeJwtToken(jwtToken) || {}
-      if (userEmail === getServiceResponse?.consent?.email) {
+      if (getServiceResponse?.consent) {
         getLoyaltyCardsRefresh()
         getPaymentCardsRefresh()
         getPlansRefresh()
         putLookHistoryEntry({
           user: {
             channel,
-            user_id: userId,
+            user_id: userId || userEmail, // Barclays uses user_id, other channels use sub from the token
             display_text: userEmail,
           },
           lookup: {
@@ -40,17 +40,16 @@ export const useCustomerLookup = () => {
             criteria: jwtToken,
           },
         })
-        setLoadTrigger(true)
       }
     }
-  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceResponse, jwtToken, lookupType, putLookHistoryEntry, loadTrigger])
+  }, [getLoyaltyCardsRefresh, getPaymentCardsRefresh, getPlansRefresh, getServiceResponse, jwtToken, lookupType, putLookHistoryEntry])
 
   const jwtCustomerLookup = useCallback((token: string, lookupType:string) => {
+    dispatch(serviceApi.util.resetApiState()) // Reset the service api state to avoid stale service data from previous customer being used
     dispatch(setJwtToken(token))
     getServiceRefresh()
     setLookupType(lookupType)
-    setLoadTrigger(false)
-  }, [dispatch, getServiceRefresh, setLoadTrigger])
+  }, [dispatch, getServiceRefresh])
 
   return {jwtCustomerLookup}
 
