@@ -2,6 +2,9 @@ import {useRouter} from 'next/router'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import SecondaryMidLocationsListItem from './components/SecondaryMidLocationsListItem'
+import {DirectoryMerchantMidLocation} from 'types'
+
 
 const SingleViewSecondaryMidLocations = () => {
   const router = useRouter()
@@ -34,9 +37,9 @@ const SingleViewSecondaryMidLocations = () => {
     </section>
   )
 
-  const renderLocation = (secondaryMidLocation, index) => { // TODO: replace with locations list item component
+  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation) => {
     const {location_ref: locationRef, location_title: locationTitle} = secondaryMidLocation
-    return <p key={index}>{locationRef}-{locationTitle}</p>
+    return <SecondaryMidLocationsListItem key={locationRef} locationRef={locationRef} locationTitle={locationTitle} />
   }
 
   const renderLocations = () => {
@@ -48,7 +51,7 @@ const SingleViewSecondaryMidLocations = () => {
         <section>
           <h2 className='font-single-view-heading'>LINKED LOCATIONS</h2>
           <div className='flex flex-col gap-[14px]'>
-            {getMerchantSecondaryMidLocationsResponse.map((secondaryMidLocation, index) => renderLocation(secondaryMidLocation, index))}
+            {getMerchantSecondaryMidLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation) => renderLocation(secondaryMidLocation))}
           </div>
         </section>
       </>
