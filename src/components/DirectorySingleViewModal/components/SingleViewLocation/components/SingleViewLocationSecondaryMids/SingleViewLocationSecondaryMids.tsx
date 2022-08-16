@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -14,12 +14,17 @@ const SingleViewLocationSecondaryMids = () => {
   const {merchantId, planId, ref} = router.query
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
+  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
     getMerchantLocationLinkedSecondaryMidsIsLoading,
     postMerchantLocationLinkedSecondaryMid,
     postMerchantLocationLinkedSecondaryMidIsLoading,
+    deleteMerchantSecondaryMidLocationLink,
+    deleteMerchantSecondaryMidLocationLinkIsLoading,
+    deleteMerchantSecondaryMidLocationLinkIsSuccess,
+    resetDeleteMerchantSecondaryMidLocationLinkResponse,
   } = useMidManagementLocationSecondaryMids({
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -33,17 +38,53 @@ const SingleViewLocationSecondaryMids = () => {
     locationRef: ref as string,
   })
 
+  useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
+    if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
+      resetDeleteMerchantSecondaryMidLocationLinkResponse()
+      setSelectedUnlinkSecondaryMidIndex(null)
+    }
+  }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
+
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
   const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
-    const {payment_scheme_code: paymentSchemeCode, secondary_mid_value: secondaryMidValue, secondary_mid_ref: secondaryMidRef} = locationSecondaryMid
-    return <LocationMidsListItem key={index} index={index} paymentSchemeCode={paymentSchemeCode} value={secondaryMidValue} refValue={secondaryMidRef} />
+    const {
+      payment_scheme_code: paymentSchemeCode,
+      secondary_mid_value: secondaryMidValue,
+      secondary_mid_ref: secondaryMidRef,
+      link_ref: linkRef,
+    } = locationSecondaryMid
+
+    return <LocationMidsListItem
+      key={index}
+      index={index}
+      paymentSchemeCode={paymentSchemeCode}
+      value={secondaryMidValue}
+      refValue={secondaryMidRef}
+      setSelectedUnlinkMidIndexFn={setSelectedUnlinkSecondaryMidIndex}
+      isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
+      unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
+        linkRef,
+        planRef: planId as string,
+        merchantRef: merchantId as string,
+      })}
+      isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
+      setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
+      isSecondaryMid
+    />
+  }
+
+  const handleLinkNewSecondaryMidButtonClick = () => {
+    if (getMerchantSecondaryMidsResponse?.length > 0) {
+      setShouldRenderDropdownMenu(true)
+      setSelectedUnlinkSecondaryMidIndex(null)
+    }
   }
 
   const renderLinkNewSecondaryMidButton = () => (
     <section className='flex justify-end items-center mb-[10px]'>
       <Button
-        handleClick={() => getMerchantSecondaryMidsResponse?.length > 0 && setShouldRenderDropdownMenu(true)}
+        handleClick={handleLinkNewSecondaryMidButtonClick}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
