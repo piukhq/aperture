@@ -69,7 +69,6 @@ const SingleViewLocationSecondaryMids = () => {
         merchantRef: merchantId as string,
       })}
       isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
-
       setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
       isSecondaryMid
     />
