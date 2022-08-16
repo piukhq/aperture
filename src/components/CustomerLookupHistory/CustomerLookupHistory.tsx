@@ -6,6 +6,8 @@ import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
 import {useCustomerLookup} from 'hooks/useCustomerLookup'
 import {BundleID} from 'utils/enums'
+import {useAppSelector} from 'app/hooks'
+import {getActiveUserId} from 'features/customerWalletSlice'
 
 type Props = {
   lookupHistory: LookupUserHistoryEntity[]
@@ -13,6 +15,7 @@ type Props = {
 
 const CustomerLookupHistory = ({lookupHistory}: Props) => {
   const {jwtCustomerLookup} = useCustomerLookup()
+  const activeUserId = useAppSelector(getActiveUserId)
 
   const renderBundleIcon = (channel: string) => {
     switch (channel) {
@@ -53,7 +56,9 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
   return (
     <div className='flex items-center gap-[20px]'>
       {lookupHistory.map((historyEntity, index) => {
-        if (index === 0) {
+        const userId = typeof(activeUserId) === 'string' ? activeUserId : JSON.stringify(activeUserId)
+
+        if (historyEntity.user.user_id === userId) {
           return (
             <div data-testid='history-entity' key={index} className='h-[59px] w-[250px] shadow-md bg-white dark:bg-grey-825 rounded-[8px]'>
               {renderInnerMetadata(historyEntity, true)}
