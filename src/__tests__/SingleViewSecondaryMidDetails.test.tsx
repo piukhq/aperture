@@ -68,22 +68,10 @@ describe('SingleViewSecondaryMidDetails', () => {
     })
   })
 
-  describe('Test Location', () => {
-    it('should render the Location heading', () => {
-      render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('LOCATION')
-    })
-    it('should render the Add Location button', () => {
-      render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Add location'})).toBeInTheDocument()
-    })
-    // TODO: Missing value test till we know how to populate it
-  })
-
   describe('Test Harmonia Status', () => {
     it('should render the Harmonia Status heading', () => {
       render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('HARMONIA STATUS')
+      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
     })
     it('should render the Edit button', () => {
       render(getSingleViewSecondaryMidDetailsComponent())

@@ -42,21 +42,6 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
           <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={setPaymentSchemeStatus} />
         </div>
       </section>
-      <section className=' h-[38px] flex justify-between mb-[34px] items-center'>
-        <div>
-          <h2 className='font-single-view-heading'>LOCATION </h2>
-          <p className='font-single-view-data'>Unknown</p> {/* TODO: Set location...how exactly? */}
-        </div>
-        <Button
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.LIGHT_GREY}
-          labelColour={LabelColour.GREY}
-          labelWeight={LabelWeight.SEMIBOLD}
-        >Add location
-        </Button>
-      </section>
       <section className='h-[38px] flex justify-between mb-[34px] items-center'>
         <div>
           <h2 className='font-single-view-heading'>HARMONIA STATUS</h2>
