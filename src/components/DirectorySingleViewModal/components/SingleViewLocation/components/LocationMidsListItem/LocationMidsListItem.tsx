@@ -2,8 +2,6 @@ import {Button, Tag} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import {useEffect} from 'react'
-
 import PaymentCardIcon from '../PaymentCardIcon'
 
 type Props = {
@@ -13,8 +11,6 @@ type Props = {
   refValue: string,
   unlinkFn: () => void,
   isUnlinking: boolean,
-  isUnlinkSuccess: boolean,
-  onUnlinkSuccessFn: () => void,
   isInUnlinkingConfirmationState: boolean,
   setSelectedUnlinkMidIndexFn: (index: number) => void,
   setShouldRenderNewLinkDropdownMenuFn: (shouldRenderDropdownMenu: boolean) => void,
@@ -32,18 +28,9 @@ const LocationMidsListItem = ({
   isInUnlinkingConfirmationState,
   unlinkFn,
   isUnlinking,
-  isUnlinkSuccess,
-  onUnlinkSuccessFn,
   setShouldRenderNewLinkDropdownMenuFn,
   isSecondaryMid = false,
 }: Props) => {
-
-
-  useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
-    if (isUnlinkSuccess) {
-      onUnlinkSuccessFn()
-    }
-  }, [isUnlinkSuccess, onUnlinkSuccessFn])
 
   const handleInitialUnlinkButtonClick = () => {
     setSelectedUnlinkMidIndexFn(index)
@@ -97,7 +84,7 @@ const LocationMidsListItem = ({
         />
       ) : (
         <Button
-          handleClick={() => unlinkFn()}
+          handleClick={unlinkFn}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.MEDIUM}

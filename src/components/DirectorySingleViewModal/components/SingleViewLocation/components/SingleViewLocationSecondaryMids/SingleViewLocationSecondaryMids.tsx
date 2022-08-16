@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -38,10 +38,12 @@ const SingleViewLocationSecondaryMids = () => {
     locationRef: ref as string,
   })
 
-  const onUnlinkSuccessFn = () => {
-    resetDeleteMerchantSecondaryMidLocationLinkResponse()
-    setSelectedUnlinkSecondaryMidIndex(null)
-  }
+  useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
+    if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
+      resetDeleteMerchantSecondaryMidLocationLinkResponse()
+      setSelectedUnlinkSecondaryMidIndex(null)
+    }
+  }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
@@ -67,8 +69,7 @@ const SingleViewLocationSecondaryMids = () => {
         merchantRef: merchantId as string,
       })}
       isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
-      isUnlinkSuccess={deleteMerchantSecondaryMidLocationLinkIsSuccess}
-      onUnlinkSuccessFn={onUnlinkSuccessFn}
+
       setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
       isSecondaryMid
     />

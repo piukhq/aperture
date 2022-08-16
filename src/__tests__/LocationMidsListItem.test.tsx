@@ -16,8 +16,6 @@ const mockProps = {
   isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
   isUnlinking: false,
-  isUnlinkSuccess: false,
-  onUnlinkSuccessFn: jest.fn(),
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
   isSecondaryMid: false,
 }
