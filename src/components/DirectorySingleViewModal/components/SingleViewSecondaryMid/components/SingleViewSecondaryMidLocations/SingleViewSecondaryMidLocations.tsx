@@ -38,8 +38,8 @@ const SingleViewSecondaryMidLocations = () => {
   )
 
   const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation) => {
-    const {location_ref: locationRef, location_title: locationTitle} = secondaryMidLocation
-    return <SecondaryMidLocationsListItem key={locationRef} locationRef={locationRef} locationTitle={locationTitle} />
+    const {location_title: locationTitle} = secondaryMidLocation
+    return <SecondaryMidLocationsListItem key={locationTitle} locationTitle={locationTitle} />
   }
 
   const renderLocations = () => {

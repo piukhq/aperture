@@ -3,11 +3,10 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import CloseIcon from 'icons/svgs/close.svg'
 
 type Props = {
-  locationRef: string,
   locationTitle: string,
 }
 
-const SecondaryMidLocationsListItem = ({locationRef, locationTitle}: Props) => {
+const SecondaryMidLocationsListItem = ({locationTitle}: Props) => {
 
   const renderDefaultStateButtons = () => ( // TODO: Confirmation State buttons to be added
     <div className='flex items-center gap-[10px]'>
@@ -19,7 +18,7 @@ const SecondaryMidLocationsListItem = ({locationRef, locationTitle}: Props) => {
         buttonBackground={ButtonBackground.LIGHT_GREY}
         labelColour={LabelColour.GREY}
         labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel={`View ${locationRef}`}
+        ariaLabel={'View'}
       >View
       </Button>
 
@@ -28,7 +27,7 @@ const SecondaryMidLocationsListItem = ({locationRef, locationTitle}: Props) => {
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         borderColour={BorderColour.RED}
-        ariaLabel={`Unlink ${locationRef}`}
+        ariaLabel={'Unlink'}
       ><CloseIcon className='w-[14px] h-[14px] fill-red' />
       </Button>
     </div>
