@@ -1,6 +1,5 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-
 import SecondaryMidLocationsListItem from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations/components/SecondaryMidLocationsListItem'
 
 jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
