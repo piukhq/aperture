@@ -8,11 +8,13 @@ import {
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantIdentifiers,
   DirectoryMidModal,
+  DirectoryMerchantEntityDeleteModal,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {requestModal, selectModal} from 'features/modalSlice'
+import {setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {ModalType, DirectoryNavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
 import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
@@ -79,7 +81,10 @@ const MerchantDetailsPage: NextPage = () => {
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[51px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
     const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
-    const handleNavigationClick = (selectedTab: string) => router.replace(`${baseUrl}?tab=${selectedTab}`)
+    const handleNavigationClick = (selectedTab: string) => {
+      router.replace(`${baseUrl}?tab=${selectedTab}`)
+      dispatch(setSelectedDirectoryTableCheckedRows([]))
+    }
 
     return Object.keys(DirectoryNavigationTab).map(navigationKey => (
       <button
@@ -119,6 +124,7 @@ const MerchantDetailsPage: NextPage = () => {
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE && <DirectoryMerchantEntityDeleteModal/>}
       <PageLayout>
         {merchant && (
           <>

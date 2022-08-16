@@ -36,9 +36,11 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
 }))
 
 const mockStoreFn = configureStore([])
-const store = mockStoreFn({modal: {
-  modalRequested: 'NO_MODAL',
-}})
+const store = mockStoreFn({
+  directoryMerchant: {
+    selectedTableCheckedRows: [],
+  },
+})
 
 const getDirectoryMerchantSecondaryMidsComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>

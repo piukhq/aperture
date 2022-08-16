@@ -4,12 +4,15 @@ import {DirectoryMids, DirectoryMid} from 'types'
 import {ModalType, PaymentSchemeName} from 'utils/enums'
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useState} from 'react'
+import {Button} from 'components'
+import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -36,6 +39,7 @@ const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const {getMerchantMidsResponse} = useMidManagementMids({
     skipGetMid: true,
@@ -84,39 +88,89 @@ const DirectoryMerchantMids = () => {
     router.push(`${router.asPath}&ref=${midsData[index].mid_ref}`)
   }
 
+  const requestMidDeleteModal = ():void => {
+    const checkedMidsToEntity = midsData.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
+      entityRef: mid.mid_ref,
+      entityValue: mid.mid_metadata.mid,
+    }))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE))
+  }
+
+  const renderCheckedItemButtons = () => (
+    <div className='flex gap-[10px] h-[71px] items-center justify-end'>
+      <Button
+        handleClick={() => console.log('Onboard to Harmonia button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >
+        Onboard to Harmonia
+      </Button>
+      <Button
+        handleClick={() => console.log('Offboard from Harmonia button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >
+        Offboard from Harmonia
+      </Button>
+      <Button
+        handleClick={requestMidDeleteModal}
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.MEDIUM}
+        labelColour={LabelColour.RED}
+        borderColour={BorderColour.RED}
+      >
+        Delete
+      </Button>
+    </div>
+  )
+
   return (
     <>
-      <div className='flex gap-[10px] h-[71px] items-center justify-end'>
-        <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-          onClick={() => requestMidModal(PaymentSchemeName.VISA)}
-          aria-label='Add Visa MID'
-        >
-          <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
-        </button>
+      <div className='flex items-center justify-between'>
+        {checkedRefArray.length > 0 && renderCheckedItemButtons() }
+        <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
+          <button
+            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
+            onClick={() => requestMidModal(PaymentSchemeName.VISA)}
+            aria-label='Add Visa MID'
+          >
+            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
+          </button>
 
-        <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-          onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
-          aria-label='Add Mastercard MID'
-        >
-          <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
-        </button>
+          <button
+            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
+            onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
+            aria-label='Add Mastercard MID'
+          >
+            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
+          </button>
 
-        <button
-          className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-amexBlue rounded-[10px]'
-          onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
-          aria-label='Add Amex MID'
-        >
-          <p className='pr-[3px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
-          <AddAmexSvg className='pb-[2px] w-[55px]' alt=''/>
-        </button>
+          <button
+            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-amexBlue rounded-[10px]'
+            onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
+            aria-label='Add Amex MID'
+          >
+            <p className='pr-[3px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <AddAmexSvg className='pb-[2px] w-[55px]' alt=''/>
+          </button>
+        </div>
       </div>
 
       {midsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={midsTableHeaders} tableRows={hydrateMidTableData()} singleViewRequestHandler={requestMidSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable
+          tableHeaders={midsTableHeaders}
+          tableRows={hydrateMidTableData()}
+          singleViewRequestHandler={requestMidSingleView}
+          refArray={refArray}
+          checkboxChangeHandler={setCheckedRefArray}
+        />
       )}
     </>
   )

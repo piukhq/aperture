@@ -45,7 +45,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse
 
-  const [shouldDisplayAuxiliaryButtons, setShouldDisplayAuxiliaryButtons] = useState(false)
+  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
@@ -85,7 +85,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <div className='flex justify-between h-[71px] items-center'>
         {/* TODO: More auxiliary buttons to be added at a later date */}
         <div>
-          {shouldDisplayAuxiliaryButtons && (
+          {checkedRefArray.length > 0 && (
             <Button
               handleClick={() => console.log('Delete button clicked')}
               buttonSize={ButtonSize.SMALL}
@@ -120,7 +120,7 @@ const DirectoryMerchantSecondaryMids = () => {
       </div>
 
       {secondaryMidsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setShouldDisplayAuxiliaryButtons} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
     </>
   )
