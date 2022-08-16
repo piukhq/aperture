@@ -14,7 +14,7 @@ const SingleViewLocationSecondaryMids = () => {
   const {merchantId, planId, ref} = router.query
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
-  const [unlinkingSecondaryMid, setUnlinkingSecondaryMid] = useState(null)
+  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
@@ -24,7 +24,7 @@ const SingleViewLocationSecondaryMids = () => {
     deleteMerchantSecondaryMidLocationLink,
     deleteMerchantSecondaryMidLocationLinkIsLoading,
     deleteMerchantSecondaryMidLocationLinkIsSuccess,
-
+    resetDeleteMerchantSecondaryMidLocationLinkResponse,
   } = useMidManagementLocationSecondaryMids({
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -37,6 +37,11 @@ const SingleViewLocationSecondaryMids = () => {
     skipGetSecondaryMid: true,
     locationRef: ref as string,
   })
+
+  const onUnlinkSuccessFn = () => {
+    resetDeleteMerchantSecondaryMidLocationLinkResponse()
+    setSelectedUnlinkSecondaryMidIndex(null)
+  }
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
@@ -54,8 +59,8 @@ const SingleViewLocationSecondaryMids = () => {
       paymentSchemeCode={paymentSchemeCode}
       value={secondaryMidValue}
       refValue={secondaryMidRef}
-      setUnlinkingMidFn={setUnlinkingSecondaryMid}
-      isInUnlinkingConfirmationState={unlinkingSecondaryMid === index}
+      setSelectedUnlinkMidIndexFn={setSelectedUnlinkSecondaryMidIndex}
+      isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
       unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
         linkRef,
         planRef: planId as string,
@@ -63,6 +68,7 @@ const SingleViewLocationSecondaryMids = () => {
       })}
       isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
       isUnlinkSuccess={deleteMerchantSecondaryMidLocationLinkIsSuccess}
+      onUnlinkSuccessFn={onUnlinkSuccessFn}
       setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
       isSecondaryMid
     />
@@ -71,7 +77,7 @@ const SingleViewLocationSecondaryMids = () => {
   const handleLinkNewSecondaryMidButtonClick = () => {
     if (getMerchantSecondaryMidsResponse?.length > 0) {
       setShouldRenderDropdownMenu(true)
-      setUnlinkingSecondaryMid(null)
+      setSelectedUnlinkSecondaryMidIndex(null)
     }
   }
 

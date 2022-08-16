@@ -1,5 +1,6 @@
-import {Button} from 'components'
+import {Button, Tag} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
+import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import {useEffect} from 'react'
 
@@ -13,8 +14,9 @@ type Props = {
   unlinkFn: () => void,
   isUnlinking: boolean,
   isUnlinkSuccess: boolean,
+  onUnlinkSuccessFn: () => void,
   isInUnlinkingConfirmationState: boolean,
-  setUnlinkingMidFn: (index: number) => void,
+  setSelectedUnlinkMidIndexFn: (index: number) => void,
   setShouldRenderNewLinkDropdownMenuFn: (shouldRenderDropdownMenu: boolean) => void,
   isSecondaryMid?: boolean,
 
@@ -26,22 +28,25 @@ const LocationMidsListItem = ({
   paymentSchemeCode,
   value,
   refValue,
-  setUnlinkingMidFn,
+  setSelectedUnlinkMidIndexFn,
   isInUnlinkingConfirmationState,
   unlinkFn,
   isUnlinking,
   isUnlinkSuccess,
+  onUnlinkSuccessFn,
   setShouldRenderNewLinkDropdownMenuFn,
   isSecondaryMid = false,
 }: Props) => {
 
 
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
-    isUnlinkSuccess && setUnlinkingMidFn(null)
-  }, [isUnlinkSuccess, setUnlinkingMidFn])
+    if (isUnlinkSuccess) {
+      onUnlinkSuccessFn()
+    }
+  }, [isUnlinkSuccess, onUnlinkSuccessFn])
 
   const handleInitialUnlinkButtonClick = () => {
-    setUnlinkingMidFn(index)
+    setSelectedUnlinkMidIndexFn(index)
     setShouldRenderNewLinkDropdownMenuFn(false)
   }
 
@@ -70,15 +75,11 @@ const LocationMidsListItem = ({
     </div>
   )
 
-  const renderUnlinkConfirmationStateButtons = () => {
-    const handleUnlinkConfirmationButtonClick = () => {
-      !isUnlinking && unlinkFn()
-    }
-
-    return <div className='flex items-center justify-between gap-[5px]' >
+  const renderUnlinkConfirmationStateButtons = () => (
+    <div className='flex items-center justify-between gap-[5px]' >
       <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {isSecondaryMid && 'Secondary'} MID?</p>
       <Button
-        handleClick={() => setUnlinkingMidFn(null)}
+        handleClick={() => setSelectedUnlinkMidIndexFn(null)}
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         buttonBackground={ButtonBackground.LIGHT_GREY}
@@ -86,19 +87,29 @@ const LocationMidsListItem = ({
       ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
       </Button>
 
-      <Button
-        handleClick={handleUnlinkConfirmationButtonClick}
-        buttonType={ButtonType.SUBMIT}
-        buttonSize={ButtonSize.MEDIUM}
-        buttonWidth={ButtonWidth.MEDIUM}
-        buttonBackground={ButtonBackground.RED}
-        labelColour={LabelColour.WHITE}
-        labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel={'Confirm unlink'}
-      > { isUnlinking ? 'Unlinking... ' : 'Yes, unlink'}
-      </Button>
+      {isUnlinking ? (
+        <Tag
+          tagSize={TagSize.MEDIUM}
+          textStyle={TextStyle.MEDIUM}
+          textColour={TextColour.WHITE}
+          tagStyle={TagStyle.RED_FILLED}
+          label='Unlinking...'
+        />
+      ) : (
+        <Button
+          handleClick={() => unlinkFn()}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.MEDIUM}
+          buttonBackground={ButtonBackground.RED}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          ariaLabel={'Confirm unlink'}
+        > { isUnlinking ? 'Unlinking... ' : 'Yes, unlink'}
+        </Button>
+      )}
     </div>
-  }
+  )
 
   return (
     <div key={index} className='flex w-full justify-between h-[35px]'>

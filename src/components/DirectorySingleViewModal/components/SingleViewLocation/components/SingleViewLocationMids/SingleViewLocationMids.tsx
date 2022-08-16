@@ -25,9 +25,10 @@ const SingleViewLocationMids = () => {
       paymentSchemeCode={paymentSchemeCode}
       value={midValue}
       refValue={midRef}
-      setUnlinkingMidFn={() => console.log('Placeholder setUnlinkingMidFn')}
+      setSelectedUnlinkMidIndexFn={() => console.log('Placeholder setUnlinkingMidFn')}
       isInUnlinkingConfirmationState={false} // Placeholder value
       unlinkFn={() => console.log('Placeholder unlinkFn')}
+      onUnlinkSuccessFn={() => console.log('Placeholder onUnlinkSuccessFn')}
       isUnlinking={false} // Placeholder value
       isUnlinkSuccess={false} // Placeholder value
       setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}

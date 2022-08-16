@@ -12,11 +12,12 @@ const mockProps = {
   paymentSchemeCode: 1,
   value: mockValue,
   refValue: mockRefValue,
-  setUnlinkingMidFn: jest.fn(),
+  setSelectedUnlinkMidIndexFn: jest.fn(),
   isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
   isUnlinking: false,
   isUnlinkSuccess: false,
+  onUnlinkSuccessFn: jest.fn(),
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
   isSecondaryMid: false,
 }
@@ -49,7 +50,7 @@ describe('LocationMidsListItem', () => {
   it('should call the setUnlinkingMidFn with correct index when the unlink button is clicked', () => {
     render(getLocationMidsListItemComponent())
     fireEvent.click(screen.getByLabelText(`Unlink ${mockRefValue}`))
-    expect(mockProps.setUnlinkingMidFn).toHaveBeenCalledWith(mockProps.index)
+    expect(mockProps.setSelectedUnlinkMidIndexFn).toHaveBeenCalledWith(mockProps.index)
   })
 
   describe('Test unlinking confirmation state', () => {
@@ -92,7 +93,7 @@ describe('LocationMidsListItem', () => {
       render(getUnlinkingConfirmingStateComponent)
       fireEvent.click(screen.getByRole('button', {name: 'Cancel'}))
 
-      expect(mockProps.setUnlinkingMidFn).toHaveBeenCalledWith(null)
+      expect(mockProps.setSelectedUnlinkMidIndexFn).toHaveBeenCalledWith(null)
     })
   })
 })
