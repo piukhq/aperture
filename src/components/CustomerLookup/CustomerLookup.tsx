@@ -10,7 +10,7 @@ import UserSvg from 'icons/svgs/user.svg'
 
 const CustomerLookup = () => {
   const selectedJwtToken = useAppSelector(getJwtToken)
-  const {jwtCustomerLookup, errorOccured} = useCustomerLookup()
+  const {jwtCustomerLookup, hasErrorOccured} = useCustomerLookup()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')
@@ -47,7 +47,7 @@ const CustomerLookup = () => {
           </div>
 
           <div className='mt-[5px]'>
-            {errorOccured && selectedJwtToken && <p className='text-body text-[12px] text-red'>Your search didn&apos;t return any results. Please try again</p>}
+            {hasErrorOccured && selectedJwtToken && <p className='text-body text-[12px] text-red'>Your search didn&apos;t return any results. Please try again</p>}
           </div>
         </div>
 

@@ -29,7 +29,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
     }
   }
 
-  const renderInnerMetadata = ({lookup, user}: LookupUserHistoryEntity, isFirstEntity = false) => {
+  const renderInnerMetadata = ({lookup, user}: LookupUserHistoryEntity, isActiveLookupUser = false) => {
     const {datetime} = lookup
     const {channel, display_text: displayText} = user
 
@@ -40,8 +40,8 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
             {renderBundleIcon(channel)}
           </div>
           <div className='flex flex-col justify-center items-start ml-[6px]'>
-            <p className={`font-body-2 truncate ${isFirstEntity ? 'max-w-[172px]' : 'max-w-[142px] dark:text-grey-600'}`}>{displayText}</p>
-            <p className={`font-body-4 ${!isFirstEntity && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
+            <p className={`font-body-2 truncate ${isActiveLookupUser ? 'max-w-[172px]' : 'max-w-[142px] dark:text-grey-600'}`}>{displayText}</p>
+            <p className={`font-body-4 ${!isActiveLookupUser && 'dark:text-grey-600'}`} data-testid='date-string'>{timeStampToDate(datetime)}</p>
           </div>
         </div>
         <ArrowRightSvg className='h-[20px] w-[20px]' />
@@ -54,13 +54,13 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
   }
 
   return (
-    <div className='flex items-center gap-[20px]'>
+    <div className='flex items-center gap-[20px] h-[59px]'>
       {lookupHistory.map((historyEntity, index) => {
         const userId = typeof(activeUserId) === 'string' ? activeUserId : JSON.stringify(activeUserId)
 
         if (historyEntity.user.user_id === userId) {
           return (
-            <div data-testid='history-entity' key={index} className='h-[59px] w-[250px] shadow-md bg-white dark:bg-grey-825 rounded-[8px]'>
+            <div data-testid='history-entity' key={index} className='w-[250px] shadow-md bg-white dark:bg-grey-825 rounded-[8px]'>
               {renderInnerMetadata(historyEntity, true)}
             </div>
           )

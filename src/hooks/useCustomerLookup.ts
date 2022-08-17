@@ -5,7 +5,7 @@ import {useCallback, useEffect, useState} from 'react'
 import {decodeJwtToken} from 'utils/jwtToken'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import {useAppSelector} from 'app/hooks'
-import {getJwtToken, setJwtToken, reset as resetCustomerWalletState, setActiveUserId} from 'features/customerWalletSlice'
+import {getJwtToken, setJwtToken, setActiveUserId} from 'features/customerWalletSlice'
 import {serviceApi} from 'services/service'
 import {customerWalletApi} from 'services/customerWallet'
 
@@ -27,7 +27,7 @@ export const useCustomerLookup = () => {
   const dispatch = useDispatch()
   const jwtToken = useAppSelector(getJwtToken)
 
-  const errorOccured = getServiceError || getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError
+  const hasErrorOccured = getServiceError || getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError
 
   useEffect(() => {
     if (getLoyaltyCardsResponse && getPaymentCardsResponse && getPlansResponse) {
@@ -56,10 +56,10 @@ export const useCustomerLookup = () => {
 
   // If any error occurs, remove active user ID
   useEffect(() => {
-    if (errorOccured) {
+    if (hasErrorOccured) {
       dispatch(setActiveUserId(null))
     }
-  }, [errorOccured, dispatch])
+  }, [hasErrorOccured, dispatch])
 
   // TODO: Consider refactoring this to avoid using the useEffect hook
   useEffect(() => { // TODO: Make this lookup type agnostic when other lookups are implemented
@@ -81,5 +81,5 @@ export const useCustomerLookup = () => {
     setLookupType(lookupType)
   }, [dispatch, getServiceRefresh])
 
-  return {jwtCustomerLookup, errorOccured}
+  return {jwtCustomerLookup, hasErrorOccured}
 }

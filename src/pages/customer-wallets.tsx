@@ -8,7 +8,7 @@ import {useCustomerLookup} from 'hooks/useCustomerLookup'
 const CustomerWalletsPage: NextPage = () => {
   const selectedJwtToken = useAppSelector(getJwtToken)
   const {getCustomerLookupHistoryResponse} = useGetCustomerWalletLookupHistory()
-  const {errorOccured} = useCustomerLookup()
+  const {hasErrorOccured} = useCustomerLookup()
 
   return (
     <PageLayout>
@@ -23,7 +23,7 @@ const CustomerWalletsPage: NextPage = () => {
           </section>
         )}
 
-        {selectedJwtToken && !errorOccured && <CustomerWalletsContainer />}
+        {selectedJwtToken && !hasErrorOccured && <CustomerWalletsContainer />}
       </div>
     </PageLayout>
   )
