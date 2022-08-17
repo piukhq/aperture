@@ -1,4 +1,6 @@
 import React from 'react'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import {render, screen, fireEvent} from '@testing-library/react'
 import CustomerLookupHistory from 'components/CustomerLookupHistory'
 
@@ -14,7 +16,7 @@ jest.mock('hooks/useCustomerLookup', () => ({
 }))
 
 const mockDisplayText = 'mock_display_text'
-
+const mockActiveUserId = 'mock_active_user_id'
 const mockLookupHistory = [
   {
     lookup: {
@@ -23,7 +25,7 @@ const mockLookupHistory = [
       datetime: 'mock_date_time',
     },
     user: {
-      user_id: 1234,
+      user_id: mockActiveUserId,
       channel: 'mock_channel',
       display_text: mockDisplayText,
     },
@@ -42,8 +44,18 @@ const mockLookupHistory = [
   },
 ]
 
+const mockStoreFn = configureStore([])
+const mockStore = mockStoreFn({
+  customerWallet: {
+    jwtToken: 'mock_jwt_token',
+    activeUserId: mockActiveUserId,
+  },
+})
+
 const getCustomerLookupHistoryComponent = () => (
-  <CustomerLookupHistory lookupHistory={mockLookupHistory} />
+  <Provider store={mockStore}>
+    <CustomerLookupHistory lookupHistory={mockLookupHistory} />
+  </Provider>
 )
 
 describe('CustomerLookupHistory', () => {
