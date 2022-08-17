@@ -27,7 +27,7 @@ export const useCustomerLookup = () => {
   const dispatch = useDispatch()
   const jwtToken = useAppSelector(getJwtToken)
 
-  const hasErrorOccured = getServiceError || getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError
+  const hasErrorOccurred = getServiceError || getLoyaltyCardsIsError || getPaymentCardsIsError || getPlansIsError
 
   useEffect(() => {
     if (getLoyaltyCardsResponse && getPaymentCardsResponse && getPlansResponse) {
@@ -56,10 +56,10 @@ export const useCustomerLookup = () => {
 
   // If any error occurs, remove active user ID
   useEffect(() => {
-    if (hasErrorOccured) {
+    if (hasErrorOccurred) {
       dispatch(setActiveUserId(null))
     }
-  }, [hasErrorOccured, dispatch])
+  }, [hasErrorOccurred, dispatch])
 
   // TODO: Consider refactoring this to avoid using the useEffect hook
   useEffect(() => { // TODO: Make this lookup type agnostic when other lookups are implemented
@@ -81,5 +81,5 @@ export const useCustomerLookup = () => {
     setLookupType(lookupType)
   }, [dispatch, getServiceRefresh])
 
-  return {jwtCustomerLookup, hasErrorOccured}
+  return {jwtCustomerLookup, hasErrorOccurred}
 }

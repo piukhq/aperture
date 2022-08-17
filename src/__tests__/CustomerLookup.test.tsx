@@ -14,10 +14,12 @@ jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
 }))
 
 const mockJwtCustomerLookup = jest.fn()
+let mockHasErrorOccurred = false
 
 jest.mock('hooks/useCustomerLookup', () => ({
   useCustomerLookup: jest.fn().mockImplementation(() => ({
     jwtCustomerLookup: mockJwtCustomerLookup,
+    hasErrorOccurred: mockHasErrorOccurred,
   })),
 }))
 
@@ -49,6 +51,17 @@ describe('CustomerLookup', () => {
     it('should render the Load User button', () => {
       render(getCustomerLookupComponent())
       expect(screen.getByLabelText('Load User')).toBeInTheDocument()
+    })
+
+    it('should not render the error message', () => {
+      render(getCustomerLookupComponent())
+      expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
+    })
+
+    it('should render the error message', () => {
+      mockHasErrorOccurred = true
+      render(getCustomerLookupComponent())
+      expect(screen.getByTestId('error-message')).toBeInTheDocument()
     })
   })
 
