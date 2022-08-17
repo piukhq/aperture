@@ -1,4 +1,6 @@
 import React from 'react'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import {fireEvent, render, screen} from '@testing-library/react'
 import CustomerLookup from 'components/CustomerLookup'
 
@@ -12,29 +14,54 @@ jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
 }))
 
 const mockJwtCustomerLookup = jest.fn()
+let mockHasErrorOccurred = false
 
 jest.mock('hooks/useCustomerLookup', () => ({
   useCustomerLookup: jest.fn().mockImplementation(() => ({
     jwtCustomerLookup: mockJwtCustomerLookup,
+    hasErrorOccurred: mockHasErrorOccurred,
   })),
 }))
 
+const mockStoreFn = configureStore([])
+const mockStore = mockStoreFn({
+  customerWallet: {
+    jwtToken: 'mock_jwt_token',
+  },
+})
+
+const getCustomerLookupComponent = () => (
+  <Provider store={mockStore}>
+    <CustomerLookup />
+  </Provider>
+)
 
 describe('CustomerLookup', () => {
   describe('Test component rendering', () => {
     it('should render the Dropdown component', () => {
-      render(<CustomerLookup/>)
+      render(getCustomerLookupComponent())
       expect(screen.queryByTestId('dropdown')).toBeInTheDocument()
     })
 
     it('should render the user identifier input field', () => {
-      render(<CustomerLookup/>)
+      render(getCustomerLookupComponent())
       expect(screen.queryByTestId('user-identifier')).toBeInTheDocument()
     })
 
     it('should render the Load User button', () => {
-      render(<CustomerLookup/>)
+      render(getCustomerLookupComponent())
       expect(screen.getByLabelText('Load User')).toBeInTheDocument()
+    })
+
+    it('should not render the error message', () => {
+      render(getCustomerLookupComponent())
+      expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
+    })
+
+    it('should render the error message', () => {
+      mockHasErrorOccurred = true
+      render(getCustomerLookupComponent())
+      expect(screen.getByTestId('error-message')).toBeInTheDocument()
     })
   })
 
@@ -49,7 +76,7 @@ describe('CustomerLookup', () => {
         .mockReturnValueOnce(['Not Valid Lookup Value', jest.fn()]) // Invalid LookupTypeValue state value
         .mockReturnValueOnce(['', jest.fn()]) // Invalid lookupValue state value
 
-      render(<CustomerLookup/>)
+      render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
 
@@ -62,7 +89,7 @@ describe('CustomerLookup', () => {
         .mockReturnValueOnce(['JWT', jest.fn()]) // Valid LookupTypeValue state value
         .mockReturnValueOnce(['mock_token_string', jest.fn()]) // Valid lookupValue state value
 
-      render(<CustomerLookup/>)
+      render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
 

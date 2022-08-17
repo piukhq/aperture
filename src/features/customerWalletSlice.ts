@@ -3,10 +3,12 @@ import {RootState} from 'app/store'
 
 type CustomerWallet = {
   jwtToken: string,
+  activeUserId: string,
 }
 
 const initialState: CustomerWallet = {
   jwtToken: null,
+  activeUserId: null,
 }
 
 export const customerWalletSlice = createSlice({
@@ -16,10 +18,14 @@ export const customerWalletSlice = createSlice({
     setJwtToken: (state, action: PayloadAction<string>) => {
       state.jwtToken = action.payload
     },
+    setActiveUserId: (state, action: PayloadAction<string>) => {
+      state.activeUserId = action.payload
+    },
     reset: () => initialState,
   },
 })
 
-export const {setJwtToken, reset} = customerWalletSlice.actions
+export const {setJwtToken, setActiveUserId, reset} = customerWalletSlice.actions
 export const getJwtToken = (state: RootState) => state.customerWallet.jwtToken
+export const getActiveUserId = (state: RootState) => state.customerWallet.activeUserId
 export default customerWalletSlice.reducer
