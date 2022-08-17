@@ -36,7 +36,7 @@ export const useCustomerLookup = () => {
         const {bundle_id: channel, sub, user_id: userEmail} = decodeJwtToken(jwtToken) || {}
         const userId = sub || userEmail // Barclays uses user_id, other channels use sub from the token
 
-        dispatch(setActiveUserId(userId))
+        dispatch(setActiveUserId(typeof(userId) === 'string' ? userId : JSON.stringify(userId)))
 
         putLookHistoryEntry({
           user: {

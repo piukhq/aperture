@@ -3,7 +3,7 @@ import {RootState} from 'app/store'
 
 type CustomerWallet = {
   jwtToken: string,
-  activeUserId: string | number,
+  activeUserId: string,
 }
 
 const initialState: CustomerWallet = {
@@ -18,7 +18,7 @@ export const customerWalletSlice = createSlice({
     setJwtToken: (state, action: PayloadAction<string>) => {
       state.jwtToken = action.payload
     },
-    setActiveUserId: (state, action: PayloadAction<string | number>) => {
+    setActiveUserId: (state, action: PayloadAction<string>) => {
       state.activeUserId = action.payload
     },
     reset: () => initialState,

@@ -56,9 +56,7 @@ const CustomerLookupHistory = ({lookupHistory}: Props) => {
   return (
     <div className='flex items-center gap-[20px] h-[59px]'>
       {lookupHistory.map((historyEntity, index) => {
-        const userId = typeof(activeUserId) === 'string' ? activeUserId : JSON.stringify(activeUserId)
-
-        if (historyEntity.user.user_id === userId) {
+        if (historyEntity.user.user_id === activeUserId) {
           return (
             <div data-testid='history-entity' key={index} className='w-[250px] shadow-md bg-white dark:bg-grey-825 rounded-[8px]'>
               {renderInnerMetadata(historyEntity, true)}
