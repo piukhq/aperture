@@ -6,7 +6,7 @@ import SecondaryMidLocationsListItem from './components/SecondaryMidLocationsLis
 import {DirectoryMerchantMidLocation} from 'types'
 
 
-const SingleViewSecondaryMidLocations = () => {
+const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -17,6 +17,7 @@ const SingleViewSecondaryMidLocations = () => {
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
+    skipGetSecondaryMidLocations: true,
   })
 
   const hasNoLocations = (!getMerchantSecondaryMidLocationsResponse || getMerchantSecondaryMidLocationsResponse.length === 0) && !getMerchantSecondaryMidLocationsIsLoading
@@ -39,7 +40,7 @@ const SingleViewSecondaryMidLocations = () => {
 
   const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation) => {
     const {location_title: locationTitle} = secondaryMidLocation
-    return <SecondaryMidLocationsListItem key={locationTitle} locationTitle={locationTitle} />
+    return <SecondaryMidLocationsListItem key={locationTitle} locationTitle={locationTitle} /> // TODO: Swap to use existing MidsListItem component when functionality is required
   }
 
   const renderLocations = () => {
