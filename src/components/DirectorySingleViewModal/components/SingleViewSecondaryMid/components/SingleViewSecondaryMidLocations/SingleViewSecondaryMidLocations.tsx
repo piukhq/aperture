@@ -1,7 +1,7 @@
 import {useRouter} from 'next/router'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useMidManagementSecondaryMidLocations} from 'hooks/useMidManagementSecondaryMidLocations'
 import SecondaryMidLocationsListItem from './components/SecondaryMidLocationsListItem'
 import {DirectoryMerchantMidLocation} from 'types'
 
@@ -13,11 +13,10 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   const {
     getMerchantSecondaryMidLocationsResponse,
     getMerchantSecondaryMidLocationsIsLoading,
-  } = useMidManagementSecondaryMids({
+  } = useMidManagementSecondaryMidLocations({
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
-    skipGetSecondaryMidLocations: true,
   })
 
   const hasNoLocations = (!getMerchantSecondaryMidLocationsResponse || getMerchantSecondaryMidLocationsResponse.length === 0) && !getMerchantSecondaryMidLocationsIsLoading

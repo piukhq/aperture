@@ -19,7 +19,6 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
 
   const {getMerchantSecondaryMidResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
-    skipGetSecondaryMidLocations: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,

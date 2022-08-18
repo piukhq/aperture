@@ -5,15 +5,14 @@ import SingleViewSecondaryMidLocations from 'components/DirectorySingleViewModal
 jest.mock('components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations/components/SecondaryMidLocationsListItem',
   () => () => <div data-testid='SecondaryMidLocationsListItem' />)
 
-
 let mockGetMerchantSecondaryMidLocationsResponse = [{
   link_ref: 'mock_link_ref',
   location_ref: 'mock_location_ref',
   location_title: 'mock_location_title',
 }]
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useMidManagementSecondaryMidLocations', () => ({
+  useMidManagementSecondaryMidLocations: jest.fn().mockImplementation(() => ({
     getMerchantSecondaryMidLocationsResponse: mockGetMerchantSecondaryMidLocationsResponse,
     getMerchantSecondaryMidLocationsIsLoading: false,
   })),
