@@ -12,7 +12,7 @@ const CustomerWalletsHeader = () => {
         <CustomerLookup jwtCustomerLookup={jwtCustomerLookup} hasErrorOccurred={hasErrorOccurred} />
       </section>
 
-      {getCustomerLookupHistoryResponse && getCustomerLookupHistoryResponse.length > 0 && (
+      {getCustomerLookupHistoryResponse?.length > 0 && (
         <section>
           <CustomerLookupHistory jwtCustomerLookup={jwtCustomerLookup} lookupHistory={getCustomerLookupHistoryResponse} />
         </section>
