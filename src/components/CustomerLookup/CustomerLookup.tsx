@@ -2,15 +2,18 @@ import {useState, FormEvent} from 'react'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {useCustomerLookup} from 'hooks/useCustomerLookup'
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken} from 'features/customerWalletSlice'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
 
-const CustomerLookup = () => {
+type Props = {
+  jwtCustomerLookup: (criteria: string, type: string) => void,
+  hasErrorOccurred: boolean
+}
+
+const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const selectedJwtToken = useAppSelector(getJwtToken)
-  const {jwtCustomerLookup, hasErrorOccurred} = useCustomerLookup()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')

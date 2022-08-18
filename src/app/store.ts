@@ -34,7 +34,6 @@ import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantL
 import {midManagementMerchantIdentifiersApi} from 'services/midManagementMerchantIdentifiers'
 import {customerWalletApi} from 'services/customerWallet'
 import {customerWalletLookupHistoryApi} from 'services/customerWalletLookupHistory'
-import {serviceApi} from 'services/service'
 
 const reducers = combineReducers({
   planAssets: planAssetsReducer,
@@ -59,7 +58,6 @@ const reducers = combineReducers({
   [midManagementMerchantSecondaryMidsApi.reducerPath]: midManagementMerchantSecondaryMidsApi.reducer,
   [midManagementMerchantLocationsApi.reducerPath]: midManagementMerchantLocationsApi.reducer,
   [midManagementMerchantIdentifiersApi.reducerPath]: midManagementMerchantIdentifiersApi.reducer,
-  [serviceApi.reducerPath]: serviceApi.reducer,
 })
 
 // Allows the apiReflector enabled status to be persisted between browser refreshes
@@ -94,7 +92,6 @@ export const store = configureStore({
     midManagementMerchantSecondaryMidsApi.middleware,
     midManagementMerchantLocationsApi.middleware,
     midManagementMerchantIdentifiersApi.middleware,
-    serviceApi.middleware,
   ),
 })
 

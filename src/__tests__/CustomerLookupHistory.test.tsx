@@ -9,11 +9,6 @@ jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identi
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
 const mockJwtCustomerLookup = jest.fn()
-jest.mock('hooks/useCustomerLookup', () => ({
-  useCustomerLookup: jest.fn().mockImplementation(() => ({
-    jwtCustomerLookup: mockJwtCustomerLookup,
-  })),
-}))
 
 const mockDisplayText = 'mock_display_text'
 const mockActiveUserId = 'mock_active_user_id'
@@ -54,7 +49,7 @@ const mockStore = mockStoreFn({
 
 const getCustomerLookupHistoryComponent = () => (
   <Provider store={mockStore}>
-    <CustomerLookupHistory lookupHistory={mockLookupHistory} />
+    <CustomerLookupHistory lookupHistory={mockLookupHistory} jwtCustomerLookup={mockJwtCustomerLookup} />
   </Provider>
 )
 

@@ -4,17 +4,16 @@ import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
-import {useCustomerLookup} from 'hooks/useCustomerLookup'
 import {BundleID} from 'utils/enums'
 import {useAppSelector} from 'app/hooks'
 import {getActiveUserId} from 'features/customerWalletSlice'
 
 type Props = {
   lookupHistory: LookupUserHistoryEntity[]
+  jwtCustomerLookup: (criteria: string, type: string) => void
 }
 
-const CustomerLookupHistory = ({lookupHistory}: Props) => {
-  const {jwtCustomerLookup} = useCustomerLookup()
+const CustomerLookupHistory = ({lookupHistory, jwtCustomerLookup}: Props) => {
   const activeUserId = useAppSelector(getActiveUserId)
 
   const renderBundleIcon = (channel: string) => {
