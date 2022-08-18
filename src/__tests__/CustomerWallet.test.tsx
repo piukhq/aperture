@@ -86,13 +86,6 @@ jest.mock('hooks/useCustomerWallet', () => ({
   })),
 }))
 
-jest.mock('hooks/useService', () => ({
-  useService: jest.fn().mockImplementation(() => ({
-    getServiceRefresh: jest.fn(),
-    getServiceResponse: jest.fn(),
-  })),
-}))
-
 const mockStoreFn = configureStore([])
 const mockCustomerWalletApiState = {
   customerWallet: {
