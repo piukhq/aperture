@@ -5,6 +5,7 @@ import SingleViewSecondaryMid from 'components/DirectorySingleViewModal/componen
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {DirectorySingleViewTabs} from 'utils/enums'
 
 const mockSecondaryMidValue = 'mock_secondary_mid_value'
 const mockGetMerchantSecondaryMidResponse = {
@@ -68,13 +69,14 @@ describe('SingleViewSecondaryMid', () => {
     const dummyDispatch = jest.fn()
     useDispatchMock.mockReturnValue(dummyDispatch)
 
-    React.useState = jest.fn().mockReturnValueOnce(['Details', jest.fn()]) // tabSelected
+    React.useState = jest.fn().mockReturnValueOnce([DirectorySingleViewTabs.DETAILS, jest.fn()]) // tabSelected
   })
 
   it('should render the Navigation tabs', () => {
     render(getSingleViewSecondaryMidComponent())
-    expect(screen.getByText('Details')).toBeInTheDocument()
-    expect(screen.getByText('Comments')).toBeInTheDocument()
+    expect(screen.getByText(DirectorySingleViewTabs.DETAILS)).toBeInTheDocument()
+    expect(screen.getByText(DirectorySingleViewTabs.LOCATIONS)).toBeInTheDocument()
+    expect(screen.getByText(DirectorySingleViewTabs.COMMENTS)).toBeInTheDocument()
   })
 
   it('should call prop function to set header', () => {

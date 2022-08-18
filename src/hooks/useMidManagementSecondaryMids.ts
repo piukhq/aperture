@@ -28,6 +28,5 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-
   }
 }
