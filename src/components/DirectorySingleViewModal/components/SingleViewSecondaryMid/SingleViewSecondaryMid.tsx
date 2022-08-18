@@ -19,6 +19,7 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
 
   const {getMerchantSecondaryMidResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
+    skipGetSecondaryMidLocations: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
@@ -56,10 +57,10 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
         return getMerchantSecondaryMidResponse ? <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} /> : null
-      case DirectorySingleViewTabs.COMMENTS:
-        return <i className='font-body-4'> There are no comments to view.</i>
       case DirectorySingleViewTabs.LOCATIONS:
         return <SingleViewSecondaryMidLocations />
+      case DirectorySingleViewTabs.COMMENTS:
+        return <i className='font-body-4'> There are no comments to view.</i>
     }
   }
 

@@ -39,6 +39,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
+    skipGetSecondaryMidLocations: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
