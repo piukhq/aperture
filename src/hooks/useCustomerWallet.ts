@@ -3,6 +3,7 @@ import {useGetLoyaltyCardsQuery, useGetPaymentCardsQuery, useGetPlansQuery} from
 export const useCustomerWallet = () => {
   const {
     data: getLoyaltyCardsResponse,
+    isSuccess: getLoyaltyCardsIsSuccess,
     isLoading: getLoyaltyCardsIsLoading,
     isError: getLoyaltyCardsIsError,
     refetch: getLoyaltyCardsRefresh,
@@ -10,6 +11,7 @@ export const useCustomerWallet = () => {
 
   const {
     data: getPaymentCardsResponse,
+    isSuccess: getPaymentCardsIsSuccess,
     isLoading: getPaymentCardsIsLoading,
     isError: getPaymentCardsIsError,
     refetch: getPaymentCardsRefresh,
@@ -17,6 +19,7 @@ export const useCustomerWallet = () => {
 
   const {
     data: getPlansResponse,
+    isSuccess: getPlansIsSuccess,
     isLoading: getPlansIsLoading,
     isError: getPlansIsError,
     refetch: getPlansRefresh,
@@ -25,16 +28,19 @@ export const useCustomerWallet = () => {
   return {
     // Loyalty cards
     getLoyaltyCardsResponse,
+    getLoyaltyCardsIsSuccess,
     getLoyaltyCardsRefresh,
     getLoyaltyCardsIsLoading,
     getLoyaltyCardsIsError,
     // Payment Cards
     getPaymentCardsResponse,
+    getPaymentCardsIsSuccess,
     getPaymentCardsRefresh,
     getPaymentCardsIsLoading,
     getPaymentCardsIsError,
     // Plans
     getPlansResponse,
+    getPlansIsSuccess,
     getPlansRefresh,
     getPlansIsLoading,
     getPlansIsError,

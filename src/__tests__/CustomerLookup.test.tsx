@@ -16,13 +16,6 @@ jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
 const mockJwtCustomerLookup = jest.fn()
 let mockHasErrorOccurred = false
 
-jest.mock('hooks/useCustomerLookup', () => ({
-  useCustomerLookup: jest.fn().mockImplementation(() => ({
-    jwtCustomerLookup: mockJwtCustomerLookup,
-    hasErrorOccurred: mockHasErrorOccurred,
-  })),
-}))
-
 const mockStoreFn = configureStore([])
 const mockStore = mockStoreFn({
   customerWallet: {
@@ -32,7 +25,7 @@ const mockStore = mockStoreFn({
 
 const getCustomerLookupComponent = () => (
   <Provider store={mockStore}>
-    <CustomerLookup />
+    <CustomerLookup jwtCustomerLookup={mockJwtCustomerLookup} hasErrorOccurred={mockHasErrorOccurred} />
   </Provider>
 )
 
