@@ -120,7 +120,6 @@ const DirectoryMerchantLocations = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
   }
 
-
   return (
     <>
       <div className='flex justify-between h-[71px] items-center px-[9px]'>

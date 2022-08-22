@@ -43,7 +43,6 @@ const DirectoryMerchantIdentifiers = () => {
   })
 
   const identifiersData: DirectoryIdentifiers = getMerchantIdentifiersResponse
-
   const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {

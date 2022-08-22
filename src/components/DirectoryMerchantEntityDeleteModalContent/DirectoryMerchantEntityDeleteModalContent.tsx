@@ -8,7 +8,6 @@ import {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantEntityDeletionItem, RTKQueryErrorResponse} from 'types'
 import {setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 
-
 type Props = {
   entityLabel: string,
   entitiesToBeDeleted: DirectoryMerchantEntityDeletionItem[],
@@ -85,6 +84,5 @@ const DirectoryMerchantEntityDeleteModalContent = ({
     </>
   )
 }
-
 
 export default DirectoryMerchantEntityDeleteModalContent

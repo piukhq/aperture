@@ -1,1 +1,1 @@
-export {default} from './DirectoryMerchantLocationsMidsDeleteModal'
+export {default} from './DirectoryMerchantLocationsDeleteModal'
