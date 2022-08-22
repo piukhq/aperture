@@ -4,11 +4,13 @@ import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'c
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {useAppDispatch} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {requestModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
 
 const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -76,6 +78,14 @@ const DirectoryMerchantIdentifiers = () => {
     router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
   }
 
+  const requestIdentifiersDeleteModal = ():void => {
+    const checkedMidsToEntity = identifiersData.filter((identifier) => checkedRefArray.includes(identifier.identifier_ref)).map((identifier) => ({
+      entityRef: identifier.identifier_ref,
+      entityValue: identifier.identifier_metadata.value,
+    }))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+  }
 
   return (
     <>
@@ -84,7 +94,7 @@ const DirectoryMerchantIdentifiers = () => {
         <div>
           {checkedRefArray.length > 0 && (
             <Button
-              handleClick={() => console.log('Delete button clicked')}
+              handleClick={requestIdentifiersDeleteModal}
               buttonSize={ButtonSize.SMALL}
               buttonWidth={ButtonWidth.MEDIUM}
               labelColour={LabelColour.RED}
