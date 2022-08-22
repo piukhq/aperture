@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import {DirectoryMerchantMidsDeleteModal} from 'components'
+import {DirectoryMerchantSecondaryMidsDeleteModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
@@ -23,17 +23,17 @@ useRouter.mockImplementation(() => ({
   query: {
     planId: 'mock_plan_id',
     merchantId: 'mock_merchant_id',
-    tab: 'mids', // This must match once of the enum values in DirectorySingleViewEntities
+    tab: 'secondary-mids', // This must match once of the enum values in DirectorySingleViewEntities
   },
 }))
 
-const mockDeleteMerchantMid = jest.fn()
-const mockDeleteMerchantMidIsLoading = false
+const mockDeleteMerchantSecondaryMid = jest.fn()
+const mockDeleteMerchantSecondaryMidIsLoading = false
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
-    deleteMerchantMid: mockDeleteMerchantMid,
-    deleteMerchantMidIsLoading: mockDeleteMerchantMidIsLoading,
+jest.mock('hooks/useMidManagementSecondaryMids', () => ({
+  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+    deleteMerchantSecondaryMid: mockDeleteMerchantSecondaryMid,
+    deleteMerchantSecondaryMidIsLoading: mockDeleteMerchantSecondaryMidIsLoading,
   })),
 }))
 
@@ -50,33 +50,33 @@ const store = mockStoreFn({
   },
 })
 
-const getDirectoryMerchantMidsDeleteModalComponent = (passedStore = undefined) => (
+const getDirectoryMerchantSecondaryMidsDeleteModalComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <DirectoryMerchantMidsDeleteModal/>
+    <DirectoryMerchantSecondaryMidsDeleteModal/>
   </Provider>
 )
 
-describe('DirectoryMerchantMidsDeleteModal', () => {
+describe('DirectoryMerchantSecondaryMidsDeleteModal', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should render the correct modal header for multiple mids', () => {
-    render(getDirectoryMerchantMidsDeleteModalComponent())
-    expect(screen.getByRole('heading', {name: 'Delete MIDs'})).toBeInTheDocument()
+  it('should render the correct modal header for multiple Secondary MIDs', () => {
+    render(getDirectoryMerchantSecondaryMidsDeleteModalComponent())
+    expect(screen.getByRole('heading', {name: 'Delete Secondary MIDs'})).toBeInTheDocument()
   })
 
-  it('should render the correct modal header for a singular mid', () => {
-    render(getDirectoryMerchantMidsDeleteModalComponent(
+  it('should render the correct modal header for a singular Secondary MID', () => {
+    render(getDirectoryMerchantSecondaryMidsDeleteModalComponent(
       mockStoreFn({
         directoryMerchant: {selectedEntityCheckedSelection: [{entityRef: mockEntityValue1, entityValue: mockEntityValue1}]},
       })
     ))
-    expect(screen.getByRole('heading', {name: 'Delete MID'})).toBeInTheDocument()
+    expect(screen.getByRole('heading', {name: 'Delete Secondary MID'})).toBeInTheDocument()
   })
 
   it('should render the DirectoryMerchantEntityDeleteModalContent component', () => {
-    render(getDirectoryMerchantMidsDeleteModalComponent())
+    render(getDirectoryMerchantSecondaryMidsDeleteModalComponent())
     expect(screen.getByTestId('content-component')).toBeInTheDocument()
   })
 })

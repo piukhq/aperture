@@ -94,7 +94,7 @@ const DirectoryMerchantMids = () => {
       entityValue: mid.mid_metadata.mid,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE))
   }
 
   const renderCheckedItemButtons = () => (

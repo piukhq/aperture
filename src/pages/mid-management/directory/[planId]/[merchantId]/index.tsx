@@ -9,6 +9,7 @@ import {
   DirectoryMerchantIdentifiers,
   DirectoryMidModal,
   DirectoryMerchantMidsDeleteModal,
+  DirectoryMerchantSecondaryMidsDeleteModal,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -124,7 +125,8 @@ const MerchantDetailsPage: NextPage = () => {
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID_DELETE && <DirectoryMerchantMidsDeleteModal/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE && <DirectoryMerchantMidsDeleteModal/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE && <DirectoryMerchantSecondaryMidsDeleteModal/>}
       <PageLayout>
         {merchant && (
           <>

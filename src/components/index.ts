@@ -22,6 +22,7 @@ export {default as DirectoryMerchantSecondaryMids} from './DirectoryMerchantSeco
 export {default as DirectoryMidModal} from './DirectoryMidModal'
 export {default as DirectoryMerchantEntityDeleteModalContent} from './DirectoryMerchantEntityDeleteModalContent'
 export {default as DirectoryMerchantMidsDeleteModal} from './DirectoryMerchantMidsDeleteModal'
+export {default as DirectoryMerchantSecondaryMidsDeleteModal} from './DirectoryMerchantSecondaryMidsDeleteModal'
 export {default as DirectoryPlanDeleteModal} from './DirectoryPlanDeleteModal'
 export {default as DirectoryMerchantDeleteModal} from './DirectoryMerchantDeleteModal'
 export {default as Modal} from './Modal'
