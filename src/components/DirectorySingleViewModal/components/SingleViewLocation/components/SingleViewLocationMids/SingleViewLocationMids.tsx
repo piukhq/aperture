@@ -3,7 +3,8 @@ import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
 import {DirectoryMerchantLocationMid} from 'types'
-import LocationMidsListItem from '../LocationMidsListItem'
+import LinkedListItem from '../../../LinkedListItem'
+import {LinkableEntities} from 'utils/enums'
 
 const SingleViewLocationMids = () => {
   const router = useRouter()
@@ -19,18 +20,21 @@ const SingleViewLocationMids = () => {
 
   const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index) => {
     const {payment_scheme_code: paymentSchemeCode, mid_value: midValue, mid_ref: midRef} = locationMid
-    return <LocationMidsListItem // TODO: Replace placeholder functionality with actual functionality as per Secondary Mids
-      key={index}
-      index={index}
-      paymentSchemeCode={paymentSchemeCode}
-      value={midValue}
-      refValue={midRef}
-      setSelectedUnlinkMidIndexFn={() => console.log('Placeholder setUnlinkingMidFn')}
-      isInUnlinkingConfirmationState={false} // Placeholder value
-      unlinkFn={() => console.log('Placeholder unlinkFn')}
-      isUnlinking={false} // Placeholder value
-      setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
-    />
+    return (
+      <LinkedListItem // TODO: Replace placeholder functionality with actual functionality as per Secondary Mids
+        key={index}
+        index={index}
+        paymentSchemeCode={paymentSchemeCode}
+        value={midValue}
+        refValue={midRef}
+        setSelectedUnlinkIndexFn={() => console.log('Placeholder setUnlinkingMidFn')}
+        isInUnlinkingConfirmationState={false} // Placeholder value
+        unlinkFn={() => console.log('Placeholder unlinkFn')}
+        isUnlinking={false} // Placeholder value
+        setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
+        entityType={LinkableEntities.MID}
+      />
+    )
   }
 
   const renderContent = () => {

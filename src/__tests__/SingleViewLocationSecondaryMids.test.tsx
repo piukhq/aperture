@@ -2,10 +2,8 @@ import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewLocationSecondaryMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
 
-jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/LocationMidsListItem',
-  () => () => <div data-testid='LocationMidsListItem' />)
-jest.mock('components/DropDown',
-  () => () => <div data-testid='Dropdown' />)
+jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
+jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
 
 let mockGetMerchantLocationLinkedSecondaryMidsResponse = [
   {
@@ -77,9 +75,9 @@ describe('SingleViewLocationSecondaryMids', () => {
     expect(screen.getAllByRole('heading')[0]).toHaveTextContent('LINKED SECONDARY MIDS')
   })
 
-  it('should render the LocationMidsListItem', () => {
+  it('should render the LinkedListItem', () => {
     render(<SingleViewLocationSecondaryMids />)
-    const midListItems = screen.queryAllByTestId('LocationMidsListItem')
+    const midListItems = screen.queryAllByTestId('LinkedListItem')
     expect(midListItems).toHaveLength(2)
   })
 

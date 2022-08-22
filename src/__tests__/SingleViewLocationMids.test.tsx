@@ -2,8 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewLocationMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
-jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/LocationMidsListItem',
-  () => () => <div data-testid='LocationMidsListItem' />)
+jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 
 let mockGetMerchantLocationLinkedMidsResponse = [
   {
@@ -50,9 +49,9 @@ describe('SingleViewLocationMids', () => {
     expect(screen.getAllByRole('heading')[0]).toHaveTextContent('LINKED MIDS')
   })
 
-  it('should render the LocationMidsListItem', () => {
+  it('should render the LinkedListItem', () => {
     render(<SingleViewLocationMids />)
-    const midListItems = screen.queryAllByTestId('LocationMidsListItem')
+    const midListItems = screen.queryAllByTestId('LinkedListItem')
     expect(midListItems).toHaveLength(2)
   })
 

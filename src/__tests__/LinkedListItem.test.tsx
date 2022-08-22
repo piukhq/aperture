@@ -1,58 +1,60 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
-import LocationMidsListItem from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/LocationMidsListItem'
+import LinkedListItem from 'components/DirectorySingleViewModal/components/LinkedListItem'
+import {LinkableEntities} from 'utils/enums'
 
 jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
 const mockValue = 'mock_value'
 const mockRefValue = 'mock_ref_value'
 
+const mockEntityType = LinkableEntities.MID
 
 const mockProps = {
   index: 0,
   paymentSchemeCode: 1,
   value: mockValue,
   refValue: mockRefValue,
-  setSelectedUnlinkMidIndexFn: jest.fn(),
+  setSelectedUnlinkIndexFn: jest.fn(),
   isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
   isUnlinking: false,
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
-  isSecondaryMid: false,
+  entityType: mockEntityType,
 }
 
-const getLocationMidsListItemComponent = (passedProps = {}) => (
-  <LocationMidsListItem {...mockProps} {...passedProps} />
+const getLinkedListItemComponent = (passedProps = {}) => (
+  <LinkedListItem {...mockProps} {...passedProps} />
 )
 
-describe('LocationMidsListItem', () => {
+describe('LinkedListItem', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
   it('should render the payment card icon component', () => {
-    render(getLocationMidsListItemComponent())
+    render(getLinkedListItemComponent())
     expect(screen.getByTestId('payment-card-icon')).toBeInTheDocument()
   }),
 
   it('should render the value', () => {
-    render(getLocationMidsListItemComponent())
+    render(getLinkedListItemComponent())
     expect(screen.getByText(mockValue)).toBeInTheDocument()
   })
 
   it('should render the correct buttons', () => {
-    render(getLocationMidsListItemComponent())
+    render(getLinkedListItemComponent())
     expect(screen.getByLabelText(`View ${mockRefValue}`)).toBeInTheDocument()
     expect(screen.getByLabelText(`Unlink ${mockRefValue}`)).toBeInTheDocument()
   })
 
   it('should call the setUnlinkingMidFn with correct index when the unlink button is clicked', () => {
-    render(getLocationMidsListItemComponent())
+    render(getLinkedListItemComponent())
     fireEvent.click(screen.getByLabelText(`Unlink ${mockRefValue}`))
-    expect(mockProps.setSelectedUnlinkMidIndexFn).toHaveBeenCalledWith(mockProps.index)
+    expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(mockProps.index)
   })
 
   describe('Test unlinking confirmation state', () => {
-    const getUnlinkingConfirmingStateComponent = getLocationMidsListItemComponent({
+    const getUnlinkingConfirmingStateComponent = getLinkedListItemComponent({
       isInUnlinkingConfirmationState: true,
     })
 
@@ -66,18 +68,9 @@ describe('LocationMidsListItem', () => {
       expect(screen.getByRole('button', {name: 'Cancel'})).toBeInTheDocument()
     })
 
-    it('should render the primary MID confirmation message', () => {
+    it('should render the unlink confirmation message', () => {
       render(getUnlinkingConfirmingStateComponent)
-      expect(screen.getByText('Are you sure you want to unlink this MID?')).toBeInTheDocument()
-    })
-
-    it('should render the Secondary MID confirmation message', () => {
-      render(getLocationMidsListItemComponent({
-        isSecondaryMid: true,
-        isInUnlinkingConfirmationState: true,
-      }))
-
-      expect(screen.getByText('Are you sure you want to unlink this Secondary MID?')).toBeInTheDocument()
+      expect(screen.getByText(`Are you sure you want to unlink this ${mockEntityType}?`)).toBeInTheDocument()
     })
 
     it('should call the unlink function when the unlink confirmation button is clicked', () => {
@@ -91,7 +84,7 @@ describe('LocationMidsListItem', () => {
       render(getUnlinkingConfirmingStateComponent)
       fireEvent.click(screen.getByRole('button', {name: 'Cancel'}))
 
-      expect(mockProps.setSelectedUnlinkMidIndexFn).toHaveBeenCalledWith(null)
+      expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(null)
     })
   })
 })

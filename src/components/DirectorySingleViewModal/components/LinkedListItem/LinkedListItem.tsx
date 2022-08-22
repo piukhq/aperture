@@ -2,38 +2,38 @@ import {Button, Tag} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import PaymentCardIcon from '../PaymentCardIcon'
+import PaymentCardIcon from '../SingleViewLocation/components/PaymentCardIcon'
+import {LinkableEntities} from 'utils/enums'
 
 type Props = {
   index: number,
-  paymentSchemeCode: number | null,
+  paymentSchemeCode?: number | null,
   value: string,
   refValue: string,
   unlinkFn: () => void,
   isUnlinking: boolean,
   isInUnlinkingConfirmationState: boolean,
-  setSelectedUnlinkMidIndexFn: (index: number) => void,
+  setSelectedUnlinkIndexFn: (index: number) => void,
   setShouldRenderNewLinkDropdownMenuFn: (shouldRenderDropdownMenu: boolean) => void,
-  isSecondaryMid?: boolean,
-
+  entityType: LinkableEntities
 }
 
-// Component used to display linked MIDs and Secondary MIDs respectively
-const LocationMidsListItem = ({
+// Component used to display linked MIDs, Secondary MIDs and Locations
+const LinkedListItem = ({
   index,
   paymentSchemeCode,
   value,
   refValue,
-  setSelectedUnlinkMidIndexFn,
+  setSelectedUnlinkIndexFn,
   isInUnlinkingConfirmationState,
   unlinkFn,
   isUnlinking,
   setShouldRenderNewLinkDropdownMenuFn,
-  isSecondaryMid = false,
+  entityType,
 }: Props) => {
 
   const handleInitialUnlinkButtonClick = () => {
-    setSelectedUnlinkMidIndexFn(index)
+    setSelectedUnlinkIndexFn(index)
     setShouldRenderNewLinkDropdownMenuFn(false)
   }
 
@@ -64,9 +64,9 @@ const LocationMidsListItem = ({
 
   const renderUnlinkConfirmationStateButtons = () => (
     <div className='flex items-center justify-between gap-[5px]' >
-      <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {isSecondaryMid && 'Secondary'} MID?</p>
+      <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {entityType}?</p>
       <Button
-        handleClick={() => setSelectedUnlinkMidIndexFn(null)}
+        handleClick={() => setSelectedUnlinkIndexFn(null)}
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         buttonBackground={ButtonBackground.LIGHT_GREY}
@@ -100,12 +100,14 @@ const LocationMidsListItem = ({
 
   return (
     <div key={index} className='flex w-full justify-between h-[35px]'>
-      <div className='flex items-center w-[250px] overflow-x-hidden '>
-        <div className='w-[42px] h-[30px]'>
-          {paymentSchemeCode && <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />}
-        </div>
+      <div className='flex items-center overflow-x-hidden '>
+        {entityType !== LinkableEntities.LOCATION && (
+          <div className='w-[42px] h-[30px] mr-[13px]'>
+            {paymentSchemeCode && <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />}
+          </div>
+        )}
 
-        <p className='ml-[13px] font-single-view-data'>
+        <p className='font-single-view-data'>
           {value}
         </p>
       </div>
@@ -113,4 +115,5 @@ const LocationMidsListItem = ({
     </div>
   )
 }
-export default LocationMidsListItem
+
+export default LinkedListItem
