@@ -117,7 +117,7 @@ const DirectoryMerchantLocations = () => {
       entityValue: location.location_metadata.name,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE))
   }
 
   return (

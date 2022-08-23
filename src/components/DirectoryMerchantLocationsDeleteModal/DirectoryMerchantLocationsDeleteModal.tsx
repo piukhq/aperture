@@ -44,7 +44,6 @@ const DirectoryMerchantLocationsDeleteModal = () => {
         isDeleteSuccess={deleteMerchantLocationIsSuccess}
         isDeleteLoading={deleteMerchantLocationIsLoading}
         resetDeleteResponseFn={resetDeleteMerchantLocationResponse}
-        isHarmoniaEntity
       />
     </Modal>
   )
