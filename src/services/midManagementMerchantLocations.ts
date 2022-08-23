@@ -118,15 +118,13 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
     }),
-    deleteMerchantSecondaryMidLocationLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
+    deleteMerchantLocationSecondaryMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, linkRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
     }),
-
-
   }),
 })
 
@@ -139,5 +137,5 @@ export const {
   useGetMerchantLocationAvailableMidsQuery,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
-  useDeleteMerchantSecondaryMidLocationLinkMutation,
+  useDeleteMerchantLocationSecondaryMidLinkMutation,
 } = midManagementMerchantLocationsApi

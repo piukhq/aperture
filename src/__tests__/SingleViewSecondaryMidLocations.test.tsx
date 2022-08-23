@@ -2,10 +2,9 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidLocations from 'components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations'
 
-jest.mock('components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations/components/SecondaryMidLocationsListItem',
-  () => () => <div data-testid='SecondaryMidLocationsListItem' />)
+jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 
-let mockGetMerchantSecondaryMidLocationsResponse = [{
+let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   link_ref: 'mock_link_ref',
   location_ref: 'mock_location_ref',
   location_title: 'mock_location_title',
@@ -13,8 +12,8 @@ let mockGetMerchantSecondaryMidLocationsResponse = [{
 
 jest.mock('hooks/useMidManagementSecondaryMidLocations', () => ({
   useMidManagementSecondaryMidLocations: jest.fn().mockImplementation(() => ({
-    getMerchantSecondaryMidLocationsResponse: mockGetMerchantSecondaryMidLocationsResponse,
-    getMerchantSecondaryMidLocationsIsLoading: false,
+    getMerchantSecondaryMidLinkedLocationsResponse: mockGetMerchantSecondaryMidLinkedLocationsResponse,
+    getMerchantSecondaryMidLinkedLocationsIsLoading: false,
   })),
 }))
 
@@ -43,14 +42,14 @@ describe('SingleViewSecondaryMidLocations', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('LINKED LOCATIONS')
   })
 
-  it('should render the SecondaryMidLocationsListItem', () => {
+  it('should render the LinkedListItem', () => {
     render(<SingleViewSecondaryMidLocations />)
-    const locationListItems = screen.queryAllByTestId('SecondaryMidLocationsListItem')
+    const locationListItems = screen.queryAllByTestId('LinkedListItem')
     expect(locationListItems).toHaveLength(1)
   })
 
   it('should render the no Locations available message', () => {
-    mockGetMerchantSecondaryMidLocationsResponse = []
+    mockGetMerchantSecondaryMidLinkedLocationsResponse = []
     render(<SingleViewSecondaryMidLocations />)
     expect(screen.getByText('There are no Locations to view.')).toBeInTheDocument()
   })

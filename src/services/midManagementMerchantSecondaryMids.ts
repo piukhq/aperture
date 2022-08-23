@@ -1,5 +1,5 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
+import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantMidLocation} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -8,6 +8,7 @@ type MerchantSecondaryMidsEndpointRefs = {
   merchantRef?: string,
   secondaryMidRef?: string,
   locationRef?: string,
+  linkRef?: string,
 }
 
 type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
@@ -17,7 +18,7 @@ type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
 export const midManagementMerchantSecondaryMidsApi = createApi({
   reducerPath: 'midManagementMerchantSecondaryMidsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid', 'MerchantSecondaryMidLocations'],
+  tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid', 'MerchantSecondaryMidLinkedLocations'],
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -33,12 +34,19 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       }),
       providesTags: ['MerchantSecondaryMid'],
     }),
-    getMerchantSecondaryMidLocations: builder.query({
+    getMerchantSecondaryMidLinkedLocations: builder.query<Array<DirectoryMerchantMidLocation>, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}/secondary_mid_location_links`,
         method: 'GET',
       }),
-      providesTags: ['MerchantSecondaryMidLocations'],
+      providesTags: ['MerchantSecondaryMidLinkedLocations'],
+    }),
+    deleteMerchantSecondaryMidLocationLink: builder.mutation<void, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, linkRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['MerchantSecondaryMidLinkedLocations'],
     }),
     deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantSecondaryMidRefs>({
       query: ({planRef, merchantRef, secondaryMidRefs}) => ({
@@ -71,6 +79,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
 export const {
   useGetMerchantSecondaryMidsQuery,
   useGetMerchantSecondaryMidQuery,
-  useGetMerchantSecondaryMidLocationsQuery,
+  useGetMerchantSecondaryMidLinkedLocationsQuery,
+  useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
 } = midManagementMerchantSecondaryMidsApi

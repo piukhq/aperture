@@ -1,7 +1,7 @@
 import {
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
-  useDeleteMerchantSecondaryMidLocationLinkMutation,
+  useDeleteMerchantLocationSecondaryMidLinkMutation,
 } from 'services/midManagementMerchantLocations'
 
 export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedSecondaryMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
@@ -20,12 +20,12 @@ export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedSeco
       reset: resetPostMerchantLocationLinkedSecondaryMidResponse,
     }] = usePostMerchantLocationLinkedSecondaryMidMutation({fixedCacheKey: 'postMerchantLocationLinkedSecondaryMid'})
 
-  const [deleteMerchantSecondaryMidLocationLink, {
-    isSuccess: deleteMerchantSecondaryMidLocationLinkIsSuccess,
-    isLoading: deleteMerchantSecondaryMidLocationLinkIsLoading,
-    error: deleteMerchantSecondaryMidLocationLinkError,
-    reset: resetDeleteMerchantSecondaryMidLocationLinkResponse,
-  }] = useDeleteMerchantSecondaryMidLocationLinkMutation({fixedCacheKey: 'deleteMerchantSecondaryMidLocationLink'})
+  const [deleteMerchantLocationSecondaryMidLink, {
+    isSuccess: deleteMerchantLocationSecondaryMidLinkIsSuccess,
+    isLoading: deleteMerchantLocationSecondaryMidLinkIsLoading,
+    error: deleteMerchantLocationSecondaryMidLinkError,
+    reset: resetDeleteMerchantLocationSecondaryMidLinkResponse,
+  }] = useDeleteMerchantLocationSecondaryMidLinkMutation({fixedCacheKey: 'deleteMerchantLocationSecondaryMidLink'})
 
   return {
     // GET Location Linked Secondary MIDs
@@ -38,11 +38,11 @@ export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedSeco
     postMerchantLocationLinkedSecondaryMidIsLoading,
     postMerchantLocationLinkedSecondaryMidError,
     resetPostMerchantLocationLinkedSecondaryMidResponse,
-    // DELETE Secondary MID Location Link
-    deleteMerchantSecondaryMidLocationLink,
-    deleteMerchantSecondaryMidLocationLinkIsSuccess,
-    deleteMerchantSecondaryMidLocationLinkIsLoading,
-    deleteMerchantSecondaryMidLocationLinkError,
-    resetDeleteMerchantSecondaryMidLocationLinkResponse,
+    // DELETE Location Secondary MID Link
+    deleteMerchantLocationSecondaryMidLink,
+    deleteMerchantLocationSecondaryMidLinkIsSuccess,
+    deleteMerchantLocationSecondaryMidLinkIsLoading,
+    deleteMerchantLocationSecondaryMidLinkError,
+    resetDeleteMerchantLocationSecondaryMidLinkResponse,
   }
 }

@@ -127,6 +127,12 @@ const PaymentSchemeCode = {
   AMEX: 3,
 }
 
+enum LinkableEntities {
+  MID = 'MID',
+  SECONDARY_MID = 'Secondary MID',
+  LOCATION = 'Location'
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -146,4 +152,5 @@ export {
   PaymentSchemeCode,
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
+  LinkableEntities,
 }

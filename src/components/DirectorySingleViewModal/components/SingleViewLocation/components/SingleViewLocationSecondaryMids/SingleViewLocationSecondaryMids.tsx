@@ -4,10 +4,11 @@ import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
-import LocationMidsListItem from '../LocationMidsListItem'
+import LinkedListItem from '../../../LinkedListItem'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import CloseIcon from 'icons/svgs/close.svg'
 import PaymentCardIcon from '../PaymentCardIcon'
+import {LinkableEntities} from 'utils/enums'
 
 const SingleViewLocationSecondaryMids = () => {
   const router = useRouter()
@@ -21,10 +22,10 @@ const SingleViewLocationSecondaryMids = () => {
     getMerchantLocationLinkedSecondaryMidsIsLoading,
     postMerchantLocationLinkedSecondaryMid,
     postMerchantLocationLinkedSecondaryMidIsLoading,
-    deleteMerchantSecondaryMidLocationLink,
-    deleteMerchantSecondaryMidLocationLinkIsLoading,
-    deleteMerchantSecondaryMidLocationLinkIsSuccess,
-    resetDeleteMerchantSecondaryMidLocationLinkResponse,
+    deleteMerchantLocationSecondaryMidLink,
+    deleteMerchantLocationSecondaryMidLinkIsLoading,
+    deleteMerchantLocationSecondaryMidLinkIsSuccess,
+    resetDeleteMerchantLocationSecondaryMidLinkResponse,
   } = useMidManagementLocationSecondaryMids({
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -39,11 +40,11 @@ const SingleViewLocationSecondaryMids = () => {
   })
 
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
-    if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
-      resetDeleteMerchantSecondaryMidLocationLinkResponse()
+    if (deleteMerchantLocationSecondaryMidLinkIsSuccess) {
+      resetDeleteMerchantLocationSecondaryMidLinkResponse()
       setSelectedUnlinkSecondaryMidIndex(null)
     }
-  }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
+  }, [deleteMerchantLocationSecondaryMidLinkIsSuccess, resetDeleteMerchantLocationSecondaryMidLinkResponse])
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
@@ -55,23 +56,25 @@ const SingleViewLocationSecondaryMids = () => {
       link_ref: linkRef,
     } = locationSecondaryMid
 
-    return <LocationMidsListItem
-      key={index}
-      index={index}
-      paymentSchemeCode={paymentSchemeCode}
-      value={secondaryMidValue}
-      refValue={secondaryMidRef}
-      setSelectedUnlinkMidIndexFn={setSelectedUnlinkSecondaryMidIndex}
-      isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
-      unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
-        linkRef,
-        planRef: planId as string,
-        merchantRef: merchantId as string,
-      })}
-      isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
-      setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
-      isSecondaryMid
-    />
+    return (
+      <LinkedListItem
+        key={index}
+        index={index}
+        paymentSchemeCode={paymentSchemeCode}
+        value={secondaryMidValue}
+        refValue={secondaryMidRef}
+        setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
+        isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
+        unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
+          linkRef,
+          planRef: planId as string,
+          merchantRef: merchantId as string,
+        })}
+        isUnlinking={deleteMerchantLocationSecondaryMidLinkIsLoading}
+        setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
+        entityType={LinkableEntities.SECONDARY_MID}
+      />
+    )
   }
 
   const handleLinkNewSecondaryMidButtonClick = () => {
@@ -132,7 +135,7 @@ const SingleViewLocationSecondaryMids = () => {
       <section className='flex items-center justify-end gap-[10px] mb-[10px]'>
         <div className='h-[36px] w-[210px]'>
           <Dropdown
-            displayValue={selectedAvailableSecondaryMid || 'Select Mid'}
+            displayValue={selectedAvailableSecondaryMid || 'Select MID'}
             displayValues={getMerchantSecondaryMidsResponse}
             onChangeDisplayValue={setSelectedAvailableSecondaryMid}
             renderFn={renderDropdownSecondaryMid}
