@@ -1,9 +1,13 @@
-import {useCallback, useState} from 'react'
+import {useState} from 'react'
 import Image from 'next/image'
+
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/comparatorSlice'
+
 import DotsSVG from 'icons/svgs/dots.svg'
 import AssetErrorSVG from 'icons/svgs/asset-error.svg'
+
+import {requestModal} from 'features/modalSlice'
 import {AssetType, PlanAsset, PlanImage} from 'types'
 import {EnvironmentShortName, ModalType} from 'utils/enums'
 
@@ -20,6 +24,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
+
 
   const buildAssetObject = (image: PlanImage, env: string): PlanAsset => ( // Provides additional metadata for use in the Asset modal
     {
@@ -39,19 +44,10 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       const currentImage = assetType[env][typeIndex]
       assetGroup[env] = currentImage ? buildAssetObject(currentImage, env) : null
     })
-
     dispatch(setSelectedAssetEnvironment(imageEnv))
     dispatch(setSelectedAssetGroup(assetGroup))
     dispatch(requestModal(ModalType.ASSET_COMPARATOR_ASSET))
   }
-
-  const handleOnLoadingComplete = useCallback(() => {
-    setIsLoading(false)
-  }, [])
-
-  const handleOnError = useCallback(() => {
-    setIsError(true)
-  }, [])
 
   if (isError) {
     return (
@@ -71,13 +67,13 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
           objectFit='contain'
           src={url}
           quality={25} // TODO: Revisit this once the hover zoom effect is in place
-          onLoadingComplete={handleOnLoadingComplete}
-          onError={handleOnError}
+          onLoadingComplete={() => setIsLoading(false)}
+          onError={() => setIsError(true)}
         />
         {isLoading && (
           <div className='w-full absolute inset-0 flex justify-center items-center dark:bg-grey-825 '>
             <div className='w-[60px] h-[60px] flex justify-center items-center' title='Loading'>
-              <DotsSVG className='animate-pulse w-[18px] h-[4px]' />
+              <DotsSVG className='animate-pulse' />
             </div>
           </div>
         )}

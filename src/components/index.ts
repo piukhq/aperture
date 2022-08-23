@@ -26,6 +26,7 @@ export {default as OptionsMenuItem} from './OptionsMenuButton/components/Options
 export {default as PageLayout} from './PageLayout'
 export {default as PlanComparator} from './PlanComparator'
 export {default as PaymentCardIcon} from './PaymentCardIcon'
+export {default as PlanComparator} from './PlanComparator'
 export {default as PlansList} from './PlansList'
 export {default as Sidebar} from './Sidebar'
 export {default as Tag} from './Tag'
