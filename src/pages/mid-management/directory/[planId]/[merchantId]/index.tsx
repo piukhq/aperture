@@ -8,10 +8,10 @@ import {
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantIdentifiers,
   DirectoryMidModal,
-  DirectoryMerchantMidsDeleteModal,
-  DirectoryMerchantSecondaryMidsDeleteModal,
-  DirectoryMerchantLocationsDeleteModal,
-  DirectoryMerchantIdentifiersDeleteModal,
+  DirectoryMerchantMidsDeleteModalContainer,
+  DirectoryMerchantSecondaryMidsDeleteModalContainer,
+  DirectoryMerchantLocationsDeleteModalContainer,
+  DirectoryMerchantIdentifiersDeleteModalContainer,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -127,10 +127,10 @@ const MerchantDetailsPage: NextPage = () => {
     <>
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
       {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE && <DirectoryMerchantMidsDeleteModal/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE && <DirectoryMerchantSecondaryMidsDeleteModal/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE && <DirectoryMerchantLocationsDeleteModal/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE && <DirectoryMerchantIdentifiersDeleteModal/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE && <DirectoryMerchantMidsDeleteModalContainer/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE && <DirectoryMerchantSecondaryMidsDeleteModalContainer/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE && <DirectoryMerchantLocationsDeleteModalContainer/>}
+      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE && <DirectoryMerchantIdentifiersDeleteModalContainer/>}
       <PageLayout>
         {merchant && (
           <>
