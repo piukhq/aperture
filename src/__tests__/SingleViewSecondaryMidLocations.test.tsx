@@ -4,7 +4,7 @@ import SingleViewSecondaryMidLocations from 'components/DirectorySingleViewModal
 
 jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 
-let mockgetMerchantSecondaryMidLinkedLocationsResponse = [{
+let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   link_ref: 'mock_link_ref',
   location_ref: 'mock_location_ref',
   location_title: 'mock_location_title',
@@ -12,7 +12,7 @@ let mockgetMerchantSecondaryMidLinkedLocationsResponse = [{
 
 jest.mock('hooks/useMidManagementSecondaryMidLocations', () => ({
   useMidManagementSecondaryMidLocations: jest.fn().mockImplementation(() => ({
-    getMerchantSecondaryMidLinkedLocationsResponse: mockgetMerchantSecondaryMidLinkedLocationsResponse,
+    getMerchantSecondaryMidLinkedLocationsResponse: mockGetMerchantSecondaryMidLinkedLocationsResponse,
     getMerchantSecondaryMidLinkedLocationsIsLoading: false,
   })),
 }))
@@ -49,7 +49,7 @@ describe('SingleViewSecondaryMidLocations', () => {
   })
 
   it('should render the no Locations available message', () => {
-    mockgetMerchantSecondaryMidLinkedLocationsResponse = []
+    mockGetMerchantSecondaryMidLinkedLocationsResponse = []
     render(<SingleViewSecondaryMidLocations />)
     expect(screen.getByText('There are no Locations to view.')).toBeInTheDocument()
   })
