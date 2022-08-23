@@ -3,9 +3,11 @@ import {useRouter} from 'next/router'
 import {useAppDispatch} from 'app/hooks'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {requestModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -109,13 +111,22 @@ const DirectoryMerchantLocations = () => {
     router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
   }
 
+  const requestLocationDeleteModal = ():void => {
+    const checkedMidsToEntity = locationsData.filter((location) => checkedRefArray.includes(location.location_ref)).map((location) => ({
+      entityRef: location.location_ref,
+      entityValue: location.location_metadata.name,
+    }))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE))
+  }
+
   return (
     <>
       <div className='flex justify-between h-[71px] items-center px-[9px]'>
         <div>
           { checkedRefArray.length > 0 && (
             <Button
-              handleClick={() => console.log('Delete button clicked')}
+              handleClick={requestLocationDeleteModal}
               buttonSize={ButtonSize.SMALL}
               buttonWidth={ButtonWidth.MEDIUM}
               labelColour={LabelColour.RED}

@@ -5,10 +5,12 @@ import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids
 import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {requestModal} from 'features/modalSlice'
+import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {ModalType} from 'utils/enums'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -80,6 +82,15 @@ const DirectoryMerchantSecondaryMids = () => {
     router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
+  const requestSecondaryMidDeleteModal = ():void => {
+    const checkedMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
+      entityRef: secondaryMid.secondary_mid_ref,
+      entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
+    }))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+  }
+
   return (
     <>
       <div className='flex justify-between h-[71px] items-center'>
@@ -87,7 +98,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <div>
           {checkedRefArray.length > 0 && (
             <Button
-              handleClick={() => console.log('Delete button clicked')}
+              handleClick={requestSecondaryMidDeleteModal}
               buttonSize={ButtonSize.SMALL}
               buttonWidth={ButtonWidth.MEDIUM}
               labelColour={LabelColour.RED}
