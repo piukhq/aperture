@@ -18,6 +18,7 @@ const DirectoryMerchantIdentifiersDeleteModalContainer = () => {
     resetDeleteMerchantIdentifierResponse,
   } = useMidManagementIdentifiers({
     skipGetIdentifier: true,
+    skipGetIdentifiers: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
