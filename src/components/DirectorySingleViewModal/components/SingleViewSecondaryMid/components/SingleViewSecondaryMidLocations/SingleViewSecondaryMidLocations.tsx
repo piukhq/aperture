@@ -6,11 +6,13 @@ import LinkedListItem from 'components/DirectorySingleViewModal/components/Linke
 import {useMidManagementSecondaryMidLocations} from 'hooks/useMidManagementSecondaryMidLocations'
 import {DirectoryMerchantMidLocation} from 'types'
 import {LinkableEntities} from 'utils/enums'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 
 const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
+  const [shouldGetLinkedLocations, setShouldGetLinkedLocations] = useState(true)
   const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState(null)
 
   const {
@@ -26,6 +28,14 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     secondaryMidRef: ref as string,
   })
 
+  const {getMerchantLocationsResponse: locationData, getMerchantLocationsIsLoading: locationDataIsLoading} = useMidManagementLocations({
+    skipGetLocations: shouldGetLinkedLocations,
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    secondaryMidRef: ref as string,
+  })
+
   useEffect(() => { // If the user has successfully unlinked a Location, revert to initial state
     if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
       resetDeleteMerchantSecondaryMidLocationLinkResponse()
@@ -33,12 +43,12 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     }
   }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
 
-  const hasNoLocations = (!getMerchantSecondaryMidLinkedLocationsResponse || getMerchantSecondaryMidLinkedLocationsResponse.length === 0) && !getMerchantSecondaryMidLinkedLocationsIsLoading
+  const hasNoLinkedLocations = (!getMerchantSecondaryMidLinkedLocationsResponse || getMerchantSecondaryMidLinkedLocationsResponse.length === 0) && !getMerchantSecondaryMidLinkedLocationsIsLoading
 
   const renderLinkLocationButton = () => (
-    <section className='flex justify-end items-center mb-[10px]'>
+    <section className='flex flex-col justify-center items-end'>
       <Button
-        handleClick={() => console.log('Link New Location placeholder')}
+        handleClick={() => setShouldGetLinkedLocations(false)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -48,6 +58,12 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         additionalStyles='text-[12px] leading-[12px]'
       >Link New Location
       </Button>
+
+      <div className='h-[20px] mt-[6px]'>
+        {locationData?.length === 0 && !locationDataIsLoading && (
+          <p className='font-body text-[12px] text-red'>No Locations available to link for this Secondary MID</p>
+        )}
+      </div>
     </section>
   )
 
@@ -79,18 +95,16 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   }
 
   const renderLocations = () => {
-    if (hasNoLocations) {
+    if (hasNoLinkedLocations) {
       return <i className='font-body-4'>There are no Locations to view.</i>
     }
     return (
-      <>
-        <section>
-          <h2 className='font-single-view-heading'>LINKED LOCATIONS</h2>
-          <div className='flex flex-col gap-[14px]'>
-            {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
-          </div>
-        </section>
-      </>
+      <section>
+        <h2 className='font-single-view-heading'>LINKED LOCATIONS</h2>
+        <div className='flex flex-col gap-[14px]'>
+          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
+        </div>
+      </section>
     )
   }
 
