@@ -43,7 +43,6 @@ jest.mock('hooks/useMidManagementLocationMids', () => ({
   })),
 }))
 
-
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
     getMerchantMidsResponse: mockGetMerchantMidsResponse,
@@ -103,7 +102,7 @@ describe('SingleViewLocationMids', () => {
       expect(screen.queryByRole('button', {name: 'Link New MID'})).not.toBeInTheDocument()
     })
 
-    it('should render the  Mid linking dropdown', () => {
+    it('should render the Mid linking dropdown', () => {
       render(<SingleViewLocationMids />)
       fireEvent.click(screen.getByRole('button', {name: 'Link New MID'}))
 
@@ -120,7 +119,7 @@ describe('SingleViewLocationMids', () => {
       })
     })
 
-    describe('Test  Mid link cancel button', () => {
+    describe('Test Mid link cancel button', () => {
       it('should render the Mid link cancel button', () => {
         render(<SingleViewLocationMids />)
         fireEvent.click(screen.getByRole('button', {name: 'Link New MID'}))

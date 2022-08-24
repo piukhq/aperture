@@ -15,7 +15,7 @@ const SingleViewLocationMids = () => {
   const {merchantId, planId, ref} = router.query
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
-  const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the  mid that is selected to be unlinked
+  const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
 
   const {
     getMerchantLocationLinkedMidsResponse,
@@ -32,7 +32,7 @@ const SingleViewLocationMids = () => {
     locationRef: ref as string,
   })
 
-  const {getMerchantMidsResponse} = useMidManagementMids({ // Using location ref in query string to only return  mids NOT linked to this location
+  const {getMerchantMidsResponse} = useMidManagementMids({ // Using location ref in query string to only return mids NOT linked to this location
     planRef: planId as string,
     merchantRef: merchantId as string,
     skipGetMid: true,
@@ -166,7 +166,7 @@ const SingleViewLocationMids = () => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel={'Save  Mid'}
+            ariaLabel={'Save Mid'}
           >{postMerchantLocationLinkedMidIsLoading ? 'Saving...' : 'Save'}
           </Button>
 
@@ -175,7 +175,7 @@ const SingleViewLocationMids = () => {
             buttonSize={ButtonSize.MEDIUM_ICON}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
             buttonBackground={ButtonBackground.LIGHT_GREY}
-            ariaLabel='Cancel New  Mid Link'
+            ariaLabel='Cancel New Mid Link'
           ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
           </Button>
         </div>
@@ -193,3 +193,9 @@ const SingleViewLocationMids = () => {
   )
 }
 export default SingleViewLocationMids
+
+
+// API Reflector GET POST DELETE / check swagger
+// Check to see if the API is working
+// Confirm ACs are met
+// refactor it down?
