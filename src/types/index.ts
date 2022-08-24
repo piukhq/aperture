@@ -149,6 +149,7 @@ export type DirectoryMerchantLocationMid = {
   mid_ref: string,
   mid_value: string,
   payment_scheme_code?: number,
+  link_ref: string,
 }
 
 export type DirectoryMerchantLocationSecondaryMid = {

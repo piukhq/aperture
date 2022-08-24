@@ -92,7 +92,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedMids: builder.query<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mid_location_links`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedMids'],
@@ -102,6 +102,21 @@ export const midManagementMerchantLocationsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
         method: 'GET',
       }),
+    }),
+    postMerchantLocationLinkedMid: builder.mutation<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef, midRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mid_location_links`,
+        method: 'POST',
+        body: midRef,
+      }),
+      invalidatesTags: ['MerchantLocationLinkedMids'],
+    }),
+    deleteMerchantLocationMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, linkRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/_mid_location_links/${linkRef}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['MerchantLocationLinkedMids'],
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -135,6 +150,8 @@ export const {
   useDeleteMerchantLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
+  usePostMerchantLocationLinkedMidMutation,
+  useDeleteMerchantLocationMidLinkMutation,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
