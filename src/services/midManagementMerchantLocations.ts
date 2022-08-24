@@ -92,7 +92,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedMids: builder.query<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mid_location_links`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedMids'],
@@ -105,7 +105,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     postMerchantLocationLinkedMid: builder.mutation<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef, midRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mid_location_links`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
         method: 'POST',
         body: midRef,
       }),
