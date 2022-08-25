@@ -176,14 +176,12 @@ const SingleViewLocationSecondaryMids = () => {
       return <i className='font-body-4'>There are no Secondary MIDs to view.</i>
     }
     return (
-      <>
-        <section>
-          <h2 className='font-single-view-heading'>LINKED SECONDARY MIDS</h2>
-          <div className='flex flex-col gap-[14px]'>
-            {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
-          </div>
-        </section>
-      </>
+      <section>
+        <h2 className='font-single-view-heading'>LINKED SECONDARY MIDS</h2>
+        <div className='flex flex-col gap-[14px]'>
+          {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
+        </div>
+      </section>
     )
   }
 
