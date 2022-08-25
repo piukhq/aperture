@@ -2,24 +2,27 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
-import {DirectoryMerchantLocationMid, DirectoryMid} from 'types'
+import {DirectoryMerchantLocationAvailableMid, DirectoryMerchantLocationMid} from 'types'
 import CloseIcon from 'icons/svgs/close.svg'
 import PaymentCardIcon from '../PaymentCardIcon'
 import LinkedListItem from '../../../LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
 
+// TODO: Potentially refactor to share more elements with SingleViewLocationSecondaryMids component once all functionality is settled between the two components
 const SingleViewLocationMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
+  const [shouldGetAvailableMids, setShouldGetAvailableMids] = useState(false)
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
   const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
+  const [availableMidLocationWarning, setAvailableMidLocationWarning] = useState('')
 
   const {
     getMerchantLocationLinkedMidsResponse,
     getMerchantLocationLinkedMidsIsLoading,
+    getMerchantLocationAvailableMidsResponse,
     postMerchantLocationLinkedMid,
     postMerchantLocationLinkedMidIsLoading,
     deleteMerchantLocationMidLink,
@@ -30,21 +33,28 @@ const SingleViewLocationMids = () => {
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
-  })
-
-  const {getMerchantMidsResponse} = useMidManagementMids({ // Using location ref in query string to only return mids NOT linked to this location
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    skipGetMid: true,
-    locationRef: ref as string,
+    skipGetLocationAvailableMids: !shouldGetAvailableMids,
   })
 
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationMidLinkIsSuccess) {
       resetDeleteMerchantLocationMidLinkResponse()
       setSelectedUnlinkMidIndex(null)
+      setShouldGetAvailableMids(false)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
+  }, [deleteMerchantLocationMidLinkIsSuccess, resetDeleteMerchantLocationMidLinkResponse, shouldGetAvailableMids])
+
+  useEffect(() => {
+    if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldGetAvailableMids) {
+      setShouldRenderDropdownMenu(true)
+      setSelectedUnlinkMidIndex(null)
+    }
+  }, [getMerchantLocationAvailableMidsResponse?.length, shouldGetAvailableMids])
+
+
+  useEffect(() => {
+    selectedAvailableMid?.locationLink ? setAvailableMidLocationWarning(`Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}`) : setAvailableMidLocationWarning('')
+  }, [selectedAvailableMid?.locationLink])
 
 
   const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
@@ -78,31 +88,10 @@ const SingleViewLocationMids = () => {
     )
   }
 
-  const renderLinkedMids = () => {
-    if (hasNoLinkedMids) {
-      return <i className='font-body-4'>There are no MIDs to view.</i>
-    }
-    return (
-      <section>
-        <h2 className='font-single-view-heading'>LINKED MIDS</h2>
-        <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
-        </div>
-      </section>
-    )
-  }
-
-  const handleLinkNewMidButtonClick = () => {
-    if (getMerchantMidsResponse?.length > 0) {
-      setShouldRenderDropdownMenu(true)
-      setSelectedUnlinkMidIndex(null)
-    }
-  }
-
   const renderLinkNewMidButton = () => (
-    <section className='flex justify-end items-center mb-[10px]'>
+    <section className='flex justify-end items-center mb-[40px]'>
       <Button
-        handleClick={handleLinkNewMidButtonClick}
+        handleClick={() => setShouldGetAvailableMids(true)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -130,10 +119,11 @@ const SingleViewLocationMids = () => {
     const onCloseHandler = () => {
       setShouldRenderDropdownMenu(false)
       setSelectedAvailableMid(null)
+      setShouldGetAvailableMids(false)
     }
 
-    const renderDropdownMid = (mid: DirectoryMid) => {
-      const {mid: midValue, payment_scheme_code: paymentSchemeCode} = mid.mid_metadata
+    const renderDropdownMid = (mid: DirectoryMerchantLocationAvailableMid) => {
+      const {mid_value: midValue, payment_scheme_code: paymentSchemeCode} = mid.mid
       return (
         <div className='flex items-center'>
           <div className='w-[32px] h-[23px]'>
@@ -147,37 +137,56 @@ const SingleViewLocationMids = () => {
     }
 
     return (
-      <section className='flex items-center justify-end gap-[10px] mb-[10px]'>
-        <div className='h-[36px] w-[210px]'>
-          <Dropdown
-            displayValue={selectedAvailableMid || 'Select MID'}
-            displayValues={getMerchantMidsResponse}
-            onChangeDisplayValue={setSelectedAvailableMid}
-            renderFn={renderDropdownMid}
-          />
-        </div>
+      <>
+        <section className='flex items-center justify-end gap-[10px] mb-[5px]'>
+          <div className='h-[36px] w-full'>
+            <Dropdown
+              displayValue={selectedAvailableMid || 'Select MID'}
+              displayValues={getMerchantLocationAvailableMidsResponse}
+              onChangeDisplayValue={setSelectedAvailableMid}
+              renderFn={renderDropdownMid}
+            />
+          </div>
 
-        <div className='flex items-center gap-[10px]'>
-          <Button
-            handleClick={!postMerchantLocationLinkedMidIsLoading ? onSaveHandler : null}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-            buttonBackground={ButtonBackground.BLUE}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel={'Save Mid'}
-          >{postMerchantLocationLinkedMidIsLoading ? 'Saving...' : 'Save'}
-          </Button>
+          <div className='flex items-center gap-[10px]'>
+            <Button
+              handleClick={!postMerchantLocationLinkedMidIsLoading ? onSaveHandler : null}
+              buttonType={ButtonType.SUBMIT}
+              buttonSize={ButtonSize.MEDIUM}
+              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+              buttonBackground={ButtonBackground.BLUE}
+              labelColour={LabelColour.WHITE}
+              labelWeight={LabelWeight.SEMIBOLD}
+              ariaLabel={'Save Mid'}
+            >{postMerchantLocationLinkedMidIsLoading ? 'Saving...' : 'Save'}
+            </Button>
 
-          <Button
-            handleClick={onCloseHandler}
-            buttonSize={ButtonSize.MEDIUM_ICON}
-            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            ariaLabel='Cancel New Mid Link'
-          ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
-          </Button>
+            <Button
+              handleClick={onCloseHandler}
+              buttonSize={ButtonSize.MEDIUM_ICON}
+              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+              buttonBackground={ButtonBackground.LIGHT_GREY}
+              ariaLabel='Cancel New Mid Link'
+            ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
+            </Button>
+          </div>
+        </section>
+        <section className='font-body-4 text-red h-[35px]'>
+          <p>{availableMidLocationWarning}</p>
+        </section>
+      </>
+    )
+  }
+
+  const renderLinkedMids = () => {
+    if (hasNoLinkedMids) {
+      return <i className='font-body-4'>There are no MIDs to view.</i>
+    }
+    return (
+      <section>
+        <h2 className='font-single-view-heading'>LINKED MIDS</h2>
+        <div className='flex flex-col gap-[14px]'>
+          {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
         </div>
       </section>
     )
@@ -194,8 +203,3 @@ const SingleViewLocationMids = () => {
 }
 export default SingleViewLocationMids
 
-
-// API Reflector GET POST DELETE / check swagger
-// Check to see if the API is working
-// Confirm ACs are met
-// refactor it down?

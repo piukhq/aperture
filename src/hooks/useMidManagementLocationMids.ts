@@ -1,15 +1,21 @@
 import {
   useGetMerchantLocationLinkedMidsQuery,
+  useGetMerchantLocationAvailableMidsQuery,
   usePostMerchantLocationLinkedMidMutation,
   useDeleteMerchantLocationMidLinkMutation,
 } from 'services/midManagementMerchantLocations'
 
-export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
+export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false, skipGetLocationAvailableMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
   const {
     data: getMerchantLocationLinkedMidsResponse,
     isLoading: getMerchantLocationLinkedMidsIsLoading,
     error: getMerchantLocationLinkedMidsError,
   } = useGetMerchantLocationLinkedMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationLinkedMids})
+  const {
+    data: getMerchantLocationAvailableMidsResponse,
+    isLoading: getMerchantLocationAvailableMidsIsLoading,
+    error: getMerchantLocationAvailableMidsError,
+  } = useGetMerchantLocationAvailableMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationAvailableMids})
 
   const [
     postMerchantLocationLinkedMid,
@@ -32,6 +38,10 @@ export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false,
     getMerchantLocationLinkedMidsResponse,
     getMerchantLocationLinkedMidsIsLoading,
     getMerchantLocationLinkedMidsError,
+    // GET Location Available MIDs
+    getMerchantLocationAvailableMidsResponse,
+    getMerchantLocationAvailableMidsIsLoading,
+    getMerchantLocationAvailableMidsError,
     // POST Location Linked MID
     postMerchantLocationLinkedMid,
     postMerchantLocationLinkedMidIsSuccess,
