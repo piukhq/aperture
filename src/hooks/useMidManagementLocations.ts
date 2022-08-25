@@ -5,8 +5,8 @@ import {
   useDeleteMerchantLocationMutation,
 } from 'services/midManagementMerchantLocations'
 
-export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = ''}) => {
-  const {data: getMerchantLocationsResponse, isLoading: getMerchantLocationsIsLoading, error: getMerchantLocationsError} = useGetMerchantLocationsQuery({planRef, merchantRef}, {skip: skipGetLocations})
+export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = ''}) => {
+  const {data: getMerchantLocationsResponse, isLoading: getMerchantLocationsIsLoading, error: getMerchantLocationsError} = useGetMerchantLocationsQuery({planRef, merchantRef, secondaryMidRef}, {skip: skipGetLocations})
 
   const {data: getMerchantLocationResponse, isLoading: getMerchantLocationIsLoading, error: getMerchantLocationError} = useGetMerchantLocationQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocation})
 

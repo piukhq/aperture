@@ -13,9 +13,11 @@ import {LinkableEntities} from 'utils/enums'
 const SingleViewLocationSecondaryMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
+
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
   const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
+  const [shouldGetSecondaryMids, setShouldGetSecondaryMids] = useState(false)
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
@@ -33,9 +35,10 @@ const SingleViewLocationSecondaryMids = () => {
   })
 
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({ // Using location ref in query string to only return secondary mids NOT linked to this location
+    skipGetSecondaryMid: true,
+    skipGetSecondaryMids: !shouldGetSecondaryMids,
     planRef: planId as string,
     merchantRef: merchantId as string,
-    skipGetSecondaryMid: true,
     locationRef: ref as string,
   })
 
@@ -45,6 +48,13 @@ const SingleViewLocationSecondaryMids = () => {
       setSelectedUnlinkSecondaryMidIndex(null)
     }
   }, [deleteMerchantLocationSecondaryMidLinkIsSuccess, resetDeleteMerchantLocationSecondaryMidLinkResponse])
+
+  useEffect(() => {
+    if (getMerchantSecondaryMidsResponse?.length > 0) {
+      setShouldRenderDropdownMenu(true)
+      setSelectedUnlinkSecondaryMidIndex(null)
+    }
+  }, [getMerchantSecondaryMidsResponse?.length])
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
@@ -77,17 +87,10 @@ const SingleViewLocationSecondaryMids = () => {
     )
   }
 
-  const handleLinkNewSecondaryMidButtonClick = () => {
-    if (getMerchantSecondaryMidsResponse?.length > 0) {
-      setShouldRenderDropdownMenu(true)
-      setSelectedUnlinkSecondaryMidIndex(null)
-    }
-  }
-
   const renderLinkNewSecondaryMidButton = () => (
     <section className='flex justify-end items-center mb-[10px]'>
       <Button
-        handleClick={handleLinkNewSecondaryMidButtonClick}
+        handleClick={() => setShouldGetSecondaryMids(true)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -173,14 +176,12 @@ const SingleViewLocationSecondaryMids = () => {
       return <i className='font-body-4'>There are no Secondary MIDs to view.</i>
     }
     return (
-      <>
-        <section>
-          <h2 className='font-single-view-heading'>LINKED SECONDARY MIDS</h2>
-          <div className='flex flex-col gap-[14px]'>
-            {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
-          </div>
-        </section>
-      </>
+      <section>
+        <h2 className='font-single-view-heading'>LINKED SECONDARY MIDS</h2>
+        <div className='flex flex-col gap-[14px]'>
+          {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
+        </div>
+      </section>
     )
   }
 
