@@ -63,7 +63,7 @@ describe('SingleViewSecondaryMidLocations', () => {
     expect(screen.getByText('There are no Locations to view.')).toBeInTheDocument()
   })
 
-  it('should render the no Locations available message', () => {
+  it('should render the no available Locations message', () => {
     mockGetMerchantSecondaryMidLinkedLocationsResponse = []
     render(<SingleViewSecondaryMidLocations />)
 
