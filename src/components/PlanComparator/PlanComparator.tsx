@@ -3,7 +3,6 @@ import React from 'react'
 import {SelectedPlans} from 'types'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 import compare from 'just-compare'
-import isPrimitive from 'just-is-primitive'
 
 type Props = {
   plans: SelectedPlans
@@ -45,17 +44,12 @@ const PlanComparator = ({plans}: Props) => {
     )
 
     const renderCategorySummaryItem = (categoryKey: string) => {
-      if (isPrimitive(plansArray[0][category][categoryKey])) {
-        const allPlansHaveSameValue = plansArray.every((plan) => plan[category][categoryKey] === plansArray[0][category][categoryKey])
-        return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
-      } else {
-        const allPlansHaveSameValue = plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
-        return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
-      }
+      const allPlansHaveSameValue = plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
+      return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
     }
 
     const categoryAcrossPlansArray = plansArray.map(plan => plan[category])
-    console.log(categoryAcrossPlansArray)
+    console.log('category', category, categoryAcrossPlansArray)
 
     const firstPlanKeys = Object.keys(categoryAcrossPlansArray[0])
 
@@ -75,7 +69,7 @@ const PlanComparator = ({plans}: Props) => {
 
     return (
       <details>
-        <summary className='font-heading-5'>{capitaliseFirstLetter(category)} - {categoryKeys.length} properties found</summary>
+        <summary className='font-heading-5'>{capitaliseFirstLetter(category)} - Something of {categoryKeys.length} properties match</summary>
         {categoryKeys.map(categoryKey => renderCategorySummaryItem(categoryKey))}
       </details>
     )
@@ -101,9 +95,11 @@ export default PlanComparator
 // 3. Blank in all env
 
 // 4. Categories with sub categories
-// 5. Images
+// 5. Images, and content ordering
+
 
 // 6. When not matching offer a button to launch modal to see value in each env
 // 7. Write that modal to show all properties in each env
 // 8. Make it look cool.
 
+// remove isPrimitive is not using
