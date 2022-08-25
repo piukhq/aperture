@@ -2,6 +2,8 @@ import React from 'react'
 
 import {SelectedPlans} from 'types'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
+import compare from 'just-compare'
+import isPrimitive from 'just-is-primitive'
 
 type Props = {
   plans: SelectedPlans
@@ -9,15 +11,29 @@ type Props = {
 
 enum PlanCategory {
   ACCOUNT = 'account',
+  BALANCES = 'balances',
   CARD = 'card',
+  CONTENT = 'content',
   FEATURE_SET = 'feature_set',
+  IMAGES = 'images',
 }
 
 const PlanComparator = ({plans}: Props) => {
   const {dev, staging, prod} = plans
 
-  const plansArray = [dev, staging, prod]
-  const planCategories = [PlanCategory.ACCOUNT, PlanCategory.CARD, PlanCategory.FEATURE_SET]
+
+  const plansArray = [] // TODO: Temp check for multiple plans
+  dev && plansArray.push(dev)
+  staging && plansArray.push(staging)
+  prod && plansArray.push(prod)
+
+  const planCategories = [
+    PlanCategory.ACCOUNT,
+    PlanCategory.CARD,
+    PlanCategory.CONTENT,
+    PlanCategory.FEATURE_SET,
+    PlanCategory.IMAGES,
+  ]
 
 
   const comparePlanCategory = (category: PlanCategory) => {
@@ -29,37 +45,46 @@ const PlanComparator = ({plans}: Props) => {
     )
 
     const renderCategorySummaryItem = (categoryKey: string) => {
-
-      // compare all plansArray for the categoryKey to see if they all havcte the same value
-      const allPlansHaveSameValue = plansArray.every((plan) => plan[category][categoryKey] === plansArray[0][category][categoryKey])
-      return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
+      if (isPrimitive(plansArray[0][category][categoryKey])) {
+        const allPlansHaveSameValue = plansArray.every((plan) => plan[category][categoryKey] === plansArray[0][category][categoryKey])
+        return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
+      } else {
+        const allPlansHaveSameValue = plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
+        return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
+      }
     }
 
+    const categoryAcrossPlansArray = plansArray.map(plan => plan[category])
+    console.log(categoryAcrossPlansArray)
 
-    const categoryArray = plansArray.map(plan => plan[category])
+    const firstPlanKeys = Object.keys(categoryAcrossPlansArray[0])
 
-    const missingKeysArray = Object.keys(categoryArray[0]).filter(key => !categoryArray.every(category => category[key]))
+
+    const missingKeysArray = firstPlanKeys
+      .filter(categoryKey => categoryAcrossPlansArray
+        .every(category => {
+          compare(category[categoryKey], categoryAcrossPlansArray[0][categoryKey])
+        }))
+
 
     if (missingKeysArray.length > 0) {
       return renderMissingKeysCategory(missingKeysArray)
     }
 
-    const categoryKeys = Object.keys(categoryArray[0])
-
+    const categoryKeys = Object.keys(categoryAcrossPlansArray[0])
 
     return (
       <details>
-        <summary className='font-heading-5 text-orange'>{capitaliseFirstLetter(category)} - {categoryArray.length} properties found but maybe dont match</summary>
+        <summary className='font-heading-5'>{capitaliseFirstLetter(category)} - {categoryKeys.length} properties found</summary>
         {categoryKeys.map(categoryKey => renderCategorySummaryItem(categoryKey))}
       </details>
     )
   }
 
-  console.log(plansArray[2].card)
-
-
   return (
     <div className='w-full p-[20px]'>
+      <h1 className={'font-heading-3'}>Add summary bit</h1>
+      {comparePlanCategory(PlanCategory.FEATURE_SET)}
       {planCategories.map(category => comparePlanCategory(category))}
     </div>
   )
@@ -68,17 +93,17 @@ const PlanComparator = ({plans}: Props) => {
 export default PlanComparator
 
 
-// Stuff to do.
+// Stuff to do
 
-// Add other categories to compare
 // Set up states for each category to compare (is this always fixed?})
 // 1. No category in any env
 // 2. Missing category in one env
 // 3. Blank in all env
 
-// 4. categories with sub categories
-// 5. images
+// 4. Categories with sub categories
+// 5. Images
 
 // 6. When not matching offer a button to launch modal to see value in each env
 // 7. Write that modal to show all properties in each env
 // 8. Make it look cool.
+

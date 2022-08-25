@@ -83,8 +83,9 @@ const AssetComparatorPage: NextPage = () => {
     </div>
   )
 
+
   const renderVerifiedLanding = () => (
-    plans ? <PlanComparator plans={plans} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare</p>
+    plans.dev || plans.staging || plans.prod ? <PlanComparator plans={plans} /> : <p className='col-span-5 mt-[42px] font-subheading-3'>Select a plan above to compare</p>
   )
 
   const handleTokenRemoval = (envKey: string) => {
