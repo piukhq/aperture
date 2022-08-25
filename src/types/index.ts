@@ -195,7 +195,7 @@ export type DirectoryMerchantLocationSecondaryMid = {
 }
 
 export type DirectoryMerchantLocationAvailableMid = {
-  location: DirectoryMerchantMidLocation,
+  locationLink: DirectoryMerchantMidLocation,
   mid: DirectoryMerchantLocationMid
 }
 
@@ -274,7 +274,6 @@ export type DirectoryMerchantEntityDeletionItem = {
   entityRef: string,
   entityValue: string,
 }
-
 
 export type OptionsMenuItem = {
   label: string,
