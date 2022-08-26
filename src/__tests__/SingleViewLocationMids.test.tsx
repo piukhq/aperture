@@ -140,12 +140,10 @@ describe('SingleViewLocationMids', () => {
       expect(screen.getByTestId('Dropdown')).toBeInTheDocument()
     })
 
-
     it('should render the Mid save button', () => {
       render(<SingleViewLocationMids />)
       expect(screen.queryByLabelText('Save Mid')).toBeInTheDocument()
     })
-
 
     it('should render the Mid link cancel button', () => {
       render(<SingleViewLocationMids />)
