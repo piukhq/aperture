@@ -34,8 +34,8 @@ const PlanComparator = ({plans}: Props) => {
     PlanCategory.IMAGES,
   ]
 
-
   const comparePlanCategory = (category: PlanCategory) => {
+    // TODO: something to use the longest keys plan to compare against
     const renderMissingKeysCategory = (missingKeysArray: string[]) => (
       <details>
         <summary className='font-heading-5 text-red'>{capitaliseFirstLetter(category)} - {missingKeysArray.length} properties missing</summary>
@@ -43,13 +43,9 @@ const PlanComparator = ({plans}: Props) => {
       </details>
     )
 
-    const renderCategorySummaryItem = (categoryKey: string) => {
-      const allPlansHaveSameValue = plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
-      return <p className={ allPlansHaveSameValue ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>
-    }
 
     const categoryAcrossPlansArray = plansArray.map(plan => plan[category])
-    console.log('category', category, categoryAcrossPlansArray)
+    console.log('category', category, categoryAcrossPlansArray) // important debugger
 
     const firstPlanKeys = Object.keys(categoryAcrossPlansArray[0])
 
@@ -67,10 +63,34 @@ const PlanComparator = ({plans}: Props) => {
 
     const categoryKeys = Object.keys(categoryAcrossPlansArray[0])
 
+    const matchingCategoryKeyTotal = categoryKeys.reduce((acc, categoryKey) => { // TODO: Manually memoise this
+      const allPlansHaveSameValue = plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
+      // eslint-disable-next-line no-param-reassign
+      allPlansHaveSameValue && acc++
+      return acc
+    }, 0)
+
+    const doesCategoryKeyMatch = (categoryKey: string) => plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
+    const categoryMatchingPercentage = (matchingCategoryKeyTotal / categoryKeys.length) * 100
+    const isEmptyCategory = categoryKeys.length === 0
+
+
+    const renderDetails = () => {
+      return `${matchingCategoryKeyTotal}/${categoryKeys.length} matches`
+    }
     return (
-      <details>
-        <summary className='font-heading-5'>{capitaliseFirstLetter(category)} - Something of {categoryKeys.length} properties match</summary>
-        {categoryKeys.map(categoryKey => renderCategorySummaryItem(categoryKey))}
+      <details className='bg-grey-200 m-[20px] border-4 border-grey-400 rounded-[10px] min-h-[50px] p-[10px]'>
+        <summary className={`flex space-between cursor-pointer font-heading-5 ${categoryMatchingPercentage < 75 && 'text-red'}`}>
+
+
+          <span>
+            {capitaliseFirstLetter(category)}
+          </span>
+          <span>
+            {isEmptyCategory ? 'Blank' : renderDetails()}
+          </span>
+        </summary>
+        {categoryKeys.map(categoryKey => <p className={ doesCategoryKeyMatch(categoryKey) ? 'text-green' : 'text-red'} key={categoryKey}>{categoryKey}</p>)}
       </details>
     )
   }
@@ -78,7 +98,6 @@ const PlanComparator = ({plans}: Props) => {
   return (
     <div className='w-full p-[20px]'>
       <h1 className={'font-heading-3'}>Add summary bit</h1>
-      {comparePlanCategory(PlanCategory.FEATURE_SET)}
       {planCategories.map(category => comparePlanCategory(category))}
     </div>
   )
@@ -93,13 +112,13 @@ export default PlanComparator
 // 1. No category in any env
 // 2. Missing category in one env
 // 3. Blank in all env
-
+// 4 only one env?
 // 4. Categories with sub categories
 // 5. Images, and content ordering
 
 
 // 6. When not matching offer a button to launch modal to see value in each env
 // 7. Write that modal to show all properties in each env
-// 8. Make it look cool.
+// 8. Make it look cool. Animate dropdown
 
-// remove isPrimitive is not using
+// remove isPrimitive if not using
