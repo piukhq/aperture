@@ -39,7 +39,7 @@ type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
 export const midManagementMerchantLocationsApi = createApi({
   reducerPath: 'midManagementMerchantLocationsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids'],
+  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids', 'MerchantLocationAvailableMids'],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -103,6 +103,7 @@ export const midManagementMerchantLocationsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
         method: 'GET',
       }),
+      providesTags: ['MerchantLocationAvailableMids'],
     }),
     postMerchantLocationLinkedMids: builder.mutation<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef, midRefs}) => ({
@@ -112,7 +113,22 @@ export const midManagementMerchantLocationsApi = createApi({
           ...midRefs,
         ],
       }),
-      invalidatesTags: ['MerchantLocationLinkedMids'],
+      invalidatesTags: ['MerchantLocationAvailableMids'],
+      // Update the cache with the newly linked mids
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLinkedMids} = await queryFulfilled
+
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', undefined, (existingLinkedMids) => {
+            // Join new mids to existing cache of mids
+            existingLinkedMids.concat(newLinkedMids)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantLocationMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, linkRef}) => ({
