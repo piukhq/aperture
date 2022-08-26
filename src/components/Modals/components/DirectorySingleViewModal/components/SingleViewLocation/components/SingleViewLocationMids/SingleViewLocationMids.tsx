@@ -13,7 +13,8 @@ import {LinkableEntities} from 'utils/enums'
 const SingleViewLocationMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-  const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false)
+
+  const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
   const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
@@ -25,6 +26,8 @@ const SingleViewLocationMids = () => {
     getMerchantLocationAvailableMidsResponse,
     postMerchantLocationLinkedMid,
     postMerchantLocationLinkedMidIsLoading,
+    postMerchantLocationLinkedMidIsSuccess,
+    resetPostMerchantLocationLinkedMidResponse,
     deleteMerchantLocationMidLink,
     deleteMerchantLocationMidLinkIsLoading,
     deleteMerchantLocationMidLinkIsSuccess,
@@ -40,9 +43,16 @@ const SingleViewLocationMids = () => {
     if (deleteMerchantLocationMidLinkIsSuccess) {
       resetDeleteMerchantLocationMidLinkResponse()
       setSelectedUnlinkMidIndex(null)
-      setShouldPrepareDropdownMenu(false)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, resetDeleteMerchantLocationMidLinkResponse, shouldPrepareDropdownMenu])
+  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
+
+  useEffect(() => { // If the user has successfully linked a mid, revert to initial state
+    if (postMerchantLocationLinkedMidIsSuccess) {
+      resetPostMerchantLocationLinkedMidResponse()
+      setShouldPrepareDropdownMenu(false)
+      setShouldRenderDropdownMenu(false)
+    }
+  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetPostMerchantLocationLinkedMidResponse])
 
   useEffect(() => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
@@ -51,9 +61,9 @@ const SingleViewLocationMids = () => {
     }
   }, [getMerchantLocationAvailableMidsResponse?.length, shouldPrepareDropdownMenu])
 
-
   useEffect(() => {
-    selectedAvailableMid?.locationLink ? setAvailableMidLocationWarning(`Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}`) : setAvailableMidLocationWarning('')
+    const warningMessage = selectedAvailableMid?.locationLink ? `Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}` : ''
+    setAvailableMidLocationWarning(warningMessage)
   }, [selectedAvailableMid?.locationLink])
 
 

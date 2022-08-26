@@ -1,6 +1,6 @@
 import React from 'react'
-import {fireEvent, render, screen} from '@testing-library/react'
-import SingleViewLocationSecondaryMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
+import {render, screen} from '@testing-library/react'
+import SingleViewLocationSecondaryMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
 
 jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
@@ -100,6 +100,13 @@ describe('SingleViewLocationSecondaryMids', () => {
   describe('Test Link New Secondary Mid button functionality', () => {
     beforeEach(() => {
       mockGetMerchantSecondaryMidsResponse = mockSecondaryMids
+
+      const setStateMock = jest.fn()
+      React.useState = jest.fn()
+        .mockReturnValueOnce([true, setStateMock]) // shouldPrepareDropdownMenu
+        .mockReturnValueOnce([true, setStateMock]) // shouldRenderDropdownMenu
+        .mockReturnValueOnce([mockGetMerchantLocationLinkedSecondaryMidsResponse[1], setStateMock]) // selectedAvailableSecondaryMid
+        .mockReturnValueOnce([null, setStateMock]) // selectedUnlinkMidIndex
     })
 
     it('should not render the New Secondary Mid link button', () => {
@@ -123,13 +130,6 @@ describe('SingleViewLocationSecondaryMids', () => {
       it('should render the Secondary Mid link cancel button', () => {
         render(<SingleViewLocationSecondaryMids />)
         expect(screen.queryByLabelText('Cancel New Secondary Mid Link')).toBeInTheDocument()
-      })
-
-      it('should not render the secondary mid linking elements when cancel button is clicked', () => {
-        render(<SingleViewLocationSecondaryMids />)
-        fireEvent.click(screen.getByLabelText('Cancel New Secondary Mid Link'))
-
-        expect(screen.queryByLabelText('Cancel New Secondary Mid Link')).not.toBeInTheDocument()
       })
     })
   })
