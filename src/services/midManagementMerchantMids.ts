@@ -34,8 +34,8 @@ export const midManagementMerchantMidsApi = createApi({
   tagTypes: ['MerchantMids', 'MerchantMid'],
   endpoints: builder => ({
     getMerchantMids: builder.query<DirectoryMids, MerchantMidsEndpointRefs>({
-      query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids${locationRef && `?exclude_location=${locationRef}`}`,
+      query: ({planRef, merchantRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids}`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
