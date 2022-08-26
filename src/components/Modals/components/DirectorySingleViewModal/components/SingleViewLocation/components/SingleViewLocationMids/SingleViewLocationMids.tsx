@@ -13,7 +13,7 @@ import {LinkableEntities} from 'utils/enums'
 const SingleViewLocationMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-  const [shouldGetAvailableMids, setShouldGetAvailableMids] = useState(false)
+  const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false)
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
   const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
@@ -33,23 +33,23 @@ const SingleViewLocationMids = () => {
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
-    skipGetLocationAvailableMids: !shouldGetAvailableMids,
+    skipGetLocationAvailableMids: !shouldPrepareDropdownMenu,
   })
 
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationMidLinkIsSuccess) {
       resetDeleteMerchantLocationMidLinkResponse()
       setSelectedUnlinkMidIndex(null)
-      setShouldGetAvailableMids(false)
+      setShouldPrepareDropdownMenu(false)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, resetDeleteMerchantLocationMidLinkResponse, shouldGetAvailableMids])
+  }, [deleteMerchantLocationMidLinkIsSuccess, resetDeleteMerchantLocationMidLinkResponse, shouldPrepareDropdownMenu])
 
   useEffect(() => {
-    if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldGetAvailableMids) {
+    if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
     }
-  }, [getMerchantLocationAvailableMidsResponse?.length, shouldGetAvailableMids])
+  }, [getMerchantLocationAvailableMidsResponse?.length, shouldPrepareDropdownMenu])
 
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const SingleViewLocationMids = () => {
   const renderLinkNewMidButton = () => (
     <section className='flex justify-end items-center mb-[40px]'>
       <Button
-        handleClick={() => setShouldGetAvailableMids(true)}
+        handleClick={() => setShouldPrepareDropdownMenu(true)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -119,7 +119,7 @@ const SingleViewLocationMids = () => {
     const onCloseHandler = () => {
       setShouldRenderDropdownMenu(false)
       setSelectedAvailableMid(null)
-      setShouldGetAvailableMids(false)
+      setShouldPrepareDropdownMenu(false)
     }
 
     const renderDropdownMid = (mid: DirectoryMerchantLocationAvailableMid) => {

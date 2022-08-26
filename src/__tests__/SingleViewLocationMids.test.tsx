@@ -123,7 +123,7 @@ describe('SingleViewLocationMids', () => {
 
       const setStateMock = jest.fn()
       React.useState = jest.fn()
-        .mockReturnValueOnce([true, setStateMock]) // shouldGetAvailableMids
+        .mockReturnValueOnce([true, setStateMock]) // shouldPrepareDropdownMenu
         .mockReturnValueOnce([true, setStateMock]) // shouldRenderDropdownMenu
         .mockReturnValueOnce([mockGetMerchantLocationAvailableMidsResponse[1], setStateMock]) // selectedAvailableMid
         .mockReturnValueOnce([null, setStateMock]) // selectedUnlinkMidIndex
@@ -161,7 +161,7 @@ describe('SingleViewLocationMids', () => {
       beforeEach(() => {
         const setStateMock = jest.fn()
         React.useState = jest.fn()
-          .mockReturnValueOnce([true, setStateMock]) // shouldGetAvailableMids
+          .mockReturnValueOnce([true, setStateMock]) // shouldPrepareDropdownMenu
           .mockReturnValueOnce([true, setStateMock]) // shouldRenderDropdownMenu
           .mockReturnValueOnce([mockGetMerchantLocationAvailableMidsResponse[1], setStateMock]) // selectedAvailableMid
           .mockReturnValueOnce([null, setStateMock]) // selectedUnlinkMidIndex
