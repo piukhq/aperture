@@ -47,7 +47,6 @@ jest.mock('hooks/useMidManagementLocationMids', () => ({
   })),
 }))
 
-
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 describe('SingleViewLocationMids', () => {
