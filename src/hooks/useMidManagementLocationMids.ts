@@ -1,7 +1,7 @@
 import {
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
-  usePostMerchantLocationLinkedMidMutation,
+  usePostMerchantLocationLinkedMidsMutation,
   useDeleteMerchantLocationMidLinkMutation,
 } from 'services/midManagementMerchantLocations'
 
@@ -18,13 +18,13 @@ export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false,
   } = useGetMerchantLocationAvailableMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationAvailableMids})
 
   const [
-    postMerchantLocationLinkedMid,
+    postMerchantLocationLinkedMids,
     {
-      isSuccess: postMerchantLocationLinkedMidIsSuccess,
-      isLoading: postMerchantLocationLinkedMidIsLoading,
-      error: postMerchantLocationLinkedMidError,
-      reset: resetPostMerchantLocationLinkedMidResponse,
-    }] = usePostMerchantLocationLinkedMidMutation({fixedCacheKey: 'postMerchantLocationLinkedMid'})
+      isSuccess: postMerchantLocationLinkedMidsIsSuccess,
+      isLoading: postMerchantLocationLinkedMidsIsLoading,
+      error: postMerchantLocationLinkedMidsError,
+      reset: resetPostMerchantLocationLinkedMidsResponse,
+    }] = usePostMerchantLocationLinkedMidsMutation({fixedCacheKey: 'postMerchantLocationLinkedMids'})
 
   const [deleteMerchantLocationMidLink, {
     isSuccess: deleteMerchantLocationMidLinkIsSuccess,
@@ -43,11 +43,11 @@ export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false,
     getMerchantLocationAvailableMidsIsLoading,
     getMerchantLocationAvailableMidsError,
     // POST Location Linked MID
-    postMerchantLocationLinkedMid,
-    postMerchantLocationLinkedMidIsSuccess,
-    postMerchantLocationLinkedMidIsLoading,
-    postMerchantLocationLinkedMidError,
-    resetPostMerchantLocationLinkedMidResponse,
+    postMerchantLocationLinkedMids,
+    postMerchantLocationLinkedMidsIsSuccess,
+    postMerchantLocationLinkedMidsIsLoading,
+    postMerchantLocationLinkedMidsError,
+    resetPostMerchantLocationLinkedMidsResponse,
     // DELETE Location  MID Link
     deleteMerchantLocationMidLink,
     deleteMerchantLocationMidLinkIsSuccess,
