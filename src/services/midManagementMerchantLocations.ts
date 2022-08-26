@@ -10,9 +10,10 @@ import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
 type MerchantLocationsEndpointRefs = {
-  planRef: string,
+  planRef?: string,
   merchantRef?: string,
   midRef?: string,
+  midRefs?: string[],
   locationRef?: string,
   secondaryMidRef?: string,
   linkRef?: string,
@@ -103,11 +104,13 @@ export const midManagementMerchantLocationsApi = createApi({
         method: 'GET',
       }),
     }),
-    postMerchantLocationLinkedMid: builder.mutation<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
-      query: ({planRef, merchantRef, locationRef, midRef}) => ({
+    postMerchantLocationLinkedMids: builder.mutation<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef, midRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
         method: 'POST',
-        body: midRef,
+        body: [
+          ...midRefs,
+        ],
       }),
       invalidatesTags: ['MerchantLocationLinkedMids'],
     }),
@@ -150,7 +153,7 @@ export const {
   useDeleteMerchantLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
-  usePostMerchantLocationLinkedMidMutation,
+  usePostMerchantLocationLinkedMidsMutation,
   useDeleteMerchantLocationMidLinkMutation,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,

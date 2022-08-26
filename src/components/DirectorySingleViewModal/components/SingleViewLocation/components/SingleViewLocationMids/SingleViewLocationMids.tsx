@@ -24,10 +24,10 @@ const SingleViewLocationMids = () => {
     getMerchantLocationLinkedMidsResponse,
     getMerchantLocationLinkedMidsIsLoading,
     getMerchantLocationAvailableMidsResponse,
-    postMerchantLocationLinkedMid,
-    postMerchantLocationLinkedMidIsLoading,
-    postMerchantLocationLinkedMidIsSuccess,
-    resetPostMerchantLocationLinkedMidResponse,
+    postMerchantLocationLinkedMids,
+    postMerchantLocationLinkedMidsIsLoading,
+    postMerchantLocationLinkedMidsIsSuccess,
+    resetPostMerchantLocationLinkedMidsResponse,
     deleteMerchantLocationMidLink,
     deleteMerchantLocationMidLinkIsLoading,
     deleteMerchantLocationMidLinkIsSuccess,
@@ -44,15 +44,15 @@ const SingleViewLocationMids = () => {
       resetDeleteMerchantLocationMidLinkResponse()
       setSelectedUnlinkMidIndex(null)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
+  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
 
   useEffect(() => { // If the user has successfully linked a mid, revert to initial state
-    if (postMerchantLocationLinkedMidIsSuccess) {
-      resetPostMerchantLocationLinkedMidResponse()
+    if (postMerchantLocationLinkedMidsIsSuccess) {
+      resetPostMerchantLocationLinkedMidsResponse()
       setShouldPrepareDropdownMenu(false)
       setShouldRenderDropdownMenu(false)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetPostMerchantLocationLinkedMidResponse])
+  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetPostMerchantLocationLinkedMidsResponse])
 
   useEffect(() => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
@@ -117,12 +117,7 @@ const SingleViewLocationMids = () => {
   const renderAvailableMidDropdown = () => {
     const onSaveHandler = () => {
       if (selectedAvailableMid) {
-        postMerchantLocationLinkedMid({
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-          locationRef: ref as string,
-          midRef: selectedAvailableMid.mid_ref,
-        })
+        postMerchantLocationLinkedMids({midRefs: [selectedAvailableMid.mid_ref]})
       }
     }
 
@@ -160,7 +155,7 @@ const SingleViewLocationMids = () => {
 
           <div className='flex items-center gap-[10px]'>
             <Button
-              handleClick={!postMerchantLocationLinkedMidIsLoading ? onSaveHandler : null}
+              handleClick={!postMerchantLocationLinkedMidsIsLoading ? onSaveHandler : null}
               buttonType={ButtonType.SUBMIT}
               buttonSize={ButtonSize.MEDIUM}
               buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
@@ -168,7 +163,7 @@ const SingleViewLocationMids = () => {
               labelColour={LabelColour.WHITE}
               labelWeight={LabelWeight.SEMIBOLD}
               ariaLabel={'Save Mid'}
-            >{postMerchantLocationLinkedMidIsLoading ? 'Saving...' : 'Save'}
+            >{postMerchantLocationLinkedMidsIsLoading ? 'Saving...' : 'Save'}
             </Button>
 
             <Button
