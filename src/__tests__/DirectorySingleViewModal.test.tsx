@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
+import DirectorySingleViewModal from 'components/Modals/components/DirectorySingleViewModal'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 

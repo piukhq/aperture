@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import SingleViewIdentifierDetails from 'components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails'
+import SingleViewIdentifierDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 

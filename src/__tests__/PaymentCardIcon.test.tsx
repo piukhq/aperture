@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import PaymentCardIcon from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon'
+import PaymentCardIcon from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon'
 import {PaymentSchemeCode} from 'utils/enums'
 
 describe('PaymentCardIcon', () => {

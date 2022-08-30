@@ -1,6 +1,6 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
-import LinkedListItem from 'components/DirectorySingleViewModal/components/LinkedListItem'
+import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
 
 jest.mock('components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)

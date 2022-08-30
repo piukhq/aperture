@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen, fireEvent} from '@testing-library/react'
-import EditLocationForm from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm'
+import EditLocationForm from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm'
 
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'

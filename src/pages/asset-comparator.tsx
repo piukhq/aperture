@@ -2,8 +2,7 @@ import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
 import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
-import {AssetGrid, AssetModal, Button, ContentTile, CredentialsModal, PageLayout, PlansList} from 'components'
-import {useGetPlans} from 'hooks/useGetPlans'
+import {AssetGrid, Button, ContentTile, PageLayout, PlansList} from 'components'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import {
   useAppDispatch,
@@ -25,8 +24,6 @@ const AssetComparatorPage: NextPage = () => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
-
-  const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlans()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 
@@ -103,30 +100,16 @@ const AssetComparatorPage: NextPage = () => {
     )
   }
 
-  const handleTokenRemoval = (envKey: string) => {
-    if (envKey === 'DEV') {
-      resetDevPlans()
-    } else if (envKey === 'STAGING') {
-      resetStagingPlans()
-    } else if (envKey === 'PROD') {
-      resetProdPlans()
-    }
-  }
-
   return (
-    <>
-      {modalRequested === ModalType.ASSET_COMPARATOR_CREDENTIALS && <CredentialsModal removeTokenHandler={handleTokenRemoval} />}
-      {modalRequested === ModalType.ASSET_COMPARATOR_ASSET && <AssetModal />}
-      <PageLayout>
-        <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
-          { isDesktopViewportDimensions && renderHeaderTools()}
-        </div>
+    <PageLayout>
+      <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
+        { isDesktopViewportDimensions && renderHeaderTools()}
+      </div>
 
-        <ContentTile>
-          {determineContentToRender()}
-        </ContentTile>
-      </PageLayout>
-    </>
+      <ContentTile>
+        {determineContentToRender()}
+      </ContentTile>
+    </PageLayout>
   )
 }
 

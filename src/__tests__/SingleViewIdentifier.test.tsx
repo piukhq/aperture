@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
-import SingleViewIdentifier from 'components/DirectorySingleViewModal/components/SingleViewIdentifier'
+import SingleViewIdentifier from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
