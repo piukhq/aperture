@@ -149,6 +149,7 @@ export type DirectoryMerchantLocationMid = {
   mid_ref: string,
   mid_value: string,
   payment_scheme_code?: number,
+  link_ref: string,
 }
 
 export type DirectoryMerchantLocationSecondaryMid = {
@@ -159,7 +160,7 @@ export type DirectoryMerchantLocationSecondaryMid = {
 }
 
 export type DirectoryMerchantLocationAvailableMid = {
-  location: DirectoryMerchantMidLocation,
+  locationLink: DirectoryMerchantMidLocation,
   mid: DirectoryMerchantLocationMid
 }
 
@@ -238,7 +239,6 @@ export type DirectoryMerchantEntityDeletionItem = {
   entityRef: string,
   entityValue: string,
 }
-
 
 export type OptionsMenuItem = {
   label: string,
