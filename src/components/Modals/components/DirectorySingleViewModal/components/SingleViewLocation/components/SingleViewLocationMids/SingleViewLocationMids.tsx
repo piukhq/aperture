@@ -51,6 +51,7 @@ const SingleViewLocationMids = () => {
       resetPostMerchantLocationLinkedMidsResponse()
       setShouldPrepareDropdownMenu(false)
       setShouldRenderDropdownMenu(false)
+      setSelectedAvailableMid(null)
     }
   }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetPostMerchantLocationLinkedMidsResponse])
 
