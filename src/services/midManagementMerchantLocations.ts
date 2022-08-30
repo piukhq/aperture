@@ -130,7 +130,7 @@ export const midManagementMerchantLocationsApi = createApi({
           console.error('Error:', err)
         }
       },
-      invalidatesTags: ['MerchantLocationLinkedMids'],
+      invalidatesTags: ['MerchantLocationAvailableMids'],
     }),
     deleteMerchantLocationMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
