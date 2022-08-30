@@ -7,7 +7,6 @@ type MerchantMidsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   midRef?: string,
-  locationRef?: string,
 }
 
 type PostMerchantMidBody = MerchantMidsEndpointRefs & {
@@ -35,7 +34,7 @@ export const midManagementMerchantMidsApi = createApi({
   endpoints: builder => ({
     getMerchantMids: builder.query<DirectoryMids, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
