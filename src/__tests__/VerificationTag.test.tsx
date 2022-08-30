@@ -1,5 +1,5 @@
 import {render, screen} from '@testing-library/react'
-import VerificationTag from 'components/CredentialsModal/components/VerificationTag'
+import VerificationTag from 'components/Modals/components/CredentialsModal/components/VerificationTag'
 
 describe('VerificationTag', () => {
   beforeEach(() => {

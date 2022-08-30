@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
-import SingleViewMid from 'components/DirectorySingleViewModal/components/SingleViewMid'
+import SingleViewMid from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'

@@ -1,7 +1,7 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 
-import {CredentialsModal} from 'components'
+import {CredentialsModal} from 'components/Modals'
 import * as utils from 'utils/validation'
 
 jest.mock('hooks/useVerification', () => ({
@@ -61,9 +61,8 @@ jest.mock('components/Modal', () => ({
 
 const mockEmailValue = 'mock_email_value'
 const mockPasswordValue = 'mock_password_value'
-const mockRemoveTokenHandler = jest.fn()
 
-const getCredentialsModal = () => <CredentialsModal removeTokenHandler={mockRemoveTokenHandler}/>
+const getCredentialsModal = () => <CredentialsModal />
 
 describe('Credentials Modal', () => {
   beforeEach(() => {

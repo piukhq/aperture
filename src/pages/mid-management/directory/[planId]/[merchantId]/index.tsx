@@ -7,21 +7,17 @@ import {
   DirectoryMerchantMids,
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantIdentifiers,
-  DirectoryMidModal,
-  DirectoryMerchantMidsDeleteModalContainer,
-  DirectoryMerchantSecondaryMidsDeleteModalContainer,
-  DirectoryMerchantLocationsDeleteModalContainer,
-  DirectoryMerchantIdentifiersDeleteModalContainer,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
-import {useAppSelector, useAppDispatch} from 'app/hooks'
-import {requestModal, selectModal} from 'features/modalSlice'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {setModalHeader, setCommentsRef} from 'features/directoryCommentsSlice'
 import {ModalType, DirectoryNavigationTab} from 'utils/enums'
 import {useEffect} from 'react'
-import DirectorySingleViewModal from 'components/DirectorySingleViewModal'
 import EditSvg from 'icons/svgs/project.svg'
+import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant} from 'types'
 
@@ -51,7 +47,6 @@ const MerchantDetailsPage: NextPage = () => {
   })
 
   const dispatch = useAppDispatch()
-  const modalRequested: ModalType = useAppSelector(selectModal)
 
   const planDetails: DirectoryPlanDetails = getPlanResponse
   const merchant: DirectorySingleMerchant = getMerchantResponse
@@ -100,11 +95,22 @@ const MerchantDetailsPage: NextPage = () => {
     ))
   }
 
+  const requestMerchantCommentsModal = () => {
+    dispatch(setModalHeader(merchant?.merchant_metadata?.name))
+    dispatch(setCommentsRef(merchantId as string))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
+  }
+
   const optionsMenuItems:OptionsMenuItems = [
     {
       label: 'Edit',
       icon: <EditSvg/>,
       clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+    },
+    {
+      label: 'Comments',
+      icon: <CommentSvg/>,
+      clickHandler: () => requestMerchantCommentsModal(),
     },
     {
       label: 'Delete',
@@ -124,31 +130,23 @@ const MerchantDetailsPage: NextPage = () => {
   }
 
   return (
-    <>
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MID && <DirectoryMidModal />}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW && ref && <DirectorySingleViewModal />}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE && <DirectoryMerchantMidsDeleteModalContainer/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE && <DirectoryMerchantSecondaryMidsDeleteModalContainer/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE && <DirectoryMerchantLocationsDeleteModalContainer/>}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE && <DirectoryMerchantIdentifiersDeleteModalContainer/>}
-      <PageLayout>
-        {merchant && (
-          <>
-            {planDetails && renderDetailsHeader()}
+    <PageLayout>
+      {merchant && (
+        <>
+          {planDetails && renderDetailsHeader()}
 
-            <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
-              <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
-                {renderNavigationTabs()}
-              </nav>
+          <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
+            <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
+              {renderNavigationTabs()}
+            </nav>
 
-              <div className='mx-[10px]'>
-                {renderSelectedTabContent()}
-              </div>
+            <div className='mx-[10px]'>
+              {renderSelectedTabContent()}
             </div>
-          </>
-        )}
-      </PageLayout>
-    </>
+          </div>
+        </>
+      )}
+    </PageLayout>
   )
 }
 

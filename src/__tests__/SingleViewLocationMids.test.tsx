@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import SingleViewLocationMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
+import SingleViewLocationMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
 jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 

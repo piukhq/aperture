@@ -1,19 +1,18 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
-import {
-  useAppDispatch,
-  useAppSelector,
-} from 'app/hooks'
-import {PageLayout, DirectoryTile, DirectoryMerchantModal, DirectoryDetailsHeader, DirectoryMerchantDeleteModal} from 'components'
-import {requestModal, selectModal} from 'features/modalSlice'
+import {useAppDispatch} from 'app/hooks'
+import {PageLayout, DirectoryTile, DirectoryDetailsHeader} from 'components'
+import {requestModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchantDetails} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
+import {setModalHeader, setCommentsRef} from 'features/directoryCommentsSlice'
 import EditSvg from 'icons/svgs/project.svg'
-import DeleteSvg from 'icons/svgs/trash-small.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
+import CommentSvg from 'icons/svgs/comment.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 const PlanDetailsPage: NextPage = () => {
   const router = useRouter()
@@ -29,13 +28,18 @@ const PlanDetailsPage: NextPage = () => {
   const planDetails: DirectoryPlanDetails = getPlanResponse
 
   const dispatch = useAppDispatch()
-  const modalRequested: ModalType = useAppSelector(selectModal)
 
   useEffect(() => { // Clear any previously selected merchant
     dispatch(reset())
   }, [dispatch])
 
   const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
+
+  const requestPlanCommentsModal = useCallback(() => {
+    dispatch(setModalHeader(planDetails?.plan_metadata?.name))
+    dispatch(setCommentsRef(planRef as string))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
+  }, [dispatch, planDetails?.plan_metadata?.name, planRef])
 
   const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
     {
@@ -49,12 +53,17 @@ const PlanDetailsPage: NextPage = () => {
       clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
     },
     {
+      label: 'Comments',
+      icon: <CommentSvg/>,
+      clickHandler: () => requestPlanCommentsModal(),
+    },
+    {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
       clickHandler: () => console.log('Launch Delete Modal Placeholder'),
     },
-  ], [])
+  ], [requestPlanCommentsModal])
 
   const renderMerchants = (merchants: Array<DirectoryMerchantDetails>) => {
     return (
@@ -80,11 +89,22 @@ const PlanDetailsPage: NextPage = () => {
             router.push(`${router?.asPath}/${merchant_ref}?tab=mids`)
           }
 
+          const requestMerchantCommentsModal = () => {
+            dispatch(setModalHeader(merchant_metadata.name))
+            dispatch(setCommentsRef(merchant_ref))
+            dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
+          }
+
           const tileOptionsMenuItems:OptionsMenuItems = [
             {
               label: 'Edit',
               icon: <EditSvg/>,
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
+            },
+            {
+              label: 'Comments',
+              icon: <CommentSvg/>,
+              clickHandler: () => requestMerchantCommentsModal(),
             },
             {
               label: 'Delete',
@@ -113,13 +133,9 @@ const PlanDetailsPage: NextPage = () => {
   }
 
   return (
-    <>
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT && <DirectoryMerchantModal />}
-      {modalRequested === ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE && <DirectoryMerchantDeleteModal />}
-      <PageLayout>
-        {planDetails && renderPlanDetailsContent()}
-      </PageLayout>
-    </>
+    <PageLayout>
+      {planDetails && renderPlanDetailsContent()}
+    </PageLayout>
   )
 }
 
