@@ -58,6 +58,8 @@ const SingleViewLocationMids = () => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
+    } else {
+      setShouldRenderDropdownMenu(false)
     }
   }, [getMerchantLocationAvailableMidsResponse?.length, shouldPrepareDropdownMenu])
 
@@ -92,7 +94,7 @@ const SingleViewLocationMids = () => {
           merchantRef: merchantId as string,
         })}
         isUnlinking={deleteMerchantLocationMidLinkIsLoading}
-        setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}
+        setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
         entityType={LinkableEntities.MID}
       />
     )
