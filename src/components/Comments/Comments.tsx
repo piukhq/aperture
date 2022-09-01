@@ -6,6 +6,7 @@ import {isoToDateTime} from 'utils/dateFormat'
 import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import WriteSvg from 'icons/svgs/write.svg'
+import {classNames} from 'utils/classNames'
 
 type Props = {
   comments: DirectoryComments
@@ -54,8 +55,13 @@ const Comments = ({comments}: Props) => {
   const renderComments = (comment: DirectoryComment, isResponse = false) => {
     const {ref, created_by: createdBy, created_at: createdAt, subjects, metadata, responses} = comment
 
+    const marginStyles = isResponse ? 'ml-[50px]' : ''
+
     return (
-      <div key={ref} className={`flex flex-col gap-[9px] ml-[${isResponse ? 65 : 0}px]`}>
+      <div key={ref} className={classNames(
+        'flex flex-col gap-[9px]',
+        marginStyles
+      )}>
         <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
           <div className='flex justify-between items-center'>
             <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)] truncate'>
