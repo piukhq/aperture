@@ -36,7 +36,7 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
         buttonWidth={ButtonWidth.ICON_ONLY}
         borderColour={BorderColour.GREY}
         ariaLabel='Options'
-      ><DotsSvg/>
+      ><DotsSvg className='w-[18px] h-[4px]' />
       </Button>
       {isMenuOpen && (
         <>

@@ -73,7 +73,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
         {isLoading && (
           <div className='w-full absolute inset-0 flex justify-center items-center dark:bg-grey-825 '>
             <div className='w-[60px] h-[60px] flex justify-center items-center' title='Loading'>
-              <DotsSVG className='animate-pulse' />
+              <DotsSVG className='animate-pulse w-[18px] h-[4px]' />
             </div>
           </div>
         )}

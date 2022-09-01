@@ -20,15 +20,20 @@ export const timeStampToDate = (timestamp: number | string) => {
   return `${day} ${month} ${year}`
 }
 
-export const isoToDateTime = (isoTimestamp: string) => {
+export const isoToDateTime = (isoTimestamp: string, isCommentTime = false) => {
   const date = new Date(isoTimestamp)
   const isValidDate = date instanceof Date && !isNaN(Number(date))
   if (!isValidDate) {
     return isoTimestamp
   }
   const day = date.getDate()
-  const month = date.toLocaleString('default', {month: 'long'})
+  const month = date.toLocaleString('default', {month: isCommentTime ? 'short' : 'long'})
   const year = date.getFullYear()
+
+  if (isCommentTime) {
+    return `${month} ${day}, ${year}`
+  }
+
   const time = date.toLocaleString('default', {hour: 'numeric', minute: 'numeric', hour12: true}).replace(/\s/g, '')
   return `${month} ${day}, ${year}, ${time}`
 }
