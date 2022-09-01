@@ -1,6 +1,5 @@
-import {Button, Tag} from 'components'
+import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import PaymentCardIcon from '../SingleViewLocation/components/PaymentCardIcon'
 import {LinkableEntities} from 'utils/enums'
@@ -73,28 +72,18 @@ const LinkedListItem = ({
         ariaLabel={'Cancel'}
       ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
       </Button>
+      <Button
+        handleClick={unlinkFn}
+        buttonType={ButtonType.SUBMIT}
+        buttonSize={ButtonSize.MEDIUM}
+        buttonWidth={ButtonWidth.MEDIUM}
+        buttonBackground={ButtonBackground.RED}
+        labelColour={LabelColour.WHITE}
+        labelWeight={LabelWeight.SEMIBOLD}
+        isDisabled={isUnlinking}
+      > { isUnlinking ? 'Unlinking... ' : 'Yes, unlink'}
+      </Button>
 
-      {isUnlinking ? (
-        <Tag
-          tagSize={TagSize.MEDIUM}
-          textStyle={TextStyle.MEDIUM}
-          textColour={TextColour.WHITE}
-          tagStyle={TagStyle.RED_FILLED}
-          label='Unlinking...'
-        />
-      ) : (
-        <Button
-          handleClick={unlinkFn}
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.RED}
-          labelColour={LabelColour.WHITE}
-          labelWeight={LabelWeight.SEMIBOLD}
-          ariaLabel={'Confirm unlink'}
-        > { isUnlinking ? 'Unlinking... ' : 'Yes, unlink'}
-        </Button>
-      )}
     </div>
   )
 
