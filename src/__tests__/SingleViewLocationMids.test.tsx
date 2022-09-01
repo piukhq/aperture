@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewLocationMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
 jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
@@ -66,6 +66,14 @@ describe('SingleViewLocationMids', () => {
     mockGetMerchantLocationAvailableMidsResponse = []
     render(<SingleViewLocationMids />)
     expect(screen.getByRole('button', {name: 'Link New MID'})).toBeInTheDocument()
+  })
+
+  it('should render the correct available mid notification when no mids are available', () => {
+    mockGetMerchantLocationAvailableMidsResponse = []
+    render(<SingleViewLocationMids />)
+    fireEvent.click(screen.getByRole('button', {name: 'Link New MID'}))
+
+    expect(screen.getByText('No MIDs available to link for this Location.')).toBeInTheDocument()
   })
 
   it('should render the correct section heading', () => {

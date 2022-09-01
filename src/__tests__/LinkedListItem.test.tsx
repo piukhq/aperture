@@ -19,6 +19,7 @@ const mockProps = {
   unlinkFn: jest.fn(),
   isUnlinking: false,
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
+  setNewLinkNotificationFn: jest.fn(),
   entityType: mockEntityType,
 }
 

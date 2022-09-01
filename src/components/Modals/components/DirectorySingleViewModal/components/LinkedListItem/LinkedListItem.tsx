@@ -15,6 +15,7 @@ type Props = {
   isInUnlinkingConfirmationState: boolean,
   setSelectedUnlinkIndexFn: (index: number) => void,
   setShouldRenderNewLinkDropdownMenuFn: (shouldRenderDropdownMenu: boolean) => void,
+  setNewLinkNotificationFn: (notification: string) => void,
   entityType: LinkableEntities
 }
 
@@ -29,6 +30,7 @@ const LinkedListItem = ({
   unlinkFn,
   isUnlinking,
   setShouldRenderNewLinkDropdownMenuFn,
+  setNewLinkNotificationFn,
   entityType,
 }: Props) => {
 
@@ -62,8 +64,9 @@ const LinkedListItem = ({
     </div>
   )
 
-  const renderUnlinkConfirmationStateButtons = () => (
-    <div className='flex items-center justify-between gap-[5px]' >
+  const renderUnlinkConfirmationStateButtons = () => {
+    setNewLinkNotificationFn('')
+    return <div className='flex items-center justify-between gap-[5px]' >
       <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {entityType}?</p>
       <Button
         handleClick={() => setSelectedUnlinkIndexFn(null)}
@@ -96,7 +99,7 @@ const LinkedListItem = ({
         </Button>
       )}
     </div>
-  )
+  }
 
   return (
     <div key={index} className='flex w-full justify-between h-[35px]'>

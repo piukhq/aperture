@@ -18,7 +18,7 @@ const SingleViewLocationMids = () => {
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
   const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
-  const [availableMidLocationWarning, setAvailableMidLocationWarning] = useState('')
+  const [availableMidNotification, setAvailableMidNotification] = useState('')
 
   const {
     getMerchantLocationLinkedMidsResponse,
@@ -59,6 +59,9 @@ const SingleViewLocationMids = () => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
+    } else if (getMerchantLocationAvailableMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
+      setSelectedUnlinkMidIndex(null)
+      setAvailableMidNotification('No MIDs available to link for this Location.')
     } else {
       setShouldRenderDropdownMenu(false)
     }
@@ -66,7 +69,7 @@ const SingleViewLocationMids = () => {
 
   useEffect(() => {
     const warningMessage = selectedAvailableMid?.locationLink ? `Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}` : ''
-    setAvailableMidLocationWarning(warningMessage)
+    setAvailableMidNotification(warningMessage)
   }, [selectedAvailableMid?.locationLink])
 
 
@@ -96,13 +99,14 @@ const SingleViewLocationMids = () => {
         })}
         isUnlinking={deleteMerchantLocationMidLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
+        setNewLinkNotificationFn={setAvailableMidNotification}
         entityType={LinkableEntities.MID}
       />
     )
   }
 
   const renderLinkNewMidButton = () => (
-    <section className='flex justify-end items-center mb-[40px]'>
+    <div className='flex justify-end items-center'>
       <Button
         handleClick={() => setShouldPrepareDropdownMenu(true)}
         buttonType={ButtonType.SUBMIT}
@@ -114,7 +118,7 @@ const SingleViewLocationMids = () => {
         additionalStyles='text-[12px] leading-[12px]'
       >Link New MID
       </Button>
-    </section>
+    </div>
   )
 
   const renderAvailableMidDropdown = () => {
@@ -145,44 +149,40 @@ const SingleViewLocationMids = () => {
     }
 
     return (
-      <>
-        <section className='flex items-center justify-end gap-[10px] mb-[5px]'>
-          <div className='h-[36px] w-full'>
-            <Dropdown
-              displayValue={selectedAvailableMid || 'Select MID'}
-              displayValues={getMerchantLocationAvailableMidsResponse}
-              onChangeDisplayValue={setSelectedAvailableMid}
-              renderFn={renderDropdownMid}
-            />
-          </div>
+      <div className='flex items-center justify-end gap-[10px]'>
+        <div className='h-[36px] w-full'>
+          <Dropdown
+            displayValue={selectedAvailableMid || 'Select MID'}
+            displayValues={getMerchantLocationAvailableMidsResponse}
+            onChangeDisplayValue={setSelectedAvailableMid}
+            renderFn={renderDropdownMid}
+          />
+        </div>
 
-          <div className='flex items-center gap-[10px]'>
-            <Button
-              handleClick={!postMerchantLocationLinkedMidsIsLoading ? onSaveHandler : null}
-              buttonType={ButtonType.SUBMIT}
-              buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-              buttonBackground={ButtonBackground.BLUE}
-              labelColour={LabelColour.WHITE}
-              labelWeight={LabelWeight.SEMIBOLD}
-              ariaLabel={'Save Mid'}
-            >{postMerchantLocationLinkedMidsIsLoading ? 'Saving...' : 'Save'}
-            </Button>
+        <div className='flex items-center gap-[10px]'>
+          <Button
+            handleClick={!postMerchantLocationLinkedMidsIsLoading ? onSaveHandler : null}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.SEMIBOLD}
+            ariaLabel={'Save Mid'}
+          >{postMerchantLocationLinkedMidsIsLoading ? 'Saving...' : 'Save'}
+          </Button>
 
-            <Button
-              handleClick={onCloseHandler}
-              buttonSize={ButtonSize.MEDIUM_ICON}
-              buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-              buttonBackground={ButtonBackground.LIGHT_GREY}
-              ariaLabel='Cancel New Mid Link'
-            ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
-            </Button>
-          </div>
-        </section>
-        <section className='font-body-4 text-red h-[35px]'>
-          <p>{availableMidLocationWarning}</p>
-        </section>
-      </>
+          <Button
+            handleClick={onCloseHandler}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+            buttonBackground={ButtonBackground.LIGHT_GREY}
+            ariaLabel='Cancel New Mid Link'
+          ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
+          </Button>
+        </div>
+      </div>
+
     )
   }
 
@@ -202,7 +202,12 @@ const SingleViewLocationMids = () => {
 
   return (
     <div className='pb-[28px]'>
-      {shouldRenderDropdownMenu ? renderAvailableMidDropdown() : renderLinkNewMidButton() }
+      <section className='h-[40px]'>
+        {shouldRenderDropdownMenu ? renderAvailableMidDropdown() : renderLinkNewMidButton() }
+      </section>
+      <section className='font-body-4 text-red h-[40px]'>
+        <p>{availableMidNotification}</p>
+      </section>
       {getMerchantLocationLinkedMidsIsLoading ? (
         <i className='font-body-4'>Loading...</i>
       ) : renderLinkedMids()}
