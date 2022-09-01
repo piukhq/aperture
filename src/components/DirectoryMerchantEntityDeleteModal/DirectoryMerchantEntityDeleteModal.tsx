@@ -72,7 +72,7 @@ const DirectoryMerchantEntityDeleteModal = ({
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
             isDisabled={isDeleteLoading}
-          >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
+          >{`${isDeleteLoading ? 'Deleting...' : 'Delete'} ${entityLabel}`}
           </Button>
         </section>
       </Modal>

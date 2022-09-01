@@ -141,7 +141,7 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
 
     it('should render a disabled button with correct label when deletion is in progress', () => {
       render(getDirectoryMerchantEntityDeleteModalContentComponent())
-      const deletingButton = screen.getByRole('button', {name: 'Deleting Locations...'})
+      const deletingButton = screen.getByRole('button', {name: 'Deleting Locations'})
 
       expect(deletingButton).toBeInTheDocument()
       expect(deletingButton).toBeDisabled()
