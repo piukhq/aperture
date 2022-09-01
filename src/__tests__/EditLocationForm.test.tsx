@@ -265,10 +265,13 @@ describe('EditLocationForm', () => {
       expect(screen.getByTestId('error-message')).toBeInTheDocument()
     })
 
-    it('should render the Tag component when saving', () => {
+    it('should render a disabled button with correct label when saving', () => {
       mockPutLocationIsLoading = true
       render(getEditLocationFormComponent())
-      expect(screen.getByTestId('saving-tag')).toBeInTheDocument()
+      const savingButton = screen.getByRole('button', {name: 'Saving location edit'})
+
+      expect(savingButton).toBeInTheDocument()
+      expect(savingButton).toBeDisabled()
       mockPutLocationIsLoading = false
     })
   })

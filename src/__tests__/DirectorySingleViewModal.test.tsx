@@ -160,10 +160,12 @@ describe('DirectorySingleViewModal', () => {
   })
 
   describe('Test is deleting state', () => {
-    it('should display the deleting tag', () => {
+    it('should render a disabled deleting button', () => {
       mockDeleteMidIsLoading = true
       render(getDirectorySingleViewModalComponent())
-      expect(screen.getByTestId('deleting-tag')).toBeInTheDocument()
+      const deletingButton = screen.getByRole('button', {name: 'Deleting'})
+      expect(deletingButton).toBeInTheDocument()
+      expect(deletingButton).toBeDisabled()
     })
   })
 

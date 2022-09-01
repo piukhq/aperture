@@ -29,6 +29,7 @@ export interface ButtonProps {
   ariaLabel?: string,
   autoFocus?:boolean
   additionalStyles?: string,
+  isDisabled?: boolean,
 }
 
 const Button = (props: ButtonProps) => {
@@ -45,6 +46,7 @@ const Button = (props: ButtonProps) => {
     children,
     autoFocus,
     additionalStyles = '',
+    isDisabled = false,
   } = props
 
   return (
@@ -62,6 +64,7 @@ const Button = (props: ButtonProps) => {
       autoFocus={autoFocus}
       onClick={handleClick}
       type={BUTTON_TYPE_MAPS[buttonType]}
+      disabled={isDisabled}
     >
       <div className='flex items-center justify-center whitespace-nowrap gap-2'>
         {children}
