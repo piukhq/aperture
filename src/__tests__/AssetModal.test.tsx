@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-import {AssetModal} from 'components'
+import {AssetModal} from 'components/Modals'
 
 jest.mock('components/Modal', () => ({
   __esModule: true,

@@ -21,7 +21,7 @@ jest.mock('hooks/useMidManagementMids', () => ({
   })),
 }))
 
-jest.mock('components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails',
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails',
   () => () => <div data-testid='SingleViewMidDetails' />)
 
 jest.mock('features/directoryMerchantSlice', () => ({

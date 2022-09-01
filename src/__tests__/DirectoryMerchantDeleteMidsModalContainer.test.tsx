@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import {DirectoryMerchantMidsDeleteModalContainer} from 'components'
+import {DirectoryMerchantMidsDeleteModalContainer} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
