@@ -18,6 +18,7 @@ const SingleViewLocationSecondaryMids = () => {
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
   const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
+  const [availableSecondaryMidNotification, setAvailableSecondaryMidNotification] = useState('')
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,
@@ -54,6 +55,9 @@ const SingleViewLocationSecondaryMids = () => {
     if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkSecondaryMidIndex(null)
+    } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
+      setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
+      setSelectedUnlinkSecondaryMidIndex(null)
     } else {
       setShouldRenderDropdownMenu(false)
     }
@@ -85,13 +89,14 @@ const SingleViewLocationSecondaryMids = () => {
         })}
         isUnlinking={deleteMerchantLocationSecondaryMidLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
+        setNewLinkNotificationFn={setAvailableSecondaryMidNotification}
         entityType={LinkableEntities.SECONDARY_MID}
       />
     )
   }
 
   const renderLinkNewSecondaryMidButton = () => (
-    <section className='flex justify-end items-center mb-[10px]'>
+    <div className='flex justify-end items-center'>
       <Button
         handleClick={() => setShouldPrepareDropdownMenu(true)}
         buttonType={ButtonType.SUBMIT}
@@ -103,7 +108,7 @@ const SingleViewLocationSecondaryMids = () => {
         additionalStyles='text-[12px] leading-[12px]'
       >Link New Secondary MID
       </Button>
-    </section>
+    </div>
   )
 
   const renderAvailableSecondaryMidDropdown = () => {
@@ -139,10 +144,10 @@ const SingleViewLocationSecondaryMids = () => {
     }
 
     return (
-      <section className='flex items-center justify-end gap-[10px] mb-[10px]'>
+      <div className='flex items-center justify-end gap-[10px]'>
         <div className='h-[36px] w-full'>
           <Dropdown
-            displayValue={selectedAvailableSecondaryMid || 'Select MID'}
+            displayValue={selectedAvailableSecondaryMid || 'Select Secondary MID'}
             displayValues={getMerchantSecondaryMidsResponse}
             onChangeDisplayValue={setSelectedAvailableSecondaryMid}
             renderFn={renderDropdownSecondaryMid}
@@ -171,7 +176,7 @@ const SingleViewLocationSecondaryMids = () => {
           ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
           </Button>
         </div>
-      </section>
+      </div>
     )
   }
 
@@ -191,7 +196,12 @@ const SingleViewLocationSecondaryMids = () => {
 
   return (
     <div className='pb-[28px]'>
-      {shouldRenderDropdownMenu ? renderAvailableSecondaryMidDropdown() : renderLinkNewSecondaryMidButton() }
+      <section className='h-[40px]'>
+        {shouldRenderDropdownMenu ? renderAvailableSecondaryMidDropdown() : renderLinkNewSecondaryMidButton() }
+      </section>
+      <section className='font-body-4 text-red h-[40px]'>
+        <p>{availableSecondaryMidNotification}</p>
+      </section>
       {getMerchantLocationLinkedSecondaryMidsIsLoading ? (
         <i className='font-body-4'>Loading...</i>
       ) : renderLinkedSecondaryMids()}

@@ -14,6 +14,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
   const [shouldGetLinkedLocations, setShouldGetLinkedLocations] = useState(true)
   const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState(null)
+  const [availableLocationNotification, setAvailableLocationNotification] = useState('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
 
   const {
     getMerchantSecondaryMidLinkedLocationsResponse,
@@ -45,7 +46,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
   const hasNoLinkedLocations = (!getMerchantSecondaryMidLinkedLocationsResponse || getMerchantSecondaryMidLinkedLocationsResponse.length === 0) && !getMerchantSecondaryMidLinkedLocationsIsLoading
 
-  const renderLinkLocationButton = () => (
+  const renderLinkLocationButton = () => ( // TODO: To be refactored to similar pattern as Location Mids/Secondary Mids
     <section className='flex flex-col justify-center items-end'>
       <Button
         handleClick={() => setShouldGetLinkedLocations(false)}
@@ -61,7 +62,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
       <div className='h-[20px] mt-[6px]'>
         {locationData?.length === 0 && !locationDataIsLoading && (
-          <p className='font-body text-[12px] text-red'>No Locations available to link for this Secondary MID</p>
+          <p className='font-body text-[12px] text-red'>{availableLocationNotification}</p>
         )}
       </div>
     </section>
@@ -90,6 +91,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
         entityType={LinkableEntities.LOCATION}
+        setNewLinkNotificationFn={setAvailableLocationNotification}
       />
     )
   }
