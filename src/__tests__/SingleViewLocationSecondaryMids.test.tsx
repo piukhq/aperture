@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewLocationSecondaryMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
 
 jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
@@ -67,9 +67,16 @@ describe('SingleViewLocationSecondaryMids', () => {
   })
 
   it('should render Link New Secondary MID button', () => {
-    mockGetMerchantSecondaryMidsResponse = []
     render(<SingleViewLocationSecondaryMids />)
     expect(screen.getByRole('button', {name: 'Link New Secondary MID'})).toBeInTheDocument()
+  })
+
+  it('should render the correct available secondary mid notification when no secondary mids are available', () => {
+    mockGetMerchantSecondaryMidsResponse = []
+    render(<SingleViewLocationSecondaryMids />)
+    fireEvent.click(screen.getByRole('button', {name: 'Link New Secondary MID'}))
+
+    expect(screen.getByText('No Secondary MIDs available to link for this Location.')).toBeInTheDocument()
   })
 
   it('should render the correct section heading', () => {
@@ -97,6 +104,7 @@ describe('SingleViewLocationSecondaryMids', () => {
     expect(screen.queryByTestId('Dropdown')).not.toBeInTheDocument()
   })
 
+
   describe('Test Link New Secondary Mid button functionality', () => {
     beforeEach(() => {
       mockGetMerchantSecondaryMidsResponse = mockSecondaryMids
@@ -107,6 +115,7 @@ describe('SingleViewLocationSecondaryMids', () => {
         .mockReturnValueOnce([true, setStateMock]) // shouldRenderDropdownMenu
         .mockReturnValueOnce([mockGetMerchantLocationLinkedSecondaryMidsResponse[1], setStateMock]) // selectedAvailableSecondaryMid
         .mockReturnValueOnce([null, setStateMock]) // selectedUnlinkMidIndex
+        .mockReturnValueOnce(['', setStateMock]) // availableSecondaryMidNotification
     })
 
     it('should not render the New Secondary Mid link button', () => {
