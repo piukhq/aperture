@@ -188,7 +188,7 @@ const SingleViewLocationMids = () => {
 
   const renderLinkedMids = () => {
     if (hasNoLinkedMids) {
-      return <i className='font-modal-4'>There are no MIDs to view.</i>
+      return <i className='font-body-4'>There are no MIDs to view.</i>
     }
     return (
       <section>
