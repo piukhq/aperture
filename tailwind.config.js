@@ -55,6 +55,7 @@ module.exports = {
       'visaBlue': '#2100c4',
       'mastercardBlue': '#3f51b5',
       'amexBlue': '#1976d2',
+      'commentsBlue': '#1e75ff',
     },
     extend: {
       lineHeight: {
@@ -100,6 +101,9 @@ module.exports = {
         'slideOrange': 'slideOrange 1s ease-out',
         'fadeIn': 'fadeIn 2s ease-out',
         shine: 'shine 700ms',
+        scale: {
+          flip: '-1',
+        },
       },
     },
   },

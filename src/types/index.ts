@@ -85,30 +85,34 @@ export type PaymentScheme = {
   count: number,
 }
 
-type DirectoryComment = {
+export type DirectoryCommentSubject = {
+  display_text: string,
+  link_resource: string
+}
+
+export type DirectoryComment = {
   ref: string,
   created_at: string,
   created_by: string,
   is_edited: boolean,
   is_deleted: boolean,
-  subjects: Array<{
-    display_text: string,
-    link_resource: string
-  }>,
+  subjects: Array<DirectoryCommentSubject>,
   metadata: {
     comment_owner: string,
     owner_type: string,
     text: string
   },
-  children: Array<string>
+  responses: Array<DirectoryComment>
+}
+
+export type DirectoryCommentHighLevel = {
+  subject_type: string,
+  comments: Array<DirectoryComment>
 }
 
 export type DirectoryComments = {
-  owner_of: Array<{
-    subject_type: string,
-    comments: Array<DirectoryComment>
-  }>,
-  subject_of: Array<DirectoryComment>
+  entity_comments: DirectoryCommentHighLevel
+  lower_comments: Array<DirectoryCommentHighLevel>,
 }
 
 export type DirectoryPlan = {

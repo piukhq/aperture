@@ -18,7 +18,7 @@ export {default as DirectoryMerchantIdentifiers} from './DirectoryMerchantIdenti
 export {default as DirectoryMerchantSecondaryMids} from './DirectoryMerchantSecondaryMids'
 export {default as DirectoryMerchantEntityDeleteModal} from './DirectoryMerchantEntityDeleteModal'
 export {default as Modal} from './Modal'
-export {default as ModalContainer} from './ModalContainer'
+export {default as ModalFactory} from './ModalFactory'
 export {default as OptionsMenuButton} from './OptionsMenuButton'
 export {default as OptionsMenuItem} from './OptionsMenuButton/components/OptionsMenuItem'
 export {default as PageLayout} from './PageLayout'
