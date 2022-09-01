@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import {DirectoryMerchantModal} from 'components'
+import {DirectoryMerchantModal} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 

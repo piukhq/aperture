@@ -20,7 +20,7 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   })),
 }))
 
-jest.mock('components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails',
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails',
   () => () => <div data-testid='SingleViewSecondaryMidDetails' />)
 
 jest.mock('features/directoryMerchantSlice', () => ({

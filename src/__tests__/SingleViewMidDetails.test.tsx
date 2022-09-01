@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react'
 import SingleViewMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
-jest.mock('components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField',
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField',
   () => () => <div data-testid='SingleViewMidEditableField' />)
 
 const mockVisaBin = 'mock_visa_bin'

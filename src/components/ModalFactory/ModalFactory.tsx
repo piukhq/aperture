@@ -1,13 +1,13 @@
 import {
   AssetModal,
   CredentialsModal,
-  DirectoryMerchantDeleteModal,
-  DirectoryMerchantMidsDeleteModalContainer,
+  DirectoryPlanModal,
+  DirectoryPlanDeleteModal,
   DirectoryMerchantModal,
+  DirectoryMerchantDeleteModal,
   DirectoryMidModal,
   DirectorySingleViewModal,
-  DirectoryPlanDeleteModal,
-  DirectoryPlanModal,
+  DirectoryMerchantMidsDeleteModalContainer,
   DirectoryMerchantSecondaryMidsDeleteModalContainer,
   DirectoryMerchantLocationsDeleteModalContainer,
   DirectoryMerchantIdentifiersDeleteModalContainer,
@@ -20,7 +20,6 @@ type Props = {
 }
 
 const ModalFactory = ({modalRequested}: Props) => {
-  // const determineModalComponent = () => {
   switch(modalRequested) {
     case ModalType.ASSET_COMPARATOR_ASSET: return <AssetModal />
     case ModalType.ASSET_COMPARATOR_CREDENTIALS: return <CredentialsModal />
@@ -37,9 +36,6 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.MID_MANAGEMENT_COMMENTS: return <DirectoryCommentsModal />
     default: return null
   }
-  // }
-
-  // return determineModalComponent()
 }
 
 export default ModalFactory

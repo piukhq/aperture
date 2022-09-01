@@ -2,7 +2,7 @@ import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidLocations from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations'
 
-jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 
 let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   link_ref: 'mock_link_ref',

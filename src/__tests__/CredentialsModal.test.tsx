@@ -46,7 +46,7 @@ jest.mock('utils/validation', () => ({
   isValidPassword: jest.fn(),
 }))
 
-jest.mock('components/CredentialsModal/components/VerificationTag', () => () => <div data-testid='verification-tag'></div>)
+jest.mock('components/Modals/components/CredentialsModal/components/VerificationTag', () => () => <div data-testid='verification-tag'></div>)
 jest.mock('components/Modal', () => ({
   __esModule: true,
   default ({modalHeader, children}: Record<string, unknown>) {

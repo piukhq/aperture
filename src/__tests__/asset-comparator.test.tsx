@@ -6,8 +6,6 @@ import configureStore from 'redux-mock-store'
 import AssetComparatorPage from 'pages/asset-comparator'
 import * as WindowDimensions from 'utils/windowDimensions'
 
-jest.mock('components/AssetModal', () => () => <div data-testid='asset-comparator-modal' />)
-jest.mock('components/CredentialsModal', () => () => <div data-testid='credentials-modal' />)
 jest.mock('components/PlansList', () => () => <div data-testid='plan-list' />)
 jest.mock('components/AssetGrid', () => () => <div data-testid='asset-grid' />)
 jest.mock('hooks/useGetPlans', () => ({
@@ -49,42 +47,6 @@ describe('AssetComparatorPage', () => {
       <AssetComparatorPage />
     </Provider>
   )
-
-  describe('Test Credentials Modal', () => {
-    it('should not render Credentials Modal', () => {
-      const {queryByTestId} = render(getAssetComparatorComponent())
-      expect(queryByTestId('credentials-modal')).not.toBeInTheDocument()
-    })
-
-    it('should render Credentials Modal', () => {
-      const store = mockStoreFn({
-        ...initialState,
-        modal: {
-          modalRequested: 'ASSET_COMPARATOR_CREDENTIALS',
-        },
-      })
-      const {queryByTestId} = render(getAssetComparatorComponent(store))
-      expect(queryByTestId('credentials-modal')).toBeInTheDocument()
-    })
-  })
-
-  describe('Test Asset Modal', () => {
-    it('should not render Asset Modal', () => {
-      const {queryByTestId} = render(getAssetComparatorComponent())
-      expect(queryByTestId('asset-comparator-modal')).not.toBeInTheDocument()
-    })
-
-    it('should render Asset Modal', () => {
-      const store = mockStoreFn({
-        ...initialState,
-        modal: {
-          modalRequested: 'ASSET_COMPARATOR_ASSET',
-        },
-      })
-      const {queryByTestId} = render(getAssetComparatorComponent(store))
-      expect(queryByTestId('asset-comparator-modal')).toBeInTheDocument()
-    })
-  })
 
   describe('Test headings', () => {
     it('should render the header container', () => {

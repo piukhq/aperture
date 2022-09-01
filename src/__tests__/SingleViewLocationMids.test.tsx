@@ -2,7 +2,7 @@ import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewLocationMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
-jest.mock('components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
 
 let mockGetMerchantLocationLinkedMidsResponse = [
