@@ -10,12 +10,16 @@ import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
 type MerchantLocationsEndpointRefs = {
-  planRef: string,
+  planRef?: string,
   merchantRef?: string,
   midRef?: string,
   locationRef?: string,
   secondaryMidRef?: string,
   linkRef?: string,
+}
+
+type PostMerchantLocationBody = MerchantLocationsEndpointRefs & {
+  midRefs: string[],
 }
 
 type PutMerchantLocationBody = MerchantLocationsEndpointRefs & {
@@ -38,7 +42,7 @@ type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
 export const midManagementMerchantLocationsApi = createApi({
   reducerPath: 'midManagementMerchantLocationsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids'],
+  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids', 'MerchantLocationAvailableMids'],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -102,6 +106,51 @@ export const midManagementMerchantLocationsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
         method: 'GET',
       }),
+      providesTags: ['MerchantLocationAvailableMids'],
+    }),
+    postMerchantLocationLinkedMids: builder.mutation<Array<DirectoryMerchantLocationMid>, PostMerchantLocationBody>({
+      query: ({planRef, merchantRef, locationRef, midRefs}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
+        method: 'POST',
+        body: [
+          ...midRefs,
+        ],
+      }),
+      // Update the cache with the newly linked mids
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLinkedMids} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', undefined, (existingLinkedMids) => {
+            // Join new mids to existing cache of mids
+            existingLinkedMids.concat(newLinkedMids)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+      invalidatesTags: ['MerchantLocationAvailableMids'],
+    }),
+    deleteMerchantLocationMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, midRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
+        method: 'DELETE',
+      }),
+      // Update the cache with the removed linked mid
+      async onQueryStarted ({midRef}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', ({midRef}), (existingLinkedMids) => {
+            const index = existingLinkedMids.findIndex(linkedMid => linkedMid.mid_ref === midRef)
+            index !== -1 && existingLinkedMids.splice(index, 1)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -135,6 +184,8 @@ export const {
   useDeleteMerchantLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
+  usePostMerchantLocationLinkedMidsMutation,
+  useDeleteMerchantLocationMidLinkMutation,
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
