@@ -192,7 +192,7 @@ const SingleViewLocationMids = () => {
     }
     return (
       <section>
-        <h2 className='font-single-view-heading'>LINKED MIDS</h2>
+        <h2 className='font-modal-heading'>LINKED MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
           {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
         </div>
