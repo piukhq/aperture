@@ -1,11 +1,7 @@
 import React from 'react'
 import {ModalFactory, Sidebar} from 'components'
-import {
-  selectModal,
-} from 'features/modalSlice'
-import {
-  useAppSelector,
-} from 'app/hooks'
+import {selectModal} from 'features/modalSlice'
+import {useAppSelector} from 'app/hooks'
 import {ModalType} from 'utils/enums'
 
 type Props = {

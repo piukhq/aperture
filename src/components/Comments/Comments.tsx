@@ -71,19 +71,33 @@ const Comments = ({comments}: Props) => {
 
             <div className='flex items-center gap-[20px] min-w-[104px]'>
               <p className='font-subheading-4 tracking-[0.08px]'>{isoToDateTime(createdAt, true)}</p>
-              <DotsSvg className='h-[11px] w-[11px]' />
+
+              <Button
+                handleClick={() => console.log('Options button clicked')}
+                buttonWidth={ButtonWidth.ICON_ONLY}
+                additionalStyles='h-[11px] w-[11px]'
+                ariaLabel='Options'
+              >
+                <DotsSvg className='h-[11px] w-[11px]' />
+              </Button>
             </div>
           </div>
 
           <div className='flex flex-row justify-between mt-[4px]'>
             <p className='font-body-3'>{metadata.text}</p>
 
-            <div className='self-end ml-[10px] h-[20px] w-[20px]'>
-              <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-[#92929D]' />
-            </div>
+            <Button
+              handleClick={() => console.log('Reply button clicked')}
+              buttonWidth={ButtonWidth.ICON_ONLY}
+              additionalStyles='h-[20px] w-[20px] self-end'
+              ariaLabel='Reply'
+            >
+              <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
+            </Button>
           </div>
         </div>
 
+        {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => renderComments(response, true))}
       </div>
     )
