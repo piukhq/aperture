@@ -75,6 +75,7 @@ const Comments = ({comments}: Props) => {
               <Button
                 handleClick={() => console.log('Options button clicked')}
                 buttonWidth={ButtonWidth.ICON_ONLY}
+                buttonSize={ButtonSize.INHERIT}
                 additionalStyles='h-[11px] w-[11px]'
                 ariaLabel='Options'
               >
@@ -88,6 +89,7 @@ const Comments = ({comments}: Props) => {
 
             <Button
               handleClick={() => console.log('Reply button clicked')}
+              buttonSize={ButtonSize.INHERIT}
               buttonWidth={ButtonWidth.ICON_ONLY}
               additionalStyles='h-[20px] w-[20px] self-end'
               ariaLabel='Reply'
