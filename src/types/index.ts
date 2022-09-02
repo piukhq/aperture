@@ -83,6 +83,7 @@ export type PaymentScheme = {
 export type DirectoryCommentSubject = {
   display_text: string,
   link_resource: string
+  icon_slug?: string
 }
 
 export type DirectoryComment = {
