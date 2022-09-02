@@ -65,7 +65,7 @@ describe('Comments', () => {
       expect(screen.getByText((mockEntityCommentSubjectType).toUpperCase())).toBeInTheDocument()
     })
 
-    it('should render the comment date an options icon', () => {
+    it('should render the comment date and options icon', () => {
       render(getCommentsComponent())
       expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
       expect(screen.getByRole('button', {name: /Options/})).toBeInTheDocument()

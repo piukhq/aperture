@@ -64,7 +64,7 @@ const Comments = ({comments}: Props) => {
       )}>
         <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
           <div className='flex justify-between items-center'>
-            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)] truncate'>
+            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)]'>
               <h4 className='font-bold'>{createdBy}</h4>
               {subjects.length > 0 && renderSubjects(subjects)}
             </span>
