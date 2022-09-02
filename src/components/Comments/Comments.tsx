@@ -20,7 +20,7 @@ const Comments = ({comments}: Props) => {
     const renderSingleSubject = () => {
       const subject = subjects[0]
       return (
-        <a className='flex truncate text-commentsBlue' href={`${router.asPath}${subject.link_resource}`}>
+        <a data-testid='subject-link' className='flex truncate text-commentsBlue' href={`${router.asPath}${subject.link_resource}`}>
           <h4 className='font-bold truncate'>
             {subject.display_text}
           </h4>
@@ -93,13 +93,13 @@ const Comments = ({comments}: Props) => {
     const {subject_type: subjectType, comments} = highLevelComment
 
     return (
-      <div key={index} className='mb-[36px]'>
+      <section key={index} className='mb-[36px]' data-testid='comment-section'>
         <h3 className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
           {comments.map((comment) => renderComments(comment))}
         </div>
-      </div>
+      </section>
     )
   }
 
