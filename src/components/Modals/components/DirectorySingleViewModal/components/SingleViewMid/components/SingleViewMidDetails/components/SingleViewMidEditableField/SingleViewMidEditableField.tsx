@@ -172,7 +172,6 @@ const SingleViewMidEditableField = ({
     </div>
   )
 
-
   const renderEditableDropdownMenu = () => (
     <div className='w-full'>
       <div className='mb-[3px]'>
@@ -182,7 +181,6 @@ const SingleViewMidEditableField = ({
         <div className='w-[392px]'>
           <Dropdown displayValue={value} displayValues={dropdownValues} onChangeDisplayValue={handleValueChange} selectedValueStyles='font-normal text-grey-600' />
         </div>
-
         {renderEditSaveAndCloseButtons()}
       </div>
     </div>

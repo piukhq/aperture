@@ -22,9 +22,9 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   const {
     putMerchantLocation,
-    putMerchantLocationIsSuccess,
-    putMerchantLocationIsLoading,
-    putMerchantLocationError,
+    putMerchantLocationIsSuccess: isSuccess,
+    putMerchantLocationIsLoading: isLoading,
+    putMerchantLocationError: putError,
     resetPutMerchantLocationResponse,
   } = useMidManagementLocations({
     skipGetLocations: true,
@@ -77,21 +77,21 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   // TODO: Handle unhappy path
   const handleErrorResponse = useCallback(() => {
-    console.error(putMerchantLocationError)
-  }, [putMerchantLocationError])
+    console.error(putError)
+  }, [putError])
 
   useEffect(() => {
-    if (putMerchantLocationError) {
+    if (putError) {
       handleErrorResponse()
-    } else if (putMerchantLocationIsSuccess) {
+    } else if (isSuccess) {
       setErrorMessage(null)
       resetPutMerchantLocationResponse()
       dispatch(requestModal(ModalType.NO_MODAL))
       router.isReady && router.replace(baseRoute)
     }
   }, [
-    putMerchantLocationIsSuccess,
-    putMerchantLocationError,
+    isSuccess,
+    putError,
     setErrorMessage,
     resetPutMerchantLocationResponse,
     handleErrorResponse,
@@ -364,7 +364,7 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
             labelColour={LabelColour.GREY}
             labelWeight={LabelWeight.SEMIBOLD}
             ariaLabel='Cancel location edit'
-            isDisabled={putMerchantLocationIsLoading}
+            isDisabled={isLoading}
           >Cancel
           </Button>
           <Button
@@ -375,9 +375,9 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            isDisabled={putMerchantLocationIsLoading}
-            ariaLabel={putMerchantLocationIsLoading ? 'Saving location edit' : 'Save location edit'}
-          >{putMerchantLocationIsLoading ? 'Saving' : 'Save'}
+            isDisabled={isLoading}
+            ariaLabel={isLoading ? 'Saving location edit' : 'Save location edit'}
+          >{isLoading ? 'Saving' : 'Save'}
           </Button>
         </div>
       </div>
