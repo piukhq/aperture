@@ -55,6 +55,7 @@ module.exports = {
       'visaBlue': '#2100c4',
       'mastercardBlue': '#3f51b5',
       'amexBlue': '#1976d2',
+      'commentsBlue': '#1e75ff',
     },
     extend: {
       lineHeight: {
@@ -71,6 +72,9 @@ module.exports = {
       },
       boxShadow: {
         'md': '0 1px 6px 0px rgba(0,0,0,0.5)',
+      },
+      scale: {
+        flip: '-1',
       },
     },
   },

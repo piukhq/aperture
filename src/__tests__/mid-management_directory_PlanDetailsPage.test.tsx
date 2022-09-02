@@ -3,11 +3,9 @@ import {render, screen} from '@testing-library/react'
 import PlanDetailsPage from 'pages/mid-management/directory/[planId]/index'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
-import {ModalType} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='directory-merchant-modal' />)
 
 const mockGetPlanDetailsResponse = {
   plan_ref: 's3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -120,23 +118,6 @@ describe('MID Management PlanDetailsPage', () => {
       render(getPlanDetailsPageComponent())
       const planTiles = screen.getAllByTestId('directory-tile')
       expect(planTiles).toHaveLength(2)
-    })
-  })
-
-  describe('Test New Merchant button', () => {
-    it('should render New Merchant Modal', () => {
-      const store = mockStoreFn({
-        modal: {
-          modalRequested: ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT,
-        },
-      })
-      render(getPlanDetailsPageComponent(store))
-      expect(screen.queryByTestId('directory-merchant-modal')).toBeInTheDocument()
-    })
-
-    it('should not render New Merchant Modal', () => {
-      render(getPlanDetailsPageComponent(store))
-      expect(screen.queryByTestId('directory-merchant-modal')).not.toBeInTheDocument()
     })
   })
 })

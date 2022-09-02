@@ -14,6 +14,7 @@ export enum ButtonSize {
   SMALL,
   TINY,
   SMALL_MEDIUM_BODY_FONT,
+  INHERIT,
 }
 
 export enum ButtonWidth {
@@ -31,6 +32,7 @@ export enum ButtonWidth {
 
 export enum ButtonBackground {
   BLUE,
+  COMMENTS_BLUE,
   WHITE,
   RED,
   DARK_GREY,
@@ -75,6 +77,7 @@ export const BUTTON_SIZE_MAPS: Record<ButtonSize, string> = {
   [ButtonSize.MEDIUM_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-sm min-h-[38px]',
   [ButtonSize.SMALL_MEDIUM_BODY_FONT]: 'rounded-[10px] font-heading tracking-[0.1px] text-sm',
   [ButtonSize.SMALL_BODY_FONT]: 'rounded-[10px] font-body tracking-[0.1px] text-2xs min-h-[28px]',
+  [ButtonSize.INHERIT]: '',
 }
 
 export const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
@@ -93,6 +96,7 @@ export const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
 export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.WHITE]: 'bg-white',
   [ButtonBackground.BLUE]: 'bg-blue outline-green outline-offset-2',
+  [ButtonBackground.COMMENTS_BLUE]: 'bg-commentsBlue outline-green outline-offset-2',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
   [ButtonBackground.LIGHTISH_GREY]: 'bg-grey-300',

@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {DirectoryDetailsHeader} from 'components'
 
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
-jest.mock('components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
+jest.mock('components/Modals/components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 jest.mock('components/DirectoryBreadcrumb', () => () => <div data-testid='breadcrumb' />)
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
 

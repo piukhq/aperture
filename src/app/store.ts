@@ -19,6 +19,7 @@ import storage from 'redux-persist/lib/storage'
 
 import apiReflectorReducer from 'features/apiReflectorSlice'
 import customerWalletReducer from 'features/customerWalletSlice'
+import directoryCommentsReducer from 'features/directoryCommentsSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
@@ -26,6 +27,7 @@ import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
+import {midManagementCommentsApi} from 'services/midManagementComments'
 import {midManagementPlansApi} from 'services/midManagementPlans'
 import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {midManagementMerchantMidsApi} from 'services/midManagementMerchantMids'
@@ -40,6 +42,7 @@ const reducers = combineReducers({
   modal: modalReducer,
   apiReflector: apiReflectorReducer,
   customerWallet: customerWalletReducer,
+  directoryComments: directoryCommentsReducer,
   directoryPlan: directoryPlanReducer,
   directoryMerchant: directoryMerchantReducer,
 
@@ -52,6 +55,7 @@ const reducers = combineReducers({
   [prodPlansApi.reducerPath]: prodPlansApi.reducer,
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
   [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
+  [midManagementCommentsApi.reducerPath]: midManagementCommentsApi.reducer,
   [midManagementPlansApi.reducerPath]: midManagementPlansApi.reducer,
   [midManagementMerchantsApi.reducerPath]: midManagementMerchantsApi.reducer,
   [midManagementMerchantMidsApi.reducerPath]: midManagementMerchantMidsApi.reducer,
@@ -86,6 +90,7 @@ export const store = configureStore({
     prodPlansApi.middleware,
     customerWalletApi.middleware,
     customerWalletLookupHistoryApi.middleware,
+    midManagementCommentsApi.middleware,
     midManagementPlansApi.middleware,
     midManagementMerchantsApi.middleware,
     midManagementMerchantMidsApi.middleware,
