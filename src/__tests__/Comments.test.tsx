@@ -79,26 +79,30 @@ describe('Comments', () => {
     })
 
     describe('Test subjects', () => {
-      it('should render comments multiple subject data', () => {
-        render(getCommentsComponent())
-        expect(screen.getByText(`${mockEntityCommentSubject1Text}, ${mockEntityCommentSubject2Text}`)).toBeInTheDocument()
-        expect(screen.getByRole('button', {name: /(see subjects +)/})).toBeInTheDocument()
+      describe('Test multiple subjects', () => {
+        it('should render comments multiple subject data', () => {
+          render(getCommentsComponent())
+          expect(screen.getByText(`${mockEntityCommentSubject1Text}, ${mockEntityCommentSubject2Text}`)).toBeInTheDocument()
+          expect(screen.getByRole('button', {name: /(see subjects +)/})).toBeInTheDocument()
+        })
       })
 
-      it('should render comments singular subject data', () => {
-        const mockComment = {
-          ...mockComments,
-        }
+      describe('Test single subject', () => {
+        it('should render comments singular subject data', () => {
+          const mockComment = {
+            ...mockComments,
+          }
 
-        mockComment.entity_comments.comments[0].subjects = [{
-          display_text: mockEntityCommentSubject1Text,
-          link_resource: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-          icon_slug: null,
-        }]
-
-        render(getCommentsComponent({comments: mockComment}))
-        expect(screen.getByTestId('subject-link')).toBeInTheDocument()
-        expect(screen.getByText(mockEntityCommentSubject1Text)).toBeInTheDocument()
+          mockComment.entity_comments.comments[0].subjects = [{
+            display_text: mockEntityCommentSubject1Text,
+            link_resource: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            icon_slug: 'mock_slug',
+          }]
+          render(getCommentsComponent({comments: mockComment}))
+          expect(screen.getByTestId('subject-icon')).toBeInTheDocument()
+          expect(screen.getByTestId('subject-link')).toBeInTheDocument()
+          expect(screen.getByText(mockEntityCommentSubject1Text)).toBeInTheDocument()
+        })
       })
     })
 

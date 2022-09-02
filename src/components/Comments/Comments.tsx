@@ -6,7 +6,11 @@ import {isoToDateTime} from 'utils/dateFormat'
 import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import WriteSvg from 'icons/svgs/write.svg'
+import VisaSvg from 'icons/svgs/visa-logo-small.svg'
+import MastercardSvg from 'icons/svgs/mastercard-logo-small.svg'
+import AmexSvg from 'icons/svgs/amex-logo-small.svg'
 import {classNames} from 'utils/classNames'
+import {PaymentSchemeIconSlug} from 'utils/enums'
 
 type Props = {
   comments: DirectoryComments
@@ -16,15 +20,32 @@ const Comments = ({comments}: Props) => {
   const router = useRouter()
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
+  const renderSubjectIcon = (iconSlug: string) => {
+    // TODO: Other icon types will possibly be supported in the future
+    switch (iconSlug) {
+      case PaymentSchemeIconSlug.VISA: return <VisaSvg alt='Visa' className='scale-[.6]' />
+      case PaymentSchemeIconSlug.MASTERCARD: return <MastercardSvg className='scale-[.6]' alt='Mastercard' />
+      case PaymentSchemeIconSlug.AMEX: return <AmexSvg className='scale-[.6]' alt='Amex' />
+      default: return null
+    }
+  }
+
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSingleSubject = () => {
-      const subject = subjects[0]
+      const {link_resource: linkResource, display_text: displayText, icon_slug: iconSlug} = subjects[0]
       return (
-        <a data-testid='subject-link' className='flex truncate text-commentsBlue' href={`${router.asPath}${subject.link_resource}`}>
-          <h4 className='font-bold truncate'>
-            {subject.display_text}
+        <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={`${router.asPath}${linkResource}`}>
+          <h4 className='font-bold truncate px-0'>
+            {displayText}
           </h4>
-          <ForwardSvg className='ml-[3px] mt-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
+
+          {iconSlug && (
+            <div data-testid='subject-icon' className='m-[-7px]'>
+              {renderSubjectIcon(iconSlug)}
+            </div>
+          )}
+
+          <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
         </a>
       )
     }
@@ -64,7 +85,7 @@ const Comments = ({comments}: Props) => {
       )}>
         <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
           <div className='flex justify-between items-center'>
-            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)]'>
+            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)] items-center'>
               <h4 className='font-bold'>{createdBy}</h4>
               {subjects.length > 0 && renderSubjects(subjects)}
             </span>
