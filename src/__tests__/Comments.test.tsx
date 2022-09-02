@@ -65,11 +65,17 @@ describe('Comments', () => {
       expect(screen.getByText((mockEntityCommentSubjectType).toUpperCase())).toBeInTheDocument()
     })
 
-    it('should render comment metadata', () => {
+    it('should render the comment date an options icon', () => {
+      render(getCommentsComponent())
+      expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: /Options/})).toBeInTheDocument()
+    })
+
+    it('should render comment metadata and reply icon', () => {
       render(getCommentsComponent())
       expect(screen.getByText(mockEntityCommentCreatedBy)).toBeInTheDocument()
-      expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
       expect(screen.getByText(mockEntityCommentMetadataText)).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: /Reply/})).toBeInTheDocument()
     })
 
     describe('Test subjects', () => {

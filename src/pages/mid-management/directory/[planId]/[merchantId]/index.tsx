@@ -96,7 +96,7 @@ const MerchantDetailsPage: NextPage = () => {
   }
 
   const requestMerchantCommentsModal = () => {
-    dispatch(setModalHeader(merchant?.merchant_metadata?.name))
+    dispatch(setModalHeader(merchant.merchant_metadata.name))
     dispatch(setCommentsRef(merchantId as string))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }
