@@ -35,7 +35,7 @@ const Comments = ({comments}: Props) => {
       const {link_resource: linkResource, display_text: displayText, icon_slug: iconSlug} = subjects[0]
       return (
         <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={`${router.asPath}${linkResource}`}>
-          <h4 className='font-bold truncate px-0'>
+          <h4 className='font-bold truncate'>
             {displayText}
           </h4>
 
