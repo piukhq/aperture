@@ -1,7 +1,6 @@
 import {useRouter} from 'next/router'
 import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {ModalStyle} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
