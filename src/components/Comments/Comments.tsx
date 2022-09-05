@@ -7,7 +7,7 @@ import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import WriteSvg from 'icons/svgs/write.svg'
 import {classNames} from 'utils/classNames'
-import {PaymentSchemeIconSlug} from 'utils/enums'
+import {PaymentSchemeCode} from 'utils/enums'
 
 type Props = {
   comments: DirectoryComments
@@ -27,7 +27,7 @@ const Comments = ({comments}: Props) => {
           </h4>
 
           {iconSlug && (
-            <PaymentCardIcon paymentSchemeCode={PaymentSchemeIconSlug[iconSlug]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
+            <PaymentCardIcon paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
           )}
 
           <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />

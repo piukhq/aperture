@@ -126,12 +126,6 @@ enum PaymentSchemeStartCaseName {
   AMEX = 'Amex'
 }
 
-enum PaymentSchemeIconSlug {
-  'visa' = 1,
-  'mastercard' = 2,
-  'amex' = 3
-}
-
 const PaymentSchemeCode = {
   VISA: 1,
   MASTERCARD: 2,
@@ -161,7 +155,6 @@ export {
   PaymentSchemeName,
   PaymentSchemeStartCaseName,
   PaymentSchemeCode,
-  PaymentSchemeIconSlug,
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
   LinkableEntities,
