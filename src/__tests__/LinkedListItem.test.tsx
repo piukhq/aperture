@@ -3,7 +3,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
+jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
 const mockValue = 'mock_value'
 const mockRefValue = 'mock_ref_value'
 

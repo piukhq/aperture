@@ -1,11 +1,10 @@
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
+import {Button, Dropdown, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
 import {DirectoryMerchantLocationAvailableMid, DirectoryMerchantLocationMid} from 'types'
 import CloseIcon from 'icons/svgs/close.svg'
-import PaymentCardIcon from '../PaymentCardIcon'
 import LinkedListItem from '../../../LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
 
@@ -192,7 +191,7 @@ const SingleViewLocationMids = () => {
     }
     return (
       <section>
-        <h2 className='font-single-view-heading'>LINKED MIDS</h2>
+        <h2 className='font-modal-heading'>LINKED MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
           {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
         </div>
