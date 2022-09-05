@@ -4,13 +4,13 @@ import AmexSvg from 'icons/svgs/add-amex.svg'
 import {PaymentSchemeCode} from 'utils/enums'
 
 type Props = {
-  paymentSchemeCode: number
+  paymentSchemeCode: number,
+  paymentSchemeIconStyles?: string,
 }
 
-const PaymentCardIcon = ({paymentSchemeCode}: Props) => {
+const defaultPaymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
 
-  const paymentSchemeIconStyles = 'flex w-full h-full justify-center items-center rounded-[4px]'
-
+const PaymentCardIcon = ({paymentSchemeCode, paymentSchemeIconStyles = defaultPaymentSchemeIconStyles}: Props) => {
   const renderIcon = () => {
     switch (paymentSchemeCode) {
       case PaymentSchemeCode.VISA:
@@ -31,6 +31,7 @@ const PaymentCardIcon = ({paymentSchemeCode}: Props) => {
             <AmexSvg className='scale-[85%]' alt='Amex' />
           </div>
         )
+      default: return null
     }
   }
 
