@@ -346,6 +346,8 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
     </form>
   )
 
+  const saveButtonLabelValue = isLoading ? 'Saving' : 'Save'
+
   return (
     <>
       {renderForm()}
@@ -376,8 +378,8 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
             isDisabled={isLoading}
-            ariaLabel={isLoading ? 'Saving location edit' : 'Save location edit'}
-          >{isLoading ? 'Saving' : 'Save'}
+            ariaLabel={`${saveButtonLabelValue} location edit`}
+          >{saveButtonLabelValue}
           </Button>
         </div>
       </div>
