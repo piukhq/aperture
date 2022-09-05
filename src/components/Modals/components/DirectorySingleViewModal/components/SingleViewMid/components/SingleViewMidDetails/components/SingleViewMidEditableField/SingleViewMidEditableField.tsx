@@ -212,7 +212,6 @@ const SingleViewMidEditableField = ({
     return dropdownValues ? renderEditableDropdownMenu() : renderEditableInputField()
   }
 
-
   return (
     <section className='flex mb-[34px] items-center'>
       {isInEditState ? renderEditState() : renderReadOnlyState()}
