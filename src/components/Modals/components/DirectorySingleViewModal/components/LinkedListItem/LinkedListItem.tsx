@@ -1,7 +1,7 @@
-import {Button} from 'components'
+
+import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import PaymentCardIcon from '../SingleViewLocation/components/PaymentCardIcon'
 import {LinkableEntities} from 'utils/enums'
 
 type Props = {

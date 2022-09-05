@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import {Button} from 'components'
+import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment, DirectoryCommentSubject} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -7,6 +7,7 @@ import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import WriteSvg from 'icons/svgs/write.svg'
 import {classNames} from 'utils/classNames'
+import {PaymentSchemeCode} from 'utils/enums'
 
 type Props = {
   comments: DirectoryComments
@@ -18,13 +19,18 @@ const Comments = ({comments}: Props) => {
 
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSingleSubject = () => {
-      const subject = subjects[0]
+      const {link_resource: linkResource, display_text: displayText, icon_slug: iconSlug} = subjects[0]
       return (
-        <a data-testid='subject-link' className='flex truncate text-commentsBlue' href={`${router.asPath}${subject.link_resource}`}>
+        <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={`${router.asPath}${linkResource}`}>
           <h4 className='font-bold truncate'>
-            {subject.display_text}
+            {displayText}
           </h4>
-          <ForwardSvg className='ml-[3px] mt-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
+
+          {iconSlug && (
+            <PaymentCardIcon paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
+          )}
+
+          <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
         </a>
       )
     }
@@ -64,7 +70,7 @@ const Comments = ({comments}: Props) => {
       )}>
         <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
           <div className='flex justify-between items-center'>
-            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)]'>
+            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)] items-center'>
               <h4 className='font-bold'>{createdBy}</h4>
               {subjects.length > 0 && renderSubjects(subjects)}
             </span>
@@ -131,7 +137,7 @@ const Comments = ({comments}: Props) => {
         buttonWidth={ButtonWidth.AUTO}
         buttonBackground={ButtonBackground.COMMENTS_BLUE}
         labelColour={LabelColour.WHITE}
-        labelWeight={LabelWeight.MEDIUM}
+        labelWeight={LabelWeight.SEMIBOLD}
         ariaLabel='Add Comment'
       >
         <WriteSvg fill='white' />Add Comment
