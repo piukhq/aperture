@@ -127,9 +127,9 @@ enum PaymentSchemeStartCaseName {
 }
 
 enum PaymentSchemeIconSlug {
-  VISA = 'visa',
-  MASTERCARD = 'mastercard',
-  AMEX = 'amex'
+  'visa' = 1,
+  'mastercard' = 2,
+  'amex' = 3
 }
 
 const PaymentSchemeCode = {

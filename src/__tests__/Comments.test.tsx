@@ -2,6 +2,8 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comments from 'components/Comments'
 
+jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
+
 describe('Comments', () => {
   const mockEntityCommentSubjectType = 'mock_entity_comment_subject_type'
   const mockEntityCommentCreatedBy = 'mock_entity_comment_created_by'
@@ -78,6 +80,11 @@ describe('Comments', () => {
       expect(screen.getByRole('button', {name: /Reply/})).toBeInTheDocument()
     })
 
+    it('should render the Add Comment button', () => {
+      render(getCommentsComponent())
+      expect(screen.getByRole('button', {name: /Add Comment/})).toBeInTheDocument()
+    })
+
     describe('Test subjects', () => {
       describe('Test multiple subjects', () => {
         it('should render comments multiple subject data', () => {
@@ -104,11 +111,6 @@ describe('Comments', () => {
           expect(screen.getByText(mockEntityCommentSubject1Text)).toBeInTheDocument()
         })
       })
-    })
-
-    it('should render the Add Comment button', () => {
-      render(getCommentsComponent())
-      expect(screen.getByRole('button', {name: /Add Comment/})).toBeInTheDocument()
     })
   })
 })

@@ -1,13 +1,12 @@
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
+import {Button, Dropdown, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import CloseIcon from 'icons/svgs/close.svg'
-import PaymentCardIcon from '../PaymentCardIcon'
 import {LinkableEntities} from 'utils/enums'
 
 const SingleViewLocationSecondaryMids = () => {

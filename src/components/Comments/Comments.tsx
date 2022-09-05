@@ -1,14 +1,11 @@
 import {useRouter} from 'next/router'
-import {Button} from 'components'
+import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment, DirectoryCommentSubject} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import WriteSvg from 'icons/svgs/write.svg'
-import VisaSvg from 'icons/svgs/visa-logo-small.svg'
-import MastercardSvg from 'icons/svgs/mastercard-logo-small.svg'
-import AmexSvg from 'icons/svgs/amex-logo-small.svg'
 import {classNames} from 'utils/classNames'
 import {PaymentSchemeIconSlug} from 'utils/enums'
 
@@ -20,16 +17,6 @@ const Comments = ({comments}: Props) => {
   const router = useRouter()
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
-  const renderSubjectIcon = (iconSlug: string) => {
-    // TODO: Other icon types will possibly be supported in the future
-    switch (iconSlug) {
-      case PaymentSchemeIconSlug.VISA: return <VisaSvg alt='Visa' className='scale-[.6]' />
-      case PaymentSchemeIconSlug.MASTERCARD: return <MastercardSvg className='scale-[.6]' alt='Mastercard' />
-      case PaymentSchemeIconSlug.AMEX: return <AmexSvg className='scale-[.6]' alt='Amex' />
-      default: return null
-    }
-  }
-
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSingleSubject = () => {
       const {link_resource: linkResource, display_text: displayText, icon_slug: iconSlug} = subjects[0]
@@ -40,9 +27,7 @@ const Comments = ({comments}: Props) => {
           </h4>
 
           {iconSlug && (
-            <div data-testid='subject-icon' className='m-[-7px]'>
-              {renderSubjectIcon(iconSlug)}
-            </div>
+            <PaymentCardIcon paymentSchemeCode={PaymentSchemeIconSlug[iconSlug]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
           )}
 
           <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
@@ -152,7 +137,7 @@ const Comments = ({comments}: Props) => {
         buttonWidth={ButtonWidth.AUTO}
         buttonBackground={ButtonBackground.COMMENTS_BLUE}
         labelColour={LabelColour.WHITE}
-        labelWeight={LabelWeight.MEDIUM}
+        labelWeight={LabelWeight.SEMIBOLD}
         ariaLabel='Add Comment'
       >
         <WriteSvg fill='white' />Add Comment
