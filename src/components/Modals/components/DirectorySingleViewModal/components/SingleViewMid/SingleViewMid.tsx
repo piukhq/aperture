@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
+import SingleViewComments from '../SingleViewComments'
 
 type Props = {
   resetError: () => void
@@ -56,7 +57,7 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
 
   const renderDetails = () => getMerchantMidResponse ? <SingleViewMidDetails merchantMid={getMerchantMidResponse} setError={setError} resetError={resetError} /> : null
 
-  const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
+  const renderComments = () => <SingleViewComments />
 
   return (
     <>

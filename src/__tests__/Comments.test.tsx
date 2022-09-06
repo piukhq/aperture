@@ -11,37 +11,39 @@ describe('Comments', () => {
   const mockEntityCommentSubject2Text = 'mock_entity_comment_subject_2_text'
   const mockEntityCommentMetadataText = 'mock_entity_comment_metadata_text'
 
-  const mockComments = {
-    entity_comments: {
-      subject_type: mockEntityCommentSubjectType,
-      comments: [
-        {
-          ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          created_at: '2021-12-14T08:57:43.790Z',
-          created_by: mockEntityCommentCreatedBy,
-          is_edited: false,
-          is_deleted: false,
-          subjects: [
-            {
-              display_text: mockEntityCommentSubject1Text,
-              link_resource: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-              icon_slug: null,
-            },
-            {
-              display_text: mockEntityCommentSubject2Text,
-              link_resource: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-              icon_slug: null,
-            },
-          ],
-          metadata: {
-            comment_owner: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-            owner_type: 'plan',
-            text: mockEntityCommentMetadataText,
+  const mockComment = {
+    subject_type: mockEntityCommentSubjectType,
+    comments: [
+      {
+        ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        created_at: '2021-12-14T08:57:43.790Z',
+        created_by: mockEntityCommentCreatedBy,
+        is_edited: false,
+        is_deleted: false,
+        subjects: [
+          {
+            display_text: mockEntityCommentSubject1Text,
+            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            icon_slug: null,
           },
-          responses: null,
+          {
+            display_text: mockEntityCommentSubject2Text,
+            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            icon_slug: null,
+          },
+        ],
+        metadata: {
+          comment_owner: 'e2a26b5a-284d-11ed-a261-0242ac120002',
+          owner_type: 'plan',
+          text: mockEntityCommentMetadataText,
         },
-      ],
-    },
+        responses: null,
+      },
+    ],
+  }
+
+  const mockComments = {
+    entity_comments: mockComment,
     lower_comments: [],
   }
 
@@ -64,7 +66,24 @@ describe('Comments', () => {
     it('should render high level comment section', () => {
       render(getCommentsComponent())
       expect(screen.getByTestId('comment-section')).toBeInTheDocument()
-      expect(screen.getByText((mockEntityCommentSubjectType).toUpperCase())).toBeInTheDocument()
+    })
+
+    describe('Test comment section header', () => {
+      it('should not render the comment section header', () => {
+        render(getCommentsComponent())
+        expect(screen.queryByTestId('section-header')).not.toBeInTheDocument()
+      })
+
+      it('should render the comment section header', () => {
+        const comments = {
+          ...mockComments,
+        }
+
+        comments.lower_comments = [mockComment]
+        render(getCommentsComponent({comments}))
+        const commentSectionHeaders = screen.queryAllByTestId('section-header')
+        expect(commentSectionHeaders).toHaveLength(2)
+      })
     })
 
     it('should render the comment date and options icon', () => {
@@ -96,16 +115,16 @@ describe('Comments', () => {
 
       describe('Test single subject', () => {
         it('should render comments singular subject data', () => {
-          const mockComment = {
+          const comments = {
             ...mockComments,
           }
 
-          mockComment.entity_comments.comments[0].subjects = [{
+          comments.entity_comments.comments[0].subjects = [{
             display_text: mockEntityCommentSubject1Text,
-            link_resource: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
             icon_slug: 'mock_slug',
           }]
-          render(getCommentsComponent({comments: mockComment}))
+          render(getCommentsComponent({comments}))
           expect(screen.getByTestId('subject-icon')).toBeInTheDocument()
           expect(screen.getByTestId('subject-link')).toBeInTheDocument()
           expect(screen.getByText(mockEntityCommentSubject1Text)).toBeInTheDocument()

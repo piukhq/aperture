@@ -25,7 +25,7 @@ const DirectoryCommentsModal = () => {
 
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader} onCloseFn={closeModal}>
-      <div className='border-b-[1px] border-grey-200 dark:border-grey-800 mt-[19px] mb-[27px] pb-[28px]'>
+      <div className='border-b-[1px] border-grey-200 dark:border-grey-800 mt-[19px] mb-[27px]'>
         {comments && <Comments comments={comments} />}
 
         {commentsLoading && <p className='font-body-4'>Comments loading ...</p>}
