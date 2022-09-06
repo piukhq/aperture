@@ -4,8 +4,8 @@ import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import SingleViewSecondaryMidDetails from './components/SingleViewSecondaryMidDetails'
-import SingleViewSecondaryMidLocations from './components/SingleViewSecondaryMidLocations'
+import {SingleViewSecondaryMidDetails, SingleViewSecondaryMidLocations} from './components'
+import SingleViewComments from '../SingleViewComments'
 import {DirectorySingleViewTabs} from 'utils/enums'
 
 type Props = {
@@ -59,7 +59,7 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
       case DirectorySingleViewTabs.LOCATIONS:
         return <SingleViewSecondaryMidLocations />
       case DirectorySingleViewTabs.COMMENTS:
-        return <i className='font-body-4'> There are no comments to view.</i>
+        return <SingleViewComments />
     }
   }
 
