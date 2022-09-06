@@ -137,6 +137,14 @@ enum LinkableEntities {
   SECONDARY_MID = 'Secondary MID',
   LOCATION = 'Location'
 }
+const DirectoryTxmStatus = {
+  'onboarded': 'Onboarded',
+  'not_onboarded': 'Not Onboarded',
+  'onboarding': 'Onboarding',
+  'offboarding': 'Offboarding',
+  'failed': 'Failed',
+}
+
 
 enum PlanCategory {
   ACCOUNT = 'account',
@@ -168,4 +176,5 @@ export {
   DirectorySingleViewTabs,
   LinkableEntities,
   PlanCategory,
+  DirectoryTxmStatus,
 }

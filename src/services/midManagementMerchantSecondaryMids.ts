@@ -73,6 +73,22 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
           console.error('Error:', err)
         }
       }}),
+    postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/SecondaryMids/onboarding`,
+        method: 'POST',
+        body: [secondaryMidRef],
+      }),
+      invalidatesTags: ['MerchantSecondaryMids', 'MerchantSecondaryMid'],
+    }),
+    postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/SecondaryMids/offboarding`,
+        method: 'POST',
+        body: [secondaryMidRef],
+      }),
+      invalidatesTags: ['MerchantSecondaryMids', 'MerchantSecondaryMid'],
+    }),
   }),
 })
 
@@ -82,4 +98,6 @@ export const {
   useGetMerchantSecondaryMidLinkedLocationsQuery,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
+  usePostMerchantSecondaryMidOnboardingMutation,
+  usePostMerchantSecondaryMidOffboardingMutation,
 } = midManagementMerchantSecondaryMidsApi

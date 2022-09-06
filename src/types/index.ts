@@ -228,6 +228,7 @@ export type DirectoryIdentifier = {
   },
   identifier_status?: string, // Is only present when calling API endpoint for a single Identifier.
   date_added: string // TODO: Change this depending on API value
+  txm_status: string
 }
 
 export type DirectorySecondaryMids = Array<DirectorySecondaryMid>

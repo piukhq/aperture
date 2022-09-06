@@ -56,12 +56,31 @@ export const midManagementMerchantIdentifiersApi = createApi({
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
         }
-      }}),
+      },
+    }),
+    postMerchantIdentifierOnboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
+      query: ({planRef, merchantRef, identifierRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/onboarding`,
+        method: 'POST',
+        body: [identifierRef],
+      }),
+      invalidatesTags: ['MerchantIdentifiers', 'MerchantIdentifier'],
+    }),
+    postMerchantIdentifierOffboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
+      query: ({planRef, merchantRef, identifierRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/offboarding`,
+        method: 'POST',
+        body: [identifierRef],
+      }),
+      invalidatesTags: ['MerchantIdentifiers', 'MerchantIdentifier'],
+    }),
   }),
 })
 
 export const {
   useGetMerchantIdentifiersQuery,
   useGetMerchantIdentifierQuery,
+  usePostMerchantIdentifierOnboardingMutation,
+  usePostMerchantIdentifierOffboardingMutation,
   useDeleteMerchantIdentifierMutation,
 } = midManagementMerchantIdentifiersApi
