@@ -90,7 +90,7 @@ describe('SingleViewIdentifierDetails', () => {
     describe('Test Onboarded status', () => {
       it('should render the correct Harmonia Status value', () => {
         render(getSingleViewIdentifierDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
+        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarded')
       })
 
       it('should render the offboard button', () => {
@@ -144,7 +144,6 @@ describe('SingleViewIdentifierDetails', () => {
       it('should render the disabled offboarding button', () => {
         render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'offboarding'}} />)
         expect(screen.getByRole('button', {name: 'Offboarding'})).toBeDisabled()
-
       })
     })
   })

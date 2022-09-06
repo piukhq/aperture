@@ -110,7 +110,7 @@ export const midManagementMerchantMidsApi = createApi({
     }),
     postMerchantMidOnboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/Mids/onboarding`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/onboarding`,
         method: 'POST',
         body: [midRef],
       }),
@@ -118,7 +118,7 @@ export const midManagementMerchantMidsApi = createApi({
     }),
     postMerchantMidOffboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/Mids/offboarding`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/offboarding`,
         method: 'POST',
         body: [midRef],
       }),
