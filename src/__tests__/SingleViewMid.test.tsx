@@ -24,6 +24,9 @@ jest.mock('hooks/useMidManagementMids', () => ({
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails',
   () => () => <div data-testid='SingleViewMidDetails' />)
 
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
+  () => () => <div data-testid='SingleViewComments' />)
+
 jest.mock('features/directoryMerchantSlice', () => ({
   setSelectedDirectoryMerchantEntity: jest.fn(),
   getSelectedDirectoryMerchantEntity: jest.fn().mockReturnValue(null),
@@ -87,6 +90,13 @@ describe('SingleViewMid', () => {
   it('should render SingleViewMidDetails component', () => {
     render(getSingleViewMidComponent())
     expect(screen.getByTestId('SingleViewMidDetails')).toBeInTheDocument()
+  })
+
+  it('should render the SingleViewComments component', () => {
+    React.useState = jest.fn().mockReturnValueOnce(['Comments', jest.fn()])
+
+    render(getSingleViewMidComponent())
+    expect(screen.getByTestId('SingleViewComments')).toBeInTheDocument()
   })
 
   it('should call function to set selected entity if selected entity is not present', () => {

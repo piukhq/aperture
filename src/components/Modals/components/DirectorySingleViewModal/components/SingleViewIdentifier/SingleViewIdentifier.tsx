@@ -1,5 +1,4 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -71,4 +70,4 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
   )
 }
 
-export default React.memo(SingleViewIdentifier)
+export default memo(SingleViewIdentifier)
