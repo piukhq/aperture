@@ -137,6 +137,14 @@ enum LinkableEntities {
   SECONDARY_MID = 'Secondary MID',
   LOCATION = 'Location'
 }
+const DirectoryTxmStatus = {
+  'onboarded': 'Onboarded',
+  'not_onboarded': 'Not Onboarded',
+  'onboarding': 'Onboarding',
+  'offboarding': 'Offboarding',
+  'failed': 'Failed',
+}
+
 
 export {
   Url,
@@ -158,4 +166,5 @@ export {
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
   LinkableEntities,
+  DirectoryTxmStatus,
 }
