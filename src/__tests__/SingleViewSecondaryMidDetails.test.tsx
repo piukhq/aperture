@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
@@ -23,17 +23,37 @@ const mockMerchantSecondaryMid = {
   txm_status: mockTxmStatus,
 }
 
+const mockPostMerchantSecondaryMidOnboarding = jest.fn()
+const mockPostMerchantSecondaryMidOffboarding = jest.fn()
+
+jest.mock('hooks/useMidManagementSecondaryMids', () => ({
+  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+    postMerchantSecondaryMidOnboarding: mockPostMerchantSecondaryMidOnboarding,
+    postMerchantSecondaryMidIsLoading: false,
+    postMerchantSecondaryMidIsSuccess: false,
+    resetPostMerchantSecondaryMidOnboardingResponse: jest.fn(),
+    postMerchantSecondaryMidOffboarding: mockPostMerchantSecondaryMidOffboarding,
+    postMerchantSecondaryMidOffboardingIsLoading: false,
+    postMerchantSecondaryMidOffboardingIsSuccess: false,
+    resetPostMerchantSecondaryMidOffboardingResponse: jest.fn(),
+  })),
+}))
+
 const getSingleViewSecondaryMidDetailsComponent = () => (
   <SingleViewSecondaryMidDetails secondaryMid={mockMerchantSecondaryMid} />
 )
 
-describe('SingleViewSecondaryMidDetails', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    // displayValue state value
-    React.useState = jest.fn().mockReturnValue(['', jest.fn()])
-  })
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
+    merchantId: 'mock_merchant_id',
+    ref: 'mock_ref',
+  },
+}))
 
+
+describe('SingleViewSecondaryMidDetails', () => {
   // TODO: Add functionality tests into each section
   describe('Test Date Added', () => {
     it('should render the Date Added heading', () => {
@@ -73,9 +93,69 @@ describe('SingleViewSecondaryMidDetails', () => {
       render(getSingleViewSecondaryMidDetailsComponent())
       expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
     })
-    it('should render the Edit button', () => {
-      render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+
+    describe('Test Onboarded status', () => {
+      it('should render the correct Harmonia Status value', () => {
+        mockMerchantSecondaryMid.txm_status = 'onboarded'
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarded')
+      })
+
+      it('should render the offboard button', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
+      })
+
+      it('should call the postOffboarding function when clicked', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        fireEvent.click(screen.getByRole('button', {name: 'Offboard'}))
+        expect(mockPostMerchantSecondaryMidOffboarding).toHaveBeenCalled()
+      })
+    })
+
+    describe('Test Not Onboarded status', () => {
+      it('should render the correct Harmonia Status value', () => {
+        mockMerchantSecondaryMid.txm_status = 'not_onboarded'
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Not Onboarded')
+      })
+
+      it('should render the onboard button', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
+      })
+
+      it('should call the postOnboarding function when clicked', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        fireEvent.click(screen.getByRole('button', {name: 'Onboard'}))
+        expect(mockPostMerchantSecondaryMidOnboarding).toHaveBeenCalled()
+      })
+    })
+
+    describe('Test Onboarding status', () => {
+      it('should render the correct Harmonia Status value', () => {
+        mockMerchantSecondaryMid.txm_status = 'onboarding'
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarding')
+      })
+
+      it('should render the disabled onboarding button', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByRole('button', {name: 'Onboarding'})).toBeDisabled()
+      })
+    })
+
+    describe('Test Offboarding status', () => {
+      it('should render the correct Harmonia Status value', () => {
+        mockMerchantSecondaryMid.txm_status = 'offboarding'
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarding')
+      })
+
+      it('should render the disabled offboarding button', () => {
+        render(getSingleViewSecondaryMidDetailsComponent())
+        expect(screen.getByRole('button', {name: 'Offboarding'})).toBeDisabled()
+      })
     })
   })
 })
