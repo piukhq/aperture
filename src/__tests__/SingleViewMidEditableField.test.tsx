@@ -80,7 +80,7 @@ describe('SingleViewMidEditableField', () => {
 
       it('should render the correct buttons', () => {
         render(getSingleViewMidEditableField())
-        expect(screen.getByRole('button', {name: `Save ${mockLabel}`})).toBeInTheDocument()
+        expect(screen.getByRole('button', {name: 'Save'})).toBeInTheDocument()
         expect(screen.getByRole('button', {name: `Close ${mockLabel} edit`})).toBeInTheDocument()
       })
 
@@ -90,7 +90,7 @@ describe('SingleViewMidEditableField', () => {
           render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
           fireEvent.click(screen.getByRole('button', {
-            name: `Save ${mockLabel}`,
+            name: 'Save',
           }))
 
           expect(setValidationErrorStateMock).toBeCalledWith(mockValidationErrorMessage)
@@ -101,7 +101,7 @@ describe('SingleViewMidEditableField', () => {
           render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
           fireEvent.click(screen.getByRole('button', {
-            name: `Save ${mockLabel}`,
+            name: 'Save',
           }))
 
           expect(setValidationErrorStateMock).not.toBeCalled()
@@ -118,11 +118,12 @@ describe('SingleViewMidEditableField', () => {
           expect(input).toHaveValue(mockValue)
         })
 
-        it('should render the Tag component with the correct label', () => {
+        it('should render the disabled saving button with the correct label', () => {
           render(getSingleViewMidEditableField({...mockProps, isSaving: true}))
+          const savingButton = screen.getByRole('button', {name: 'Saving'})
 
-          const tagLabel = screen.getByTestId('tag-label')
-          expect(tagLabel).toHaveTextContent('Saving...')
+          expect(savingButton).toBeInTheDocument()
+          expect(savingButton).toBeDisabled()
         })
       })
     })

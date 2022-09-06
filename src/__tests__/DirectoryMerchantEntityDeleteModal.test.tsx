@@ -139,9 +139,12 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
       expect(screen.getByText('mock_error')).toBeInTheDocument()
     })
 
-    it('should render a tag with correct label when deletion is in progress', () => {
+    it('should render a disabled button with correct label when deletion is in progress', () => {
       render(getDirectoryMerchantEntityDeleteModalContentComponent())
-      expect(screen.getByTestId('tag-label')).toHaveTextContent('Deleting...')
+      const deletingButton = screen.getByRole('button', {name: 'Deleting Locations...'})
+
+      expect(deletingButton).toBeInTheDocument()
+      expect(deletingButton).toBeDisabled()
     })
   })
 })

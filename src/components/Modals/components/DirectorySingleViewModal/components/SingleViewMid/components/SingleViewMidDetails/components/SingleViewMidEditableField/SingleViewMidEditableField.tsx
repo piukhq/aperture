@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
-import {Button, Tag, TextInputGroup, Dropdown} from 'components'
+import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, BorderColour, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
@@ -147,32 +146,20 @@ const SingleViewMidEditableField = ({
     </div>
   )
 
-  const renderEditSaveAndCloseButtons = () => {
-    if (isSaving) {
-      return (
-        <Tag
-          tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
-          textStyle={TextStyle.MEDIUM}
-          textColour={TextColour.GREY}
-          tagStyle={TagStyle.LIGHT_GREY_FILLED}
-          label='Saving...'
-        />
-      )
-    }
-    return (
-      <div className='flex gap-[10px]'>
-        <Button
-          handleClick={onSaveHandler}
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-          buttonBackground={ButtonBackground.BLUE}
-          labelColour={LabelColour.WHITE}
-          labelWeight={LabelWeight.SEMIBOLD}
-          ariaLabel={`Save ${label}`}
-        >Save
-        </Button>
-
+  const renderEditSaveAndCloseButtons = () => (
+    <div className='flex gap-[10px]'>
+      <Button
+        handleClick={onSaveHandler}
+        buttonType={ButtonType.SUBMIT}
+        buttonSize={ButtonSize.MEDIUM}
+        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+        buttonBackground={ButtonBackground.BLUE}
+        labelColour={LabelColour.WHITE}
+        labelWeight={LabelWeight.SEMIBOLD}
+        isDisabled={isSaving}
+      >{isSaving ? 'Saving' : 'Save'}
+      </Button>
+      { !isSaving && (
         <Button
           handleClick={onCancelHandler}
           buttonSize={ButtonSize.MEDIUM_ICON}
@@ -181,9 +168,9 @@ const SingleViewMidEditableField = ({
           ariaLabel={`Close ${label} edit`}
         ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
         </Button>
-      </div>
-    )
-  }
+      )}
+    </div>
+  )
 
   const renderEditableDropdownMenu = () => (
     <div className='w-full'>
@@ -194,7 +181,6 @@ const SingleViewMidEditableField = ({
         <div className='w-[392px]'>
           <Dropdown displayValue={value} displayValues={dropdownValues} onChangeDisplayValue={handleValueChange} selectedValueStyles='font-normal text-grey-600' />
         </div>
-
         {renderEditSaveAndCloseButtons()}
       </div>
     </div>
@@ -225,7 +211,6 @@ const SingleViewMidEditableField = ({
   const renderEditState = () => {
     return dropdownValues ? renderEditableDropdownMenu() : renderEditableInputField()
   }
-
 
   return (
     <section className='flex mb-[34px] items-center'>

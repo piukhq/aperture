@@ -1,9 +1,8 @@
 import {useState, useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {DirectoryLocation} from 'types'
-import {Button, TextInputGroup, Tag} from 'components'
+import {Button, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
@@ -23,9 +22,9 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   const {
     putMerchantLocation,
-    putMerchantLocationIsSuccess,
-    putMerchantLocationIsLoading,
-    putMerchantLocationError,
+    putMerchantLocationIsSuccess: isSuccess,
+    putMerchantLocationIsLoading: isLoading,
+    putMerchantLocationError: putError,
     resetPutMerchantLocationResponse,
   } = useMidManagementLocations({
     skipGetLocations: true,
@@ -78,21 +77,21 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   // TODO: Handle unhappy path
   const handleErrorResponse = useCallback(() => {
-    console.error(putMerchantLocationError)
-  }, [putMerchantLocationError])
+    console.error(putError)
+  }, [putError])
 
   useEffect(() => {
-    if (putMerchantLocationError) {
+    if (putError) {
       handleErrorResponse()
-    } else if (putMerchantLocationIsSuccess) {
+    } else if (isSuccess) {
       setErrorMessage(null)
       resetPutMerchantLocationResponse()
       dispatch(requestModal(ModalType.NO_MODAL))
       router.isReady && router.replace(baseRoute)
     }
   }, [
-    putMerchantLocationIsSuccess,
-    putMerchantLocationError,
+    isSuccess,
+    putError,
     setErrorMessage,
     resetPutMerchantLocationResponse,
     handleErrorResponse,
@@ -347,6 +346,8 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
     </form>
   )
 
+  const saveButtonLabelValue = isLoading ? 'Saving' : 'Save'
+
   return (
     <>
       {renderForm()}
@@ -365,30 +366,21 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
             labelColour={LabelColour.GREY}
             labelWeight={LabelWeight.SEMIBOLD}
             ariaLabel='Cancel location edit'
+            isDisabled={isLoading}
           >Cancel
           </Button>
-
-          {putMerchantLocationIsLoading ? (
-            <Tag
-              tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
-              textStyle={TextStyle.MEDIUM}
-              textColour={TextColour.WHITE}
-              tagStyle={TagStyle.BLUE_FILLED}
-              label='Saving...'
-            />
-          ) : (
-            <Button
-              handleClick={handleSave}
-              buttonType={ButtonType.SUBMIT}
-              buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={ButtonWidth.MEDIUM}
-              buttonBackground={ButtonBackground.BLUE}
-              labelColour={LabelColour.WHITE}
-              labelWeight={LabelWeight.SEMIBOLD}
-              ariaLabel='Save location edit'
-            >Save
-            </Button>
-          )}
+          <Button
+            handleClick={handleSave}
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonWidth={ButtonWidth.MEDIUM}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.SEMIBOLD}
+            isDisabled={isLoading}
+            ariaLabel={`${saveButtonLabelValue} location edit`}
+          >{saveButtonLabelValue}
+          </Button>
         </div>
       </div>
     </>

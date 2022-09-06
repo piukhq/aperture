@@ -9,6 +9,8 @@ const mockRefValue = 'mock_ref_value'
 
 const mockEntityType = LinkableEntities.MID
 
+const mockIsUnlinking = false
+
 const mockProps = {
   index: 0,
   paymentSchemeCode: 1,
@@ -17,7 +19,7 @@ const mockProps = {
   setSelectedUnlinkIndexFn: jest.fn(),
   isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
-  isUnlinking: false,
+  isUnlinking: mockIsUnlinking,
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
   setNewLinkNotificationFn: jest.fn(),
   entityType: mockEntityType,
@@ -61,8 +63,9 @@ describe('LinkedListItem', () => {
 
     it('should render the unlink confirmation button', () => {
       render(getUnlinkingConfirmingStateComponent)
-      expect(screen.getByRole('button', {name: 'Confirm unlink'})).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: 'Yes, unlink'})).toBeInTheDocument()
     })
+
 
     it('should render the cancel button', () => {
       render(getUnlinkingConfirmingStateComponent)
@@ -76,7 +79,7 @@ describe('LinkedListItem', () => {
 
     it('should call the unlink function when the unlink confirmation button is clicked', () => {
       render(getUnlinkingConfirmingStateComponent)
-      fireEvent.click(screen.getByRole('button', {name: 'Confirm unlink'}))
+      fireEvent.click(screen.getByRole('button', {name: 'Yes, unlink'}))
 
       expect(mockProps.unlinkFn).toHaveBeenCalled()
     })
@@ -86,6 +89,21 @@ describe('LinkedListItem', () => {
       fireEvent.click(screen.getByRole('button', {name: 'Cancel'}))
 
       expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(null)
+    })
+
+    describe('Test unlinking state', () => {
+      const getUnlinkingStateComponent = getLinkedListItemComponent({
+        isUnlinking: true,
+        isInUnlinkingConfirmationState: true,
+      })
+
+      it('should render the disabled unlinking button ', () => {
+        render(getUnlinkingStateComponent)
+        const unlinkingButton = screen.getByRole('button', {name: 'Unlinking...'})
+
+        expect(unlinkingButton).toBeInTheDocument()
+        expect(unlinkingButton).toBeDisabled()
+      })
     })
   })
 })

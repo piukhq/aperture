@@ -1,7 +1,6 @@
 import {useRouter} from 'next/router'
-import {Button, Modal, Tag} from 'components'
+import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
@@ -228,41 +227,31 @@ const DirectorySingleViewModal = () => {
           {errorMessage && (
             <p className='font-body-4 text-red'>{errorMessage}</p>
           )}
-          {isDeleting ? (
-            <Tag
-              tagSize={TagSize.SINGLE_VIEW_MID_MEDIUM}
-              textStyle={TextStyle.MEDIUM}
-              textColour={TextColour.WHITE}
-              tagStyle={TagStyle.RED_FILLED}
-              label='Deleting...'
-            />
-          ) : (
-            <div className='flex gap-[15px]'>
-              {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayFooterEditButton && (
-                <Button
-                  handleClick={() => setIsInLocationEditState(true)}
-                  buttonType={ButtonType.SUBMIT}
-                  buttonSize={ButtonSize.MEDIUM}
-                  buttonWidth={ButtonWidth.MEDIUM}
-                  buttonBackground={ButtonBackground.LIGHT_GREY}
-                  labelColour={LabelColour.GREY}
-                  labelWeight={LabelWeight.SEMIBOLD}
-                >Edit
-                </Button>
-              )}
-
+          <div className='flex gap-[15px]'>
+            {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayFooterEditButton && !isDeleting && (
               <Button
-                handleClick={() => setIsInDeleteConfirmationState(true)}
+                handleClick={() => setIsInLocationEditState(true)}
                 buttonType={ButtonType.SUBMIT}
                 buttonSize={ButtonSize.MEDIUM}
                 buttonWidth={ButtonWidth.MEDIUM}
-                buttonBackground={ButtonBackground.RED}
-                labelColour={LabelColour.WHITE}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
                 labelWeight={LabelWeight.SEMIBOLD}
-              >Delete
+              >Edit
               </Button>
-            </div>
-          )}
+            )}
+            <Button
+              handleClick={() => setIsInDeleteConfirmationState(true)}
+              buttonType={ButtonType.SUBMIT}
+              buttonSize={ButtonSize.MEDIUM}
+              buttonWidth={ButtonWidth.MEDIUM}
+              buttonBackground={ButtonBackground.RED}
+              labelColour={LabelColour.WHITE}
+              labelWeight={LabelWeight.SEMIBOLD}
+              isDisabled={isDeleting}
+            >{isDeleting ? 'Deleting' : 'Delete'}
+            </Button>
+          </div>
         </>
       )}
     </>
