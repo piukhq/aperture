@@ -1,5 +1,4 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -76,4 +75,4 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
   )
 }
 
-export default React.memo(SingleViewSecondaryMid)
+export default memo(SingleViewSecondaryMid)

@@ -1,5 +1,4 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -103,4 +102,4 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
   )
 }
 
-export default React.memo(SingleViewLocation)
+export default memo(SingleViewLocation)
