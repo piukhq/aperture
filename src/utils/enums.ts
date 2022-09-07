@@ -119,7 +119,6 @@ enum PaymentSchemeName {
   AMEX = 'AMEX'
 }
 
-
 enum PaymentSchemeStartCaseName {
   VISA = 'Visa',
   MASTERCARD = 'Mastercard',
