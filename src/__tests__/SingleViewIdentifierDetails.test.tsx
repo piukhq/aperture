@@ -1,8 +1,9 @@
 import React from 'react'
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import SingleViewIdentifierDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
 
 const mockIdentifierRef = 'mock_identifier_ref'
 const mockValue = 'mock_value'
@@ -40,7 +41,6 @@ jest.mock('hooks/useMidManagementIdentifiers', () => ({
 }))
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-
 
 const getSingleViewIdentifierDetailsComponent = () => (
   <SingleViewIdentifierDetails identifier={mockMerchantIdentifier} />
@@ -82,69 +82,9 @@ describe('SingleViewIdentifierDetails', () => {
   })
 
   describe('Test Harmonia Status', () => {
-    it('should render the Harmonia Status heading', () => {
+    it('should render the Harmonia Status component', () => {
       render(getSingleViewIdentifierDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
-    })
-
-    describe('Test Onboarded status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        render(getSingleViewIdentifierDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarded')
-      })
-
-      it('should render the offboard button', () => {
-        render(getSingleViewIdentifierDetailsComponent())
-        expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
-      })
-
-      it('should call the postOffboarding function when clicked', () => {
-        render(getSingleViewIdentifierDetailsComponent())
-        fireEvent.click(screen.getByRole('button', {name: 'Offboard'}))
-        expect(mockPostMerchantIdentifierOffboarding).toHaveBeenCalled()
-      })
-    })
-
-    describe('Test Not Onboarded status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'not_onboarded'}} />)
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Not Onboarded')
-      })
-
-      it('should render the onboard button', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'not_onboarded'}} />)
-        expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
-      })
-
-      it('should call the postOnboarding function when clicked', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'not_onboarded'}} />)
-        fireEvent.click(screen.getByRole('button', {name: 'Onboard'}))
-        expect(mockPostMerchantIdentifierOnboarding).toHaveBeenCalled()
-      })
-    })
-
-    describe('Test Onboarding status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'onboarding'}} />)
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarding')
-      })
-
-      it('should render the disabled onboarding button', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'onboarding'}} />)
-        expect(screen.getByRole('button', {name: 'Onboarding'})).toBeDisabled()
-      })
-    })
-
-    describe('Test Offboarding status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'offboarding'}} />)
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarding')
-      })
-
-      it('should render the disabled offboarding button', () => {
-        render(<SingleViewIdentifierDetails identifier={{...mockMerchantIdentifier, txm_status: 'offboarding'}} />)
-        expect(screen.getByRole('button', {name: 'Offboarding'})).toBeDisabled()
-      })
+      expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
     })
   })
 })
