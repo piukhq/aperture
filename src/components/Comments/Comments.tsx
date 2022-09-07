@@ -17,11 +17,15 @@ const Comments = ({comments}: Props) => {
   const router = useRouter()
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
+  // Do not display section header on single view modals
+  const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
+
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSingleSubject = () => {
-      const {link_resource: linkResource, display_text: displayText, icon_slug: iconSlug} = subjects[0]
-      return (
-        <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={`${router.asPath}${linkResource}`}>
+      const {href, display_text: displayText, icon_slug: iconSlug} = subjects[0]
+
+      const renderSubjectMetadata = () => (
+        <>
           <h4 className='font-bold truncate'>
             {displayText}
           </h4>
@@ -29,9 +33,23 @@ const Comments = ({comments}: Props) => {
           {iconSlug && (
             <PaymentCardIcon paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
           )}
+        </>
+      )
 
-          <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
-        </a>
+      // Should not render a link if user is already on the same route
+      if (href && href !== router.asPath) {
+        return (
+          <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={href}>
+            {renderSubjectMetadata()}
+            <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
+          </a>
+        )
+      }
+
+      return (
+        <div className='flex truncate items-center'>
+          {renderSubjectMetadata()}
+        </div>
       )
     }
 
@@ -111,12 +129,12 @@ const Comments = ({comments}: Props) => {
     )
   }
 
-  const renderHighLevelComments = (highLevelComment: DirectoryCommentHighLevel, index = 0) => {
+  const renderCommentSection = (highLevelComment: DirectoryCommentHighLevel, index = 0) => {
     const {subject_type: subjectType, comments} = highLevelComment
 
     return (
       <section key={index} className='mb-[36px]' data-testid='comment-section'>
-        <h3 className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>
+        {shouldDisplayCommentSectionHeading && <h3 data-testid='section-header' className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>}
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
           {comments.map((comment) => renderComments(comment))}
@@ -126,9 +144,9 @@ const Comments = ({comments}: Props) => {
   }
 
   return (
-    <div className='ml-[32px] mr-[5px]'>
-      {entityComments && entityComments?.comments.length > 0 && renderHighLevelComments(entityComments)}
-      {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderHighLevelComments(highLevelComment, index))}
+    <div className='ml-[32px] mr-[5px] mb-[27px]'>
+      {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
+      {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
 
       <Button
         handleClick={() => console.log('Add Comment button clicked')}

@@ -18,6 +18,21 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid',
+  () => () => <div data-testid='SingleViewMid' />)
+
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation',
+  () => () => <div data-testid='SingleViewLocation' />)
+
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid',
+  () => () => <div data-testid='SingleViewSecondaryMid' />)
+
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier',
+  () => () => <div data-testid='SingleViewIdentifier' />)
+
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
+  () => () => <div data-testid='SingleViewComments' />)
+
 let mockDeleteMidIsLoading = false
 
 jest.mock('hooks/useMidManagementMids', () => ({

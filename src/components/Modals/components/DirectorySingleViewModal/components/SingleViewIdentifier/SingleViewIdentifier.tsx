@@ -1,10 +1,10 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
-import SingleViewIdentifierDetails from './components/SingleViewIdentifierDetails'
+import {SingleViewIdentifierDetails} from './components'
+import SingleViewComments from '../SingleViewComments'
 
 type Props = {
   setHeaderFn: (header: string) => void
@@ -51,20 +51,21 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
     ))
   }
 
-  const renderDetails = () => getMerchantIdentifierResponse ? <SingleViewIdentifierDetails identifier={getMerchantIdentifierResponse} /> : null
-
-  const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
+  const renderDetails = () => getMerchantIdentifierResponse ? (
+    <div className='px-[25px]'>
+      <SingleViewIdentifierDetails identifier={getMerchantIdentifierResponse} />
+    </div>
+  ) : null
 
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[25px]'>
-        {tabSelected === 'Details' ? renderDetails() : renderComments()}
-      </div>
+
+      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
     </>
   )
 }
 
-export default React.memo(SingleViewIdentifier)
+export default memo(SingleViewIdentifier)

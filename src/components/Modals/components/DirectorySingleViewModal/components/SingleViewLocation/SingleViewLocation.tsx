@@ -1,11 +1,15 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {DirectorySingleViewTabs} from 'utils/enums'
-import {SingleViewLocationDetails, SingleViewLocationMids, SingleViewLocationSecondaryMids} from './components'
+import {
+  SingleViewLocationDetails,
+  SingleViewLocationMids,
+  SingleViewLocationSecondaryMids,
+} from './components'
+import SingleViewComments from '../SingleViewComments'
 
 type Props = {
   setHeaderFn: (header: string) => void
@@ -82,7 +86,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
       case DirectorySingleViewTabs.SECONDARY_MIDS:
         return <SingleViewLocationSecondaryMids />
       case DirectorySingleViewTabs.COMMENTS:
-        return <i className='font-body-4'> There are no comments to view.</i>
+        return <SingleViewComments />
     }
   }
 
@@ -98,4 +102,4 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
   )
 }
 
-export default React.memo(SingleViewLocation)
+export default memo(SingleViewLocation)

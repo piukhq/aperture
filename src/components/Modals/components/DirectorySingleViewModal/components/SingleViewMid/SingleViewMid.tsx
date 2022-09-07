@@ -1,10 +1,10 @@
-import React from 'react'
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
+import SingleViewComments from '../SingleViewComments'
 
 type Props = {
   resetError: () => void
@@ -56,18 +56,16 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
 
   const renderDetails = () => getMerchantMidResponse ? <SingleViewMidDetails merchantMid={getMerchantMidResponse} setError={setError} resetError={resetError} /> : null
 
-  const renderComments = () => <i className='font-body-4'> There are no comments to view.</i> // TODO: Placeholder for comments
-
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
       <div className='px-[25px]'>
-        {tabSelected === 'Details' ? renderDetails() : renderComments()}
+        {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
       </div>
     </>
   )
 }
 
-export default React.memo(SingleViewMid)
+export default memo(SingleViewMid)
