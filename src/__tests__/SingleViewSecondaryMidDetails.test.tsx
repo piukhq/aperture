@@ -24,19 +24,10 @@ const mockMerchantSecondaryMid = {
   txm_status: mockTxmStatus,
 }
 
-const mockPostMerchantSecondaryMidOnboarding = jest.fn()
-const mockPostMerchantSecondaryMidOffboarding = jest.fn()
-
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
-    postMerchantSecondaryMidOnboarding: mockPostMerchantSecondaryMidOnboarding,
-    postMerchantSecondaryMidIsLoading: false,
-    postMerchantSecondaryMidIsSuccess: false,
-    resetPostMerchantSecondaryMidOnboardingResponse: jest.fn(),
-    postMerchantSecondaryMidOffboarding: mockPostMerchantSecondaryMidOffboarding,
-    postMerchantSecondaryMidOffboardingIsLoading: false,
-    postMerchantSecondaryMidOffboardingIsSuccess: false,
-    resetPostMerchantSecondaryMidOffboardingResponse: jest.fn(),
+    postMerchantIdentifierOnboarding: jest.fn(),
+    postMerchantIdentifierOffboarding: jest.fn(),
   })),
 }))
 

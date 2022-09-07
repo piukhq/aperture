@@ -1,7 +1,6 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {Dropdown} from 'components'
-
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'

@@ -68,9 +68,6 @@ const mockGetLocationsResponse = [
   },
 ]
 
-const mockPostMerchantMidOnboarding = jest.fn()
-const mockPostMerchantMidOffboarding = jest.fn()
-
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
     patchMerchantMid: jest.fn(),
@@ -79,14 +76,6 @@ jest.mock('hooks/useMidManagementMids', () => ({
     resetPatchMerchantMidResponse: jest.fn(),
     putMerchantMidLocationError: mockPutErrorResponse,
     deleteMerchantMidLocationError: mockDeleteErrorResponse,
-    postMerchantMidOnboarding: mockPostMerchantMidOnboarding,
-    postMerchantMidIsLoading: false,
-    postMerchantMidIsSuccess: false,
-    resetPostMerchantMidOnboardingResponse: jest.fn(),
-    postMerchantMidOffboarding: mockPostMerchantMidOffboarding,
-    postMerchantMidOffboardingIsLoading: false,
-    postMerchantMidOffboardingIsSuccess: false,
-    resetPostMerchantMidOffboardingResponse: jest.fn(),
   })),
 }))
 
