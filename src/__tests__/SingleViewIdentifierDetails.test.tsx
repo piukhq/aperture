@@ -9,8 +9,8 @@ const mockIdentifierRef = 'mock_identifier_ref'
 const mockValue = 'mock_value'
 const mockPaymentSchemeMerchantName = 'mock_payment_scheme_merchant_name'
 const mockDateAdded = 'mock_date_added'
-const mockIdentifierStatus = 'mock_txm_status'
-const mockTxmStatus = 'onboarded' // has to be a value provided by DirectoryTxmStatus enum
+const mockIdentifierStatus = 'mock_identifier_status'
+const mockTxmStatus = 'mock_txm_status'
 
 const mockMerchantIdentifier = {
   identifier_ref: mockIdentifierRef,
@@ -24,19 +24,10 @@ const mockMerchantIdentifier = {
   txm_status: mockTxmStatus,
 }
 
-const mockPostMerchantIdentifierOnboarding = jest.fn()
-const mockPostMerchantIdentifierOffboarding = jest.fn()
-
 jest.mock('hooks/useMidManagementIdentifiers', () => ({
-  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
-    postMerchantIdentifierOnboarding: mockPostMerchantIdentifierOnboarding,
-    postMerchantIdentifierIsLoading: false,
-    postMerchantIdentifierIsSuccess: false,
-    resetPostMerchantIdentifierOnboardingResponse: jest.fn(),
-    postMerchantIdentifierOffboarding: mockPostMerchantIdentifierOffboarding,
-    postMerchantIdentifierOffboardingIsLoading: false,
-    postMerchantIdentifierOffboardingIsSuccess: false,
-    resetPostMerchantIdentifierOffboardingResponse: jest.fn(),
+  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({ // Placeholder for future functionality
+    postMerchantIdentifierOnboarding: jest.fn(),
+    postMerchantIdentifierOffboarding: jest.fn(),
   })),
 }))
 
