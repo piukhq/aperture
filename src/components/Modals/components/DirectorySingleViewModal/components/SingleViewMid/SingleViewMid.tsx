@@ -56,15 +56,13 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
 
   const renderDetails = () => getMerchantMidResponse ? <SingleViewMidDetails merchantMid={getMerchantMidResponse} setError={setError} resetError={resetError} /> : null
 
-  const renderComments = () => <SingleViewComments />
-
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
       <div className='px-[25px]'>
-        {tabSelected === 'Details' ? renderDetails() : renderComments()}
+        {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
       </div>
     </>
   )

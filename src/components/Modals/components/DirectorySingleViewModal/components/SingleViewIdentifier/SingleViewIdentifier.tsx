@@ -57,15 +57,13 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
     </div>
   ) : null
 
-  const renderComments = () => <SingleViewComments />
-
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
 
-      {tabSelected === 'Details' ? renderDetails() : renderComments()}
+      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
     </>
   )
 }

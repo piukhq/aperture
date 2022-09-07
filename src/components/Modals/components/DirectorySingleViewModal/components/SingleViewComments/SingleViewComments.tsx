@@ -8,16 +8,14 @@ const SingleViewComments = () => {
 
   const {
     getCommentsResponse: comments,
-    getCommentsIsLoading: commentsLoading,
+    getCommentsIsLoading: isCommentsLoading,
     getCommentsError: commentsError,
   } = useMidManagementComments({commentsRef})
 
   return (
     <>
       {comments && <Comments comments={comments} />}
-
-      {commentsLoading && <p className='font-body-4'>Comments loading ...</p>}
-
+      {isCommentsLoading && <p className='font-body-4'>Comments loading ...</p>}
       {commentsError && <p className='font-body-4'>Error retrieving comments, try again later</p>}
     </>
   )
