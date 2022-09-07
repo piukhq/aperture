@@ -1,13 +1,9 @@
 import {useRouter} from 'next/router'
-import {Button, PaymentCardIcon} from 'components'
+import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment, DirectoryCommentSubject} from 'types'
-import {isoToDateTime} from 'utils/dateFormat'
-import DotsSvg from 'icons/svgs/dots.svg'
-import ForwardSvg from 'icons/svgs/forward.svg'
+import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
 import WriteSvg from 'icons/svgs/write.svg'
-import {classNames} from 'utils/classNames'
-import {PaymentSchemeCode} from 'utils/enums'
+import Comment from './components/Comment'
 
 type Props = {
   comments: DirectoryComments
@@ -15,116 +11,26 @@ type Props = {
 
 const Comments = ({comments}: Props) => {
   const router = useRouter()
+  const currentRoute = router.asPath
+
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
   // Do not display section header on single view modals
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
-  const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
-    const renderSingleSubject = () => {
-      const {href, display_text: displayText, icon_slug: iconSlug} = subjects[0]
-
-      const renderSubjectMetadata = () => (
-        <>
-          <h4 className='font-bold truncate'>
-            {displayText}
-          </h4>
-
-          {iconSlug && (
-            <PaymentCardIcon paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
-          )}
-        </>
-      )
-
-      // Should not render a link if user is already on the same route
-      if (href && href !== router.asPath) {
-        return (
-          <a data-testid='subject-link' className='flex truncate text-commentsBlue items-center' href={href}>
-            {renderSubjectMetadata()}
-            <ForwardSvg className='ml-[1px] mb-[2px] h-[16px] min-w-[16px] fill-commentsBlue' />
-          </a>
-        )
-      }
-
-      return (
-        <div className='flex truncate items-center'>
-          {renderSubjectMetadata()}
-        </div>
-      )
-    }
-
-    const renderMultipleSubjects = () => {
-      const subjectTitles = subjects.map(subject => subject.display_text).join(', ')
-      return (
-        <>
-          <h4 className='font-bold truncate'>
-            {subjectTitles}
-          </h4>
-
-          <button onClick={() => console.log('See subjects button clicked')} className='min-w-[86px] font-body-4 text-commentsBlue'>
-            (see subjects +)
-          </button>
-        </>
-      )
-    }
+  const renderComment = (comment: DirectoryComment) => {
+    const {responses} = comment
 
     return (
-      <>
-        <p className='mx-[4px]'>in</p>
-        {subjects.length === 1 ? renderSingleSubject() : renderMultipleSubjects()}
-      </>
-    )
-  }
-
-  const renderComments = (comment: DirectoryComment, isResponse = false) => {
-    const {ref, created_by: createdBy, created_at: createdAt, subjects, metadata, responses} = comment
-
-    const marginStyles = isResponse ? 'ml-[50px]' : ''
-
-    return (
-      <div key={ref} className={classNames(
-        'flex flex-col gap-[9px]',
-        marginStyles
-      )}>
-        <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
-          <div className='flex justify-between items-center'>
-            <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)] items-center'>
-              <h4 className='font-bold'>{createdBy}</h4>
-              {subjects.length > 0 && renderSubjects(subjects)}
-            </span>
-
-            <div className='flex items-center gap-[20px] min-w-[104px]'>
-              <p className='font-subheading-4 tracking-[0.08px]'>{isoToDateTime(createdAt, true)}</p>
-
-              <Button
-                handleClick={() => console.log('Options button clicked')}
-                buttonWidth={ButtonWidth.ICON_ONLY}
-                buttonSize={ButtonSize.INHERIT}
-                additionalStyles='h-[11px] w-[11px]'
-                ariaLabel='Options'
-              >
-                <DotsSvg className='h-[11px] w-[11px]' />
-              </Button>
-            </div>
-          </div>
-
-          <div className='flex flex-row justify-between mt-[4px]'>
-            <p className='font-body-3'>{metadata.text}</p>
-
-            <Button
-              handleClick={() => console.log('Reply button clicked')}
-              buttonSize={ButtonSize.INHERIT}
-              buttonWidth={ButtonWidth.ICON_ONLY}
-              additionalStyles='h-[20px] w-[20px] self-end'
-              ariaLabel='Reply'
-            >
-              <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
-            </Button>
-          </div>
-        </div>
+      <div className={'flex flex-col gap-[9px]'}>
+        <Comment comment={comment} currentRoute={currentRoute} />
 
         {/* Recursion used here to display nested responses with expected left margin */}
-        {responses && responses.length > 0 && responses.map(response => renderComments(response, true))}
+        {responses && responses.length > 0 && responses.map(response => (
+          <div key={response.ref} className='ml-[50px]'>
+            <Comment comment={response} currentRoute={currentRoute} />
+          </div>
+        ))}
       </div>
     )
   }
@@ -137,7 +43,7 @@ const Comments = ({comments}: Props) => {
         {shouldDisplayCommentSectionHeading && <h3 data-testid='section-header' className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>}
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
-          {comments.map((comment) => renderComments(comment))}
+          {comments.map((comment) => renderComment(comment))}
         </div>
       </section>
     )
