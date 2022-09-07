@@ -26,9 +26,9 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     resetPostMerchantIdentifierOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementIdentifiers({
     skipGetIdentifier: true,
-    planRef: 'planRef',
-    merchantRef: 'merchantRef',
-    identifierRef: 'identifierRef',
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    identifierRef: ref as string,
   })
 
   const offboardIdentifier = () => {
