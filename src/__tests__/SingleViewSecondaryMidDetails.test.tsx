@@ -1,8 +1,9 @@
 import React from 'react'
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
 
 const mockSecondaryMidRef = 'mock_secondary_mid_ref'
 const mockSecondaryMid = 'mock_secondary_mid'
@@ -52,7 +53,6 @@ useRouter.mockImplementation(() => ({
   },
 }))
 
-
 describe('SingleViewSecondaryMidDetails', () => {
   // TODO: Add functionality tests into each section
   describe('Test Date Added', () => {
@@ -89,73 +89,10 @@ describe('SingleViewSecondaryMidDetails', () => {
   })
 
   describe('Test Harmonia Status', () => {
-    it('should render the Harmonia Status heading', () => {
+    it('should render the Harmonia Status component', () => {
       render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
-    })
-
-    describe('Test Onboarded status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        mockMerchantSecondaryMid.txm_status = 'onboarded'
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarded')
-      })
-
-      it('should render the offboard button', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
-      })
-
-      it('should call the postOffboarding function when clicked', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        fireEvent.click(screen.getByRole('button', {name: 'Offboard'}))
-        expect(mockPostMerchantSecondaryMidOffboarding).toHaveBeenCalled()
-      })
-    })
-
-    describe('Test Not Onboarded status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        mockMerchantSecondaryMid.txm_status = 'not_onboarded'
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Not Onboarded')
-      })
-
-      it('should render the onboard button', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
-      })
-
-      it('should call the postOnboarding function when clicked', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        fireEvent.click(screen.getByRole('button', {name: 'Onboard'}))
-        expect(mockPostMerchantSecondaryMidOnboarding).toHaveBeenCalled()
-      })
-    })
-
-    describe('Test Onboarding status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        mockMerchantSecondaryMid.txm_status = 'onboarding'
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarding')
-      })
-
-      it('should render the disabled onboarding button', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByRole('button', {name: 'Onboarding'})).toBeDisabled()
-      })
-    })
-
-    describe('Test Offboarding status', () => {
-      it('should render the correct Harmonia Status value', () => {
-        mockMerchantSecondaryMid.txm_status = 'offboarding'
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarding')
-      })
-
-      it('should render the disabled offboarding button', () => {
-        render(getSingleViewSecondaryMidDetailsComponent())
-        expect(screen.getByRole('button', {name: 'Offboarding'})).toBeDisabled()
-      })
+      expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
     })
   })
+
 })

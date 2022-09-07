@@ -1,14 +1,15 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {Dropdown} from 'components'
+
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {DirectoryTxmStatus, PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
+import HarmoniaStatus from '../../../HarmoniaStatus'
 
 type Props = {
   resetError: () => void
@@ -70,7 +71,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
   const [editableVisaBin, setEditableVisaBin] = useState('')
   const [associatedLocationRef, setAssociatedLocationRef] = useState('')
-  const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
 
   // Creates a list of locations titles and refs for the dropdown component to consume
   const locationStringsList = useMemo(() => locationsData.map(locationObj => {
@@ -86,18 +86,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     paymentEnrolmentStatus && setPaymentSchemeStatus(paymentEnrolmentStatus)
     visaBin && setEditableVisaBin(visaBin)
   }, [locationRef, paymentEnrolmentStatus, visaBin])
-
-  useEffect(() => {
-    if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.offboarding || isOffboardingLoading) {
-      setHarmoniaStatusButtonAction('Offboarding')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarding || isOnboardingLoading) {
-      setHarmoniaStatusButtonAction('Onboarding')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarded) {
-      setHarmoniaStatusButtonAction('Offboard')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.not_onboarded) {
-      setHarmoniaStatusButtonAction('Onboard')
-    }
-  }, [isOffboardingLoading, isOffboardingSuccess, isOnboardingLoading, isOnboardingSuccess, resetOffboardingResponse, resetOnboardingResponse, txmStatus])
 
   const getPaymentScheme = () => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
@@ -189,25 +177,23 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     putMerchantMidLocation({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, location_ref: associatedLocationRef})
   }, [planId, merchantId, ref, associatedLocationRef, putMerchantMidLocation])
 
-  const handleHarmoniaStatusButtonClick = () => {
-    const offboardMid = () => {
-      resetOffboardingResponse()
-      postOffboarding({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
-        midRef: ref as string,
-      })
-    }
-    const onboardMid = () => {
-      resetOnboardingResponse()
-      postOnboarding({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
-        midRef: ref as string,
-      })
-    }
-    DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarded ? offboardMid() : onboardMid()
+  const offboardMid = () => {
+    resetOffboardingResponse()
+    postOffboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      midRef: ref as string,
+    })
   }
+  const onboardMid = () => {
+    resetOnboardingResponse()
+    postOnboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      midRef: ref as string,
+    })
+  }
+
 
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
@@ -275,23 +261,15 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         />
       )}
 
-      <section className='h-[38px] flex mb-[34px] flex-col'>
-        <h2 className='font-modal-heading m-0'>HARMONIA STATUS</h2>
-        <div className='flex justify-between items-center'>
-          <p className='font-modal-data' data-testid='harmonia-status'>{DirectoryTxmStatus[txmStatus]}</p>
-          <Button
-            handleClick={handleHarmoniaStatusButtonClick}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.MEDIUM}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            labelColour={LabelColour.GREY}
-            labelWeight={LabelWeight.SEMIBOLD}
-            isDisabled={isOnboardingLoading || isOffboardingLoading || (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarding || DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.offboarding)}
-          > {harmoniaStatusButtonAction}
-          </Button>
-        </div>
-      </section>
+      <HarmoniaStatus
+        txmStatus={txmStatus}
+        isOnboardingLoading={isOnboardingLoading}
+        isOnboardingSuccess={isOnboardingSuccess}
+        isOffboardingLoading={isOffboardingLoading}
+        isOffboardingSuccess={isOffboardingSuccess}
+        offboardEntityFn={offboardMid}
+        onboardEntityFn={onboardMid}
+      />
     </>
   )
 }

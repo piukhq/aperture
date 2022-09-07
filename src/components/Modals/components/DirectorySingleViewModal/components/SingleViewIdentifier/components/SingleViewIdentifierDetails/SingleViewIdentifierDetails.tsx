@@ -1,11 +1,9 @@
-import {Button} from 'components'
 import {useRouter} from 'next/router'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName, DirectoryTxmStatus} from 'utils/enums'
+import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import {useEffect, useState} from 'react'
+import HarmoniaStatus from '../../../HarmoniaStatus'
 
 type Props = {
   identifier: DirectoryIdentifier
@@ -16,7 +14,6 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
   const {merchantId, planId, ref} = router.query
   const {date_added: dateAdded, identifier_metadata: identifierMetadata, txm_status: txmStatus} = identifier
   const {payment_scheme_code: paymentSchemeCode} = identifierMetadata
-  const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
 
   const {
     postMerchantIdentifierOnboarding: postOnboarding,
@@ -34,17 +31,22 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     identifierRef: 'identifierRef',
   })
 
-  useEffect(() => {
-    if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.offboarding || isOffboardingLoading) {
-      setHarmoniaStatusButtonAction('Offboarding')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarding || isOnboardingLoading) {
-      setHarmoniaStatusButtonAction('Onboarding')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarded) {
-      setHarmoniaStatusButtonAction('Offboard')
-    } else if (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.not_onboarded) {
-      setHarmoniaStatusButtonAction('Onboard')
-    }
-  }, [isOffboardingLoading, isOffboardingSuccess, isOnboardingLoading, isOnboardingSuccess, resetOffboardingResponse, resetOnboardingResponse, txmStatus])
+  const offboardIdentifier = () => {
+    resetOffboardingResponse()
+    postOffboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      identifierRef: ref as string,
+    })
+  }
+  const onboardIdentifier = () => {
+    resetOnboardingResponse()
+    postOnboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      identifierRef: ref as string,
+    })
+  }
 
   const getPaymentScheme = () => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
@@ -54,26 +56,6 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
       return PaymentSchemeStartCaseName.AMEX
     }
-  }
-
-  const handleHarmoniaStatusButtonClick = () => {
-    const offboardIdentifier = () => {
-      resetOffboardingResponse()
-      postOffboarding({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
-        identifierRef: ref as string,
-      })
-    }
-    const onboardIdentifier = () => {
-      resetOnboardingResponse()
-      postOnboarding({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
-        identifierRef: ref as string,
-      })
-    }
-    DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarded ? offboardIdentifier() : onboardIdentifier()
   }
 
   return (
@@ -88,23 +70,15 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
           <p className='font-modal-data'>{getPaymentScheme()}</p>
         </div>
       </section>
-      <section className='h-[38px] flex justify-between mb-[34px] items-center'>
-        <div>
-          <h2 className='font-modal-heading'>HARMONIA STATUS</h2>
-          <p className='font-modal-data' data-testid='harmonia-status'>{DirectoryTxmStatus[txmStatus]}</p>
-        </div>
-        <Button
-          handleClick={handleHarmoniaStatusButtonClick}
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.LIGHT_GREY}
-          labelColour={LabelColour.GREY}
-          labelWeight={LabelWeight.SEMIBOLD}
-          isDisabled={isOnboardingLoading || isOffboardingLoading || (DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.onboarding || DirectoryTxmStatus[txmStatus] === DirectoryTxmStatus.offboarding)}
-        > {harmoniaStatusButtonAction}
-        </Button>
-      </section>
+      <HarmoniaStatus
+        txmStatus={txmStatus}
+        isOnboardingLoading={isOnboardingLoading}
+        isOnboardingSuccess={isOnboardingSuccess}
+        isOffboardingLoading={isOffboardingLoading}
+        isOffboardingSuccess={isOffboardingSuccess}
+        offboardEntityFn={offboardIdentifier}
+        onboardEntityFn={onboardIdentifier}
+      />
     </>
   )
 }
