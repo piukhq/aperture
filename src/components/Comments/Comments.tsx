@@ -18,7 +18,7 @@ const Comments = ({comments}: Props) => {
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
   // Do not display section header on single view modals
-  const shouldDisplaySectionHeading = entityComments && lowerComments && lowerComments.length > 0
+  const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSingleSubject = () => {
@@ -129,12 +129,12 @@ const Comments = ({comments}: Props) => {
     )
   }
 
-  const renderHighLevelComments = (highLevelComment: DirectoryCommentHighLevel, index = 0) => {
+  const renderCommentSection = (highLevelComment: DirectoryCommentHighLevel, index = 0) => {
     const {subject_type: subjectType, comments} = highLevelComment
 
     return (
       <section key={index} className='mb-[36px]' data-testid='comment-section'>
-        {shouldDisplaySectionHeading && <h3 data-testid='section-header' className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>}
+        {shouldDisplayCommentSectionHeading && <h3 data-testid='section-header' className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>}
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
           {comments.map((comment) => renderComments(comment))}
@@ -145,8 +145,8 @@ const Comments = ({comments}: Props) => {
 
   return (
     <div className='ml-[32px] mr-[5px] mb-[27px]'>
-      {entityComments && entityComments?.comments.length > 0 && renderHighLevelComments(entityComments)}
-      {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderHighLevelComments(highLevelComment, index))}
+      {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
+      {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
 
       <Button
         handleClick={() => console.log('Add Comment button clicked')}
