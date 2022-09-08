@@ -33,9 +33,9 @@ const Comment = ({comment, currentRoute}: Props) => {
       </>
     )
 
-    const renderLink = ({href, displayText, iconSlug, shouldTruncate = false}) => {
+    const renderLink = ({href, displayText, iconSlug, shouldTruncate = false, index = 0}) => {
       return (
-        <a data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={href}>
+        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={href}>
           {renderSubjectMetadata({displayText, iconSlug, shouldTruncate})}
         </a>
       )
@@ -65,7 +65,7 @@ const Comment = ({comment, currentRoute}: Props) => {
                 const {href, display_text: displayText, icon_slug: iconSlug} = subject
 
                 if (href && href !== currentRoute) {
-                  return renderLink({href, displayText, iconSlug})
+                  return renderLink({index, href, displayText, iconSlug})
                 }
 
                 return (
