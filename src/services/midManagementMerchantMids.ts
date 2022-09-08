@@ -108,6 +108,7 @@ export const midManagementMerchantMidsApi = createApi({
         }
       },
     }),
+    // TODO: IF there is a requirement to onboard multiple MIDs at once, this will need to be updated
     postMerchantMidOnboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/onboarding`,
@@ -127,6 +128,7 @@ export const midManagementMerchantMidsApi = createApi({
         }
       },
     }),
+    // TODO: IF there is a requirement to offboard multiple MIDs at once, this will need to be updated
     postMerchantMidOffboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/offboarding`,

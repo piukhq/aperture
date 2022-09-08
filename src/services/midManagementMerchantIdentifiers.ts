@@ -58,6 +58,7 @@ export const midManagementMerchantIdentifiersApi = createApi({
         }
       },
     }),
+    // TODO: IF there is a requirement to onboard multiple Identifiers at once, this will need to be updated
     postMerchantIdentifierOnboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
       query: ({planRef, merchantRef, identifierRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/onboarding`,
@@ -77,6 +78,7 @@ export const midManagementMerchantIdentifiersApi = createApi({
         }
       },
     }),
+    // TODO: IF there is a requirement to offboard multiple Identifiers at once, this will need to be updated
     postMerchantIdentifierOffboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
       query: ({planRef, merchantRef, identifierRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/offboarding`,
