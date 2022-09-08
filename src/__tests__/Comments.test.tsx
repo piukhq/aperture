@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import Comments from 'components/Comments'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
+jest.mock('components/Comments/components/Comment', () => () => <div data-testid='comment' />)
 
 describe('Comments', () => {
   const mockEntityCommentSubjectType = 'mock_entity_comment_subject_type'
@@ -74,7 +75,7 @@ describe('Comments', () => {
         expect(screen.queryByTestId('section-header')).not.toBeInTheDocument()
       })
 
-      it('should render the comment section header', () => {
+      it('should render the comment section headers and Comment components', () => {
         const comments = {
           ...mockComments,
         }
@@ -83,53 +84,14 @@ describe('Comments', () => {
         render(getCommentsComponent({comments}))
         const commentSectionHeaders = screen.queryAllByTestId('section-header')
         expect(commentSectionHeaders).toHaveLength(2)
+        const commentComponents = screen.queryAllByTestId('comment')
+        expect(commentComponents).toHaveLength(2)
       })
-    })
-
-    it('should render the comment date and options icon', () => {
-      render(getCommentsComponent())
-      expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
-      expect(screen.getByRole('button', {name: /Options/})).toBeInTheDocument()
-    })
-
-    it('should render comment metadata and reply icon', () => {
-      render(getCommentsComponent())
-      expect(screen.getByText(mockEntityCommentCreatedBy)).toBeInTheDocument()
-      expect(screen.getByText(mockEntityCommentMetadataText)).toBeInTheDocument()
-      expect(screen.getByRole('button', {name: /Reply/})).toBeInTheDocument()
     })
 
     it('should render the Add Comment button', () => {
       render(getCommentsComponent())
       expect(screen.getByRole('button', {name: /Add Comment/})).toBeInTheDocument()
-    })
-
-    describe('Test subjects', () => {
-      describe('Test multiple subjects', () => {
-        it('should render comments multiple subject data', () => {
-          render(getCommentsComponent())
-          expect(screen.getByText(`${mockEntityCommentSubject1Text}, ${mockEntityCommentSubject2Text}`)).toBeInTheDocument()
-          expect(screen.getByRole('button', {name: /(see subjects +)/})).toBeInTheDocument()
-        })
-      })
-
-      describe('Test single subject', () => {
-        it('should render comments singular subject data', () => {
-          const comments = {
-            ...mockComments,
-          }
-
-          comments.entity_comments.comments[0].subjects = [{
-            display_text: mockEntityCommentSubject1Text,
-            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-            icon_slug: 'mock_slug',
-          }]
-          render(getCommentsComponent({comments}))
-          expect(screen.getByTestId('subject-icon')).toBeInTheDocument()
-          expect(screen.getByTestId('subject-link')).toBeInTheDocument()
-          expect(screen.getByText(mockEntityCommentSubject1Text)).toBeInTheDocument()
-        })
-      })
     })
   })
 })
