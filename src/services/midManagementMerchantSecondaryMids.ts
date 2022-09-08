@@ -79,7 +79,18 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         method: 'POST',
         body: [secondaryMidRef],
       }),
-      invalidatesTags: ['MerchantSecondaryMids', 'MerchantSecondaryMid'],
+      invalidatesTags: ['MerchantSecondaryMids'],
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: onboardingSecondaryMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+            Object.assign(existingSecondaryMid, onboardingSecondaryMidsArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -87,7 +98,18 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         method: 'POST',
         body: [secondaryMidRef],
       }),
-      invalidatesTags: ['MerchantSecondaryMids', 'MerchantSecondaryMid'],
+      invalidatesTags: ['MerchantSecondaryMids'],
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: offboardingSecondaryMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+            Object.assign(existingSecondaryMid, offboardingSecondaryMidsArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })

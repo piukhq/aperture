@@ -64,7 +64,18 @@ export const midManagementMerchantIdentifiersApi = createApi({
         method: 'POST',
         body: [identifierRef],
       }),
-      invalidatesTags: ['MerchantIdentifiers', 'MerchantIdentifier'],
+      invalidatesTags: ['MerchantIdentifiers'],
+      async onQueryStarted ({planRef, merchantRef, identifierRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: onboardingIdentifiersArray} = await queryFulfilled
+          dispatch(midManagementMerchantIdentifiersApi.util.updateQueryData('getMerchantIdentifier', ({planRef, merchantRef, identifierRef}), (existingIdentifier) => {
+            Object.assign(existingIdentifier, onboardingIdentifiersArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     postMerchantIdentifierOffboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
       query: ({planRef, merchantRef, identifierRef}) => ({
@@ -72,7 +83,18 @@ export const midManagementMerchantIdentifiersApi = createApi({
         method: 'POST',
         body: [identifierRef],
       }),
-      invalidatesTags: ['MerchantIdentifiers', 'MerchantIdentifier'],
+      invalidatesTags: ['MerchantIdentifiers'],
+      async onQueryStarted ({planRef, merchantRef, identifierRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: offboardingIdentifiersArray} = await queryFulfilled
+          dispatch(midManagementMerchantIdentifiersApi.util.updateQueryData('getMerchantIdentifier', ({planRef, merchantRef, identifierRef}), (existingIdentifier) => {
+            Object.assign(existingIdentifier, offboardingIdentifiersArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })
