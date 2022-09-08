@@ -114,7 +114,18 @@ export const midManagementMerchantMidsApi = createApi({
         method: 'POST',
         body: [midRef],
       }),
-      invalidatesTags: ['MerchantMids', 'MerchantMid'],
+      invalidatesTags: ['MerchantMids'],
+      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: onboardingMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+            Object.assign(existingMid, {...existingMid, mid: onboardingMidsArray[0]})
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     postMerchantMidOffboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
@@ -122,7 +133,18 @@ export const midManagementMerchantMidsApi = createApi({
         method: 'POST',
         body: [midRef],
       }),
-      invalidatesTags: ['MerchantMids', 'MerchantMid'],
+      invalidatesTags: ['MerchantMids'],
+      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: offboardingMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+            Object.assign(existingMid, {...existingMid, mid: offboardingMidsArray[0]})
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })
