@@ -57,7 +57,7 @@ const Comment = ({comment, currentRoute}: Props) => {
       if (isSubjectListExpanded) {
         return (
           <>
-            <div className='flex flex-col'>
+            <div data-testid='expanded-subjects' className='flex flex-col'>
               {subjects.map((subject, index) => {
                 const {href, display_text: displayText, icon_slug: iconSlug} = subject
 
