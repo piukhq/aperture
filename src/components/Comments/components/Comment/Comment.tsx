@@ -25,7 +25,10 @@ const Comment = ({comment, currentRoute}: Props) => {
         </h4>
 
         {iconSlug && (
-          <PaymentCardIcon paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]} paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]' />
+          <PaymentCardIcon
+            paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]}
+            paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] justify-center mx-[2px] items-center rounded-[2px]'
+          />
         )}
       </>
     )
@@ -106,7 +109,7 @@ const Comment = ({comment, currentRoute}: Props) => {
     <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
       <div className='flex justify-between'>
         <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)]'>
-          <h4 className='font-bold'>{createdBy}</h4>
+          <h4 className='font-bold min-w-[70px] truncate'>{createdBy}</h4>
           {subjects.length > 0 && renderSubjects(subjects)}
         </span>
 
