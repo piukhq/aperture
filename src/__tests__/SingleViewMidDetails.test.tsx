@@ -3,12 +3,13 @@ import {render, screen} from '@testing-library/react'
 import SingleViewMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField',
   () => () => <div data-testid='SingleViewMidEditableField' />)
 
 const mockVisaBin = 'mock_visa_bin'
 const mockDateAdded = 'mock_date_added'
-const mockTxmStatus = 'mock_txm_status'
+const mockTxmStatus = 'onboarded' // Must match a value provided by DirectoryTxmStatus enum
 
 let mockPatchErrorResponse = null
 let mockPutErrorResponse = null
@@ -108,8 +109,6 @@ const getSingleViewMidDetailsComponent = (passedProps = {}) => (
 describe('SingleViewMidDetails', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    // displayValue state value
-    React.useState = jest.fn().mockReturnValue(['', jest.fn()])
   })
 
   // TODO: Add functionality tests into each section
@@ -228,13 +227,9 @@ describe('SingleViewMidDetails', () => {
   })
 
   describe('Test Harmonia Status', () => {
-    it('should render the Harmonia Status heading', () => {
+    it('should render the Harmonia Status component', () => {
       render(getSingleViewMidDetailsComponent())
-      expect(screen.getByText('HARMONIA STATUS')).toBeInTheDocument()
-    })
-    it('should render the Edit button', () => {
-      render(getSingleViewMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+      expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
     })
   })
 })

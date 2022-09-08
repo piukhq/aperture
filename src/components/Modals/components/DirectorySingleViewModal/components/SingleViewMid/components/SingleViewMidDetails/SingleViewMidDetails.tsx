@@ -1,7 +1,6 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {Dropdown} from 'components'
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
@@ -9,6 +8,7 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
+import HarmoniaStatus from '../../../HarmoniaStatus'
 
 type Props = {
   resetError: () => void
@@ -37,6 +37,14 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
+    postMerchantMidOnboarding: postOnboarding,
+    postMerchantMidOnboardingIsLoading: isOnboardingLoading,
+    postMerchantMidOnboardingIsSuccess: isOnboardingSuccess,
+    resetPostMerchantMidOnboardingResponse: resetOnboardingResponse,
+    postMerchantMidOffboarding: postOffboarding,
+    postMerchantMidOffboardingIsLoading: isOffboardingLoading,
+    postMerchantMidOffboardingIsSuccess: isOffboardingSuccess,
+    resetPostMerchantMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementMids({
     skipGetMids: true,
     skipGetMid: true,
@@ -168,6 +176,24 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     putMerchantMidLocation({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, location_ref: associatedLocationRef})
   }, [planId, merchantId, ref, associatedLocationRef, putMerchantMidLocation])
 
+  const offboardMid = () => {
+    resetOffboardingResponse()
+    postOffboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      midRef: ref as string,
+    })
+  }
+  const onboardMid = () => {
+    resetOnboardingResponse()
+    postOnboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      midRef: ref as string,
+    })
+  }
+
+
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
     return location ? constructMidLocationString(location.location_metadata) : ''
@@ -234,22 +260,17 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         />
       )}
 
-      <section className='h-[38px] flex mb-[34px] flex-col'>
-        <p className='font-modal-heading m-0'>HARMONIA STATUS</p>
-        <div className='flex justify-between items-center'>
-          <p className='font-modal-data'>{txmStatus}</p>
-          <Button
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
-            buttonBackground={ButtonBackground.LIGHT_GREY}
-            labelColour={LabelColour.GREY}
-            labelWeight={LabelWeight.SEMIBOLD}
-          >Edit
-          </Button>
-        </div>
-      </section>
+      <HarmoniaStatus
+        txmStatus={txmStatus}
+        isOnboardingLoading={isOnboardingLoading}
+        isOnboardingSuccess={isOnboardingSuccess}
+        isOffboardingLoading={isOffboardingLoading}
+        isOffboardingSuccess={isOffboardingSuccess}
+        offboardEntityFn={offboardMid}
+        onboardEntityFn={onboardMid}
+      />
     </>
   )
 }
+
 export default SingleViewMidDetails

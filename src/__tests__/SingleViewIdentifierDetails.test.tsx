@@ -3,11 +3,13 @@ import {render, screen} from '@testing-library/react'
 import SingleViewIdentifierDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
 
 const mockIdentifierRef = 'mock_identifier_ref'
 const mockValue = 'mock_value'
 const mockPaymentSchemeMerchantName = 'mock_payment_scheme_merchant_name'
 const mockDateAdded = 'mock_date_added'
+const mockIdentifierStatus = 'mock_identifier_status'
 const mockTxmStatus = 'mock_txm_status'
 
 const mockMerchantIdentifier = {
@@ -18,9 +20,18 @@ const mockMerchantIdentifier = {
     payment_scheme_merchant_name: mockPaymentSchemeMerchantName,
   },
   date_added: mockDateAdded,
-  identifier_status: mockTxmStatus,
+  identifier_status: mockIdentifierStatus,
+  txm_status: mockTxmStatus,
 }
 
+jest.mock('hooks/useMidManagementIdentifiers', () => ({
+  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({ // Placeholder for future functionality
+    postMerchantIdentifierOnboarding: jest.fn(),
+    postMerchantIdentifierOffboarding: jest.fn(),
+  })),
+}))
+
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 const getSingleViewIdentifierDetailsComponent = () => (
   <SingleViewIdentifierDetails identifier={mockMerchantIdentifier} />
@@ -28,7 +39,13 @@ const getSingleViewIdentifierDetailsComponent = () => (
 
 describe('SingleViewIdentifierDetails', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        ref: 'mock_identifier_ref',
+      },
+    }))
   })
 
   // TODO: Add functionality tests into each section
@@ -48,6 +65,7 @@ describe('SingleViewIdentifierDetails', () => {
       render(getSingleViewIdentifierDetailsComponent())
       expect(screen.getAllByRole('heading')[1]).toHaveTextContent('PAYMENT SCHEME')
     })
+
     it('should render the correct Payment Scheme value', () => {
       render(getSingleViewIdentifierDetailsComponent())
       expect(screen.getByText('Visa')).toBeInTheDocument()
@@ -55,13 +73,9 @@ describe('SingleViewIdentifierDetails', () => {
   })
 
   describe('Test Harmonia Status', () => {
-    it('should render the Harmonia Status heading', () => {
+    it('should render the Harmonia Status component', () => {
       render(getSingleViewIdentifierDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
-    })
-    it('should render the Edit button', () => {
-      render(getSingleViewIdentifierDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+      expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
     })
   })
 })

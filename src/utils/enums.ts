@@ -119,7 +119,6 @@ enum PaymentSchemeName {
   AMEX = 'AMEX'
 }
 
-
 enum PaymentSchemeStartCaseName {
   VISA = 'Visa',
   MASTERCARD = 'Mastercard',
@@ -136,6 +135,14 @@ enum LinkableEntities {
   MID = 'MID',
   SECONDARY_MID = 'Secondary MID',
   LOCATION = 'Location'
+}
+
+enum DirectoryTxmStatus {
+  'onboarded' = 'Onboarded',
+  'not_onboarded'= 'Not Onboarded',
+  'onboarding'= 'Onboarding',
+  'offboarding'= 'Offboarding',
+  'failed'= 'Failed',
 }
 
 export {
@@ -158,4 +165,5 @@ export {
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
   LinkableEntities,
+  DirectoryTxmStatus,
 }

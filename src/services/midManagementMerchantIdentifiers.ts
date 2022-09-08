@@ -56,12 +56,55 @@ export const midManagementMerchantIdentifiersApi = createApi({
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
         }
-      }}),
+      },
+    }),
+    // TODO: IF there is a requirement to onboard multiple Identifiers at once, this will need to be updated
+    postMerchantIdentifierOnboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
+      query: ({planRef, merchantRef, identifierRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/onboarding`,
+        method: 'POST',
+        body: [identifierRef],
+      }),
+      invalidatesTags: ['MerchantIdentifiers'],
+      async onQueryStarted ({planRef, merchantRef, identifierRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: onboardingIdentifiersArray} = await queryFulfilled
+          dispatch(midManagementMerchantIdentifiersApi.util.updateQueryData('getMerchantIdentifier', ({planRef, merchantRef, identifierRef}), (existingIdentifier) => {
+            Object.assign(existingIdentifier, onboardingIdentifiersArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
+    // TODO: IF there is a requirement to offboard multiple Identifiers at once, this will need to be updated
+    postMerchantIdentifierOffboarding: builder.mutation<DirectoryIdentifier, MerchantIdentifiersEndpointRefs>({
+      query: ({planRef, merchantRef, identifierRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/identifiers/offboarding`,
+        method: 'POST',
+        body: [identifierRef],
+      }),
+      invalidatesTags: ['MerchantIdentifiers'],
+      async onQueryStarted ({planRef, merchantRef, identifierRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: offboardingIdentifiersArray} = await queryFulfilled
+          dispatch(midManagementMerchantIdentifiersApi.util.updateQueryData('getMerchantIdentifier', ({planRef, merchantRef, identifierRef}), (existingIdentifier) => {
+            Object.assign(existingIdentifier, offboardingIdentifiersArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
   }),
 })
 
 export const {
   useGetMerchantIdentifiersQuery,
   useGetMerchantIdentifierQuery,
+  usePostMerchantIdentifierOnboardingMutation,
+  usePostMerchantIdentifierOffboardingMutation,
   useDeleteMerchantIdentifierMutation,
 } = midManagementMerchantIdentifiersApi

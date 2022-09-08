@@ -1,16 +1,52 @@
-import {Button} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {useRouter} from 'next/router'
 import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
+import HarmoniaStatus from '../../../HarmoniaStatus'
 
 type Props = {
   identifier: DirectoryIdentifier
 }
 
 const SingleViewIdentifierDetails = ({identifier}: Props) => {
-  const {date_added: dateAdded, identifier_metadata: identifierMetadata, identifier_status: identifierStatus} = identifier
+  const router = useRouter()
+  const {merchantId, planId, ref} = router.query
+  const {date_added: dateAdded, identifier_metadata: identifierMetadata, txm_status: txmStatus} = identifier
   const {payment_scheme_code: paymentSchemeCode} = identifierMetadata
+
+  const {
+    postMerchantIdentifierOnboarding: postOnboarding,
+    postMerchantIdentifierOnboardingIsLoading: isOnboardingLoading,
+    postMerchantIdentifierOnboardingIsSuccess: isOnboardingSuccess,
+    resetPostMerchantIdentifierOnboardingResponse: resetOnboardingResponse,
+    postMerchantIdentifierOffboarding: postOffboarding,
+    postMerchantIdentifierOffboardingIsLoading: isOffboardingLoading,
+    postMerchantIdentifierOffboardingIsSuccess: isOffboardingSuccess,
+    resetPostMerchantIdentifierOffboardingResponse: resetOffboardingResponse,
+  } = useMidManagementIdentifiers({
+    skipGetIdentifier: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    identifierRef: ref as string,
+  })
+
+  const offboardIdentifier = () => {
+    resetOffboardingResponse()
+    postOffboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      identifierRef: ref as string,
+    })
+  }
+  const onboardIdentifier = () => {
+    resetOnboardingResponse()
+    postOnboarding({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      identifierRef: ref as string,
+    })
+  }
 
   const getPaymentScheme = () => {
     if (paymentSchemeCode === PaymentSchemeCode.VISA) {
@@ -34,21 +70,15 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
           <p className='font-modal-data'>{getPaymentScheme()}</p>
         </div>
       </section>
-      <section className='h-[38px] flex justify-between mb-[34px] items-center'>
-        <div>
-          <h2 className='font-modal-heading'>HARMONIA STATUS</h2>
-          <p className='font-modal-data'>{identifierStatus || 'Placeholder Status'}</p> {/* TODO: Add data from API, missing in mocked data */}
-        </div>
-        <Button
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.MEDIUM}
-          buttonWidth={ButtonWidth.MEDIUM}
-          buttonBackground={ButtonBackground.LIGHT_GREY}
-          labelColour={LabelColour.GREY}
-          labelWeight={LabelWeight.SEMIBOLD}
-        >Edit
-        </Button>
-      </section>
+      <HarmoniaStatus
+        txmStatus={txmStatus}
+        isOnboardingLoading={isOnboardingLoading}
+        isOnboardingSuccess={isOnboardingSuccess}
+        isOffboardingLoading={isOffboardingLoading}
+        isOffboardingSuccess={isOffboardingSuccess}
+        offboardEntityFn={offboardIdentifier}
+        onboardEntityFn={onboardIdentifier}
+      />
     </>
   )
 }

@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
 
 const mockSecondaryMidRef = 'mock_secondary_mid_ref'
 const mockSecondaryMid = 'mock_secondary_mid'
@@ -23,17 +24,27 @@ const mockMerchantSecondaryMid = {
   txm_status: mockTxmStatus,
 }
 
+jest.mock('hooks/useMidManagementSecondaryMids', () => ({
+  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+    postMerchantIdentifierOnboarding: jest.fn(),
+    postMerchantIdentifierOffboarding: jest.fn(),
+  })),
+}))
+
 const getSingleViewSecondaryMidDetailsComponent = () => (
   <SingleViewSecondaryMidDetails secondaryMid={mockMerchantSecondaryMid} />
 )
 
-describe('SingleViewSecondaryMidDetails', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    // displayValue state value
-    React.useState = jest.fn().mockReturnValue(['', jest.fn()])
-  })
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+useRouter.mockImplementation(() => ({
+  query: {
+    planId: 'mock_plan_id',
+    merchantId: 'mock_merchant_id',
+    ref: 'mock_ref',
+  },
+}))
 
+describe('SingleViewSecondaryMidDetails', () => {
   // TODO: Add functionality tests into each section
   describe('Test Date Added', () => {
     it('should render the Date Added heading', () => {
@@ -69,13 +80,10 @@ describe('SingleViewSecondaryMidDetails', () => {
   })
 
   describe('Test Harmonia Status', () => {
-    it('should render the Harmonia Status heading', () => {
+    it('should render the Harmonia Status component', () => {
       render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getAllByRole('heading')[2]).toHaveTextContent('HARMONIA STATUS')
-    })
-    it('should render the Edit button', () => {
-      render(getSingleViewSecondaryMidDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+      expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
     })
   })
+
 })

@@ -73,6 +73,47 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
           console.error('Error:', err)
         }
       }}),
+
+    // TODO: IF there is a requirement to onboard multiple Secondary MIDs at once, this will need to be updated
+    postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/onboarding`,
+        method: 'POST',
+        body: [secondaryMidRef],
+      }),
+      invalidatesTags: ['MerchantSecondaryMids'],
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: onboardingSecondaryMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+            Object.assign(existingSecondaryMid, onboardingSecondaryMidsArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
+    // TODO: IF there is a requirement to offboard multiple Secondary MIDs at once, this will need to be updated
+    postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/offboarding`,
+        method: 'POST',
+        body: [secondaryMidRef],
+      }),
+      invalidatesTags: ['MerchantSecondaryMids'],
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: offboardingSecondaryMidsArray} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+            Object.assign(existingSecondaryMid, offboardingSecondaryMidsArray[0])
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
   }),
 })
 
@@ -82,4 +123,6 @@ export const {
   useGetMerchantSecondaryMidLinkedLocationsQuery,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
+  usePostMerchantSecondaryMidOnboardingMutation,
+  usePostMerchantSecondaryMidOffboardingMutation,
 } = midManagementMerchantSecondaryMidsApi
