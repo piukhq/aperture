@@ -1,4 +1,4 @@
-import {Button, Tag, PaymentCardIcon} from 'components'
+import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import {LinkableEntities} from 'utils/enums'
