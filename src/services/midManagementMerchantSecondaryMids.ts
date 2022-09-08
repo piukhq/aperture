@@ -73,6 +73,8 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
           console.error('Error:', err)
         }
       }}),
+
+    // TODO: IF there is a requirement to onboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/onboarding`,
@@ -92,6 +94,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         }
       },
     }),
+    // TODO: IF there is a requirement to offboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/offboarding`,
