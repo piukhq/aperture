@@ -92,15 +92,25 @@ const DirectoryMerchantIdentifiers = () => {
         {/* TODO: More auxiliary buttons to be added at a later date */}
         <div>
           {checkedRefArray.length > 0 && (
-            <Button
-              handleClick={requestIdentifiersDeleteModal}
-              buttonSize={ButtonSize.SMALL}
-              buttonWidth={ButtonWidth.MEDIUM}
-              labelColour={LabelColour.RED}
-              labelWeight={LabelWeight.SEMIBOLD}
-              borderColour={BorderColour.RED}
-            >Delete
-            </Button>
+            <div className='flex gap-[10px] h-[71px] items-center'>
+              <Button
+                handleClick={() => console.log('Comments button pressed') }
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.AUTO}
+                labelColour={LabelColour.GREY}
+                borderColour={BorderColour.GREY}
+              >Comments
+              </Button>
+              <Button
+                handleClick={requestIdentifiersDeleteModal}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={ButtonWidth.MEDIUM}
+                labelColour={LabelColour.RED}
+                labelWeight={LabelWeight.SEMIBOLD}
+                borderColour={BorderColour.RED}
+              >Delete
+              </Button>
+            </div>
           )}
         </div>
 

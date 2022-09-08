@@ -105,8 +105,7 @@ const DirectoryMerchantMids = () => {
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
-      >
-        Onboard to Harmonia
+      >Onboard to Harmonia
       </Button>
       <Button
         handleClick={() => console.log('Offboard from Harmonia button pressed') }
@@ -114,8 +113,15 @@ const DirectoryMerchantMids = () => {
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
-      >
-        Offboard from Harmonia
+      >Offboard from Harmonia
+      </Button>
+      <Button
+        handleClick={() => console.log('Comments button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >Comments
       </Button>
       <Button
         handleClick={requestMidDeleteModal}
@@ -123,8 +129,7 @@ const DirectoryMerchantMids = () => {
         buttonWidth={ButtonWidth.MEDIUM}
         labelColour={LabelColour.RED}
         borderColour={BorderColour.RED}
-      >
-        Delete
+      >Delete
       </Button>
     </div>
   )
