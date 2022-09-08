@@ -79,6 +79,16 @@ describe('DirectoryMerchantMids', () => {
     expect(amexButton).toBeInTheDocument()
   })
 
+  it('should render the correct checked item buttons', () => {
+    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
+    render(getDirectoryMerchantMidsComponent())
+
+    expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Offboard from Harmonia'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
+  })
+
   it('should have the correct number of table headers', () => {
     render(getDirectoryMerchantMidsComponent())
     const headings = screen.getAllByTestId('table-header')

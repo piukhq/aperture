@@ -69,6 +69,15 @@ describe('DirectoryMerchantLocations', () => {
       },
     }))
   })
+
+  it('should render the correct checked item buttons', () => {
+    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
+    render(getDirectoryMerchantLocationsComponent())
+
+    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
+  })
+
   it('should render the add store button', () => {
     render(getDirectoryMerchantLocationsComponent())
     const addStoreButton = screen.getByRole('button', {
