@@ -19,10 +19,10 @@ const Comments = ({comments}: Props) => {
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
   const renderComment = (comment: DirectoryComment) => {
-    const {responses} = comment
+    const {ref, responses} = comment
 
     return (
-      <div className={'flex flex-col gap-[9px]'}>
+      <div key={ref} className={'flex flex-col gap-[9px]'}>
         <Comment comment={comment} currentRoute={currentRoute} />
 
         {/* Recursion used here to display nested responses with expected left margin */}
