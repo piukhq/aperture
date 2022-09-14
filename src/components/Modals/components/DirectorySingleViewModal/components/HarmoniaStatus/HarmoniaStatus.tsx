@@ -34,7 +34,7 @@ const HarmoniaStatus = ({
       setHarmoniaStatusButtonAction('Onboarding')
     } else if (harmoniaStatus === DirectoryTxmStatus.onboarded) {
       setHarmoniaStatusButtonAction('Offboard')
-    } else if (harmoniaStatus === DirectoryTxmStatus.not_onboarded || harmoniaStatus === DirectoryTxmStatus.failed) {
+    } else if (harmoniaStatus === DirectoryTxmStatus.not_onboarded || DirectoryTxmStatus.offboarded) {
       setHarmoniaStatusButtonAction('Onboard')
     }
   }, [harmoniaStatus, isOffboardingLoading, isOffboardingSuccess, isOnboardingLoading, isOnboardingSuccess, txmStatus])
