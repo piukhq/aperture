@@ -54,9 +54,17 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
-        return getMerchantSecondaryMidResponse ? <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} /> : null
+        return getMerchantSecondaryMidResponse ? (
+          <div className='px-[25px]'>
+            <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} />
+          </div>
+        ) : null
       case DirectorySingleViewTabs.LOCATIONS:
-        return <SingleViewSecondaryMidLocations />
+        return (
+          <div className='px-[25px]'>
+            <SingleViewSecondaryMidLocations />
+          </div>
+        )
       case DirectorySingleViewTabs.COMMENTS:
         return <SingleViewComments />
     }
@@ -68,9 +76,7 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
       <nav className='h-[60px] w-full grid grid-cols-3 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[25px]'>
-        {renderSelectedTabContent()}
-      </div>
+      {renderSelectedTabContent()}
     </>
   )
 }
