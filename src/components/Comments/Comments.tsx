@@ -57,7 +57,7 @@ const Comments = ({comments, isSingleView}: Props) => {
       </div>
 
       <div className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
-        <AutosizeTextArea buttonClickHandler={() => console.log('Submit comment button clicked')} />
+        <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' buttonClickHandler={() => console.log('Submit comment button clicked')} />
       </div>
     </div>
   )

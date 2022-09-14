@@ -7,7 +7,7 @@ describe('AutosizeTextArea', () => {
 
   const getAutosizeTextAreaComponent = () => {
     return (
-      <AutosizeTextArea buttonClickHandler={mockButtonClickHandler} />
+      <AutosizeTextArea accessibilityLabel='' placeholder='' buttonClickHandler={mockButtonClickHandler} />
     )
   }
 
