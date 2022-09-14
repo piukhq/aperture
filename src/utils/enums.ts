@@ -142,6 +142,7 @@ enum DirectoryTxmStatus {
   'not_onboarded'= 'Not Onboarded',
   'onboarding'= 'Onboarding',
   'offboarding'= 'Offboarding',
+  'offboarded'= 'Offboarded',
   'failed'= 'Failed',
 }
 
