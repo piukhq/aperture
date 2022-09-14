@@ -55,6 +55,19 @@ describe('Test Harmonia Status', () => {
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Not Onboarded')
     })
 
+    it('should render the onboard button', () => {
+      render(getHarmoniaStatusComponent())
+      expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
+    })
+
+    it('should call the postOnboarding function when clicked', () => {
+      render(getHarmoniaStatusComponent())
+      fireEvent.click(screen.getByRole('button', {name: 'Onboard'}))
+      expect(mockOnboardEntityFn).toHaveBeenCalled()
+    })
+  })
+
+  describe('Test Not Offboarded status', () => {
     it('should render the Offboard Harmonia Status value', () => {
       mockProps.txmStatus = 'offboarded'
       render(getHarmoniaStatusComponent())
