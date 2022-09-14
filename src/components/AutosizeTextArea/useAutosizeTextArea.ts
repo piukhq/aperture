@@ -2,7 +2,6 @@ import {useEffect} from 'react'
 
 // Hook to allow us to dynamically handle the height of a <textarea>.
 
-// Updates the height of a <textarea> when the value changes.
 const useAutosizeTextArea = (
   textAreaRef: HTMLTextAreaElement | null,
   value: string
