@@ -42,8 +42,12 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryEntityCheckedSelection: (state, action) => {
       state.selectedEntityCheckedSelection = action.payload
     },
-    setSelectedDirectoryTableCheckedRows: (state, action) => { //
+    setSelectedDirectoryTableCheckedRows: (state, action) => {
       state.selectedTableCheckedRows = action.payload
+    },
+    resetSelectedDirectoryEntities: (state) => {
+      state.selectedEntityCheckedSelection = []
+      state.selectedTableCheckedRows = []
     },
     reset: () => initialState,
   },
@@ -55,6 +59,7 @@ export const {
   setSelectedDirectoryMerchantPaymentScheme,
   setSelectedDirectoryEntityCheckedSelection,
   setSelectedDirectoryTableCheckedRows,
+  resetSelectedDirectoryEntities,
   reset,
 } = directoryMerchantSlice.actions
 
