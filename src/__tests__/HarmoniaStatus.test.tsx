@@ -68,7 +68,7 @@ describe('Test Harmonia Status', () => {
   })
 
   describe('Test Offboarded status', () => {
-    it('should render the Offboard Harmonia Status value', () => {
+    it('should render the Offboarded Harmonia Status value', () => {
       mockProps.txmStatus = 'offboarded'
       render(getHarmoniaStatusComponent())
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarded')
