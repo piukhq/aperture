@@ -1,15 +1,14 @@
 import {useRouter} from 'next/router'
-import {Button} from 'components'
-import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
-import WriteSvg from 'icons/svgs/write.svg'
+import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
+import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
 
 type Props = {
   comments: DirectoryComments
+  isSingleView?: boolean
 }
 
-const Comments = ({comments}: Props) => {
+const Comments = ({comments, isSingleView}: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
 
@@ -50,22 +49,16 @@ const Comments = ({comments}: Props) => {
   }
 
   return (
-    <div className='ml-[32px] mr-[5px] mb-[27px]'>
-      {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
-      {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
+    <div className='mb-[10px]'>
+      {/* Adding a max-height allows us to fix the AutosizeTextArea and border at the bottom of the modal */}
+      <div className={`ml-[32px] mr-[5px] overflow-auto scrollbar-hidden ${isSingleView ? 'max-h-[42vh]' : 'max-h-[65vh]'}`}>
+        {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
+        {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
+      </div>
 
-      <Button
-        handleClick={() => console.log('Add Comment button clicked')}
-        buttonType={ButtonType.SUBMIT}
-        buttonSize={ButtonSize.MEDIUM_ICON}
-        buttonWidth={ButtonWidth.AUTO}
-        buttonBackground={ButtonBackground.COMMENTS_BLUE}
-        labelColour={LabelColour.WHITE}
-        labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel='Add Comment'
-      >
-        <WriteSvg fill='white' />Add Comment
-      </Button>
+      <div className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
+        <AutosizeTextArea buttonClickHandler={() => console.log('Submit comment button clicked')} />
+      </div>
     </div>
   )
 }

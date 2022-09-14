@@ -75,16 +75,26 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
         return getMerchantLocationResponse ? (
-          <SingleViewLocationDetails
-            location={getMerchantLocationResponse}
-            isInEditState={isInEditState}
-            onCancelEditState={onCancelEditState}
-          />
+          <div className='px-[25px]'>
+            <SingleViewLocationDetails
+              location={getMerchantLocationResponse}
+              isInEditState={isInEditState}
+              onCancelEditState={onCancelEditState}
+            />
+          </div>
         ) : null
       case DirectorySingleViewTabs.MIDS:
-        return <SingleViewLocationMids />
+        return (
+          <div className='px-[25px]'>
+            <SingleViewLocationMids />
+          </div>
+        )
       case DirectorySingleViewTabs.SECONDARY_MIDS:
-        return <SingleViewLocationSecondaryMids />
+        return (
+          <div className='px-[25px]'>
+            <SingleViewLocationSecondaryMids />
+          </div>
+        )
       case DirectorySingleViewTabs.COMMENTS:
         return <SingleViewComments />
     }
@@ -95,9 +105,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
       <nav className='h-[60px] w-full grid grid-cols-4 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      <div className='px-[25px]'>
-        {renderSelectedTabContent()}
-      </div>
+      {renderSelectedTabContent()}
     </>
   )
 }
