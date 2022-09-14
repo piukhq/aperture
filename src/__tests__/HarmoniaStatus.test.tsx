@@ -49,10 +49,16 @@ describe('Test Harmonia Status', () => {
   })
 
   describe('Test Not Onboarded status', () => {
-    it('should render the correct Harmonia Status value', () => {
+    it('should render the Not Onboarded Harmonia Status value', () => {
       mockProps.txmStatus = 'not_onboarded'
       render(getHarmoniaStatusComponent())
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Not Onboarded')
+    })
+
+    it('should render the Offboard Harmonia Status value', () => {
+      mockProps.txmStatus = 'offboarded'
+      render(getHarmoniaStatusComponent())
+      expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarded')
     })
 
     it('should render the onboard button', () => {
@@ -90,19 +96,6 @@ describe('Test Harmonia Status', () => {
     it('should render the disabled offboarding button', () => {
       render(getHarmoniaStatusComponent())
       expect(screen.getByRole('button', {name: 'Offboarding'})).toBeDisabled()
-    })
-  })
-
-  describe('Test Failed status', () => {
-    it('should render the correct Harmonia Status value', () => {
-      mockProps.txmStatus = 'failed'
-      render(getHarmoniaStatusComponent())
-      expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Failed')
-    })
-
-    it('should render the active onboard button', () => {
-      render(getHarmoniaStatusComponent())
-      expect(screen.getByRole('button', {name: 'Onboard'})).not.toBeDisabled()
     })
   })
 })
