@@ -1,4 +1,5 @@
 export {default as AssetGrid} from './AssetGrid'
+export {default as AutosizeTextArea} from './AutosizeTextArea'
 export {default as DirectoryBreadcrumb} from './DirectoryBreadcrumb'
 export {default as Button} from './Button'
 export {default as Comments} from './Comments'
