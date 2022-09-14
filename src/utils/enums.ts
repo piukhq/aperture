@@ -143,7 +143,6 @@ enum DirectoryTxmStatus {
   'onboarding'= 'Onboarding',
   'offboarding'= 'Offboarding',
   'offboarded'= 'Offboarded',
-  'failed'= 'Failed',
 }
 
 export {
