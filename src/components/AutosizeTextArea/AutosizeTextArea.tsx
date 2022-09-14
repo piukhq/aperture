@@ -18,6 +18,7 @@ const AutosizeTextArea = ({buttonClickHandler}: Props) => {
 
   return (
     <div className='relative flex w-full'>
+      {/* TODO: Placeholder value may need to be generic and passed in as prop if component is used in other places in the future */}
       <textarea
         data-testid='textarea'
         className={
