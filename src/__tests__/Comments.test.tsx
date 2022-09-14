@@ -4,6 +4,7 @@ import Comments from 'components/Comments'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/Comments/components/Comment', () => () => <div data-testid='comment' />)
+jest.mock('components/AutosizeTextArea', () => () => <div data-testid='autosize-text-area' />)
 
 describe('Comments', () => {
   const mockEntityCommentSubjectType = 'mock_entity_comment_subject_type'
@@ -91,7 +92,7 @@ describe('Comments', () => {
 
     it('should render the Add Comment button', () => {
       render(getCommentsComponent())
-      expect(screen.getByRole('button', {name: /Add Comment/})).toBeInTheDocument()
+      expect(screen.getByTestId('autosize-text-area')).toBeInTheDocument()
     })
   })
 })
