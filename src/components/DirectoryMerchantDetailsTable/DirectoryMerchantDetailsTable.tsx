@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import DirectoryMerchantDetailsTableRow from './components/DirectoryMerchantDetailsTableRow'
-import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows, resetSelectedDirectoryEntities} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
@@ -21,6 +21,12 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
 
   const dispatch = useAppDispatch()
   const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
+
+  useEffect(() => { // When component unmounts, clear out the current selected entities
+    return () => {
+      dispatch(resetSelectedDirectoryEntities())
+    }
+  }, [dispatch])
 
   useEffect(() => { // If actions are to occur in parent when checkboxes change, emit event to parent
     if (checkboxChangeHandler) {
@@ -74,7 +80,17 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
       </thead>
 
       <tbody>
-        {tableRows.map((row, index) => <DirectoryMerchantDetailsTableRow key={index} index={index} refValue={refArray[index]} row={row} copyRow={copyRow} setCopyRow={setCopyRow} singleViewRequestHandler={singleViewRequestHandler} onCheckboxChange={handleCheckboxChange}/>)}
+        {tableRows.map((row, index) => (
+          <DirectoryMerchantDetailsTableRow
+            key={index}
+            index={index}
+            refValue={refArray[index]}
+            row={row}
+            copyRow={copyRow}
+            setCopyRow={setCopyRow}
+            singleViewRequestHandler={singleViewRequestHandler}
+            onCheckboxChange={handleCheckboxChange}/>
+        ))}
       </tbody>
     </table>
   )
