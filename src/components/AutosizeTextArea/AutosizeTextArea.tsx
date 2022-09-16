@@ -23,6 +23,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Prop
       setInputValidationError('Enter text')
     } else {
       submitHandler(value)
+      setValue('')
     }
   }
 
@@ -45,7 +46,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Prop
         aria-label={`${accessibilityLabel} text area`}
         data-testid='textarea'
         className={classNames(
-          'scrollbar-hidden w-full min-h-[50px] max-h-[85px] resize-none pl-[12px] py-[11px] pr-[40px] rounded-[10px] border-[1px] border-grey-500 dark:bg-grey-825 font-body-3  focus:outline-lightBlue',
+          'scrollbar-hidden w-full min-h-[50px] max-h-[85px] resize-none pl-[12px] py-[11px] pr-[40px] rounded-[10px] border-[1px] border-grey-500 bg-white dark:bg-grey-825 font-body-3  focus:outline-lightBlue',
           `${inputValidationError && 'border-red'}`
         )}
         onChange={handleInputChange}
