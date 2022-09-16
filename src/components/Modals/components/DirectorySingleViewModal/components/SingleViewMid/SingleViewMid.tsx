@@ -5,6 +5,7 @@ import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} 
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
 import SingleViewComments from '../SingleViewComments'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 type Props = {
   resetError: () => void
@@ -65,7 +66,7 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px]'>
         {renderNavigationTabs()}
       </nav>
-      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
+      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments subjectType={CommentsSubjectTypes.MID} />}
     </>
   )
 }
