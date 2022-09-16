@@ -32,7 +32,7 @@ const SingleViewComments = ({subjectType}: Props) => {
         text: comment,
       },
       subject_type: subjectType,
-      subjects: [],
+      subjects: [commentsRef as string],
     })
   }, [postComment, subjectType, commentsRef])
 
