@@ -38,7 +38,7 @@ const DirectoryCommentsModal = () => {
         text: comment,
       },
       subject_type: commentsSubjectType,
-      subjects: [],
+      subjects: [commentsRef as string],
     })
   }, [postComment, commentsSubjectType, commentsRef])
 

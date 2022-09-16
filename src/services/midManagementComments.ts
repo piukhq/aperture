@@ -1,12 +1,12 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryComments, DirectoryComment, DirectoryCommentMetadata, DirectoryCommentSubject} from 'types'
+import {DirectoryComments, DirectoryComment, DirectoryCommentMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {CommentsSubjectTypes, UrlEndpoint} from 'utils/enums'
 
 type DirectoryCommentBody = {
   commentsRef: string,
   metadata: DirectoryCommentMetadata,
-  subjects: Array<DirectoryCommentSubject>,
+  subjects: Array<string>,
   subject_type: CommentsSubjectTypes,
 }
 
