@@ -5,7 +5,7 @@ import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} 
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {SingleViewSecondaryMidDetails, SingleViewSecondaryMidLocations} from './components'
 import SingleViewComments from '../SingleViewComments'
-import {DirectorySingleViewTabs} from 'utils/enums'
+import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
 
 type Props = {
   setHeaderFn: (header: string) => void
@@ -66,7 +66,7 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
           </div>
         )
       case DirectorySingleViewTabs.COMMENTS:
-        return <SingleViewComments />
+        return <SingleViewComments subjectType={CommentsSubjectTypes.SECONDARY_MID} />
     }
   }
 

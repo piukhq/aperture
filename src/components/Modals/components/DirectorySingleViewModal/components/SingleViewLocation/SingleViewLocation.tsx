@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {DirectorySingleViewTabs} from 'utils/enums'
+import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
 import {
   SingleViewLocationDetails,
   SingleViewLocationMids,
@@ -96,7 +96,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
           </div>
         )
       case DirectorySingleViewTabs.COMMENTS:
-        return <SingleViewComments />
+        return <SingleViewComments subjectType={CommentsSubjectTypes.LOCATION} />
     }
   }
 

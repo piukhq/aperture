@@ -91,6 +91,12 @@ export type DirectoryCommentSubject = {
   icon_slug?: string
 }
 
+export type DirectoryCommentMetadata = {
+  comment_owner: string,
+  owner_type: string,
+  text: string
+}
+
 export type DirectoryComment = {
   ref: string,
   created_at: string,
@@ -98,11 +104,7 @@ export type DirectoryComment = {
   is_edited: boolean,
   is_deleted: boolean,
   subjects: Array<DirectoryCommentSubject>,
-  metadata: {
-    comment_owner: string,
-    owner_type: string,
-    text: string
-  },
+  metadata: DirectoryCommentMetadata,
   responses: Array<DirectoryComment>
 }
 

@@ -154,6 +154,20 @@ enum PlanCategory {
   IMAGES = 'images',
 }
 
+enum CommentsOwnerTypes {
+  PLAN = 'plan',
+  MERCHANT = 'merchant',
+}
+
+enum CommentsSubjectTypes {
+  PLAN = 'plan',
+  MERCHANT = 'merchant',
+  MID = 'mid',
+  LOCATION = 'location',
+  SECONDARY_MID = 'secondary mid',
+  PSIMI = 'psimi',
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -176,4 +190,6 @@ export {
   LinkableEntities,
   PlanCategory,
   DirectoryTxmStatus,
+  CommentsOwnerTypes,
+  CommentsSubjectTypes,
 }
