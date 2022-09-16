@@ -40,8 +40,13 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Prop
     }
   }
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    handleTextValidation()
+  }
+
   return (
-    <div className='relative flex w-full'>
+    <form className='relative flex w-full' onSubmit={handleFormSubmit}>
       <textarea
         aria-label={`${accessibilityLabel} text area`}
         data-testid='textarea'
@@ -61,10 +66,10 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Prop
           {inputValidationError}
         </span>
       )}
-      <button data-testid='submit-button' onClick={handleTextValidation} aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
+      <button data-testid='submit-button' aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
         <ArrowRightSvg className='h-[22px] w-[22px]' />
       </button>
-    </div>
+    </form>
   )
 }
 

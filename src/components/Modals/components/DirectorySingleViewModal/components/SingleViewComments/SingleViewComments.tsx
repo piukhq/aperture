@@ -19,7 +19,7 @@ const SingleViewComments = ({subjectType}: Props) => {
     getCommentsError: commentsError,
     postComment,
     postCommentIsLoading: newCommentIsLoading,
-    postCommentIsSuccess: newCommentSuccessfullyAdded,
+    postCommentIsSuccess: newCommentIsSuccess,
   } = useMidManagementComments({commentsRef})
 
   const handleNewCommentSubmit = useCallback((comment: string) => {
@@ -42,7 +42,7 @@ const SingleViewComments = ({subjectType}: Props) => {
         <Comments
           comments={comments}
           newCommentIsLoading={newCommentIsLoading}
-          newCommentSuccessfullyAdded={newCommentSuccessfullyAdded}
+          newCommentIsSuccess={newCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
           isSingleView
         />
