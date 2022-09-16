@@ -8,11 +8,11 @@ type Props = {
   comments: DirectoryComments
   handleCommentSubmit: (comment: string) => void
   newCommentIsLoading: boolean
-  newCommentSuccessfullyAdded: boolean
+  newCommentIsSuccess: boolean
   isSingleView?: boolean
 }
 
-const Comments = ({comments, handleCommentSubmit, newCommentSuccessfullyAdded, newCommentIsLoading, isSingleView}: Props) => {
+const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommentIsLoading, isSingleView}: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
 
@@ -20,14 +20,14 @@ const Comments = ({comments, handleCommentSubmit, newCommentSuccessfullyAdded, n
 
   useEffect(() => {
     // Only scroll to the top when NEW comment is added. Will likely not do this for replies to comments
-    if (newCommentSuccessfullyAdded && !newCommentIsLoading) {
+    if (newCommentIsSuccess && !newCommentIsLoading) {
       // Scroll to the top of container when new comment is added
       commentsContainerRef.current.scrollTo({
         top: 0,
         behavior: 'smooth',
       })
     }
-  }, [newCommentSuccessfullyAdded, newCommentIsLoading])
+  }, [newCommentIsSuccess, newCommentIsLoading])
 
   const {entity_comments: entityComments, lower_comments: lowerComments} = comments
 
@@ -68,14 +68,14 @@ const Comments = ({comments, handleCommentSubmit, newCommentSuccessfullyAdded, n
   return (
     <div className='mb-[10px]'>
       {/* Adding a max-height allows us to fix the AutosizeTextArea and border at the bottom of the modal */}
-      <div ref={commentsContainerRef} className={`ml-[32px] mr-[5px] overflow-auto scrollbar-hidden ${isSingleView ? 'max-h-[42vh]' : 'max-h-[65vh]'}`}>
+      <section ref={commentsContainerRef} className={`ml-[32px] mr-[5px] overflow-auto scrollbar-hidden ${isSingleView ? 'max-h-[42vh]' : 'max-h-[65vh]'}`}>
         {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
         {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
-      </div>
+      </section>
 
-      <div className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
+      <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
         <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} />
-      </div>
+      </section>
     </div>
   )
 }

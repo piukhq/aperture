@@ -20,7 +20,7 @@ const DirectoryCommentsModal = () => {
     getCommentsError: commentsError,
     postComment,
     postCommentIsLoading: newCommentIsLoading,
-    postCommentIsSuccess: newCommentSuccessfullyAdded,
+    postCommentIsSuccess: newCommentIsSuccess,
   } = useMidManagementComments({commentsRef})
 
   const closeModal = useCallback(() => {
@@ -48,7 +48,7 @@ const DirectoryCommentsModal = () => {
         <Comments
           comments={comments}
           newCommentIsLoading={newCommentIsLoading}
-          newCommentSuccessfullyAdded={newCommentSuccessfullyAdded}
+          newCommentIsSuccess={newCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
         />
       )}

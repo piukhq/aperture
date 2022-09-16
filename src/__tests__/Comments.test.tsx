@@ -58,7 +58,7 @@ describe('Comments', () => {
     comments: mockComments,
     handleCommentSubmit: jest.fn(),
     newCommentIsLoading: false,
-    newCommentSuccessfullyAdded: false,
+    newCommentIsSuccess: false,
   }
 
   const getCommentsComponent = (passedProps = {}) => {
