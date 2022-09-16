@@ -5,6 +5,7 @@ import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} 
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {SingleViewIdentifierDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 type Props = {
   setHeaderFn: (header: string) => void
@@ -63,7 +64,7 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
         {renderNavigationTabs()}
       </nav>
 
-      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments />}
+      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments subjectType={CommentsSubjectTypes.PSIMI} />}
     </>
   )
 }
