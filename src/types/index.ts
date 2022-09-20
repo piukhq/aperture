@@ -274,9 +274,10 @@ export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | Director
 
 export type DirectoryEntities = Array<DirectoryEntity>
 
-export type DirectoryMerchantEntityDeletionItem = {
+export type DirectoryMerchantEntitySelectedItem = {
   entityRef: string,
   entityValue: string,
+  paymentSchemeCode?: number
 }
 
 export type OptionsMenuItem = {

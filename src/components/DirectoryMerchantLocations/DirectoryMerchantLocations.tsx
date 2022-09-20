@@ -1,13 +1,13 @@
-import {useState} from 'react'
 import {useRouter} from 'next/router'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -42,7 +42,7 @@ const DirectoryMerchantLocations = () => {
   const {merchantId, planId} = router.query
 
   const dispatch = useAppDispatch()
-  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
+  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantLocationsResponse} = useMidManagementLocations({
     skipGetLocation: true,
@@ -111,13 +111,24 @@ const DirectoryMerchantLocations = () => {
     router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
   }
 
-  const requestLocationDeleteModal = ():void => {
-    const checkedMidsToEntity = locationsData.filter((location) => checkedRefArray.includes(location.location_ref)).map((location) => ({
+  const setSelectedLocations = () => {
+    const checkedLocationsToEntity = locationsData.filter((location) => checkedRefArray.includes(location.location_ref)).map((location) => ({
       entityRef: location.location_ref,
       entityValue: location.location_metadata.name,
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
+  }
+
+  const requestLocationDeleteModal = ():void => {
+    setSelectedLocations()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE))
+  }
+
+  const requestBulkCommentModal = () => {
+    setSelectedLocations()
+    dispatch(setModalHeader('Location Comment'))
+    dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
   return (
@@ -127,7 +138,7 @@ const DirectoryMerchantLocations = () => {
           { checkedRefArray.length > 0 && (
             <div className='flex gap-[10px] h-[71px] items-center'>
               <Button
-                handleClick={() => console.log('Comments button pressed') }
+                handleClick={requestBulkCommentModal}
                 buttonSize={ButtonSize.SMALL}
                 buttonWidth={ButtonWidth.AUTO}
                 labelColour={LabelColour.GREY}
@@ -159,7 +170,7 @@ const DirectoryMerchantLocations = () => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )

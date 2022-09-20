@@ -90,7 +90,7 @@ const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommen
       </section>
 
       <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
-        <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} />
+        <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} shouldClearText={newCommentIsSuccess && !newCommentIsLoading} />
       </section>
     </div>
   )

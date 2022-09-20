@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import useAutosizeTextArea from './useAutosizeTextArea'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
 import {classNames} from 'utils/classNames'
@@ -7,14 +7,22 @@ type Props = {
   accessibilityLabel: string
   placeholder: string
   submitHandler: (value: string) => void
+  shouldClearText?: boolean
 }
 
-const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Props) => {
+const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, shouldClearText = false}: Props) => {
   const [value, setValue] = useState('')
   const [inputValidationError, setInputValidationError] = useState(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
   useAutosizeTextArea(textAreaRef.current, value)
+
+  useEffect(() => {
+    // Clear entered text when necessary
+    if (shouldClearText) {
+      setValue('')
+    }
+  }, [shouldClearText])
 
   const handleTextValidation = () => {
     // Remove new lines
@@ -23,7 +31,6 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler}: Prop
       setInputValidationError('Enter text')
     } else {
       submitHandler(value)
-      setValue('')
     }
   }
 

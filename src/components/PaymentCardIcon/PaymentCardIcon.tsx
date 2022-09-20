@@ -22,7 +22,7 @@ const PaymentCardIcon = ({paymentSchemeCode, paymentSchemeIconStyles = defaultPa
       case PaymentSchemeCode.MASTERCARD:
         return (
           <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
-            <MastercardSvg className='scale-[78%] mb-[1px]' alt='Mastercard' />
+            <MastercardSvg className='scale-[78%]' alt='Mastercard' />
           </div>
         )
       case PaymentSchemeCode.AMEX:

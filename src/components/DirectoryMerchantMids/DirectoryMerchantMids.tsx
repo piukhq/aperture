@@ -1,16 +1,16 @@
 import {DirectoryMerchantDetailsTable} from 'components'
 import {useRouter} from 'next/router'
 import {DirectoryMids, DirectoryMid} from 'types'
-import {ModalType, PaymentSchemeName} from 'utils/enums'
-import {useAppDispatch} from 'app/hooks'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import {setModalHeader, setCommentsSubjectType} from 'features/directoryCommentsSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {useState} from 'react'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
 
@@ -39,7 +39,8 @@ const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
-  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
+
+  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse} = useMidManagementMids({
     skipGetMid: true,
@@ -88,13 +89,25 @@ const DirectoryMerchantMids = () => {
     router.push(`${router.asPath}&ref=${midsData[index].mid_ref}`)
   }
 
-  const requestMidDeleteModal = ():void => {
+  const setSelectedMids = () => {
     const checkedMidsToEntity = midsData.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
+      paymentSchemeCode: mid.mid_metadata.payment_scheme_code,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+  }
+
+  const requestMidDeleteModal = ():void => {
+    setSelectedMids()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE))
+  }
+
+  const requestBulkCommentModal = () => {
+    setSelectedMids()
+    dispatch(setModalHeader('MID Comment'))
+    dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
   const renderCheckedItemButtons = () => (
@@ -116,7 +129,7 @@ const DirectoryMerchantMids = () => {
       >Offboard from Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Comments button pressed') }
+        handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -174,7 +187,6 @@ const DirectoryMerchantMids = () => {
           tableRows={hydrateMidTableData()}
           singleViewRequestHandler={requestMidSingleView}
           refArray={refArray}
-          checkboxChangeHandler={setCheckedRefArray}
         />
       )}
     </>

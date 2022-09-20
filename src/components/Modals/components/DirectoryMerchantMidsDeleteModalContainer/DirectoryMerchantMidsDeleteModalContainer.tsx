@@ -2,13 +2,13 @@ import {DirectoryMerchantEntityDeleteModal} from 'components'
 import {useRouter} from 'next/router'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {RTKQueryErrorResponse, DirectoryMerchantEntityDeletionItem} from 'types'
+import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
 const DirectoryMerchantMidsDeleteModalContainer = () => {
   const router = useRouter()
   const {merchantId, planId} = router.query
-  const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntityDeletionItem[]
+  const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
 
   const {
     deleteMerchantMid,
