@@ -21,8 +21,7 @@ const BulkCommentModal = () => {
   const [noSubjectsValidationError, setNoSubjectsValidationError] = useState(false)
 
   useEffect(() => {
-    const checkedRefs = checkedSubjects.map(subject => subject.entityRef)
-    setCheckedRefs(checkedRefs)
+    setCheckedRefs(checkedSubjects.map(subject => subject.entityRef))
   }, [checkedSubjects])
 
   const {
@@ -68,7 +67,7 @@ const BulkCommentModal = () => {
     return checkedSubjects.map((subject: DirectoryMerchantEntitySelectedItem) => {
       const {entityRef, entityValue, paymentSchemeCode} = subject
       return (
-        <div key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
+        <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
           <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checkedRefs.includes(entityRef)} onChange={() => handleCheckboxChange(entityRef)} />
           <p className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</p>
           {paymentSchemeCode && (
@@ -84,14 +83,14 @@ const BulkCommentModal = () => {
 
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader} onCloseFn={closeModal}>
-      <section className='ml-[45px] mt-[20px] mb-[30px]'>
+      <section data-testid='subjects-section' className='ml-[45px] mt-[20px] mb-[30px]'>
         <p className='font-body-4'>New Comment in</p>
         {renderSubjects()}
       </section>
 
-      <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
+      <section data-testid='text-area-section' className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
         {newBulkCommentIsSuccess && !newBulkCommentIsLoading ? (
-          <div className='flex items-center mt-[10px]'>
+          <div data-testid='success-container' className='flex items-center mt-[10px]'>
             <CheckSvg className='w-[16px] h-[11px] fill-grey-600' />
             <p className='ml-[5px] font-body-3'>Success - Comment added</p>
           </div>
@@ -100,14 +99,13 @@ const BulkCommentModal = () => {
         )}
       </section>
 
-      <section className='h-[24px] ml-[16px] pt-[5px]'>
+      <section data-testid='error-message-section' className='h-[24px] ml-[16px] pt-[5px]'>
         {noSubjectsValidationError && (
-          <p className='font-body-3 text-red'>No subject selected</p>
+          <p data-testid='error-message' className='font-body-3 text-red'>No subject selected</p>
         )}
       </section>
     </Modal>
   )
 }
-
 
 export default BulkCommentModal

@@ -29,6 +29,12 @@ const mockGetMerchantMidsResponse = [
   },
 ]
 
+const mockDirectoryMerchantDetailsTableComponent = jest.fn()
+jest.mock('components/DirectoryMerchantDetailsTable', () => (props) => {
+  mockDirectoryMerchantDetailsTableComponent(props)
+  return <div data-testid='DirectoryMerchantDetailsTable' />
+})
+
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
     getMerchantMidsResponse: mockGetMerchantMidsResponse,
@@ -39,7 +45,7 @@ jest.mock('hooks/useMidManagementMids', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedTableCheckedRows: [],
+    selectedTableCheckedRefs: ['mock_id'],
   },
 })
 
@@ -80,7 +86,6 @@ describe('DirectoryMerchantMids', () => {
   })
 
   it('should render the correct checked item buttons', () => {
-    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
     render(getDirectoryMerchantMidsComponent())
 
     expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
@@ -89,20 +94,33 @@ describe('DirectoryMerchantMids', () => {
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
-    render(getDirectoryMerchantMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
-    expect(headings).toHaveLength(8)
-  })
+  it('should have the correct table header props to the DirectoryMerchantDetailsTableComponent', () => {
+    const tableHeaders = [
+      {
+        isPaymentIcon: true,
+      },
+      {
+        displayValue: 'VALUE',
+      },
+      {
+        displayValue: 'BIN',
+      },
+      {
+        displayValue: 'DATE ADDED',
+      },
+      {
+        displayValue: 'SCHEME STATUS',
+      },
+      {
+        displayValue: 'HARMONIA STATUS',
+      },
+    ]
 
-  it('should have the correct table header labels', () => {
     render(getDirectoryMerchantMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
 
-    expect(headings[2]).toHaveTextContent('VALUE')
-    expect(headings[3]).toHaveTextContent('BIN')
-    expect(headings[4]).toHaveTextContent('DATE ADDED')
-    expect(headings[5]).toHaveTextContent('SCHEME STATUS')
-    expect(headings[6]).toHaveTextContent('HARMONIA STATUS')
+    // Test that component is called with correct props
+    expect(mockDirectoryMerchantDetailsTableComponent).toHaveBeenCalledWith(expect.objectContaining({
+      tableHeaders,
+    }))
   })
 })
