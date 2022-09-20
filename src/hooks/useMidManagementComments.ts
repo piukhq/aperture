@@ -6,8 +6,8 @@ import {
   midManagementCommentsApi,
 } from 'services/midManagementComments'
 
-export const useMidManagementComments = ({commentsRef}) => {
-  const {data: getCommentsResponse, isLoading: getCommentsIsLoading, error: getCommentsError} = useGetCommentsQuery({commentsRef})
+export const useMidManagementComments = ({skipGetComments = false, commentsRef = ''}) => {
+  const {data: getCommentsResponse, isLoading: getCommentsIsLoading, error: getCommentsError} = useGetCommentsQuery({commentsRef}, {skip: skipGetComments})
 
   const [postComment, {
     data: postCommentResponse,

@@ -1,16 +1,16 @@
-import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -36,6 +36,8 @@ const DirectoryMerchantIdentifiers = () => {
   const router = useRouter()
   const {merchantId, planId} = router.query
 
+  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
+
   const {getMerchantIdentifiersResponse} = useMidManagementIdentifiers({
     skipGetIdentifier: true,
     planRef: planId as string,
@@ -43,7 +45,6 @@ const DirectoryMerchantIdentifiers = () => {
   })
 
   const identifiersData: DirectoryIdentifiers = getMerchantIdentifiersResponse
-  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return identifiersData.map((identifierObj: DirectoryIdentifier) => {
@@ -77,13 +78,26 @@ const DirectoryMerchantIdentifiers = () => {
     router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
   }
 
-  const requestIdentifiersDeleteModal = ():void => {
-    const checkedMidsToEntity = identifiersData.filter((identifier) => checkedRefArray.includes(identifier.identifier_ref)).map((identifier) => ({
+  const setSelectedIdentifiers = () => {
+    const checkedIdentifiersToEntity = identifiersData.filter((identifier) => checkedRefArray.includes(identifier.identifier_ref)).map((identifier) => ({
       entityRef: identifier.identifier_ref,
       entityValue: identifier.identifier_metadata.value,
+      paymentSchemeCode: identifier.identifier_metadata.payment_scheme_code,
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedIdentifiersToEntity))
+  }
+
+  const requestIdentifiersDeleteModal = ():void => {
+    setSelectedIdentifiers()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+  }
+
+  const requestBulkCommentModal = () => {
+    // TODO: Will possibly need to change from Identifiers to PSIMIs
+    setSelectedIdentifiers()
+    dispatch(setModalHeader('Identifier Comment'))
+    dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
   return (
@@ -94,7 +108,7 @@ const DirectoryMerchantIdentifiers = () => {
           {checkedRefArray.length > 0 && (
             <div className='flex gap-[10px] h-[71px] items-center'>
               <Button
-                handleClick={() => console.log('Comments button pressed') }
+                handleClick={requestBulkCommentModal}
                 buttonSize={ButtonSize.SMALL}
                 buttonWidth={ButtonWidth.AUTO}
                 labelColour={LabelColour.GREY}
@@ -136,7 +150,7 @@ const DirectoryMerchantIdentifiers = () => {
       </div>
 
       {identifiersData && (
-        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
       )}
     </>
   )

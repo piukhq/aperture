@@ -1,14 +1,15 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 import {PaymentSchemeName} from 'utils/enums'
-import {DirectoryMerchant, DirectoryEntity, DirectoryMerchantEntityDeletionItem} from 'types'
+import {DirectoryMerchant, DirectoryEntity, DirectoryMerchantEntitySelectedItem} from 'types'
 
 type DirectoryMerchantSliceState = {
   selectedEntity: DirectoryEntity | null
   selectedPaymentScheme: PaymentSchemeName | null
   selectedMerchant: DirectoryMerchant | null
-  selectedEntityCheckedSelection: DirectoryMerchantEntityDeletionItem[]
+  selectedEntityCheckedSelection: DirectoryMerchantEntitySelectedItem[]
   selectedTableCheckedRows: boolean[]
+  selectedTableCheckedRefs: string[]
 }
 const initialState: DirectoryMerchantSliceState = {
   selectedEntity: null,
@@ -24,6 +25,7 @@ const initialState: DirectoryMerchantSliceState = {
   },
   selectedEntityCheckedSelection: [],
   selectedTableCheckedRows: [],
+  selectedTableCheckedRefs: [],
 }
 
 export const directoryMerchantSlice = createSlice({
@@ -39,15 +41,19 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {
       state.selectedPaymentScheme = action.payload
     },
-    setSelectedDirectoryEntityCheckedSelection: (state, action) => {
+    setSelectedDirectoryEntityCheckedSelection: (state, action: PayloadAction<DirectoryMerchantEntitySelectedItem[]>) => {
       state.selectedEntityCheckedSelection = action.payload
     },
     setSelectedDirectoryTableCheckedRows: (state, action) => {
       state.selectedTableCheckedRows = action.payload
     },
+    setSelectedDirectoryTableCheckedRefs: (state, action: PayloadAction<string[] | []>) => {
+      state.selectedTableCheckedRefs = action.payload
+    },
     resetSelectedDirectoryEntities: (state) => {
       state.selectedEntityCheckedSelection = []
       state.selectedTableCheckedRows = []
+      state.selectedTableCheckedRefs = []
     },
     reset: () => initialState,
   },
@@ -59,6 +65,7 @@ export const {
   setSelectedDirectoryMerchantPaymentScheme,
   setSelectedDirectoryEntityCheckedSelection,
   setSelectedDirectoryTableCheckedRows,
+  setSelectedDirectoryTableCheckedRefs,
   resetSelectedDirectoryEntities,
   reset,
 } = directoryMerchantSlice.actions
@@ -68,4 +75,5 @@ export const getSelectedDirectoryMerchantEntity = (state: RootState) => state.di
 export const getSelectedDirectoryMerchantPaymentScheme = (state: RootState) => state.directoryMerchant.selectedPaymentScheme
 export const getSelectedDirectoryEntityCheckedSelection = (state: RootState) => state.directoryMerchant.selectedEntityCheckedSelection
 export const getSelectedDirectoryTableCheckedRows = (state: RootState) => state.directoryMerchant.selectedTableCheckedRows
+export const getSelectedDirectoryTableCheckedRefs = (state: RootState) => state.directoryMerchant.selectedTableCheckedRefs
 export default directoryMerchantSlice.reducer
