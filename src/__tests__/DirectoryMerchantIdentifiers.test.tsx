@@ -34,6 +34,12 @@ const mockGetMerchantIdentifiersResponse = [
   },
 ]
 
+const mockDirectoryMerchantDetailsTableComponent = jest.fn()
+jest.mock('components/DirectoryMerchantDetailsTable', () => (props) => {
+  mockDirectoryMerchantDetailsTableComponent(props)
+  return <div data-testid='DirectoryMerchantDetailsTable' />
+})
+
 jest.mock('hooks/useMidManagementIdentifiers', () => ({
   useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
     getMerchantIdentifiersResponse: mockGetMerchantIdentifiersResponse,
@@ -43,7 +49,7 @@ jest.mock('hooks/useMidManagementIdentifiers', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedTableCheckedRows: [],
+    selectedTableCheckedRefs: ['mock_id'],
   },
 })
 
@@ -87,20 +93,30 @@ describe('DirectoryMerchantIdentifiers', () => {
     expect(mastercardButton).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
+  it('should have the correct table header props to the DirectoryMerchantDetailsTableComponent', () => {
+    const tableHeaders = [
+      {
+        isPaymentIcon: true,
+      },
+      {
+        displayValue: 'VALUE',
+        additionalStyles: 'w-[160px]',
+      },
+      {
+        displayValue: 'SCHEME NAME',
+      },
+      {
+        displayValue: 'DATE ADDED',
+      },
+      {
+        displayValue: 'HARMONIA STATUS',
+      },
+    ]
+
     render(getDirectoryMerchantIdentifiersComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings).toHaveLength(7)
-  })
-
-  it('should have the correct table header labels', () => {
-    render(getDirectoryMerchantIdentifiersComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings[2]).toHaveTextContent('VALUE')
-    expect(headings[3]).toHaveTextContent('SCHEME NAME')
-    expect(headings[4]).toHaveTextContent('DATE ADDED')
-    expect(headings[5]).toHaveTextContent('HARMONIA STATUS')
+    // Test that component is called with correct props
+    expect(mockDirectoryMerchantDetailsTableComponent).toHaveBeenCalledWith(expect.objectContaining({
+      tableHeaders,
+    }))
   })
 })
