@@ -1,16 +1,16 @@
-import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
-import {ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -39,6 +39,8 @@ const DirectoryMerchantSecondaryMids = () => {
   const router = useRouter()
   const {merchantId, planId} = router.query
 
+  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
+
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
     planRef: planId as string,
@@ -46,8 +48,6 @@ const DirectoryMerchantSecondaryMids = () => {
   })
 
   const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse
-
-  const [checkedRefArray, setCheckedRefArray] = useState<string[]>([])
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
@@ -82,13 +82,25 @@ const DirectoryMerchantSecondaryMids = () => {
     router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
-  const requestSecondaryMidDeleteModal = ():void => {
-    const checkedMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
+  const setSelectedSecondaryMids = () => {
+    const checkedSecondaryMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
       entityRef: secondaryMid.secondary_mid_ref,
       entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
+      paymentSchemeCode: secondaryMid.secondary_mid_metadata.payment_scheme_code,
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedSecondaryMidsToEntity))
+  }
+
+  const requestSecondaryMidDeleteModal = ():void => {
+    setSelectedSecondaryMids()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+  }
+
+  const requestBulkCommentModal = () => {
+    setSelectedSecondaryMids()
+    dispatch(setModalHeader('Secondary MID Comment'))
+    dispatch(setCommentsSubjectType(CommentsSubjectTypes.SECONDARY_MID))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
   return (
@@ -99,7 +111,7 @@ const DirectoryMerchantSecondaryMids = () => {
           {checkedRefArray.length > 0 && (
             <div className='flex gap-[10px] h-[71px] items-center'>
               <Button
-                handleClick={() => console.log('Comments button pressed') }
+                handleClick={requestBulkCommentModal}
                 buttonSize={ButtonSize.SMALL}
                 buttonWidth={ButtonWidth.AUTO}
                 labelColour={LabelColour.GREY}
@@ -141,7 +153,7 @@ const DirectoryMerchantSecondaryMids = () => {
       </div>
 
       {secondaryMidsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} checkboxChangeHandler={setCheckedRefArray} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
     </>
   )

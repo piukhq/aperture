@@ -140,7 +140,7 @@ const SingleViewLocationMids = () => {
           <div className='w-[32px] h-[23px]'>
             <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />
           </div>
-          <p className='ml-[13px] font-single-view-data'>
+          <p className='ml-[13px] font-modal-data'>
             {midValue}
           </p>
         </div>
