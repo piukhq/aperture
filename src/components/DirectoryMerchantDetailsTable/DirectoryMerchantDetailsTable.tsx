@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import DirectoryMerchantDetailsTableRow from './components/DirectoryMerchantDetailsTableRow'
-import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows, resetSelectedDirectoryEntities} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows, setSelectedDirectoryTableCheckedRefs, resetSelectedDirectoryEntities} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
@@ -9,13 +9,11 @@ type TableRowProps = DirectoryMerchantDetailsTableCell[]
 type Props = {
   tableHeaders: DirectoryMerchantDetailsTableHeader[],
   tableRows: TableRowProps[],
-  checkboxChangeHandler?: (childCheckedRefArray: string[]) => void
   singleViewRequestHandler: (index: number) => void
   refArray: string[]
 }
 
-const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeHandler, singleViewRequestHandler, refArray}: Props) => {
-  const [checkedRefArr, setCheckedRefArr] = useState([])
+const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewRequestHandler, refArray}: Props) => {
   const [copyRow, setCopyRow] = useState(null)
   const [isAllChecked, setIsAllChecked] = useState(false)
 
@@ -28,17 +26,11 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
     }
   }, [dispatch])
 
-  useEffect(() => { // If actions are to occur in parent when checkboxes change, emit event to parent
-    if (checkboxChangeHandler) {
-      checkboxChangeHandler(checkedRefArr)
-    }
-  }, [checkboxChangeHandler, checkedRefArr])
-
   useEffect(() => { // This should trigger when the entity is deleted to reset checked rows
     if (selectedCheckedRows.length === 0) {
       dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(false)))
       setIsAllChecked(false)
-      setCheckedRefArr([])
+      dispatch(setSelectedDirectoryTableCheckedRefs([]))
     }
   }, [dispatch, selectedCheckedRows, tableRows.length])
 
@@ -46,11 +38,11 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, checkboxChangeH
     const updatedCheckedRowState = selectedCheckedRows.map((item, index) => index === rowIndex ? !item : item)
     dispatch(setSelectedDirectoryTableCheckedRows(updatedCheckedRowState))
     setIsAllChecked(false)
-    setCheckedRefArr(refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement))
+    dispatch(setSelectedDirectoryTableCheckedRefs(refArray.filter((refElement, index) => updatedCheckedRowState[index] && refElement)))
   }, [dispatch, refArray, selectedCheckedRows])
 
   const handleAllCheckboxesChange = () => {
-    setCheckedRefArr(selectedCheckedRows.some(row => row === true && isAllChecked) ? [] : refArray)
+    dispatch(setSelectedDirectoryTableCheckedRefs(selectedCheckedRows.some(row => row === true && isAllChecked) ? [] : refArray))
     dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(!isAllChecked)))
     isAllChecked ? setIsAllChecked(false) : setIsAllChecked(true)
   }

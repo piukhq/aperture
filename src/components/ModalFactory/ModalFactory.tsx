@@ -1,5 +1,6 @@
 import {
   AssetModal,
+  BulkCommentModal,
   CredentialsModal,
   DirectoryPlanModal,
   DirectoryPlanDeleteModal,
@@ -12,7 +13,7 @@ import {
   DirectoryMerchantLocationsDeleteModalContainer,
   DirectoryMerchantIdentifiersDeleteModalContainer,
   DirectoryCommentsModal,
-} from 'components/Modals'
+} from 'components//Modals'
 import {ModalType} from 'utils/enums'
 
 type Props = {
@@ -22,6 +23,7 @@ type Props = {
 const ModalFactory = ({modalRequested}: Props) => {
   switch(modalRequested) {
     case ModalType.ASSET_COMPARATOR_ASSET: return <AssetModal />
+    case ModalType.MID_MANAGEMENT_BULK_COMMENT: return <BulkCommentModal />
     case ModalType.ASSET_COMPARATOR_CREDENTIALS: return <CredentialsModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN: return <DirectoryPlanModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE: return <DirectoryPlanDeleteModal />

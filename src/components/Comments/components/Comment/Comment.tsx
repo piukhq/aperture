@@ -35,7 +35,7 @@ const Comment = ({comment, currentRoute}: Props) => {
 
     const renderLink = ({href, displayText, iconSlug, shouldTruncate = false, index = 0}) => {
       return (
-        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={href}>
+        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center min-h-[22px] ${shouldTruncate && 'truncate'}`} href={href}>
           {renderSubjectMetadata({displayText, iconSlug, shouldTruncate})}
         </a>
       )
@@ -50,7 +50,7 @@ const Comment = ({comment, currentRoute}: Props) => {
       }
 
       return (
-        <div className='flex truncate items-center'>
+        <div className='flex truncate items-center min-h-[22px]'>
           {renderSubjectMetadata({displayText, iconSlug, shouldTruncate: true})}
         </div>
       )
@@ -77,7 +77,7 @@ const Comment = ({comment, currentRoute}: Props) => {
             </div>
 
             <button onClick={() => setIsSubjectListExpanded(false)} className='self-start mx-[2px] min-w-[60px] font-body-4 font-bold text-commentsBlue'>
-                (see less -)
+              (see less -)
             </button>
           </>
         )

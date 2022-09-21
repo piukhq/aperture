@@ -29,6 +29,8 @@ const mockGetMerchantSecondaryMidsResponse = [
   },
 ]
 
+jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
     getMerchantSecondaryMidsResponse: mockGetMerchantSecondaryMidsResponse,
@@ -38,7 +40,7 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedTableCheckedRows: [],
+    selectedTableCheckedRefs: ['mock_id'],
   },
 })
 
@@ -82,21 +84,8 @@ describe('DirectoryMerchantSecondaryMids', () => {
     expect(mastercardButton).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
+  it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantSecondaryMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings).toHaveLength(8)
-  })
-
-  it('should have the correct table header labels', () => {
-    render(getDirectoryMerchantSecondaryMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings[2]).toHaveTextContent('VALUE')
-    expect(headings[3]).toHaveTextContent('STORE NAME')
-    expect(headings[4]).toHaveTextContent('DATE ADDED')
-    expect(headings[5]).toHaveTextContent('SCHEME STATUS')
-    expect(headings[6]).toHaveTextContent('HARMONIA STATUS')
+    expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 })

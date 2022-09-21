@@ -4,7 +4,7 @@ import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {CommentsSubjectTypes, UrlEndpoint} from 'utils/enums'
 
 type DirectoryCommentBody = {
-  commentsRef: string,
+  commentsRef?: string,
   metadata: DirectoryCommentMetadata,
   subjects: Array<string>,
   subject_type: CommentsSubjectTypes,

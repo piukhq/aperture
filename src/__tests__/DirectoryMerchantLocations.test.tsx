@@ -38,6 +38,8 @@ const mockGetMerchantLocationsResponse = [
   },
 ]
 
+jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+
 jest.mock('hooks/useMidManagementLocations', () => ({
   useMidManagementLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationsResponse: mockGetMerchantLocationsResponse,
@@ -47,7 +49,7 @@ jest.mock('hooks/useMidManagementLocations', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedTableCheckedRows: [],
+    selectedTableCheckedRefs: ['mock_id'],
   },
 })
 
@@ -71,7 +73,6 @@ describe('DirectoryMerchantLocations', () => {
   })
 
   it('should render the correct checked item buttons', () => {
-    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
     render(getDirectoryMerchantLocationsComponent())
 
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
@@ -87,24 +88,8 @@ describe('DirectoryMerchantLocations', () => {
     expect(addStoreButton).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
+  it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantLocationsComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings).toHaveLength(10)
-  })
-
-  it('should have the correct table header labels', () => {
-    render(getDirectoryMerchantLocationsComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings[1]).toHaveTextContent('NAME')
-    expect(headings[2]).toHaveTextContent('DATE ADDED')
-    expect(headings[3]).toHaveTextContent('PHYSICAL')
-    expect(headings[4]).toHaveTextContent('ADDRESS')
-    expect(headings[5]).toHaveTextContent('TOWN')
-    expect(headings[6]).toHaveTextContent('POSTCODE')
-    expect(headings[7]).toHaveTextContent('LOCATION ID')
-    expect(headings[8]).toHaveTextContent('INTERNAL ID')
+    expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 })

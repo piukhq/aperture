@@ -29,6 +29,8 @@ const mockGetMerchantMidsResponse = [
   },
 ]
 
+jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
     getMerchantMidsResponse: mockGetMerchantMidsResponse,
@@ -39,7 +41,7 @@ jest.mock('hooks/useMidManagementMids', () => ({
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({
   directoryMerchant: {
-    selectedTableCheckedRows: [],
+    selectedTableCheckedRefs: ['mock_id'],
   },
 })
 
@@ -80,7 +82,6 @@ describe('DirectoryMerchantMids', () => {
   })
 
   it('should render the correct checked item buttons', () => {
-    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
     render(getDirectoryMerchantMidsComponent())
 
     expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
@@ -89,20 +90,8 @@ describe('DirectoryMerchantMids', () => {
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
 
-  it('should have the correct number of table headers', () => {
+  it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
-    expect(headings).toHaveLength(8)
-  })
-
-  it('should have the correct table header labels', () => {
-    render(getDirectoryMerchantMidsComponent())
-    const headings = screen.getAllByTestId('table-header')
-
-    expect(headings[2]).toHaveTextContent('VALUE')
-    expect(headings[3]).toHaveTextContent('BIN')
-    expect(headings[4]).toHaveTextContent('DATE ADDED')
-    expect(headings[5]).toHaveTextContent('SCHEME STATUS')
-    expect(headings[6]).toHaveTextContent('HARMONIA STATUS')
+    expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 })

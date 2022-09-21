@@ -5,11 +5,11 @@ import {ModalType, ModalStyle, DirectorySingleViewEntities} from 'utils/enums'
 import {useRouter} from 'next/router'
 import {requestModal} from 'features/modalSlice'
 import {useCallback, useEffect, useState} from 'react'
-import {DirectoryMerchantEntityDeletionItem, RTKQueryErrorResponse} from 'types'
+import {DirectoryMerchantEntitySelectedItem, RTKQueryErrorResponse} from 'types'
 import {setSelectedDirectoryTableCheckedRows, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
 type Props = {
-  entitiesToBeDeleted: DirectoryMerchantEntityDeletionItem[],
+  entitiesToBeDeleted: DirectoryMerchantEntitySelectedItem[],
   deleteButtonClickFn: () => void,
   deleteError: RTKQueryErrorResponse,
   isDeleteLoading: boolean,

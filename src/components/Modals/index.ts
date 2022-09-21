@@ -1,4 +1,5 @@
 export {default as AssetModal} from './components/AssetModal'
+export {default as BulkCommentModal} from './components/BulkCommentModal'
 export {default as CredentialsModal} from './components/CredentialsModal'
 export {default as DirectoryMerchantDeleteModal} from './components/DirectoryMerchantDeleteModal'
 export {default as DirectoryMerchantMidsDeleteModalContainer} from './components/DirectoryMerchantMidsDeleteModalContainer'
