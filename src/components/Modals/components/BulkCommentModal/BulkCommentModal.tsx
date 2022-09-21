@@ -61,8 +61,8 @@ const BulkCommentModal = () => {
       const isChecked = checkedRefs.includes(entityRef)
       return (
         <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
-          <input aria-label={`Subject ${entityValue} ${isChecked ? 'checked' : 'un-checked'}`} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
-          <label className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
+          <input id={entityRef} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
+          <label htmlFor={entityRef} className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
           {paymentSchemeCode && (
             <PaymentCardIcon
               paymentSchemeCode={paymentSchemeCode}
