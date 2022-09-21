@@ -50,9 +50,13 @@ describe('Comment', () => {
   }
 
   describe('Test rendered elements', () => {
-    it('should render the comment date and OptionsMenuButton component', () => {
+    it('should render the comment date', () => {
       render(getCommentComponent())
       expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
+    })
+
+    it('should render the OptionsMenuButton component', () => {
+      render(getCommentComponent())
       expect(screen.getByTestId('options-menu-button')).toBeInTheDocument()
     })
 
