@@ -1,17 +1,19 @@
-import React, {useState, useRef} from 'react'
+import {useState, useRef} from 'react'
 import DotsSvg from 'icons/svgs/dots.svg'
 import {ButtonWidth, ButtonSize, BorderColour} from 'components/Button/styles'
 import {Button, OptionsMenuItem} from 'components'
 import {useIsElementBeyondRightViewportEdge} from 'utils/windowDimensions'
-
 import {OptionsMenuItems} from 'types'
-
 
 type Props = {
   optionsMenuItems: OptionsMenuItems
+  buttonSize?: ButtonSize
+  buttonWidth?: ButtonWidth
+  buttonAdditionalStyles?: string
+  iconStyles?: string
 }
 
-const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
+const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, buttonAdditionalStyles = '', iconStyles = ''}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -29,14 +31,15 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
   }
 
   return (
-    <div ref={buttonRef} className='relative'>
+    <div ref={buttonRef} className='absolute flex'>
       <Button
         handleClick={() => setIsMenuOpen(true)}
-        buttonSize={ButtonSize.MEDIUM_ICON}
-        buttonWidth={ButtonWidth.ICON_ONLY}
+        buttonSize={buttonSize || ButtonSize.MEDIUM_ICON}
+        buttonWidth={buttonWidth || ButtonWidth.ICON_ONLY}
         borderColour={BorderColour.GREY}
+        additionalStyles={buttonAdditionalStyles}
         ariaLabel='Options'
-      ><DotsSvg className='w-[18px] h-[4px]' />
+      ><DotsSvg className={`w-[18px] h-[4px] ${iconStyles}`} />
       </Button>
       {isMenuOpen && (
         <>
@@ -50,7 +53,7 @@ const OptionsMenuButton = ({optionsMenuItems = []}: Props) => {
             {renderMenuItems()}
           </div>
 
-          <div className={`absolute h-[15px] w-[15px] bg-white dark:bg-grey-850 transform origin-top-left top-[20px] z-40
+          <div className={`absolute h-[15px] w-[15px] bg-white dark:bg-grey-850 transform origin-top-left top-[50%] z-40
             shadow-[-2px_-2px_3px_0px_rgba(0,0,0,0.15)] dark:shadow-[-1px_-1px_1px_0px_rgb(68,68,79)]
             ${isElementBeyondRightViewportEdge ? 'rotate-[135deg] right-[27px]' : 'rotate-[-45deg] right-[-17px]'}`}
           />
