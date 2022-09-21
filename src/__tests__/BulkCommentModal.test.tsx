@@ -79,8 +79,7 @@ describe('BulkCommentModal', () => {
       mockCommentIsLoading = false
 
       render(getBulkCommentModalComponent())
-      expect(screen.getByTestId('success-container')).toBeInTheDocument()
-      expect(screen.getByText('Success - Comment added')).toBeInTheDocument()
+      expect(screen.getByTestId('success-container')).toHaveTextContent('Success - Comment added')
     })
   })
 
@@ -95,14 +94,13 @@ describe('BulkCommentModal', () => {
       expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
     })
 
-    it('should render the success message', () => {
+    it('should render the error message', () => {
       React.useState = jest.fn()
         .mockReturnValueOnce([[], jest.fn()]) // checkedRefs
         .mockReturnValueOnce([true, jest.fn()]) // noSubjectsValidationError
 
       render(getBulkCommentModalComponent())
-      expect(screen.getByTestId('error-message')).toBeInTheDocument()
-      expect(screen.getByText('No subject selected')).toBeInTheDocument()
+      expect(screen.getByTestId('error-message')).toHaveTextContent('No subject selected')
     })
   })
 })
