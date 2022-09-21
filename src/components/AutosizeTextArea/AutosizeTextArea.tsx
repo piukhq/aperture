@@ -19,9 +19,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, shoul
 
   useEffect(() => {
     // Clear entered text when necessary
-    if (shouldClearText) {
-      setValue('')
-    }
+    shouldClearText && setValue('')
   }, [shouldClearText])
 
   const handleTextValidation = () => {

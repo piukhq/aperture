@@ -29,11 +29,7 @@ const mockGetMerchantSecondaryMidsResponse = [
   },
 ]
 
-const mockDirectoryMerchantDetailsTableComponent = jest.fn()
-jest.mock('components/DirectoryMerchantDetailsTable', () => (props) => {
-  mockDirectoryMerchantDetailsTableComponent(props)
-  return <div data-testid='DirectoryMerchantDetailsTable' />
-})
+jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
@@ -88,33 +84,8 @@ describe('DirectoryMerchantSecondaryMids', () => {
     expect(mastercardButton).toBeInTheDocument()
   })
 
-  it('should have the correct table header props to the DirectoryMerchantDetailsTableComponent', () => {
-    const tableHeaders = [
-      {
-        isPaymentIcon: true,
-      },
-      {
-        displayValue: 'VALUE',
-        additionalStyles: 'w-[160px]',
-      },
-      {
-        displayValue: 'STORE NAME',
-      },
-      {
-        displayValue: 'DATE ADDED',
-      },
-      {
-        displayValue: 'SCHEME STATUS',
-      },
-      {
-        displayValue: 'HARMONIA STATUS',
-      },
-    ]
-
+  it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantSecondaryMidsComponent())
-    // Test that component is called with correct props
-    expect(mockDirectoryMerchantDetailsTableComponent).toHaveBeenCalledWith(expect.objectContaining({
-      tableHeaders,
-    }))
+    expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 })

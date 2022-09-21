@@ -1,24 +1,21 @@
 import {useCallback, useEffect, useState} from 'react'
-import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {useAppSelector} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, AutosizeTextArea, PaymentCardIcon} from 'components'
-import {getCommentsModalHeader, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
+import {getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
-import {requestModal} from 'features/modalSlice'
-import {ModalType, ModalStyle} from 'utils/enums'
+import {ModalStyle} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
 import CheckSvg from 'icons/svgs/check.svg'
 
 const BulkCommentModal = () => {
-  const dispatch = useAppDispatch()
-
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
   const checkedSubjects = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
 
   const [checkedRefs, setCheckedRefs] = useState([])
-  const [noSubjectsValidationError, setNoSubjectsValidationError] = useState(false)
+  const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState(false)
 
   useEffect(() => {
     setCheckedRefs(checkedSubjects.map(subject => subject.entityRef))
@@ -29,11 +26,6 @@ const BulkCommentModal = () => {
     postCommentIsLoading: newBulkCommentIsLoading,
     postCommentIsSuccess: newBulkCommentIsSuccess,
   } = useMidManagementComments({skipGetComments: true})
-
-  const closeModal = useCallback(() => {
-    dispatch(reset())
-    dispatch(requestModal(ModalType.NO_MODAL))
-  }, [dispatch])
 
   const handleBulkCommentSubmit = useCallback((comment: string) => {
     if (checkedRefs.length !== 0) {
@@ -48,12 +40,12 @@ const BulkCommentModal = () => {
         subjects: checkedRefs,
       })
     } else {
-      setNoSubjectsValidationError(true)
+      setNoSubjectsValidationIsError(true)
     }
   }, [postComment, commentsSubjectType, checkedRefs])
 
   const handleCheckboxChange = (ref: string) => {
-    setNoSubjectsValidationError(false)
+    setNoSubjectsValidationIsError(false)
 
     const index = checkedRefs.findIndex(storedRef => storedRef === ref)
     if (index === -1) {
@@ -66,10 +58,11 @@ const BulkCommentModal = () => {
   const renderSubjects = () => {
     return checkedSubjects.map((subject: DirectoryMerchantEntitySelectedItem) => {
       const {entityRef, entityValue, paymentSchemeCode} = subject
+      const isChecked = checkedRefs.includes(entityRef)
       return (
         <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
-          <input type='checkbox' className='flex h-[16px] w-[16px]' checked={checkedRefs.includes(entityRef)} onChange={() => handleCheckboxChange(entityRef)} />
-          <p className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</p>
+          <input aria-label={`Subject ${entityValue} ${isChecked ? 'checked' : 'un-checked'}`} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
+          <label className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
           {paymentSchemeCode && (
             <PaymentCardIcon
               paymentSchemeCode={paymentSchemeCode}
@@ -82,7 +75,7 @@ const BulkCommentModal = () => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader} onCloseFn={closeModal}>
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader}>
       <section data-testid='subjects-section' className='ml-[45px] mt-[20px] mb-[30px]'>
         <p className='font-body-4'>New Comment in</p>
         {renderSubjects()}
@@ -100,7 +93,7 @@ const BulkCommentModal = () => {
       </section>
 
       <section data-testid='error-message-section' className='h-[24px] ml-[16px] pt-[5px]'>
-        {noSubjectsValidationError && (
+        {noSubjectsValidationIsError && (
           <p data-testid='error-message' className='font-body-3 text-red'>No subject selected</p>
         )}
       </section>

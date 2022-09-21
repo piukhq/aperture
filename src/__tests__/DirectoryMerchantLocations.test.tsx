@@ -38,11 +38,7 @@ const mockGetMerchantLocationsResponse = [
   },
 ]
 
-const mockDirectoryMerchantDetailsTableComponent = jest.fn()
-jest.mock('components/DirectoryMerchantDetailsTable', () => (props) => {
-  mockDirectoryMerchantDetailsTableComponent(props)
-  return <div data-testid='DirectoryMerchantDetailsTable' />
-})
+jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 
 jest.mock('hooks/useMidManagementLocations', () => ({
   useMidManagementLocations: jest.fn().mockImplementation(() => ({
@@ -92,39 +88,8 @@ describe('DirectoryMerchantLocations', () => {
     expect(addStoreButton).toBeInTheDocument()
   })
 
-  it('should have the correct table header props to the DirectoryMerchantDetailsTableComponent', () => {
-    const tableHeaders = [
-      {
-        displayValue: 'NAME',
-      },
-      {
-        displayValue: 'DATE ADDED',
-      },
-      {
-        additionalStyles: 'w-[100px]',
-        displayValue: 'PHYSICAL',
-      },
-      {
-        displayValue: 'ADDRESS',
-      },
-      {
-        displayValue: 'TOWN',
-      },
-      {
-        displayValue: 'POSTCODE',
-      },
-      {
-        displayValue: 'LOCATION ID',
-      },
-      {
-        displayValue: 'INTERNAL ID',
-      },
-    ]
-
+  it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantLocationsComponent())
-    // Test that component is called with correct props
-    expect(mockDirectoryMerchantDetailsTableComponent).toHaveBeenCalledWith(expect.objectContaining({
-      tableHeaders,
-    }))
+    expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 })
