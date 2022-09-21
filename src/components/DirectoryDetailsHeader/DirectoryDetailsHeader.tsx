@@ -75,7 +75,9 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
 
           <div className='flex gap-[22px]'>
             {!isMerchant && renderNewMerchantButton()}
-            <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
+            <div className='w-[36px]'>
+              <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
+            </div>
           </div>
         </div>
       </div>

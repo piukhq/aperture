@@ -78,7 +78,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
   return (
     <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-md'>
       {optionsMenuItems.length > 0 && (
-        <div className='absolute top-[17px] right-[22px]'>
+        <div className='absolute top-[17px] right-[60px]'>
           <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
         </div>
       )}

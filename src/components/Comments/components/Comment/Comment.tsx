@@ -1,18 +1,18 @@
 import {useState} from 'react'
-import {Button, PaymentCardIcon} from 'components'
+import {Button, OptionsMenuButton, PaymentCardIcon} from 'components'
 import {ButtonWidth, ButtonSize} from 'components/Button/styles'
-import {DirectoryComment, DirectoryCommentSubject} from 'types'
+import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import DotsSvg from 'icons/svgs/dots.svg'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import {PaymentSchemeCode} from 'utils/enums'
 
 type Props = {
   comment: DirectoryComment
   currentRoute: string
+  optionsMenuItems: OptionsMenuItems
 }
 
-const Comment = ({comment, currentRoute}: Props) => {
+const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
   const {created_by: createdBy, created_at: createdAt, subjects, metadata} = comment
 
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
@@ -116,15 +116,15 @@ const Comment = ({comment, currentRoute}: Props) => {
         <div className='flex gap-[20px] min-w-[104px] mt-[2px]'>
           <p className='font-subheading-4 tracking-[0.08px] '>{isoToDateTime(createdAt, true)}</p>
 
-          <Button
-            handleClick={() => console.log('Options button clicked')}
-            buttonWidth={ButtonWidth.ICON_ONLY}
-            buttonSize={ButtonSize.INHERIT}
-            additionalStyles='h-[11px] w-[11px] mt-[3px]'
-            ariaLabel='Options'
-          >
-            <DotsSvg className='h-[11px] w-[11px]' />
-          </Button>
+          <div className='flex justify-center mt-[3px] w-[15px]'>
+            <OptionsMenuButton
+              optionsMenuItems={optionsMenuItems}
+              buttonWidth={ButtonWidth.ICON_ONLY}
+              buttonSize={ButtonSize.INHERIT}
+              buttonAdditionalStyles='border-none'
+              iconStyles='h-[11px] w-[11px]'
+            />
+          </div>
         </div>
       </div>
 

@@ -39,6 +39,7 @@ describe('Comment', () => {
   const mockProps = {
     comment: mockComment,
     currentRoute: '',
+    optionsMenuItems: [],
   }
 
   const getCommentComponent = (passedProps = {}) => {
