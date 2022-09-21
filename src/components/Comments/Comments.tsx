@@ -2,7 +2,9 @@ import {useRef, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
-import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
+import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment, OptionsMenuItems} from 'types'
+import EditSvg from 'icons/svgs/project.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 type Props = {
   comments: DirectoryComments
@@ -34,17 +36,31 @@ const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommen
   // Do not display section header on single view modals
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
+  const optionsMenuItems: OptionsMenuItems = [
+    {
+      label: 'Edit',
+      icon: <EditSvg/>,
+      clickHandler: () => console.log('Edit comment clicked'),
+    },
+    {
+      label: 'Delete',
+      icon: <DeleteSvg/>,
+      isRed: true,
+      clickHandler: () => console.log('Delete comment clicked'),
+    },
+  ]
+
   const renderComment = (comment: DirectoryComment) => {
     const {ref, responses} = comment
 
     return (
       <div key={ref} className={'flex flex-col gap-[9px]'}>
-        <Comment comment={comment} currentRoute={currentRoute} />
+        <Comment comment={comment} currentRoute={currentRoute} optionsMenuItems={optionsMenuItems} />
 
         {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => (
           <div key={response.ref} className='ml-[50px]'>
-            <Comment comment={response} currentRoute={currentRoute} />
+            <Comment comment={response} currentRoute={currentRoute} optionsMenuItems={optionsMenuItems} />
           </div>
         ))}
       </div>

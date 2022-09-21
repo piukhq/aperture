@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import Comment from 'components/Comments/components/Comment'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
+jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
 
 describe('Comment', () => {
   const mockEntityCommentCreatedBy = 'mock_entity_comment_created_by'
@@ -39,6 +40,7 @@ describe('Comment', () => {
   const mockProps = {
     comment: mockComment,
     currentRoute: '',
+    optionsMenuItems: [],
   }
 
   const getCommentComponent = (passedProps = {}) => {
@@ -48,10 +50,14 @@ describe('Comment', () => {
   }
 
   describe('Test rendered elements', () => {
-    it('should render the comment date and options icon', () => {
+    it('should render the comment date', () => {
       render(getCommentComponent())
       expect(screen.getByText('Dec 14, 2021')).toBeInTheDocument()
-      expect(screen.getByRole('button', {name: /Options/})).toBeInTheDocument()
+    })
+
+    it('should render the OptionsMenuButton component', () => {
+      render(getCommentComponent())
+      expect(screen.getByTestId('options-menu-button')).toBeInTheDocument()
     })
 
     it('should render comment metadata and reply icon', () => {
