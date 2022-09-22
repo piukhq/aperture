@@ -27,7 +27,7 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
         {iconSlug && (
           <PaymentCardIcon
             paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]}
-            paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] justify-center mx-[2px] items-center rounded-[2px]'
+            paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]'
           />
         )}
       </>

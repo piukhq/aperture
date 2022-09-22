@@ -16,19 +16,19 @@ const PaymentCardIcon = ({paymentSchemeCode, paymentSchemeIconStyles = defaultPa
       case PaymentSchemeCode.VISA:
         return (
           <div className={`${paymentSchemeIconStyles} bg-visaBlue`}>
-            <VisaSvg className='scale-[90%] mr-[1px]' alt='Visa' />
+            <VisaSvg className='scale-[90%] mr-[1px] h-full w-full' alt='Visa' />
           </div>
         )
       case PaymentSchemeCode.MASTERCARD:
         return (
           <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
-            <MastercardSvg className='scale-[78%]' alt='Mastercard' />
+            <MastercardSvg className='scale-[78%] h-full w-full' alt='Mastercard' />
           </div>
         )
       case PaymentSchemeCode.AMEX:
         return (
           <div className={`${paymentSchemeIconStyles} bg-amexBlue`}>
-            <AmexSvg className='scale-[85%]' alt='Amex' />
+            <AmexSvg className='scale-[85%] h-full w-full' alt='Amex' />
           </div>
         )
       default: return null
