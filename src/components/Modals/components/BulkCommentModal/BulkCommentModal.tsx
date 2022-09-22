@@ -66,7 +66,7 @@ const BulkCommentModal = () => {
           {paymentSchemeCode && (
             <PaymentCardIcon
               paymentSchemeCode={paymentSchemeCode}
-              paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] justify-center mx-[2px] items-center'
+              paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center'
             />
           )}
         </div>
