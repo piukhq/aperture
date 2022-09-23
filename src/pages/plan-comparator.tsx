@@ -1,10 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
-
-import {ContentTile, PageLayout} from 'components'
-
-import {areAnyVerificationTokensStored} from 'utils/storage'
-import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
+import {areMultipleVerificationTokensStored} from 'utils/storage'
 import {AssetModal, Button, ContentTile, CredentialsModal, PageLayout, PlanComparator, PlansList} from 'components'
 import {useGetPlans} from 'hooks/useGetPlans'
 import SettingsSvg from 'icons/svgs/settings.svg'
@@ -28,29 +24,26 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const plans: SelectedPlans = useAppSelector(getSelectedPlans)
-  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
   const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlans()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 
   useEffect(() => {
-    setIsVerified(areAnyVerificationTokensStored)
-  }, [modalRequested])
+    setIsVerified(areMultipleVerificationTokensStored)
+  }, [modalRequested, plans])
 
   useEffect(() => {
-    const hasTokens = areAnyVerificationTokensStored()
-    if (!hasTokens && shouldInitialCredentialsModalLaunchOccur) {
+    const hasMultipleTokens = areMultipleVerificationTokensStored()
+    if (!hasMultipleTokens && shouldInitialCredentialsModalLaunchOccur) {
       handleRequestCredentialsModal()
     }
     setShouldInitialCredentialsModalLaunchOccur(false)
-    setIsVerified(hasTokens)
-  }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
+    setIsVerified(hasMultipleTokens)
+  }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur, plans])
 
   const determineContentToRender = () => {
-    if (!isDesktopViewportDimensions) {
-      return renderSmallViewportCopy()
-    } else if (isVerified) {
+    if (isVerified) {
       return renderVerifiedLanding()
     } else {
       return renderUnverifiedLanding()
@@ -72,18 +65,10 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
     </>
   )
 
-  const renderSmallViewportCopy = () => (
-    <div data-testid='small-viewport-copy' className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
-      <h1 className='font-heading-4 w-full'>Viewport too small</h1>
-      <p className='font-subheading-3 w-full'>To use the Plan comparator your browser window must be a minimum width of 1000px.</p>
-      <p className='font-subheading-3 w-full'>Increase the size of your browser window to continue</p>
-    </div>
-  )
-
   const renderUnverifiedLanding = () => (
     <div data-testid='unverified-landing-copy' className='mt-[115px] flex flex-col items-center text-center gap-4'>
       <h1 className='font-heading-4'>Welcome to the Bink Plan Comparator</h1>
-      <p className='font-subheading-3'>Enter credentials above to compare assets across different environments</p>
+      <p className='font-subheading-3'>Enter credentials above to log in to multiple environments to compare plans</p>
     </div>
   )
 
