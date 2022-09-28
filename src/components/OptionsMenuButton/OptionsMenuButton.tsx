@@ -11,10 +11,10 @@ type Props = {
   buttonWidth?: ButtonWidth
   buttonAdditionalStyles?: string
   iconStyles?: string
-  shouldOnlyDisplayRight?: boolean
+  shouldOnlyDisplayLeft?: boolean
 }
 
-const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, buttonAdditionalStyles = '', iconStyles = '', shouldOnlyDisplayRight = false}: Props) => {
+const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, buttonAdditionalStyles = '', iconStyles = '', shouldOnlyDisplayLeft = false}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -48,7 +48,7 @@ const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, butt
             data-testid='options-menu'
             className={`flex flex-col gap-[10px] absolute rounded-[6px] border border-grey-200 dark:border-grey-800
               translate-y-[-40px] p-[15px] h-max w-max bg-white dark:bg-grey-850 justify-center z-40 shadow-[0_1px_5px_0px_rgba(0,0,0,0.4)]
-              ${isElementBeyondRightViewportEdge || shouldOnlyDisplayRight ? 'right-[50px]' : 'left-[50px]'}
+              ${isElementBeyondRightViewportEdge || shouldOnlyDisplayLeft ? 'right-[50px]' : 'left-[50px]'}
             `}
           >
             {renderMenuItems()}
@@ -57,7 +57,7 @@ const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, butt
           <div
             className={`absolute h-[15px] w-[15px] bg-white dark:bg-grey-850 transform origin-top-left top-[50%] z-40
               shadow-[-2px_-2px_3px_0px_rgba(0,0,0,0.15)] dark:shadow-[-1px_-1px_1px_0px_rgb(68,68,79)]
-              ${isElementBeyondRightViewportEdge || shouldOnlyDisplayRight ? 'rotate-[135deg] right-[27px]' : 'rotate-[-45deg] right-[-17px]'}
+              ${isElementBeyondRightViewportEdge || shouldOnlyDisplayLeft ? 'rotate-[135deg] right-[27px]' : 'rotate-[-45deg] right-[-17px]'}
             `}
           />
 
