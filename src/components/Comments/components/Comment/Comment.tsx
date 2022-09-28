@@ -123,6 +123,7 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
               buttonSize={ButtonSize.INHERIT}
               buttonAdditionalStyles='border-none'
               iconStyles='h-[11px] w-[11px]'
+              shouldOnlyDisplayRight={true}
             />
           </div>
         </div>
