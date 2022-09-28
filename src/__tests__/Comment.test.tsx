@@ -67,6 +67,20 @@ describe('Comment', () => {
       expect(screen.getByRole('button', {name: /Reply/})).toBeInTheDocument()
     })
 
+    it('should render the comment deleted message', () => {
+      const props = {
+        ...mockProps,
+        comment: {
+          ...mockComment,
+          is_deleted: true,
+        },
+      }
+      render(getCommentComponent(props))
+      expect(screen.queryByText(mockEntityCommentMetadataText)).not.toBeInTheDocument()
+      expect(screen.getByText('This comment has been deleted')).toBeInTheDocument()
+      expect(screen.getByTestId('comment-deleted-message')).toBeInTheDocument()
+    })
+
     describe('Test subjects', () => {
       describe('Test multiple subjects', () => {
         beforeEach(() => {

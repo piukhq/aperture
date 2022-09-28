@@ -107,7 +107,7 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
 
   const renderCommentText = () => {
     if (isDeleted) {
-      return <p className='font-body-3 italic'>This comment has been deleted</p>
+      return <p data-testid='comment-deleted-message' className='font-body-3 italic'>This comment has been deleted</p>
     }
     return <p className='font-body-3'>{metadata.text}</p>
   }
