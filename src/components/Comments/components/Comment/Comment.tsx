@@ -13,7 +13,7 @@ type Props = {
 }
 
 const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
-  const {created_by: createdBy, created_at: createdAt, subjects, metadata} = comment
+  const {created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted} = comment
 
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
 
@@ -105,6 +105,13 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
     )
   }
 
+  const renderCommentText = () => {
+    if (isDeleted) {
+      return <p data-testid='comment-deleted-message' className='font-body-3 italic'>This comment has been deleted</p>
+    }
+    return <p className='font-body-3'>{metadata.text}</p>
+  }
+
   return (
     <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
       <div className='flex justify-between'>
@@ -130,7 +137,7 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
       </div>
 
       <div className='flex flex-row justify-between mt-[4px]'>
-        <p className='font-body-3'>{metadata.text}</p>
+        {renderCommentText()}
 
         <Button
           handleClick={() => console.log('Reply button clicked')}
