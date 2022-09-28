@@ -77,8 +77,7 @@ describe('Comment', () => {
       }
       render(getCommentComponent(props))
       expect(screen.queryByText(mockEntityCommentMetadataText)).not.toBeInTheDocument()
-      expect(screen.getByText('This comment has been deleted')).toBeInTheDocument()
-      expect(screen.getByTestId('comment-deleted-message')).toBeInTheDocument()
+      expect(screen.getByTestId('comment-deleted-message')).toHaveTextContent('This comment has been deleted')
     })
 
     describe('Test subjects', () => {
