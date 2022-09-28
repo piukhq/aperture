@@ -21,6 +21,7 @@ const DirectoryCommentsModal = () => {
     postComment,
     postCommentIsLoading: newCommentIsLoading,
     postCommentIsSuccess: newCommentIsSuccess,
+    deleteComment,
   } = useMidManagementComments({commentsRef})
 
   const closeModal = useCallback(() => {
@@ -42,6 +43,10 @@ const DirectoryCommentsModal = () => {
     })
   }, [postComment, commentsSubjectType, commentsRef])
 
+  const handleCommentDelete = useCallback((commentRef: string) => {
+    deleteComment({commentRef, commentsRef})
+  }, [deleteComment, commentsRef])
+
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader} onCloseFn={closeModal}>
       {comments && (
@@ -50,6 +55,7 @@ const DirectoryCommentsModal = () => {
           newCommentIsLoading={newCommentIsLoading}
           newCommentIsSuccess={newCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
+          handleCommentDelete={handleCommentDelete}
         />
       )}
       {commentsLoading && <p className='font-body-4'>Comments loading ...</p>}

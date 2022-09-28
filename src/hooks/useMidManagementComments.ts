@@ -3,6 +3,7 @@ import {useAppDispatch} from 'app/hooks'
 import {
   useGetCommentsQuery,
   usePostCommentMutation,
+  useDeleteCommentMutation,
   midManagementCommentsApi,
 } from 'services/midManagementComments'
 
@@ -16,6 +17,14 @@ export const useMidManagementComments = ({skipGetComments = false, commentsRef =
     error: postCommentError,
     reset: resetPostCommentResponse,
   }] = usePostCommentMutation({fixedCacheKey: 'postComment'})
+
+  const [deleteComment, {
+    data: deleteCommentResponse,
+    isLoading: deleteCommentIsLoading,
+    isSuccess: deleteCommentIsSuccess,
+    error: deleteCommentError,
+    reset: resetDeleteCommentResponse,
+  }] = useDeleteCommentMutation({fixedCacheKey: 'deleteComment'})
 
   const dispatch = useAppDispatch()
 
@@ -38,5 +47,12 @@ export const useMidManagementComments = ({skipGetComments = false, commentsRef =
     postCommentIsSuccess,
     postCommentError,
     resetPostCommentResponse,
+    // DELETE Comment
+    deleteComment,
+    deleteCommentResponse,
+    deleteCommentIsLoading,
+    deleteCommentIsSuccess,
+    deleteCommentError,
+    resetDeleteCommentResponse,
   }
 }

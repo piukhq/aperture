@@ -20,6 +20,7 @@ const SingleViewComments = ({subjectType}: Props) => {
     postComment,
     postCommentIsLoading: newCommentIsLoading,
     postCommentIsSuccess: newCommentIsSuccess,
+    deleteComment,
   } = useMidManagementComments({commentsRef: commentsRef as string})
 
   const handleNewCommentSubmit = useCallback((comment: string) => {
@@ -36,6 +37,10 @@ const SingleViewComments = ({subjectType}: Props) => {
     })
   }, [postComment, subjectType, commentsRef])
 
+  const handleCommentDelete = useCallback((commentRef: string) => {
+    deleteComment({commentRef, commentsRef: commentsRef as string})
+  }, [deleteComment, commentsRef])
+
   return (
     <div className='pb-[10px]'>
       {comments && (
@@ -44,6 +49,7 @@ const SingleViewComments = ({subjectType}: Props) => {
           newCommentIsLoading={newCommentIsLoading}
           newCommentIsSuccess={newCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
+          handleCommentDelete={handleCommentDelete}
           isSingleView
         />
       )}

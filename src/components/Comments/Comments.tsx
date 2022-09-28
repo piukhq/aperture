@@ -9,12 +9,13 @@ import DeleteSvg from 'icons/svgs/trash-small.svg'
 type Props = {
   comments: DirectoryComments
   handleCommentSubmit: (comment: string) => void
+  handleCommentDelete: (commentRef: string) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
   isSingleView?: boolean
 }
 
-const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommentIsLoading, isSingleView}: Props) => {
+const Comments = ({comments, handleCommentSubmit, handleCommentDelete, newCommentIsSuccess, newCommentIsLoading, isSingleView}: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
 
@@ -36,34 +37,34 @@ const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommen
   // Do not display section header on single view modals
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
-  const optionsMenuItems: OptionsMenuItems = [
-    {
-      label: 'Edit',
-      icon: <EditSvg/>,
-      clickHandler: () => console.log('Edit comment clicked'),
-    },
-    {
-      label: 'Delete',
-      icon: <DeleteSvg/>,
-      isRed: true,
-      clickHandler: () => console.log('Delete comment clicked'),
-    },
-  ]
-
   const renderComment = (comment: DirectoryComment) => {
     const {ref, responses} = comment
 
+    const optionsMenuItems: OptionsMenuItems = [
+      {
+        label: 'Edit',
+        icon: <EditSvg/>,
+        clickHandler: () => console.log('Edit comment clicked'),
+      },
+      {
+        label: 'Delete',
+        icon: <DeleteSvg/>,
+        isRed: true,
+        clickHandler: () => handleCommentDelete(ref),
+      },
+    ]
+
     return (
-      <div key={ref} className={'flex flex-col gap-[9px]'}>
+      <>
         <Comment comment={comment} currentRoute={currentRoute} optionsMenuItems={optionsMenuItems} />
 
         {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => (
-          <div key={response.ref} className='ml-[50px]'>
-            <Comment comment={response} currentRoute={currentRoute} optionsMenuItems={optionsMenuItems} />
+          <div key={response.ref} className='flex flex-col gap-[9px] ml-[50px]'>
+            {renderComment(response)}
           </div>
         ))}
-      </div>
+      </>
     )
   }
 
@@ -75,7 +76,11 @@ const Comments = ({comments, handleCommentSubmit, newCommentIsSuccess, newCommen
         {shouldDisplayCommentSectionHeading && <h3 data-testid='section-header' className='font-modal-heading'>{(subjectType).toUpperCase()}</h3>}
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
-          {comments.map(comment => renderComment(comment))}
+          {comments.map(comment => (
+            <div key={comment.ref} className={'flex flex-col gap-[9px]'}>
+              {renderComment(comment)}
+            </div>
+          ))}
         </div>
       </section>
     )
