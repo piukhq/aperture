@@ -1,21 +1,54 @@
-import {useState} from 'react'
-import {Button, OptionsMenuButton, PaymentCardIcon} from 'components'
+import {useCallback, useEffect, useState} from 'react'
+import {Button, OptionsMenuButton, PaymentCardIcon, AutosizeTextArea} from 'components'
 import {ButtonWidth, ButtonSize} from 'components/Button/styles'
 import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import ForwardSvg from 'icons/svgs/forward.svg'
 import {PaymentSchemeCode} from 'utils/enums'
+import EditSvg from 'icons/svgs/project.svg'
+import DeleteSvg from 'icons/svgs/trash-small.svg'
 
 type Props = {
   comment: DirectoryComment
   currentRoute: string
-  optionsMenuItems: OptionsMenuItems
+  handleCommentDelete: (commentRef: string) => void
+  handleCommentEditSubmit: (commentRef: string, comment: string) => void
+  updatedCommentIsLoading: boolean
+  updatedCommentIsSuccess: boolean
 }
 
-const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
-  const {created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted} = comment
+const Comment = ({
+  comment,
+  currentRoute,
+  handleCommentDelete,
+  handleCommentEditSubmit,
+  updatedCommentIsLoading,
+  updatedCommentIsSuccess,
+}: Props) => {
+  const {ref, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
 
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
+  const [isInEditState, setIsInEditState] = useState(false)
+
+  const optionsMenuItems: OptionsMenuItems = [
+    {
+      label: 'Edit',
+      icon: <EditSvg/>,
+      clickHandler: () => setIsInEditState(true),
+    },
+    {
+      label: 'Delete',
+      icon: <DeleteSvg/>,
+      isRed: true,
+      clickHandler: () => handleCommentDelete(ref),
+    },
+  ]
+
+  useEffect(() => {
+    if (updatedCommentIsSuccess && !updatedCommentIsLoading) {
+      setIsInEditState(false)
+    }
+  }, [updatedCommentIsSuccess, updatedCommentIsLoading])
 
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSubjectMetadata = ({displayText, iconSlug, shouldTruncate = false}) => (
@@ -35,7 +68,7 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
 
     const renderLink = ({href, displayText, iconSlug, shouldTruncate = false, index = 0}) => {
       return (
-        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center min-h-[22px] ${shouldTruncate && 'truncate'}`} href={href}>
+        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={href}>
           {renderSubjectMetadata({displayText, iconSlug, shouldTruncate})}
         </a>
       )
@@ -105,49 +138,73 @@ const Comment = ({comment, currentRoute, optionsMenuItems}: Props) => {
     )
   }
 
-  const renderCommentText = () => {
+  const onEditCommentSubmit = useCallback((editedComment: string) => {
+    handleCommentEditSubmit(ref, editedComment)
+  }, [handleCommentEditSubmit, ref])
+
+  const handleOnBlur = useCallback(() => {
+    setIsInEditState(false)
+  }, [])
+
+  const renderCommentContent = () => {
     if (isDeleted) {
       return <p data-testid='comment-deleted-message' className='font-body-3 italic'>This comment has been deleted</p>
+    } else if (isInEditState) {
+      return (
+        <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
+      )
     }
-    return <p className='font-body-3'>{metadata.text}</p>
+    return <p className='font-body-3 break-all'>{metadata.text}</p>
   }
 
   return (
     <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
       <div className='flex justify-between'>
-        <span className='flex whitespace-nowrap font-heading-7 font-normal max-w-[calc(100%_-_106px)]'>
-          <h4 className='font-bold min-w-[70px] truncate'>{createdBy}</h4>
+        {/* Max width calc used here to set width of single line subjects, to allow for truncation when appropriate, based on other rendered elements */}
+        <span className={`flex whitespace-nowrap font-heading-7 font-normal ${isEdited ? 'max-w-[calc(100%_-_156px)]' : 'max-w-[calc(100%_-_106px)]'}`}>
+          <h4 className='font-bold truncate'>{createdBy}</h4>
           {subjects.length > 0 && renderSubjects(subjects)}
         </span>
 
-        <div className='flex gap-[20px] min-w-[104px] mt-[2px]'>
-          <p className='font-subheading-4 tracking-[0.08px] '>{isoToDateTime(createdAt, true)}</p>
+        <div className={`flex items-start mt-[2px] ${isEdited ? 'min-w-[154px]' : 'min-w-[104px]'}`}>
+          <div className='flex gap-[19px] items-center'>
+            <div className='flex items-center gap-[5px]'>
+              {isEdited && (
+                <p className='font-subheading-4 tracking-[0.08px]'>(Edited)</p>
+              )}
+              <p className='font-subheading-4 tracking-[0.08px]'>{isoToDateTime(createdAt, true)}</p>
+            </div>
 
-          <div className='flex justify-center mt-[3px] w-[15px]'>
-            <OptionsMenuButton
-              optionsMenuItems={optionsMenuItems}
-              buttonWidth={ButtonWidth.ICON_ONLY}
-              buttonSize={ButtonSize.INHERIT}
-              buttonAdditionalStyles='border-none'
-              iconStyles='h-[11px] w-[11px]'
-              shouldOnlyDisplayLeft={true}
-            />
+            {!isDeleted && (
+              <div className='flex justify-center w-[15px]'>
+                <OptionsMenuButton
+                  optionsMenuItems={optionsMenuItems}
+                  buttonWidth={ButtonWidth.ICON_ONLY}
+                  buttonSize={ButtonSize.INHERIT}
+                  buttonAdditionalStyles='border-none'
+                  iconStyles='h-[11px] w-[11px]'
+                  shouldOnlyDisplayLeft={true}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className='flex flex-row justify-between mt-[4px]'>
-        {renderCommentText()}
+        {renderCommentContent()}
 
-        <Button
-          handleClick={() => console.log('Reply button clicked')}
-          buttonSize={ButtonSize.INHERIT}
-          buttonWidth={ButtonWidth.ICON_ONLY}
-          additionalStyles='h-[20px] w-[20px] self-end'
-          ariaLabel='Reply'
-        >
-          <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
-        </Button>
+        {!isInEditState && (
+          <Button
+            handleClick={() => console.log('Reply button clicked')}
+            buttonSize={ButtonSize.INHERIT}
+            buttonWidth={ButtonWidth.ICON_ONLY}
+            additionalStyles='h-[20px] w-[20px] self-end'
+            ariaLabel='Reply'
+          >
+            <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
+          </Button>
+        )}
       </div>
     </div>
   )

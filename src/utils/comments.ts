@@ -1,3 +1,4 @@
+import {DirectoryComment} from 'types'
 import {CommentsSubjectTypes, CommentsOwnerTypes} from 'utils/enums'
 
 export const determineCommentOwnerType = (commentsSubjectType: CommentsSubjectTypes) => {
@@ -13,3 +14,13 @@ export const determineCommentOwnerType = (commentsSubjectType: CommentsSubjectTy
     default: return CommentsOwnerTypes.PLAN
   }
 }
+
+export const findNestedComment = (commentsArray: DirectoryComment[], commentRef: string) => (
+  commentsArray.reduce((accumulator, comment) => {
+    // If a match has been found and added to the accumulator, return
+    if (accumulator) { return accumulator }
+    if (comment.ref === commentRef) { return comment }
+    // Recusively search through responses
+    if (comment.responses) { return findNestedComment(comment.responses, commentRef) }
+  }, null)
+)
