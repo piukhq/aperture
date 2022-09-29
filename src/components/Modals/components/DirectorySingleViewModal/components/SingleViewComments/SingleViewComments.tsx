@@ -21,6 +21,9 @@ const SingleViewComments = ({subjectType}: Props) => {
     postCommentIsLoading: newCommentIsLoading,
     postCommentIsSuccess: newCommentIsSuccess,
     deleteComment,
+    patchComment,
+    patchCommentIsLoading: updatedCommentIsLoading,
+    patchCommentIsSuccess: updatedCommentIsSuccess,
   } = useMidManagementComments({commentsRef: commentsRef as string})
 
   const handleNewCommentSubmit = useCallback((comment: string) => {
@@ -41,6 +44,14 @@ const SingleViewComments = ({subjectType}: Props) => {
     deleteComment({commentRef, commentsRef: commentsRef as string})
   }, [deleteComment, commentsRef])
 
+  const handleCommentEditSubmit = useCallback((commentRef: string, editedComment: string) => {
+    patchComment({
+      commentRef,
+      commentsRef: commentsRef as string,
+      text: editedComment,
+    })
+  }, [patchComment, commentsRef])
+
   return (
     <div className='pb-[10px]'>
       {comments && (
@@ -48,8 +59,11 @@ const SingleViewComments = ({subjectType}: Props) => {
           comments={comments}
           newCommentIsLoading={newCommentIsLoading}
           newCommentIsSuccess={newCommentIsSuccess}
+          updatedCommentIsLoading={updatedCommentIsLoading}
+          updatedCommentIsSuccess={updatedCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
           handleCommentDelete={handleCommentDelete}
+          handleCommentEditSubmit={handleCommentEditSubmit}
           isSingleView
         />
       )}

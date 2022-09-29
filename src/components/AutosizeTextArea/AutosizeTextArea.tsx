@@ -7,10 +7,11 @@ type Props = {
   accessibilityLabel: string
   placeholder: string
   submitHandler: (value: string) => void
+  onBlurHandler?: () => void
   shouldClearText?: boolean
 }
 
-const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, shouldClearText = false}: Props) => {
+const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, onBlurHandler, shouldClearText = false}: Props) => {
   const [value, setValue] = useState('')
   const [inputValidationError, setInputValidationError] = useState(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
@@ -50,9 +51,17 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, shoul
     handleTextValidation()
   }
 
+  const handleOnBlur = (e: React.FocusEvent) => {
+    // If the focused item is not the text area or the button, handle the blur event
+    if (e.relatedTarget?.id !== 'textarea' && e.relatedTarget?.id !== 'submit-button' && onBlurHandler) {
+      onBlurHandler()
+    }
+  }
+
   return (
-    <form className='relative flex w-full' onSubmit={handleFormSubmit}>
+    <form className='relative flex w-full' onSubmit={handleFormSubmit} onBlur={handleOnBlur}>
       <textarea
+        id='textarea'
         aria-label={`${accessibilityLabel} text area`}
         data-testid='textarea'
         className={classNames(
@@ -65,13 +74,14 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, shoul
         rows={1}
         value={value}
         onKeyDown={handleKeyDownPress}
+        autoFocus
       />
       {inputValidationError && (
-        <span data-testid={'input-error'} className='font-body-3 text-right text-red absolute right-[50px] bottom-[13px]'>
+        <span onMouseDown={(e) => e.preventDefault()} data-testid={'input-error'} className='font-body-3 text-right text-red absolute right-[50px] bottom-[13px]'>
           {inputValidationError}
         </span>
       )}
-      <button data-testid='submit-button' aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
+      <button id='submit-button' data-testid='submit-button' aria-label={`${accessibilityLabel} button`} onMouseDown={(e) => e.preventDefault()} className='absolute right-[10px] bottom-[14px]'>
         <ArrowRightSvg className='h-[22px] w-[22px]' />
       </button>
     </form>

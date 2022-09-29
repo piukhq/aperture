@@ -1,5 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryComments, DirectoryComment, DirectoryCommentMetadata} from 'types'
+import {findNestedComment} from 'utils/comments'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {CommentsSubjectTypes, UrlEndpoint} from 'utils/enums'
 
@@ -57,18 +58,8 @@ export const midManagementCommentsApi = createApi({
         try {
           await queryFulfilled
           dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
-            // Used to recusively search through responses
-            const findItemNested = (commentsArray) => (
-              commentsArray.reduce((accumulator, comment) => {
-                // If a match has been found and added to the accumulator, return
-                if (accumulator) { return accumulator }
-                if (comment.ref === commentRef) { return comment }
-                if (comment.responses) { return findItemNested(comment.responses) }
-              }, null)
-            )
-
             if (existingComments.entity_comments) {
-              const comment = findItemNested(existingComments.entity_comments.comments)
+              const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
               if (comment) {
                 comment.is_deleted = true
                 return
@@ -77,9 +68,44 @@ export const midManagementCommentsApi = createApi({
 
             if (existingComments.lower_comments) {
               existingComments.lower_comments.forEach(lowerComment => {
-                const comment = findItemNested(lowerComment.comments)
+                const comment = findNestedComment(lowerComment.comments, commentRef)
                 if (comment) {
                   comment.is_deleted = true
+                  return
+                }
+              })
+            }
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
+    patchComment: builder.mutation<DirectoryComment, {commentRef: string, commentsRef: string, text: string}>({
+      query: ({commentRef, text}) => ({
+        url: `${UrlEndpoint.COMMENTS}/${commentRef}`,
+        method: 'PATCH',
+        body: {text},
+      }),
+      async onQueryStarted ({commentsRef, commentRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: editedComment} = await queryFulfilled
+          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+            if (existingComments.entity_comments) {
+              const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
+              if (comment) {
+                Object.assign(comment, editedComment)
+                return
+              }
+            }
+
+            if (existingComments.lower_comments) {
+              existingComments.lower_comments.forEach(lowerComment => {
+                const comment = findNestedComment(lowerComment.comments, commentRef)
+                if (comment) {
+                  Object.assign(comment, editedComment)
                   return
                 }
               })
@@ -99,4 +125,5 @@ export const {
   useGetCommentsQuery,
   usePostCommentMutation,
   useDeleteCommentMutation,
+  usePatchCommentMutation,
 } = midManagementCommentsApi
