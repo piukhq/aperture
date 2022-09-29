@@ -170,7 +170,7 @@ const Comment = ({
           <div className='flex gap-[19px] items-center'>
             <div className='flex items-center gap-[5px]'>
               {isEdited && (
-                <p className='font-subheading-4 tracking-[0.08px]'>(Edited)</p>
+                <p data-testid='comment-edited-label' className='font-subheading-4 tracking-[0.08px]'>(Edited)</p>
               )}
               <p className='font-subheading-4 tracking-[0.08px]'>{isoToDateTime(createdAt, true)}</p>
             </div>
