@@ -154,7 +154,7 @@ const Comment = ({
         <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
       )
     }
-    return <p className='font-body-3 break-all'>{metadata.text}</p>
+    return <p className='font-body-3 break-words'>{metadata.text}</p>
   }
 
   return (
@@ -199,7 +199,7 @@ const Comment = ({
             handleClick={() => console.log('Reply button clicked')}
             buttonSize={ButtonSize.INHERIT}
             buttonWidth={ButtonWidth.ICON_ONLY}
-            additionalStyles='h-[20px] w-[20px] self-end'
+            additionalStyles='ml-[3px] h-[20px] w-[20px] self-end'
             ariaLabel='Reply'
           >
             <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
