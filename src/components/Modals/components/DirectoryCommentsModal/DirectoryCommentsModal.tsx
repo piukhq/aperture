@@ -23,8 +23,8 @@ const DirectoryCommentsModal = () => {
     postCommentIsSuccess: newCommentIsSuccess,
     deleteComment,
     patchComment,
-    patchCommentIsLoading: updatedCommentIsLoading,
-    patchCommentIsSuccess: updatedCommentIsSuccess,
+    patchCommentIsLoading: editedCommentIsLoading,
+    patchCommentIsSuccess: editedCommentIsSuccess,
   } = useMidManagementComments({commentsRef})
 
   const closeModal = useCallback(() => {
@@ -65,8 +65,8 @@ const DirectoryCommentsModal = () => {
           comments={comments}
           newCommentIsLoading={newCommentIsLoading}
           newCommentIsSuccess={newCommentIsSuccess}
-          updatedCommentIsLoading={updatedCommentIsLoading}
-          updatedCommentIsSuccess={updatedCommentIsSuccess}
+          editedCommentIsLoading={editedCommentIsLoading}
+          editedCommentIsSuccess={editedCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}

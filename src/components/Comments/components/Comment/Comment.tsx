@@ -13,8 +13,8 @@ type Props = {
   currentRoute: string
   handleCommentDelete: (commentRef: string) => void
   handleCommentEditSubmit: (commentRef: string, comment: string) => void
-  updatedCommentIsLoading: boolean
-  updatedCommentIsSuccess: boolean
+  editedCommentIsLoading: boolean
+  editedCommentIsSuccess: boolean
 }
 
 const Comment = ({
@@ -22,8 +22,8 @@ const Comment = ({
   currentRoute,
   handleCommentDelete,
   handleCommentEditSubmit,
-  updatedCommentIsLoading,
-  updatedCommentIsSuccess,
+  editedCommentIsLoading,
+  editedCommentIsSuccess,
 }: Props) => {
   const {ref, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
 
@@ -45,10 +45,10 @@ const Comment = ({
   ]
 
   useEffect(() => {
-    if (updatedCommentIsSuccess && !updatedCommentIsLoading) {
+    if (editedCommentIsSuccess && !editedCommentIsLoading) {
       setIsInEditState(false)
     }
-  }, [updatedCommentIsSuccess, updatedCommentIsLoading])
+  }, [editedCommentIsSuccess, editedCommentIsLoading])
 
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSubjectMetadata = ({displayText, iconSlug, shouldTruncate = false}) => (

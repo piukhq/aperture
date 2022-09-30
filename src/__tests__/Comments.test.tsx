@@ -61,8 +61,8 @@ describe('Comments', () => {
     handleCommentEditSubmit: jest.fn(),
     newCommentIsLoading: false,
     newCommentIsSuccess: false,
-    updatedCommentIsLoading: false,
-    updatedCommentIsSuccess: false,
+    editedCommentIsLoading: false,
+    editedCommentIsSuccess: false,
   }
 
   const getCommentsComponent = (passedProps = {}) => {
