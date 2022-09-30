@@ -11,8 +11,8 @@ type Props = {
   handleCommentEditSubmit: (commentRef: string, editedComment: string) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
-  updatedCommentIsLoading: boolean,
-  updatedCommentIsSuccess: boolean,
+  editedCommentIsLoading: boolean,
+  editedCommentIsSuccess: boolean,
   isSingleView?: boolean
 }
 
@@ -23,8 +23,8 @@ const Comments = ({
   handleCommentEditSubmit,
   newCommentIsSuccess,
   newCommentIsLoading,
-  updatedCommentIsLoading,
-  updatedCommentIsSuccess,
+  editedCommentIsLoading,
+  editedCommentIsSuccess,
   isSingleView,
 }: Props) => {
   const router = useRouter()
@@ -58,8 +58,8 @@ const Comments = ({
           currentRoute={currentRoute}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
-          updatedCommentIsLoading={updatedCommentIsLoading}
-          updatedCommentIsSuccess={updatedCommentIsSuccess}
+          editedCommentIsLoading={editedCommentIsLoading}
+          editedCommentIsSuccess={editedCommentIsSuccess}
         />
 
         {/* Recursion used here to display nested responses with expected left margin */}

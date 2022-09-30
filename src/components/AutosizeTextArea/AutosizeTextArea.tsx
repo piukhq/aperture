@@ -81,7 +81,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, onBlu
           {inputValidationError}
         </span>
       )}
-      <button id='submit-button' data-testid='submit-button' aria-label={`${accessibilityLabel} button`} onMouseDown={(e) => e.preventDefault()} className='absolute right-[10px] bottom-[14px]'>
+      <button id='submit-button' data-testid='submit-button' aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
         <ArrowRightSvg className='h-[22px] w-[22px]' />
       </button>
     </form>

@@ -43,8 +43,8 @@ describe('Comment', () => {
     currentRoute: '',
     handleCommentDelete: jest.fn(),
     handleCommentEditSubmit: jest.fn(),
-    updatedCommentIsLoading: false,
-    updatedCommentIsSuccess: false,
+    editedCommentIsLoading: false,
+    editedCommentIsSuccess: false,
   }
 
   const getCommentComponent = (passedProps = {}) => {
@@ -96,7 +96,7 @@ describe('Comment', () => {
       expect(screen.getByTestId('comment-edited-label')).toHaveTextContent('(Edited)')
     })
 
-    describe('Test isInEditState', () => {
+    describe('Test edit state', () => {
       beforeEach(() => {
         jest.clearAllMocks()
       })
