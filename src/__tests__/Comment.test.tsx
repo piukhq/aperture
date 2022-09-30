@@ -4,6 +4,7 @@ import Comment from 'components/Comments/components/Comment'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
+jest.mock('components/AutosizeTextArea', () => () => <div data-testid='edit-comment-text-area' />)
 
 describe('Comment', () => {
   const mockEntityCommentCreatedBy = 'mock_entity_comment_created_by'
@@ -40,7 +41,10 @@ describe('Comment', () => {
   const mockProps = {
     comment: mockComment,
     currentRoute: '',
-    optionsMenuItems: [],
+    handleCommentDelete: jest.fn(),
+    handleCommentEditSubmit: jest.fn(),
+    editedCommentIsLoading: false,
+    editedCommentIsSuccess: false,
   }
 
   const getCommentComponent = (passedProps = {}) => {
@@ -78,6 +82,44 @@ describe('Comment', () => {
       render(getCommentComponent(props))
       expect(screen.queryByText(mockEntityCommentMetadataText)).not.toBeInTheDocument()
       expect(screen.getByTestId('comment-deleted-message')).toHaveTextContent('This comment has been deleted')
+    })
+
+    it('should render the comment edited label', () => {
+      const props = {
+        ...mockProps,
+        comment: {
+          ...mockComment,
+          is_edited: true,
+        },
+      }
+      render(getCommentComponent(props))
+      expect(screen.getByTestId('comment-edited-label')).toHaveTextContent('(Edited)')
+    })
+
+    describe('Test edit state', () => {
+      beforeEach(() => {
+        jest.clearAllMocks()
+      })
+
+      it('should render the AutosizeTextArea component', () => {
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
+          .mockReturnValueOnce([true, jest.fn()]) // isInEditState
+
+        render(getCommentComponent())
+        expect(screen.getByTestId('edit-comment-text-area')).toBeInTheDocument()
+      })
+
+      it('should not render the AutosizeTextArea component', () => {
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
+          .mockReturnValueOnce([false, jest.fn()]) // setIsInEditState
+
+        render(getCommentComponent())
+        expect(screen.queryByTestId('edit-comment-text-area')).not.toBeInTheDocument()
+      })
     })
 
     describe('Test subjects', () => {

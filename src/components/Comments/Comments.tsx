@@ -2,20 +2,31 @@ import {useRef, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
-import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment, OptionsMenuItems} from 'types'
-import EditSvg from 'icons/svgs/project.svg'
-import DeleteSvg from 'icons/svgs/trash-small.svg'
+import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
 
 type Props = {
   comments: DirectoryComments
   handleCommentSubmit: (comment: string) => void
   handleCommentDelete: (commentRef: string) => void
+  handleCommentEditSubmit: (commentRef: string, editedComment: string) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
+  editedCommentIsLoading: boolean,
+  editedCommentIsSuccess: boolean,
   isSingleView?: boolean
 }
 
-const Comments = ({comments, handleCommentSubmit, handleCommentDelete, newCommentIsSuccess, newCommentIsLoading, isSingleView}: Props) => {
+const Comments = ({
+  comments,
+  handleCommentSubmit,
+  handleCommentDelete,
+  handleCommentEditSubmit,
+  newCommentIsSuccess,
+  newCommentIsLoading,
+  editedCommentIsLoading,
+  editedCommentIsSuccess,
+  isSingleView,
+}: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
 
@@ -38,25 +49,18 @@ const Comments = ({comments, handleCommentSubmit, handleCommentDelete, newCommen
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
   const renderComment = (comment: DirectoryComment) => {
-    const {ref, responses} = comment
-
-    const optionsMenuItems: OptionsMenuItems = [
-      {
-        label: 'Edit',
-        icon: <EditSvg/>,
-        clickHandler: () => console.log('Edit comment clicked'),
-      },
-      {
-        label: 'Delete',
-        icon: <DeleteSvg/>,
-        isRed: true,
-        clickHandler: () => handleCommentDelete(ref),
-      },
-    ]
+    const {responses} = comment
 
     return (
       <>
-        <Comment comment={comment} currentRoute={currentRoute} optionsMenuItems={optionsMenuItems} />
+        <Comment
+          comment={comment}
+          currentRoute={currentRoute}
+          handleCommentDelete={handleCommentDelete}
+          handleCommentEditSubmit={handleCommentEditSubmit}
+          editedCommentIsLoading={editedCommentIsLoading}
+          editedCommentIsSuccess={editedCommentIsSuccess}
+        />
 
         {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => (
