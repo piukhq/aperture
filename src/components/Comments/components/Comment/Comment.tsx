@@ -151,7 +151,7 @@ const Comment = ({
       return <p data-testid='comment-deleted-message' className='font-body-3 italic'>This comment has been deleted</p>
     } else if (isInEditState) {
       return (
-        <AutosizeTextArea accessibilityLabel='Edit comment' prePopulatedValue={metadata.text} submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
+        <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' prePopulatedValue={metadata.text} submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
       )
     }
     return <p className='font-body-3 break-words'>{metadata.text}</p>
