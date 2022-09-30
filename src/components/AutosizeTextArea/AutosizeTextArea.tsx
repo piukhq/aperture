@@ -5,14 +5,15 @@ import {classNames} from 'utils/classNames'
 
 type Props = {
   accessibilityLabel: string
-  placeholder: string
+  placeholder?: string
   submitHandler: (value: string) => void
   onBlurHandler?: () => void
   shouldClearText?: boolean
+  prePopulatedValue?: string
 }
 
-const AutosizeTextArea = ({accessibilityLabel, placeholder, submitHandler, onBlurHandler, shouldClearText = false}: Props) => {
-  const [value, setValue] = useState('')
+const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = '', submitHandler, onBlurHandler, shouldClearText = false}: Props) => {
+  const [value, setValue] = useState(prePopulatedValue)
   const [inputValidationError, setInputValidationError] = useState(null)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 

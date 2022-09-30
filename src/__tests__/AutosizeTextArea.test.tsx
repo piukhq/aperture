@@ -4,10 +4,11 @@ import AutosizeTextArea from 'components/AutosizeTextArea'
 
 describe('AutosizeTextArea', () => {
   const mockButtonClickHandler = jest.fn()
+  const mockPrePopulatedValue = 'mock_value'
 
   const getAutosizeTextAreaComponent = () => {
     return (
-      <AutosizeTextArea accessibilityLabel='' placeholder='' submitHandler={mockButtonClickHandler} />
+      <AutosizeTextArea accessibilityLabel='' placeholder='' prePopulatedValue={mockPrePopulatedValue} submitHandler={mockButtonClickHandler} />
     )
   }
 
@@ -17,8 +18,12 @@ describe('AutosizeTextArea', () => {
     expect(screen.getByTestId('submit-button')).toBeInTheDocument()
   })
 
-  describe('Test submit handler', () => {
+  it('should render the pre populated value', () => {
+    render(getAutosizeTextAreaComponent())
+    expect(screen.getByTestId('textarea')).toHaveTextContent(mockPrePopulatedValue)
+  })
 
+  describe('Test submit handler', () => {
     describe('Test valid input', () => {
       beforeEach(() => {
         jest.clearAllMocks()
