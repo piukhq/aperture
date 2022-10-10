@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import DirectorySingleViewModal from 'components/Modals/components/DirectorySingleViewModal'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Tag', () => () => <div data-testid='deleting-tag'></div>)
 
@@ -87,7 +88,7 @@ const mockMerchantDetailsState = {
     selectedEntity: {
       mid_ref: mockMidRef,
       mid_metadata: {
-        payment_scheme_code: 1,
+        payment_scheme_slug: PaymentSchemeSlug.VISA,
         mid: mockMid,
         visa_bin: mockVisaBin,
         payment_enrolment_status: mockPayrollEnrollmentStatus,

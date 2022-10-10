@@ -49,10 +49,10 @@ const DirectoryMerchantIdentifiers = () => {
   const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return identifiersData.map((identifierObj: DirectoryIdentifier) => {
       const {date_added: dateAdded, identifier_metadata: metadata} = identifierObj
-      const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = metadata
+      const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_slug: paymentSchemeSlug} = metadata
       return [
         {
-          paymentSchemeCode,
+          paymentSchemeSlug,
         },
         {
           displayValue: value,
@@ -82,7 +82,7 @@ const DirectoryMerchantIdentifiers = () => {
     const checkedIdentifiersToEntity = identifiersData.filter((identifier) => checkedRefArray.includes(identifier.identifier_ref)).map((identifier) => ({
       entityRef: identifier.identifier_ref,
       entityValue: identifier.identifier_metadata.value,
-      paymentSchemeCode: identifier.identifier_metadata.payment_scheme_code,
+      paymentSchemeSlug: identifier.identifier_metadata.payment_scheme_slug,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedIdentifiersToEntity))
   }

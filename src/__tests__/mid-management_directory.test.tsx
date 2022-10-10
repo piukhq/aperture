@@ -3,6 +3,7 @@ import {render} from '@testing-library/react'
 import DirectoryPage from 'pages/mid-management/directory'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/TextInputGroup', () => () => <div data-testid='search-bar' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
@@ -25,7 +26,7 @@ jest.mock('hooks/useMidManagementPlans', () => ({
           payment_schemes: [
             {
               label: 'mock_scheme',
-              scheme_code: 1,
+              scheme_slug: PaymentSchemeSlug.VISA,
               count: 1,
             },
           ],
@@ -45,7 +46,7 @@ jest.mock('hooks/useMidManagementPlans', () => ({
           payment_schemes: [
             {
               label: 'mock_scheme',
-              scheme_code: 1,
+              scheme_slug: PaymentSchemeSlug.VISA,
               count: 1,
             },
           ],

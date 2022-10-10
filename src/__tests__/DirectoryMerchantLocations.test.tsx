@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {DirectoryMerchantLocations} from 'components'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 const mockGetMerchantLocationsResponse = [
   {
@@ -21,17 +22,17 @@ const mockGetMerchantLocationsResponse = [
     payment_schemes: [
       {
         label: 'VISA',
-        scheme_code: 1,
+        scheme_slug: PaymentSchemeSlug.VISA,
         count: 1,
       },
       {
         label: 'MASTERCARD',
-        scheme_code: 2,
+        scheme_slug: PaymentSchemeSlug.MASTERCARD,
         count: 2,
       },
       {
         label: 'AMEX',
-        scheme_code: 3,
+        scheme_slug: PaymentSchemeSlug.AMEX,
         count: 1,
       },
     ],
