@@ -2,7 +2,7 @@ import {useState, useMemo} from 'react'
 import {Dropdown} from 'components'
 import {useRouter} from 'next/router'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug, PaymentSchemeStartCaseName} from 'utils/enums'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -18,7 +18,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('Not enrolled')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
-  const {payment_scheme_code: paymentSchemeCode} = secondaryMidMetadata
+  const {payment_scheme_slug: paymentSchemeSlug} = secondaryMidMetadata
 
   const {
     postMerchantSecondaryMidOnboarding: postOnboarding,
@@ -54,11 +54,11 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   }
 
   const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
+    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
       return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
       return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
       return PaymentSchemeStartCaseName.AMEX
     }
   }

@@ -2,6 +2,7 @@ import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen, fireEvent} from '@testing-library/react'
 import EditLocationForm from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'
@@ -38,17 +39,17 @@ const mockLocation = {
   payment_schemes: [
     {
       label: 'VISA',
-      scheme_code: 1,
+      scheme_slug: PaymentSchemeSlug.VISA,
       count: 1,
     },
     {
       label: 'MASTERCARD',
-      scheme_code: 2,
+      scheme_slug: PaymentSchemeSlug.MASTERCARD,
       count: 2,
     },
     {
       label: 'AMEX',
-      scheme_code: 3,
+      scheme_slug: PaymentSchemeSlug.AMEX,
       count: 1,
     },
   ],

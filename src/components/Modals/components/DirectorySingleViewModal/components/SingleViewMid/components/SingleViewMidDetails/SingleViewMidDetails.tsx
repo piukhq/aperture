@@ -5,7 +5,7 @@ import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug, PaymentSchemeStartCaseName} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -16,7 +16,7 @@ type Props = {
   merchantMid: DirectoryMerchantMid
 }
 
-const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postcode = ''}) => `${addressLine1}, ${townCity}, ${postcode}`
+const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postSlug = ''}) => `${addressLine1}, ${townCity}, ${postSlug}`
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const router = useRouter()
@@ -62,7 +62,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {location = {location_ref: '', location_title: ''}, mid} = merchantMid
   const {location_ref: locationRef} = location
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
-  const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
@@ -87,11 +87,11 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   }, [locationRef, paymentEnrolmentStatus, visaBin])
 
   const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
+    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
       return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
       return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
       return PaymentSchemeStartCaseName.AMEX
     }
   }
@@ -239,7 +239,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         errorResponse={putMerchantMidLocationError || deleteMerchantMidLocationError}
       />
 
-      { paymentSchemeCode === 1 && (
+      { paymentSchemeSlug === PaymentSchemeSlug.VISA && (
         <SingleViewMidEditableField
           header='BIN'
           label='BIN'

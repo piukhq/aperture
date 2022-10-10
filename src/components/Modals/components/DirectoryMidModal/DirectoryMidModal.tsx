@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeCode} from 'utils/enums'
+import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
@@ -69,9 +69,9 @@ const DirectoryMidModal = () => {
       if (midValue === '') {
         setMidValidationError('Enter MID')
       } else {
-        const paymentSchemeCode: number = PaymentSchemeCode[paymentScheme]
+        const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme]
         const metadata = {
-          payment_scheme_code: paymentSchemeCode,
+          payment_scheme_slug: paymentSchemeSlug,
           mid: midValue,
           visa_bin: binValue,
         }

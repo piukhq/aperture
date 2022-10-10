@@ -1,7 +1,7 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
 const mockValue = 'mock_value'
@@ -13,7 +13,7 @@ const mockIsUnlinking = false
 
 const mockProps = {
   index: 0,
-  paymentSchemeCode: 1,
+  paymentSchemeSlug: PaymentSchemeSlug.VISA,
   value: mockValue,
   refValue: mockRefValue,
   setSelectedUnlinkIndexFn: jest.fn(),

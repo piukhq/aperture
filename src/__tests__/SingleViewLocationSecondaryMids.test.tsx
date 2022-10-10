@@ -1,6 +1,7 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
-import SingleViewLocationSecondaryMids from 'components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
+import SingleViewLocationSecondaryMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
@@ -8,13 +9,13 @@ jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
 let mockGetMerchantLocationLinkedSecondaryMidsResponse = [
   {
     link_ref: 'mock_link_ref',
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     secondary_mid_value: 'mock_secondary_mid_value',
     secondary_mid_ref: 'mock_secondary_mid_ref',
   },
   {
     link_ref: 'mock_link_ref',
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     secondary_mid_value: 'mock_secondary_mid_value',
     secondary_mid_ref: 'mock_secondary_mid_ref',
   },
@@ -22,12 +23,12 @@ let mockGetMerchantLocationLinkedSecondaryMidsResponse = [
 
 const mockSecondaryMids = [
   {
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
     mid_ref: 'mock_mid_ref',
   },
   {
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
     mid_ref: 'mock_mid_ref',
   },

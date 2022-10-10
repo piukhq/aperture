@@ -66,7 +66,7 @@ const SingleViewLocationSecondaryMids = () => {
 
   const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
     const {
-      payment_scheme_code: paymentSchemeCode,
+      payment_scheme_slug: paymentSchemeSlug,
       secondary_mid_value: secondaryMidValue,
       secondary_mid_ref: secondaryMidRef,
       link_ref: linkRef,
@@ -76,7 +76,7 @@ const SingleViewLocationSecondaryMids = () => {
       <LinkedListItem
         key={index}
         index={index}
-        paymentSchemeCode={paymentSchemeCode}
+        paymentSchemeSlug={paymentSchemeSlug}
         value={secondaryMidValue}
         refValue={secondaryMidRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
@@ -129,11 +129,11 @@ const SingleViewLocationSecondaryMids = () => {
     }
 
     const renderDropdownSecondaryMid = (secondaryMid: DirectorySecondaryMid) => {
-      const {secondary_mid: midValue, payment_scheme_code: paymentSchemeCode} = secondaryMid.secondary_mid_metadata
+      const {secondary_mid: midValue, payment_scheme_slug: paymentSchemeSlug} = secondaryMid.secondary_mid_metadata
       return (
         <div className='flex items-center'>
           <div className='w-[32px] h-[23px]'>
-            <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />
+            <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />
           </div>
           <p className='ml-[13px] font-modal-data'>
             {midValue}

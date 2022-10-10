@@ -3,12 +3,13 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {DirectoryMerchantMids} from 'components'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 const mockGetMerchantMidsResponse = [
   {
     mid_ref: 'MID13fa85f64-5717-4562-b3fc-2c963f66afa6',
     mid_metadata: {
-      payment_scheme_code: 3,
+      payment_scheme_slug: PaymentSchemeSlug.AMEX,
       mid: '1114259847329',
       visa_bin: '',
       payment_enrolment_status: 'Enrolled',
@@ -19,7 +20,7 @@ const mockGetMerchantMidsResponse = [
   {
     mid_ref: 'MID23fa85f64-5717-4562-b3fc-2c963f66afa6',
     mid_metadata: {
-      payment_scheme_code: 3,
+      payment_scheme_slug: PaymentSchemeSlug.AMEX,
       mid: '2224259847329',
       visa_bin: '',
       payment_enrolment_status: 'Enrolled',

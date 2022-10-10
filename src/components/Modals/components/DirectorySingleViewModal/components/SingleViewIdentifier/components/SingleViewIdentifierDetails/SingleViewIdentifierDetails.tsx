@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug, PaymentSchemeStartCaseName} from 'utils/enums'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -13,7 +13,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
   const {date_added: dateAdded, identifier_metadata: identifierMetadata, txm_status: txmStatus} = identifier
-  const {payment_scheme_code: paymentSchemeCode} = identifierMetadata
+  const {payment_scheme_slug: paymentSchemeSlug} = identifierMetadata
 
   const {
     postMerchantIdentifierOnboarding: postOnboarding,
@@ -49,11 +49,11 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
   }
 
   const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
+    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
       return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
       return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
       return PaymentSchemeStartCaseName.AMEX
     }
   }

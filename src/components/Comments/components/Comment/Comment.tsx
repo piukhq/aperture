@@ -4,7 +4,7 @@ import {ButtonWidth, ButtonSize} from 'components/Button/styles'
 import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import ForwardSvg from 'icons/svgs/forward.svg'
-import {PaymentSchemeCode} from 'utils/enums'
+import {PaymentSchemeSlug} from 'utils/enums'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 
@@ -59,7 +59,7 @@ const Comment = ({
 
         {iconSlug && (
           <PaymentCardIcon
-            paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]}
+            paymentSchemeSlug={PaymentSchemeSlug[iconSlug.toUpperCase()]}
             paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]'
           />
         )}
