@@ -45,13 +45,15 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
 
   const renderModal = () => (
     <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50`}>
-      <div className={`flex px-[20px] items-center w-full bg-white dark:bg-grey-850 ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
-        {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
-        {renderCloseButton()}
-      </div>
-      <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden max-h-[80vh] bg-white dark:bg-grey-850 ${styles.childrenContainer}`} onClick={(e) => e.stopPropagation()}>
-        {!styles.isHeaderAtTop && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
-        {children}
+      <div className={`bg-white dark:bg-grey-850 ${styles.innerContainer}`}>
+        <div className={`flex px-[20px] items-center w-full ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
+          {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
+          {renderCloseButton()}
+        </div>
+        <div aria-live='assertive' className={`overflow-y-scroll scrollbar-hidden max-h-[80vh]  ${styles.childrenContainer}`} onClick={(e) => e.stopPropagation()}>
+          {!styles.isHeaderAtTop && modalHeader && <h1 className='mt-[19px] mb-[10px] font-heading-4'>{modalHeader}</h1>}
+          {children}
+        </div>
       </div>
     </div>
   )
