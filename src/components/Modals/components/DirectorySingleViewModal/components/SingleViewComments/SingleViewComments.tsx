@@ -11,7 +11,7 @@ type Props = {
 
 const SingleViewComments = ({subjectType}: Props) => {
   const router = useRouter()
-  const {ref: commentsRef} = router.query
+  const {merchantId: ownerRef, ref: commentsRef} = router.query
 
   const {
     getCommentsResponse: comments,
@@ -33,14 +33,14 @@ const SingleViewComments = ({subjectType}: Props) => {
     postComment({
       commentsRef: commentsRef as string,
       metadata: {
-        comment_owner: commentsRef as string,
+        owner_ref: ownerRef as string,
         owner_type: determineCommentOwnerType(subjectType),
         text: comment,
       },
       subject_type: subjectType,
       subjects: [commentsRef as string],
     })
-  }, [postComment, subjectType, commentsRef])
+  }, [postComment, subjectType, ownerRef, commentsRef])
 
   const handleCommentDelete = useCallback((commentRef: string) => {
     deleteComment({commentRef, commentsRef: commentsRef as string})

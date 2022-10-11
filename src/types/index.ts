@@ -92,7 +92,7 @@ export type DirectoryCommentSubject = {
 }
 
 export type DirectoryCommentMetadata = {
-  comment_owner: string,
+  owner_ref: string,
   owner_type: string,
   text: string
 }
