@@ -31,7 +31,7 @@ describe('Comment', () => {
       },
     ],
     metadata: {
-      comment_owner: 'e2a26b5a-284d-11ed-a261-0242ac120002',
+      owner_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
       owner_type: 'plan',
       text: mockEntityCommentMetadataText,
     },

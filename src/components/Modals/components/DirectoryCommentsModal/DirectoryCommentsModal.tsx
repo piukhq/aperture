@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, Comments} from 'components'
-import {getCommentsModalHeader, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
+import {getCommentsModalHeader, getCommentsOwnerRef, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
@@ -12,6 +12,7 @@ const DirectoryCommentsModal = () => {
 
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsRef = useAppSelector(getCommentsRef)
+  const commentsOwnerRef = useAppSelector(getCommentsOwnerRef)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
 
   const {
@@ -36,14 +37,14 @@ const DirectoryCommentsModal = () => {
     postComment({
       commentsRef,
       metadata: {
-        comment_owner: commentsRef,
+        owner_ref: commentsOwnerRef,
         owner_type: determineCommentOwnerType(commentsSubjectType),
         text: comment,
       },
       subject_type: commentsSubjectType,
       subjects: [commentsRef],
     })
-  }, [postComment, commentsSubjectType, commentsRef])
+  }, [postComment, commentsSubjectType, commentsRef, commentsOwnerRef])
 
   const handleCommentDelete = useCallback((commentRef: string) => {
     deleteComment({commentRef, commentsRef})

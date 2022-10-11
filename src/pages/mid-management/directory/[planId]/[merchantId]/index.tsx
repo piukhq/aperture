@@ -13,7 +13,7 @@ import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {useAppDispatch} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
-import {setModalHeader, setCommentsRef, setCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes} from 'utils/enums'
 import {useEffect} from 'react'
 import EditSvg from 'icons/svgs/project.svg'
@@ -98,6 +98,7 @@ const MerchantDetailsPage: NextPage = () => {
   const requestMerchantCommentsModal = () => {
     dispatch(setModalHeader(merchant.merchant_metadata.name))
     dispatch(setCommentsRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }

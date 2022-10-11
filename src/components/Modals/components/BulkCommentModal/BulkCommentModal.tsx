@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, AutosizeTextArea, PaymentCardIcon} from 'components'
-import {getCommentsRef, getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {getCommentsOwnerRef, getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {ModalStyle} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
@@ -10,7 +10,7 @@ import {DirectoryMerchantEntitySelectedItem} from 'types'
 import CheckSvg from 'icons/svgs/check.svg'
 
 const BulkCommentModal = () => {
-  const commentsRef = useAppSelector(getCommentsRef)
+  const commentsOwnerRef = useAppSelector(getCommentsOwnerRef)
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
   const checkedSubjects = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
@@ -32,7 +32,7 @@ const BulkCommentModal = () => {
     if (checkedRefs.length !== 0) {
       postComment({
         metadata: {
-          comment_owner: commentsRef as string,
+          owner_ref: commentsOwnerRef,
           owner_type: determineCommentOwnerType(commentsSubjectType),
           text: comment,
         },
@@ -42,7 +42,7 @@ const BulkCommentModal = () => {
     } else {
       setNoSubjectsValidationIsError(true)
     }
-  }, [postComment, commentsSubjectType, checkedRefs, commentsRef])
+  }, [postComment, commentsSubjectType, checkedRefs, commentsOwnerRef])
 
   const handleCheckboxChange = (ref: string) => {
     setNoSubjectsValidationIsError(false)

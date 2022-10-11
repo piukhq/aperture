@@ -10,7 +10,7 @@ import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
-import {setCommentsRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -96,7 +96,7 @@ const DirectoryMerchantIdentifiers = () => {
     // TODO: Will possibly need to change from Identifiers to PSIMIs
     setSelectedIdentifiers()
     dispatch(setModalHeader('Identifier Comment'))
-    dispatch(setCommentsRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
