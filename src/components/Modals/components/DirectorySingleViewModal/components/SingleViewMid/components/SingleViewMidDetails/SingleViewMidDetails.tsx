@@ -5,10 +5,11 @@ import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {PaymentSchemeSlug, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   resetError: () => void
@@ -85,16 +86,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     paymentEnrolmentStatus && setPaymentSchemeStatus(paymentEnrolmentStatus)
     visaBin && setEditableVisaBin(visaBin)
   }, [locationRef, paymentEnrolmentStatus, visaBin])
-
-  const getPaymentScheme = () => {
-    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
-      return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
-      return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
-      return PaymentSchemeStartCaseName.AMEX
-    }
-  }
 
   const handlePatchErrorResponse = useCallback(() => {
     const {data} = patchMerchantMidError as RTKQueryErrorResponse
@@ -210,7 +201,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{getPaymentScheme()}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(PaymentSchemeSlug[paymentSchemeSlug.toUpperCase()])}</p>
         </div>
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
