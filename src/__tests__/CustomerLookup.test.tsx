@@ -5,7 +5,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import CustomerLookup from 'components/CustomerLookup'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
-jest.mock('components/TextInputGroup', () => () => <div data-testid='user-psimi' />)
+jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
 
 jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
   useGetCustomerWalletLookupHistory: jest.fn().mockImplementation(() => ({
@@ -36,9 +36,9 @@ describe('CustomerLookup', () => {
       expect(screen.queryByTestId('dropdown')).toBeInTheDocument()
     })
 
-    it('should render the user psimi input field', () => {
+    it('should render the user identifier input field', () => {
       render(getCustomerLookupComponent())
-      expect(screen.queryByTestId('user-psimi')).toBeInTheDocument()
+      expect(screen.queryByTestId('user-identifier')).toBeInTheDocument()
     })
 
     it('should render the Load User button', () => {
