@@ -28,8 +28,8 @@ jest.mock('components/Modals/components/DirectorySingleViewModal/components/Sing
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid',
   () => () => <div data-testid='SingleViewSecondaryMid' />)
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier',
-  () => () => <div data-testid='SingleViewIdentifier' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi',
+  () => () => <div data-testid='SingleViewPsimi' />)
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
   () => () => <div data-testid='SingleViewComments' />)
@@ -56,13 +56,13 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementIdentifiers', () => ({
-  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
-    deleteMerchantIdentifier: jest.fn(),
-    deleteMerchantIdentifierIsSuccess: false,
-    deleteMerchantIdentifierIsLoading: false,
-    deleteMerchantIdentifierError: null,
-    resetDeleteMerchantIdentifierResponse: jest.fn(),
+jest.mock('hooks/useMidManagementPsimis', () => ({
+  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+    deleteMerchantPsimi: jest.fn(),
+    deleteMerchantPsimiIsSuccess: false,
+    deleteMerchantPsimiIsLoading: false,
+    deleteMerchantPsimiError: null,
+    resetDeleteMerchantPsimiResponse: jest.fn(),
   })),
 }))
 

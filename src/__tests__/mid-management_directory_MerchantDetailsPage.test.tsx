@@ -7,7 +7,7 @@ import {ModalType} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryMerchantMids', () => () => <div data-testid='directory-merchant-mids' />)
-jest.mock('components/DirectoryMerchantIdentifiers', () => () => <div data-testid='directory-merchant-identifiers' />)
+jest.mock('components/DirectoryMerchantPsimis', () => () => <div data-testid='directory-merchant-psimis' />)
 
 const mockGetPlanResponse = {
   plan_ref: 'mock_plan_ref',
@@ -124,31 +124,31 @@ describe('MID Management MerchantDetailsPage', () => {
     // TODO: Add Locations component Test
   })
 
-  describe('Test Identifiers', () => {
+  describe('Test Psimis', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       useRouter.mockImplementation(() => ({
         query: {
           planId: 'mock_plan_id',
           merchantId: 'mock_merchant_id',
-          tab: 'identifiers',
+          tab: 'psimis',
         },
       }))
     })
 
-    it('should render Identifiers button', () => {
+    it('should render Psimis button', () => {
       render(getMerchantDetailsPageComponent())
-      const identifiersButton = screen.getByRole('button', {
-        name: 'Identifiers',
+      const psimisButton = screen.getByRole('button', {
+        name: 'PSIMIs',
       })
-      expect(identifiersButton).toBeInTheDocument()
+      expect(psimisButton).toBeInTheDocument()
     })
 
-    it('should render the Identifiers component', () => {
+    it('should render the Psimis component', () => {
       render(getMerchantDetailsPageComponent())
-      const identifiersComponent = screen.queryByTestId('directory-merchant-identifiers')
+      const psimisComponent = screen.queryByTestId('directory-merchant-psimis')
 
-      expect(identifiersComponent).toBeInTheDocument()
+      expect(psimisComponent).toBeInTheDocument()
     })
   })
 })

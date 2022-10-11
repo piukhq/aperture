@@ -1,50 +1,50 @@
 import {useRouter} from 'next/router'
-import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
-import {DirectoryIdentifier} from 'types'
+import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {DirectoryPsimi} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
-  identifier: DirectoryIdentifier
+  psimi: DirectoryPsimi
 }
 
-const SingleViewIdentifierDetails = ({identifier}: Props) => {
+const SingleViewPsimiDetails = ({psimi}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-  const {date_added: dateAdded, identifier_metadata: identifierMetadata, txm_status: txmStatus} = identifier
-  const {payment_scheme_slug: paymentSchemeSlug} = identifierMetadata
+  const {date_added: dateAdded, psimi_metadata: psimiMetadata, txm_status: txmStatus} = psimi
+  const {payment_scheme_slug: paymentSchemeSlug} = psimiMetadata
 
   const {
-    postMerchantIdentifierOnboarding: postOnboarding,
-    postMerchantIdentifierOnboardingIsLoading: isOnboardingLoading,
-    postMerchantIdentifierOnboardingIsSuccess: isOnboardingSuccess,
-    resetPostMerchantIdentifierOnboardingResponse: resetOnboardingResponse,
-    postMerchantIdentifierOffboarding: postOffboarding,
-    postMerchantIdentifierOffboardingIsLoading: isOffboardingLoading,
-    postMerchantIdentifierOffboardingIsSuccess: isOffboardingSuccess,
-    resetPostMerchantIdentifierOffboardingResponse: resetOffboardingResponse,
-  } = useMidManagementIdentifiers({
-    skipGetIdentifier: true,
+    postMerchantPsimiOnboarding: postOnboarding,
+    postMerchantPsimiOnboardingIsLoading: isOnboardingLoading,
+    postMerchantPsimiOnboardingIsSuccess: isOnboardingSuccess,
+    resetPostMerchantPsimiOnboardingResponse: resetOnboardingResponse,
+    postMerchantPsimiOffboarding: postOffboarding,
+    postMerchantPsimiOffboardingIsLoading: isOffboardingLoading,
+    postMerchantPsimiOffboardingIsSuccess: isOffboardingSuccess,
+    resetPostMerchantPsimiOffboardingResponse: resetOffboardingResponse,
+  } = useMidManagementPsimis({
+    skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
-    identifierRef: ref as string,
+    psimiRef: ref as string,
   })
 
-  const offboardIdentifier = () => {
+  const offboardPsimi = () => {
     resetOffboardingResponse()
     postOffboarding({
       planRef: planId as string,
       merchantRef: merchantId as string,
-      identifierRef: ref as string,
+      psimiRef: ref as string,
     })
   }
-  const onboardIdentifier = () => {
+  const onboardPsimi = () => {
     resetOnboardingResponse()
     postOnboarding({
       planRef: planId as string,
       merchantRef: merchantId as string,
-      identifierRef: ref as string,
+      psimiRef: ref as string,
     })
   }
 
@@ -66,10 +66,10 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
         isOnboardingSuccess={isOnboardingSuccess}
         isOffboardingLoading={isOffboardingLoading}
         isOffboardingSuccess={isOffboardingSuccess}
-        offboardEntityFn={offboardIdentifier}
-        onboardEntityFn={onboardIdentifier}
+        offboardEntityFn={offboardPsimi}
+        onboardEntityFn={onboardPsimi}
       />
     </>
   )
 }
-export default SingleViewIdentifierDetails
+export default SingleViewPsimiDetails

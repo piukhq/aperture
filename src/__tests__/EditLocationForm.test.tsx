@@ -125,11 +125,11 @@ describe('EditLocationForm', () => {
       .mockReturnValueOnce([null, setStateMock]) // errorMessage
   })
 
-  describe('Test Identifiers section', () => {
-    it('should render the Identifiers section and header', () => {
+  describe('Test Psimis section', () => {
+    it('should render the Psimis section and header', () => {
       render(getEditLocationFormComponent())
-      expect(screen.getAllByRole('heading')[0]).toHaveTextContent('IDENTIFIERS')
-      expect(screen.getByTestId('identifiers-section')).toBeInTheDocument()
+      expect(screen.getAllByRole('heading')[0]).toHaveTextContent('PSIMIS')
+      expect(screen.getByTestId('psimis-section')).toBeInTheDocument()
     })
 
     it('should render the Location Name field', () => {

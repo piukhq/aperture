@@ -11,7 +11,7 @@ import {
   DirectoryMerchantMidsDeleteModalContainer,
   DirectoryMerchantSecondaryMidsDeleteModalContainer,
   DirectoryMerchantLocationsDeleteModalContainer,
-  DirectoryMerchantIdentifiersDeleteModalContainer,
+  DirectoryMerchantPsimisDeleteModalContainer,
   DirectoryCommentsModal,
 } from 'components//Modals'
 import {ModalType} from 'utils/enums'
@@ -34,7 +34,7 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE: return <DirectoryMerchantMidsDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE: return <DirectoryMerchantSecondaryMidsDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE: return <DirectoryMerchantLocationsDeleteModalContainer />
-    case ModalType.MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE: return <DirectoryMerchantIdentifiersDeleteModalContainer />
+    case ModalType.MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE: return <DirectoryMerchantPsimisDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_COMMENTS: return <DirectoryCommentsModal />
     default: return null
   }
