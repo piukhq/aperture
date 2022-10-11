@@ -6,7 +6,7 @@ import {
   DirectoryMerchantLocations,
   DirectoryMerchantMids,
   DirectoryMerchantSecondaryMids,
-  DirectoryMerchantIdentifiers,
+  DirectoryMerchantPsimis,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -25,7 +25,7 @@ enum NavigationLabel {
   MIDS = 'MIDs',
   LOCATIONS = 'Locations',
   SECONDARY_MIDS ='Secondary MIDs',
-  IDENTIFIERS ='Identifiers'
+  PSIMIS ='PSIMIs'
 }
 
 const MerchantDetailsPage: NextPage = () => {
@@ -69,8 +69,8 @@ const MerchantDetailsPage: NextPage = () => {
         return <DirectoryMerchantMids/>
       case DirectoryNavigationTab.LOCATIONS:
         return <DirectoryMerchantLocations />
-      case DirectoryNavigationTab.IDENTIFIERS:
-        return <DirectoryMerchantIdentifiers/>
+      case DirectoryNavigationTab.PSIMIS:
+        return <DirectoryMerchantPsimis/>
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <DirectoryMerchantSecondaryMids/>
     }

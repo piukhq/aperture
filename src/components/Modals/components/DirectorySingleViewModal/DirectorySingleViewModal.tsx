@@ -6,14 +6,14 @@ import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'featur
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
-import {DirectoryIdentifier, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
+import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import CloseIcon from 'icons/svgs/close.svg'
 import SingleViewMid from './components/SingleViewMid'
-import SingleViewIdentifier from './components/SingleViewIdentifier'
+import SingleViewPsimi from './components/SingleViewPsimi'
 import SingleViewSecondaryMid from './components/SingleViewSecondaryMid'
 import SingleViewLocation from './components/SingleViewLocation'
 import {requestModal} from 'features/modalSlice'
@@ -52,17 +52,17 @@ const DirectorySingleViewModal = () => {
   })
 
   const {
-    deleteMerchantIdentifier,
-    deleteMerchantIdentifierIsSuccess,
-    deleteMerchantIdentifierIsLoading,
-    deleteMerchantIdentifierError,
-    resetDeleteMerchantIdentifierResponse,
-  } = useMidManagementIdentifiers({
-    skipGetIdentifiers: true,
-    skipGetIdentifier: true,
+    deleteMerchantPsimi,
+    deleteMerchantPsimiIsSuccess,
+    deleteMerchantPsimiIsLoading,
+    deleteMerchantPsimiError,
+    resetDeleteMerchantPsimiResponse,
+  } = useMidManagementPsimis({
+    skipGetPsimis: true,
+    skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
-    identifierRef: ref as string,
+    psimiRef: ref as string,
   })
 
   const {
@@ -100,13 +100,13 @@ const DirectorySingleViewModal = () => {
   }, [dispatch, router, planId, merchantId, tab])
 
   useEffect(() => {
-    if (deleteMerchantMidIsSuccess || deleteMerchantSecondaryMidIsSuccess || deleteMerchantLocationIsSuccess || deleteMerchantIdentifierIsSuccess) {
+    if (deleteMerchantMidIsSuccess || deleteMerchantSecondaryMidIsSuccess || deleteMerchantLocationIsSuccess || deleteMerchantPsimiIsSuccess) {
       deleteMerchantMidIsSuccess && resetDeleteMerchantMidResponse()
       deleteMerchantSecondaryMidIsSuccess && resetDeleteMerchantSecondaryMidResponse()
       deleteMerchantLocationIsSuccess && resetDeleteMerchantLocationResponse()
-      deleteMerchantIdentifierIsSuccess && resetDeleteMerchantIdentifierResponse()
+      deleteMerchantPsimiIsSuccess && resetDeleteMerchantPsimiResponse()
       closeSingleViewModal()
-    } else if (deleteMerchantMidError || deleteMerchantSecondaryMidError || deleteMerchantLocationError || deleteMerchantIdentifierError) {
+    } else if (deleteMerchantMidError || deleteMerchantSecondaryMidError || deleteMerchantLocationError || deleteMerchantPsimiError) {
       setErrorMessage(`Failed to delete ${singleViewEntityLabel}`)
     }
   }, [
@@ -115,15 +115,15 @@ const DirectorySingleViewModal = () => {
     deleteMerchantMidIsSuccess,
     deleteMerchantSecondaryMidIsSuccess,
     deleteMerchantLocationIsSuccess,
-    deleteMerchantIdentifierIsSuccess,
+    deleteMerchantPsimiIsSuccess,
     deleteMerchantMidError,
     deleteMerchantSecondaryMidError,
     deleteMerchantLocationError,
-    deleteMerchantIdentifierError,
+    deleteMerchantPsimiError,
     resetDeleteMerchantMidResponse,
     resetDeleteMerchantSecondaryMidResponse,
     resetDeleteMerchantLocationResponse,
-    resetDeleteMerchantIdentifierResponse,
+    resetDeleteMerchantPsimiResponse,
   ])
 
   const handleCopyLinkClick = () => {
@@ -147,9 +147,9 @@ const DirectorySingleViewModal = () => {
         deleteMerchantSecondaryMid({...refs, secondaryMidRefs: [secondaryMidRef]})
         break
       }
-      case DirectoryNavigationTab.IDENTIFIERS: {
-        const {identifier_ref: identifierRef} = selectedEntity as DirectoryIdentifier
-        deleteMerchantIdentifier({...refs, identifierRefs: [identifierRef]})
+      case DirectoryNavigationTab.PSIMIS: {
+        const {psimi_ref: psimiRef} = selectedEntity as DirectoryPsimi
+        deleteMerchantPsimi({...refs, psimiRefs: [psimiRef]})
         break
       }
       case DirectoryNavigationTab.LOCATIONS: {
@@ -160,7 +160,7 @@ const DirectorySingleViewModal = () => {
     setIsInDeleteConfirmationState(false)
   }
 
-  const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantIdentifierIsLoading
+  const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantPsimiIsLoading
 
   const onCancelEditState = useCallback(() => {
     setIsInLocationEditState(false)
@@ -172,8 +172,8 @@ const DirectorySingleViewModal = () => {
         return <SingleViewMid setError={setErrorMessage} resetError={() => setErrorMessage(null)} setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return <SingleViewSecondaryMid setHeaderFn={setEntityHeading} />
-      case DirectoryNavigationTab.IDENTIFIERS:
-        return <SingleViewIdentifier setHeaderFn={setEntityHeading} />
+      case DirectoryNavigationTab.PSIMIS:
+        return <SingleViewPsimi setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.LOCATIONS:
         return <SingleViewLocation
           setHeaderFn={setEntityHeading}
@@ -262,13 +262,13 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantMidResponse()
     resetDeleteMerchantSecondaryMidResponse()
     resetDeleteMerchantLocationResponse()
-    resetDeleteMerchantIdentifierResponse()
+    resetDeleteMerchantPsimiResponse()
     closeSingleViewModal()
   }, [
     resetDeleteMerchantMidResponse,
     resetDeleteMerchantSecondaryMidResponse,
     resetDeleteMerchantLocationResponse,
-    resetDeleteMerchantIdentifierResponse,
+    resetDeleteMerchantPsimiResponse,
     closeSingleViewModal,
   ])
 

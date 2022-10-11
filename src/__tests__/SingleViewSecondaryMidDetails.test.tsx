@@ -27,8 +27,8 @@ const mockMerchantSecondaryMid = {
 
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
-    postMerchantIdentifierOnboarding: jest.fn(),
-    postMerchantIdentifierOffboarding: jest.fn(),
+    postMerchantPsimiOnboarding: jest.fn(),
+    postMerchantPsimiOffboarding: jest.fn(),
   })),
 }))
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import {DirectoryMerchantIdentifiersDeleteModalContainer} from 'components/Modals'
+import {DirectoryMerchantPsimisDeleteModalContainer} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
@@ -17,8 +17,8 @@ useRouter.mockImplementation(() => ({
 const mockDeleteMerchantSecondaryMid = jest.fn()
 const mockDeleteMerchantSecondaryMidIsLoading = false
 
-jest.mock('hooks/useMidManagementIdentifiers', () => ({
-  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useMidManagementPsimis', () => ({
+  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
     deleteMerchantSecondaryMid: mockDeleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsLoading: mockDeleteMerchantSecondaryMidIsLoading,
   })),
@@ -37,15 +37,15 @@ const store = mockStoreFn({
   },
 })
 
-const getDirectoryMerchantIdentifiersDeleteModalComponent = (passedStore = undefined) => (
+const getDirectoryMerchantPsimisDeleteModalComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <DirectoryMerchantIdentifiersDeleteModalContainer/>
+    <DirectoryMerchantPsimisDeleteModalContainer/>
   </Provider>
 )
 
-describe('DirectoryMerchantIdentifiersDeleteModalContainer', () => {
+describe('DirectoryMerchantPsimisDeleteModalContainer', () => {
   it('should render the DirectoryMerchantEntityDeleteModal component', () => {
-    render(getDirectoryMerchantIdentifiersDeleteModalComponent())
+    render(getDirectoryMerchantPsimisDeleteModalComponent())
     expect(screen.getByTestId('entity-modal')).toBeInTheDocument()
   })
 })
