@@ -10,6 +10,7 @@ import {
   SingleViewLocationSecondaryMids,
 } from './components'
 import SingleViewComments from '../SingleViewComments'
+import {classNames} from 'utils/classNames'
 
 type Props = {
   setHeaderFn: (header: string) => void
@@ -53,8 +54,8 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
 
 
   const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-heading-8 h-[57px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-850 dark:hover:text-white border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-heading-8 h-[57px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-850 dark:hover:text-white  hover:text-grey-900 border-b-[1px] border-b-grey-200'
+    const tabSelectedClasses = 'font-medium text-grey-900 dark:text-grey-100 border-b-2 border-b-blue'
+    const tabUnselectedClasses = 'font-regular text-sm text-grey-600 dark:text-grey-400 dark:hover:text-white hover:text-grey-900 border-b-[1px] border-b-grey-200'
     return [
       DirectorySingleViewTabs.DETAILS,
       DirectorySingleViewTabs.MIDS,
@@ -63,7 +64,10 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
     ].map(tab => (
       <button
         key={tab}
-        className={tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses}
+        className={classNames(
+          'font-heading-8 h-[57px]',
+          tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses
+        )}
         onClick={() => setTabSelected(tab)}
       >
         <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
@@ -102,7 +106,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-4 mb-[34px]'>
+      <nav className='h-[60px] w-full grid grid-cols-4 mb-[34px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
       {renderSelectedTabContent()}
