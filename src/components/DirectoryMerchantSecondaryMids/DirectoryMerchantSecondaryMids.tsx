@@ -10,7 +10,7 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
-import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {setCommentsRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -99,6 +99,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedSecondaryMids()
     dispatch(setModalHeader('Secondary MID Comment'))
+    dispatch(setCommentsRef(merchantId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.SECONDARY_MID))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
