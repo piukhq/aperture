@@ -1,5 +1,4 @@
 import {useRouter} from 'next/router'
-import {PaymentSchemeSlug} from 'utils/enums'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -58,7 +57,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{capitaliseFirstLetter(PaymentSchemeSlug[paymentSchemeSlug.toUpperCase()])}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(paymentSchemeSlug)}</p>
         </div>
       </section>
       <HarmoniaStatus

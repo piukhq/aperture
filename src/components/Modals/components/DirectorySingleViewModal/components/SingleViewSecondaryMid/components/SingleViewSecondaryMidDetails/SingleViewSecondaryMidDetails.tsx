@@ -2,7 +2,6 @@ import {useState, useMemo} from 'react'
 import {Dropdown} from 'components'
 import {useRouter} from 'next/router'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import {PaymentSchemeSlug} from 'utils/enums'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -63,7 +62,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{capitaliseFirstLetter(PaymentSchemeSlug[paymentSchemeSlug.toUpperCase()])}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(paymentSchemeSlug)}</p>
         </div>
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
