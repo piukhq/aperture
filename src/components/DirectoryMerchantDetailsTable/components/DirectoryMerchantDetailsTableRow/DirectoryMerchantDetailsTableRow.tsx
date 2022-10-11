@@ -5,7 +5,7 @@ import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import CloseIcon from 'icons/svgs/close.svg'
 import {DirectoryMerchantDetailsTableCell} from 'types'
-import {ModalType, PaymentSchemeCode} from 'utils/enums'
+import {ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {getSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {useAppSelector} from 'app/hooks'
 import {useAppDispatch} from 'app/hooks'
@@ -28,12 +28,12 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
   const selectedCheckedRow = useAppSelector(getSelectedDirectoryTableCheckedRows)[index] || false
 
   const dispatch = useAppDispatch()
-  const renderPaymentSchemeLogo = (paymentSchemeCode: number) => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
+  const renderPaymentSchemeLogo = (paymentSchemeSlug: PaymentSchemeSlug) => {
+    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
       return <VisaSvg alt='Visa' />
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
       return <MastercardSvg alt='Mastercard' />
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
+    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
       return <AmexSvg alt='Amex' />
     }
   }
@@ -62,11 +62,11 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
-        const {paymentSchemeCode, additionalStyles, displayValue, physicalLocation} = rowCell
-        if (paymentSchemeCode) {
+        const {paymentSchemeSlug, additionalStyles, displayValue, physicalLocation} = rowCell
+        if (paymentSchemeSlug) {
           return (
             <td key={index}>
-              {renderPaymentSchemeLogo(paymentSchemeCode)}
+              {renderPaymentSchemeLogo(paymentSchemeSlug)}
             </td>
           )
         } else if (physicalLocation) {
@@ -88,7 +88,6 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
             <ShareSvg/>
           </button>
         )}
-
       </td>
     </tr>
   )

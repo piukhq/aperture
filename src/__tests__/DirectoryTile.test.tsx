@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import DirectoryTile from 'components/DirectoryTile'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-button' />)
 
@@ -14,7 +15,7 @@ describe('DirectoryTile', () => {
   const mockPaymentSchemes = [
     {
       label: mockSchemeLabel,
-      scheme_code: 0,
+      scheme_slug: PaymentSchemeSlug.VISA,
       count: mockSchemeCount,
     },
   ]

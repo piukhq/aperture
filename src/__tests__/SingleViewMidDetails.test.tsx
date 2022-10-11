@@ -1,6 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
@@ -27,7 +28,7 @@ const mockMerchantMid = {
     txm_status: mockTxmStatus,
     mid_metadata: {
       mid: '',
-      payment_scheme_code: 1,
+      payment_scheme_slug: PaymentSchemeSlug.VISA,
       visa_bin: mockVisaBin,
       payment_enrolment_status: '',
     },
@@ -51,17 +52,17 @@ const mockGetLocationsResponse = [
     payment_schemes: [
       {
         label: 'VISA',
-        scheme_code: 1,
+        scheme_slug: PaymentSchemeSlug.VISA,
         count: 1,
       },
       {
         label: 'MASTERCARD',
-        scheme_code: 2,
+        scheme_slug: PaymentSchemeSlug.MASTERCARD,
         count: 2,
       },
       {
         label: 'AMEX',
-        scheme_code: 3,
+        scheme_slug: PaymentSchemeSlug.AMEX,
         count: 1,
       },
     ],

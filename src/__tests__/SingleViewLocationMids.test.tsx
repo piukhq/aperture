@@ -1,5 +1,6 @@
 import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
+import {PaymentSchemeSlug} from 'utils/enums'
 import SingleViewLocationMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
@@ -8,13 +9,13 @@ jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
 let mockGetMerchantLocationLinkedMidsResponse = [
   {
     link_ref: 'mock_link_ref',
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
     mid_ref: 'mock_mid_ref',
   },
   {
     link_ref: 'mock_link_ref',
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
     mid_ref: 'mock_mid_ref',
   },
@@ -24,7 +25,7 @@ let mockGetMerchantLocationAvailableMidsResponse = [
   {
     mid: {
       link_ref: 'mock_link_ref',
-      payment_scheme_code: 1,
+      payment_scheme_slug: PaymentSchemeSlug.VISA,
       mid_value: 'mock_mid_value',
       mid_ref: 'mock_mid_ref',
     },
@@ -107,7 +108,7 @@ describe('SingleViewLocationMids', () => {
         {
           mid: {
             link_ref: 'mock_link_ref',
-            payment_scheme_code: 1,
+            payment_scheme_slug: PaymentSchemeSlug.VISA,
             mid_value: 'mock_mid_value',
             mid_ref: 'mock_mid_ref',
           },
@@ -120,7 +121,7 @@ describe('SingleViewLocationMids', () => {
         {
           mid: {
             link_ref: 'mock_link_ref',
-            payment_scheme_code: 1,
+            payment_scheme_slug: PaymentSchemeSlug.VISA,
             mid_value: 'mock_mid_value',
             mid_ref: 'mock_mid_ref',
           },

@@ -76,7 +76,7 @@ const SingleViewLocationMids = () => {
 
   const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index: number) => {
     const {
-      payment_scheme_code: paymentSchemeCode,
+      payment_scheme_slug: paymentSchemeSlug,
       mid_value: midValue,
       mid_ref: midRef,
       link_ref: linkRef,
@@ -86,7 +86,7 @@ const SingleViewLocationMids = () => {
       <LinkedListItem
         key={index}
         index={index}
-        paymentSchemeCode={paymentSchemeCode}
+        paymentSchemeSlug={paymentSchemeSlug}
         value={midValue}
         refValue={midRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkMidIndex}
@@ -134,11 +134,11 @@ const SingleViewLocationMids = () => {
     }
 
     const renderDropdownMid = (mid: DirectoryMerchantLocationAvailableMid) => {
-      const {mid_value: midValue, payment_scheme_code: paymentSchemeCode} = mid.mid
+      const {mid_value: midValue, payment_scheme_slug: paymentSchemeSlug} = mid.mid
       return (
         <div className='flex items-center'>
           <div className='w-[32px] h-[23px]'>
-            <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />
+            <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />
           </div>
           <p className='ml-[13px] font-modal-data'>
             {midValue}

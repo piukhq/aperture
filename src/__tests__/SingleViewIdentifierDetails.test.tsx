@@ -1,6 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewIdentifierDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
@@ -15,7 +16,7 @@ const mockTxmStatus = 'mock_txm_status'
 const mockMerchantIdentifier = {
   identifier_ref: mockIdentifierRef,
   identifier_metadata: {
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     value: mockValue,
     payment_scheme_merchant_name: mockPaymentSchemeMerchantName,
   },

@@ -1,11 +1,11 @@
 import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
 
 type Props = {
   index: number,
-  paymentSchemeCode?: number | null,
+  paymentSchemeSlug?: PaymentSchemeSlug,
   value: string,
   refValue: string,
   unlinkFn: () => void,
@@ -20,7 +20,7 @@ type Props = {
 // Component used to display linked MIDs, Secondary MIDs and Locations
 const LinkedListItem = ({
   index,
-  paymentSchemeCode,
+  paymentSchemeSlug,
   value,
   refValue,
   setSelectedUnlinkIndexFn,
@@ -94,7 +94,7 @@ const LinkedListItem = ({
       <div className='flex items-center overflow-x-hidden '>
         {entityType !== LinkableEntities.LOCATION && (
           <div className='w-[42px] h-[30px] mr-[13px]'>
-            {paymentSchemeCode && <PaymentCardIcon paymentSchemeCode={paymentSchemeCode} />}
+            {paymentSchemeSlug && <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />}
           </div>
         )}
 

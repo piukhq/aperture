@@ -1,9 +1,9 @@
 import {useRouter} from 'next/router'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   identifier: DirectoryIdentifier
@@ -13,7 +13,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
   const {date_added: dateAdded, identifier_metadata: identifierMetadata, txm_status: txmStatus} = identifier
-  const {payment_scheme_code: paymentSchemeCode} = identifierMetadata
+  const {payment_scheme_slug: paymentSchemeSlug} = identifierMetadata
 
   const {
     postMerchantIdentifierOnboarding: postOnboarding,
@@ -48,16 +48,6 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     })
   }
 
-  const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
-      return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
-      return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
-      return PaymentSchemeStartCaseName.AMEX
-    }
-  }
-
   return (
     <>
       <div className='mb-[34px]'>
@@ -67,7 +57,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{getPaymentScheme()}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(paymentSchemeSlug)}</p>
         </div>
       </section>
       <HarmoniaStatus
