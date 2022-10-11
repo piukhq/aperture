@@ -1,9 +1,10 @@
 import {useRouter} from 'next/router'
-import {PaymentSchemeSlug, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug} from 'utils/enums'
 import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
 import {DirectoryIdentifier} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   identifier: DirectoryIdentifier
@@ -48,16 +49,6 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
     })
   }
 
-  const getPaymentScheme = () => {
-    if (paymentSchemeSlug === PaymentSchemeSlug.VISA) {
-      return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeSlug === PaymentSchemeSlug.MASTERCARD) {
-      return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeSlug === PaymentSchemeSlug.AMEX) {
-      return PaymentSchemeStartCaseName.AMEX
-    }
-  }
-
   return (
     <>
       <div className='mb-[34px]'>
@@ -67,7 +58,7 @@ const SingleViewIdentifierDetails = ({identifier}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{getPaymentScheme()}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(PaymentSchemeSlug[paymentSchemeSlug.toUpperCase()])}</p>
         </div>
       </section>
       <HarmoniaStatus
