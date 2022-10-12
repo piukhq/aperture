@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comments from 'components/Comments'
-import {CommentsSubjectTypes} from 'utils/enums'
+import {CommentsOwnerTypes, CommentsSubjectTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/Comments/components/Comment', () => () => <div data-testid='comment' />)
@@ -17,7 +17,7 @@ describe('Comments', () => {
     subject_type: CommentsSubjectTypes.PLAN,
     comments: [
       {
-        ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        comment_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         created_at: '2021-12-14T08:57:43.790Z',
         created_by: mockEntityCommentCreatedBy,
         is_edited: false,
@@ -25,18 +25,18 @@ describe('Comments', () => {
         subjects: [
           {
             display_text: mockEntityCommentSubject1Text,
-            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            subject_ref: '/e2a26b5a-284d-11ed-a261-0242ac120002',
             icon_slug: null,
           },
           {
             display_text: mockEntityCommentSubject2Text,
-            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            subject_ref: '/e2a26b5a-284d-11ed-a261-0242ac120002',
             icon_slug: null,
           },
         ],
         metadata: {
           owner_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-          owner_type: 'plan',
+          owner_type: CommentsOwnerTypes.PLAN,
           text: mockEntityCommentMetadataText,
         },
         responses: null,
@@ -52,6 +52,7 @@ describe('Comments', () => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter')
   useRouter.mockImplementation(() => ({
     asPath: '',
+    query: {planId: ''},
   }))
 
   const mockProps = {

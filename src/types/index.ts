@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import {CommentsSubjectTypes, PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
+import {CommentsOwnerTypes, CommentsSubjectTypes, PaymentSchemeName} from 'utils/enums'
 
 type PlanAccount = {
   add_fields: Array<unknown>,
@@ -87,18 +87,18 @@ export type PaymentScheme = {
 
 export type DirectoryCommentSubject = {
   display_text: string,
-  href?: string
+  subject_ref: string
   icon_slug?: string
 }
 
 export type DirectoryCommentMetadata = {
   owner_ref: string,
-  owner_type: string,
+  owner_type: CommentsOwnerTypes,
   text: string
 }
 
 export type DirectoryComment = {
-  ref: string,
+  comment_ref: string,
   created_at: string,
   created_by: string,
   is_edited: boolean,
