@@ -5,7 +5,7 @@ import {render, screen, fireEvent} from '@testing-library/react'
 import CustomerLookupHistory from 'components/CustomerLookupHistory'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
-jest.mock('components/TextInputGroup', () => () => <div data-testid='user-identifier' />)
+jest.mock('components/TextInputGroup', () => () => <div data-testid='user-psimi' />)
 jest.mock('components/Button', () => () => <div data-testid='load-user-button' />)
 
 const mockJwtCustomerLookup = jest.fn()

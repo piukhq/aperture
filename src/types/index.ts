@@ -214,16 +214,16 @@ export type DirectoryMid = {
   txm_status: string // TODO: could be an enum, union type
 }
 
-export type DirectoryIdentifiers = Array<DirectoryIdentifier>
+export type DirectoryPsimis = Array<DirectoryPsimi>
 
-export type DirectoryIdentifier = {
-  identifier_ref: string,
-  identifier_metadata: {
+export type DirectoryPsimi = {
+  psimi_ref: string,
+  psimi_metadata: {
     value: string,
     payment_scheme_merchant_name: string,
     payment_scheme_slug: PaymentSchemeSlug,
   },
-  identifier_status?: string, // Is only present when calling API endpoint for a single Identifier.
+  psimi_status?: string, // Is only present when calling API endpoint for a single PSIMI.
   date_added: string // TODO: Change this depending on API value
   txm_status: string
 }
@@ -265,7 +265,7 @@ export type DirectoryLocation = {
   linked_secondary_mids_count?: number,
 }
 
-export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
+export type DirectoryEntity = DirectoryPsimi | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
 
 export type DirectoryEntities = Array<DirectoryEntity>
 
