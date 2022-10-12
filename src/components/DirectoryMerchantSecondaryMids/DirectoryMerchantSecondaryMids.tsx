@@ -52,10 +52,10 @@ const DirectoryMerchantSecondaryMids = () => {
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
       const {date_added: dateAdded, secondary_mid_metadata: metadata} = secondaryMidObj
-      const {secondary_mid: secondaryMid, payment_scheme_code: paymentSchemeCode, payment_scheme_store_name: paymentSchemeStoreName} = metadata
+      const {secondary_mid: secondaryMid, payment_scheme_slug: paymentSchemeSlug, payment_scheme_store_name: paymentSchemeStoreName} = metadata
       return [
         {
-          paymentSchemeCode,
+          paymentSchemeSlug,
         },
         {
           displayValue: secondaryMid,
@@ -86,7 +86,7 @@ const DirectoryMerchantSecondaryMids = () => {
     const checkedSecondaryMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
       entityRef: secondaryMid.secondary_mid_ref,
       entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
-      paymentSchemeCode: secondaryMid.secondary_mid_metadata.payment_scheme_code,
+      paymentSchemeSlug: secondaryMid.secondary_mid_metadata.payment_scheme_slug,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedSecondaryMidsToEntity))
   }

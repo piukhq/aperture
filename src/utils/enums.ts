@@ -64,7 +64,7 @@ const DirectorySingleViewEntities = {
   'mids': 'MID',
   'locations': 'Location',
   'secondary-mids': 'Secondary MID',
-  'identifiers': 'Identifier',
+  'psimis': 'PSIMI',
 }
 
 enum DirectorySingleViewTabs {
@@ -79,7 +79,7 @@ enum DirectoryNavigationTab {
   MIDS = 'mids',
   LOCATIONS = 'locations',
   SECONDARY_MIDS ='secondary-mids',
-  IDENTIFIERS ='identifiers'
+  PSIMIS ='psimis'
 }
 
 enum RouteDisplayNames {
@@ -102,7 +102,7 @@ enum ModalType {
   MID_MANAGEMENT_DIRECTORY_MIDS_DELETE = 'MID_MANAGEMENT_DIRECTORY_MIDS_DELETE',
   MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE = 'MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE',
   MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE = 'MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE',
-  MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE = 'MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE',
+  MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE = 'MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE',
   MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW = 'MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW',
   MID_MANAGEMENT_COMMENTS = 'MID_MANAGEMENT_COMMENTS',
   MID_MANAGEMENT_BULK_COMMENT = 'MID_MANAGEMENT_BULK_COMMENT'
@@ -120,16 +120,10 @@ enum PaymentSchemeName {
   AMEX = 'AMEX'
 }
 
-enum PaymentSchemeStartCaseName {
-  VISA = 'Visa',
-  MASTERCARD = 'Mastercard',
-  AMEX = 'Amex'
-}
-
-const PaymentSchemeCode = {
-  VISA: 1,
-  MASTERCARD: 2,
-  AMEX: 3,
+enum PaymentSchemeSlug {
+  VISA = 'visa',
+  MASTERCARD = 'mastercard',
+  AMEX = 'amex'
 }
 
 enum LinkableEntities {
@@ -175,8 +169,7 @@ export {
   ModalStyle,
   DirectoryNavigationTab,
   PaymentSchemeName,
-  PaymentSchemeStartCaseName,
-  PaymentSchemeCode,
+  PaymentSchemeSlug,
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
   LinkableEntities,

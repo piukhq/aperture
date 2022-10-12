@@ -54,10 +54,10 @@ const DirectoryMerchantMids = () => {
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata} = midObj
-      const {payment_scheme_code: paymentSchemeCode, mid, visa_bin: visaBin} = metadata
+      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin} = metadata
       return [
         {
-          paymentSchemeCode,
+          paymentSchemeSlug,
         },
         {
           displayValue: mid,
@@ -93,7 +93,7 @@ const DirectoryMerchantMids = () => {
     const checkedMidsToEntity = midsData.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
-      paymentSchemeCode: mid.mid_metadata.payment_scheme_code,
+      paymentSchemeSlug: mid.mid_metadata.payment_scheme_slug,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
   }

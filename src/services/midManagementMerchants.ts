@@ -7,7 +7,7 @@ type MerchantsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   midRef?: string,
-  identifierRef?: string,
+  psimiRef?: string,
   secondaryMidRef?: string,
 }
 

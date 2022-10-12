@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import PlanDetailsPage from 'pages/mid-management/directory/[planId]/index'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
@@ -29,17 +30,17 @@ const mockGetPlanDetailsResponse = {
           payment_schemes: [
             {
               label: 'VISA',
-              scheme_code: 1,
+              scheme_slug: PaymentSchemeSlug.VISA,
               count: 54,
             },
             {
               label: 'MASTERCARD',
-              scheme_code: 2,
+              scheme_slug: PaymentSchemeSlug.MASTERCARD,
               count: 62,
             },
             {
               label: 'AMEX',
-              scheme_code: 3,
+              scheme_slug: PaymentSchemeSlug.AMEX,
               count: 38,
             },
           ],
@@ -59,17 +60,17 @@ const mockGetPlanDetailsResponse = {
           payment_schemes: [
             {
               label: 'VISA',
-              scheme_code: 1,
+              scheme_slug: PaymentSchemeSlug.VISA,
               count: 54,
             },
             {
               label: 'MASTERCARD',
-              scheme_code: 2,
+              scheme_slug: PaymentSchemeSlug.MASTERCARD,
               count: 62,
             },
             {
               label: 'AMEX',
-              scheme_code: 3,
+              scheme_slug: PaymentSchemeSlug.AMEX,
               count: 38,
             },
           ],

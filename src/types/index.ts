@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import {CommentsOwnerTypes, CommentsSubjectTypes, PaymentSchemeName} from 'utils/enums'
+import {CommentsOwnerTypes, CommentsSubjectTypes, PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
 
 type PlanAccount = {
   add_fields: Array<unknown>,
@@ -76,7 +76,7 @@ export type PaymentSchemeNameType = PaymentSchemeName.VISA | PaymentSchemeName.M
 
 export type PaymentScheme = {
   label: string,
-  scheme_code: number,
+  scheme_slug: PaymentSchemeSlug,
   count: number,
 }
 
@@ -166,7 +166,7 @@ export type DirectoryMerchantCounts = {
 }
 
 export type DirectoryMidMetadata = {
-  payment_scheme_code: number,
+  payment_scheme_slug: PaymentSchemeSlug,
   mid: string,
   visa_bin?: string,
   payment_enrolment_status?: string // TODO: could be an enum/union type
@@ -181,7 +181,7 @@ export type DirectoryMerchantMidLocation = {
 export type DirectoryMerchantLocationMid = {
   mid_ref: string,
   mid_value: string,
-  payment_scheme_code?: number,
+  payment_scheme_slug?: PaymentSchemeSlug,
   link_ref: string,
 }
 
@@ -189,7 +189,7 @@ export type DirectoryMerchantLocationSecondaryMid = {
   link_ref: string,
   secondary_mid_ref: string,
   secondary_mid_value: string
-  payment_scheme_code?: number,
+  payment_scheme_slug?: PaymentSchemeSlug,
 }
 
 export type DirectoryMerchantLocationAvailableMid = {
@@ -214,16 +214,16 @@ export type DirectoryMid = {
   txm_status: string // TODO: could be an enum, union type
 }
 
-export type DirectoryIdentifiers = Array<DirectoryIdentifier>
+export type DirectoryPsimis = Array<DirectoryPsimi>
 
-export type DirectoryIdentifier = {
-  identifier_ref: string,
-  identifier_metadata: {
+export type DirectoryPsimi = {
+  psimi_ref: string,
+  psimi_metadata: {
     value: string,
     payment_scheme_merchant_name: string,
-    payment_scheme_code: number
+    payment_scheme_slug: PaymentSchemeSlug,
   },
-  identifier_status?: string, // Is only present when calling API endpoint for a single Identifier.
+  psimi_status?: string, // Is only present when calling API endpoint for a single PSIMI.
   date_added: string // TODO: Change this depending on API value
   txm_status: string
 }
@@ -233,7 +233,7 @@ export type DirectorySecondaryMids = Array<DirectorySecondaryMid>
 export type DirectorySecondaryMid = {
   secondary_mid_ref: string,
   secondary_mid_metadata: {
-    payment_scheme_code: number,
+    payment_scheme_slug: PaymentSchemeSlug,
     secondary_mid: string,
     payment_scheme_store_name: string,
     payment_enrolment_status: string // TODO: could be an enum/union type
@@ -265,14 +265,14 @@ export type DirectoryLocation = {
   linked_secondary_mids_count?: number,
 }
 
-export type DirectoryEntity = DirectoryIdentifier | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
+export type DirectoryEntity = DirectoryPsimi | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
 
 export type DirectoryEntities = Array<DirectoryEntity>
 
 export type DirectoryMerchantEntitySelectedItem = {
   entityRef: string,
   entityValue: string,
-  paymentSchemeCode?: number
+  paymentSchemeSlug?: PaymentSchemeSlug
 }
 
 export type OptionsMenuItem = {
@@ -306,7 +306,7 @@ export type DirectoryMerchantDetailsTableHeader = {
 }
 
 export type DirectoryMerchantDetailsTableCell = {
-  paymentSchemeCode?: number,
+  paymentSchemeSlug?: PaymentSchemeSlug,
   physicalLocation?: {
     isPhysicalLocation: boolean
   },

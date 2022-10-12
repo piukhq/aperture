@@ -14,7 +14,7 @@ jest.mock('components/Modals/components/DirectorySingleViewModal', () => () => <
 jest.mock('components/Modals/components/DirectoryMerchantMidsDeleteModalContainer', () => () => <div data-testid='directory-merchant-mids-delete-modal' />)
 jest.mock('components/Modals/components/DirectoryMerchantSecondaryMidsDeleteModalContainer', () => () => <div data-testid='directory-merchant-secondary-mids-delete-modal' />)
 jest.mock('components/Modals/components/DirectoryMerchantLocationsDeleteModalContainer', () => () => <div data-testid='directory-merchant-locations-delete-modal' />)
-jest.mock('components/Modals/components/DirectoryMerchantIdentifiersDeleteModalContainer', () => () => <div data-testid='directory-merchant-identifiers-delete-modal' />)
+jest.mock('components/Modals/components/DirectoryMerchantPsimisDeleteModalContainer', () => () => <div data-testid='directory-merchant-psimis-delete-modal' />)
 jest.mock('components/Modals/components/DirectoryCommentsModal', () => () => <div data-testid='directory-comments-modal' />)
 
 describe('ModalFactory', () => {
@@ -111,10 +111,10 @@ describe('ModalFactory', () => {
     })
   })
 
-  describe('Test Directory Identifiers Delete Modal', () => {
-    it('should render the Directory Identifiers Delete Modal', () => {
-      render(getModalFactoryComponent({modalRequested: ModalType.MID_MANAGEMENT_DIRECTORY_IDENTIFIERS_DELETE}))
-      expect(screen.queryByTestId('directory-merchant-identifiers-delete-modal')).toBeInTheDocument()
+  describe('Test Directory Psimis Delete Modal', () => {
+    it('should render the Directory Psimis Delete Modal', () => {
+      render(getModalFactoryComponent({modalRequested: ModalType.MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE}))
+      expect(screen.queryByTestId('directory-merchant-psimis-delete-modal')).toBeInTheDocument()
     })
   })
 

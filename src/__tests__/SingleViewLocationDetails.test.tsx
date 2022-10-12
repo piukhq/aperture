@@ -1,6 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewLocationDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm',
   () => () => <div data-testid='EditLocationForm' />)
@@ -41,17 +42,17 @@ const mockLocation = {
   payment_schemes: [
     {
       label: 'VISA',
-      scheme_code: 1,
+      scheme_slug: PaymentSchemeSlug.VISA,
       count: 1,
     },
     {
       label: 'MASTERCARD',
-      scheme_code: 2,
+      scheme_slug: PaymentSchemeSlug.MASTERCARD,
       count: 2,
     },
     {
       label: 'AMEX',
-      scheme_code: 3,
+      scheme_slug: PaymentSchemeSlug.AMEX,
       count: 1,
     },
   ],

@@ -5,10 +5,11 @@ import SingleViewMidEditableField from './components/SingleViewMidEditableField'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
+import {PaymentSchemeSlug} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   resetError: () => void
@@ -16,7 +17,7 @@ type Props = {
   merchantMid: DirectoryMerchantMid
 }
 
-const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postcode = ''}) => `${addressLine1}, ${townCity}, ${postcode}`
+const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postSlug = ''}) => `${addressLine1}, ${townCity}, ${postSlug}`
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const router = useRouter()
@@ -62,7 +63,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {location = {location_ref: '', location_title: ''}, mid} = merchantMid
   const {location_ref: locationRef} = location
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
-  const {payment_scheme_code: paymentSchemeCode, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
@@ -85,16 +86,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     paymentEnrolmentStatus && setPaymentSchemeStatus(paymentEnrolmentStatus)
     visaBin && setEditableVisaBin(visaBin)
   }, [locationRef, paymentEnrolmentStatus, visaBin])
-
-  const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
-      return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
-      return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
-      return PaymentSchemeStartCaseName.AMEX
-    }
-  }
 
   const handlePatchErrorResponse = useCallback(() => {
     const {data} = patchMerchantMidError as RTKQueryErrorResponse
@@ -210,7 +201,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{getPaymentScheme()}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(paymentSchemeSlug)}</p>
         </div>
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
@@ -239,7 +230,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         errorResponse={putMerchantMidLocationError || deleteMerchantMidLocationError}
       />
 
-      { paymentSchemeCode === 1 && (
+      { paymentSchemeSlug === PaymentSchemeSlug.VISA && (
         <SingleViewMidEditableField
           header='BIN'
           label='BIN'

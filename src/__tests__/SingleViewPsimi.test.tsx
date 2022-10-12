@@ -1,26 +1,26 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
-import SingleViewIdentifier from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier'
+import SingleViewPsimi from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
-const mockIdentifierValue = 'mock_identifier_value'
-const mockGetMerchantIdentifierResponse = {
-  identifier_metadata: {
-    value: mockIdentifierValue,
+const mockPsimiValue = 'mock_psimi_value'
+const mockGetMerchantPsimiResponse = {
+  psimi_metadata: {
+    value: mockPsimiValue,
   },
 }
 
-jest.mock('hooks/useMidManagementIdentifiers', () => ({
-  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
-    getMerchantIdentifierResponse: mockGetMerchantIdentifierResponse,
+jest.mock('hooks/useMidManagementPsimis', () => ({
+  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+    getMerchantPsimiResponse: mockGetMerchantPsimiResponse,
   })),
 }))
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier/components/SingleViewIdentifierDetails',
-  () => () => <div data-testid='SingleViewIdentifierDetails' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi/components/SingleViewPsimiDetails',
+  () => () => <div data-testid='SingleViewPsimiDetails' />)
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
   () => () => <div data-testid='SingleViewComments' />)
@@ -50,13 +50,13 @@ const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
 
-const getSingleViewIdentifierComponent = (passedStore = undefined) => (
+const getSingleViewPsimiComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <SingleViewIdentifier {...mockProps} />
+    <SingleViewPsimi {...mockProps} />
   </Provider>
 )
 
-describe('SingleViewIdentifier', () => {
+describe('SingleViewPsimi', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -75,30 +75,30 @@ describe('SingleViewIdentifier', () => {
   })
 
   it('should render the Navigation tabs', () => {
-    render(getSingleViewIdentifierComponent())
+    render(getSingleViewPsimiComponent())
     expect(screen.getByText('Details')).toBeInTheDocument()
     expect(screen.getByText('Comments')).toBeInTheDocument()
   })
 
   it('should call prop function to set header', () => {
-    render(getSingleViewIdentifierComponent())
-    expect(mockSetHeaderFnProp).toBeCalledWith(`Identifier - ${mockIdentifierValue}`)
+    render(getSingleViewPsimiComponent())
+    expect(mockSetHeaderFnProp).toBeCalledWith(`PSIMI - ${mockPsimiValue}`)
   })
 
-  it('should render SingleViewIdentifierDetails component', () => {
-    render(getSingleViewIdentifierComponent())
-    expect(screen.getByTestId('SingleViewIdentifierDetails')).toBeInTheDocument()
+  it('should render SingleViewPsimiDetails component', () => {
+    render(getSingleViewPsimiComponent())
+    expect(screen.getByTestId('SingleViewPsimiDetails')).toBeInTheDocument()
   })
 
   it('should render the SingleViewComments component', () => {
     React.useState = jest.fn().mockReturnValueOnce(['Comments', jest.fn()])
 
-    render(getSingleViewIdentifierComponent())
+    render(getSingleViewPsimiComponent())
     expect(screen.getByTestId('SingleViewComments')).toBeInTheDocument()
   })
 
   it('should call function to set selected entity if selected entity is not present', () => {
-    render(getSingleViewIdentifierComponent())
-    expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantIdentifierResponse)
+    render(getSingleViewPsimiComponent())
+    expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantPsimiResponse)
   })
 })

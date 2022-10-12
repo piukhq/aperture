@@ -4,7 +4,7 @@ import {ButtonWidth, ButtonSize} from 'components/Button/styles'
 import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import ForwardSvg from 'icons/svgs/forward.svg'
-import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeCode} from 'utils/enums'
+import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeSlug} from 'utils/enums'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 
@@ -69,7 +69,7 @@ const Comment = ({
       case CommentsSubjectTypes.SECONDARY_MID:
         return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.SECONDARY_MIDS}&ref=${subjectRef}`
       case CommentsSubjectTypes.PSIMI:
-        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.IDENTIFIERS}&ref=${subjectRef}`
+        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.PSIMIS}&ref=${subjectRef}`
       default: return ''
     }
   }
@@ -83,7 +83,7 @@ const Comment = ({
 
         {iconSlug && (
           <PaymentCardIcon
-            paymentSchemeCode={PaymentSchemeCode[iconSlug.toUpperCase()]}
+            paymentSchemeSlug={PaymentSchemeSlug[iconSlug.toUpperCase()]}
             paymentSchemeIconStyles='flex min-w-[17px] min-h-[12px] w-[17px] h-[12px] justify-center mx-[2px] items-center rounded-[2px]'
           />
         )}

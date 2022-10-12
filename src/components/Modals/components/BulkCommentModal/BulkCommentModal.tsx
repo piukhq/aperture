@@ -57,15 +57,15 @@ const BulkCommentModal = () => {
 
   const renderSubjects = () => {
     return checkedSubjects.map((subject: DirectoryMerchantEntitySelectedItem) => {
-      const {entityRef, entityValue, paymentSchemeCode} = subject
+      const {entityRef, entityValue, paymentSchemeSlug} = subject
       const isChecked = checkedRefs.includes(entityRef)
       return (
         <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
           <input id={entityRef} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
           <label htmlFor={entityRef} className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
-          {paymentSchemeCode && (
+          {paymentSchemeSlug && (
             <PaymentCardIcon
-              paymentSchemeCode={paymentSchemeCode}
+              paymentSchemeSlug={paymentSchemeSlug}
               paymentSchemeIconStyles='flex w-[17px] h-[12px] justify-center mx-[2px] items-center'
             />
           )}

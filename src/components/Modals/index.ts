@@ -10,5 +10,5 @@ export {default as DirectoryPlanDeleteModal} from './components/DirectoryPlanDel
 export {default as DirectoryPlanModal} from './components/DirectoryPlanModal'
 export {default as DirectoryMerchantSecondaryMidsDeleteModalContainer} from './components/DirectoryMerchantSecondaryMidsDeleteModalContainer'
 export {default as DirectoryMerchantLocationsDeleteModalContainer} from './components/DirectoryMerchantLocationsDeleteModalContainer'
-export {default as DirectoryMerchantIdentifiersDeleteModalContainer} from './components/DirectoryMerchantIdentifiersDeleteModalContainer'
+export {default as DirectoryMerchantPsimisDeleteModalContainer} from './components/DirectoryMerchantPsimisDeleteModalContainer'
 export {default as DirectoryCommentsModal} from './components/DirectoryCommentsModal'

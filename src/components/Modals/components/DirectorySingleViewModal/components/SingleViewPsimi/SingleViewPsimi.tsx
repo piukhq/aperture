@@ -2,8 +2,8 @@ import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
-import {SingleViewIdentifierDetails} from './components'
+import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {SingleViewPsimiDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes} from 'utils/enums'
 import {classNames} from 'utils/classNames'
@@ -12,30 +12,30 @@ type Props = {
   setHeaderFn: (header: string) => void
 }
 
-const SingleViewIdentifier = ({setHeaderFn}: Props) => {
+const SingleViewPsimi = ({setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantIdentifierResponse} = useMidManagementIdentifiers({
-    skipGetIdentifiers: true,
+  const {getMerchantPsimiResponse} = useMidManagementPsimis({
+    skipGetPsimis: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
-    identifierRef: ref as string,
+    psimiRef: ref as string,
   })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (getMerchantIdentifierResponse) {
+    if (getMerchantPsimiResponse) {
       if (!selectedEntity) {
-        dispatch(setSelectedDirectoryMerchantEntity(getMerchantIdentifierResponse))
+        dispatch(setSelectedDirectoryMerchantEntity(getMerchantPsimiResponse))
       }
 
-      const {identifier_metadata: identifierMetadata} = getMerchantIdentifierResponse
-      setHeaderFn(`Identifier - ${identifierMetadata.value}`)
+      const {psimi_metadata: psimiMetadata} = getMerchantPsimiResponse
+      setHeaderFn(`PSIMI - ${psimiMetadata.value}`)
     }
-  }, [getMerchantIdentifierResponse, setHeaderFn, dispatch, selectedEntity])
+  }, [getMerchantPsimiResponse, setHeaderFn, dispatch, selectedEntity])
 
   const [tabSelected, setTabSelected] = useState('Details')
 
@@ -56,9 +56,9 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
     ))
   }
 
-  const renderDetails = () => getMerchantIdentifierResponse ? (
+  const renderDetails = () => getMerchantPsimiResponse ? (
     <div className='px-[25px]'>
-      <SingleViewIdentifierDetails identifier={getMerchantIdentifierResponse} />
+      <SingleViewPsimiDetails psimi={getMerchantPsimiResponse} />
     </div>
   ) : null
 
@@ -73,4 +73,4 @@ const SingleViewIdentifier = ({setHeaderFn}: Props) => {
   )
 }
 
-export default memo(SingleViewIdentifier)
+export default memo(SingleViewPsimi)

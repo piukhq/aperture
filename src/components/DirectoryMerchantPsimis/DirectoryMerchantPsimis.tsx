@@ -1,10 +1,10 @@
 import {Button, DirectoryMerchantDetailsTable} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {useMidManagementIdentifiers} from 'hooks/useMidManagementIdentifiers'
+import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {DirectoryIdentifier, DirectoryIdentifiers} from 'types'
+import {DirectoryPsimi, DirectoryPsimis} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -12,7 +12,7 @@ import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
-const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
   },
@@ -31,28 +31,28 @@ const identifiersTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   },
 ]
 
-const DirectoryMerchantIdentifiers = () => {
+const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantIdentifiersResponse} = useMidManagementIdentifiers({
-    skipGetIdentifier: true,
+  const {getMerchantPsimisResponse} = useMidManagementPsimis({
+    skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
 
-  const identifiersData: DirectoryIdentifiers = getMerchantIdentifiersResponse
+  const psimisData: DirectoryPsimis = getMerchantPsimisResponse
 
-  const hydrateIdentifiersTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return identifiersData.map((identifierObj: DirectoryIdentifier) => {
-      const {date_added: dateAdded, identifier_metadata: metadata} = identifierObj
-      const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_code: paymentSchemeCode} = metadata
+  const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
+    return psimisData.map((psimiObj: DirectoryPsimi) => {
+      const {date_added: dateAdded, psimi_metadata: metadata} = psimiObj
+      const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_slug: paymentSchemeSlug} = metadata
       return [
         {
-          paymentSchemeCode,
+          paymentSchemeSlug,
         },
         {
           displayValue: value,
@@ -71,31 +71,31 @@ const DirectoryMerchantIdentifiers = () => {
     })
   }
 
-  const refArray = identifiersData?.map(identifier => identifier.identifier_ref)
+  const refArray = psimisData?.map(psimi => psimi.psimi_ref)
 
-  const requestIdentifierSingleView = (index:number):void => {
-    dispatch(setSelectedDirectoryMerchantEntity(identifiersData[index]))
-    router.push(`${router.asPath}&ref=${identifiersData[index].identifier_ref}`)
+  const requestPsimiSingleView = (index:number):void => {
+    dispatch(setSelectedDirectoryMerchantEntity(psimisData[index]))
+    router.push(`${router.asPath}&ref=${psimisData[index].psimi_ref}`)
   }
 
-  const setSelectedIdentifiers = () => {
-    const checkedIdentifiersToEntity = identifiersData.filter((identifier) => checkedRefArray.includes(identifier.identifier_ref)).map((identifier) => ({
-      entityRef: identifier.identifier_ref,
-      entityValue: identifier.identifier_metadata.value,
-      paymentSchemeCode: identifier.identifier_metadata.payment_scheme_code,
+  const setSelectedPsimis = () => {
+    const checkedPsimisToEntity = psimisData.filter((psimi) => checkedRefArray.includes(psimi.psimi_ref)).map((psimi) => ({
+      entityRef: psimi.psimi_ref,
+      entityValue: psimi.psimi_metadata.value,
+      paymentSchemeSlug: psimi.psimi_metadata.payment_scheme_slug,
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedIdentifiersToEntity))
+    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedPsimisToEntity))
   }
 
-  const requestIdentifiersDeleteModal = ():void => {
-    setSelectedIdentifiers()
+  const requestPsimisDeleteModal = ():void => {
+    setSelectedPsimis()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
   }
 
   const requestBulkCommentModal = () => {
-    // TODO: Will possibly need to change from Identifiers to PSIMIs
-    setSelectedIdentifiers()
-    dispatch(setModalHeader('Identifier Comment'))
+    // TODO: Will possibly need to change from Psimis to PSIMIs
+    setSelectedPsimis()
+    dispatch(setModalHeader('PSIMI Comment'))
     dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
@@ -117,7 +117,7 @@ const DirectoryMerchantIdentifiers = () => {
               >Comments
               </Button>
               <Button
-                handleClick={requestIdentifiersDeleteModal}
+                handleClick={requestPsimisDeleteModal}
                 buttonSize={ButtonSize.SMALL}
                 buttonWidth={ButtonWidth.MEDIUM}
                 labelColour={LabelColour.RED}
@@ -132,8 +132,8 @@ const DirectoryMerchantIdentifiers = () => {
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Visa Identifier')}
-            aria-label='Add Visa Identifier'
+            onClick={() => console.log('Placeholder: Request Visa PSIMI')}
+            aria-label='Add Visa PSIMI'
           >
             <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
             <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
@@ -141,8 +141,8 @@ const DirectoryMerchantIdentifiers = () => {
 
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Mastercard Identifier')}
-            aria-label='Add Mastercard Identifier'
+            onClick={() => console.log('Placeholder: Request Mastercard PSIMI')}
+            aria-label='Add Mastercard PSIMI'
           >
             <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
             <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
@@ -150,11 +150,11 @@ const DirectoryMerchantIdentifiers = () => {
         </div>
       </div>
 
-      {identifiersData && (
-        <DirectoryMerchantDetailsTable tableHeaders={identifiersTableHeaders} tableRows={hydrateIdentifiersTableData()} singleViewRequestHandler={requestIdentifierSingleView} refArray={refArray} />
+      {psimisData && (
+        <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
     </>
   )
 }
 
-export default DirectoryMerchantIdentifiers
+export default DirectoryMerchantPsimis

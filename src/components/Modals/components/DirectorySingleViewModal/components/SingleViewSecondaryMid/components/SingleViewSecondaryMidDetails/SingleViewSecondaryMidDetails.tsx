@@ -2,10 +2,10 @@ import {useState, useMemo} from 'react'
 import {Dropdown} from 'components'
 import {useRouter} from 'next/router'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import {PaymentSchemeCode, PaymentSchemeStartCaseName} from 'utils/enums'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 type Props = {
   secondaryMid: DirectorySecondaryMid
@@ -18,7 +18,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('Not enrolled')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
-  const {payment_scheme_code: paymentSchemeCode} = secondaryMidMetadata
+  const {payment_scheme_slug: paymentSchemeSlug} = secondaryMidMetadata
 
   const {
     postMerchantSecondaryMidOnboarding: postOnboarding,
@@ -53,16 +53,6 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     })
   }
 
-  const getPaymentScheme = () => {
-    if (paymentSchemeCode === PaymentSchemeCode.VISA) {
-      return PaymentSchemeStartCaseName.VISA
-    } else if (paymentSchemeCode === PaymentSchemeCode.MASTERCARD) {
-      return PaymentSchemeStartCaseName.MASTERCARD
-    } else if (paymentSchemeCode === PaymentSchemeCode.AMEX) {
-      return PaymentSchemeStartCaseName.AMEX
-    }
-  }
-
   return (
     <>
       <div className='mb-[34px]'>
@@ -72,7 +62,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
       <section className='mb-[34px] grid grid-cols-2 h-[50px]'>
         <div>
           <h2 className='font-modal-heading'>PAYMENT SCHEME</h2>
-          <p className='font-modal-data'>{getPaymentScheme()}</p>
+          <p className='font-modal-data'>{capitaliseFirstLetter(paymentSchemeSlug)}</p>
         </div>
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>

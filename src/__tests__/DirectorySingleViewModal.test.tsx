@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react'
 import DirectorySingleViewModal from 'components/Modals/components/DirectorySingleViewModal'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Tag', () => () => <div data-testid='deleting-tag'></div>)
 
@@ -27,8 +28,8 @@ jest.mock('components/Modals/components/DirectorySingleViewModal/components/Sing
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid',
   () => () => <div data-testid='SingleViewSecondaryMid' />)
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewIdentifier',
-  () => () => <div data-testid='SingleViewIdentifier' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi',
+  () => () => <div data-testid='SingleViewPsimi' />)
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
   () => () => <div data-testid='SingleViewComments' />)
@@ -55,13 +56,13 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementIdentifiers', () => ({
-  useMidManagementIdentifiers: jest.fn().mockImplementation(() => ({
-    deleteMerchantIdentifier: jest.fn(),
-    deleteMerchantIdentifierIsSuccess: false,
-    deleteMerchantIdentifierIsLoading: false,
-    deleteMerchantIdentifierError: null,
-    resetDeleteMerchantIdentifierResponse: jest.fn(),
+jest.mock('hooks/useMidManagementPsimis', () => ({
+  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+    deleteMerchantPsimi: jest.fn(),
+    deleteMerchantPsimiIsSuccess: false,
+    deleteMerchantPsimiIsLoading: false,
+    deleteMerchantPsimiError: null,
+    resetDeleteMerchantPsimiResponse: jest.fn(),
   })),
 }))
 
@@ -87,7 +88,7 @@ const mockMerchantDetailsState = {
     selectedEntity: {
       mid_ref: mockMidRef,
       mid_metadata: {
-        payment_scheme_code: 1,
+        payment_scheme_slug: PaymentSchemeSlug.VISA,
         mid: mockMid,
         visa_bin: mockVisaBin,
         payment_enrolment_status: mockPayrollEnrollmentStatus,

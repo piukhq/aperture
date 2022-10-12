@@ -1,5 +1,6 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
+import {PaymentSchemeSlug} from 'utils/enums'
 import SingleViewSecondaryMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
@@ -15,7 +16,7 @@ const mockTxmStatus = 'mock_txm_status'
 const mockMerchantSecondaryMid = {
   secondary_mid_ref: mockSecondaryMidRef,
   secondary_mid_metadata: {
-    payment_scheme_code: 1,
+    payment_scheme_slug: PaymentSchemeSlug.VISA,
     secondary_mid: mockSecondaryMid,
     payment_enrolment_status: mockPayrollEnrollmentStatus,
     payment_scheme_store_name: mockPaymentSchemeStoreName,
@@ -26,8 +27,8 @@ const mockMerchantSecondaryMid = {
 
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
-    postMerchantIdentifierOnboarding: jest.fn(),
-    postMerchantIdentifierOffboarding: jest.fn(),
+    postMerchantPsimiOnboarding: jest.fn(),
+    postMerchantPsimiOffboarding: jest.fn(),
   })),
 }))
 
