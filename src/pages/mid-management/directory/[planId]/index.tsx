@@ -13,8 +13,9 @@ import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const PlanDetailsPage: NextPage = () => {
+const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {planId: planRef} = router.query
 
@@ -139,6 +140,6 @@ const PlanDetailsPage: NextPage = () => {
       {planDetails && renderPlanDetailsContent()}
     </PageLayout>
   )
-}
+})
 
 export default PlanDetailsPage
