@@ -20,6 +20,7 @@ import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant} from 'types'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
 enum NavigationLabel {
   MIDS = 'MIDs',
@@ -28,7 +29,7 @@ enum NavigationLabel {
   PSIMIS ='PSIMIs'
 }
 
-const MerchantDetailsPage: NextPage = () => {
+const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {merchantId, planId, tab, ref} = router.query
 
@@ -149,6 +150,6 @@ const MerchantDetailsPage: NextPage = () => {
       )}
     </PageLayout>
   )
-}
+})
 
 export default MerchantDetailsPage

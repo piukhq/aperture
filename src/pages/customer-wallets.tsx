@@ -3,8 +3,9 @@ import {PageLayout, CustomerWalletsContainer, CustomerWalletsHeader} from 'compo
 import {useAppSelector} from 'app/hooks'
 import {getJwtToken} from 'features/customerWalletSlice'
 import {useCustomerLookup} from 'hooks/useCustomerLookup'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const CustomerWalletsPage: NextPage = () => {
+const CustomerWalletsPage: NextPage = withPageAuthRequired(() => {
   const selectedJwtToken = useAppSelector(getJwtToken)
   const {hasErrorOccurred} = useCustomerLookup()
 
@@ -17,6 +18,6 @@ const CustomerWalletsPage: NextPage = () => {
       </div>
     </PageLayout>
   )
-}
+})
 
 export default CustomerWalletsPage

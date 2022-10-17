@@ -319,11 +319,31 @@ export type DirectoryMerchantDetailsTableCell = {
   displayValue?: string
 }
 
-export type DecodedUserToken = {
+export type UserPermissions = {
+  MERCHANT_DATA_READ_ONLY: 'merchant_data:ro',
+  MERCHANT_DATA_READ_WRITE: 'merchant_data:rw',
+  MERCHANT_DATA_READ_WRITE_DELETE: 'merchant_data:rwd',
+  CUSTOMER_WALLET_READ_ONLY: 'customer_wallet:ro',
+  CUSTOMER_WALLET_READ_WRITE: 'customer_wallet:rw',
+  CUSTOMER_WALLET_READ_WRITE_DELETE: 'customer_wallet:rwd',
+}
+
+export type DecodedUserJWTToken = {
   bundle_id: string,
   user_id: string,
   sub: number,
   iat: number,
+}
+
+export type DecodedUserAuthToken = {
+  iss: string,
+  sub: string,
+  aud: Array<string>,
+  iat: number,
+  exp: number,
+  azp: string,
+  scope: string,
+  permissions?: Array<UserPermissions>
 }
 
 export type LoyaltyCardTransaction = {

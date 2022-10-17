@@ -37,7 +37,11 @@ const Sidebar = () => {
               return <SidebarOption key={option} option={option} selected={selected} />
             })}
           </nav>
+
+          <a href='/api/auth/login'>Login</a>
+          <a href='/api/auth/logout'>Logout</a>
         </div>
+
 
         {process.env.NEXT_PUBLIC_ENV !== 'production' && (
           <div className='fixed bottom-[50px] flex items-center'>

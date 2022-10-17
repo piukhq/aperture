@@ -3,8 +3,9 @@ import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {useEffect} from 'react'
 import {ContentTile, PageLayout} from 'components'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const MidManagementPage: NextPage = () => {
+const MidManagementPage: NextPage = withPageAuthRequired(() => {
   // TODO: To be removed once Landing page is speced out
   const router = useRouter()
   useEffect(() => {
@@ -21,6 +22,6 @@ const MidManagementPage: NextPage = () => {
       </ContentTile>
     </PageLayout>
   )
-}
+})
 
 export default MidManagementPage
