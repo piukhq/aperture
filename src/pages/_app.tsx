@@ -5,7 +5,6 @@ import {store, persistor} from '../app/store'
 import {Layout} from 'components'
 import {PersistGate} from 'redux-persist/integration/react'
 import {UserProvider} from '@auth0/nextjs-auth0'
-
 import '../styles/globals.css'
 
 function MyApp ({Component, pageProps}: AppProps) {
