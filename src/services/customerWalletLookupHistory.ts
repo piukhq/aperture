@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 import {LookupUserHistoryEntity} from 'types'
+import {getCookie} from 'cookies-next'
 
 const url = '/api/v1/customer_wallet/user_lookups'
 
@@ -7,14 +8,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_PORTAL_API_URL,
   prepareHeaders: async (headers) => {
     try {
-      const token = await fetch('/api/accessToken')
-        .then((response) => response.json())
-        .catch((error) => {
-          console.error(error)
-          return null
-        })
-
-      headers.set('authorization', `Bearer ${token}`)
+      headers.set('authorization', `Bearer ${getCookie('authToken')}`)
       headers.set('accept', 'application/json;v=1.3')
       headers.set('user', 'mock_session_id')
       return headers
