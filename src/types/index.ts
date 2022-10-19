@@ -1,5 +1,5 @@
 import {ReactNode} from 'react'
-import {PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
+import {CommentsSubjectTypes, PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
 
 type PlanAccount = {
   add_fields: Array<unknown>,
@@ -109,7 +109,7 @@ export type DirectoryComment = {
 }
 
 export type DirectoryCommentHighLevel = {
-  subject_type: string,
+  subject_type: CommentsSubjectTypes,
   comments: Array<DirectoryComment>
 }
 

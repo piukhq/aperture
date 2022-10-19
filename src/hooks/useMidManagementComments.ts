@@ -5,6 +5,7 @@ import {
   usePostCommentMutation,
   useDeleteCommentMutation,
   usePatchCommentMutation,
+  usePostReplyCommentMutation,
   midManagementCommentsApi,
 } from 'services/midManagementComments'
 
@@ -35,6 +36,14 @@ export const useMidManagementComments = ({skipGetComments = false, commentsRef =
     error: patchCommentError,
     reset: resetPatchCommentResponse,
   }] = usePatchCommentMutation({fixedCacheKey: 'patchComment'})
+
+  const [postReplyComment, {
+    data: postReplyCommentResponse,
+    isLoading: postReplyCommentIsLoading,
+    isSuccess: postReplyCommentIsSuccess,
+    error: postReplyCommentError,
+    reset: resetPostReplyCommentResponse,
+  }] = usePostReplyCommentMutation({fixedCacheKey: 'postReplyComment'})
 
   const dispatch = useAppDispatch()
 
@@ -71,5 +80,12 @@ export const useMidManagementComments = ({skipGetComments = false, commentsRef =
     patchCommentIsSuccess,
     patchCommentError,
     resetPatchCommentResponse,
+    // POST Reply Comment
+    postReplyComment,
+    postReplyCommentResponse,
+    postReplyCommentIsLoading,
+    postReplyCommentIsSuccess,
+    postReplyCommentError,
+    resetPostReplyCommentResponse,
   }
 }
