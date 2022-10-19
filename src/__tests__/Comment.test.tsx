@@ -1,10 +1,12 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comment from 'components/Comments/components/Comment'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
 jest.mock('components/AutosizeTextArea', () => () => <div data-testid='edit-comment-text-area' />)
+jest.mock('components/Comments/components/ReplyComment', () => () => <div data-testid='reply-comment' />)
 
 describe('Comment', () => {
   const mockEntityCommentCreatedBy = 'mock_entity_comment_created_by'
@@ -41,10 +43,14 @@ describe('Comment', () => {
   const mockProps = {
     comment: mockComment,
     currentRoute: '',
+    subjectType: CommentsSubjectTypes.PLAN,
     handleCommentDelete: jest.fn(),
     handleCommentEditSubmit: jest.fn(),
+    handleCommentReplySubmit: jest.fn(),
     editedCommentIsLoading: false,
     editedCommentIsSuccess: false,
+    replyCommentIsLoading: false,
+    replyCommentIsSuccess: false,
   }
 
   const getCommentComponent = (passedProps = {}) => {
@@ -106,6 +112,7 @@ describe('Comment', () => {
           .fn()
           .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
           .mockReturnValueOnce([true, jest.fn()]) // isInEditState
+          .mockReturnValueOnce([false, jest.fn()]) // isInCommentReplyState
 
         render(getCommentComponent())
         expect(screen.getByTestId('edit-comment-text-area')).toBeInTheDocument()
@@ -116,9 +123,38 @@ describe('Comment', () => {
           .fn()
           .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
           .mockReturnValueOnce([false, jest.fn()]) // setIsInEditState
+          .mockReturnValueOnce([false, jest.fn()]) // isInCommentReplyState
 
         render(getCommentComponent())
         expect(screen.queryByTestId('edit-comment-text-area')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('Test reply state', () => {
+      beforeEach(() => {
+        jest.clearAllMocks()
+      })
+
+      it('should render the ReplyComment component', () => {
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
+          .mockReturnValueOnce([false, jest.fn()]) // isInEditState
+          .mockReturnValueOnce([true, jest.fn()]) // isInCommentReplyState
+
+        render(getCommentComponent())
+        expect(screen.getByTestId('reply-comment')).toBeInTheDocument()
+      })
+
+      it('should not render the ReplyComment component', () => {
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce([false, jest.fn()]) // isSubjectListExpanded
+          .mockReturnValueOnce([false, jest.fn()]) // isInEditState
+          .mockReturnValueOnce([false, jest.fn()]) // isInCommentReplyState
+
+        render(getCommentComponent())
+        expect(screen.queryByTestId('reply-comment')).not.toBeInTheDocument()
       })
     })
 
