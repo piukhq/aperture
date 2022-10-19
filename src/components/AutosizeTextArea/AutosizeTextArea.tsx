@@ -54,7 +54,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = 
 
   const handleOnBlur = (e: React.FocusEvent) => {
     // If the focused item is not the text area or the button, handle the blur event
-    if (e.relatedTarget?.id !== 'textarea' && e.relatedTarget?.id !== 'submit-button' && onBlurHandler) {
+    if (e.relatedTarget?.id !== `${accessibilityLabel} textarea` && e.relatedTarget?.id !== `${accessibilityLabel} submit-button` && onBlurHandler) {
       onBlurHandler()
     }
   }
@@ -62,7 +62,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = 
   return (
     <form className='relative flex w-full' onSubmit={handleFormSubmit} onBlur={handleOnBlur}>
       <textarea
-        id='textarea'
+        id={`${accessibilityLabel} textarea`}
         aria-label={`${accessibilityLabel} text area`}
         data-testid='textarea'
         className={classNames(
@@ -82,7 +82,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = 
           {inputValidationError}
         </span>
       )}
-      <button onMouseDown={(e) => e.preventDefault()} id='submit-button' data-testid='submit-button' aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
+      <button onMouseDown={(e) => e.preventDefault()} id={`${accessibilityLabel} submit-button`} data-testid='submit-button' aria-label={`${accessibilityLabel} button`} className='absolute right-[10px] bottom-[14px]'>
         <ArrowRightSvg className='h-[22px] w-[22px]' />
       </button>
     </form>
