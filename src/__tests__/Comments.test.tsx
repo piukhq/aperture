@@ -1,20 +1,20 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comments from 'components/Comments'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/Comments/components/Comment', () => () => <div data-testid='comment' />)
 jest.mock('components/AutosizeTextArea', () => () => <div data-testid='autosize-text-area' />)
 
 describe('Comments', () => {
-  const mockEntityCommentSubjectType = 'mock_entity_comment_subject_type'
   const mockEntityCommentCreatedBy = 'mock_entity_comment_created_by'
   const mockEntityCommentSubject1Text = 'mock_entity_comment_subject_1_text'
   const mockEntityCommentSubject2Text = 'mock_entity_comment_subject_2_text'
   const mockEntityCommentMetadataText = 'mock_entity_comment_metadata_text'
 
   const mockComment = {
-    subject_type: mockEntityCommentSubjectType,
+    subject_type: CommentsSubjectTypes.PLAN,
     comments: [
       {
         ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -59,10 +59,13 @@ describe('Comments', () => {
     handleCommentSubmit: jest.fn(),
     handleCommentDelete: jest.fn(),
     handleCommentEditSubmit: jest.fn(),
+    handleCommentReplySubmit: jest.fn(),
     newCommentIsLoading: false,
     newCommentIsSuccess: false,
     editedCommentIsLoading: false,
     editedCommentIsSuccess: false,
+    replyCommentIsLoading: false,
+    replyCommentIsSuccess: false,
   }
 
   const getCommentsComponent = (passedProps = {}) => {

@@ -82,25 +82,23 @@ const ReplyComment = ({
 
   const renderExpandedSubjects = () => {
     return (
-      <>
-        <div data-testid='expanded-subjects' className='flex flex-col ml-[30px] mb-[10px]'>
-          {subjects.map((subject, index) => {
-            // TODO: Change href to subject_ref
-            const {display_text: displayText, icon_slug: iconSlug, href} = subject
+      <div data-testid='expanded-subjects' className='flex flex-col ml-[30px] mb-[10px]'>
+        {subjects.map((subject, index) => {
+          // TODO: Change href to subject_ref
+          const {display_text: displayText, icon_slug: iconSlug, href} = subject
 
-            const isChecked = checkedSubjectRefs.includes(href)
+          const isChecked = checkedSubjectRefs.includes(href)
 
-            return (
-              <div key={index} className='flex items-center'>
-                <label className='flex items-center font-body-4 font-bold mr-[2px]'>
-                  <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(href)} />
-                  {renderSubjectMetadata({displayText, iconSlug})}
-                </label>
-              </div>
-            )
-          })}
-        </div>
-      </>
+          return (
+            <div data-testid={`${href}-subject-checkbox`} key={index} className='flex items-center'>
+              <label className='flex items-center font-body-4 font-bold mr-[2px]'>
+                <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(href)} />
+                {renderSubjectMetadata({displayText, iconSlug})}
+              </label>
+            </div>
+          )
+        })}
+      </div>
     )
   }
 
@@ -122,7 +120,7 @@ const ReplyComment = ({
           {!isSubjectListExpanded && renderSubjects()}
           {isSubjectListExpanded && (
             <button onClick={() => setIsSubjectListExpanded(false)} className='font-bold text-commentsBlue'>
-                (see less -)
+              (see less -)
             </button>
           )}
         </span>
