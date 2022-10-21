@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, Comments} from 'components'
-import {getCommentsModalHeader, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
+import {getCommentsModalHeader, getCommentsOwnerRef, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle, CommentsSubjectTypes} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
@@ -12,6 +12,7 @@ const DirectoryCommentsModal = () => {
 
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsRef = useAppSelector(getCommentsRef)
+  const commentsOwnerRef = useAppSelector(getCommentsOwnerRef)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
 
   const {
@@ -39,15 +40,14 @@ const DirectoryCommentsModal = () => {
     postComment({
       commentsRef,
       metadata: {
-        // TODO: Use actual user ID
-        comment_owner: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        owner_ref: commentsOwnerRef,
         owner_type: determineCommentOwnerType(commentsSubjectType),
         text: comment,
       },
       subject_type: commentsSubjectType,
       subjects: [commentsRef],
     })
-  }, [postComment, commentsSubjectType, commentsRef])
+  }, [postComment, commentsSubjectType, commentsRef, commentsOwnerRef])
 
   const handleCommentDelete = useCallback((commentRef: string) => {
     deleteComment({commentRef, commentsRef})
@@ -65,14 +65,14 @@ const DirectoryCommentsModal = () => {
     commentRef: string,
     comment: string,
     subjectRefs: Array<string>,
-    subjectType: CommentsSubjectTypes
+    subjectType: CommentsSubjectTypes,
+    ownerRef: string
   ) => {
     postReplyComment({
       commentRef,
       commentsRef: commentsRef as string,
       metadata: {
-        // TODO: Use actual user ID
-        comment_owner: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+        owner_ref: ownerRef,
         owner_type: determineCommentOwnerType(subjectType),
         text: comment,
       },

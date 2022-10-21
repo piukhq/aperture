@@ -4,7 +4,7 @@ import {ButtonWidth, ButtonSize} from 'components/Button/styles'
 import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import ForwardSvg from 'icons/svgs/forward.svg'
-import {CommentsSubjectTypes, PaymentSchemeSlug} from 'utils/enums'
+import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeSlug} from 'utils/enums'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import ReplyComment from '../ReplyComment'
@@ -13,13 +13,15 @@ type Props = {
   comment: DirectoryComment
   currentRoute: string
   subjectType: CommentsSubjectTypes
+  currentPlanId: string
   handleCommentDelete: (commentRef: string) => void
   handleCommentEditSubmit: (commentRef: string, comment: string) => void
   handleCommentReplySubmit: (
     commentRef: string,
     comment: string,
     subjectRefs: Array<string>,
-    subjectType: CommentsSubjectTypes
+    subjectType: CommentsSubjectTypes,
+    ownerRef?: string
   ) => void
   editedCommentIsLoading: boolean
   editedCommentIsSuccess: boolean
@@ -31,8 +33,9 @@ const commentStyles = 'bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] 
 
 const Comment = ({
   comment,
-  currentRoute,
   subjectType,
+  currentRoute,
+  currentPlanId,
   handleCommentDelete,
   handleCommentEditSubmit,
   editedCommentIsLoading,
@@ -41,7 +44,8 @@ const Comment = ({
   replyCommentIsLoading,
   replyCommentIsSuccess,
 }: Props) => {
-  const {ref, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
+  const {comment_ref: commentRef, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
+  const {owner_ref: ownerRef, text} = metadata
 
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
   const [isInEditState, setIsInEditState] = useState(false)
@@ -57,7 +61,7 @@ const Comment = ({
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
-      clickHandler: () => handleCommentDelete(ref),
+      clickHandler: () => handleCommentDelete(commentRef),
     },
   ]
 
@@ -73,6 +77,24 @@ const Comment = ({
     }
   }, [replyCommentIsSuccess, replyCommentIsLoading])
 
+  const constructSubjectLinkSuffix = (subjectRef: string) => {
+    // owner_ref is used in scenarios where the parent ref may not be known
+    switch (subjectType) {
+      case CommentsSubjectTypes.PLAN:
+        return subjectRef
+      case CommentsSubjectTypes.MERCHANT:
+        return `${ownerRef}/${subjectRef}?tab=${DirectoryNavigationTab.MIDS}`
+      case CommentsSubjectTypes.MID:
+        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.MIDS}&ref=${subjectRef}`
+      case CommentsSubjectTypes.LOCATION:
+        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.LOCATIONS}&ref=${subjectRef}`
+      case CommentsSubjectTypes.SECONDARY_MID:
+        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.SECONDARY_MIDS}&ref=${subjectRef}`
+      case CommentsSubjectTypes.PSIMI:
+        return `${currentPlanId}/${ownerRef}?tab=${DirectoryNavigationTab.PSIMIS}&ref=${subjectRef}`
+      default: return ''
+    }
+  }
 
   const renderSubjects = (subjects: DirectoryCommentSubject[]) => {
     const renderSubjectMetadata = ({displayText, iconSlug, shouldTruncate = false}) => (
@@ -90,20 +112,20 @@ const Comment = ({
       </>
     )
 
-    const renderLink = ({href, displayText, iconSlug, shouldTruncate = false, index = 0}) => {
+    const renderLink = ({subjectRef, displayText, iconSlug, shouldTruncate = false, index = 0}) => {
       return (
-        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={href}>
+        <a key={index} data-testid='subject-link' className={`flex text-commentsBlue items-center ${shouldTruncate && 'truncate'}`} href={`/mid-management/directory/${constructSubjectLinkSuffix(subjectRef)}`}>
           {renderSubjectMetadata({displayText, iconSlug, shouldTruncate})}
         </a>
       )
     }
 
     const renderSingleSubject = () => {
-      const {href, display_text: displayText, icon_slug: iconSlug} = subjects[0]
+      const {subject_ref: subjectRef, display_text: displayText, icon_slug: iconSlug} = subjects[0]
 
       // Should not render a link if user is already on the same route
-      if (href && href !== currentRoute) {
-        return renderLink({href, displayText, iconSlug, shouldTruncate: true})
+      if (!currentRoute.includes(subjectRef)) {
+        return renderLink({subjectRef, displayText, iconSlug, shouldTruncate: true})
       }
 
       return (
@@ -119,10 +141,10 @@ const Comment = ({
           <>
             <div data-testid='expanded-subjects' className='flex flex-col'>
               {subjects.map((subject, index) => {
-                const {href, display_text: displayText, icon_slug: iconSlug} = subject
+                const {subject_ref: subjectRef, display_text: displayText, icon_slug: iconSlug} = subject
 
-                if (href && href !== currentRoute) {
-                  return renderLink({index, href, displayText, iconSlug})
+                if (!currentRoute.includes(subjectRef)) {
+                  return renderLink({index, subjectRef, displayText, iconSlug})
                 }
 
                 return (
@@ -158,8 +180,8 @@ const Comment = ({
   }
 
   const onEditCommentSubmit = useCallback((editedComment: string) => {
-    handleCommentEditSubmit(ref, editedComment)
-  }, [handleCommentEditSubmit, ref])
+    handleCommentEditSubmit(commentRef, editedComment)
+  }, [handleCommentEditSubmit, commentRef])
 
   const handleOnBlur = useCallback(() => {
     setIsInEditState(false)
@@ -170,10 +192,10 @@ const Comment = ({
       return <p data-testid='comment-deleted-message' className='font-body-3 italic'>This comment has been deleted</p>
     } else if (isInEditState) {
       return (
-        <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' prePopulatedValue={metadata.text} submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
+        <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' prePopulatedValue={text} submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
       )
     }
-    return <p className='font-body-3 break-words'>{metadata.text}</p>
+    return <p className='font-body-3 break-words'>{text}</p>
   }
 
   const renderComment = () => (
@@ -230,13 +252,12 @@ const Comment = ({
   )
 
   const handleCommentReply = (commentRef: string, comment: string, subjectRefs: Array<string>) => {
-    handleCommentReplySubmit(commentRef, comment, subjectRefs, subjectType)
+    handleCommentReplySubmit(commentRef, comment, subjectRefs, subjectType, ownerRef)
   }
 
   const renderReplyComment = () => (
     <div className={`${commentStyles}`}>
-      {/* TODO: Change ref to comment_ref */}
-      <ReplyComment createdBy={createdBy} subjects={subjects} handleCommentReplySubmit={handleCommentReply} commentRef={ref} />
+      <ReplyComment createdBy={createdBy} subjects={subjects} handleCommentReplySubmit={handleCommentReply} commentRef={commentRef} />
     </div>
   )
 

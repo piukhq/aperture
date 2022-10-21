@@ -21,8 +21,7 @@ const ReplyComment = ({
   commentRef,
 }: Props) => {
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
-  // TODO: Change href to subject_ref
-  const [checkedSubjectRefs, setCheckedSubjectRefs] = useState(subjects.map(subject => subject.href))
+  const [checkedSubjectRefs, setCheckedSubjectRefs] = useState(subjects.map(subject => subject.subject_ref))
   const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState(false)
 
   const renderSubjectMetadata = ({displayText, iconSlug, shouldTruncate = false}) => (
@@ -84,15 +83,14 @@ const ReplyComment = ({
     return (
       <div data-testid='expanded-subjects' className='flex flex-col ml-[30px] mb-[10px]'>
         {subjects.map((subject, index) => {
-          // TODO: Change href to subject_ref
-          const {display_text: displayText, icon_slug: iconSlug, href} = subject
+          const {display_text: displayText, icon_slug: iconSlug, subject_ref: subjectRef} = subject
 
-          const isChecked = checkedSubjectRefs.includes(href)
+          const isChecked = checkedSubjectRefs.includes(subjectRef)
 
           return (
-            <div data-testid={`${href}-subject-checkbox`} key={index} className='flex items-center'>
+            <div data-testid={`${subjectRef}-subject-checkbox`} key={index} className='flex items-center'>
               <label className='flex items-center font-body-4 font-bold mr-[2px]'>
-                <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(href)} />
+                <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(subjectRef)} />
                 {renderSubjectMetadata({displayText, iconSlug})}
               </label>
             </div>

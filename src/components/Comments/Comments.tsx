@@ -14,7 +14,8 @@ type Props = {
     commentRef: string,
     comment: string,
     subjectRefs: Array<string>,
-    subjectType: CommentsSubjectTypes
+    subjectType: CommentsSubjectTypes,
+    ownerRef?: string
   ) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
@@ -41,6 +42,7 @@ const Comments = ({
 }: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
+  const {planId} = router.query
 
   const commentsContainerRef = useRef(null)
 
@@ -67,8 +69,9 @@ const Comments = ({
       <>
         <Comment
           comment={comment}
-          currentRoute={currentRoute}
           subjectType={subjectType}
+          currentRoute={currentRoute}
+          currentPlanId={planId as string}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
           handleCommentReplySubmit={handleCommentReplySubmit}
@@ -80,7 +83,7 @@ const Comments = ({
 
         {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => (
-          <div key={response.ref} className='flex flex-col gap-[9px] ml-[50px]'>
+          <div key={response.comment_ref} className='flex flex-col gap-[9px] ml-[50px]'>
             {renderComment(response, subjectType)}
           </div>
         ))}
@@ -97,7 +100,7 @@ const Comments = ({
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
           {comments.map(comment => (
-            <div key={comment.ref} className={'flex flex-col gap-[9px]'}>
+            <div key={comment.comment_ref} className={'flex flex-col gap-[9px]'}>
               {renderComment(comment, subjectType)}
             </div>
           ))}

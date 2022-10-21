@@ -16,12 +16,12 @@ describe('ReplyComment', () => {
     subjects: [
       {
         display_text: mockEntityCommentSubject1Text,
-        href: mockEntityCommentSubject1Ref,
+        subject_ref: mockEntityCommentSubject1Ref,
         icon_slug: null,
       },
       {
         display_text: mockEntityCommentSubject2Text,
-        href: mockEntityCommentSubject2Ref,
+        subject_ref: mockEntityCommentSubject2Ref,
         icon_slug: null,
       },
     ],

@@ -5,7 +5,7 @@ import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
-import {setModalHeader, setCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {setModalHeader, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
@@ -106,6 +106,7 @@ const DirectoryMerchantMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedMids()
     dispatch(setModalHeader('MID Comment'))
+    dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
