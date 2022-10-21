@@ -8,7 +8,7 @@ import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchantDetails} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
-import {setModalHeader, setCommentsRef, setCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
@@ -38,6 +38,7 @@ const PlanDetailsPage: NextPage = () => {
   const requestPlanCommentsModal = useCallback(() => {
     dispatch(setModalHeader(planDetails?.plan_metadata?.name))
     dispatch(setCommentsRef(planRef as string))
+    dispatch(setCommentsOwnerRef(planRef as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PLAN))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }, [dispatch, planDetails?.plan_metadata?.name, planRef])
@@ -93,6 +94,7 @@ const PlanDetailsPage: NextPage = () => {
           const requestMerchantCommentsModal = () => {
             dispatch(setModalHeader(merchant_metadata.name))
             dispatch(setCommentsRef(merchant_ref))
+            dispatch(setCommentsOwnerRef(planRef as string))
             dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
             dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
           }

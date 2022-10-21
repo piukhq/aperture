@@ -1,6 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comment from 'components/Comments/components/Comment'
+import {CommentsOwnerTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-menu-button' />)
@@ -13,7 +14,7 @@ describe('Comment', () => {
   const mockEntityCommentMetadataText = 'mock_entity_comment_metadata_text'
 
   const mockComment = {
-    ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    comment_ref: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     created_at: '2021-12-14T08:57:43.790Z',
     created_by: mockEntityCommentCreatedBy,
     is_edited: false,
@@ -21,18 +22,18 @@ describe('Comment', () => {
     subjects: [
       {
         display_text: mockEntityCommentSubject1Text,
-        href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+        subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
         icon_slug: null,
       },
       {
         display_text: mockEntityCommentSubject2Text,
-        href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+        subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
         icon_slug: null,
       },
     ],
     metadata: {
-      comment_owner: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-      owner_type: 'plan',
+      owner_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
+      owner_type: CommentsOwnerTypes.PLAN,
       text: mockEntityCommentMetadataText,
     },
     responses: null,
@@ -40,7 +41,9 @@ describe('Comment', () => {
 
   const mockProps = {
     comment: mockComment,
+    subjectType: '',
     currentRoute: '',
+    currentPlanId: '',
     handleCommentDelete: jest.fn(),
     handleCommentEditSubmit: jest.fn(),
     editedCommentIsLoading: false,
@@ -155,7 +158,7 @@ describe('Comment', () => {
 
           comment.subjects = [{
             display_text: mockEntityCommentSubject1Text,
-            href: '/e2a26b5a-284d-11ed-a261-0242ac120002',
+            subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
             icon_slug: 'mock_slug',
           }]
           render(getCommentComponent({comment}))

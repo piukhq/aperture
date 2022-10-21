@@ -150,7 +150,7 @@ enum CommentsSubjectTypes {
   MERCHANT = 'merchant',
   MID = 'mid',
   LOCATION = 'location',
-  SECONDARY_MID = 'secondary mid',
+  SECONDARY_MID = 'secondary_mid',
   PSIMI = 'psimi',
 }
 

@@ -19,7 +19,7 @@ export const findNestedComment = (commentsArray: DirectoryComment[], commentRef:
   commentsArray.reduce((accumulator, comment) => {
     // If a match has been found and added to the accumulator, return
     if (accumulator) { return accumulator }
-    if (comment.ref === commentRef) { return comment }
+    if (comment.comment_ref === commentRef) { return comment }
     // Recusively search through responses
     if (comment.responses) { return findNestedComment(comment.responses, commentRef) }
   }, null)
