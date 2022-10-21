@@ -7,17 +7,29 @@ import ForwardSvg from 'icons/svgs/forward.svg'
 import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeSlug} from 'utils/enums'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import ReplyComment from '../ReplyComment'
 
 type Props = {
   comment: DirectoryComment
-  subjectType: string
   currentRoute: string
+  subjectType: CommentsSubjectTypes
   currentPlanId: string
   handleCommentDelete: (commentRef: string) => void
   handleCommentEditSubmit: (commentRef: string, comment: string) => void
+  handleCommentReplySubmit: (
+    commentRef: string,
+    comment: string,
+    subjectRefs: Array<string>,
+    subjectType: CommentsSubjectTypes,
+    ownerRef?: string
+  ) => void
   editedCommentIsLoading: boolean
   editedCommentIsSuccess: boolean
+  replyCommentIsLoading: boolean,
+  replyCommentIsSuccess: boolean,
 }
+
+const commentStyles = 'bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'
 
 const Comment = ({
   comment,
@@ -28,12 +40,16 @@ const Comment = ({
   handleCommentEditSubmit,
   editedCommentIsLoading,
   editedCommentIsSuccess,
+  handleCommentReplySubmit,
+  replyCommentIsLoading,
+  replyCommentIsSuccess,
 }: Props) => {
   const {comment_ref: commentRef, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
   const {owner_ref: ownerRef, text} = metadata
 
   const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
   const [isInEditState, setIsInEditState] = useState(false)
+  const [isInCommentReplyState, setIsInCommentReplyState] = useState(false)
 
   const optionsMenuItems: OptionsMenuItems = [
     {
@@ -54,6 +70,12 @@ const Comment = ({
       setIsInEditState(false)
     }
   }, [editedCommentIsSuccess, editedCommentIsLoading])
+
+  useEffect(() => {
+    if (replyCommentIsSuccess && !replyCommentIsLoading) {
+      setIsInCommentReplyState(false)
+    }
+  }, [replyCommentIsSuccess, replyCommentIsLoading])
 
   const constructSubjectLinkSuffix = (subjectRef: string) => {
     // owner_ref is used in scenarios where the parent ref may not be known
@@ -154,12 +176,7 @@ const Comment = ({
       )
     }
 
-    return (
-      <>
-        <p className='mx-[4px]'>in</p>
-        {subjects.length === 1 ? renderSingleSubject() : renderMultipleSubjects()}
-      </>
-    )
+    return subjects.length === 1 ? renderSingleSubject() : renderMultipleSubjects()
   }
 
   const onEditCommentSubmit = useCallback((editedComment: string) => {
@@ -181,12 +198,13 @@ const Comment = ({
     return <p className='font-body-3 break-words'>{text}</p>
   }
 
-  return (
-    <div className='bg-grey-300 dark:bg-grey-800 rounded-[20px] min-h-[71px] p-[13px] pt-[6px] self-end w-[100%] min-w-[250px]'>
+  const renderComment = () => (
+    <div className={`${commentStyles}`}>
       <div className='flex justify-between'>
         {/* Max width calc used here to set width of single line subjects, to allow for truncation when appropriate, based on other rendered elements */}
         <span className={`flex whitespace-nowrap font-heading-7 font-normal ${isEdited ? 'max-w-[calc(100%_-_156px)]' : 'max-w-[calc(100%_-_106px)]'}`}>
           <h4 className='font-bold truncate'>{createdBy}</h4>
+          <p className='mx-[4px]'>in</p>
           {subjects.length > 0 && renderSubjects(subjects)}
         </span>
 
@@ -220,7 +238,7 @@ const Comment = ({
 
         {!isInEditState && (
           <Button
-            handleClick={() => console.log('Reply button clicked')}
+            handleClick={() => setIsInCommentReplyState(true)}
             buttonSize={ButtonSize.INHERIT}
             buttonWidth={ButtonWidth.ICON_ONLY}
             additionalStyles='ml-[3px] h-[20px] w-[20px] self-end'
@@ -230,6 +248,28 @@ const Comment = ({
           </Button>
         )}
       </div>
+    </div>
+  )
+
+  const handleCommentReply = (commentRef: string, comment: string, subjectRefs: Array<string>) => {
+    handleCommentReplySubmit(commentRef, comment, subjectRefs, subjectType, ownerRef)
+  }
+
+  const renderReplyComment = () => (
+    <div className={`${commentStyles}`}>
+      <ReplyComment createdBy={createdBy} subjects={subjects} handleCommentReplySubmit={handleCommentReply} commentRef={commentRef} />
+    </div>
+  )
+
+  return (
+    <div className='flex flex-col gap-[9px]'>
+      {renderComment()}
+
+      {isInCommentReplyState && (
+        <div className='ml-[50px]'>
+          {renderReplyComment()}
+        </div>
+      )}
     </div>
   )
 }

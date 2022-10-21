@@ -61,8 +61,11 @@ const BulkCommentModal = () => {
       const isChecked = checkedRefs.includes(entityRef)
       return (
         <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
-          <input id={entityRef} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
-          <label htmlFor={entityRef} className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
+          <label className='flex items-center font-body-4 font-bold mr-[2px]'>
+            <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
+            {entityValue}
+          </label>
+
           {paymentSchemeSlug && (
             <PaymentCardIcon
               paymentSchemeSlug={paymentSchemeSlug}

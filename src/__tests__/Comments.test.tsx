@@ -60,10 +60,13 @@ describe('Comments', () => {
     handleCommentSubmit: jest.fn(),
     handleCommentDelete: jest.fn(),
     handleCommentEditSubmit: jest.fn(),
+    handleCommentReplySubmit: jest.fn(),
     newCommentIsLoading: false,
     newCommentIsSuccess: false,
     editedCommentIsLoading: false,
     editedCommentIsSuccess: false,
+    replyCommentIsLoading: false,
+    replyCommentIsSuccess: false,
   }
 
   const getCommentsComponent = (passedProps = {}) => {

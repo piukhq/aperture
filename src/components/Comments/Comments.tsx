@@ -3,16 +3,26 @@ import {useRouter} from 'next/router'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 type Props = {
   comments: DirectoryComments
   handleCommentSubmit: (comment: string) => void
   handleCommentDelete: (commentRef: string) => void
   handleCommentEditSubmit: (commentRef: string, editedComment: string) => void
+  handleCommentReplySubmit: (
+    commentRef: string,
+    comment: string,
+    subjectRefs: Array<string>,
+    subjectType: CommentsSubjectTypes,
+    ownerRef?: string
+  ) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
   editedCommentIsLoading: boolean,
   editedCommentIsSuccess: boolean,
+  replyCommentIsLoading: boolean,
+  replyCommentIsSuccess: boolean,
   isSingleView?: boolean
 }
 
@@ -21,10 +31,13 @@ const Comments = ({
   handleCommentSubmit,
   handleCommentDelete,
   handleCommentEditSubmit,
+  handleCommentReplySubmit,
   newCommentIsSuccess,
   newCommentIsLoading,
   editedCommentIsLoading,
   editedCommentIsSuccess,
+  replyCommentIsLoading,
+  replyCommentIsSuccess,
   isSingleView,
 }: Props) => {
   const router = useRouter()
@@ -49,7 +62,7 @@ const Comments = ({
   // Do not display section header on single view modals
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
-  const renderComment = (comment: DirectoryComment, subjectType: string) => {
+  const renderComment = (comment: DirectoryComment, subjectType: CommentsSubjectTypes) => {
     const {responses} = comment
 
     return (
@@ -61,8 +74,11 @@ const Comments = ({
           currentPlanId={planId as string}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
+          handleCommentReplySubmit={handleCommentReplySubmit}
           editedCommentIsLoading={editedCommentIsLoading}
           editedCommentIsSuccess={editedCommentIsSuccess}
+          replyCommentIsLoading={replyCommentIsLoading}
+          replyCommentIsSuccess={replyCommentIsSuccess}
         />
 
         {/* Recursion used here to display nested responses with expected left margin */}

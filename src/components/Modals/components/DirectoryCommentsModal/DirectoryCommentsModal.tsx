@@ -4,7 +4,7 @@ import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, Comments} from 'components'
 import {getCommentsModalHeader, getCommentsOwnerRef, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
-import {ModalType, ModalStyle} from 'utils/enums'
+import {ModalType, ModalStyle, CommentsSubjectTypes} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
 
 const DirectoryCommentsModal = () => {
@@ -26,6 +26,9 @@ const DirectoryCommentsModal = () => {
     patchComment,
     patchCommentIsLoading: editedCommentIsLoading,
     patchCommentIsSuccess: editedCommentIsSuccess,
+    postReplyComment,
+    postReplyCommentIsLoading: replyCommentIsLoading,
+    postReplyCommentIsSuccess: replyCommentIsSuccess,
   } = useMidManagementComments({commentsRef})
 
   const closeModal = useCallback(() => {
@@ -58,6 +61,26 @@ const DirectoryCommentsModal = () => {
     })
   }, [patchComment, commentsRef])
 
+  const handleCommentReplySubmit = useCallback((
+    commentRef: string,
+    comment: string,
+    subjectRefs: Array<string>,
+    subjectType: CommentsSubjectTypes,
+    ownerRef: string
+  ) => {
+    postReplyComment({
+      commentRef,
+      commentsRef: commentsRef as string,
+      metadata: {
+        owner_ref: ownerRef,
+        owner_type: determineCommentOwnerType(subjectType),
+        text: comment,
+      },
+      subject_type: subjectType,
+      subjects: subjectRefs,
+    })
+  }, [postReplyComment, commentsRef])
+
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={commentsModalHeader} onCloseFn={closeModal}>
       {comments && (
@@ -67,9 +90,12 @@ const DirectoryCommentsModal = () => {
           newCommentIsSuccess={newCommentIsSuccess}
           editedCommentIsLoading={editedCommentIsLoading}
           editedCommentIsSuccess={editedCommentIsSuccess}
+          replyCommentIsLoading={replyCommentIsLoading}
+          replyCommentIsSuccess={replyCommentIsSuccess}
           handleCommentSubmit={handleNewCommentSubmit}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
+          handleCommentReplySubmit={handleCommentReplySubmit}
         />
       )}
       {commentsLoading && <p className='font-body-4'>Comments loading ...</p>}

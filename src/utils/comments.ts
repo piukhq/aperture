@@ -24,3 +24,8 @@ export const findNestedComment = (commentsArray: DirectoryComment[], commentRef:
     if (comment.responses) { return findNestedComment(comment.responses, commentRef) }
   }, null)
 )
+
+export const updateCommentResponses = (comment: DirectoryComment, newReplyComment: DirectoryComment) => {
+  const {responses} = comment
+  return responses ? [newReplyComment, ...responses] : [newReplyComment]
+}

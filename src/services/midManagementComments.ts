@@ -1,6 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryComments, DirectoryComment, DirectoryCommentMetadata} from 'types'
-import {findNestedComment} from 'utils/comments'
+import {findNestedComment, updateCommentResponses} from 'utils/comments'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {CommentsSubjectTypes, UrlEndpoint} from 'utils/enums'
 
@@ -118,6 +118,45 @@ export const midManagementCommentsApi = createApi({
         }
       },
     }),
+    postReplyComment: builder.mutation<DirectoryComment, DirectoryCommentBody>({
+      query: ({commentRef, metadata, subject_type, subjects}) => ({
+        url: `${UrlEndpoint.COMMENTS}/${commentRef}`,
+        method: 'POST',
+        body: {
+          metadata,
+          subject_type,
+          subjects,
+        },
+      }),
+      async onQueryStarted ({commentsRef, commentRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newReplyComment} = await queryFulfilled
+          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+            if (existingComments.entity_comments) {
+              const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
+              if (comment) {
+                Object.assign(comment, {...comment, responses: updateCommentResponses(comment, newReplyComment)})
+                return
+              }
+            }
+
+            if (existingComments.lower_comments) {
+              existingComments.lower_comments.forEach(lowerComment => {
+                const comment = findNestedComment(lowerComment.comments, commentRef)
+                if (comment) {
+                  Object.assign(comment, {...comment, responses: updateCommentResponses(comment, newReplyComment)})
+                  return
+                }
+              })
+            }
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
   }),
 })
 
@@ -126,4 +165,5 @@ export const {
   usePostCommentMutation,
   useDeleteCommentMutation,
   usePatchCommentMutation,
+  usePostReplyCommentMutation,
 } = midManagementCommentsApi
