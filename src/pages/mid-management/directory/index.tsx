@@ -9,7 +9,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {DirectoryPlan, OptionsMenuItems} from 'types'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useAppDispatch} from 'app/hooks'
-import {setModalHeader, setCommentsRef, setCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
@@ -67,6 +67,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
       const requestPlanCommentsModal = () => {
         dispatch(setModalHeader(name))
         dispatch(setCommentsRef(plan_ref))
+        dispatch(setCommentsOwnerRef(plan_ref))
         dispatch(setCommentsSubjectType(CommentsSubjectTypes.PLAN))
         dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
       }

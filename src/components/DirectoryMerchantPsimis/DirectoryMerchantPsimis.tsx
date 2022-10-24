@@ -10,7 +10,7 @@ import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
-import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -96,6 +96,7 @@ const DirectoryMerchantPsimis = () => {
     // TODO: Will possibly need to change from Psimis to PSIMIs
     setSelectedPsimis()
     dispatch(setModalHeader('PSIMI Comment'))
+    dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }

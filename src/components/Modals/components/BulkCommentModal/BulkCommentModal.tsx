@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from 'react'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, AutosizeTextArea, PaymentCardIcon} from 'components'
-import {getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
+import {getCommentsOwnerRef, getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {ModalStyle} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
@@ -10,6 +10,7 @@ import {DirectoryMerchantEntitySelectedItem} from 'types'
 import CheckSvg from 'icons/svgs/check.svg'
 
 const BulkCommentModal = () => {
+  const commentsOwnerRef = useAppSelector(getCommentsOwnerRef)
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
   const checkedSubjects = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
@@ -31,8 +32,7 @@ const BulkCommentModal = () => {
     if (checkedRefs.length !== 0) {
       postComment({
         metadata: {
-          // TODO: Use actual user ID
-          comment_owner: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          owner_ref: commentsOwnerRef,
           owner_type: determineCommentOwnerType(commentsSubjectType),
           text: comment,
         },
@@ -42,7 +42,7 @@ const BulkCommentModal = () => {
     } else {
       setNoSubjectsValidationIsError(true)
     }
-  }, [postComment, commentsSubjectType, checkedRefs])
+  }, [postComment, commentsSubjectType, checkedRefs, commentsOwnerRef])
 
   const handleCheckboxChange = (ref: string) => {
     setNoSubjectsValidationIsError(false)
@@ -61,8 +61,11 @@ const BulkCommentModal = () => {
       const isChecked = checkedRefs.includes(entityRef)
       return (
         <div data-testid='subject' key={entityRef} className='flex mt-[5px] ml-[5px] items-center'>
-          <input id={entityRef} type='checkbox' className='flex h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
-          <label htmlFor={entityRef} className='ml-[6px] font-body-4 font-bold mr-[2px]'>{entityValue}</label>
+          <label className='flex items-center font-body-4 font-bold mr-[2px]'>
+            <input type='checkbox' className='flex mr-[6px] h-[16px] w-[16px]' checked={isChecked} onChange={() => handleCheckboxChange(entityRef)} />
+            {entityValue}
+          </label>
+
           {paymentSchemeSlug && (
             <PaymentCardIcon
               paymentSchemeSlug={paymentSchemeSlug}

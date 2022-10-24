@@ -3,16 +3,26 @@ import {useRouter} from 'next/router'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
+import {CommentsSubjectTypes} from 'utils/enums'
 
 type Props = {
   comments: DirectoryComments
   handleCommentSubmit: (comment: string) => void
   handleCommentDelete: (commentRef: string) => void
   handleCommentEditSubmit: (commentRef: string, editedComment: string) => void
+  handleCommentReplySubmit: (
+    commentRef: string,
+    comment: string,
+    subjectRefs: Array<string>,
+    subjectType: CommentsSubjectTypes,
+    ownerRef?: string
+  ) => void
   newCommentIsLoading: boolean
   newCommentIsSuccess: boolean
   editedCommentIsLoading: boolean,
   editedCommentIsSuccess: boolean,
+  replyCommentIsLoading: boolean,
+  replyCommentIsSuccess: boolean,
   isSingleView?: boolean
 }
 
@@ -21,14 +31,18 @@ const Comments = ({
   handleCommentSubmit,
   handleCommentDelete,
   handleCommentEditSubmit,
+  handleCommentReplySubmit,
   newCommentIsSuccess,
   newCommentIsLoading,
   editedCommentIsLoading,
   editedCommentIsSuccess,
+  replyCommentIsLoading,
+  replyCommentIsSuccess,
   isSingleView,
 }: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
+  const {planId} = router.query
 
   const commentsContainerRef = useRef(null)
 
@@ -48,24 +62,29 @@ const Comments = ({
   // Do not display section header on single view modals
   const shouldDisplayCommentSectionHeading = entityComments && lowerComments && lowerComments.length > 0
 
-  const renderComment = (comment: DirectoryComment) => {
+  const renderComment = (comment: DirectoryComment, subjectType: CommentsSubjectTypes) => {
     const {responses} = comment
 
     return (
       <>
         <Comment
           comment={comment}
+          subjectType={subjectType}
           currentRoute={currentRoute}
+          currentPlanId={planId as string}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
+          handleCommentReplySubmit={handleCommentReplySubmit}
           editedCommentIsLoading={editedCommentIsLoading}
           editedCommentIsSuccess={editedCommentIsSuccess}
+          replyCommentIsLoading={replyCommentIsLoading}
+          replyCommentIsSuccess={replyCommentIsSuccess}
         />
 
         {/* Recursion used here to display nested responses with expected left margin */}
         {responses && responses.length > 0 && responses.map(response => (
-          <div key={response.ref} className='flex flex-col gap-[9px] ml-[50px]'>
-            {renderComment(response)}
+          <div key={response.comment_ref} className='flex flex-col gap-[9px] ml-[50px]'>
+            {renderComment(response, subjectType)}
           </div>
         ))}
       </>
@@ -81,8 +100,8 @@ const Comments = ({
 
         <div className='flex flex-col gap-[9px] w-[100%]'>
           {comments.map(comment => (
-            <div key={comment.ref} className={'flex flex-col gap-[9px]'}>
-              {renderComment(comment)}
+            <div key={comment.comment_ref} className={'flex flex-col gap-[9px]'}>
+              {renderComment(comment, subjectType)}
             </div>
           ))}
         </div>

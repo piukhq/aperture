@@ -7,7 +7,7 @@ import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHead
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
-import {setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -127,6 +127,7 @@ const DirectoryMerchantLocations = () => {
   const requestBulkCommentModal = () => {
     setSelectedLocations()
     dispatch(setModalHeader('Location Comment'))
+    dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
