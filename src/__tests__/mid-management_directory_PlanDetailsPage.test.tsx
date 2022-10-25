@@ -5,6 +5,11 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {PaymentSchemeSlug} from 'utils/enums'
 
+jest.mock('@auth0/nextjs-auth0', () => ({
+  UserProvider: ({children}) => children,
+  withPageAuthRequired: (component) => component,
+}))
+
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
 
