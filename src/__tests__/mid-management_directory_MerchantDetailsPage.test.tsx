@@ -5,6 +5,11 @@ import configureStore from 'redux-mock-store'
 import MerchantDetailsPage from 'pages/mid-management/directory/[planId]/[merchantId]/index'
 import {ModalType} from 'utils/enums'
 
+jest.mock('@auth0/nextjs-auth0', () => ({
+  UserProvider: ({children}) => children,
+  withPageAuthRequired: (component) => component,
+}))
+
 jest.mock('components/DirectoryDetailsHeader', () => () => <div data-testid='directory-details-header' />)
 jest.mock('components/DirectoryMerchantMids', () => () => <div data-testid='directory-merchant-mids' />)
 jest.mock('components/DirectoryMerchantPsimis', () => () => <div data-testid='directory-merchant-psimis' />)

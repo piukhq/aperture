@@ -16,6 +16,11 @@ jest.mock('hooks/useGetPlans', () => ({
   })),
 }))
 
+jest.mock('@auth0/nextjs-auth0', () => ({
+  UserProvider: ({children}) => children,
+  withPageAuthRequired: (component) => component,
+}))
+
 describe('AssetComparatorPage', () => {
   const mockStoreFn = configureStore([])
   const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
