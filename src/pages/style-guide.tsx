@@ -1,7 +1,8 @@
 import type {NextPage} from 'next'
 import {Buttons, Colours, FormElements, MenuElements, TagsStatus, Typography} from 'components/StyleGuide'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const StyleGuidePage: NextPage = () => {
+const StyleGuidePage: NextPage = withPageAuthRequired(() => {
   const sectionClass = 'min-w-[1200px] w-full bg-grey-100 dark:bg-grey-825 p-12 flex flex-col gap-6 mb-12'
 
   return (
@@ -15,6 +16,6 @@ const StyleGuidePage: NextPage = () => {
       <TagsStatus sectionClass={sectionClass}/>
     </div>
   )
-}
+})
 
 export default StyleGuidePage

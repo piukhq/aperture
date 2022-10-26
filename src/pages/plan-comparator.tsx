@@ -1,8 +1,9 @@
 import type {NextPage} from 'next'
 import Image from 'next/image'
 import {ContentTile, PageLayout} from 'components'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const PlanComparatorPage: NextPage = () => {
+const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
   return (
     <PageLayout>
       <ContentTile>
@@ -13,6 +14,6 @@ const PlanComparatorPage: NextPage = () => {
       </ContentTile>
     </PageLayout>
   )
-}
+})
 
 export default PlanComparatorPage

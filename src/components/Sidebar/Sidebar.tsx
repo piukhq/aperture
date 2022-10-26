@@ -2,9 +2,12 @@ import {useState, useEffect} from 'react'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
+import Button from 'components/Button'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelWeight} from 'components/Button/styles'
 import SidebarOption from './components/SidebarOption'
-import {RouteDisplayNames} from 'utils/enums'
+import {ModalType, RouteDisplayNames} from 'utils/enums'
 import {toggleUseApiReflector, getUseApiReflector} from 'features/apiReflectorSlice'
+import {requestModal} from 'features/modalSlice'
 
 const Sidebar = () => {
   const router = useRouter()
@@ -39,12 +42,25 @@ const Sidebar = () => {
           </nav>
         </div>
 
-        {process.env.NEXT_PUBLIC_ENV !== 'production' && (
-          <div className='fixed bottom-[50px] flex items-center'>
-            <label className='ml-[20px] mr-[10px] font-bold dark:text-white'>Enable API Reflector</label>
-            <input type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
-          </div>
-        )}
+        <div className='absolute bottom-[45px] w-full flex flex-col items-center'>
+          {process.env.NEXT_PUBLIC_ENV !== 'production' && (
+            <div className='mb-[20px]'>
+              <label className='flex items-center font-bold dark:text-white'>
+                Enable API Reflector
+                <input className='ml-[20px]' type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
+              </label>
+            </div>
+          )}
+
+          <Button
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.MEDIUM}
+            buttonBackground={ButtonBackground.RED}
+            buttonWidth={ButtonWidth.MEDIUM}
+            labelWeight={LabelWeight.SEMIBOLD}
+            handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
+          >Log out</Button>
+        </div>
       </div>
     </div>
   )

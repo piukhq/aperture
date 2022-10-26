@@ -1,3 +1,4 @@
+export {default as LogoutModal} from './components/LogoutModal'
 export {default as AssetModal} from './components/AssetModal'
 export {default as BulkCommentModal} from './components/BulkCommentModal'
 export {default as CredentialsModal} from './components/CredentialsModal'

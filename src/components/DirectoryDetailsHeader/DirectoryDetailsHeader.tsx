@@ -16,7 +16,6 @@ type Props = {
 }
 
 const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locationLabel, newItemButtonHandler, optionsMenuItems}: Props) => {
-
   const renderLocationLabel = () => (
     <>
       <div className='flex flex-col ml-[91px]'>

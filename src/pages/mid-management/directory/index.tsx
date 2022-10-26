@@ -19,8 +19,9 @@ import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const DirectoryPage: NextPage = () => {
+const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const {getPlansResponse} = useMidManagementPlans({skipGetPlan: true})
 
   const planList: DirectoryPlan[] = getPlansResponse
@@ -145,6 +146,6 @@ const DirectoryPage: NextPage = () => {
       )}
     </PageLayout>
   )
-}
+})
 
 export default DirectoryPage
