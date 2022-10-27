@@ -1,4 +1,4 @@
-import auth0 from '../../../lib/auth0'
+import auth0 from 'lib/auth0'
 import {DecodedUserAuthToken} from 'types'
 import {decodeAuthToken} from 'utils/jwtToken'
 
