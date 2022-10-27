@@ -18,9 +18,6 @@ const moduleExports = {
     locales: ['en'],
     defaultLocale: 'en',
   },
-  env: {
-    AUTH0_BASE_URL: process.env.AUTH0_BASE_URL,
-  },
 }
 
 const sentryWebpackPluginOptions = {
