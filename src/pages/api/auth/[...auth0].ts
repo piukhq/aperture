@@ -1,4 +1,4 @@
-import {handleAuth, handleCallback} from '@auth0/nextjs-auth0'
+import auth0 from '../../../lib/auth0'
 import {DecodedUserAuthToken} from 'types'
 import {decodeAuthToken} from 'utils/jwtToken'
 
@@ -12,10 +12,10 @@ const afterCallback = (req, res, session) => {
   return session
 }
 
-export default handleAuth({
+export default auth0.handleAuth({
   async callback (req, res) {
     try {
-      await handleCallback(req, res, {afterCallback})
+      await auth0.handleCallback(req, res, {afterCallback})
     } catch (error) {
       res.status(error.status || 500).end(error.message)
     }
