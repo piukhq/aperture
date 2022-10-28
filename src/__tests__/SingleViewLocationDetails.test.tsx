@@ -62,6 +62,8 @@ const mockProps = {
   isInEditState: false,
   onCancelEditState: jest.fn(),
   location: mockLocation,
+  handleRefresh: jest.fn(),
+  isRefreshing: false,
 }
 
 const getSingleViewLocationDetailsComponent = (passedProps = {}) => (
