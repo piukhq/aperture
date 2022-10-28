@@ -21,6 +21,8 @@ export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, p
     data: getMerchantMidResponse,
     isLoading: getMerchantMidIsLoading,
     error: getMerchantMidError,
+    refetch: getMerchantMidRefresh,
+    isFetching: getMerchantMidIsFetching,
   } = useGetMerchantMidQuery({planRef, merchantRef, midRef}, {skip: skipGetMid})
 
   const [postMerchantMid, {
@@ -84,6 +86,8 @@ export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, p
     getMerchantMidResponse,
     getMerchantMidIsLoading,
     getMerchantMidError,
+    getMerchantMidRefresh,
+    getMerchantMidIsFetching,
     // POST MID
     postMerchantMid,
     postMerchantMidResponse,

@@ -50,7 +50,7 @@ const DirectoryPlanModal = () => {
     if (data && data.detail) {
       const {detail} = data
       // TODO: Handle error responses other that 409 (duplicate) and everything else
-      detail.map(err => {
+      detail.forEach(err => {
         const {loc, msg} = err
         const location = loc[1]
         if (location === 'name') {

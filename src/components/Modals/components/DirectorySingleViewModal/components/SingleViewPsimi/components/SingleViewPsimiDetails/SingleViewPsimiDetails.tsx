@@ -1,9 +1,13 @@
 import {useRouter} from 'next/router'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {DirectoryPsimi} from 'types'
+import {Button} from 'components'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import RefreshSvg from 'icons/svgs/refresh.svg'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
+import {useCallback} from 'react'
 
 type Props = {
   psimi: DirectoryPsimi
@@ -16,6 +20,8 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
   const {payment_scheme_slug: paymentSchemeSlug} = psimiMetadata
 
   const {
+    getMerchantPsimiRefresh,
+    getMerchantPsimiIsFetching: isRefreshing,
     postMerchantPsimiOnboarding: postOnboarding,
     postMerchantPsimiOnboardingIsLoading: isOnboardingLoading,
     postMerchantPsimiOnboardingIsSuccess: isOnboardingSuccess,
@@ -25,7 +31,6 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
     postMerchantPsimiOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantPsimiOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementPsimis({
-    skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     psimiRef: ref as string,
@@ -48,8 +53,27 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
     })
   }
 
+  const handleRefreshButtonClick = useCallback(() => {
+    getMerchantPsimiRefresh()
+  }, [getMerchantPsimiRefresh])
+
   return (
     <>
+      <div className='flex justify-end'>
+        <Button
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+          buttonBackground={ButtonBackground.LIGHT_GREY}
+          labelColour={LabelColour.GREY}
+          labelWeight={LabelWeight.SEMIBOLD}
+          handleClick={handleRefreshButtonClick}
+          ariaLabel='Refresh PSIMI details'
+          isDisabled={isRefreshing}
+        ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
+        </Button>
+      </div>
+
       <div className='mb-[34px]'>
         <h2 className='font-modal-heading'>DATE ADDED</h2>
         <p className='font-modal-data'>{isoToDateTime(dateAdded)}</p>

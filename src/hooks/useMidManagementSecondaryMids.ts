@@ -17,6 +17,8 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     data: getMerchantSecondaryMidResponse,
     isLoading: getMerchantSecondaryMidIsLoading,
     error: getMerchantSecondaryMidError,
+    refetch: getMerchantSecondaryMidRefresh,
+    isFetching: getMerchantSecondaryMidIsFetching,
   } = useGetMerchantSecondaryMidQuery({planRef, merchantRef, secondaryMidRef}, {skip: skipGetSecondaryMid})
 
   const [deleteMerchantSecondaryMid, {
@@ -51,6 +53,8 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     getMerchantSecondaryMidResponse,
     getMerchantSecondaryMidIsLoading,
     getMerchantSecondaryMidError,
+    getMerchantSecondaryMidRefresh,
+    getMerchantSecondaryMidIsFetching,
     // DELETE Secondary MID
     deleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsSuccess,

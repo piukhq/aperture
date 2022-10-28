@@ -67,10 +67,14 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-2 mb-[34px] mt-[5px]'>
+      <nav className='h-[60px] w-full grid grid-cols-2 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
-      {tabSelected === 'Details' ? renderDetails() : <SingleViewComments subjectType={CommentsSubjectTypes.MID} />}
+      {tabSelected === 'Details' ? renderDetails() : (
+        <div className='pt-[11px]'>
+          <SingleViewComments subjectType={CommentsSubjectTypes.MID} />
+        </div>
+      )}
     </>
   )
 }
