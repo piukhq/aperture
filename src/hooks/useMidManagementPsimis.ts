@@ -17,6 +17,8 @@ export const useMidManagementPsimis = ({skipGetPsimis = false, skipGetPsimi = fa
     data: getMerchantPsimiResponse,
     isLoading: getMerchantPsimiIsLoading,
     error: getMerchantPsimiError,
+    refetch: getMerchantPsimiRefresh,
+    isFetching: getMerchantPsimiIsFetching,
   } = useGetMerchantPsimiQuery({planRef, merchantRef, psimiRef}, {skip: skipGetPsimi})
 
   const [deleteMerchantPsimi, {
@@ -51,6 +53,8 @@ export const useMidManagementPsimis = ({skipGetPsimis = false, skipGetPsimi = fa
     getMerchantPsimiResponse,
     getMerchantPsimiIsLoading,
     getMerchantPsimiError,
+    getMerchantPsimiRefresh,
+    getMerchantPsimiIsFetching,
     // DELETE PSIMI
     deleteMerchantPsimi,
     deleteMerchantPsimiIsSuccess,

@@ -1,6 +1,9 @@
-import {useState, useMemo} from 'react'
-import {Dropdown} from 'components'
+import {useState, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
+import {Button, Dropdown} from 'components'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import RefreshSvg from 'icons/svgs/refresh.svg'
+
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -21,6 +24,8 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const {payment_scheme_slug: paymentSchemeSlug} = secondaryMidMetadata
 
   const {
+    getMerchantSecondaryMidRefresh,
+    getMerchantSecondaryMidIsFetching: isRefreshing,
     postMerchantSecondaryMidOnboarding: postOnboarding,
     postMerchantSecondaryMidOnboardingIsLoading: isOnboardingLoading,
     postMerchantSecondaryMidOnboardingIsSuccess: isOnboardingSuccess,
@@ -30,7 +35,6 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     postMerchantSecondaryMidOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementSecondaryMids({
-    skipGetSecondaryMid: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
@@ -53,8 +57,28 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     })
   }
 
+  const handleRefreshButtonClick = useCallback(() => {
+    getMerchantSecondaryMidRefresh()
+  }, [getMerchantSecondaryMidRefresh])
+
+
   return (
     <>
+      <div className='flex justify-end'>
+        <Button
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+          buttonBackground={ButtonBackground.LIGHT_GREY}
+          labelColour={LabelColour.GREY}
+          labelWeight={LabelWeight.SEMIBOLD}
+          handleClick={handleRefreshButtonClick}
+          ariaLabel='Refresh Secondary MID details'
+          isDisabled={isRefreshing}
+        ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
+        </Button>
+      </div>
+
       <div className='mb-[34px]'>
         <h2 className='font-modal-heading'>DATE ADDED</h2>
         <p className='font-modal-data'>{isoToDateTime(dateAdded)}</p>

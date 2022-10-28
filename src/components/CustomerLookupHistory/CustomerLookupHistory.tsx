@@ -21,10 +21,9 @@ const CustomerLookupHistory = ({lookupHistory, jwtCustomerLookup}: Props) => {
       case BundleID.BINK_WALLET_BUNDLE_ID:
         return <BinkBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
       case BundleID.BARCLAYS_BUNDLE_ID:
-        return <BarclaysBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
       default:
+        return <BarclaysBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
         // Unsure if the Bink Internal Bundle needs to be explicitly dealt with
-        return <BinkBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
     }
   }
 
