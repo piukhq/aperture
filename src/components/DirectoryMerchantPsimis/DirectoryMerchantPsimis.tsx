@@ -11,6 +11,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {determineHarmoniaStatus} from 'utils/harmoniaStatus'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -48,7 +49,7 @@ const DirectoryMerchantPsimis = () => {
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return psimisData.map((psimiObj: DirectoryPsimi) => {
-      const {date_added: dateAdded, psimi_metadata: metadata} = psimiObj
+      const {date_added: dateAdded, psimi_metadata: metadata, txm_status: txmStatus} = psimiObj
       const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_slug: paymentSchemeSlug} = metadata
       return [
         {
@@ -66,7 +67,7 @@ const DirectoryMerchantPsimis = () => {
           displayValue: dateAdded,
           additionalStyles: 'font-body-3 truncate',
         },
-        {},
+        {...determineHarmoniaStatus(txmStatus)},
       ]
     })
   }
