@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {DirectoryMerchantLocations} from 'components'
 import {PaymentSchemeSlug} from 'utils/enums'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 const mockGetMerchantLocationsResponse = [
   {
@@ -39,6 +40,8 @@ const mockGetMerchantLocationsResponse = [
   },
 ]
 
+const mockLocationLabel = 'mock_location_label'
+
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 
 jest.mock('hooks/useMidManagementLocations', () => ({
@@ -56,7 +59,7 @@ const store = mockStoreFn({
 
 const getDirectoryMerchantLocationsComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <DirectoryMerchantLocations />
+    <DirectoryMerchantLocations locationLabel={mockLocationLabel} />
   </Provider>
 )
 
@@ -83,7 +86,7 @@ describe('DirectoryMerchantLocations', () => {
   it('should render the add store button', () => {
     render(getDirectoryMerchantLocationsComponent())
     const addStoreButton = screen.getByRole('button', {
-      name: 'Add Store',
+      name: `Add ${capitaliseFirstLetter(mockLocationLabel)}`,
     })
 
     expect(addStoreButton).toBeInTheDocument()

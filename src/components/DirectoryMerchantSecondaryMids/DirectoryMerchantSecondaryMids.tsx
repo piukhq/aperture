@@ -11,6 +11,7 @@ import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {determineHarmoniaStatus} from 'utils/harmoniaStatus'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -51,7 +52,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
-      const {date_added: dateAdded, secondary_mid_metadata: metadata} = secondaryMidObj
+      const {date_added: dateAdded, secondary_mid_metadata: metadata, txm_status: txmStatus} = secondaryMidObj
       const {secondary_mid: secondaryMid, payment_scheme_slug: paymentSchemeSlug, payment_scheme_store_name: paymentSchemeStoreName} = metadata
       return [
         {
@@ -70,7 +71,7 @@ const DirectoryMerchantSecondaryMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {},
-        {},
+        {...determineHarmoniaStatus(txmStatus)},
       ]
     })
   }
