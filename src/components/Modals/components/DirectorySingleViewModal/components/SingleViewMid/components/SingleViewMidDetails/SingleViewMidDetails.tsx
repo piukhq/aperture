@@ -207,7 +207,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   return (
     <>
-      <div className='flex justify-end'>
+      <div data-testid='mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

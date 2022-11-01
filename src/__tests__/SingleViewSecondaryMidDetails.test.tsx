@@ -25,10 +25,13 @@ const mockMerchantSecondaryMid = {
   txm_status: mockTxmStatus,
 }
 
+let mockIsFetching = false
+
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
     postMerchantPsimiOnboarding: jest.fn(),
     postMerchantPsimiOffboarding: jest.fn(),
+    getMerchantSecondaryMidIsFetching: mockIsFetching,
   })),
 }))
 
@@ -87,4 +90,16 @@ describe('SingleViewSecondaryMidDetails', () => {
     })
   })
 
+  describe('Test refresh button', () => {
+    it('should render the "Refresh" button text when not refreshing', () => {
+      render(getSingleViewSecondaryMidDetailsComponent())
+      expect(screen.getByTestId('secondary-mid-refresh-button')).toHaveTextContent('Refresh')
+    })
+
+    it('should render the "Refreshing" button text when not refreshing', () => {
+      mockIsFetching = true
+      render(getSingleViewSecondaryMidDetailsComponent())
+      expect(screen.getByTestId('secondary-mid-refresh-button')).toHaveTextContent('Refreshing')
+    })
+  })
 })
