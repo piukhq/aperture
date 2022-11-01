@@ -1,7 +1,9 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
-import {Dropdown} from 'components'
+import {Button, Dropdown} from 'components'
+import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import SingleViewMidEditableField from './components/SingleViewMidEditableField'
+import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
@@ -24,6 +26,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {planId, merchantId, ref} = router.query
 
   const {
+    getMerchantMidRefresh,
+    getMerchantMidIsFetching,
     patchMerchantMid,
     patchMerchantMidResponse,
     patchMerchantMidError,
@@ -48,13 +52,16 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     resetPostMerchantMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementMids({
     skipGetMids: true,
-    skipGetMid: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     midRef: ref as string,
   })
 
-  const {getMerchantLocationsResponse} = useMidManagementLocations({
+  const {
+    getMerchantLocationsResponse,
+    getMerchantLocationsRefresh,
+    getMerchantLocationsIsFetching,
+  } = useMidManagementLocations({
     skipGetLocation: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -71,6 +78,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
   const [editableVisaBin, setEditableVisaBin] = useState('')
   const [associatedLocationRef, setAssociatedLocationRef] = useState('')
+
+  const isRefreshing = getMerchantMidIsFetching || getMerchantLocationsIsFetching
 
   // Creates a list of locations titles and refs for the dropdown component to consume
   const locationStringsList = useMemo(() => locationsData.map(locationObj => {
@@ -92,7 +101,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
     if (data && data.detail) {
       const {detail} = data
-      detail.map(err => {
+      detail.forEach(err => {
         const {loc} = err
         const location = loc[1]
         if (location === 'visa_bin') {
@@ -184,6 +193,10 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     })
   }
 
+  const handleRefreshButtonClick = useCallback(() => {
+    getMerchantMidRefresh()
+    getMerchantLocationsRefresh()
+  }, [getMerchantMidRefresh, getMerchantLocationsRefresh])
 
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
@@ -194,6 +207,21 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   return (
     <>
+      <div data-testid='mid-refresh-button' className='flex justify-end'>
+        <Button
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+          buttonBackground={ButtonBackground.LIGHT_GREY}
+          labelColour={LabelColour.GREY}
+          labelWeight={LabelWeight.SEMIBOLD}
+          handleClick={handleRefreshButtonClick}
+          ariaLabel='Refresh MID details'
+          isDisabled={isRefreshing}
+        ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
+        </Button>
+      </div>
+
       <div className='mb-[34px]'>
         <h2 className='font-modal-heading'>DATE ADDED</h2>
         <p className='font-modal-data'>{isoToDateTime(dateAdded)}</p>

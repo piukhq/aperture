@@ -1,4 +1,4 @@
-import {useState, useEffect, memo} from 'react'
+import {useState, useEffect, memo, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -23,7 +23,11 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantLocationResponse} = useMidManagementLocations({
+  const {
+    getMerchantLocationResponse,
+    getMerchantLocationRefresh,
+    getMerchantLocationIsFetching,
+  } = useMidManagementLocations({
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
@@ -75,15 +79,21 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
     ))
   }
 
+  const handleRefresh = useCallback(() => {
+    getMerchantLocationRefresh()
+  }, [getMerchantLocationRefresh])
+
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
         return getMerchantLocationResponse ? (
-          <div className='px-[25px]'>
+          <div className='pl-[25px] pr-[10px]'>
             <SingleViewLocationDetails
               location={getMerchantLocationResponse}
               isInEditState={isInEditState}
               onCancelEditState={onCancelEditState}
+              handleRefresh={handleRefresh}
+              isRefreshing={getMerchantLocationIsFetching}
             />
           </div>
         ) : null
@@ -100,13 +110,17 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
           </div>
         )
       case DirectorySingleViewTabs.COMMENTS:
-        return <SingleViewComments subjectType={CommentsSubjectTypes.LOCATION} />
+        return (
+          <div className='pt-[11px]'>
+            <SingleViewComments subjectType={CommentsSubjectTypes.LOCATION} />
+          </div>
+        )
     }
   }
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-4 mb-[34px] mt-[5px]'>
+      <nav className='h-[60px] w-full grid grid-cols-4 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
       {renderSelectedTabContent()}

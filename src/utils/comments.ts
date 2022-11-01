@@ -5,13 +5,13 @@ export const determineCommentOwnerType = (commentsSubjectType: CommentsSubjectTy
   switch (commentsSubjectType) {
     case CommentsSubjectTypes.PLAN:
     case CommentsSubjectTypes.MERCHANT:
+    default:
       return CommentsOwnerTypes.PLAN
     case CommentsSubjectTypes.MID:
     case CommentsSubjectTypes.LOCATION:
     case CommentsSubjectTypes.SECONDARY_MID:
     case CommentsSubjectTypes.PSIMI:
       return CommentsOwnerTypes.MERCHANT
-    default: return CommentsOwnerTypes.PLAN
   }
 }
 

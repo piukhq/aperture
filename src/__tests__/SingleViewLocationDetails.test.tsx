@@ -62,6 +62,8 @@ const mockProps = {
   isInEditState: false,
   onCancelEditState: jest.fn(),
   location: mockLocation,
+  handleRefresh: jest.fn(),
+  isRefreshing: false,
 }
 
 const getSingleViewLocationDetailsComponent = (passedProps = {}) => (
@@ -146,6 +148,18 @@ describe('SingleViewLocationDetails', () => {
     it('should render the EditLocationForm', () => {
       render(getSingleViewLocationDetailsComponent({isInEditState: true}))
       expect(screen.getByTestId('EditLocationForm')).toBeInTheDocument()
+    })
+  })
+
+  describe('Test refresh button', () => {
+    it('should render the "Refresh" button text when not refreshing', () => {
+      render(getSingleViewLocationDetailsComponent())
+      expect(screen.getByTestId('location-refresh-button')).toHaveTextContent('Refresh')
+    })
+
+    it('should render the "Refreshing" button text when not refreshing', () => {
+      render(getSingleViewLocationDetailsComponent({isRefreshing: true}))
+      expect(screen.getByTestId('location-refresh-button')).toHaveTextContent('Refreshing')
     })
   })
 })

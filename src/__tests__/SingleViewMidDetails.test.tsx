@@ -15,6 +15,7 @@ const mockTxmStatus = 'onboarded' // Must match a value provided by DirectoryTxm
 let mockPatchErrorResponse = null
 let mockPutErrorResponse = null
 let mockDeleteErrorResponse = null
+let mockIsFetching = false
 
 const mockMerchantMid = {
   location: {
@@ -77,6 +78,7 @@ jest.mock('hooks/useMidManagementMids', () => ({
     resetPatchMerchantMidResponse: jest.fn(),
     putMerchantMidLocationError: mockPutErrorResponse,
     deleteMerchantMidLocationError: mockDeleteErrorResponse,
+    getMerchantMidIsFetching: mockIsFetching,
   })),
 }))
 
@@ -231,6 +233,19 @@ describe('SingleViewMidDetails', () => {
     it('should render the Harmonia Status component', () => {
       render(getSingleViewMidDetailsComponent())
       expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
+    })
+  })
+
+  describe('Test refresh button', () => {
+    it('should render the "Refresh" button text when not refreshing', () => {
+      render(getSingleViewMidDetailsComponent())
+      expect(screen.getByTestId('mid-refresh-button')).toHaveTextContent('Refresh')
+    })
+
+    it('should render the "Refreshing" button text when not refreshing', () => {
+      mockIsFetching = true
+      render(getSingleViewMidDetailsComponent())
+      expect(screen.getByTestId('mid-refresh-button')).toHaveTextContent('Refreshing')
     })
   })
 })

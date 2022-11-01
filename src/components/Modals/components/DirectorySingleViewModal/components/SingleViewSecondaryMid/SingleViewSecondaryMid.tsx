@@ -59,7 +59,7 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
         return getMerchantSecondaryMidResponse ? (
-          <div className='px-[25px]'>
+          <div className='pl-[25px] pr-[10px]'>
             <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} />
           </div>
         ) : null
@@ -70,14 +70,18 @@ const SingleViewSecondaryMid = ({setHeaderFn}: Props) => {
           </div>
         )
       case DirectorySingleViewTabs.COMMENTS:
-        return <SingleViewComments subjectType={CommentsSubjectTypes.SECONDARY_MID} />
+        return (
+          <div className='pt-[11px]'>
+            <SingleViewComments subjectType={CommentsSubjectTypes.SECONDARY_MID} />
+          </div>
+        )
     }
   }
 
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-3 mb-[34px] mt-[5px]'>
+      <nav className='h-[60px] w-full grid grid-cols-3 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
       {renderSelectedTabContent()}
