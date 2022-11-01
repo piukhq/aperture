@@ -59,7 +59,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
 
   return (
     <>
-      <div className='flex justify-end'>
+      <div data-testid='psimi-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

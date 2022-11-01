@@ -64,7 +64,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
 
   return (
     <>
-      <div className='flex justify-end'>
+      <div data-testid='secondary-mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}

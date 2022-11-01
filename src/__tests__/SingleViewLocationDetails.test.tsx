@@ -150,4 +150,16 @@ describe('SingleViewLocationDetails', () => {
       expect(screen.getByTestId('EditLocationForm')).toBeInTheDocument()
     })
   })
+
+  describe('Test refresh button', () => {
+    it('should render the "Refresh" button text when not refreshing', () => {
+      render(getSingleViewLocationDetailsComponent())
+      expect(screen.getByTestId('location-refresh-button')).toHaveTextContent('Refresh')
+    })
+
+    it('should render the "Refreshing" button text when not refreshing', () => {
+      render(getSingleViewLocationDetailsComponent({isRefreshing: true}))
+      expect(screen.getByTestId('location-refresh-button')).toHaveTextContent('Refreshing')
+    })
+  })
 })

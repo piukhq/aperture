@@ -25,10 +25,13 @@ const mockMerchantPsimi = {
   txm_status: mockTxmStatus,
 }
 
+let mockIsFetching = false
+
 jest.mock('hooks/useMidManagementPsimis', () => ({
   useMidManagementPsimis: jest.fn().mockImplementation(() => ({ // Placeholder for future functionality
     postMerchantPsimiOnboarding: jest.fn(),
     postMerchantPsimiOffboarding: jest.fn(),
+    getMerchantPsimiIsFetching: mockIsFetching,
   })),
 }))
 
@@ -77,6 +80,19 @@ describe('SingleViewPsimiDetails', () => {
     it('should render the Harmonia Status component', () => {
       render(getSingleViewPsimiDetailsComponent())
       expect(screen.getByTestId('harmonia-status')).toBeInTheDocument()
+    })
+  })
+
+  describe('Test refresh button', () => {
+    it('should render the "Refresh" button text when not refreshing', () => {
+      render(getSingleViewPsimiDetailsComponent())
+      expect(screen.getByTestId('psimi-refresh-button')).toHaveTextContent('Refresh')
+    })
+
+    it('should render the "Refreshing" button text when not refreshing', () => {
+      mockIsFetching = true
+      render(getSingleViewPsimiDetailsComponent())
+      expect(screen.getByTestId('psimi-refresh-button')).toHaveTextContent('Refreshing')
     })
   })
 })

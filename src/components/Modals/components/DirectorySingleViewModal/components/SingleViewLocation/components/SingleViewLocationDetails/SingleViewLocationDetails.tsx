@@ -44,7 +44,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
   const renderReadOnlyState = () => {
     return (
       <>
-        <div className='flex justify-end'>
+        <div data-testid='location-refresh-button' className='flex justify-end'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
