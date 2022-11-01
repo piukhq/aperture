@@ -17,7 +17,9 @@ export default auth0.handleAuth({
     try {
       await auth0.handleCallback(req, res, {afterCallback})
     } catch (error) {
-      res.status(error.status || 500).end(error.message)
+      console.error(error)
+      res.setHeader('Content-Type', 'application/json; charset=utf-8')
+      res.status(error.status || 500).send(error.message)
     }
   },
 })
