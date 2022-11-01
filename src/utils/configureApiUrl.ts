@@ -30,6 +30,22 @@ const getLoyaltySpecificValues = (env: string) => {
   }
 }
 
+const getAccessToken = async () => {
+  try {
+    const token = await fetch('/api/accessToken')
+      .then((response) => response.json())
+      .catch((error) => {
+        console.error(error)
+        return null
+      })
+
+    return token
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 export const getDynamicBaseQuery = (configOptions?: {isLoyaltyApi: boolean, env?: string}): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
   const {isLoyaltyApi = false, env = ''} = configOptions || {}
 
@@ -37,7 +53,7 @@ export const getDynamicBaseQuery = (configOptions?: {isLoyaltyApi: boolean, env?
 
   const [url, token] = isLoyaltyApi ? getLoyaltySpecificValues(env) : [
     process.env.NEXT_PUBLIC_PORTAL_API_URL,
-    `token ${process.env.NEXT_PUBLIC_PORTAL_API_KEY}`,
+    `Bearer ${await getAccessToken()}`,
   ]
 
   const dynamicUrl = shouldUseApiReflector ? ApiReflectorUrl.REFLECTOR_URL : url
