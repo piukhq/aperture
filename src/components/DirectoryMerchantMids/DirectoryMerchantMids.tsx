@@ -13,6 +13,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
+import {determineHarmoniaStatus} from 'utils/harmoniaStatus'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -53,7 +54,7 @@ const DirectoryMerchantMids = () => {
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
-      const {date_added: dateAdded, mid_metadata: metadata} = midObj
+      const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
       const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin} = metadata
       return [
         {
@@ -72,7 +73,7 @@ const DirectoryMerchantMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {},
-        {},
+        {...determineHarmoniaStatus(txmStatus)},
       ]
     })
   }

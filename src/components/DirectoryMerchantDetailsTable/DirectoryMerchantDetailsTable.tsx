@@ -67,7 +67,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
             </div>
           </th>
           {renderTableHeaders()}
-          { <th key={'copy-header'} data-testid='table-header' aria-label='payment-scheme' className=' w-[50px] rounded-r-[10px]' /> }
+          <th key={'copy-header'} data-testid='table-header' aria-label='payment-scheme' className=' w-[50px] rounded-r-[10px]' />
         </tr>
       </thead>
 

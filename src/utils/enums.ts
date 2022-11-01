@@ -134,6 +134,14 @@ enum LinkableEntities {
 }
 
 enum DirectoryTxmStatus {
+  ONBOARDED = 'onboarded',
+  NOT_ONBOARDED = 'not_onboarded',
+  ONBOARDING = 'onboarding',
+  OFFBOARDING = 'offboarding',
+  OFFBOARDED = 'offboarded',
+}
+
+enum DirectoryTxmStatusDisplayValue {
   'onboarded' = 'Onboarded',
   'not_onboarded'= 'Not Onboarded',
   'onboarding'= 'Onboarding',
@@ -175,6 +183,7 @@ export {
   DirectorySingleViewTabs,
   LinkableEntities,
   DirectoryTxmStatus,
+  DirectoryTxmStatusDisplayValue,
   CommentsOwnerTypes,
   CommentsSubjectTypes,
 }

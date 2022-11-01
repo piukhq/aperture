@@ -1,7 +1,7 @@
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useEffect, useState} from 'react'
-import {DirectoryTxmStatus} from 'utils/enums'
+import {DirectoryTxmStatusDisplayValue} from 'utils/enums'
 
 type Props = {
   txmStatus: string
@@ -25,16 +25,16 @@ const HarmoniaStatus = ({
 }: Props) => {
 
   const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
-  const harmoniaStatus = DirectoryTxmStatus[txmStatus]
+  const harmoniaStatus = DirectoryTxmStatusDisplayValue[txmStatus]
 
   useEffect(() => {
-    if (harmoniaStatus === DirectoryTxmStatus.offboarding || isOffboardingLoading) {
+    if (harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding || isOffboardingLoading) {
       setHarmoniaStatusButtonAction('Offboarding')
-    } else if (harmoniaStatus === DirectoryTxmStatus.onboarding || isOnboardingLoading) {
+    } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || isOnboardingLoading) {
       setHarmoniaStatusButtonAction('Onboarding')
-    } else if (harmoniaStatus === DirectoryTxmStatus.onboarded) {
+    } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarded) {
       setHarmoniaStatusButtonAction('Offboard')
-    } else if (harmoniaStatus === DirectoryTxmStatus.not_onboarded || DirectoryTxmStatus.offboarded) {
+    } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.not_onboarded || DirectoryTxmStatusDisplayValue.offboarded) {
       setHarmoniaStatusButtonAction('Onboard')
     }
   }, [harmoniaStatus, isOffboardingLoading, isOffboardingSuccess, isOnboardingLoading, isOnboardingSuccess, txmStatus])
@@ -46,14 +46,14 @@ const HarmoniaStatus = ({
         <p className='font-modal-data' data-testid='harmonia-status'>{harmoniaStatus}</p>
       </div>
       <Button
-        handleClick={() => harmoniaStatus === DirectoryTxmStatus.onboarded ? offboardEntityFn() : onboardEntityFn()}
+        handleClick={() => harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarded ? offboardEntityFn() : onboardEntityFn()}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.MEDIUM}
         buttonBackground={ButtonBackground.LIGHT_GREY}
         labelColour={LabelColour.GREY}
         labelWeight={LabelWeight.SEMIBOLD}
-        isDisabled={isOnboardingLoading || isOffboardingLoading || (harmoniaStatus === DirectoryTxmStatus.onboarding || harmoniaStatus === DirectoryTxmStatus.offboarding)}
+        isDisabled={isOnboardingLoading || isOffboardingLoading || (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding)}
       > {harmoniaStatusButtonAction}
       </Button>
     </section>
