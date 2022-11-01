@@ -69,7 +69,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       case DirectoryNavigationTab.MIDS:
         return <DirectoryMerchantMids/>
       case DirectoryNavigationTab.LOCATIONS:
-        return <DirectoryMerchantLocations />
+        return <DirectoryMerchantLocations locationLabel={merchant.merchant_metadata.location_label} />
       case DirectoryNavigationTab.PSIMIS:
         return <DirectoryMerchantPsimis/>
       case DirectoryNavigationTab.SECONDARY_MIDS:
