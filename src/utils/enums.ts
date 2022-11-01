@@ -13,6 +13,7 @@ enum UrlEndpoint {
   USERS = '/users',
   PLANS = '/api/v1/plans',
   COMMENTS = '/api/v1/directory_comments',
+  USER_LOOKUP = '/api/v1/customer_wallet/user_lookups'
 }
 
 enum ClientID {
