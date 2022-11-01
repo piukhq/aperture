@@ -8,6 +8,7 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -37,7 +38,11 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   },
 ]
 
-const DirectoryMerchantLocations = () => {
+type Props = {
+  locationLabel: string
+}
+
+const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId, planId} = router.query
 
@@ -166,7 +171,7 @@ const DirectoryMerchantLocations = () => {
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
-        >Add Store
+        >{`Add ${capitaliseFirstLetter(locationLabel)}`}
         </Button>
       </div>
 
