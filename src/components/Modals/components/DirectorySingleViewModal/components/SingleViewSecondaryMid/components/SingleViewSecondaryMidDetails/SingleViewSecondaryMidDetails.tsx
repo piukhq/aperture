@@ -90,7 +90,9 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
         </div>
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
-          <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={setPaymentSchemeStatus} />
+          <div className='w-[180px] h-[28px]'>
+            <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={setPaymentSchemeStatus} selectedValueStyles='font-normal text-grey-600' />
+          </div>
         </div>
       </section>
       <HarmoniaStatus

@@ -13,7 +13,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
-import {determineHarmoniaStatus} from 'utils/harmoniaStatus'
+import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -55,7 +55,7 @@ const DirectoryMerchantMids = () => {
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
-      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin} = metadata
+      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = metadata
       return [
         {
           paymentSchemeSlug,
@@ -72,8 +72,8 @@ const DirectoryMerchantMids = () => {
           displayValue: dateAdded,
           additionalStyles: 'font-body-3 truncate',
         },
-        {},
-        {...determineHarmoniaStatus(txmStatus)},
+        {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},
+        {...getHarmoniaStatusString(txmStatus)},
       ]
     })
   }
