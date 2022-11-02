@@ -159,6 +159,24 @@ enum PlanCategory {
   IMAGES = 'images',
 }
 
+enum PaymentSchemeStatus {
+  UNKNOWN = 'unknown',
+  ENROLLED = 'enrolled',
+  ENROLLING = 'enrolling',
+  NOT_ENROLLED = 'not_enrolled',
+  UN_ENROLLED = 'un_enrolled',
+  FAILED = 'failed',
+}
+
+enum PaymentSchemeStatusDisplayValue {
+  'unknown' = 'Unknown',
+  'enrolled' = 'Enrolled',
+  'enrolling' = 'Enrolling',
+  'not_enrolled' = 'Not Enrolled',
+  'un_enrolled' = 'Removed',
+  'failed' = 'Failed',
+}
+
 enum CommentsOwnerTypes {
   PLAN = 'plan',
   MERCHANT = 'merchant',
@@ -195,6 +213,8 @@ export {
   PlanCategory,
   DirectoryTxmStatus,
   DirectoryTxmStatusDisplayValue,
+  PaymentSchemeStatus,
+  PaymentSchemeStatusDisplayValue,
   CommentsOwnerTypes,
   CommentsSubjectTypes,
 }
