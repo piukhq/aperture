@@ -11,7 +11,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
-import {determineHarmoniaStatus} from 'utils/harmoniaStatus'
+import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -67,7 +67,7 @@ const DirectoryMerchantPsimis = () => {
           displayValue: dateAdded,
           additionalStyles: 'font-body-3 truncate',
         },
-        {...determineHarmoniaStatus(txmStatus)},
+        {...getHarmoniaStatusString(txmStatus)},
       ]
     })
   }
