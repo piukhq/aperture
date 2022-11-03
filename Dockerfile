@@ -11,7 +11,7 @@ FROM node:slim
 ARG ENVIRONMENT
 ENV NODE_ENV=${ENVIRONMENT}
 RUN apt-get update
-RUN apt-get install libssl
+RUN apt-get upgrade openssl
 WORKDIR /app
 COPY --from=deps /app/next.config.js /app/package.json ./
 COPY --from=deps /app/public ./public/
