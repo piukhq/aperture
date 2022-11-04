@@ -108,9 +108,8 @@ const PlanComparator = ({plans}: Props) => {
 
     // Check for how many keys for a category match across environments
     const totalMatchingCategoryKeys = categoryKeys.reduce((acc, categoryKey) => { // TODO: Manually memoise this
-      const allPlansHaveSameValue = isKeyMatchedAcrossEnvs(categoryKey)
       // eslint-disable-next-line no-param-reassign
-      allPlansHaveSameValue && acc++
+      isKeyMatchedAcrossEnvs(categoryKey) && acc++
       return acc
     }, 0)
 
@@ -186,16 +185,13 @@ const PlanComparator = ({plans}: Props) => {
 
 export default PlanComparator
 
-
 // Stuff to do
 
-// 4 only one env?
-// 5. Images, and content ordering
+// 1. Make Plan Summary look cool
+// 2.content ordering
+// 4. Write that part to show all properties in each env
+// 3. When not matching offer a button to launch modal to see value in each env
+// 5. Make it look cool. Animate dropdown
 
-
-// 6. When not matching offer a button to launch modal to see value in each env
-// 7. Write that modal to show all properties in each env
-// 8. Make it look cool. Animate dropdown
-
-// remove isPrimitive if not using
+// 6. remove isPrimitive if not using
 
