@@ -19,6 +19,11 @@ enum PlanCategory {
 }
 
 const PlanComparator = ({plans}: Props) => {
+
+  // used for plan summary component
+  let totalKeys = 0
+  let totalMatches = 0
+
   const {dev, staging, prod} = plans
 
   const plansArray = [] // TODO: Temp check for multiple plans
@@ -113,6 +118,8 @@ const PlanComparator = ({plans}: Props) => {
       return acc
     }, 0)
 
+    totalKeys += categoryKeys.length
+    totalMatches += totalMatchingCategoryKeys
 
     const allKeysMatch = totalMatchingCategoryKeys === categoryKeys.length
     const noKeys = categoryKeys.length === 0
@@ -167,7 +174,7 @@ const PlanComparator = ({plans}: Props) => {
     }
 
     return (
-      <details key={category} className={`m-[10px] rounded-[10px] min-h-[50px] p-[20px] shadow-md min-w-[800px]
+      <details key={category} className={`mt-[30px] rounded-[10px] min-h-[50px] p-[20px] shadow-md min-w-[800px]
         ${noKeys ? 'bg-grey-200 dark:bg-grey-800' : allKeysMatch ? 'bg-green/20' : 'bg-red/20'}`}>
         {renderCategorySummary()}
         {renderCategoryDetails()}
@@ -175,10 +182,12 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
+  const renderPlanCategories = planCategories.map(category => comparePlanCategory(category))
+
   return (
     <div className='w-full p-[20px] flex flex-col items-center'>
-      <PlanSummary plans={plans} plansArray={plansArray}/>
-      {planCategories.map(category => comparePlanCategory(category))}
+      <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
+      {renderPlanCategories}
     </div>
   )
 }
@@ -187,7 +196,8 @@ export default PlanComparator
 
 // Stuff to do
 
-// 1. Make Plan Summary look cool
+// 1. Make Plan Summary look cool - Done
+// 1.5 hide links to non-existent djangos
 // 2.content ordering
 // 4. Write that part to show all properties in each env
 // 3. When not matching offer a button to launch modal to see value in each env
