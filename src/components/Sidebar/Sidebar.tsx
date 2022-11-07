@@ -1,17 +1,22 @@
-import {useState, useEffect} from 'react'
+import {useState, useEffect, memo} from 'react'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import Button from 'components/Button'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelWeight} from 'components/Button/styles'
 import SidebarOption from './components/SidebarOption'
-import {ModalType, RouteDisplayNames} from 'utils/enums'
+import {ModalType, RouteDisplayNames, UserPermissions} from 'utils/enums'
 import {toggleUseApiReflector, getUseApiReflector} from 'features/apiReflectorSlice'
 import {requestModal} from 'features/modalSlice'
+import {useUser} from '@auth0/nextjs-auth0'
+import {AuthUser} from 'types'
 
 const Sidebar = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
+
+  const {user = {}} = useUser()
+  const {permissions = []} = user as AuthUser
 
   const isApiReflectorEnabled = useAppSelector(getUseApiReflector)
 
@@ -24,6 +29,17 @@ const Sidebar = () => {
     setSelectedTool(router.pathname.substring(1))
   }, [router.pathname])
 
+  const getSidebarNavOptions = () => {
+    return sideOptions.filter(option => {
+      if (option === 'mid-management') {
+        return permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY)
+      } else if (option === 'customer-wallets') {
+        return permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_ONLY)
+      }
+      return true
+    })
+  }
+
   return (
     <div className='pr-64 z-[1]'>
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 '>
@@ -34,7 +50,7 @@ const Sidebar = () => {
         <div className='mt-6'>
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
-            {sideOptions.map(option => {
+            {getSidebarNavOptions().map(option => {
               // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
               const selected = selectedTool === option || selectedTool.includes(option)
               return <SidebarOption key={option} option={option} selected={selected} />
@@ -67,4 +83,4 @@ const Sidebar = () => {
 }
 
 
-export default Sidebar
+export default memo(Sidebar)
