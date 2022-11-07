@@ -1,5 +1,6 @@
 import {ReactNode} from 'react'
-import {CommentsOwnerTypes, CommentsSubjectTypes, PaymentSchemeName} from 'utils/enums'
+import {CommentsOwnerTypes, CommentsSubjectTypes, PaymentSchemeName, PaymentSchemeSlug, UserPermissions} from 'utils/enums'
+import {UserProfile} from '@auth0/nextjs-auth0'
 
 type PlanAccount = {
   add_fields: Array<unknown>,
@@ -319,13 +320,8 @@ export type DirectoryMerchantDetailsTableCell = {
   displayValue?: string
 }
 
-export type UserPermissions = {
-  MERCHANT_DATA_READ_ONLY: 'merchant_data:ro',
-  MERCHANT_DATA_READ_WRITE: 'merchant_data:rw',
-  MERCHANT_DATA_READ_WRITE_DELETE: 'merchant_data:rwd',
-  CUSTOMER_WALLET_READ_ONLY: 'customer_wallet:ro',
-  CUSTOMER_WALLET_READ_WRITE: 'customer_wallet:rw',
-  CUSTOMER_WALLET_READ_WRITE_DELETE: 'customer_wallet:rwd',
+export type AuthUser = UserProfile & {
+  permissions: Array<UserPermissions>
 }
 
 export type DecodedUserJWTToken = {
