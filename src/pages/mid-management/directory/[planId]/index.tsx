@@ -64,9 +64,9 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
-      clickHandler: () => console.log('Launch Delete Modal Placeholder'),
+      clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE)),
     },
-  ], [requestPlanCommentsModal])
+  ], [requestPlanCommentsModal, dispatch])
 
   const renderMerchants = (merchants: Array<DirectoryMerchantDetails>) => {
     return (
