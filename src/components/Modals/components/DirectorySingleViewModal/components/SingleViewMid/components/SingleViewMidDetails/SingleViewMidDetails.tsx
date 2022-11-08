@@ -243,6 +243,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         dropdownValues={locationValues}
         header='LOCATION'
         label='location'
+        actionVerb='unlink'
         value={getAssociatedLocationString()}
         isSaving={putMerchantMidLocationIsLoading}
         handleValueChange={handleLocationChange}
@@ -262,6 +263,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         <SingleViewMidEditableField
           header='BIN'
           label='BIN'
+          actionVerb='delete'
           value={editableVisaBin}
           isSaving={patchMerchantMidIsLoading}
           handleValueChange={setEditableVisaBin}
