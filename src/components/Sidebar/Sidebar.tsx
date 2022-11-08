@@ -22,15 +22,15 @@ const Sidebar = () => {
 
   const [selectedTool, setSelectedTool] = useState('')
 
-  const sideOptions = Object.keys(RouteDisplayNames)
+  const sidebarOptions = Object.keys(RouteDisplayNames)
 
   useEffect(() => {
     // Remove the / at the start of the route path
     setSelectedTool(router.pathname.substring(1))
   }, [router.pathname])
 
-  const getSidebarNavOptions = () => {
-    return sideOptions.filter(option => {
+  const getSidebarOptions = () => {
+    return sidebarOptions.filter(option => {
       if (option === 'mid-management') {
         return permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY)
       } else if (option === 'customer-wallets') {
@@ -50,7 +50,7 @@ const Sidebar = () => {
         <div className='mt-6'>
           <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
-            {getSidebarNavOptions().map(option => {
+            {getSidebarOptions().map(option => {
               // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
               const selected = selectedTool === option || selectedTool.includes(option)
               return <SidebarOption key={option} option={option} selected={selected} />
