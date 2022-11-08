@@ -27,12 +27,10 @@ const HarmoniaStatus = ({
   const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
   const harmoniaStatus = DirectoryTxmStatusDisplayValue[txmStatus]
 
+  const isLoading = isOnboardingLoading || isOffboardingLoading || harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding
+
   useEffect(() => {
-    if (harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding || isOffboardingLoading) {
-      setHarmoniaStatusButtonAction('Offboarding')
-    } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || isOnboardingLoading) {
-      setHarmoniaStatusButtonAction('Onboarding')
-    } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarded) {
+    if (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarded) {
       setHarmoniaStatusButtonAction('Offboard')
     } else if (harmoniaStatus === DirectoryTxmStatusDisplayValue.not_onboarded || DirectoryTxmStatusDisplayValue.offboarded) {
       setHarmoniaStatusButtonAction('Onboard')
@@ -53,8 +51,8 @@ const HarmoniaStatus = ({
         buttonBackground={ButtonBackground.LIGHT_GREY}
         labelColour={LabelColour.GREY}
         labelWeight={LabelWeight.SEMIBOLD}
-        isDisabled={isOnboardingLoading || isOffboardingLoading || (harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding)}
-      > {harmoniaStatusButtonAction}
+        isDisabled={isLoading}
+      >{isLoading ? 'Loading' : harmoniaStatusButtonAction}
       </Button>
     </section>
   )
