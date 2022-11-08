@@ -6,11 +6,13 @@ jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 
 const mockHeader = 'mock_header'
 const mockLabel = 'mock_label'
+const mockActionVerb = 'mock_action_verb'
 const mockValue = 'mock_value'
 const mockValidationErrorMessage = 'mock_error_message'
 
 const mockProps = {
   label: mockLabel,
+  actionVerb: mockActionVerb,
   header: mockHeader,
   value: mockValue,
   handleValueChange: jest.fn(),
@@ -51,7 +53,7 @@ describe('SingleViewMidEditableField', () => {
     it('should render the correct buttons', () => {
       render(getSingleViewMidEditableField())
       expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
-      expect(screen.getByRole('button', {name: `Trash ${mockLabel}`})).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: `${mockActionVerb} ${mockLabel}`})).toBeInTheDocument()
     })
   })
 
@@ -150,13 +152,13 @@ describe('SingleViewMidEditableField', () => {
 
     it('should render the delete confirmation message', () => {
       render(getSingleViewMidEditableField())
-      expect(screen.getByText(`Are you sure you want to delete this ${mockLabel}?`)).toBeInTheDocument()
+      expect(screen.getByText(`Are you sure you want to ${mockActionVerb} this ${mockLabel}?`)).toBeInTheDocument()
     })
 
     it('should render the correct buttons', () => {
       render(getSingleViewMidEditableField())
-      expect(screen.getByRole('button', {name: `Close ${mockLabel} delete`})).toBeInTheDocument()
-      expect(screen.getByRole('button', {name: `Delete ${mockLabel}`})).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: `Close ${mockLabel} ${mockActionVerb} confirmation`})).toBeInTheDocument()
+      expect(screen.getByRole('button', {name: `${mockActionVerb} ${mockLabel} confirmation`})).toBeInTheDocument()
     })
   })
 })
