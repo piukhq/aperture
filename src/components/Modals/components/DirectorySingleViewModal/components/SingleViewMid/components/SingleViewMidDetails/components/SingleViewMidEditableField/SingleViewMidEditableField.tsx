@@ -8,6 +8,7 @@ import TrashSvg from 'icons/svgs/trash.svg'
 type Props = {
   header: string
   label: string
+  actionVerb: string
   value: string | null
   handleValueChange: (value: string) => void
   handleCancel: () => void
@@ -25,6 +26,7 @@ type Props = {
 const SingleViewMidEditableField = ({
   header,
   label,
+  actionVerb,
   value,
   handleValueChange,
   handleCancel,
@@ -84,14 +86,14 @@ const SingleViewMidEditableField = ({
   const renderDeleteState = () => (
     <div className='flex gap-[10px] h-[38px]'>
       <div className='w-[160px]'>
-        <p className='font-body-4 text-red'>Are you sure you want to delete this {label}?</p>
+        <p className='font-body-4 text-red'>Are you sure you want to {actionVerb} this {label}?</p>
       </div>
       <Button
         handleClick={onCancelHandler}
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         buttonBackground={ButtonBackground.LIGHT_GREY}
-        ariaLabel={`Close ${label} delete`}
+        ariaLabel={`Close ${label} ${actionVerb} confirmation`}
       ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
       </Button>
 
@@ -103,8 +105,8 @@ const SingleViewMidEditableField = ({
         buttonBackground={ButtonBackground.RED}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel={`Delete ${label}`}
-      >Yes, Delete
+        ariaLabel={`${actionVerb} ${label} confirmation`}
+      >Yes, {actionVerb}
       </Button>
     </div>
   )
@@ -136,8 +138,9 @@ const SingleViewMidEditableField = ({
                 buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
                 borderColour={BorderColour.RED}
                 labelColour={LabelColour.RED}
-                ariaLabel={`Trash ${label}`}
-              ><TrashSvg className='fill-red' />
+                ariaLabel={`${actionVerb} ${label}`}
+              >
+                {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red' />}
               </Button>
             )}
           </div>
