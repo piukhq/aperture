@@ -182,6 +182,15 @@ enum CommentsSubjectTypes {
   PSIMI = 'psimi',
 }
 
+enum UserPermissions {
+  MERCHANT_DATA_READ_ONLY = 'merchant_data:ro',
+  MERCHANT_DATA_READ_WRITE = 'merchant_data:rw',
+  MERCHANT_DATA_READ_WRITE_DELETE = 'merchant_data:rwd',
+  CUSTOMER_WALLET_READ_ONLY = 'customer_wallet:ro',
+  CUSTOMER_WALLET_READ_WRITE = 'customer_wallet:rw',
+  CUSTOMER_WALLET_READ_WRITE_DELETE = 'customer_wallet:rwd',
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -207,4 +216,5 @@ export {
   PaymentSchemeStatusDisplayValue,
   CommentsOwnerTypes,
   CommentsSubjectTypes,
+  UserPermissions,
 }
