@@ -1,18 +1,20 @@
 import {useCallback, useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
 import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
+import {requestModal} from 'features/modalSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle, ModalType} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
 import {RTKQueryErrorResponse} from 'types'
-import {requestModal} from 'features/modalSlice'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 
 const DirectoryPlanDeleteModal = () => {
   const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
+  const router = useRouter()
   const {plan_ref: planId} = selectedPlan
   const {name} = selectedPlan.plan_metadata
   const {merchants, locations, payment_schemes: paymentSchemes} = selectedPlan.plan_counts
@@ -63,8 +65,11 @@ const DirectoryPlanDeleteModal = () => {
       resetDeletePlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
+      // If required, return to directory homepage once plan is deleted
+      const directoryUrl = '/mid-management/directory/'
+      router.isReady && router.pathname !== directoryUrl && router.replace(directoryUrl)
     }
-  }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch])
+  }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch, router])
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
