@@ -85,7 +85,18 @@ export const midManagementPlansApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Plans'],
+      async onQueryStarted ({planRef}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+            const index = existingPlans.findIndex(plan => plan.plan_ref === planRef)
+            index !== -1 && existingPlans.splice(index, 1)
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })
