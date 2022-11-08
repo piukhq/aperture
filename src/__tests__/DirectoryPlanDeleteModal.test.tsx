@@ -26,6 +26,7 @@ jest.mock('hooks/useMidManagementPlans', () => ({
 }))
 
 const mockName = 'mock_name'
+const mockNameValue = 'mock_name_value'
 const mockCount = 3
 
 const mockNewPlanInitialState = {
@@ -64,7 +65,7 @@ describe('DirectoryPlanDeleteModal', () => {
 
     React.useState = jest
       .fn()
-      .mockReturnValueOnce([mockName, setStateMock])
+      .mockReturnValueOnce([mockNameValue, setStateMock])
       .mockReturnValueOnce([null, setStateMock])
   })
 
@@ -104,25 +105,29 @@ describe('DirectoryPlanDeleteModal', () => {
     expect(button).toBeInTheDocument()
   })
 
-  describe('Test submit actions', () => {
+  describe('Test submit button', () => {
     it('should call the deletePlan function if matching name provided', () => {
-      render(getDirectoryPlanDeleteModalComponent())
-      const button = screen.getByRole('button', {
-        name: 'Delete Plan',
-      })
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce([mockName, jest.fn()]) // matches name in the mock plan
+        .mockReturnValueOnce([null, jest.fn()])
 
-      fireEvent.click(button)
+      render(getDirectoryPlanDeleteModalComponent())
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Delete Plan',
+      }))
+
       expect(mockDeletePlan).toHaveBeenCalled()
     })
 
-    // it('should render the empty name field error message and not call the deletePlan function', () => {
-    //   render(getDirectoryPlanDeleteModalComponent())
-    //   const button = screen.getByRole('button', {
-    //     name: 'Delete Plan',
-    //   })
-    // })
+    it('should not call the deletePlan function if name does not match', async () => {
+      render(getDirectoryPlanDeleteModalComponent())
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Delete Plan',
+      }))
+
+      expect(mockDeletePlan).not.toHaveBeenCalled()
+    })
   })
-
-
 })
 
