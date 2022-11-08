@@ -93,7 +93,7 @@ describe('Test Harmonia Status', () => {
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarding')
     })
 
-    it('should render the disabled onboarding button', () => {
+    it('should render the disabled loading button', () => {
       render(getHarmoniaStatusComponent())
       expect(screen.getByRole('button', {name: 'Loading'})).toBeDisabled()
     })
@@ -106,7 +106,7 @@ describe('Test Harmonia Status', () => {
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarding')
     })
 
-    it('should render the disabled offboarding button', () => {
+    it('should render the disabled loading button', () => {
       render(getHarmoniaStatusComponent())
       expect(screen.getByRole('button', {name: 'Loading'})).toBeDisabled()
     })
