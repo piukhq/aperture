@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import {DirectoryPlanDeleteModal} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -14,6 +14,15 @@ jest.mock('components/Modal', () => ({
       </div>
     )
   },
+}))
+
+const mockDeletePlan = jest.fn()
+jest.mock('hooks/useMidManagementPlans', () => ({
+  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+    deletePlan: mockDeletePlan,
+    deletePlanIsSuccess: false,
+    deletePlanError: null,
+  })),
 }))
 
 const mockName = 'mock_name'
@@ -56,7 +65,7 @@ describe('DirectoryPlanDeleteModal', () => {
     React.useState = jest
       .fn()
       .mockReturnValueOnce([mockName, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
+      .mockReturnValueOnce([null, setStateMock])
   })
 
   it('should render the correct heading', () => {
@@ -95,4 +104,25 @@ describe('DirectoryPlanDeleteModal', () => {
     expect(button).toBeInTheDocument()
   })
 
+  describe('Test submit actions', () => {
+    it('should call the deletePlan function if matching name provided', () => {
+      render(getDirectoryPlanDeleteModalComponent())
+      const button = screen.getByRole('button', {
+        name: 'Delete Plan',
+      })
+
+      fireEvent.click(button)
+      expect(mockDeletePlan).toHaveBeenCalled()
+    })
+
+    // it('should render the empty name field error message and not call the deletePlan function', () => {
+    //   render(getDirectoryPlanDeleteModalComponent())
+    //   const button = screen.getByRole('button', {
+    //     name: 'Delete Plan',
+    //   })
+    // })
+  })
+
+
 })
+

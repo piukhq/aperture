@@ -80,6 +80,13 @@ export const midManagementPlansApi = createApi({
         }
       },
     }),
+    deletePlan: builder.mutation<DirectoryPlan, PlansEndpointRefs>({
+      query: ({planRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Plans'],
+    }),
   }),
 })
 
@@ -88,4 +95,5 @@ export const {
   useGetPlanQuery,
   usePostPlanMutation,
   useUpdatePlanMutation,
+  useDeletePlanMutation,
 } = midManagementPlansApi

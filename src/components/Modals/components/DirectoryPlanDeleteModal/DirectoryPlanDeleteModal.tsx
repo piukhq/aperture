@@ -1,35 +1,70 @@
-import {useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
-
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {ModalStyle} from 'utils/enums'
+import {ModalStyle, ModalType} from 'utils/enums'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
+import {RTKQueryErrorResponse} from 'types'
+import {requestModal} from 'features/modalSlice'
+import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 
 const DirectoryPlanDeleteModal = () => {
   const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
+  const {plan_ref: planId} = selectedPlan
   const {name} = selectedPlan.plan_metadata
   const {merchants, locations, payment_schemes: paymentSchemes} = selectedPlan.plan_counts
 
+  const {
+    deletePlan,
+    deletePlanIsSuccess,
+    deletePlanError,
+    resetDeletePlanResponse,
+  } = useMidManagementPlans({
+    skipGetPlan: true,
+    planRef: planId as string,
+  })
+
   const [nameValue, setNameValue] = useState('')
-  const [isNameReadyForVerification, setIsNameReadyForVerification] = useState(false)
+  const [nameValidationError, setNameValidationError] = useState(null)
 
   const totalMidCount = paymentSchemes.reduce((acc, {count}) => acc + count, 0)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setIsNameReadyForVerification(false)
   }
 
   const verifyName = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setIsNameReadyForVerification(true)
-
-    // TODO: Perform relevant Verification actions and submit
+    if (nameValue === '') {
+      setNameValidationError('Enter plan name')
+    } else if (nameValue !== name) {
+      setNameValidationError('Enter correct plan name')
+    } else {
+      setNameValidationError(null)
+      deletePlan({planRef: selectedPlan.plan_ref as string})
+    }
   }
+
+  const handleDeletePlanError = useCallback(() => {
+    const {data} = deletePlanError as RTKQueryErrorResponse
+    if (data && data.detail) {
+      const {detail} = data
+      setNameValidationError(detail[0].msg)
+    }
+  }, [deletePlanError])
+
+  useEffect(() => {
+    if (deletePlanError) {
+      handleDeletePlanError()
+    } else if (deletePlanIsSuccess) {
+      resetDeletePlanResponse()
+      reset()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch])
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
@@ -44,13 +79,13 @@ const DirectoryPlanDeleteModal = () => {
         <TextInputGroup
           name='plan-name'
           label='Plan Name'
-          error={null} // TODO: add any errors as per Verification
+          error={nameValidationError}
           value={nameValue}
           onChange={handleNameChange}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL_LABEL_HIDDEN}
           inputWidth={InputWidth.FULL}
-          inputColour={isNameReadyForVerification ? InputColour.RED : InputColour.GREY} // TODO: Add verified check conditional
+          inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
         />
         <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 mt-[13px] pt-[16px]'>
           <Button
