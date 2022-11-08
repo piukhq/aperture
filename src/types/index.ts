@@ -321,7 +321,7 @@ export type DirectoryMerchantDetailsTableCell = {
 }
 
 export type AuthUser = UserProfile & {
-  permissions: Array<UserPermissions>
+  permissions?: Array<UserPermissions>
 }
 
 export type DecodedUserJWTToken = {
