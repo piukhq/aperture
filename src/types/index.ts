@@ -117,6 +117,7 @@ export type DirectoryPlan = {
   plan_ref: string,
   plan_metadata: DirectoryPlanMetadata,
   plan_counts: DirectoryPlanCounts
+  total_mid_count?: number,
 }
 
 export type DirectoryPlanDetails = {

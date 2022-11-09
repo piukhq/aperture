@@ -46,6 +46,7 @@ const mockNewPlanInitialState = {
         {count: null},
       ],
     },
+    total_mid_count: mockCount,
   },
 }
 
