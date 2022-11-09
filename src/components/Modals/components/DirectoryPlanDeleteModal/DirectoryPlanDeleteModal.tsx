@@ -15,9 +15,9 @@ const DirectoryPlanDeleteModal = () => {
   const dispatch = useAppDispatch()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const router = useRouter()
-  const {plan_ref: planId} = selectedPlan
+  const {plan_ref: planId, total_mid_count: totalMidCount} = selectedPlan
   const {name} = selectedPlan.plan_metadata
-  const {merchants, locations, payment_schemes: paymentSchemes} = selectedPlan.plan_counts
+  const {merchants, locations} = selectedPlan.plan_counts
 
   const {
     deletePlan,
@@ -31,8 +31,6 @@ const DirectoryPlanDeleteModal = () => {
 
   const [nameValue, setNameValue] = useState('')
   const [nameValidationError, setNameValidationError] = useState(null)
-
-  const totalMidCount = paymentSchemes.reduce((acc, {count}) => acc + count, 0)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -67,7 +65,7 @@ const DirectoryPlanDeleteModal = () => {
       dispatch(requestModal(ModalType.NO_MODAL))
       // If required, return to directory homepage once plan is deleted
       const directoryUrl = '/mid-management/directory/'
-      router.isReady && router.pathname !== directoryUrl && router.replace(directoryUrl)
+      router.pathname !== directoryUrl && router.replace(directoryUrl)
     }
   }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch, router])
 

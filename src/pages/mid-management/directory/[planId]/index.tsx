@@ -8,6 +8,7 @@ import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchantDetails} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
@@ -27,6 +28,9 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   })
 
   const planDetails: DirectoryPlanDetails = getPlanResponse
+  const {merchants, plan_metadata: planMetadata} = planDetails || {}
+  const {name, icon_url, plan_id, slug} = planMetadata || {}
+
 
   const dispatch = useAppDispatch()
 
@@ -44,6 +48,27 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }, [dispatch, planDetails?.plan_metadata?.name, planRef])
 
+  const requestPlanDeleteModal = useCallback(() => {
+    dispatch(setSelectedDirectoryPlan({
+      plan_ref: planRef as string,
+      plan_metadata: {
+        name,
+        icon_url,
+        plan_id,
+        slug,
+      },
+      plan_counts: {
+        merchants: merchants.length,
+        locations: merchants.reduce((acc, merchant) => acc + merchant.merchant.merchant_counts.locations, 0),
+        payment_schemes: null, // Not required currently for delete modal so is not calculated
+      },
+      total_mid_count: merchants
+        .reduce((acc, merchant) => acc + merchant.merchant.merchant_counts.payment_schemes
+          .reduce((acc, paymentScheme) => acc + paymentScheme.count, 0), 0),
+    }))
+
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE))
+  }, [dispatch, icon_url, merchants, name, planRef, plan_id, slug])
   const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
     {
       label: 'Edit',
@@ -64,9 +89,9 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
-      clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE)),
+      clickHandler: () => requestPlanDeleteModal(),
     },
-  ], [requestPlanCommentsModal, dispatch])
+  ], [requestPlanCommentsModal, requestPlanDeleteModal])
 
   const renderMerchants = (merchants: Array<DirectoryMerchantDetails>) => {
     return (

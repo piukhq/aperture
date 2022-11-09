@@ -5,7 +5,7 @@ export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false
     data: getPlansResponse,
     isLoading: getPlansIsLoading,
     error: getPlansError,
-  } = useGetPlansQuery(null, {skip: skipGetPlans})
+  } = useGetPlansQuery(undefined, {skip: skipGetPlans})
 
   const {
     data: getPlanResponse,

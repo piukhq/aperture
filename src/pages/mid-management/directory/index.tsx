@@ -57,6 +57,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
             locations,
             payment_schemes,
           },
+          total_mid_count: payment_schemes.reduce((acc, {count}) => acc + count, 0),
         }))
       }
       const requestPlanModal = (modalName:ModalType) => {
