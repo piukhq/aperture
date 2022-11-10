@@ -11,7 +11,7 @@ type MerchantsEndpointRefs = {
   secondaryMidRef?: string,
 }
 
-type PostMerchantBody = MerchantsEndpointRefs & {
+type PostPutMerchantBody = MerchantsEndpointRefs & {
   name: string,
   location_label: string,
   iconUrl: string | null,
@@ -33,16 +33,21 @@ export const midManagementMerchantsApi = createApi({
       }),
       providesTags: ['Merchants'],
     }),
-    getMerchantCounts: builder.query<DirectorySingleMerchantCounts, MerchantsEndpointRefs>({
-      query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/counts`,
-        method: 'GET',
-      }),
-    }),
-    postMerchant: builder.mutation<DirectoryPlan, PostMerchantBody>({
+    postMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
       query: ({name, location_label, iconUrl, planRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants`,
         method: 'POST',
+        body: {
+          name,
+          location_label,
+          icon_url: iconUrl,
+        },
+      }),
+    }),
+    putMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
+      query: ({name, location_label, iconUrl, planRef, merchantRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}`,
+        method: 'PUT',
         body: {
           name,
           location_label,
@@ -67,5 +72,6 @@ export const {
   useGetMerchantQuery,
   useGetMerchantCountsQuery,
   usePostMerchantMutation,
+  usePutMerchantMutation,
   useDeleteMerchantMutation,
 } = midManagementMerchantsApi

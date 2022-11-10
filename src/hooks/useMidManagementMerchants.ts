@@ -2,6 +2,7 @@ import {
   useGetMerchantQuery,
   useGetMerchantCountsQuery,
   usePostMerchantMutation,
+  usePutMerchantMutation,
   useDeleteMerchantMutation,
 } from 'services/midManagementMerchants'
 
@@ -11,6 +12,8 @@ export const useMidManagementMerchants = ({skipGetMerchant = false, skipGetMerch
   const {data: getMerchantCountsResponse, isLoading: getMerchantCountsIsLoading, error: getMerchantCountsError} = useGetMerchantCountsQuery({planRef, merchantRef}, {skip: skipGetMerchantCounts})
 
   const [postMerchant, {data: postMerchantResponse, isLoading: postMerchantIsLoading, error: postMerchantError, reset: resetPostMerchantResponse}] = usePostMerchantMutation({fixedCacheKey: 'postMerchant'})
+
+  const [putMerchant, {data: putMerchantResponse, isLoading: putMerchantIsLoading, error: putMerchantError, reset: resetPutMerchantResponse}] = usePutMerchantMutation({fixedCacheKey: 'putMerchant'})
 
   const [deleteMerchant, {isSuccess: deleteMerchantIsSuccess, isLoading: deleteMerchantIsLoading, error: deleteMerchantError, reset: resetDeleteMerchantResponse}] = useDeleteMerchantMutation({fixedCacheKey: 'deleteMerchant'})
 
@@ -29,6 +32,12 @@ export const useMidManagementMerchants = ({skipGetMerchant = false, skipGetMerch
     postMerchantIsLoading,
     postMerchantError,
     resetPostMerchantResponse,
+    // PUT Merchant
+    putMerchant,
+    putMerchantResponse,
+    putMerchantIsLoading,
+    putMerchantError,
+    resetPutMerchantResponse,
     // DELETE Merchant
     deleteMerchant,
     deleteMerchantIsSuccess,
