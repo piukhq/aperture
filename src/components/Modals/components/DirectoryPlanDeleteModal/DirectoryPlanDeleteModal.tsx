@@ -63,11 +63,9 @@ const DirectoryPlanDeleteModal = () => {
       resetDeletePlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
-      // If required, return to directory homepage once plan is deleted
-      const directoryUrl = '/mid-management/directory/'
-      router.pathname !== directoryUrl && router.replace(directoryUrl)
+      router.asPath.includes(planId) && router.replace('/mid-management/directory/')
     }
-  }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch, router])
+  }, [deletePlanError, resetDeletePlanResponse, handleDeletePlanError, deletePlanIsSuccess, dispatch, router, planId])
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Plan' onCloseFn={() => dispatch(reset())}>
