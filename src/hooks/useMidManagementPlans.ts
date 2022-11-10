@@ -1,19 +1,35 @@
-import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, useUpdatePlanMutation} from 'services/midManagementPlans'
+import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, useUpdatePlanMutation, useDeletePlanMutation} from 'services/midManagementPlans'
 
 export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false, planRef = ''}) => {
-  const {data: getPlansResponse, isLoading: getPlansIsLoading, error: getPlansError} = useGetPlansQuery(null, {skip: skipGetPlans})
+  const {
+    data: getPlansResponse,
+    isLoading: getPlansIsLoading,
+    error: getPlansError,
+  } = useGetPlansQuery(undefined, {skip: skipGetPlans})
 
-  const {data: getPlanResponse, isLoading: getPlanIsLoading, error: getPlanError} = useGetPlanQuery({planRef}, {skip: skipGetPlan})
+  const {
+    data: getPlanResponse,
+    isLoading: getPlanIsLoading,
+    error: getPlanError,
+  } = useGetPlanQuery({planRef}, {skip: skipGetPlan})
 
-  const [postPlan,
-    {data: postPlanResponse, isLoading: postPlanIsLoading, error: postPlanError, reset: resetPostPlanResponse},
+  const [postPlan, {
+    data: postPlanResponse,
+    isLoading: postPlanIsLoading,
+    error: postPlanError,
+    reset: resetPostPlanResponse},
   ] = usePostPlanMutation({fixedCacheKey: 'postPlan'})
 
   const [updatePlan,
     {data: updatePlanResponse, isLoading: updatePlanIsLoading, error: updatePlanError, reset: resetUpdatePlanResponse},
   ] = useUpdatePlanMutation({fixedCacheKey: 'updatePlan'})
-  // TODO: Add once delete endpoint is available
-  // const [deletePlan, {isSuccess: deletePlanIsSuccess, isLoading: deletePlanIsLoading, error: deletePlanError, reset: resetDeletePlanResponse}] = useDeletePlanMutation({fixedCacheKey: 'deletePlan'})
+
+  const [deletePlan, {
+    isSuccess: deletePlanIsSuccess,
+    isLoading: deletePlanIsLoading,
+    error: deletePlanError,
+    reset: resetDeletePlanResponse,
+  }] = useDeletePlanMutation({fixedCacheKey: 'deletePlan'})
 
   return {
     // GET Plans
@@ -36,5 +52,11 @@ export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false
     updatePlanIsLoading,
     updatePlanError,
     resetUpdatePlanResponse,
+    // DELETE Plan
+    deletePlan,
+    deletePlanIsSuccess,
+    deletePlanIsLoading,
+    deletePlanError,
+    resetDeletePlanResponse,
   }
 }

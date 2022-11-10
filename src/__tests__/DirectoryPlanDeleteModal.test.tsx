@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen} from '@testing-library/react'
+import {fireEvent, render, screen} from '@testing-library/react'
 import {DirectoryPlanDeleteModal} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -16,7 +16,17 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
+const mockDeletePlan = jest.fn()
+jest.mock('hooks/useMidManagementPlans', () => ({
+  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+    deletePlan: mockDeletePlan,
+    deletePlanIsSuccess: false,
+    deletePlanError: null,
+  })),
+}))
+
 const mockName = 'mock_name'
+const mockNameValue = 'mock_name_value'
 const mockCount = 3
 
 const mockNewPlanInitialState = {
@@ -36,6 +46,7 @@ const mockNewPlanInitialState = {
         {count: null},
       ],
     },
+    total_mid_count: mockCount,
   },
 }
 
@@ -55,8 +66,8 @@ describe('DirectoryPlanDeleteModal', () => {
 
     React.useState = jest
       .fn()
-      .mockReturnValueOnce([mockName, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
+      .mockReturnValueOnce([mockNameValue, setStateMock])
+      .mockReturnValueOnce([null, setStateMock])
   })
 
   it('should render the correct heading', () => {
@@ -95,4 +106,29 @@ describe('DirectoryPlanDeleteModal', () => {
     expect(button).toBeInTheDocument()
   })
 
+  describe('Test submit button', () => {
+    it('should call the deletePlan function if matching name provided', () => {
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce([mockName, jest.fn()]) // matches name in the mock plan
+        .mockReturnValueOnce([null, jest.fn()])
+
+      render(getDirectoryPlanDeleteModalComponent())
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Delete Plan',
+      }))
+
+      expect(mockDeletePlan).toHaveBeenCalled()
+    })
+
+    it('should not call the deletePlan function if name does not match', async () => {
+      render(getDirectoryPlanDeleteModalComponent())
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Delete Plan',
+      }))
+
+      expect(mockDeletePlan).not.toHaveBeenCalled()
+    })
+  })
 })
+
