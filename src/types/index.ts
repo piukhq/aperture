@@ -129,7 +129,7 @@ export type DirectoryPlan = {
 export type DirectoryPlanDetails = {
   plan_ref: string,
   plan_metadata: DirectoryPlanMetadata,
-  merchants: Array<DirectoryMerchantDetails>,
+  merchants: Array<DirectoryMerchant>,
 }
 
 export type DirectoryPlanMetadata = {
@@ -145,17 +145,13 @@ export type DirectoryPlanCounts = {
   payment_schemes: Array<PaymentScheme>,
 }
 
-export type DirectoryMerchantDetails = {
-  merchant: DirectoryMerchant,
-}
-
-export type DirectorySingleMerchant = {
+export type DirectorySingleMerchant = { // Matches the response from GET Merchant
   merchant_ref: string,
   plan_metadata: DirectoryPlanMetadata,
   merchant_metadata: DirectoryMerchantMetadata,
 }
 
-export type DirectoryMerchant = {
+export type DirectoryMerchant = { // Matches the response from GET Merchants
   merchant_ref: string,
   merchant_metadata: DirectoryMerchantMetadata,
   merchant_counts: DirectoryMerchantCounts

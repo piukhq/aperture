@@ -26,9 +26,9 @@ const DirectoryBreadcrumb = () => {
   const planDetailsList = getPlanResponse
 
   const getMerchantNameFromApi = () => {
-    const merchantDetails = planDetailsList.merchants.find(merchant => merchant.merchant.merchant_ref === currentRoute[2])
+    const merchantDetails = planDetailsList.merchants.find(merchant => merchant.merchant_ref === currentRoute[2])
     if (merchantDetails) {
-      return merchantDetails.merchant.merchant_metadata.name
+      return merchantDetails.merchant_metadata.name
     }
     return ''
   }
