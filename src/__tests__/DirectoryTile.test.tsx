@@ -10,11 +10,9 @@ jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-
 describe('DirectoryTile', () => {
   const mockName = 'mock_name'
   const mockUrl = '/mock_url'
-  const mockSchemeLabel = 'mock_scheme_label'
   const mockSchemeCount = 123456
   const mockPaymentSchemes = [
     {
-      label: mockSchemeLabel,
       scheme_slug: PaymentSchemeSlug.VISA,
       count: mockSchemeCount,
     },
@@ -89,7 +87,7 @@ describe('DirectoryTile', () => {
 
     it('should render payment scheme labels and count', () => {
       const {getAllByText} = render(getPlanDirectoryTile())
-      const schemeLabels = getAllByText(mockSchemeLabel.toLocaleUpperCase())
+      const schemeLabels = getAllByText(PaymentSchemeSlug.VISA.toLocaleUpperCase())
 
       expect(schemeLabels).toHaveLength(1)
       expect(schemeLabels[0]).toBeInTheDocument()

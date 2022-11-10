@@ -12,7 +12,7 @@ import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {getSelectedDirectoryMerchant, setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes} from 'utils/enums'
 import {useEffect} from 'react'
@@ -106,22 +106,23 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }
 
-  const requestMerchantDeleteModal = () => {
-    // Only set the selectedDirectoryMerchant if there is no previously selected merchant counts available
-    !selectedMerchant.merchant_counts && dispatch(setSelectedDirectoryMerchant({
-      merchant_ref: merchantId as string,
-      merchant_metadata: merchant.merchant_metadata,
+  const requestEditMerchantModal = () => {
+    const {merchant_metadata, merchant_ref} = merchant
+
+    dispatch(setSelectedDirectoryMerchant({
+      merchant_ref,
+      merchant_metadata,
       merchant_counts: null,
     }))
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE))
-  }
 
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
+  }
 
   const optionsMenuItems:OptionsMenuItems = [
     {
       label: 'Edit',
       icon: <EditSvg/>,
-      clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+      clickHandler: () => requestEditMerchantModal(),
     },
     {
       label: 'Comments',

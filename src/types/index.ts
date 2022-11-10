@@ -81,7 +81,6 @@ export type SelectedAssetEnvironment = string
 export type PaymentSchemeNameType = PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX
 
 export type PaymentScheme = {
-  label: string,
   scheme_slug: PaymentSchemeSlug,
   count: number,
 }
