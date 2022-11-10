@@ -44,8 +44,8 @@ const DirectoryPlanModal = () => {
   const [planIdValidationError, setPlanIdValidationError] = useState(null)
   const [slugValidationError, setSlugValidationError] = useState(null)
 
-  const handlePlanError = useCallback(() => {
-    const {status, data} = postPlanError as RTKQueryErrorResponse
+  const handlePlanError = useCallback((planError: RTKQueryErrorResponse) => {
+    const {status, data} = planError
 
     if (data && data.detail) {
       const {detail} = data
@@ -62,17 +62,26 @@ const DirectoryPlanModal = () => {
         }
       })
     }
-  }, [postPlanError])
+  }, [])
 
   useEffect(() => {
     if (postPlanError || updatePlanError) {
-      handlePlanError()
+      handlePlanError(postPlanError as RTKQueryErrorResponse || updatePlanError as RTKQueryErrorResponse)
     } else if (postPlanResponse || updatePlanResponse) {
-      isNewPlan ? resetPostPlanResponse() : resetUpdatePlanResponse()
+      postPlanResponse ? resetPostPlanResponse() : resetUpdatePlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
-  }, [isNewPlan, postPlanError, updatePlanError, handlePlanError, postPlanResponse, updatePlanResponse, resetPostPlanResponse, resetUpdatePlanResponse, dispatch])
+  }, [
+    postPlanError,
+    updatePlanError,
+    handlePlanError,
+    postPlanResponse,
+    updatePlanResponse,
+    resetPostPlanResponse,
+    resetUpdatePlanResponse,
+    dispatch,
+  ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
