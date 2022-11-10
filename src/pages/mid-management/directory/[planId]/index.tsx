@@ -6,7 +6,7 @@ import {PageLayout, DirectoryTile, DirectoryDetailsHeader} from 'components'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
-import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchantDetails} from 'types'
+import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchant} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
 import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
@@ -59,11 +59,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       },
       plan_counts: {
         merchants: merchants.length,
-        locations: merchants.reduce((acc, merchant) => acc + merchant.merchant.merchant_counts.locations, 0),
-        payment_schemes: null, // Not required currently for delete modal so is not calculated
+        locations: merchants.reduce((acc, merchant) => acc + merchant.merchant_counts.locations, 0),
+        payment_schemes: null, // Not required for delete modal so is not calculated
       },
       total_mid_count: merchants
-        .reduce((acc, merchant) => acc + merchant.merchant.merchant_counts.payment_schemes
+        .reduce((acc, merchant) => acc + merchant.merchant_counts.payment_schemes
           .reduce((acc, paymentScheme) => acc + paymentScheme.count, 0)
         , 0),
     }))
@@ -94,11 +94,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     },
   ], [requestPlanCommentsModal, requestPlanDeleteModal])
 
-  const renderMerchants = (merchants: Array<DirectoryMerchantDetails>) => {
+  const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
       <div className='flex mt-[30px] flex-wrap gap-[31px]'>
         {merchants.map((merchant) => {
-          const {merchant_metadata, merchant_counts, merchant_ref} = merchant.merchant
+          const {merchant_metadata, merchant_counts, merchant_ref} = merchant
 
           const setSelectedMerchant = () => {
             dispatch(setSelectedDirectoryMerchant({
