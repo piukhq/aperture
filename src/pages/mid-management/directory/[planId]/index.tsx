@@ -31,7 +31,6 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const {merchants, plan_metadata: planMetadata} = planDetails || {}
   const {name, icon_url, plan_id, slug} = planMetadata || {}
 
-
   const dispatch = useAppDispatch()
 
   useEffect(() => { // Clear any previously selected merchant
@@ -70,11 +69,23 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE))
   }, [dispatch, icon_url, merchants, name, planRef, plan_id, slug])
+
+  const requestEditPlanModal = useCallback(() => {
+    dispatch(setSelectedDirectoryPlan({
+      plan_ref: planRef as string,
+      plan_metadata: planMetadata,
+      plan_counts: null,
+      total_mid_count: null,
+    }))
+
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
+  }, [dispatch, planRef, planMetadata])
+
   const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
     {
       label: 'Edit',
       icon: <EditSvg/>,
-      clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+      clickHandler: () => requestEditPlanModal(),
     },
     {
       label: 'Offboard from Harmonia',
@@ -92,7 +103,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       isRed: true,
       clickHandler: () => requestPlanDeleteModal(),
     },
-  ], [requestPlanCommentsModal, requestPlanDeleteModal])
+  ], [requestEditPlanModal, requestPlanCommentsModal, requestPlanDeleteModal])
 
   const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
