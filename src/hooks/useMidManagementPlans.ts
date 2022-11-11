@@ -1,4 +1,4 @@
-import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, useUpdatePlanMutation, useDeletePlanMutation} from 'services/midManagementPlans'
+import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, usePutPlanMutation, useDeletePlanMutation} from 'services/midManagementPlans'
 
 export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false, planRef = ''}) => {
   const {
@@ -17,12 +17,15 @@ export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false
     data: postPlanResponse,
     isLoading: postPlanIsLoading,
     error: postPlanError,
-    reset: resetPostPlanResponse},
-  ] = usePostPlanMutation({fixedCacheKey: 'postPlan'})
+    reset: resetPostPlanResponse,
+  }] = usePostPlanMutation({fixedCacheKey: 'postPlan'})
 
-  const [updatePlan,
-    {data: updatePlanResponse, isLoading: updatePlanIsLoading, error: updatePlanError, reset: resetUpdatePlanResponse},
-  ] = useUpdatePlanMutation({fixedCacheKey: 'updatePlan'})
+  const [putPlan, {
+    data: putPlanResponse,
+    isLoading: putPlanIsLoading,
+    error: putPlanError,
+    reset: resetPutPlanResponse,
+  }] = usePutPlanMutation({fixedCacheKey: 'putPlan'})
 
   const [deletePlan, {
     isSuccess: deletePlanIsSuccess,
@@ -46,12 +49,12 @@ export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false
     postPlanIsLoading,
     postPlanError,
     resetPostPlanResponse,
-    // UPDATE Plan
-    updatePlan,
-    updatePlanResponse,
-    updatePlanIsLoading,
-    updatePlanError,
-    resetUpdatePlanResponse,
+    // PUT Plan
+    putPlan,
+    putPlanResponse,
+    putPlanIsLoading,
+    putPlanError,
+    resetPutPlanResponse,
     // DELETE Plan
     deletePlan,
     deletePlanIsSuccess,

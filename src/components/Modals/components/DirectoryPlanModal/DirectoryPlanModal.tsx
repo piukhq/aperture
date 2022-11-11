@@ -16,10 +16,10 @@ const DirectoryPlanModal = () => {
     postPlanResponse,
     postPlanError,
     resetPostPlanResponse,
-    updatePlan,
-    updatePlanResponse,
-    updatePlanError,
-    resetUpdatePlanResponse,
+    putPlan,
+    putPlanResponse,
+    putPlanError,
+    resetPutPlanResponse,
   } = useMidManagementPlans({
     skipGetPlans: true,
     skipGetPlan: true,
@@ -65,21 +65,21 @@ const DirectoryPlanModal = () => {
   }, [])
 
   useEffect(() => {
-    if (postPlanError || updatePlanError) {
-      handlePlanError(postPlanError as RTKQueryErrorResponse || updatePlanError as RTKQueryErrorResponse)
-    } else if (postPlanResponse || updatePlanResponse) {
-      postPlanResponse ? resetPostPlanResponse() : resetUpdatePlanResponse()
+    if (postPlanError || putPlanError) {
+      handlePlanError(postPlanError as RTKQueryErrorResponse || putPlanError as RTKQueryErrorResponse)
+    } else if (postPlanResponse || putPlanResponse) {
+      postPlanResponse ? resetPostPlanResponse() : resetPutPlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
     postPlanError,
-    updatePlanError,
+    putPlanError,
     handlePlanError,
     postPlanResponse,
-    updatePlanResponse,
+    putPlanResponse,
     resetPostPlanResponse,
-    resetUpdatePlanResponse,
+    resetPutPlanResponse,
     dispatch,
   ])
 
@@ -120,7 +120,7 @@ const DirectoryPlanModal = () => {
         if (isNewPlan) {
           postPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue})
         } else {
-          updatePlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
+          putPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
         }
       }
     }
