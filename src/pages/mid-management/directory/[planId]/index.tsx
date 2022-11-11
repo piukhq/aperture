@@ -47,7 +47,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }, [dispatch, planDetails?.plan_metadata?.name, planRef])
 
-  const requestPlanDeleteModal = useCallback(() => {
+  const requestDeletePlanModal = useCallback(() => {
     dispatch(setSelectedDirectoryPlan({
       plan_ref: planRef as string,
       plan_metadata: {
@@ -101,9 +101,9 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
-      clickHandler: () => requestPlanDeleteModal(),
+      clickHandler: () => requestDeletePlanModal(),
     },
-  ], [requestEditPlanModal, requestPlanCommentsModal, requestPlanDeleteModal])
+  ], [requestEditPlanModal, requestPlanCommentsModal, requestDeletePlanModal])
 
   const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
