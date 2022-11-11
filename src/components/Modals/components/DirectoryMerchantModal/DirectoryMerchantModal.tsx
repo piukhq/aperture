@@ -20,6 +20,10 @@ const DirectoryMerchantModal = () => {
     postMerchantResponse,
     postMerchantError,
     resetPostMerchantResponse,
+    putMerchant,
+    putMerchantResponse,
+    putMerchantError,
+    resetPutMerchantResponse,
   } = useMidManagementMerchants({
     skipGetMerchant: true,
     planRef: planId as string,
@@ -40,8 +44,8 @@ const DirectoryMerchantModal = () => {
   const [nameValidationError, setNameValidationError] = useState(null)
   const [locationLabelValidationError, setLocationLabelValidationError] = useState(null)
 
-  const handlePostMerchantError = useCallback(() => {
-    const {status, data} = postMerchantError as RTKQueryErrorResponse
+  const handleMerchantError = useCallback((merchantError: RTKQueryErrorResponse) => {
+    const {status, data} = merchantError
 
     if (data && data.detail) {
       const {detail} = data
@@ -56,17 +60,26 @@ const DirectoryMerchantModal = () => {
         }
       })
     }
-  }, [postMerchantError])
+  }, [])
 
   useEffect(() => {
-    if (postMerchantError) {
-      handlePostMerchantError()
-    } else if (postMerchantResponse) {
-      resetPostMerchantResponse()
+    if (postMerchantError || putMerchantError) {
+      handleMerchantError(postMerchantError as RTKQueryErrorResponse || putMerchantError as RTKQueryErrorResponse)
+    } else if (postMerchantResponse || putMerchantResponse) {
+      postMerchantResponse ? resetPostMerchantResponse() : resetPutMerchantResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
-  }, [postMerchantError, handlePostMerchantError, postMerchantResponse, resetPostMerchantResponse, dispatch])
+  }, [
+    postMerchantError,
+    putMerchantError,
+    handleMerchantError,
+    postMerchantResponse,
+    putMerchantResponse,
+    resetPostMerchantResponse,
+    resetPutMerchantResponse,
+    dispatch,
+  ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
@@ -98,8 +111,11 @@ const DirectoryMerchantModal = () => {
 
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
-        // TODO: add logic to PATCH Merchant when updating
-        postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string})
+        if (isNewMerchant) {
+          postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string})
+        } else {
+          putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string, merchantRef})
+        }
       } else {
         if (nameValue === '') {
           setNameValidationError('Enter name')
