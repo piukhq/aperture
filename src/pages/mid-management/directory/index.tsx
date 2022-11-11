@@ -12,6 +12,7 @@ import {useAppDispatch} from 'app/hooks'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
+import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 
 import AddSvg from 'icons/svgs/plus-filled.svg'
@@ -57,7 +58,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
             locations,
             payment_schemes,
           },
-          total_mid_count: payment_schemes.reduce((acc, {count}) => acc + count, 0),
+          total_mid_count: getMidCountFromPaymentSchemes(payment_schemes),
         }))
       }
       const requestPlanModal = (modalName:ModalType) => {

@@ -15,6 +15,7 @@ import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
+import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
@@ -62,9 +63,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
         payment_schemes: null, // Not required for delete modal so is not calculated
       },
       total_mid_count: merchants
-        .reduce((acc, merchant) => acc + merchant.merchant_counts.payment_schemes
-          .reduce((acc, paymentScheme) => acc + paymentScheme.count, 0)
-        , 0),
+        .reduce((acc, merchant) => acc + getMidCountFromPaymentSchemes(merchant.merchant_counts.payment_schemes), 0),
     }))
 
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE))
