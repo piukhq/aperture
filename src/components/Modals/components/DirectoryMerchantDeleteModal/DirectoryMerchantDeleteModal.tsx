@@ -60,8 +60,9 @@ const DirectoryMerchantDeleteModal = () => {
       resetDeleteMerchantResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
+      router.asPath.includes(merchantRef) && router.replace(`/mid-management/directory/${planId}`)
     }
-  }, [deleteMerchantError, resetDeleteMerchantResponse, handleDeleteMerchantError, deleteMerchantIsSuccess, dispatch])
+  }, [deleteMerchantError, resetDeleteMerchantResponse, handleDeleteMerchantError, deleteMerchantIsSuccess, dispatch, router, merchantId, planId, merchantRef])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
