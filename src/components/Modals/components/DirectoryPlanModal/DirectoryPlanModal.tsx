@@ -16,10 +16,10 @@ const DirectoryPlanModal = () => {
     postPlanResponse,
     postPlanError,
     resetPostPlanResponse,
-    updatePlan,
-    updatePlanResponse,
-    updatePlanError,
-    resetUpdatePlanResponse,
+    putPlan,
+    putPlanResponse,
+    putPlanError,
+    resetPutPlanResponse,
   } = useMidManagementPlans({
     skipGetPlans: true,
     skipGetPlan: true,
@@ -44,8 +44,8 @@ const DirectoryPlanModal = () => {
   const [planIdValidationError, setPlanIdValidationError] = useState(null)
   const [slugValidationError, setSlugValidationError] = useState(null)
 
-  const handlePlanError = useCallback(() => {
-    const {status, data} = postPlanError as RTKQueryErrorResponse
+  const handlePlanError = useCallback((planError: RTKQueryErrorResponse) => {
+    const {status, data} = planError
 
     if (data && data.detail) {
       const {detail} = data
@@ -62,17 +62,26 @@ const DirectoryPlanModal = () => {
         }
       })
     }
-  }, [postPlanError])
+  }, [])
 
   useEffect(() => {
-    if (postPlanError || updatePlanError) {
-      handlePlanError()
-    } else if (postPlanResponse || updatePlanResponse) {
-      isNewPlan ? resetPostPlanResponse() : resetUpdatePlanResponse()
+    if (postPlanError || putPlanError) {
+      handlePlanError(postPlanError as RTKQueryErrorResponse || putPlanError as RTKQueryErrorResponse)
+    } else if (postPlanResponse || putPlanResponse) {
+      postPlanResponse ? resetPostPlanResponse() : resetPutPlanResponse()
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
-  }, [isNewPlan, postPlanError, updatePlanError, handlePlanError, postPlanResponse, updatePlanResponse, resetPostPlanResponse, resetUpdatePlanResponse, dispatch])
+  }, [
+    postPlanError,
+    putPlanError,
+    handlePlanError,
+    postPlanResponse,
+    putPlanResponse,
+    resetPostPlanResponse,
+    resetPutPlanResponse,
+    dispatch,
+  ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
   const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
@@ -111,7 +120,7 @@ const DirectoryPlanModal = () => {
         if (isNewPlan) {
           postPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue})
         } else {
-          updatePlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
+          putPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
         }
       }
     }

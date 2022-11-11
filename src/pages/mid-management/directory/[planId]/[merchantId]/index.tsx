@@ -116,12 +116,22 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE))
   }
 
+  const requestEditMerchantModal = () => {
+    const {merchant_metadata, merchant_ref} = merchant
+    dispatch(setSelectedDirectoryMerchant({
+      merchant_ref,
+      merchant_metadata,
+      merchant_counts: null,
+    }))
+
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
+  }
 
   const optionsMenuItems:OptionsMenuItems = [
     {
       label: 'Edit',
       icon: <EditSvg/>,
-      clickHandler: () => console.log('Launch Edit Modal Placeholder'),
+      clickHandler: () => requestEditMerchantModal(),
     },
     {
       label: 'Comments',
