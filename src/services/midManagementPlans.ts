@@ -7,7 +7,7 @@ type PlansEndpointRefs = {
   planRef: string,
 }
 
-type UpdatePlan = DirectoryPlanMetadata & PlansEndpointRefs
+type PutPlanBody = DirectoryPlanMetadata & PlansEndpointRefs
 
 export const midManagementPlansApi = createApi({
   reducerPath: 'midManagementPlansApi',
@@ -54,7 +54,7 @@ export const midManagementPlansApi = createApi({
       }),
       providesTags: ['Plan'],
     }),
-    updatePlan: builder.mutation<DirectoryPlan, UpdatePlan>({
+    putPlan: builder.mutation<DirectoryPlan, PutPlanBody>({
       query: ({name, plan_id, slug, icon_url, planRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}`,
         method: 'PUT',
@@ -105,6 +105,6 @@ export const {
   useGetPlansQuery,
   useGetPlanQuery,
   usePostPlanMutation,
-  useUpdatePlanMutation,
+  usePutPlanMutation,
   useDeletePlanMutation,
 } = midManagementPlansApi
