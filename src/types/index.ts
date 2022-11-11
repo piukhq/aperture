@@ -157,9 +157,14 @@ export type DirectoryMerchantMetadata = {
   location_label: string,
 }
 
-export type DirectoryMerchantCounts = {
+export type DirectoryMerchantCounts = { // The counts found in the response from GET Merchants
   locations: number,
   payment_schemes: Array<PaymentScheme>,
+}
+
+export type DirectorySingleMerchantCounts = { // The counts via the merchant counts endpoint
+  locations_count: number,
+  mids_count: number,
 }
 
 export type DirectoryMidMetadata = {

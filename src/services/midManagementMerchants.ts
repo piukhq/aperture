@@ -1,5 +1,5 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryPlan, DirectorySingleMerchant} from 'types'
+import {DirectoryPlan, DirectorySingleMerchant, DirectorySingleMerchantCounts} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -32,6 +32,12 @@ export const midManagementMerchantsApi = createApi({
         method: 'GET',
       }),
       providesTags: ['Merchants'],
+    }),
+    getMerchantCounts: builder.query<DirectorySingleMerchantCounts, MerchantsEndpointRefs>({
+      query: ({planRef, merchantRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/counts`,
+        method: 'GET',
+      }),
     }),
     postMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
       query: ({name, location_label, iconUrl, planRef}) => ({
@@ -70,6 +76,7 @@ export const midManagementMerchantsApi = createApi({
 
 export const {
   useGetMerchantQuery,
+  useGetMerchantCountsQuery,
   usePostMerchantMutation,
   usePutMerchantMutation,
   useDeleteMerchantMutation,
