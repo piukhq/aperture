@@ -10,16 +10,16 @@ import {
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryMerchant, setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes} from 'utils/enums'
 import {useEffect} from 'react'
 import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
-import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant} from 'types'
+import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant, DirectoryMerchant} from 'types'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
 enum NavigationLabel {
@@ -43,6 +43,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const {
     getMerchantResponse,
   } = useMidManagementMerchants({
+    skipGetMerchantCounts: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
@@ -50,7 +51,8 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const dispatch = useAppDispatch()
 
   const planDetails: DirectoryPlanDetails = getPlanResponse
-  const merchant: DirectorySingleMerchant = getMerchantResponse
+  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const merchant: DirectorySingleMerchant | DirectoryMerchant = getMerchantResponse
 
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
@@ -104,6 +106,17 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }
 
+  const requestMerchantDeleteModal = () => {
+    // Only set the selectedDirectoryMerchant if there is no previously selected merchant counts available
+    !selectedMerchant.merchant_counts && dispatch(setSelectedDirectoryMerchant({
+      merchant_ref: merchantId as string,
+      merchant_metadata: merchant.merchant_metadata,
+      merchant_counts: null,
+    }))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE))
+  }
+
+
   const optionsMenuItems:OptionsMenuItems = [
     {
       label: 'Edit',
@@ -119,7 +132,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
-      clickHandler: () => console.log('Launch Delete Modal Placeholder'),
+      clickHandler: () => requestMerchantDeleteModal(),
     },
   ]
 
@@ -137,7 +150,6 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       {merchant && (
         <>
           {planDetails && renderDetailsHeader()}
-
           <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
             <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
               {renderNavigationTabs()}

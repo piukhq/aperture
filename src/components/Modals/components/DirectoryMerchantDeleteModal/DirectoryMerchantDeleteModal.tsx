@@ -14,30 +14,35 @@ import {RTKQueryErrorResponse} from 'types'
 const DirectoryMerchantDeleteModal = () => {
   const router = useRouter()
   const {planId, merchantId} = router.query
+  // Seed state if selected merchant has counts available, else counts endpoint will be called to populate state
+  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
+  const [locationsCount, setLocationsCount] = useState(merchantCounts?.locations || 0)
+  const [midsCount, setMidsCount] = useState(merchantCounts?.payment_schemes?.reduce((acc, {count}) => acc + count, 0) || 0)
+  const [nameValue, setNameValue] = useState('')
+  const [nameValidationError, setNameValidationError] = useState(null)
 
   const {
     deleteMerchant,
     deleteMerchantIsSuccess,
     deleteMerchantError,
     resetDeleteMerchantResponse,
+    getMerchantCountsResponse,
   } = useMidManagementMerchants({
-    skipGetMerchant: true,
+    skipGetMerchantCounts: merchantCounts !== null,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
 
   const dispatch = useAppDispatch()
-  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-
-  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
-
   const {name, location_label: locationLabel} = merchantMetadata
-  const {locations, payment_schemes: paymentSchemes} = merchantCounts
 
-  const [nameValue, setNameValue] = useState('')
-  const [nameValidationError, setNameValidationError] = useState(null)
-
-  const totalMidCount = paymentSchemes.reduce((acc, {count}) => acc + count, 0)
+  useEffect(() => {
+    if (getMerchantCountsResponse) {
+      setLocationsCount(getMerchantCountsResponse.locations_count)
+      setMidsCount(getMerchantCountsResponse.mids_count)
+    }
+  }, [getMerchantCountsResponse, merchantCounts])
 
   const handleDeleteMerchantError = useCallback(() => {
     const {data} = deleteMerchantError as RTKQueryErrorResponse
@@ -65,7 +70,6 @@ const DirectoryMerchantDeleteModal = () => {
 
   const verifyName = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (nameValue === '') {
       setNameValidationError('Enter merchant name')
     } else if (nameValue !== name) {
@@ -80,9 +84,12 @@ const DirectoryMerchantDeleteModal = () => {
       <form className='flex flex-col mt-[30px]' onSubmit={verifyName}>
         <div className='font-body-3 mb-[10px]'>
           <p>Are you sure you want to delete {name}?</p>
-          <p data-testid='second-paragraph'>This will also delete <span className='font-bold'>
-            {locations} {locationLabel} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
-          <br/>
+          <p data-testid='second-paragraph'
+            className={`font-bold ${merchantCounts || getMerchantCountsResponse ? 'opacity-100' : 'opacity-0'} transition-opacity ease-in `}>This will also delete <span>
+              {getCountWithCorrectNoun(locationsCount, locationLabel)} and {getCountWithCorrectNoun(midsCount, 'MID')}
+            </span>.
+          </p>
+          <br />
           <p>Please enter the Merchant Name to confirm.</p>
         </div>
         <TextInputGroup

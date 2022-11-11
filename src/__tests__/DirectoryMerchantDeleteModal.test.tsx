@@ -3,6 +3,7 @@ import {render, screen, fireEvent} from '@testing-library/react'
 import {DirectoryMerchantDeleteModal} from 'components/Modals'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {getCountWithCorrectNoun} from 'utils/stringFormat'
 
 jest.mock('components/Modal', () => ({
   __esModule: true,
@@ -16,9 +17,10 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
+const mockDeleteMerchant = jest.fn()
 jest.mock('hooks/useMidManagementMerchants', () => ({
   useMidManagementMerchants: jest.fn().mockImplementation(() => ({
-    deleteMerchant: jest.fn(),
+    deleteMerchant: mockDeleteMerchant,
     deleteMerchantIsSuccess: false,
     deleteMerchantError: null,
   })),
@@ -32,7 +34,7 @@ useRouter.mockImplementation(() => ({
 }))
 
 const mockName = 'mock_name'
-const mockLocationLabel = 'mock_location_label'
+const mockLocationLabel = 'mock_location_label' // Pluralised due to mock count
 const mockCount = 3
 
 const mockNewMerchantInitialState = {
@@ -72,8 +74,10 @@ describe('DirectoryMerchantDeleteModal', () => {
 
     React.useState = jest
       .fn()
-      .mockReturnValueOnce([mockName, setStateMock])
-      .mockReturnValueOnce([false, setStateMock])
+      .mockReturnValueOnce([mockCount, setStateMock]) // locationsCount
+      .mockReturnValueOnce([mockCount, setStateMock]) // midsCount
+      .mockReturnValueOnce(['', setStateMock]) // nameValue
+      .mockReturnValueOnce([null, setStateMock]) // name validation error
   })
 
   it('should render the correct heading', () => {
@@ -92,7 +96,7 @@ describe('DirectoryMerchantDeleteModal', () => {
     const thirdParagraph = screen.getByText('Please enter the Merchant Name to confirm.')
 
     expect(firstParagraph).toBeInTheDocument()
-    expect(secondParagraph).toHaveTextContent(`This will also delete ${mockCount} ${mockLocationLabel} and ${mockCount} MIDs.`)
+    expect(secondParagraph).toHaveTextContent(`This will also delete ${getCountWithCorrectNoun(mockCount, mockLocationLabel)} and ${getCountWithCorrectNoun(mockCount, 'MID')}`)
     expect(thirdParagraph).toBeInTheDocument()
   })
 
@@ -112,6 +116,39 @@ describe('DirectoryMerchantDeleteModal', () => {
     expect(button).toBeInTheDocument()
   })
 
+  describe('Test submit scenarios', () => {
+    it('should not call the deleteMerchant function when the submit button is clicked and the merchant name input does not match', () => {
+      render(getDirectoryMerchantDeleteModalComponent())
+      const button = screen.getByRole('button', {
+        name: 'Delete Merchant',
+      })
+      fireEvent.click(button)
+
+      expect(mockDeleteMerchant).not.toHaveBeenCalled()
+    })
+
+    it('should call the deleteMerchant function when the submit button is clicked and the merchant name input matches', () => {
+      const setStateMock = jest.fn()
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce([0, setStateMock])
+        .mockReturnValueOnce([0, setStateMock])
+        .mockReturnValueOnce([mockName, setStateMock])
+        .mockReturnValueOnce([null, setStateMock])
+
+      render(getDirectoryMerchantDeleteModalComponent())
+      const button = screen.getByRole('button', {
+        name: 'Delete Merchant',
+      })
+      fireEvent.click(button)
+
+      expect(mockDeleteMerchant).toHaveBeenCalled()
+    })
+
+
+  })
+
+
   describe('Test error scenarios', () => {
     const mockNameErrorMessage = 'mock_name_error'
 
@@ -121,6 +158,8 @@ describe('DirectoryMerchantDeleteModal', () => {
 
       React.useState = jest
         .fn()
+        .mockReturnValueOnce([0, setStateMock])
+        .mockReturnValueOnce([0, setStateMock])
         .mockReturnValueOnce([mockName, setStateMock])
         .mockReturnValueOnce([mockNameErrorMessage, setStateMock])
     })
