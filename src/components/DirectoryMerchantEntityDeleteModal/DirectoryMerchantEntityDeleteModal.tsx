@@ -67,31 +67,29 @@ const DirectoryMerchantEntityDeleteModal = ({
   }
 
   return (
-    <>
-      <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
-        <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
-          <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {entityLabel}:</p>
-          <ul>
-            {entitiesToBeDeleted.map(entity => renderListItem(entity))}
-          </ul>
-          {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
-        </section>
-        <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
-          <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
-          <Button
-            handleClick={deleteButtonClickFn}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.LARGE}
-            buttonBackground={ButtonBackground.RED}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.SEMIBOLD}
-            isDisabled={isDeleteLoading}
-          >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
-          </Button>
-        </section>
-      </Modal>
-    </>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
+      <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
+        <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {entityLabel}:</p>
+        <ul>
+          {entitiesToBeDeleted.map(entity => renderListItem(entity))}
+        </ul>
+        {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
+      </section>
+      <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
+        <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
+        <Button
+          handleClick={deleteButtonClickFn}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.LARGE}
+          buttonBackground={ButtonBackground.RED}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          isDisabled={isDeleteLoading}
+        >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
+        </Button>
+      </section>
+    </Modal>
   )
 }
 

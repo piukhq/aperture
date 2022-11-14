@@ -3,6 +3,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import {DirectoryMerchantEntityDeleteModal} from 'components'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Modal', () => ({
   __esModule: true,
@@ -15,6 +16,8 @@ jest.mock('components/Modal', () => ({
     )
   },
 }))
+
+jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
 
 const mockTab = 'locations' // This must match once of the enum values in DirectorySingleViewEntities so is not a mock
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
@@ -34,11 +37,11 @@ const mockError = {
   },
 }
 const mockDeleteButtonClickFn = jest.fn()
-let mockEntitiesToBeDeleted = [{entityRef: mockEntityValue2, entityValue: mockEntityValue2}]
+const mockEntitiesToBeDeleted = [
+  {entityRef: 'mock_ref_1', entityValue: mockEntityValue1},
+  {entityRef: 'mock_ref_2', entityValue: mockEntityValue2, paymentSchemeSlug: PaymentSchemeSlug.VISA},
+]
 
-let mockIsDeleteLoading = false
-const mockIsDeleteSuccess = false
-let mockIsHarmoniaEntity = true
 const mockResetDeleteResponseFn = jest.fn()
 
 const mockStoreFn = configureStore([])
@@ -46,17 +49,19 @@ const store = mockStoreFn({
   modalRequested: null,
 })
 
-const getDirectoryMerchantEntityDeleteModalContentComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <DirectoryMerchantEntityDeleteModal
-      entitiesToBeDeleted={mockEntitiesToBeDeleted}
-      deleteButtonClickFn={mockDeleteButtonClickFn}
-      deleteError={mockError}
-      isDeleteLoading={mockIsDeleteLoading}
-      isDeleteSuccess={mockIsDeleteSuccess}
-      isHarmoniaEntity={mockIsHarmoniaEntity}
-      resetDeleteResponseFn={mockResetDeleteResponseFn}
-    />
+const mockProps = {
+  entitiesToBeDeleted: mockEntitiesToBeDeleted,
+  deleteButtonClickFn: mockDeleteButtonClickFn,
+  deleteError: mockError,
+  isDeleteLoading: false,
+  isDeleteSuccess: false,
+  isHarmoniaEntity: true,
+  resetDeleteResponseFn: mockResetDeleteResponseFn,
+}
+
+const getDirectoryMerchantEntityDeleteModalContentComponent = (passedProps = {}) => (
+  <Provider store={store}>
+    <DirectoryMerchantEntityDeleteModal {...mockProps} {...passedProps} />
   </Provider>
 )
 
@@ -69,16 +74,19 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
   })
 
   it('should render the correct modal header for a singular entity', () => {
-    render(getDirectoryMerchantEntityDeleteModalContentComponent())
+    render(getDirectoryMerchantEntityDeleteModalContentComponent({
+      entitiesToBeDeleted: [{entityRef: 'mock_ref_1', entityValue: mockEntityValue1}],
+    }))
 
     expect(screen.getByRole('heading', {name: 'Delete Location'})).toBeInTheDocument()
   })
 
+  it('should render the PaymentCardIcon', () => {
+    render(getDirectoryMerchantEntityDeleteModalContentComponent())
+    expect(screen.getByTestId('payment-card-icon')).toBeInTheDocument()
+  })
+
   it('should render the correct modal header for a plural entity', () => {
-    mockEntitiesToBeDeleted = [
-      {entityRef: mockEntityValue1, entityValue: mockEntityValue1},
-      {entityRef: mockEntityValue2, entityValue: mockEntityValue2},
-    ]
     render(getDirectoryMerchantEntityDeleteModalContentComponent())
     expect(screen.getByRole('heading', {name: 'Delete Locations'})).toBeInTheDocument()
   })
@@ -95,8 +103,7 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
   })
 
   it('should not render the harmonia paragraph', () => {
-    mockIsHarmoniaEntity = false
-    render(getDirectoryMerchantEntityDeleteModalContentComponent())
+    render(getDirectoryMerchantEntityDeleteModalContentComponent({isHarmoniaEntity: false}))
     expect(screen.queryByText('Locations will also be offboarded from Harmonia')).not.toBeInTheDocument()
   })
 
@@ -129,7 +136,7 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
   describe('Test non-happy path functionality', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      mockIsDeleteLoading = true
+
       React.useState = jest.fn()
         .mockReturnValueOnce(['mock_error', jest.fn])
     })
@@ -140,7 +147,7 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
     })
 
     it('should render a disabled button with correct label when deletion is in progress', () => {
-      render(getDirectoryMerchantEntityDeleteModalContentComponent())
+      render(getDirectoryMerchantEntityDeleteModalContentComponent({isDeleteLoading: true}))
       const deletingButton = screen.getByRole('button', {name: 'Deleting Locations...'})
 
       expect(deletingButton).toBeInTheDocument()
