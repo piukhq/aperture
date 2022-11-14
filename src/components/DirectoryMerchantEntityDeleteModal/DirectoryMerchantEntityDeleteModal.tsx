@@ -1,4 +1,4 @@
-import {Button, Modal} from 'components'
+import {Button, Modal, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch} from 'app/hooks'
 import {ModalType, ModalStyle, DirectorySingleViewEntities} from 'utils/enums'
@@ -49,34 +49,47 @@ const DirectoryMerchantEntityDeleteModal = ({
     }
   }, [deleteError, dispatch, handleDeleteError, isDeleteSuccess, resetDeleteResponseFn])
 
+  const renderListItem = (listItem: DirectoryMerchantEntitySelectedItem) => {
+    const {entityRef, entityValue, paymentSchemeSlug} = listItem
+
+    return (
+      <li className='font-bold flex items-center gap-[2px]' key={entityRef}>
+        {entityValue}
+
+        {paymentSchemeSlug && (
+          <PaymentCardIcon
+            paymentSchemeSlug={paymentSchemeSlug}
+            paymentSchemeIconStyles='flex w-[20px] h-[15px] justify-center mx-[2px] items-center'
+          />
+        )}
+      </li>
+    )
+  }
+
   return (
-    <>
-      <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
-        <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
-          <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {entityLabel}:</p>
-          <ul>
-            {entitiesToBeDeleted.map(entity => (
-              <li className='font-bold' key={entity.entityRef}>{entity.entityValue}</li>
-            ))}
-          </ul>
-          {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
-        </section>
-        <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
-          <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
-          <Button
-            handleClick={deleteButtonClickFn}
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonWidth={ButtonWidth.LARGE}
-            buttonBackground={ButtonBackground.RED}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.SEMIBOLD}
-            isDisabled={isDeleteLoading}
-          >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
-          </Button>
-        </section>
-      </Modal>
-    </>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
+      <section className='flex flex-col gap-[30px] my-[30px] font-body-3'>
+        <p data-testid='paragraph-1'>Are you sure you want to <strong>delete</strong> the following {entityLabel}:</p>
+        <ul>
+          {entitiesToBeDeleted.map(entity => renderListItem(entity))}
+        </ul>
+        {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
+      </section>
+      <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
+        <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
+        <Button
+          handleClick={deleteButtonClickFn}
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.LARGE}
+          buttonBackground={ButtonBackground.RED}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          isDisabled={isDeleteLoading}
+        >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
+        </Button>
+      </section>
+    </Modal>
   )
 }
 
