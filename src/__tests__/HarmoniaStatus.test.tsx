@@ -16,6 +16,7 @@ const mockProps = {
   isOnboardingSuccess: mockIsOnboardingSuccess,
   isOffboardingLoading: mockIsOffboardingLoading,
   isOffboardingSuccess: mockIsOffboardingSuccess,
+  isDisabled: false,
   offboardEntityFn: mockOffboardEntityFn,
   onboardEntityFn: mockOnboardEntityFn,
 }
