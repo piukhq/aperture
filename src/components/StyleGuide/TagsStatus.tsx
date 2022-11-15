@@ -18,22 +18,22 @@ const TagsStatus = ({sectionClass}: Props) => {
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>STATUS 1</h4>
           <div className='h-[26px] w-[82px] bg-aquamarine/10'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-aquamarine dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-aquamarine dark:text-grey-100 text-center'}>
             Completed
             </p>
           </div>
           <div className='h-[26px] w-[82px] bg-lightBlue/10'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-lightBlue dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-lightBlue dark:text-grey-100 text-center'}>
             For Pickup
             </p>
           </div>
           <div className='h-[26px] w-[82px] bg-yellow/10'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-yellow dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-yellow dark:text-grey-100 text-center'}>
             It&lsquo;s Enough
             </p>
           </div>
           <div className='h-[26px] w-[82px] bg-red/10'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-red dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-red dark:text-grey-100 text-center'}>
             Declined
             </p>
           </div>
@@ -43,12 +43,12 @@ const TagsStatus = ({sectionClass}: Props) => {
         <div className='flex flex-col gap-4 p-4'>
           <h4 className='font-heading-6 text-grey-600'>PAGINATION</h4>
           <div className='h-[24px] w-[9px] bg-lightBlue/10'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-blue dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-blue dark:text-grey-100 text-center'}>
             1
             </p>
           </div>
           <div className='h-[24px] w-[9px] items-center'>
-            <p className={'text-sm font-body font-normal leading-6 tracking-[.1px] text-grey-600  dark:text-grey-100 text-center'}>
+            <p className={'text-sm font-body font-normal leading-6 tracking-[.006rem] text-grey-600  dark:text-grey-100 text-center'}>
             1
             </p>
           </div>
