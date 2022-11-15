@@ -33,7 +33,7 @@ const SidebarOption = ({option, selected}: Props) => {
         <a className='flex w-full items-center'>
           <div className={`w-[3px] h-[32px] mr-[17px] rounded-tr-[100px] rounded-br-[100px] ${selected ? 'bg-blue' : ''}`} />
           <Icon className={`w-[25px] h-[25px] ${selected ? 'fill-blue' : 'fill-grey-900 dark:fill-grey-400'}`} />
-          <p className={`font-header ml-[24px] text-[14px] font-semibold ${selected ? 'text-blue' : 'text-grey-950 dark:text-grey-400'}`}>{displayName}</p>
+          <p className={`font-header ml-[24px] text-[.875rem] font-semibold ${selected ? 'text-blue' : 'text-grey-950 dark:text-grey-400'}`}>{displayName}</p>
         </a>
       </Link>
     </div>

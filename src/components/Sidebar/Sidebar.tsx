@@ -45,10 +45,10 @@ const Sidebar = () => {
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 '>
         <div className='flex h-16 border-b border-grey-300 dark:border-grey-800 pl-[25px] items-center'>
           <Image data-testid='logo' src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
-          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[20px] ml-[10px]'>Bink</h1>
+          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[1.25rem] ml-[10px]'>Bink</h1>
         </div>
         <div className='mt-6'>
-          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[14px] tracking-widest ml-5'>TOOLS</h1>
+          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[.875rem] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
             {getSidebarOptions().map(option => {
               // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus

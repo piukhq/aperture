@@ -51,7 +51,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
 
           <div className='mt-[5px]'>
             {hasErrorOccurred && selectedJwtToken && (
-              <p className='text-body text-[12px] text-red' data-testid='error-message'>
+              <p className='text-body text-[.75rem] text-red' data-testid='error-message'>
                 Your search didn&apos;t return any results. Please try again
               </p>
             )}

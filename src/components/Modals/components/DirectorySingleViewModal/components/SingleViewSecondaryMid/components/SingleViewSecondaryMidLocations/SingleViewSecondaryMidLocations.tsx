@@ -56,13 +56,13 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
-        additionalStyles='text-[12px] leading-3'
+        additionalStyles='text-[.75rem] leading-3'
       >Link New Location
       </Button>
 
       <div className='h-[20px] mt-[6px]'>
         {locationData?.length === 0 && !locationDataIsLoading && (
-          <p className='font-body text-[12px] text-red'>{availableLocationNotification}</p>
+          <p className='font-body text-[.75rem] text-red'>{availableLocationNotification}</p>
         )}
       </div>
     </section>
