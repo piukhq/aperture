@@ -87,6 +87,7 @@ const DirectorySingleViewModal = () => {
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
 
   const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
+  const [shouldDisableEditButton, setShouldDisableEditButton] = useState(false)
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
@@ -180,6 +181,7 @@ const DirectorySingleViewModal = () => {
           isInEditState={isInLocationEditState}
           onCancelEditState={onCancelEditState}
           setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
+          setShouldDisableEditButton={setShouldDisableEditButton}
         />
     }
   }
@@ -237,6 +239,7 @@ const DirectorySingleViewModal = () => {
                 buttonBackground={ButtonBackground.LIGHT_GREY}
                 labelColour={LabelColour.GREY}
                 labelWeight={LabelWeight.SEMIBOLD}
+                isDisabled={shouldDisableEditButton}
               >Edit
               </Button>
             )}
