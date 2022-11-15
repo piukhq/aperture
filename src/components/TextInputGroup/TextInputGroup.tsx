@@ -90,7 +90,7 @@ const TextInputGroup = (props: Props) => {
       value={value}
       onChange={onChange}
       className={classNames(
-        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-300 focus:outline-lightBlue',
+        'w-full h-full font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-300 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
         borderShadow && 'shadow-md',
@@ -110,7 +110,7 @@ const TextInputGroup = (props: Props) => {
       defaultValue={selectDefaultValue}
       onChange={handleSelectChange}
       className={classNames(
-        'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-600 px-[8px]',
+        'w-full h-full font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-600 px-[8px]',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
       )}
@@ -156,7 +156,7 @@ const TextInputGroup = (props: Props) => {
               setIsFocused(false)
             }}
             className={classNames(
-              'w-full h-full font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-400 focus:outline-lightBlue',
+              'w-full h-full font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-400 focus:outline-lightBlue',
               INPUT_COLOUR_MAPS[inputColour].input,
               INPUT_STYLE_MAPS[inputStyle].input,
               isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300 dark:border-grey-600'

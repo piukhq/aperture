@@ -20,7 +20,7 @@ const Tag = (props: Props) => {
     )}>
       <p data-testid='tag-label'
         className={classNames(
-          'text-sm font-heading tracking-[.1px]',
+          'text-sm font-heading tracking-[.006rem]',
           // Needed to stop 'font-medium' overriding provided font weight in `textStyle`
           // Not sure why it does this
           `${!textStyle && 'font-medium'}`,

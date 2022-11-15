@@ -46,7 +46,7 @@ const CustomerTransactions = ({userPlans}: Props) => {
         <div className='h-[24px] w-[24px] mr-[10px]'>
           {src && <Image src={src} height={24} width={24} alt='' />}
         </div>
-        <p className='font-body text-sm tracking-[0.1px] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
+        <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
       </div>
     )
   }
