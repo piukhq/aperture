@@ -37,6 +37,7 @@ const mockProps = {
   onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
   setShouldDisplayEditButton: jest.fn(),
+  setShouldDisableEditButton: jest.fn(),
 }
 
 const mockMerchantDetailsState = {

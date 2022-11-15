@@ -234,7 +234,13 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         <div className='flex flex-col h-[50px] pl-[15px]'>
           <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
           <div className='w-[180px] h-[28px]'>
-            <Dropdown displayValue={paymentSchemeStatus} displayValues={paymentSchemeStatusValues} onChangeDisplayValue={handlePaymentStatusChange} selectedValueStyles='font-normal text-grey-600' />
+            <Dropdown
+              displayValue={paymentSchemeStatus}
+              displayValues={paymentSchemeStatusValues}
+              onChangeDisplayValue={handlePaymentStatusChange}
+              isDisabled={isRefreshing}
+              selectedValueStyles='font-normal text-grey-600'
+            />
           </div>
         </div>
       </section>
@@ -246,6 +252,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         actionVerb='unlink'
         value={getAssociatedLocationString()}
         isSaving={putMerchantMidLocationIsLoading}
+        isDisabled={isRefreshing}
         handleValueChange={handleLocationChange}
         handleCancel={() => setAssociatedLocationRef(locationRef)}
         handleSave={handleLocationSave}
@@ -266,6 +273,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
           actionVerb='delete'
           value={editableVisaBin}
           isSaving={patchMerchantMidIsLoading}
+          isDisabled={isRefreshing}
           handleValueChange={setEditableVisaBin}
           handleCancel={() => setEditableVisaBin(visaBin)}
           handleSave={handleBinOrPaymentStatusSave({visa_bin: editableVisaBin})}
@@ -289,6 +297,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         isOffboardingSuccess={isOffboardingSuccess}
         offboardEntityFn={offboardMid}
         onboardEntityFn={onboardMid}
+        isDisabled={isRefreshing}
       />
     </>
   )

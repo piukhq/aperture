@@ -20,6 +20,7 @@ const mockProps = {
   handleSave: jest.fn(),
   handleDelete: jest.fn(),
   isSaving: false,
+  isDisabled: false,
   successResponse: null,
   errorResponse: null,
   handleValidation: jest.fn(),

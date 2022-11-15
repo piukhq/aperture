@@ -11,6 +11,7 @@ type Props = {
   isOnboardingSuccess: boolean,
   isOffboardingLoading: boolean,
   isOffboardingSuccess: boolean,
+  isDisabled: boolean,
 }
 
 // Component used to display Harmonia Status and on/offboarding functionality
@@ -22,6 +23,7 @@ const HarmoniaStatus = ({
   isOnboardingSuccess,
   isOffboardingLoading,
   isOffboardingSuccess,
+  isDisabled,
 }: Props) => {
 
   const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
@@ -51,7 +53,7 @@ const HarmoniaStatus = ({
         buttonBackground={ButtonBackground.LIGHT_GREY}
         labelColour={LabelColour.GREY}
         labelWeight={LabelWeight.SEMIBOLD}
-        isDisabled={isLoading}
+        isDisabled={isDisabled || isLoading}
       >{isLoading ? 'Loading' : harmoniaStatusButtonAction}
       </Button>
     </section>

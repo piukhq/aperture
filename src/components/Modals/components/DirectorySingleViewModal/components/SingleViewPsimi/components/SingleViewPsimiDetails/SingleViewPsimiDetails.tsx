@@ -92,6 +92,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
         isOffboardingSuccess={isOffboardingSuccess}
         offboardEntityFn={offboardPsimi}
         onboardEntityFn={onboardPsimi}
+        isDisabled={isRefreshing}
       />
     </>
   )

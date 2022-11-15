@@ -17,9 +17,10 @@ type Props = {
   isInEditState: boolean
   onCancelEditState: () => void
   setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
+  setShouldDisableEditButton: (shouldDisableEditButton: boolean) => void
 }
 
-const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton}: Props) => {
+const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -42,6 +43,11 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
     // Edit button should only be visible (currently) on the details tab
     setShouldDisplayEditButton(tabSelected === DirectorySingleViewTabs.DETAILS)
   }, [tabSelected, setShouldDisplayEditButton])
+
+  useEffect(() => {
+    // Edit button should be disabled when refetching data
+    setShouldDisableEditButton(getMerchantLocationIsFetching)
+  }, [getMerchantLocationIsFetching, setShouldDisableEditButton])
 
   useEffect(() => {
     if (getMerchantLocationResponse) {
