@@ -106,43 +106,41 @@ const DirectoryMerchantSecondaryMids = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    (
-      <div className='flex gap-[10px] h-[71px] items-center'>
-        <Button
-          handleClick={() => console.log('Onboard to Harmonia button pressed') }
-          buttonSize={ButtonSize.SMALL}
-          buttonWidth={ButtonWidth.AUTO}
-          labelColour={LabelColour.GREY}
-          borderColour={BorderColour.GREY}
-        >Onboard to Harmonia
-        </Button>
-        <Button
-          handleClick={() => console.log('Offboard from Harmonia button pressed') }
-          buttonSize={ButtonSize.SMALL}
-          buttonWidth={ButtonWidth.AUTO}
-          labelColour={LabelColour.GREY}
-          borderColour={BorderColour.GREY}
-        >Offboard from Harmonia
-        </Button>
-        <Button
-          handleClick={requestBulkCommentModal}
-          buttonSize={ButtonSize.SMALL}
-          buttonWidth={ButtonWidth.AUTO}
-          labelColour={LabelColour.GREY}
-          borderColour={BorderColour.GREY}
-        >Comments
-        </Button>
-        <Button
-          handleClick={requestSecondaryMidDeleteModal}
-          buttonSize={ButtonSize.SMALL}
-          buttonWidth={ButtonWidth.MEDIUM}
-          labelColour={LabelColour.RED}
-          labelWeight={LabelWeight.SEMIBOLD}
-          borderColour={BorderColour.RED}
-        >Delete
-        </Button>
-      </div>
-    )
+    <div className='flex gap-[10px] h-[71px] items-center'>
+      <Button
+        handleClick={() => console.log('Onboard to Harmonia button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >Onboard to Harmonia
+      </Button>
+      <Button
+        handleClick={() => console.log('Offboard from Harmonia button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >Offboard from Harmonia
+      </Button>
+      <Button
+        handleClick={requestBulkCommentModal}
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+      >Comments
+      </Button>
+      <Button
+        handleClick={requestSecondaryMidDeleteModal}
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.MEDIUM}
+        labelColour={LabelColour.RED}
+        labelWeight={LabelWeight.SEMIBOLD}
+        borderColour={BorderColour.RED}
+      >Delete
+      </Button>
+    </div>
   )
 
   return (
