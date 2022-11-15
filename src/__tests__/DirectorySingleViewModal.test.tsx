@@ -170,6 +170,7 @@ describe('DirectorySingleViewModal', () => {
       .mockReturnValueOnce([false, jest.fn()]) // setIsInDeleteConfirmationState
       .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
       .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
+      .mockReturnValue([false, jest.fn()]) // shouldDisableEditButton
 
     render(getDirectorySingleViewModalComponent())
     expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
