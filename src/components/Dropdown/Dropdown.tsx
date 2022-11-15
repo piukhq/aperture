@@ -10,10 +10,11 @@ type Props = {
   onChangeDisplayValue: (displayValue: string) => void
   selectedValueStyles?: string
   renderFn?: (item: unknown) => JSX.Element
+  isDisabled?: boolean
 }
 
-const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow, selectedValueStyles = '', renderFn}: Props) => (
-  <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue}
+const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, hasShadow, selectedValueStyles = '', renderFn, isDisabled = false}: Props) => (
+  <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue} disabled={isDisabled}
     className='flex h-full w-auto'
   >
     {({open}) => (

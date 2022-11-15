@@ -21,6 +21,7 @@ type Props = {
   handleValidation?: (value: string) => unknown
   validationErrorMessage?: string
   dropdownValues?: Array<string>
+  isDisabled: boolean
 }
 
 const SingleViewMidEditableField = ({
@@ -39,6 +40,7 @@ const SingleViewMidEditableField = ({
   validationErrorMessage,
   dropdownValues,
   onEdit,
+  isDisabled,
 }: Props) => {
   const [isInEditState, setIsInEditState] = useState(false)
   const [isInDeleteState, setIsInDeleteState] = useState(false)
@@ -50,6 +52,12 @@ const SingleViewMidEditableField = ({
       setIsInDeleteState(false)
     }
   }, [successResponse, errorResponse])
+
+  useEffect(() => {
+    if (isDisabled) {
+      setIsInEditState(false)
+    }
+  }, [isDisabled])
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValidationError(null)
@@ -106,6 +114,7 @@ const SingleViewMidEditableField = ({
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         ariaLabel={`${actionVerb} ${label} confirmation`}
+        isDisabled={isDisabled}
       >Yes, {actionVerb}
       </Button>
     </div>
@@ -128,6 +137,7 @@ const SingleViewMidEditableField = ({
               labelWeight={LabelWeight.SEMIBOLD}
               handleClick={onEditHandler}
               ariaLabel={value ? (dropdownValues ? 'View' : 'Edit') : `Add ${label}`}
+              isDisabled={isDisabled}
             >{value ? (dropdownValues ? 'View' : 'Edit') : `Add ${label}`}
             </Button>
 
@@ -139,6 +149,7 @@ const SingleViewMidEditableField = ({
                 borderColour={BorderColour.RED}
                 labelColour={LabelColour.RED}
                 ariaLabel={`${actionVerb} ${label}`}
+                isDisabled={isDisabled}
               >
                 {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red' />}
               </Button>
@@ -159,7 +170,7 @@ const SingleViewMidEditableField = ({
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
-        isDisabled={isSaving}
+        isDisabled={isDisabled || isSaving}
       >{isSaving ? 'Saving' : 'Save'}
       </Button>
       { !isSaving && (
@@ -182,7 +193,13 @@ const SingleViewMidEditableField = ({
       </div>
       <div className='flex h-[36px] w-full gap-[10px] justify-between'>
         <div className='w-[392px]'>
-          <Dropdown displayValue={value} displayValues={dropdownValues} onChangeDisplayValue={handleValueChange} selectedValueStyles='font-normal text-grey-600' />
+          <Dropdown
+            displayValue={value}
+            displayValues={dropdownValues}
+            onChangeDisplayValue={handleValueChange}
+            isDisabled={isDisabled}
+            selectedValueStyles='font-normal text-grey-600'
+          />
         </div>
         {renderEditSaveAndCloseButtons()}
       </div>
