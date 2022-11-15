@@ -112,7 +112,7 @@ const DirectoryMerchantMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
-  const renderCheckedItemButtons = () => (
+  const renderCheckedItemButtons = ():JSX.Element => (
     <div className='flex gap-[10px] h-[71px] items-center justify-end'>
       <Button
         handleClick={() => console.log('Onboard to Harmonia button pressed') }

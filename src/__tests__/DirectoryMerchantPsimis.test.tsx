@@ -73,6 +73,8 @@ describe('DirectoryMerchantPsimis', () => {
     React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
     render(getDirectoryMerchantPsimisComponent())
 
+    expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Offboard from Harmonia'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
