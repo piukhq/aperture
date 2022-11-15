@@ -56,7 +56,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
-        additionalStyles='text-[12px] leading-[12px]'
+        additionalStyles='text-[12px] leading-3'
       >Link New Location
       </Button>
 
