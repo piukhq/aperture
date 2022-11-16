@@ -153,7 +153,7 @@ const DirectoryMerchantSecondaryMids = () => {
             onClick={() => console.log('Placeholder: Request Visa Secondary MID')}
             aria-label='Add Visa Secondary MID'
           >
-            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
             <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
           </button>
 
@@ -162,7 +162,7 @@ const DirectoryMerchantSecondaryMids = () => {
             onClick={() => console.log('Placeholder: Request Mastercard Secondary MID')}
             aria-label='Add Mastercard Secondary MID'
           >
-            <p className='pr-[5px] text-[14px] font-medium font-heading text-grey-100'>Add</p>
+            <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
             <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
           </button>
         </div>

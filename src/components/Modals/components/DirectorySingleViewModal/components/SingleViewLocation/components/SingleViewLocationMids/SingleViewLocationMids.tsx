@@ -114,7 +114,7 @@ const SingleViewLocationMids = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
-        additionalStyles='text-[12px] leading-[12px]'
+        additionalStyles='text-[.75rem] leading-3'
       >Link New MID
       </Button>
     </div>

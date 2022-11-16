@@ -51,7 +51,7 @@ export const TAG_STYLE_MAPS: Record<TagStyle, string> = {
 }
 
 export const TEXT_STYLE_MAPS: Record<TextStyle, string> = {
-  [TextStyle.SINGLE_LETTER]: 'text-[11px] cursor-default',
+  [TextStyle.SINGLE_LETTER]: 'text-[.688rem] cursor-default',
   [TextStyle.MEDIUM]: 'font-semibold text-2xs text-grey-700 cursor-default',
 }
 

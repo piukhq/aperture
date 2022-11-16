@@ -12,10 +12,10 @@ const Typography = ({sectionClass}: Props) => {
       <div className='w-1/2 min-w-[1000px] grid gap-12 grid-cols-2'>
         <div>
           <div className='grid grid-cols-2 mb-12 items-center'>
-            <p className='text-[100px] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
+            <p className='text-[6.25rem] font-heading text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
               <h3 className='font-heading-7'>PRIMARY FONT</h3>
-              <p className='font-heading-4 text-[32px]'>Poppins</p>
+              <p className='font-heading-4 text-[2rem]'>Poppins</p>
             </div>
           </div>
           <p className='font-heading text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
@@ -92,10 +92,10 @@ const Typography = ({sectionClass}: Props) => {
         <div>
 
           <div className='grid grid-cols-2 mb-12 items-center'>
-            <p className='text-[100px] font-body text-grey-900 dark:text-grey-100'>Aa</p>
+            <p className='text-[6.25rem] font-body text-grey-900 dark:text-grey-100'>Aa</p>
             <div className='border-l-2 border-grey-500 pl-10'>
               <h3 className='font-heading-7'>SECONDARY FONT</h3>
-              <p className='font-body-1 text-[32px]'>Roboto</p>
+              <p className='font-body-1 text-[2rem]'>Roboto</p>
             </div>
           </div>
           <p className='font-body text-xl font-medium text-grey-600 dark:text-grey-600 mb-16'>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br/>0123456789</p>
