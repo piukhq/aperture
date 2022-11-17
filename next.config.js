@@ -28,6 +28,9 @@ const moduleExports = {
     AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
     SESSION_COOKIE_SECRET: process.env.SESSION_COOKIE_SECRET,
   },
+  sentry: {
+    hideSourceMaps: true,
+  },
 }
 
 const sentryWebpackPluginOptions = {

@@ -16,7 +16,7 @@
     "@auth0/nextjs-auth0": "^1.9.2",
     "@headlessui/react": "^1.5.0",
     "@reduxjs/toolkit": "^1.7.1",
-    "@sentry/nextjs": "^6.17.4",
+    "@sentry/nextjs": "^7.19.0",
     "@types/jest": "^27.4.1",
     "axios": "^0.25.0",
     "env-cmd": "^10.1.0",
@@ -30,7 +30,7 @@
     "react-dom": "17.0.2",
     "react-redux": "^7.2.6",
     "redux-persist": "^6.0.0",
-    "sharp": "^0.29.3"
+    "sharp": "^0.31.2"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.0",
