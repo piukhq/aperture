@@ -197,9 +197,9 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
 
   const renderForm = () => (
     <form data-testid='location-editing-form'>
-      {/* Psimis */}
-      <section data-testid='psimis-section'>
-        <h2 className='font-modal-heading pb-[19px]'>PSIMIS</h2>
+      {/* Identifiers */}
+      <section data-testid='identifiers-section'>
+        <h2 className='font-modal-heading pb-[19px]'>IDENTIFIERS</h2>
 
         <TextInputGroup
           name='location-name'

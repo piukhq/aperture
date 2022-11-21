@@ -136,9 +136,9 @@ const SingleViewMidEditableField = ({
               labelColour={LabelColour.GREY}
               labelWeight={LabelWeight.SEMIBOLD}
               handleClick={onEditHandler}
-              ariaLabel={value ? (dropdownValues ? 'View' : 'Edit') : `Add ${label}`}
+              ariaLabel={value ? 'Edit' : `Add ${label}`}
               isDisabled={isDisabled}
-            >{value ? (dropdownValues ? 'View' : 'Edit') : `Add ${label}`}
+            >{value ? 'Edit' : `Add ${label}`}
             </Button>
 
             {value && (
