@@ -13,7 +13,6 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   const {merchantId, planId, ref} = router.query
 
   const [shouldGetLinkedLocations, setShouldGetLinkedLocations] = useState(true)
-  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState(null)
   const [availableLocationNotification, setAvailableLocationNotification] = useState('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
 
   const {
@@ -40,7 +39,6 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   useEffect(() => { // If the user has successfully unlinked a Location, revert to initial state
     if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
       resetDeleteMerchantSecondaryMidLocationLinkResponse()
-      setSelectedUnlinkLocationIndex(null)
     }
   }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
 
@@ -80,9 +78,8 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         key={index}
         index={index}
         value={locationTitle}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
         refValue={locationRef}
-        setSelectedUnlinkIndexFn={setSelectedUnlinkLocationIndex}
-        isInUnlinkingConfirmationState={selectedUnlinkLocationIndex === index}
         unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
           linkRef,
           planRef: planId as string,

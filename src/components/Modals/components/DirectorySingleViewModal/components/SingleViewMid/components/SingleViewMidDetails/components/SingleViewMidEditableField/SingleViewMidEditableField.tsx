@@ -10,6 +10,7 @@ type Props = {
   label: string
   actionVerb: string
   value: string | null
+  link?: string
   handleValueChange: (value: string) => void
   handleCancel: () => void
   handleSave: () => void
@@ -29,6 +30,7 @@ const SingleViewMidEditableField = ({
   label,
   actionVerb,
   value,
+  link,
   handleValueChange,
   handleCancel,
   handleSave,
@@ -124,7 +126,11 @@ const SingleViewMidEditableField = ({
     <div className='w-full'>
       {renderHeader()}
       <div className='flex w-full items-center justify-between'>
-        <p className='font-modal-data'>{value || 'Unknown'}</p>
+        {link && value ? (
+          <a className='font-modal-data text-blue' href={link}>{value}</a>
+        ) : (
+          <p className='font-modal-data'>{value || 'Unknown'}</p>
+        )}
 
         {isInDeleteState ? renderDeleteState() : (
           <div className='flex gap-[10px]'>

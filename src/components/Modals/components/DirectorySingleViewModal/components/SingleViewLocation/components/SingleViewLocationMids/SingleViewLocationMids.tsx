@@ -16,7 +16,6 @@ const SingleViewLocationMids = () => {
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
-  const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState(null) // The index of the mid that is selected to be unlinked
   const [availableMidNotification, setAvailableMidNotification] = useState('')
 
   const {
@@ -41,7 +40,6 @@ const SingleViewLocationMids = () => {
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationMidLinkIsSuccess) {
       resetDeleteMerchantLocationMidLinkResponse()
-      setSelectedUnlinkMidIndex(null)
     }
   }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
 
@@ -57,9 +55,7 @@ const SingleViewLocationMids = () => {
   useEffect(() => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
-      setSelectedUnlinkMidIndex(null)
     } else if (getMerchantLocationAvailableMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
-      setSelectedUnlinkMidIndex(null)
       setAvailableMidNotification('No MIDs available to link for this Location.')
     } else {
       setShouldRenderDropdownMenu(false)
@@ -70,7 +66,6 @@ const SingleViewLocationMids = () => {
     const warningMessage = selectedAvailableMid?.locationLink ? `Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}` : ''
     setAvailableMidNotification(warningMessage)
   }, [selectedAvailableMid?.locationLink])
-
 
   const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
 
@@ -88,9 +83,8 @@ const SingleViewLocationMids = () => {
         index={index}
         paymentSchemeSlug={paymentSchemeSlug}
         value={midValue}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
         refValue={midRef}
-        setSelectedUnlinkIndexFn={setSelectedUnlinkMidIndex}
-        isInUnlinkingConfirmationState={selectedUnlinkMidIndex === index}
         unlinkFn={() => deleteMerchantLocationMidLink({
           linkRef,
           planRef: planId as string,
@@ -213,5 +207,5 @@ const SingleViewLocationMids = () => {
     </div>
   )
 }
-export default SingleViewLocationMids
 
+export default SingleViewLocationMids
