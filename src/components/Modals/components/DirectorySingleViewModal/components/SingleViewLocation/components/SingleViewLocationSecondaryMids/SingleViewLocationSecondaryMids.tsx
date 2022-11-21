@@ -16,7 +16,6 @@ const SingleViewLocationSecondaryMids = () => {
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
-  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
   const [availableSecondaryMidNotification, setAvailableSecondaryMidNotification] = useState('')
 
   const {
@@ -45,7 +44,6 @@ const SingleViewLocationSecondaryMids = () => {
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationSecondaryMidLinkIsSuccess) {
       resetDeleteMerchantLocationSecondaryMidLinkResponse()
-      setSelectedUnlinkSecondaryMidIndex(null)
       setShouldPrepareDropdownMenu(false)
     }
   }, [deleteMerchantLocationSecondaryMidLinkIsSuccess, resetDeleteMerchantLocationSecondaryMidLinkResponse])
@@ -53,10 +51,8 @@ const SingleViewLocationSecondaryMids = () => {
   useEffect(() => {
     if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
-      setSelectedUnlinkSecondaryMidIndex(null)
     } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
       setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
-      setSelectedUnlinkSecondaryMidIndex(null)
     } else {
       setShouldRenderDropdownMenu(false)
     }
@@ -78,9 +74,8 @@ const SingleViewLocationSecondaryMids = () => {
         index={index}
         paymentSchemeSlug={paymentSchemeSlug}
         value={secondaryMidValue}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=secondary-mids&ref=${secondaryMidRef}`}
         refValue={secondaryMidRef}
-        setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
-        isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
         unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
           linkRef,
           planRef: planId as string,
