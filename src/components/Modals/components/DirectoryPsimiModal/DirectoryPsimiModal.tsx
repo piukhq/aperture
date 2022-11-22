@@ -63,7 +63,7 @@ const DirectoryPsimiModal = () => {
       if (psimiValue === '') {
         setPsimiValidationError('Enter PSIMI')
       } else {
-        const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme]
+        const paymentSchemeSlug = PaymentSchemeSlug[paymentScheme]
         const metadata = {
           value: psimiValue,
           payment_scheme_merchant_name: null, // Never populated for a new PSIMI
