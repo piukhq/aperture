@@ -36,7 +36,7 @@ const LinkedListItem = ({
     setNewLinkNotificationFn('')
   }
 
-  const renderDefaultStateButtons = () => (
+  const renderDefaultStateButton = () => (
     <div className='flex items-center'>
       <Button
         handleClick={handleInitialUnlinkButtonClick}
@@ -88,7 +88,7 @@ const LinkedListItem = ({
         {value}
       </a>
 
-      {isInUnlinkingConfirmationState ? renderUnlinkConfirmationStateButtons() : renderDefaultStateButtons()}
+      {isInUnlinkingConfirmationState ? renderUnlinkConfirmationStateButtons() : renderDefaultStateButton()}
     </div>
   )
 }
