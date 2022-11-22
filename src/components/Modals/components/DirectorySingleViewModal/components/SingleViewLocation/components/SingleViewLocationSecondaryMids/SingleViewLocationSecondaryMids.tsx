@@ -60,7 +60,7 @@ const SingleViewLocationSecondaryMids = () => {
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
-  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
+  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid) => {
     const {
       payment_scheme_slug: paymentSchemeSlug,
       secondary_mid_value: secondaryMidValue,
@@ -69,23 +69,24 @@ const SingleViewLocationSecondaryMids = () => {
     } = locationSecondaryMid
 
     return (
-      <LinkedListItem
-        key={index}
-        index={index}
-        paymentSchemeSlug={paymentSchemeSlug}
-        value={secondaryMidValue}
-        link={`/mid-management/directory/${planId}/${merchantId}?tab=secondary-mids&ref=${secondaryMidRef}`}
-        refValue={secondaryMidRef}
-        unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
-          linkRef,
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-        })}
-        isUnlinking={deleteMerchantLocationSecondaryMidLinkIsLoading}
-        setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
-        setNewLinkNotificationFn={setAvailableSecondaryMidNotification}
-        entityType={LinkableEntities.SECONDARY_MID}
-      />
+      <div key={secondaryMidRef}>
+        <LinkedListItem
+          paymentSchemeSlug={paymentSchemeSlug}
+          value={secondaryMidValue}
+          link={`/mid-management/directory/${planId}/${merchantId}?tab=secondary-mids&ref=${secondaryMidRef}`}
+          refValue={secondaryMidRef}
+          unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
+            linkRef,
+            planRef: planId as string,
+            merchantRef: merchantId as string,
+            locationRef: ref as string,
+          })}
+          isUnlinking={deleteMerchantLocationSecondaryMidLinkIsLoading}
+          setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
+          setNewLinkNotificationFn={setAvailableSecondaryMidNotification}
+          entityType={LinkableEntities.SECONDARY_MID}
+        />
+      </div>
     )
   }
 
@@ -182,7 +183,7 @@ const SingleViewLocationSecondaryMids = () => {
       <section>
         <h2 className='font-modal-heading'>LINKED SECONDARY MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
+          {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid) => renderLocationSecondaryMid(locationSecondaryMid))}
         </div>
       </section>
     )

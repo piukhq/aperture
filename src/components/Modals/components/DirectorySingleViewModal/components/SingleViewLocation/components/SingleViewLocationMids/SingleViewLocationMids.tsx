@@ -69,32 +69,32 @@ const SingleViewLocationMids = () => {
 
   const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
 
-  const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index: number) => {
+  const renderLocationMid = (locationMid: DirectoryMerchantLocationMid) => {
     const {
       payment_scheme_slug: paymentSchemeSlug,
       mid_value: midValue,
       mid_ref: midRef,
-      link_ref: linkRef,
     } = locationMid
 
     return (
-      <LinkedListItem
-        key={index}
-        index={index}
-        paymentSchemeSlug={paymentSchemeSlug}
-        value={midValue}
-        link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
-        refValue={midRef}
-        unlinkFn={() => deleteMerchantLocationMidLink({
-          linkRef,
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-        })}
-        isUnlinking={deleteMerchantLocationMidLinkIsLoading}
-        setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
-        setNewLinkNotificationFn={setAvailableMidNotification}
-        entityType={LinkableEntities.MID}
-      />
+      <div key={midRef}>
+        <LinkedListItem
+          paymentSchemeSlug={paymentSchemeSlug}
+          value={midValue}
+          link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
+          refValue={midRef}
+          unlinkFn={() => deleteMerchantLocationMidLink({
+            planRef: planId as string,
+            merchantRef: merchantId as string,
+            locationRef: ref as string,
+            midRef,
+          })}
+          isUnlinking={deleteMerchantLocationMidLinkIsLoading}
+          setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
+          setNewLinkNotificationFn={setAvailableMidNotification}
+          entityType={LinkableEntities.MID}
+        />
+      </div>
     )
   }
 
@@ -187,7 +187,7 @@ const SingleViewLocationMids = () => {
       <section>
         <h2 className='font-modal-heading'>LINKED MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
+          {getMerchantLocationLinkedMidsResponse.map((locationMid) => renderLocationMid(locationMid))}
         </div>
       </section>
     )

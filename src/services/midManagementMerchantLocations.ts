@@ -138,10 +138,10 @@ export const midManagementMerchantLocationsApi = createApi({
         method: 'DELETE',
       }),
       // Update the cache with the removed linked mid
-      async onQueryStarted ({midRef}, {dispatch, queryFulfilled}) {
+      async onQueryStarted ({planRef, merchantRef, locationRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', ({midRef}), (existingLinkedMids) => {
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', ({planRef, merchantRef, locationRef}), (existingLinkedMids) => {
             const index = existingLinkedMids.findIndex(linkedMid => linkedMid.mid_ref === midRef)
             index !== -1 && existingLinkedMids.splice(index, 1)
           })
@@ -172,7 +172,19 @@ export const midManagementMerchantLocationsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
+      // Update the cache with the removed linked secondary mid
+      async onQueryStarted ({planRef, merchantRef, locationRef, linkRef}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedSecondaryMids', ({planRef, merchantRef, locationRef}), (existingLinkedSecondaryMids) => {
+            const index = existingLinkedSecondaryMids.findIndex(linkedSecondaryMid => linkedSecondaryMid.link_ref === linkRef)
+            index !== -1 && existingLinkedSecondaryMids.splice(index, 1)
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })
