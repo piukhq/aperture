@@ -1,6 +1,7 @@
 import {
   useGetMerchantPsimisQuery,
   useGetMerchantPsimiQuery,
+  usePostMerchantPsimiMutation,
   useDeleteMerchantPsimiMutation,
   usePostMerchantPsimiOnboardingMutation,
   usePostMerchantPsimiOffboardingMutation,
@@ -20,6 +21,13 @@ export const useMidManagementPsimis = ({skipGetPsimis = false, skipGetPsimi = fa
     refetch: getMerchantPsimiRefresh,
     isFetching: getMerchantPsimiIsFetching,
   } = useGetMerchantPsimiQuery({planRef, merchantRef, psimiRef}, {skip: skipGetPsimi})
+
+  const [postMerchantPsimi, {
+    data: postMerchantPsimiResponse,
+    isLoading: postMerchantPsimiIsLoading,
+    error: postMerchantPsimiError,
+    reset: resetPostMerchantPsimiResponse,
+  }] = usePostMerchantPsimiMutation({fixedCacheKey: 'postMerchantPsimi'})
 
   const [deleteMerchantPsimi, {
     isSuccess: deleteMerchantPsimiIsSuccess,
@@ -55,6 +63,12 @@ export const useMidManagementPsimis = ({skipGetPsimis = false, skipGetPsimi = fa
     getMerchantPsimiError,
     getMerchantPsimiRefresh,
     getMerchantPsimiIsFetching,
+    // POST PSIMI
+    postMerchantPsimi,
+    postMerchantPsimiResponse,
+    postMerchantPsimiIsLoading,
+    postMerchantPsimiError,
+    resetPostMerchantPsimiResponse,
     // DELETE PSIMI
     deleteMerchantPsimi,
     deleteMerchantPsimiIsSuccess,

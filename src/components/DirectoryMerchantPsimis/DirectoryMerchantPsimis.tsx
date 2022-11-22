@@ -3,13 +3,13 @@ import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'c
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {DirectoryPsimi, DirectoryPsimis} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 
@@ -88,6 +88,11 @@ const DirectoryMerchantPsimis = () => {
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedPsimisToEntity))
   }
 
+  const requestPsimiAddModal = (paymentScheme: PaymentSchemeName) => {
+    dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PSIMI))
+  }
+
   const requestPsimisDeleteModal = ():void => {
     setSelectedPsimis()
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
@@ -147,7 +152,7 @@ const DirectoryMerchantPsimis = () => {
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Visa PSIMI')}
+            onClick={() => requestPsimiAddModal(PaymentSchemeName.VISA)}
             aria-label='Add Visa PSIMI'
           >
             <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
@@ -156,7 +161,7 @@ const DirectoryMerchantPsimis = () => {
 
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Mastercard PSIMI')}
+            onClick={() => requestPsimiAddModal(PaymentSchemeName.MASTERCARD)}
             aria-label='Add Mastercard PSIMI'
           >
             <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
