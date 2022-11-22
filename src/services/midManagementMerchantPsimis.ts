@@ -1,5 +1,5 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectoryPsimis, DirectoryPsimi} from 'types'
+import {DirectoryPsimis, DirectoryPsimi, DirectoryPsimiMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -7,6 +7,11 @@ type MerchantPsimisEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   psimiRef?: string,
+}
+
+type PostMerchantPsimiBody = MerchantPsimisEndpointRefs & {
+  onboard: boolean,
+  psimi_metadata: DirectoryPsimiMetadata,
 }
 
 type DeleteMerchantPsimiRefs = MerchantPsimisEndpointRefs & {
@@ -31,6 +36,16 @@ export const midManagementMerchantPsimisApi = createApi({
         method: 'GET',
       }),
       providesTags: ['MerchantPsimi'],
+    }),
+    postMerchantPsimi: builder.mutation<DirectoryPsimi, PostMerchantPsimiBody>({
+      query: ({onboard = false, psimi_metadata, planRef, merchantRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis`,
+        method: 'POST',
+        body: {
+          onboard,
+          psimi_metadata,
+        },
+      }),
     }),
     deleteMerchantPsimi: builder.mutation<void, DeleteMerchantPsimiRefs>({
       query: ({planRef, merchantRef, psimiRefs}) => ({
@@ -104,6 +119,7 @@ export const midManagementMerchantPsimisApi = createApi({
 export const {
   useGetMerchantPsimisQuery,
   useGetMerchantPsimiQuery,
+  usePostMerchantPsimiMutation,
   usePostMerchantPsimiOnboardingMutation,
   usePostMerchantPsimiOffboardingMutation,
   useDeleteMerchantPsimiMutation,
