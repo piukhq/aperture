@@ -46,6 +46,18 @@ export const midManagementMerchantPsimisApi = createApi({
           psimi_metadata,
         },
       }),
+      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newPsimi} = await queryFulfilled
+          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
+            existingPsimis.push(newPsimi)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantPsimi: builder.mutation<void, DeleteMerchantPsimiRefs>({
       query: ({planRef, merchantRef, psimiRefs}) => ({
