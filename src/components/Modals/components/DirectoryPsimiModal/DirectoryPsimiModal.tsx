@@ -43,7 +43,6 @@ const DirectoryPsimiModal = () => {
       handlePostMerchantPsimiError()
     } else if (postMerchantPsimiResponse) {
       resetPostMerchantPsimiResponse()
-      reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantPsimiError, resetPostMerchantPsimiResponse, handlePostMerchantPsimiError, postMerchantPsimiResponse, dispatch])
