@@ -13,12 +13,10 @@ const mockEntityType = LinkableEntities.MID
 const mockIsUnlinking = false
 
 const mockProps = {
-  index: 0,
   paymentSchemeSlug: PaymentSchemeSlug.VISA,
   value: mockValue,
   link: mockLink,
   refValue: mockRefValue,
-  isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
   isUnlinking: mockIsUnlinking,
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
@@ -47,7 +45,6 @@ describe('LinkedListItem', () => {
 
   it('should render the correct buttons', () => {
     render(getLinkedListItemComponent())
-    expect(screen.getByLabelText(`View ${mockRefValue}`)).toBeInTheDocument()
     expect(screen.getByLabelText(`Unlink ${mockRefValue}`)).toBeInTheDocument()
   })
 

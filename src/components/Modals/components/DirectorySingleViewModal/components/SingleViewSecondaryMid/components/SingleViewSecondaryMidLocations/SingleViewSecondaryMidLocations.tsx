@@ -66,7 +66,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     </section>
   )
 
-  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation, index: number) => {
+  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation) => {
     const {
       location_title: locationTitle,
       link_ref: linkRef,
@@ -74,22 +74,23 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     } = secondaryMidLocation
 
     return (
-      <LinkedListItem
-        key={index}
-        index={index}
-        value={locationTitle}
-        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
-        refValue={locationRef}
-        unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
-          linkRef,
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-        })}
-        isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
-        setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
-        entityType={LinkableEntities.LOCATION}
-        setNewLinkNotificationFn={setAvailableLocationNotification}
-      />
+      <div key={locationRef}>
+        <LinkedListItem
+          value={locationTitle}
+          link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
+          refValue={locationRef}
+          unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
+            linkRef,
+            planRef: planId as string,
+            merchantRef: merchantId as string,
+            secondaryMidRef: ref as string,
+          })}
+          isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
+          setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
+          entityType={LinkableEntities.LOCATION}
+          setNewLinkNotificationFn={setAvailableLocationNotification}
+        />
+      </div>
     )
   }
 
@@ -101,7 +102,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       <section>
         <h2 className='font-modal-heading'>LINKED LOCATIONS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
+          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation) => renderLocation(secondaryMidLocation))}
         </div>
       </section>
     )

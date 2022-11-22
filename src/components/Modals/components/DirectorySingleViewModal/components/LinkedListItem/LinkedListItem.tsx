@@ -5,7 +5,6 @@ import {useState} from 'react'
 import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
 
 type Props = {
-  index: number,
   paymentSchemeSlug?: PaymentSchemeSlug,
   value: string,
   link: string,
@@ -19,7 +18,6 @@ type Props = {
 
 // Component used to display linked MIDs, Secondary MIDs and Locations
 const LinkedListItem = ({
-  index,
   paymentSchemeSlug,
   value,
   link,
@@ -35,22 +33,11 @@ const LinkedListItem = ({
   const handleInitialUnlinkButtonClick = () => {
     setIsInUnlinkingConfirmationState(true)
     setShouldRenderNewLinkDropdownMenuFn(false)
+    setNewLinkNotificationFn('')
   }
 
   const renderDefaultStateButtons = () => (
-    <div className='flex items-center gap-[10px]'>
-      <Button
-        handleClick={() => console.log('View button clicked')}
-        buttonType={ButtonType.SUBMIT}
-        buttonSize={ButtonSize.MEDIUM}
-        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-        buttonBackground={ButtonBackground.LIGHT_GREY}
-        labelColour={LabelColour.GREY}
-        labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel={`View ${refValue}`}
-      >View
-      </Button>
-
+    <div className='flex items-center'>
       <Button
         handleClick={handleInitialUnlinkButtonClick}
         buttonSize={ButtonSize.MEDIUM_ICON}
@@ -63,8 +50,6 @@ const LinkedListItem = ({
   )
 
   const renderUnlinkConfirmationStateButtons = () => {
-    setNewLinkNotificationFn('')
-
     return (
       <section data-testid='unlink-confirmation-section' className='flex items-center justify-between gap-[5px]' >
         <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {entityType}?</p>
@@ -93,14 +78,13 @@ const LinkedListItem = ({
   }
 
   return (
-    <div key={index} className='flex w-full justify-between h-[35px]'>
+    <div className='flex w-full justify-between h-[35px]'>
       <a href={link} className='flex items-center overflow-x-hidden font-modal-data text-blue'>
         {entityType !== LinkableEntities.LOCATION && (
           <div className='w-[42px] h-[30px] mr-[13px]'>
             {paymentSchemeSlug && <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />}
           </div>
         )}
-
         {value}
       </a>
 
