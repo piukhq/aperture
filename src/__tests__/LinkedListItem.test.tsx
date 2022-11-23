@@ -13,10 +13,13 @@ const mockEntityType = LinkableEntities.MID
 const mockIsUnlinking = false
 
 const mockProps = {
+  index: 0,
   paymentSchemeSlug: PaymentSchemeSlug.VISA,
   value: mockValue,
   link: mockLink,
   refValue: mockRefValue,
+  setSelectedUnlinkIndexFn: jest.fn(),
+  isInUnlinkingConfirmationState: false,
   unlinkFn: jest.fn(),
   isUnlinking: mockIsUnlinking,
   setShouldRenderNewLinkDropdownMenuFn: jest.fn(),
@@ -48,50 +51,54 @@ describe('LinkedListItem', () => {
     expect(screen.getByLabelText(`Unlink ${mockRefValue}`)).toBeInTheDocument()
   })
 
-  it('should render the unlink confirmation section when the unlink button is clicked', () => {
+  it('should call the setUnlinkingMidFn with correct index when the unlink button is clicked', () => {
     render(getLinkedListItemComponent())
     fireEvent.click(screen.getByLabelText(`Unlink ${mockRefValue}`))
-    expect(screen.getByTestId('unlink-confirmation-section')).toBeInTheDocument()
+    expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(mockProps.index)
   })
 
   describe('Test unlinking confirmation state', () => {
-    const mockSetIsInUnlinkingConfirmationState = jest.fn()
-    beforeEach(() => {
-      React.useState = jest.fn().mockReturnValueOnce([true, mockSetIsInUnlinkingConfirmationState]) // isInUnlinkingConfirmationState
+    const getUnlinkingConfirmingStateComponent = getLinkedListItemComponent({
+      isInUnlinkingConfirmationState: true,
     })
 
     it('should render the unlink confirmation button', () => {
-      render(getLinkedListItemComponent())
+      render(getUnlinkingConfirmingStateComponent)
       expect(screen.getByRole('button', {name: 'Yes, unlink'})).toBeInTheDocument()
     })
 
     it('should render the cancel button', () => {
-      render(getLinkedListItemComponent())
+      render(getUnlinkingConfirmingStateComponent)
       expect(screen.getByRole('button', {name: 'Cancel'})).toBeInTheDocument()
     })
 
     it('should render the unlink confirmation message', () => {
-      render(getLinkedListItemComponent())
+      render(getUnlinkingConfirmingStateComponent)
       expect(screen.getByText(`Are you sure you want to unlink this ${mockEntityType}?`)).toBeInTheDocument()
     })
 
     it('should call the unlink function when the unlink confirmation button is clicked', () => {
-      render(getLinkedListItemComponent())
+      render(getUnlinkingConfirmingStateComponent)
       fireEvent.click(screen.getByRole('button', {name: 'Yes, unlink'}))
 
       expect(mockProps.unlinkFn).toHaveBeenCalled()
     })
 
-    it('should set state to not render the unlink confirmation section when the cancel button is clicked', () => {
-      render(getLinkedListItemComponent())
+    it('should call the setUnlinkingMidFn function with null when the cancel button is clicked', () => {
+      render(getUnlinkingConfirmingStateComponent)
       fireEvent.click(screen.getByRole('button', {name: 'Cancel'}))
 
-      expect(mockSetIsInUnlinkingConfirmationState).toBeCalledWith(false)
+      expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(null)
     })
 
     describe('Test unlinking state', () => {
+      const getUnlinkingStateComponent = getLinkedListItemComponent({
+        isUnlinking: true,
+        isInUnlinkingConfirmationState: true,
+      })
+
       it('should render the disabled unlinking button ', () => {
-        render(getLinkedListItemComponent({isUnlinking: true}))
+        render(getUnlinkingStateComponent)
         const unlinkingButton = screen.getByRole('button', {name: 'Unlinking...'})
 
         expect(unlinkingButton).toBeInTheDocument()

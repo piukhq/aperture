@@ -13,6 +13,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   const {merchantId, planId, ref} = router.query
 
   const [shouldGetLinkedLocations, setShouldGetLinkedLocations] = useState(true)
+  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState(null)
   const [availableLocationNotification, setAvailableLocationNotification] = useState('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
 
   const {
@@ -39,6 +40,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   useEffect(() => { // If the user has successfully unlinked a Location, revert to initial state
     if (deleteMerchantSecondaryMidLocationLinkIsSuccess) {
       resetDeleteMerchantSecondaryMidLocationLinkResponse()
+      setSelectedUnlinkLocationIndex(null)
     }
   }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, resetDeleteMerchantSecondaryMidLocationLinkResponse])
 
@@ -66,7 +68,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     </section>
   )
 
-  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation) => {
+  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation, index) => {
     const {
       location_title: locationTitle,
       link_ref: linkRef,
@@ -76,9 +78,12 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     return (
       <LinkedListItem
         key={locationRef}
+        index={index}
         value={locationTitle}
         link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
         refValue={locationRef}
+        setSelectedUnlinkIndexFn={setSelectedUnlinkLocationIndex}
+        isInUnlinkingConfirmationState={selectedUnlinkLocationIndex === index}
         unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
           linkRef,
           planRef: planId as string,
@@ -101,7 +106,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       <section>
         <h2 className='font-modal-heading'>LINKED LOCATIONS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation) => renderLocation(secondaryMidLocation))}
+          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
         </div>
       </section>
     )

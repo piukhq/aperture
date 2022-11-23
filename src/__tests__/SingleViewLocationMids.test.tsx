@@ -168,6 +168,7 @@ describe('SingleViewLocationMids', () => {
         const setStateMock = jest.fn()
         React.useState = jest.fn()
           .mockReturnValueOnce([true, setStateMock]) // shouldPrepareDropdownMenu
+          .mockReturnValueOnce([true, setStateMock]) // shouldRenderDropdownMenu
           .mockReturnValueOnce([mockGetMerchantLocationAvailableMidsResponse[1], setStateMock]) // selectedAvailableMid
           .mockReturnValueOnce([null, setStateMock]) // selectedUnlinkMidIndex
           .mockReturnValueOnce(['mock_warning', setStateMock]) // availableMidLocationWarning
