@@ -1,16 +1,18 @@
 import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import {useState} from 'react'
 import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
 
 type Props = {
+  index: number,
   paymentSchemeSlug?: PaymentSchemeSlug,
   value: string,
   link: string,
   refValue: string,
   unlinkFn: () => void,
   isUnlinking: boolean,
+  isInUnlinkingConfirmationState: boolean,
+  setSelectedUnlinkIndexFn: (index: number) => void,
   setShouldRenderNewLinkDropdownMenuFn: (shouldRenderDropdownMenu: boolean) => void,
   setNewLinkNotificationFn: (notification: string) => void,
   entityType: LinkableEntities
@@ -18,20 +20,21 @@ type Props = {
 
 // Component used to display linked MIDs, Secondary MIDs and Locations
 const LinkedListItem = ({
+  index,
   paymentSchemeSlug,
   value,
   link,
   refValue,
+  setSelectedUnlinkIndexFn,
+  isInUnlinkingConfirmationState,
   unlinkFn,
   isUnlinking,
   setShouldRenderNewLinkDropdownMenuFn,
   setNewLinkNotificationFn,
   entityType,
 }: Props) => {
-  const [isInUnlinkingConfirmationState, setIsInUnlinkingConfirmationState] = useState(false)
-
   const handleInitialUnlinkButtonClick = () => {
-    setIsInUnlinkingConfirmationState(true)
+    setSelectedUnlinkIndexFn(index)
     setShouldRenderNewLinkDropdownMenuFn(false)
     setNewLinkNotificationFn('')
   }
@@ -54,7 +57,7 @@ const LinkedListItem = ({
       <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {entityType}?</p>
 
       <Button
-        handleClick={() => setIsInUnlinkingConfirmationState(false)}
+        handleClick={() => setSelectedUnlinkIndexFn(null)}
         buttonSize={ButtonSize.MEDIUM_ICON}
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         buttonBackground={ButtonBackground.LIGHT_GREY}
