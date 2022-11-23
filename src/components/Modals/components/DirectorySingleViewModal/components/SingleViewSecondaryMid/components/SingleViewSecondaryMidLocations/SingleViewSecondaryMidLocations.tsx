@@ -74,23 +74,22 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     } = secondaryMidLocation
 
     return (
-      <div key={locationRef}>
-        <LinkedListItem
-          value={locationTitle}
-          link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
-          refValue={locationRef}
-          unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
-            linkRef,
-            planRef: planId as string,
-            merchantRef: merchantId as string,
-            secondaryMidRef: ref as string,
-          })}
-          isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
-          setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
-          entityType={LinkableEntities.LOCATION}
-          setNewLinkNotificationFn={setAvailableLocationNotification}
-        />
-      </div>
+      <LinkedListItem
+        key={locationRef}
+        value={locationTitle}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
+        refValue={locationRef}
+        unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
+          linkRef,
+          planRef: planId as string,
+          merchantRef: merchantId as string,
+          secondaryMidRef: ref as string,
+        })}
+        isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
+        setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}
+        entityType={LinkableEntities.LOCATION}
+        setNewLinkNotificationFn={setAvailableLocationNotification}
+      />
     )
   }
 
