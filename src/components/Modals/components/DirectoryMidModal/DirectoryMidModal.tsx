@@ -69,7 +69,7 @@ const DirectoryMidModal = () => {
       if (midValue === '') {
         setMidValidationError('Enter MID')
       } else {
-        const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme]
+        const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
         const metadata = {
           payment_scheme_slug: paymentSchemeSlug,
           mid: midValue,
