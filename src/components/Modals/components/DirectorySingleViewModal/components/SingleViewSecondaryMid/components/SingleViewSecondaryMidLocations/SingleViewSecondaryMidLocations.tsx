@@ -68,7 +68,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     </section>
   )
 
-  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation, index: number) => {
+  const renderLocation = (secondaryMidLocation: DirectoryMerchantMidLocation, index) => {
     const {
       location_title: locationTitle,
       link_ref: linkRef,
@@ -77,9 +77,10 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
     return (
       <LinkedListItem
-        key={index}
+        key={locationRef}
         index={index}
         value={locationTitle}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
         refValue={locationRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkLocationIndex}
         isInUnlinkingConfirmationState={selectedUnlinkLocationIndex === index}
@@ -87,6 +88,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
           linkRef,
           planRef: planId as string,
           merchantRef: merchantId as string,
+          secondaryMidRef: ref as string,
         })}
         isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={() => console.log('Placeholder setShouldRenderDropdownMenuFn')}

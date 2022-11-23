@@ -250,6 +250,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         header='LOCATION'
         label='location'
         actionVerb='unlink'
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
         value={getAssociatedLocationString()}
         isSaving={putMerchantMidLocationIsLoading}
         isDisabled={isRefreshing}

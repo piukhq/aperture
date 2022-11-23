@@ -46,7 +46,19 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['MerchantSecondaryMidLinkedLocations'],
+      // Update the cache with the removed linked location
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef, linkRef}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMidLinkedLocations', ({planRef, merchantRef, secondaryMidRef}), (existingLinkedLocations) => {
+            const index = existingLinkedLocations.findIndex(linkedLocation => linkedLocation.link_ref === linkRef)
+            index !== -1 && existingLinkedLocations.splice(index, 1)
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantSecondaryMid: builder.mutation<void, DeleteMerchantSecondaryMidRefs>({
       query: ({planRef, merchantRef, secondaryMidRefs}) => ({

@@ -7,6 +7,7 @@ type Props = {
   index: number,
   paymentSchemeSlug?: PaymentSchemeSlug,
   value: string,
+  link: string,
   refValue: string,
   unlinkFn: () => void,
   isUnlinking: boolean,
@@ -22,6 +23,7 @@ const LinkedListItem = ({
   index,
   paymentSchemeSlug,
   value,
+  link,
   refValue,
   setSelectedUnlinkIndexFn,
   isInUnlinkingConfirmationState,
@@ -31,26 +33,14 @@ const LinkedListItem = ({
   setNewLinkNotificationFn,
   entityType,
 }: Props) => {
-
   const handleInitialUnlinkButtonClick = () => {
     setSelectedUnlinkIndexFn(index)
     setShouldRenderNewLinkDropdownMenuFn(false)
+    setNewLinkNotificationFn('')
   }
 
-  const renderDefaultStateButtons = () => (
-    <div className='flex items-center gap-[10px]'>
-      <Button
-        handleClick={() => console.log('View button clicked')}
-        buttonType={ButtonType.SUBMIT}
-        buttonSize={ButtonSize.MEDIUM}
-        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-        buttonBackground={ButtonBackground.LIGHT_GREY}
-        labelColour={LabelColour.GREY}
-        labelWeight={LabelWeight.SEMIBOLD}
-        ariaLabel={`View ${refValue}`}
-      >View
-      </Button>
-
+  const renderDefaultStateButton = () => (
+    <div className='flex items-center'>
       <Button
         handleClick={handleInitialUnlinkButtonClick}
         buttonSize={ButtonSize.MEDIUM_ICON}
@@ -62,10 +52,10 @@ const LinkedListItem = ({
     </div>
   )
 
-  const renderUnlinkConfirmationStateButtons = () => {
-    setNewLinkNotificationFn('')
-    return <div className='flex items-center justify-between gap-[5px]' >
+  const renderUnlinkConfirmationStateButtons = () => (
+    <section data-testid='unlink-confirmation-section' className='flex items-center justify-between gap-[5px]' >
       <p className='absolute -translate-x-[160px] font-body-4 pl-[5px] bg-white dark:bg-grey-850 text-red max-w-[157px] z-10'>Are you sure you want to unlink this {entityType}?</p>
+
       <Button
         handleClick={() => setSelectedUnlinkIndexFn(null)}
         buttonSize={ButtonSize.MEDIUM_ICON}
@@ -85,24 +75,21 @@ const LinkedListItem = ({
         isDisabled={isUnlinking}
       > { isUnlinking ? 'Unlinking... ' : 'Yes, unlink'}
       </Button>
-
-    </div>
-  }
+    </section>
+  )
 
   return (
-    <div key={index} className='flex w-full justify-between h-[35px]'>
-      <div className='flex items-center overflow-x-hidden '>
+    <div className='flex w-full justify-between h-[35px]'>
+      <a href={link} className='flex items-center overflow-x-hidden font-modal-data text-blue'>
         {entityType !== LinkableEntities.LOCATION && (
           <div className='w-[42px] h-[30px] mr-[13px]'>
             {paymentSchemeSlug && <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />}
           </div>
         )}
+        {value}
+      </a>
 
-        <p className='font-modal-data'>
-          {value}
-        </p>
-      </div>
-      {isInUnlinkingConfirmationState ? renderUnlinkConfirmationStateButtons() : renderDefaultStateButtons()}
+      {isInUnlinkingConfirmationState ? renderUnlinkConfirmationStateButtons() : renderDefaultStateButton()}
     </div>
   )
 }

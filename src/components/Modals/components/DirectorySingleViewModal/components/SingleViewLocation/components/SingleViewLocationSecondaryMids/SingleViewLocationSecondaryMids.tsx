@@ -64,7 +64,7 @@ const SingleViewLocationSecondaryMids = () => {
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
-  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
+  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index) => {
     const {
       payment_scheme_slug: paymentSchemeSlug,
       secondary_mid_value: secondaryMidValue,
@@ -74,17 +74,20 @@ const SingleViewLocationSecondaryMids = () => {
 
     return (
       <LinkedListItem
-        key={index}
+        key={secondaryMidRef}
         index={index}
         paymentSchemeSlug={paymentSchemeSlug}
         value={secondaryMidValue}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=secondary-mids&ref=${secondaryMidRef}`}
         refValue={secondaryMidRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
         isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
+
         unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
           linkRef,
           planRef: planId as string,
           merchantRef: merchantId as string,
+          locationRef: ref as string,
         })}
         isUnlinking={deleteMerchantLocationSecondaryMidLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}

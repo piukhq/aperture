@@ -6,6 +6,7 @@ import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
 const mockValue = 'mock_value'
 const mockRefValue = 'mock_ref_value'
+const mockLink = 'mock_link'
 
 const mockEntityType = LinkableEntities.MID
 
@@ -15,6 +16,7 @@ const mockProps = {
   index: 0,
   paymentSchemeSlug: PaymentSchemeSlug.VISA,
   value: mockValue,
+  link: mockLink,
   refValue: mockRefValue,
   setSelectedUnlinkIndexFn: jest.fn(),
   isInUnlinkingConfirmationState: false,
@@ -46,7 +48,6 @@ describe('LinkedListItem', () => {
 
   it('should render the correct buttons', () => {
     render(getLinkedListItemComponent())
-    expect(screen.getByLabelText(`View ${mockRefValue}`)).toBeInTheDocument()
     expect(screen.getByLabelText(`Unlink ${mockRefValue}`)).toBeInTheDocument()
   })
 
@@ -65,7 +66,6 @@ describe('LinkedListItem', () => {
       render(getUnlinkingConfirmingStateComponent)
       expect(screen.getByRole('button', {name: 'Yes, unlink'})).toBeInTheDocument()
     })
-
 
     it('should render the cancel button', () => {
       render(getUnlinkingConfirmingStateComponent)

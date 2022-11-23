@@ -71,30 +71,30 @@ const SingleViewLocationMids = () => {
     setAvailableMidNotification(warningMessage)
   }, [selectedAvailableMid?.locationLink])
 
-
   const hasNoLinkedMids = (!getMerchantLocationLinkedMidsResponse || getMerchantLocationLinkedMidsResponse.length === 0) && !getMerchantLocationLinkedMidsIsLoading
 
-  const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index: number) => {
+  const renderLocationMid = (locationMid: DirectoryMerchantLocationMid, index) => {
     const {
       payment_scheme_slug: paymentSchemeSlug,
       mid_value: midValue,
       mid_ref: midRef,
-      link_ref: linkRef,
     } = locationMid
 
     return (
       <LinkedListItem
-        key={index}
+        key={midRef}
         index={index}
         paymentSchemeSlug={paymentSchemeSlug}
         value={midValue}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
         refValue={midRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkMidIndex}
         isInUnlinkingConfirmationState={selectedUnlinkMidIndex === index}
         unlinkFn={() => deleteMerchantLocationMidLink({
-          linkRef,
           planRef: planId as string,
           merchantRef: merchantId as string,
+          locationRef: ref as string,
+          midRef,
         })}
         isUnlinking={deleteMerchantLocationMidLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
@@ -213,5 +213,5 @@ const SingleViewLocationMids = () => {
     </div>
   )
 }
-export default SingleViewLocationMids
 
+export default SingleViewLocationMids
