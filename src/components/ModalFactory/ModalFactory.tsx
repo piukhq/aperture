@@ -8,6 +8,7 @@ import {
   DirectoryMerchantModal,
   DirectoryMerchantDeleteModal,
   DirectoryMidModal,
+  DirectoryPsimiModal,
   DirectorySingleViewModal,
   DirectoryMerchantMidsDeleteModalContainer,
   DirectoryMerchantSecondaryMidsDeleteModalContainer,
@@ -32,6 +33,7 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT: return <DirectoryMerchantModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE: return <DirectoryMerchantDeleteModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MID: return <DirectoryMidModal />
+    case ModalType.MID_MANAGEMENT_DIRECTORY_PSIMI: return <DirectoryPsimiModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW: return <DirectorySingleViewModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MIDS_DELETE: return <DirectoryMerchantMidsDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE: return <DirectoryMerchantSecondaryMidsDeleteModalContainer />

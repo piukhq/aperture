@@ -220,14 +220,16 @@ export type DirectoryPsimis = Array<DirectoryPsimi>
 
 export type DirectoryPsimi = {
   psimi_ref: string,
-  psimi_metadata: {
-    value: string,
-    payment_scheme_merchant_name: string,
-    payment_scheme_slug: PaymentSchemeSlug,
-  },
+  psimi_metadata: DirectoryPsimiMetadata,
   psimi_status?: string, // Is only present when calling API endpoint for a single PSIMI.
   date_added: string // TODO: Change this depending on API value
   txm_status: string
+}
+
+export type DirectoryPsimiMetadata = {
+  value: string,
+  payment_scheme_merchant_name: string,
+  payment_scheme_slug: PaymentSchemeSlug,
 }
 
 export type DirectorySecondaryMids = Array<DirectorySecondaryMid>
