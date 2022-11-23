@@ -77,24 +77,23 @@ const SingleViewLocationMids = () => {
     } = locationMid
 
     return (
-      <div key={midRef}>
-        <LinkedListItem
-          paymentSchemeSlug={paymentSchemeSlug}
-          value={midValue}
-          link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
-          refValue={midRef}
-          unlinkFn={() => deleteMerchantLocationMidLink({
-            planRef: planId as string,
-            merchantRef: merchantId as string,
-            locationRef: ref as string,
-            midRef,
-          })}
-          isUnlinking={deleteMerchantLocationMidLinkIsLoading}
-          setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
-          setNewLinkNotificationFn={setAvailableMidNotification}
-          entityType={LinkableEntities.MID}
-        />
-      </div>
+      <LinkedListItem
+        key={midRef}
+        paymentSchemeSlug={paymentSchemeSlug}
+        value={midValue}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=mids&ref=${midRef}`}
+        refValue={midRef}
+        unlinkFn={() => deleteMerchantLocationMidLink({
+          planRef: planId as string,
+          merchantRef: merchantId as string,
+          locationRef: ref as string,
+          midRef,
+        })}
+        isUnlinking={deleteMerchantLocationMidLinkIsLoading}
+        setShouldRenderNewLinkDropdownMenuFn={setShouldPrepareDropdownMenu}
+        setNewLinkNotificationFn={setAvailableMidNotification}
+        entityType={LinkableEntities.MID}
+      />
     )
   }
 
