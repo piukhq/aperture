@@ -23,6 +23,7 @@ import directoryCommentsReducer from 'features/directoryCommentsSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import comparatorReducer from 'features/comparatorSlice'
+import directoryLocationReducer from 'features/directoryLocationSlice'
 import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
@@ -45,6 +46,7 @@ const reducers = combineReducers({
   directoryComments: directoryCommentsReducer,
   directoryPlan: directoryPlanReducer,
   directoryMerchant: directoryMerchantReducer,
+  directoryLocation: directoryLocationReducer,
 
   // Add the generated reducer as a specific top-level slice
   [devVerifyApi.reducerPath]: devVerifyApi.reducer,

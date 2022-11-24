@@ -21,6 +21,7 @@ import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant, DirectoryMerchant} from 'types'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
+import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 enum NavigationLabel {
   MIDS = 'MIDs',
@@ -71,7 +72,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       case DirectoryNavigationTab.MIDS:
         return <DirectoryMerchantMids/>
       case DirectoryNavigationTab.LOCATIONS:
-        return <DirectoryMerchantLocations locationLabel={merchant.merchant_metadata.location_label} />
+        return <DirectoryMerchantLocations locationLabel={capitaliseFirstLetter(merchant.merchant_metadata.location_label)} />
       case DirectoryNavigationTab.PSIMIS:
         return <DirectoryMerchantPsimis/>
       case DirectoryNavigationTab.SECONDARY_MIDS:

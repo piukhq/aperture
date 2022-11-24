@@ -6,6 +6,7 @@ export {default as DirectoryMerchantDeleteModal} from './components/DirectoryMer
 export {default as DirectoryMerchantMidsDeleteModalContainer} from './components/DirectoryMerchantMidsDeleteModalContainer'
 export {default as DirectoryMerchantModal} from './components/DirectoryMerchantModal'
 export {default as DirectoryMidModal} from './components/DirectoryMidModal'
+export {default as DirectoryLocationModal} from './components/DirectoryLocationModal'
 export {default as DirectorySingleViewModal} from './components/DirectorySingleViewModal'
 export {default as DirectoryPlanDeleteModal} from './components/DirectoryPlanDeleteModal'
 export {default as DirectoryPlanModal} from './components/DirectoryPlanModal'
