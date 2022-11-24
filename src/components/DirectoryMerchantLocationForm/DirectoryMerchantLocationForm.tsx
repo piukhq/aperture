@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {Button, Dropdown, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -115,10 +115,10 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
     }
   }
 
-  const formIsInvalid = nameValidationError || locationIdValidationError || (isPhysicalLocation && (addressLine1ValidationError || postcodeValidationError))
+  const validationError = nameValidationError || locationIdValidationError || (isPhysicalLocation && (addressLine1ValidationError || postcodeValidationError))
 
-  const handleSave = () => {
-    if (formIsInvalid) {
+  const validateLocationDetails = () => {
+    if (validationError) {
       setErrorMessage('Populate all mandatory fields')
     } else {
       setErrorMessage(null)
@@ -135,6 +135,18 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
         country: countryValue,
         postcode: postcodeValue,
       })
+    }
+  }
+
+  const handleSave = () => {
+    if (
+      nameValue === '' ||
+      locationIdValue === '' ||
+      (isPhysicalLocation && (addressLine1Value === '' || postcodeValue === ''))
+    ) {
+      setErrorMessage('Populate all mandatory fields')
+    } else {
+      validateLocationDetails()
     }
   }
 
