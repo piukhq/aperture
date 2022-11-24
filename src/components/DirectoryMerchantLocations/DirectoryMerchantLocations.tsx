@@ -8,7 +8,7 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
-import {capitaliseFirstLetter} from 'utils/stringFormat'
+import {setLocationLabel} from 'features/directoryLocationSlice'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -165,13 +165,16 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         </div>
 
         <Button
-          handleClick={() => console.log('Add store button clicked')}
+          handleClick={() => {
+            dispatch(setLocationLabel(locationLabel))
+            dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION))
+          }}
           buttonSize={ButtonSize.MEDIUM_ICON}
           buttonWidth={ButtonWidth.AUTO}
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
-        >{`Add ${capitaliseFirstLetter(locationLabel)}`}
+        >{`Add ${locationLabel}`}
         </Button>
       </div>
 

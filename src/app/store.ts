@@ -22,6 +22,7 @@ import customerWalletReducer from 'features/customerWalletSlice'
 import directoryCommentsReducer from 'features/directoryCommentsSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
+import directoryLocationReducer from 'features/directoryLocationSlice'
 import planAssetsReducer from 'features/planAssetsSlice'
 import modalReducer from 'features/modalSlice'
 
@@ -45,6 +46,7 @@ const reducers = combineReducers({
   directoryComments: directoryCommentsReducer,
   directoryPlan: directoryPlanReducer,
   directoryMerchant: directoryMerchantReducer,
+  directoryLocation: directoryLocationReducer,
 
   // Add the generated reducer as a specific top-level slice
   [devVerifyApi.reducerPath]: devVerifyApi.reducer,
