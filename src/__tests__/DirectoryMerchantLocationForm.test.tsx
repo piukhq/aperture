@@ -115,7 +115,6 @@ describe('DirectoryMerchantLocationForm', () => {
     it('should render the Location Name field', () => {
       render(getEditLocationFormComponent())
       const nameInput = screen.getByLabelText('Name')
-      expect(nameInput).toBeInTheDocument()
       expect(nameInput).toHaveProperty('autofocus')
       expect(nameInput).toHaveValue(mockName)
     })
@@ -129,7 +128,6 @@ describe('DirectoryMerchantLocationForm', () => {
     it('should render the Merchant Internal ID field', () => {
       render(getEditLocationFormComponent())
       const merchantInternalIdInput = screen.getByLabelText('Merchant Internal ID')
-      expect(merchantInternalIdInput).toBeInTheDocument()
       expect(merchantInternalIdInput).toHaveValue(mockMerchantInternalId)
     })
   })
@@ -187,42 +185,36 @@ describe('DirectoryMerchantLocationForm', () => {
     it('should render the Line 1 field', () => {
       render(getEditLocationFormComponent())
       const line1Input = screen.getByLabelText('Line 1')
-      expect(line1Input).toBeInTheDocument()
       expect(line1Input).toHaveValue(mockAddressLine1)
     })
 
     it('should render the Line 2 field', () => {
       render(getEditLocationFormComponent())
       const line2Input = screen.getByLabelText('Line 2')
-      expect(line2Input).toBeInTheDocument()
       expect(line2Input).toHaveValue(mockAddressLine2)
     })
 
     it('should render the Town / City field', () => {
       render(getEditLocationFormComponent())
       const townCityInput = screen.getByLabelText('Town / City')
-      expect(townCityInput).toBeInTheDocument()
       expect(townCityInput).toHaveValue(mockTownCity)
     })
 
     it('should render the County field', () => {
       render(getEditLocationFormComponent())
       const countyInput = screen.getByLabelText('County')
-      expect(countyInput).toBeInTheDocument()
       expect(countyInput).toHaveValue(mockCounty)
     })
 
     it('should render the Country field', () => {
       render(getEditLocationFormComponent())
       const countryInput = screen.getByLabelText('Country')
-      expect(countryInput).toBeInTheDocument()
       expect(countryInput).toHaveValue(mockCountry)
     })
 
     it('should render the Postcode field', () => {
       render(getEditLocationFormComponent())
       const postcodeInput = screen.getByLabelText('Postcode')
-      expect(postcodeInput).toBeInTheDocument()
       expect(postcodeInput).toHaveValue(mockPostcode)
     })
   })
@@ -249,7 +241,6 @@ describe('DirectoryMerchantLocationForm', () => {
       render(getEditLocationFormComponent({isLoading: true}))
       const saveButton = screen.getByRole('button', {name: 'Save'})
 
-      expect(saveButton).toBeInTheDocument()
       expect(saveButton).toBeDisabled()
     })
   })
