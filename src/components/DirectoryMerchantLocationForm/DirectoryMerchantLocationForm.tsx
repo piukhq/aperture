@@ -150,8 +150,8 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
     }
   }
 
-  const renderForm = () => (
-    <form data-testid='location-editing-form'>
+  const renderFormContent = () => (
+    <>
       {/* Parent Location */}
       <section data-testid='parent-location-section'>
         <h2 className='font-modal-heading'>PARENT LOCATION</h2>
@@ -206,7 +206,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
             label='Merchant Internal ID'
             value={merchantInternalIdValue}
             onChange={handleMerchantInternalIdChange}
-            ariaRequired
             inputType={InputType.TEXT}
             inputStyle={InputStyle.FULL}
             inputWidth={InputWidth.FULL}
@@ -247,7 +246,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
               label='Line 2'
               value={addressLine2Value}
               onChange={handleAddressLine2Change}
-              ariaRequired
               inputType={InputType.TEXT}
               inputStyle={InputStyle.FULL}
               inputWidth={InputWidth.FULL}
@@ -260,7 +258,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
                 label='Town / City'
                 value={townCityValue}
                 onChange={handleTownCityChange}
-                ariaRequired
                 inputType={InputType.TEXT}
                 inputStyle={InputStyle.FULL}
                 inputWidth={InputWidth.FULL}
@@ -272,7 +269,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
                 label='County'
                 value={countyValue}
                 onChange={handleCountyChange}
-                ariaRequired
                 inputType={InputType.TEXT}
                 inputStyle={InputStyle.FULL}
                 inputWidth={InputWidth.FULL}
@@ -286,7 +282,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
                 label='Country'
                 value={countryValue}
                 onChange={handleCountryChange}
-                ariaRequired
                 inputType={InputType.TEXT}
                 inputStyle={InputStyle.FULL}
                 inputWidth={InputWidth.FULL}
@@ -311,12 +306,12 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
           </div>
         </section>
       )}
-    </form>
+    </>
   )
 
   return (
-    <>
-      {renderForm()}
+    <form data-testid='location-form'>
+      {renderFormContent()}
       <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[42px] pt-[14px]'>
         {errorMessage && (
           <p data-testid='error-message' className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
@@ -349,7 +344,7 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
           </Button>
         </div>
       </div>
-    </>
+    </form>
   )
 }
 export default DirectoryMerchantLocationForm

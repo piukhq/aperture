@@ -58,7 +58,6 @@ jest.mock('components/Dropdown', () => () => <div data-testid='parent-location-d
 
 const mockSaveHandler = jest.fn()
 const mockCancelHandler = jest.fn()
-const mockIsLoading = false
 
 const mockProps = {
   location: mockLocation,
@@ -124,7 +123,6 @@ describe('DirectoryMerchantLocationForm', () => {
     it('should render the Location ID field', () => {
       render(getEditLocationFormComponent())
       const locationIdInput = screen.getByLabelText('Location ID')
-      expect(locationIdInput).toBeInTheDocument()
       expect(locationIdInput).toHaveValue(mockLocationId)
     })
 
