@@ -34,10 +34,11 @@ const mockPlanId = 'mock_plan_id'
 const mockMerchantId = 'mock_merchant_id'
 const mockTab = 'mock_tab'
 const mockLocationRef = 'mock_location_ref'
+const mockLocationLabel = 'mock_location_label'
 
 const mockNewMerchantInitialState = {
   directoryLocation: {
-    locationLabel: 'mock_location_label',
+    locationLabel: mockLocationLabel,
   },
 }
 
@@ -65,6 +66,15 @@ describe('DirectoryLocationModal', () => {
 
     const dummyDispatch = jest.fn()
     useDispatchMock.mockReturnValue(dummyDispatch)
+  })
+
+  it('should render the correct heading', () => {
+    render(getDirectoryLocationModalComponent())
+    const heading = screen.getByRole('heading', {
+      name: `New ${mockLocationLabel}`,
+    })
+
+    expect(heading).toBeInTheDocument()
   })
 
   it('should render the DirectoryMerchantLocationForm component', () => {
