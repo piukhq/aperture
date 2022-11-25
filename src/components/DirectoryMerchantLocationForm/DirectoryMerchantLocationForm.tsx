@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useState} from 'react'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {Button, Dropdown, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -154,7 +154,7 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
     <form data-testid='location-editing-form'>
       {/* Parent Location */}
       <section data-testid='parent-location-section'>
-        <h2 className='font-modal-heading '>PARENT LOCATION</h2>
+        <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
         <div className='h-[50px] w-[277px] pb-[20px]'>
           <Dropdown
