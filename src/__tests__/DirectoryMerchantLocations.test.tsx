@@ -4,7 +4,6 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {DirectoryMerchantLocations} from 'components'
 import {PaymentSchemeSlug} from 'utils/enums'
-import {capitaliseFirstLetter} from 'utils/stringFormat'
 
 const mockGetMerchantLocationsResponse = [
   {
@@ -86,7 +85,7 @@ describe('DirectoryMerchantLocations', () => {
   it('should render the add store button', () => {
     render(getDirectoryMerchantLocationsComponent())
     const addStoreButton = screen.getByRole('button', {
-      name: `Add ${capitaliseFirstLetter(mockLocationLabel)}`,
+      name: `Add ${mockLocationLabel}`,
     })
 
     expect(addStoreButton).toBeInTheDocument()

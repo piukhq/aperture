@@ -2,6 +2,7 @@ import {createApi} from '@reduxjs/toolkit/query/react'
 import {
   DirectoryLocations,
   DirectoryLocation,
+  DirectoryLocationMetadata,
   DirectoryMerchantLocationMid,
   DirectoryMerchantLocationAvailableMids,
   DirectoryMerchantLocationSecondaryMid,
@@ -22,18 +23,7 @@ type PostMerchantLocationBody = MerchantLocationsEndpointRefs & {
   midRefs: string[],
 }
 
-type PutMerchantLocationBody = MerchantLocationsEndpointRefs & {
-  name?: string,
-  location_id: string,
-  merchant_internal_id?: string,
-  is_physical_location: boolean,
-  address_line_1?: string,
-  address_line_2?: string,
-  town_city?: string,
-  county?: string,
-  country?: string,
-  postcode?: string,
-}
+type PutPostMerchantLocationBody = MerchantLocationsEndpointRefs & DirectoryLocationMetadata
 
 type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
   locationRefs?: Array<string>,
@@ -58,7 +48,7 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       providesTags: ['MerchantLocation'],
     }),
-    putMerchantLocation: builder.mutation<DirectoryLocation, PutMerchantLocationBody>({
+    putMerchantLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
       query: ({planRef, merchantRef, locationRef, ...rest}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}`,
         method: 'PUT',
@@ -86,6 +76,28 @@ export const midManagementMerchantLocationsApi = createApi({
               const index = existingLocations.findIndex(location => location.location_ref === locationRef)
               index !== -1 && existingLocations.splice(index, 1)
             })
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
+    postMerchantLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
+      query: ({planRef, merchantRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations`,
+        method: 'POST',
+        body: {
+          ...rest,
+        },
+      }),
+      // Update the cache with the newly created location
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLocation} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', {planRef, merchantRef, secondaryMidRef}, (existingLocations) => {
+            existingLocations.push(newLocation)
           })
           )
         } catch (err) {
@@ -194,6 +206,7 @@ export const {
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
+  usePostMerchantLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
   usePostMerchantLocationLinkedMidsMutation,
