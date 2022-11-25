@@ -11,13 +11,13 @@ let mockGetMerchantLocationLinkedSecondaryMidsResponse = [
     link_ref: 'mock_link_ref',
     payment_scheme_slug: PaymentSchemeSlug.VISA,
     secondary_mid_value: 'mock_secondary_mid_value',
-    secondary_mid_ref: 'mock_secondary_mid_ref',
+    secondary_mid_ref: 'mock_secondary_mid_ref_1',
   },
   {
     link_ref: 'mock_link_ref',
     payment_scheme_slug: PaymentSchemeSlug.VISA,
     secondary_mid_value: 'mock_secondary_mid_value',
-    secondary_mid_ref: 'mock_secondary_mid_ref',
+    secondary_mid_ref: 'mock_secondary_mid_ref_2',
   },
 ]
 
