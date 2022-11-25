@@ -138,7 +138,9 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
     }
   }
 
-  const handleSave = () => {
+  const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     if (
       nameValue === '' ||
       locationIdValue === '' ||
@@ -310,7 +312,7 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
   )
 
   return (
-    <form data-testid='location-form'>
+    <form data-testid='location-form' onSubmit={handleSave}>
       {renderFormContent()}
       <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[42px] pt-[14px]'>
         {errorMessage && (
@@ -331,7 +333,6 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
           >Cancel
           </Button>
           <Button
-            handleClick={handleSave}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.MEDIUM}
