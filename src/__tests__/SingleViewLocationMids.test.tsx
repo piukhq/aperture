@@ -11,13 +11,13 @@ let mockGetMerchantLocationLinkedMidsResponse = [
     link_ref: 'mock_link_ref',
     payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
-    mid_ref: 'mock_mid_ref',
+    mid_ref: 'mock_mid_ref_1',
   },
   {
     link_ref: 'mock_link_ref',
     payment_scheme_slug: PaymentSchemeSlug.VISA,
     mid_value: 'mock_mid_value',
-    mid_ref: 'mock_mid_ref',
+    mid_ref: 'mock_mid_ref_2',
   },
 ]
 
