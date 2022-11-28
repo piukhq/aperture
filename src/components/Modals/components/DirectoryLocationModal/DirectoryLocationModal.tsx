@@ -67,7 +67,12 @@ const DirectoryLocationModal = () => {
   return (
     <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={`New ${locationLabel}`} onCloseFn={closeModal}>
       <div className='mt-[20px] mx-[25px]'>
-        <DirectoryMerchantLocationForm onSaveHandler={handleSave} onCancelHandler={closeModal} isLoading={isLoading} />
+        <DirectoryMerchantLocationForm
+          onSaveHandler={handleSave}
+          onCancelHandler={closeModal}
+          isLoading={isLoading}
+          error={postError}
+        />
       </div>
     </Modal>
   )

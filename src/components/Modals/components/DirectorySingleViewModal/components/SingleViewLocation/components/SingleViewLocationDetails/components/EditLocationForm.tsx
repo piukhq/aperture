@@ -72,6 +72,7 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
       onSaveHandler={handleSave}
       onCancelHandler={onCancelEditState}
       isLoading={isLoading}
+      error={putError}
     />
   )
 
