@@ -1,5 +1,5 @@
-import {useState} from 'react'
-import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
+import {useCallback, useEffect, useState} from 'react'
+import {DirectoryLocation, DirectoryLocationMetadata, RTKQueryErrorResponse} from 'types'
 import {Button, Dropdown, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -9,9 +9,10 @@ type Props = {
   onSaveHandler: (locationMetadata: DirectoryLocationMetadata) => void
   onCancelHandler: () => void
   isLoading: boolean
+  error,
 }
 
-const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler, isLoading}: Props) => {
+const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
   const {
     name,
     address_line_1: addressLine1,
@@ -50,6 +51,23 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
   const [postcodeValidationError, setPostcodeValidationError] = useState(null)
 
   const [errorMessage, setErrorMessage] = useState(null)
+
+  const handleErrorResponse = useCallback(() => {
+    const {status, data} = error as RTKQueryErrorResponse
+
+    if (status as unknown === 409) {
+      setErrorMessage('Enter unique Location ID')
+    } else if (data && data.detail) {
+      const {detail} = data
+      setErrorMessage(detail[0].msg)
+    }
+  }, [error])
+
+  useEffect(() => {
+    if (error) {
+      handleErrorResponse()
+    }
+  }, [error, handleErrorResponse])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
