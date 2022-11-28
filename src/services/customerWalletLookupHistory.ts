@@ -23,7 +23,7 @@ export const customerWalletLookupHistoryApi = createApi({
           ...rest,
         },
       }),
-      invalidatesTags: ['LookupHistory'],
+      invalidatesTags: ['LookupHistory'], // TODO: Consider optimistic update for this instead of invalidating the entire query
     }),
   }),
 })
