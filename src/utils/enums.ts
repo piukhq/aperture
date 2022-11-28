@@ -72,6 +72,7 @@ enum DirectorySingleViewTabs {
   DETAILS = 'Details',
   MIDS = 'MIDs',
   SECONDARY_MIDS = 'Secondary MIDs',
+  SUB_LOCATIONS = 'Sub-Locations',
   COMMENTS = 'Comments',
   LOCATIONS = 'Locations'
 }
