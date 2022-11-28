@@ -159,13 +159,27 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       providesTags: ['MerchantLocationLinkedSecondaryMids'],
     }),
-    postMerchantLocationLinkedSecondaryMid: builder.mutation<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
+    postMerchantLocationLinkedSecondaryMid: builder.mutation<DirectoryMerchantLocationSecondaryMid, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`,
         method: 'POST',
         body: secondaryMidRef,
       }),
-      invalidatesTags: ['MerchantLocationLinkedSecondaryMids'],
+      async onQueryStarted ({planRef, merchantRef, locationRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLinkedSecondaryMid} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedSecondaryMids', ({planRef, merchantRef, locationRef}), (existingLinkedSecondaryMids) => {
+            console.log('existingLinkedSecondaryMids', existingLinkedSecondaryMids)
+            console.log('newLinkedSecondaryMid', newLinkedSecondaryMid)
+
+            existingLinkedSecondaryMids.push(newLinkedSecondaryMid)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantLocationSecondaryMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, linkRef}) => ({
