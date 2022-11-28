@@ -116,7 +116,6 @@ export const midManagementMerchantMidsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['MerchantMid'],
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
