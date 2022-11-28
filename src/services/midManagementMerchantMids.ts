@@ -48,6 +48,18 @@ export const midManagementMerchantMidsApi = createApi({
           mid_metadata,
         },
       }),
+      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newMid} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+            existingMids.push(newMid)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     patchMerchantMid: builder.mutation<DirectoryMid, PatchMerchantMidBody>({
       query: ({planRef, merchantRef, midRef, ...rest}) => ({
@@ -57,6 +69,19 @@ export const midManagementMerchantMidsApi = createApi({
           ...rest,
         },
       }),
+      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: updatedMid} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+            const index = existingMids.findIndex(mid => mid.mid_ref === midRef)
+            existingMids[index] = updatedMid
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantMid: builder.query<DirectoryMerchantMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
@@ -73,7 +98,18 @@ export const midManagementMerchantMidsApi = createApi({
           location_ref,
         },
       }),
-      invalidatesTags: ['MerchantMid'],
+      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: updatedLocation} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+            existingMid.location = updatedLocation
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantMidLocation: builder.mutation<void, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
@@ -81,6 +117,18 @@ export const midManagementMerchantMidsApi = createApi({
         method: 'DELETE',
       }),
       invalidatesTags: ['MerchantMid'],
+      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+            existingMid.location = null
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantMid: builder.mutation<void, DeleteMerchantMidRefs>({
       query: ({planRef, merchantRef, midRefs}) => ({
