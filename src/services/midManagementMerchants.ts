@@ -69,7 +69,7 @@ export const midManagementMerchantsApi = createApi({
           name,
         },
       }),
-      invalidatesTags: ['Merchants'],
+      invalidatesTags: ['Merchants'], // Merchant deletion can take a few seconds, so we invalidate the entire query
     }),
   }),
 })
