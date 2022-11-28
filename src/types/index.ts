@@ -274,6 +274,7 @@ export type DirectoryLocation = {
   payment_schemes?: Array<PaymentScheme>,
   linked_mids_count?: number,
   linked_secondary_mids_count?: number,
+  sub_locations?: DirectoryLocations
 }
 
 export type DirectoryEntity = DirectoryPsimi | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
