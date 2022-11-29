@@ -11,16 +11,16 @@ const SingleViewLocationSubLocations = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
+  const [selectedUnlinkSubLocationIndex, setSelectedUnlinkSubLocationIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
   const [availableSubLocationNotification, setAvailableSubLocationNotification] = useState('')
 
-  const {getMerchantLocationLinkedSubLocationsResponse, getMerchantLocationLinkedSubLocationsIsLoading} = useMidManagementLocationSubLocations({
+  const {getMerchantLocationSubLocationsResponse, getMerchantLocationSubLocationsIsLoading} = useMidManagementLocationSubLocations({
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
   })
 
-  const hasNoLinkedSubLocations = (!getMerchantLocationLinkedSubLocationsResponse || getMerchantLocationLinkedSubLocationsResponse.length === 0) && !getMerchantLocationLinkedSubLocationsIsLoading
+  const hasNoLinkedSubLocations = (!getMerchantLocationSubLocationsResponse || getMerchantLocationSubLocationsResponse.length === 0) && !getMerchantLocationSubLocationsIsLoading
 
   const renderSubLocation = (subLocation: DirectoryLocation, index) => {
     const {
@@ -41,8 +41,8 @@ const SingleViewLocationSubLocations = () => {
         value={`${name}, ${addressLine1}, ${postcode}`}
         link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${subLocationRef}`}
         refValue={subLocationRef}
-        setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
-        isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
+        setSelectedUnlinkIndexFn={setSelectedUnlinkSubLocationIndex}
+        isInUnlinkingConfirmationState={selectedUnlinkSubLocationIndex === index}
         unlinkFn={() => console.log('Unlink actions occured')}
         isUnlinking={false}
         setShouldRenderNewLinkDropdownMenuFn={() => false}
@@ -76,7 +76,7 @@ const SingleViewLocationSubLocations = () => {
       <section>
         <h2 className='font-modal-heading'>SUB-LOCATIONS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedSubLocationsResponse.map((subLocation, index) => renderSubLocation(subLocation, index))}
+          {getMerchantLocationSubLocationsResponse.map((subLocation, index) => renderSubLocation(subLocation, index))}
         </div>
       </section>
     )
@@ -90,7 +90,7 @@ const SingleViewLocationSubLocations = () => {
       <section className='font-body-4 text-red h-[40px]'>
         <p>{availableSubLocationNotification}</p>
       </section>
-      {getMerchantLocationLinkedSubLocationsIsLoading ? (
+      {getMerchantLocationSubLocationsIsLoading ? (
         <i className='font-body-4'>Loading...</i>
       ) : renderLinkedSubLocations()}
     </div>
