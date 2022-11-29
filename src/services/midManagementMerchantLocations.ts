@@ -32,7 +32,14 @@ type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
 export const midManagementMerchantLocationsApi = createApi({
   reducerPath: 'midManagementMerchantLocationsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['MerchantLocations', 'MerchantLocation', 'MerchantLocationLinkedMids', 'MerchantLocationLinkedSecondaryMids', 'MerchantLocationAvailableMids'],
+  tagTypes: [
+    'MerchantLocations',
+    'MerchantLocation',
+    'MerchantLocationLinkedMids',
+    'MerchantLocationLinkedSecondaryMids',
+    'MerchantLocationAvailableMids',
+    'MerchantLocationSubLocations',
+  ],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -221,6 +228,13 @@ export const midManagementMerchantLocationsApi = createApi({
         }
       },
     }),
+    getMerchantLocationSubLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocationSubLocations'],
+    }),
   }),
 })
 
@@ -237,4 +251,5 @@ export const {
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
+  useGetMerchantLocationSubLocationsQuery,
 } = midManagementMerchantLocationsApi

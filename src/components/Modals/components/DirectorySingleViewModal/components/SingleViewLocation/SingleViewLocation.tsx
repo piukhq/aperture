@@ -8,6 +8,7 @@ import {
   SingleViewLocationDetails,
   SingleViewLocationMids,
   SingleViewLocationSecondaryMids,
+  SingleViewLocationSubLocations,
 } from './components'
 import SingleViewComments from '../SingleViewComments'
 import {classNames} from 'utils/classNames'
@@ -70,6 +71,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
       DirectorySingleViewTabs.DETAILS,
       DirectorySingleViewTabs.MIDS,
       DirectorySingleViewTabs.SECONDARY_MIDS,
+      DirectorySingleViewTabs.SUB_LOCATIONS,
       DirectorySingleViewTabs.COMMENTS,
     ].map(tab => (
       <button
@@ -115,6 +117,12 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
             <SingleViewLocationSecondaryMids />
           </div>
         )
+      case DirectorySingleViewTabs.SUB_LOCATIONS:
+        return (
+          <div className='px-[25px]'>
+            <SingleViewLocationSubLocations />
+          </div>
+        )
       case DirectorySingleViewTabs.COMMENTS:
         return (
           <div className='pt-[11px]'>
@@ -126,7 +134,7 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-4 mb-[23px] mt-[5px]'>
+      <nav className='h-[60px] w-full grid grid-cols-5 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
       {renderSelectedTabContent()}

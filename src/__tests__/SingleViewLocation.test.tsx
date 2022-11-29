@@ -81,6 +81,7 @@ describe('SingleViewLocation', () => {
     expect(screen.getByText('Details')).toBeInTheDocument()
     expect(screen.getByText('MIDs')).toBeInTheDocument()
     expect(screen.getByText('Secondary MIDs')).toBeInTheDocument()
+    expect(screen.getByText('Sub-Locations')).toBeInTheDocument()
     expect(screen.getByText('Comments')).toBeInTheDocument()
   })
 
