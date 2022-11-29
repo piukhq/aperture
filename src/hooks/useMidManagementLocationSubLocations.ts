@@ -1,18 +1,18 @@
 import {
-  useGetMerchantLocationLinkedSubLocationsQuery,
+  useGetMerchantLocationSubLocationsQuery,
 } from 'services/midManagementMerchantLocations'
 
 export const useMidManagementLocationSubLocations = ({planRef = '', merchantRef = '', locationRef = ''}) => {
   const {
-    data: getMerchantLocationLinkedSubLocationsResponse,
-    isLoading: getMerchantLocationLinkedSubLocationsIsLoading,
-    error: getMerchantLocationLinkedSubLocationsError,
-  } = useGetMerchantLocationLinkedSubLocationsQuery({planRef, merchantRef, locationRef})
+    data: getMerchantLocationSubLocationsResponse,
+    isLoading: getMerchantLocationSubLocationsIsLoading,
+    error: getMerchantLocationSubLocationsError,
+  } = useGetMerchantLocationSubLocationsQuery({planRef, merchantRef, locationRef})
 
   return {
     // GET Location Linked Sub Locations
-    getMerchantLocationLinkedSubLocationsResponse,
-    getMerchantLocationLinkedSubLocationsIsLoading,
-    getMerchantLocationLinkedSubLocationsError,
+    getMerchantLocationSubLocationsResponse,
+    getMerchantLocationSubLocationsIsLoading,
+    getMerchantLocationSubLocationsError,
   }
 }

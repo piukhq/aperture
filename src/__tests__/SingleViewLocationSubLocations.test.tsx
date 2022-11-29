@@ -34,12 +34,12 @@ const mockLocation = {
   ],
 }
 
-let mockGetMerchantLocationLinkedSubLocationsResponse = [mockLocation]
+let mockgetMerchantLocationSubLocationsResponse = [mockLocation]
 
 jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
   useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
-    getMerchantLocationLinkedSubLocationsResponse: mockGetMerchantLocationLinkedSubLocationsResponse,
-    getMerchantLocationLinkedSubLocationsIsLoading: false,
+    getMerchantLocationSubLocationsResponse: mockgetMerchantLocationSubLocationsResponse,
+    getMerchantLocationSubLocationsIsLoading: false,
   })),
 }))
 
@@ -75,7 +75,7 @@ describe('SingleViewLocationSubLocations', () => {
   })
 
   it('should render the no linked Locations available message', () => {
-    mockGetMerchantLocationLinkedSubLocationsResponse = []
+    mockgetMerchantLocationSubLocationsResponse = []
     render(<SingleViewLocationSubLocations />)
     expect(screen.getByText('There are no Sub-Locations to view.')).toBeInTheDocument()
   })

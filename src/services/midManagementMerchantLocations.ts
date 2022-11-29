@@ -38,7 +38,7 @@ export const midManagementMerchantLocationsApi = createApi({
     'MerchantLocationLinkedMids',
     'MerchantLocationLinkedSecondaryMids',
     'MerchantLocationAvailableMids',
-    'MerchantLocationLinkedSubLocations',
+    'MerchantLocationSubLocations',
   ],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
@@ -228,12 +228,12 @@ export const midManagementMerchantLocationsApi = createApi({
         }
       },
     }),
-    getMerchantLocationLinkedSubLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
+    getMerchantLocationSubLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations`,
         method: 'GET',
       }),
-      providesTags: ['MerchantLocationLinkedSubLocations'],
+      providesTags: ['MerchantLocationSubLocations'],
     }),
   }),
 })
@@ -251,5 +251,5 @@ export const {
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
-  useGetMerchantLocationLinkedSubLocationsQuery,
+  useGetMerchantLocationSubLocationsQuery,
 } = midManagementMerchantLocationsApi
