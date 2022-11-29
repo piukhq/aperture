@@ -64,6 +64,7 @@ const mockProps = {
   onSaveHandler: mockSaveHandler,
   onCancelHandler: mockCancelHandler,
   isLoading: false,
+  error: null,
 }
 
 const getEditLocationFormComponent = (passedProps = {}) => (
