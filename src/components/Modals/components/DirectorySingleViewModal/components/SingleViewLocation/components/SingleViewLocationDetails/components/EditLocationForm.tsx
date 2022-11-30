@@ -66,9 +66,13 @@ const EditLocationForm = ({location, onCancelEditState}: Props) => {
     })
   }, [putMerchantLocation, planId, merchantId, ref])
 
+  // TODO: Add functionality for changing parent location
   return (
     <DirectoryMerchantLocationForm
       location={location}
+      parentLocationStrings={['None']}
+      parentLocation={'None'}
+      parentLocationChangeHandler={() => console.log('Parent location change')}
       onSaveHandler={handleSave}
       onCancelHandler={onCancelEditState}
       isLoading={isLoading}

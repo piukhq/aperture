@@ -61,6 +61,9 @@ const mockCancelHandler = jest.fn()
 
 const mockProps = {
   location: mockLocation,
+  parentLocationStrings: [],
+  parentLocation: 'None',
+  parentLocationChangeHandler: jest.fn(),
   onSaveHandler: mockSaveHandler,
   onCancelHandler: mockCancelHandler,
   isLoading: false,
@@ -104,6 +107,13 @@ describe('DirectoryMerchantLocationForm', () => {
       expect(screen.getByTestId('parent-location-section')).toBeInTheDocument()
       expect(screen.getByTestId('parent-location-dropdown')).toBeInTheDocument()
     })
+
+    it('should render the Parent Location info message', () => {
+      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      expect(screen.getByText(
+        'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
+      )).toBeInTheDocument()
+    })
   })
 
   describe('Test Identifiers section', () => {
@@ -126,10 +136,20 @@ describe('DirectoryMerchantLocationForm', () => {
       expect(locationIdInput).toHaveValue(mockLocationId)
     })
 
+    it('should not render the Location ID field', () => {
+      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      expect(screen.queryByLabelText('Location ID')).not.toBeInTheDocument()
+    })
+
     it('should render the Merchant Internal ID field', () => {
       render(getEditLocationFormComponent())
       const merchantInternalIdInput = screen.getByLabelText('Merchant Internal ID')
       expect(merchantInternalIdInput).toHaveValue(mockMerchantInternalId)
+    })
+
+    it('should not render the Merchant Internal ID field', () => {
+      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      expect(screen.queryByLabelText('Merchant Internal ID')).not.toBeInTheDocument()
     })
   })
 

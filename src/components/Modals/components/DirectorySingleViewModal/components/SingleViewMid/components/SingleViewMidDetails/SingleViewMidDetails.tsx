@@ -12,14 +12,13 @@ import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
+import {constructMidLocationString, getLocationList} from 'utils/locationStrings'
 
 type Props = {
   resetError: () => void
   setError: (errorMessage: string) => void
   merchantMid: DirectoryMerchantMid
 }
-
-const constructMidLocationString = ({address_line_1: addressLine1 = '', town_city: townCity = '', postSlug = ''}) => `${addressLine1}, ${townCity}, ${postSlug}`
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const router = useRouter()
@@ -81,14 +80,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const isRefreshing = getMerchantMidIsFetching || getMerchantLocationsIsFetching
 
-  // Creates a list of locations titles and refs for the dropdown component to consume
-  const locationStringsList = useMemo(() => locationsData.map(locationObj => {
-    const {location_ref, location_metadata} = locationObj
-    return {
-      title: constructMidLocationString(location_metadata),
-      location_ref,
-    }
-  }), [locationsData])
+  const locationStringsList = getLocationList(locationsData)
 
   useEffect(() => {
     locationRef && setAssociatedLocationRef(locationRef)
