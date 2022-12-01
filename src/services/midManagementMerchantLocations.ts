@@ -125,6 +125,36 @@ export const midManagementMerchantLocationsApi = createApi({
         }
       },
     }),
+    postMerchantLocationSubLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
+      query: ({planRef, merchantRef, locationRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations`,
+        method: 'POST',
+        body: {
+          ...rest,
+        },
+      }),
+      invalidatesTags: ['MerchantLocationSubLocations'],
+      // Update the cache with the newly created sub location
+      async onQueryStarted ({planRef, merchantRef, locationRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newSubLocation} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', {planRef, merchantRef, secondaryMidRef}, (existingLocations) => {
+            const index = existingLocations.findIndex((location) => location.location_ref === locationRef)
+
+            const existingSubLocations = existingLocations[index].sub_locations
+
+            existingLocations[index] = {
+              ...existingLocations[index],
+              sub_locations: existingSubLocations ? [...existingSubLocations, newSubLocation] : [newSubLocation],
+            }
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
     getMerchantLocationLinkedMids: builder.query<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
@@ -244,6 +274,7 @@ export const {
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   usePostMerchantLocationMutation,
+  usePostMerchantLocationSubLocationMutation,
   useGetMerchantLocationLinkedMidsQuery,
   useGetMerchantLocationAvailableMidsQuery,
   usePostMerchantLocationLinkedMidsMutation,

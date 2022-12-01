@@ -6,13 +6,16 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 
 type Props = {
   location?: DirectoryLocation
+  parentLocationStrings: string[]
+  parentLocation: string
+  parentLocationChangeHandler: (parentLocation) => void
   onSaveHandler: (locationMetadata: DirectoryLocationMetadata) => void
   onCancelHandler: () => void
   isLoading: boolean
   error,
 }
 
-const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
+const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentLocation, parentLocationChangeHandler, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
   const {
     name,
     address_line_1: addressLine1,
@@ -55,11 +58,16 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
   const handleErrorResponse = useCallback(() => {
     const {status, data} = error as RTKQueryErrorResponse
 
-    if (status as unknown === 409) {
-      setErrorMessage('Enter unique Location ID')
-    } else if (data && data.detail) {
+    if (data && data.detail) {
       const {detail} = data
-      setErrorMessage(detail[0].msg)
+      if (status as unknown === 409) {
+        const {loc} = detail[0]
+        const location = loc[1]
+        const errorMessage = location === 'name' ? 'Enter unique Name' : 'Enter unique Location ID'
+        setErrorMessage(errorMessage)
+      } else {
+        setErrorMessage(detail[0].msg)
+      }
     }
   }, [error])
 
@@ -161,7 +169,7 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
 
     if (
       nameValue === '' ||
-      locationIdValue === '' ||
+      (parentLocation === 'None' && locationIdValue === '') ||
       (isPhysicalLocation && (addressLine1Value === '' || postcodeValue === ''))
     ) {
       setErrorMessage('Populate all mandatory fields')
@@ -170,19 +178,30 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
     }
   }
 
+  const handleParentLocationChange = (parentLocation: string) => {
+    setLocationIdValidationError(null)
+    parentLocationChangeHandler(parentLocation)
+  }
+
   const renderFormContent = () => (
     <>
       {/* Parent Location */}
-      <section data-testid='parent-location-section'>
+      <section data-testid='parent-location-section' className='pb-[20px]'>
         <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
-        <div className='h-[50px] w-[277px] pb-[20px]'>
+        <div className='h-[28px] w-[277px]'>
           <Dropdown
-            displayValue={'None'}
-            displayValues={[]}
-            onChangeDisplayValue={() => console.log('Parent location change')}
+            displayValue={parentLocation}
+            displayValues={parentLocationStrings}
+            onChangeDisplayValue={handleParentLocationChange}
           />
         </div>
+
+        {parentLocation !== 'None' && (
+          <p className='font-subheading-4 mt-[10px] w-[489px]'>
+            This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location
+          </p>
+        )}
       </section>
 
       {/* Identifiers */}
@@ -205,33 +224,35 @@ const DirectoryMerchantLocationForm = ({location, onSaveHandler, onCancelHandler
           inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
         />
 
-        <div className='flex gap-[40px] pt-[28px]'>
-          <TextInputGroup
-            name='location-id'
-            label='Location ID'
-            value={locationIdValue}
-            onChange={handleLocationIdChange}
-            onBlur={handleLocationIdBlur}
-            onFocus={() => setLocationIdValidationError(null)}
-            error={locationIdValidationError}
-            ariaRequired
-            inputType={InputType.TEXT}
-            inputStyle={InputStyle.FULL}
-            inputWidth={InputWidth.FULL}
-            inputColour={locationIdValidationError ? InputColour.RED : InputColour.GREY}
-          />
+        {parentLocation === 'None' && (
+          <div className='flex gap-[40px] pt-[28px]'>
+            <TextInputGroup
+              name='location-id'
+              label='Location ID'
+              value={locationIdValue}
+              onChange={handleLocationIdChange}
+              onBlur={handleLocationIdBlur}
+              onFocus={() => setLocationIdValidationError(null)}
+              error={locationIdValidationError}
+              ariaRequired
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL}
+              inputWidth={InputWidth.FULL}
+              inputColour={locationIdValidationError ? InputColour.RED : InputColour.GREY}
+            />
 
-          <TextInputGroup
-            name='location-merchant-internal-id'
-            label='Merchant Internal ID'
-            value={merchantInternalIdValue}
-            onChange={handleMerchantInternalIdChange}
-            inputType={InputType.TEXT}
-            inputStyle={InputStyle.FULL}
-            inputWidth={InputWidth.FULL}
-            inputColour={InputColour.GREY}
-          />
-        </div>
+            <TextInputGroup
+              name='location-merchant-internal-id'
+              label='Merchant Internal ID'
+              value={merchantInternalIdValue}
+              onChange={handleMerchantInternalIdChange}
+              inputType={InputType.TEXT}
+              inputStyle={InputStyle.FULL}
+              inputWidth={InputWidth.FULL}
+              inputColour={InputColour.GREY}
+            />
+          </div>
+        )}
       </section>
 
       {/* Is physical address */}
