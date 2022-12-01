@@ -48,23 +48,33 @@ const DirectoryLocationModal = () => {
   }, [])
 
   useEffect(() => {
-    if (postMerchantLocationError || postMerchantLocationSubLocationError) {
-      handleErrorResponse(postMerchantLocationError || postMerchantLocationSubLocationError)
-    } else if (postMerchantLocationIsSuccess || postMerchantLocationSubLocationIsSuccess) {
-      postMerchantLocationIsSuccess && resetPostMerchantLocationResponse()
-      postMerchantLocationSubLocationIsSuccess && resetPostMerchantLocationSubLocationResponse()
+    if (postMerchantLocationError) {
+      handleErrorResponse(postMerchantLocationError)
+    } else if (postMerchantLocationIsSuccess) {
+      resetPostMerchantLocationResponse()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
     postMerchantLocationIsSuccess,
     postMerchantLocationError,
     resetPostMerchantLocationResponse,
+    handleErrorResponse,
+    dispatch,
+  ])
+
+  useEffect(() => {
+    if (postMerchantLocationSubLocationError) {
+      handleErrorResponse(postMerchantLocationSubLocationError)
+    } else if (postMerchantLocationSubLocationIsSuccess) {
+      resetPostMerchantLocationSubLocationResponse()
+      dispatch(requestModal(ModalType.NO_MODAL))
+    }
+  }, [
     postMerchantLocationSubLocationIsSuccess,
     postMerchantLocationSubLocationError,
     resetPostMerchantLocationSubLocationResponse,
     handleErrorResponse,
     dispatch,
-    router,
   ])
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
