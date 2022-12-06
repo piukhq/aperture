@@ -5,11 +5,11 @@ import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
-import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 
@@ -83,6 +83,11 @@ const DirectoryMerchantSecondaryMids = () => {
     router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
+  const requestSecondaryMidAddModal = (paymentScheme: PaymentSchemeName) => {
+    dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MID))
+  }
+
   const setSelectedSecondaryMids = () => {
     const checkedSecondaryMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
       entityRef: secondaryMid.secondary_mid_ref,
@@ -150,7 +155,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Visa Secondary MID')}
+            onClick={() => requestSecondaryMidAddModal(PaymentSchemeName.VISA)}
             aria-label='Add Visa Secondary MID'
           >
             <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
@@ -159,7 +164,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
           <button
             className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-            onClick={() => console.log('Placeholder: Request Mastercard Secondary MID')}
+            onClick={() => requestSecondaryMidAddModal(PaymentSchemeName.MASTERCARD)}
             aria-label='Add Mastercard Secondary MID'
           >
             <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>

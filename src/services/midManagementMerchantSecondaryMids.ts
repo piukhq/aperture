@@ -1,5 +1,5 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
-import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantMidLocation} from 'types'
+import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantMidLocation, DirectorySecondaryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -9,6 +9,11 @@ type MerchantSecondaryMidsEndpointRefs = {
   secondaryMidRef?: string,
   locationRef?: string,
   linkRef?: string,
+}
+
+type PostMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
+  onboard: boolean,
+  secondary_mid_metadata: DirectorySecondaryMidMetadata,
 }
 
 type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
@@ -40,6 +45,27 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMidLinkedLocations'],
+    }),
+    postMerchantSecondaryMid: builder.mutation<DirectorySecondaryMid, PostMerchantSecondaryMidBody>({
+      query: ({planRef, merchantRef, onboard = false, secondary_mid_metadata}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids`,
+        method: 'POST',
+        body: {
+          onboard,
+          secondary_mid_metadata,
+        },
+      }),
+      async onQueryStarted ({planRef, merchantRef, locationRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newSecondaryMid} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef}), (existingSecondaryMids) => {
+            existingSecondaryMids.push(newSecondaryMid)
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchantSecondaryMidLocationLink: builder.mutation<void, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, linkRef}) => ({
@@ -132,6 +158,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
 export const {
   useGetMerchantSecondaryMidsQuery,
   useGetMerchantSecondaryMidQuery,
+  usePostMerchantSecondaryMidMutation,
   useGetMerchantSecondaryMidLinkedLocationsQuery,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
