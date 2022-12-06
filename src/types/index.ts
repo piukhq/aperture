@@ -241,14 +241,16 @@ export type DirectorySecondaryMids = Array<DirectorySecondaryMid>
 
 export type DirectorySecondaryMid = {
   secondary_mid_ref: string,
-  secondary_mid_metadata: {
-    payment_scheme_slug: PaymentSchemeSlug,
-    secondary_mid: string,
-    payment_scheme_store_name: string,
-    payment_enrolment_status: string // TODO: could be an enum/union type
-  },
+  secondary_mid_metadata: DirectorySecondaryMidMetadata,
   date_added: string // TODO: Change this depending on API value
   txm_status: string // TODO: could be an enum, union type
+}
+
+export type DirectorySecondaryMidMetadata = {
+  payment_scheme_slug: PaymentSchemeSlug,
+  secondary_mid: string,
+  payment_scheme_store_name?: string,
+  payment_enrolment_status: string // TODO: could be an enum/union type
 }
 
 export type DirectoryLocations = Array<DirectoryLocation>

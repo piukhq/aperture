@@ -11,6 +11,7 @@ export {default as DirectorySingleViewModal} from './components/DirectorySingleV
 export {default as DirectoryPlanDeleteModal} from './components/DirectoryPlanDeleteModal'
 export {default as DirectoryPlanModal} from './components/DirectoryPlanModal'
 export {default as DirectoryPsimiModal} from './components/DirectoryPsimiModal'
+export {default as DirectorySecondaryMidModal} from './components/DirectorySecondaryMidModal'
 export {default as DirectoryMerchantSecondaryMidsDeleteModalContainer} from './components/DirectoryMerchantSecondaryMidsDeleteModalContainer'
 export {default as DirectoryMerchantLocationsDeleteModalContainer} from './components/DirectoryMerchantLocationsDeleteModalContainer'
 export {default as DirectoryMerchantPsimisDeleteModalContainer} from './components/DirectoryMerchantPsimisDeleteModalContainer'
