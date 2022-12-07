@@ -79,14 +79,14 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
         }
         return (
           icon ? (
-            <td key={index} className={'px-[9px]'}>
+            <td key={index} className={'px-[9px]'} data-testid='icon-display-value'>
               <div className={`flex items-center gap-[9px] ${additionalStyles}`}>
                 {icon}
                 {displayValue}
               </div>
             </td>
           ) : (
-            <td key={index} className={`px-[9px] ${additionalStyles}`}>
+            <td key={index} className={`px-[9px] ${additionalStyles}`} data-testid='display-value'>
               {displayValue}
             </td>
           )
