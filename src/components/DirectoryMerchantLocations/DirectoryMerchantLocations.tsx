@@ -139,7 +139,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
-  const getLocationTableRows = (locationsData: DirectoryLocation[]): Array<DirectoryMerchantDetailsTableCell[]> => {
+  const getLocationTableRows = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return locationsData.reduce((accumulator, locationObj: DirectoryLocation) => {
       const locationTableRow = hydrateLocationTableRow(locationObj)
       accumulator.push(locationTableRow)
@@ -195,7 +195,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={getLocationTableRows(locationsData)} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={getLocationTableRows()} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )
