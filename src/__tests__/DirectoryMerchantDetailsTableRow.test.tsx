@@ -17,21 +17,21 @@ const store = mockStoreFn({
   },
 })
 
-let mockCopyRow = 0
+const mockProps = {
+  index: 1,
+  row: mockRow,
+  onCheckboxChange: jest.fn(),
+  singleViewRequestHandler: jest.fn(),
+  setCopyRow: jest.fn(),
+  copyRow: 0,
+  refValue: 'mock_ref_value',
+}
 
-const getDirectoryMerchantTableRow = () => (
+const getDirectoryMerchantTableRow = (passedProps = {}) => (
   <Provider store={store}>
     <table>
       <tbody>
-        <DirectoryMerchantDetailsTableRow
-          index={1}
-          row={mockRow}
-          onCheckboxChange={jest.fn()}
-          singleViewRequestHandler={jest.fn()}
-          setCopyRow={jest.fn()}
-          copyRow={mockCopyRow}
-          refValue='mock_ref_value'
-        />
+        <DirectoryMerchantDetailsTableRow {...mockProps} {...passedProps} />
       </tbody>
     </table>
   </Provider>
@@ -59,9 +59,26 @@ describe('Test DirectoryMerchantDetailsTableRow', () => {
   })
 
   it('should display copied label when row is the set copy row', () => {
-    mockCopyRow = 1 // set the row to be the copy row
-    render(getDirectoryMerchantTableRow())
+    render(getDirectoryMerchantTableRow({copyRow: 1}))
 
     expect(screen.getByText('Copied')).toBeInTheDocument()
+  })
+
+  it('should render the icon and display value', () => {
+    render(getDirectoryMerchantTableRow({
+      row: [
+        ...mockRow,
+        {icon: 'mfdmsfm'},
+      ],
+    }))
+    expect(screen.getByTestId('icon-display-value')).toBeInTheDocument()
+  })
+
+  it('should render only the display value', () => {
+    render(getDirectoryMerchantTableRow({
+      row: [{displayValue: 'mock_display_value_1'}],
+    }))
+    expect(screen.getByTestId('display-value')).toBeInTheDocument()
+    expect(screen.queryByTestId('icon-display-value')).not.toBeInTheDocument()
   })
 })
