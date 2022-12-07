@@ -50,9 +50,6 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     setCopyRow(index)
   }
 
-  // TODO: Determine better method of deciding row indentation
-  const shouldUseCustomIndentation = row[0].icon
-
   return (
     <tr
       className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
@@ -61,7 +58,8 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
       aria-label='table-row'
       tabIndex={0}
     >
-      <td className={`flex items-center h-[40px] ${shouldUseCustomIndentation ? 'justify-end' : 'justify-center'}`}>
+      {/* TODO: Determine better method of deciding row indentation */}
+      <td className={`flex items-center h-[40px] ${row[0].icon ? 'justify-end' : 'justify-center'}`}>
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
