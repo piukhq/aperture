@@ -321,6 +321,7 @@ export type DirectoryMerchantDetailsTableCell = {
   },
   additionalStyles?: string,
   displayValue?: string
+  icon?: ReactNode
 }
 
 export type AuthUser = UserProfile & {

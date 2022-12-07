@@ -50,19 +50,22 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     setCopyRow(index)
   }
 
+  // TODO: Determine better method of deciding row indentation
+  const shouldUseCustomIndentation = row[0].icon
+
   return (
     <tr
-      className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] h-[10px] my-[-10px]'
+      className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
       onClick={handleRowClick}
       role='button'
       aria-label='table-row'
       tabIndex={0}
     >
-      <td className='flex items-center justify-center h-[40px]'>
+      <td className={`flex items-center h-[40px] ${shouldUseCustomIndentation ? 'justify-end' : 'justify-center'}`}>
         <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
-        const {paymentSchemeSlug, additionalStyles, displayValue, physicalLocation} = rowCell
+        const {paymentSchemeSlug, additionalStyles, displayValue, icon, physicalLocation} = rowCell
         if (paymentSchemeSlug) {
           return (
             <td key={index}>
@@ -76,7 +79,20 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
             </td>
           )
         }
-        return <td key={index} className={`px-[9px] ${additionalStyles}`}>{displayValue}</td>
+        return (
+          icon ? (
+            <td key={index} className={'px-[9px]'}>
+              <div className={`flex items-center gap-[9px] ${additionalStyles}`}>
+                {icon}
+                {displayValue}
+              </div>
+            </td>
+          ) : (
+            <td key={index} className={`px-[9px] ${additionalStyles}`}>
+              {displayValue}
+            </td>
+          )
+        )
       })}
       <td className='font-table-cell h-[40px] text-center'>
         {copyRow === index ? 'Copied' : (

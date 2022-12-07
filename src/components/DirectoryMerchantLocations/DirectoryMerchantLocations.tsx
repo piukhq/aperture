@@ -9,6 +9,7 @@ import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {setLocationLabel} from 'features/directoryLocationSlice'
+import PathSvg from 'icons/svgs/path.svg'
 
 const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -58,55 +59,56 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const locationsData: DirectoryLocations = getMerchantLocationsResponse
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
-  const hydrateLocationTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return locationsData.map((locationObj: DirectoryLocation) => {
-      const {date_added: dateAdded, location_metadata: locationMetadata} = locationObj
-      const {
-        name,
-        is_physical_location: isPhysicalLocation,
-        address_line_1: addressLine,
-        town_city: townCity,
-        postcode,
-        location_id: locationId,
-        merchant_internal_id: internalId,
-      } = locationMetadata
+  const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
+    const {date_added: dateAdded, location_metadata: locationMetadata} = locationObj
+    const {
+      name,
+      is_physical_location: isPhysicalLocation,
+      address_line_1: addressLine,
+      town_city: townCity,
+      postcode,
+      location_id: locationId,
+      merchant_internal_id: internalId,
+    } = locationMetadata
 
-      return [
-        {
-          displayValue: name,
-          additionalStyles: 'font-heading-8 font-regular truncate',
+    const textStyles = `${isSubLocation ? 'font-subheading-4 font-medium' : 'font-heading-8 font-regular'} truncate`
+
+    return [
+      {
+        displayValue: name,
+        additionalStyles: textStyles,
+        icon: isSubLocation ? <PathSvg /> : null,
+      },
+      {
+        displayValue: dateAdded,
+        additionalStyles: textStyles,
+      },
+      {
+        physicalLocation: {
+          isPhysicalLocation,
         },
-        {
-          displayValue: dateAdded,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-        {
-          physicalLocation: {
-            isPhysicalLocation,
-          },
-        },
-        {
-          displayValue: addressLine,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-        {
-          displayValue: townCity,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-        {
-          displayValue: postcode,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-        {
-          displayValue: locationId,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-        {
-          displayValue: internalId,
-          additionalStyles: 'font-heading-8 font-regular truncate',
-        },
-      ]
-    })
+      },
+      {
+        displayValue: addressLine,
+        additionalStyles: textStyles,
+      },
+      {
+        displayValue: townCity,
+        additionalStyles: textStyles,
+      },
+      {
+        displayValue: postcode,
+        additionalStyles: textStyles,
+      },
+      {
+        displayValue: locationId,
+        additionalStyles: textStyles,
+      },
+      {
+        displayValue: internalId,
+        additionalStyles: textStyles,
+      },
+    ]
   }
 
   const refArray = locationsData?.map(location => location.location_ref)
@@ -135,6 +137,20 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
+  }
+
+  const getLocationTableRows = (locationsData: DirectoryLocation[]): Array<DirectoryMerchantDetailsTableCell[]> => {
+    return locationsData.reduce((accumulator, locationObj: DirectoryLocation) => {
+      const locationTableRow = hydrateLocationTableRow(locationObj)
+      accumulator.push(locationTableRow)
+
+      if (locationObj.sub_locations) {
+        const subLocationRows = locationObj.sub_locations.map(subLocation => hydrateLocationTableRow(subLocation, true))
+        accumulator.push(...subLocationRows)
+      }
+
+      return accumulator
+    }, [])
   }
 
   return (
@@ -179,7 +195,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={hydrateLocationTableData()} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={getLocationTableRows(locationsData)} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )
