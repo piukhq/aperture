@@ -48,7 +48,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditStat
   const renderReadOnlyState = () => {
     return (
       <>
-        <div data-testid='sub-location-refresh-button' className='flex justify-end'>
+        <div data-testid='sub-location-refresh-button' className='flex justify-end mb-[12px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
