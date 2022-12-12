@@ -19,9 +19,10 @@ type Props = {
   onCancelEditState: () => void
   setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
   setShouldDisableEditButton: (shouldDisableEditButton: boolean) => void
+  setIsInEditState: (isInEditState: boolean) => void
 }
 
-const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
+const SingleViewLocation = ({setHeaderFn, isInEditState, setIsInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -59,9 +60,9 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
       const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationResponse.location_metadata
 
       const title = name || addressLine1 || `Location ${locationId}`
-      setHeaderFn(`${isInEditState ? 'Editing - ' : ''}${title}`)
+      setHeaderFn(`${isInEditState && tabSelected === DirectorySingleViewTabs.DETAILS ? 'Editing - ' : ''}${title}`)
     }
-  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity])
+  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity, tabSelected])
 
 
   const renderNavigationTabs = () => {
@@ -120,7 +121,12 @@ const SingleViewLocation = ({setHeaderFn, isInEditState, onCancelEditState, setS
       case DirectorySingleViewTabs.SUB_LOCATIONS:
         return (
           <div className='px-[25px]'>
-            <SingleViewLocationSubLocations />
+            <SingleViewLocationSubLocations
+              location={getMerchantLocationResponse}
+              isInEditState={isInEditState}
+              onCancelEditState={onCancelEditState}
+              setIsInEditState={setIsInEditState}
+            />
           </div>
         )
       case DirectorySingleViewTabs.COMMENTS:

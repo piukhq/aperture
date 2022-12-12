@@ -80,7 +80,7 @@ const LinkedListItem = ({
 
   return (
     <div className='flex w-full justify-between h-[35px]'>
-      <a href={link} className='flex items-center overflow-x-hidden font-modal-data text-blue'>
+      <a href={link} className='flex items-center overflow-x-hidden font-modal-data text-blue w-[500px] truncate'>
         {entityType !== LinkableEntities.LOCATION && (
           <div className='w-[42px] h-[30px] mr-[13px]'>
             {paymentSchemeSlug && <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />}

@@ -61,6 +61,7 @@ const mockCancelHandler = jest.fn()
 
 const mockProps = {
   location: mockLocation,
+  isSubLocation: false,
   parentLocationStrings: [],
   parentLocation: 'None',
   parentLocationChangeHandler: jest.fn(),
@@ -335,6 +336,24 @@ describe('DirectoryMerchantLocationForm', () => {
       const postcodeInput = screen.getByLabelText('Postcode')
       fireEvent.blur(postcodeInput)
       expect(mockSetPostcodeValidationError).toHaveBeenCalledWith('Enter postcode')
+    })
+  })
+
+  describe('Test sub-location appearance', () => {
+    it('should render the parent location as text', () => {
+      render(getEditLocationFormComponent({isSubLocation: true}))
+      expect(screen.getByTestId('parent-location')).toHaveTextContent(mockProps.parentLocation)
+      expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
+    })
+
+    it('should not render the location id field', () => {
+      render(getEditLocationFormComponent({isSubLocation: true}))
+      expect(screen.queryByLabelText('Location ID')).not.toBeInTheDocument()
+    })
+
+    it('should not render the merchant internal id field', () => {
+      render(getEditLocationFormComponent({isSubLocation: true}))
+      expect(screen.queryByLabelText('Merchant Internal ID')).not.toBeInTheDocument()
     })
   })
 })
