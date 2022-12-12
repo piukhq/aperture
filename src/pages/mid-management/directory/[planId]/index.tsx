@@ -14,6 +14,7 @@ import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import TableSvg from 'icons/svgs/table.svg'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
@@ -97,6 +98,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       clickHandler: () => requestPlanCommentsModal(),
     },
     {
+      label: 'Upload File',
+      icon: <TableSvg/>,
+      clickHandler: () => console.log('Clicked'),
+    },
+    {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
@@ -146,6 +152,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
               label: 'Comments',
               icon: <CommentSvg/>,
               clickHandler: () => requestMerchantCommentsModal(),
+            },
+            {
+              label: 'Upload File',
+              icon: <TableSvg/>,
+              clickHandler: () => console.log('Clicked'),
             },
             {
               label: 'Delete',
