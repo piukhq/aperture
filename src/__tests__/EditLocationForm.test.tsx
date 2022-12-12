@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
-import EditLocationForm from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm'
+import EditLocationForm from 'components/Modals/components/DirectorySingleViewModal/components/EditLocationForm/EditLocationForm'
 import {PaymentSchemeSlug} from 'utils/enums'
 
 const mockDateAdded = 'mock_date_added'
