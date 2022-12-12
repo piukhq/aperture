@@ -19,6 +19,7 @@ import {useEffect} from 'react'
 import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
+import TableSvg from 'icons/svgs/table.svg'
 import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant, DirectoryMerchant} from 'types'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
@@ -129,6 +130,11 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       label: 'Comments',
       icon: <CommentSvg/>,
       clickHandler: () => requestMerchantCommentsModal(),
+    },
+    {
+      label: 'Upload File',
+      icon: <TableSvg/>,
+      clickHandler: () => console.log('Clicked'),
     },
     {
       label: 'Delete',
