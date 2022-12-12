@@ -1,20 +1,22 @@
 import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
-import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {useAppDispatch} from 'app/hooks'
+import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes} from 'utils/enums'
 import {classNames} from 'utils/classNames'
+import {DirectoryEntity} from 'types'
 
 type Props = {
+  selectedEntity: DirectoryEntity,
   resetError: () => void
   setError: (errorMessage: string) => void
   setHeaderFn: (header: string) => void
 }
 
-const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
+const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -25,7 +27,6 @@ const SingleViewMid = ({setError, resetError, setHeaderFn}: Props) => {
     midRef: ref as string,
   })
 
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

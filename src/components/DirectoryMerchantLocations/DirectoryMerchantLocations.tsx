@@ -1,3 +1,4 @@
+import {useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, DirectoryMerchantDetailsTable} from 'components'
@@ -38,6 +39,12 @@ const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
     displayValue: 'INTERNAL ID',
   },
 ]
+
+type LocationRowObject = {
+  ref: string,
+  isSubLocation?: boolean,
+  row: DirectoryMerchantDetailsTableCell[]
+}
 
 type Props = {
   locationLabel: string
@@ -113,9 +120,50 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
   const refArray = locationsData?.map(location => location.location_ref)
 
-  const requestLocationSingleView = (index:number):void => {
-    dispatch(setSelectedDirectoryMerchantEntity(locationsData[index]))
-    router.push(`${router.asPath}&ref=${locationsData[index].location_ref}`)
+  const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
+    return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
+      const locationTableRow = hydrateLocationTableRow(locationObj)
+      accumulator.push({ref: locationObj.location_ref, row: locationTableRow})
+
+      if (locationObj.sub_locations) {
+        const subLocationRows = locationObj.sub_locations.map(subLocation => ({
+          ref: subLocation.location_ref,
+          row: hydrateLocationTableRow(subLocation, true),
+          isSubLocation: true,
+        }))
+        accumulator.push(...subLocationRows)
+      }
+
+      return accumulator
+    }, [])
+  }, [locationsData])
+
+  const locationRowObjects = getLocationTableRowObjects()
+  const locationRows = locationRowObjects?.map(locationRowObj => locationRowObj.row)
+
+  // Set selected location/sub-location in redux store and open correct modal
+  const requestLocationSingleView = (index: number): void => {
+    const {isSubLocation, ref: locationRef} = locationRowObjects[index]
+
+    if (isSubLocation) {
+      const subLocationObj = locationsData?.reduce((accumulator: {subLocation: DirectoryLocation, parentLocationRef: string}, location: DirectoryLocation) => {
+        if (accumulator) { return accumulator }
+
+        const {sub_locations: subLocations} = location
+        if (subLocations) {
+          const subLocation = subLocations.find(subLocation => subLocation.location_ref === locationRef)
+          return subLocation ? {subLocation, parentLocationRef: location.location_ref} : null
+        }
+      }, null)
+
+      const {subLocation, parentLocationRef} = subLocationObj
+      dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
+      router.push(`${router.asPath}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
+    } else {
+      const location = locationsData.find(location => location.location_ref === locationRef)
+      dispatch(setSelectedDirectoryMerchantEntity(location))
+      router.push(`${router.asPath}&ref=${locationRef}`)
+    }
   }
 
   const setSelectedLocations = () => {
@@ -137,20 +185,6 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(setCommentsOwnerRef(planId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
-  }
-
-  const getLocationTableRows = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return locationsData.reduce((accumulator, locationObj: DirectoryLocation) => {
-      const locationTableRow = hydrateLocationTableRow(locationObj)
-      accumulator.push(locationTableRow)
-
-      if (locationObj.sub_locations) {
-        const subLocationRows = locationObj.sub_locations.map(subLocation => hydrateLocationTableRow(subLocation, true))
-        accumulator.push(...subLocationRows)
-      }
-
-      return accumulator
-    }, [])
   }
 
   return (
@@ -195,7 +229,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       </div>
 
       {locationsData && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={getLocationTableRows()} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
     </>
   )

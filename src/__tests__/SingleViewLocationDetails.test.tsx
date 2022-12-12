@@ -3,7 +3,7 @@ import {render, screen} from '@testing-library/react'
 import SingleViewLocationDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails'
 import {PaymentSchemeSlug} from 'utils/enums'
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationDetails/components/EditLocationForm',
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/EditLocationForm',
   () => () => <div data-testid='EditLocationForm' />)
 
 

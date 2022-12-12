@@ -2,17 +2,12 @@ import {useState, useEffect, memo, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
-import {
-  SingleViewLocationDetails,
-  SingleViewLocationMids,
-  SingleViewLocationSecondaryMids,
-  SingleViewLocationSubLocations,
-} from './components'
+import {SingleViewSubLocationDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {classNames} from 'utils/classNames'
 import {DirectoryEntity} from 'types'
+import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 
 type Props = {
   selectedEntity: DirectoryEntity,
@@ -23,18 +18,20 @@ type Props = {
   setShouldDisableEditButton: (shouldDisableEditButton: boolean) => void
 }
 
-const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
+const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
   const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref, sub_location_ref} = router.query
 
   const {
-    getMerchantLocationResponse,
-    getMerchantLocationRefresh,
-    getMerchantLocationIsFetching,
-  } = useMidManagementLocations({
+    getMerchantLocationSubLocationResponse,
+    getMerchantLocationSubLocationRefresh,
+    getMerchantLocationSubLocationIsFetching,
+  } = useMidManagementLocationSubLocations({
+    skipGetSubLocations: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
+    subLocationRef: sub_location_ref as string,
   })
 
   const dispatch = useAppDispatch()
@@ -48,21 +45,21 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCance
 
   useEffect(() => {
     // Edit button should be disabled when refetching data
-    setShouldDisableEditButton(getMerchantLocationIsFetching)
-  }, [getMerchantLocationIsFetching, setShouldDisableEditButton])
+    setShouldDisableEditButton(getMerchantLocationSubLocationIsFetching)
+  }, [getMerchantLocationSubLocationIsFetching, setShouldDisableEditButton])
 
   useEffect(() => {
-    if (getMerchantLocationResponse) {
+    if (getMerchantLocationSubLocationResponse) {
       if (!selectedEntity) {
-        dispatch(setSelectedDirectoryMerchantEntity(getMerchantLocationResponse))
+        dispatch(setSelectedDirectoryMerchantEntity(getMerchantLocationSubLocationResponse))
       }
 
-      const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationResponse.location_metadata
+      const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationSubLocationResponse.sub_location.location_metadata
 
       const title = name || addressLine1 || `Location ${locationId}`
       setHeaderFn(`${isInEditState ? 'Editing - ' : ''}${title}`)
     }
-  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity])
+  }, [getMerchantLocationSubLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity])
 
 
   const renderNavigationTabs = () => {
@@ -70,9 +67,6 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCance
     const tabUnselectedClasses = 'font-regular text-sm text-grey-600 dark:text-grey-400 dark:hover:text-white hover:text-grey-900 border-b-[1px] border-b-grey-200'
     return [
       DirectorySingleViewTabs.DETAILS,
-      DirectorySingleViewTabs.MIDS,
-      DirectorySingleViewTabs.SECONDARY_MIDS,
-      DirectorySingleViewTabs.SUB_LOCATIONS,
       DirectorySingleViewTabs.COMMENTS,
     ].map(tab => (
       <button
@@ -89,41 +83,23 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCance
   }
 
   const handleRefresh = useCallback(() => {
-    getMerchantLocationRefresh()
-  }, [getMerchantLocationRefresh])
+    getMerchantLocationSubLocationRefresh()
+  }, [getMerchantLocationSubLocationRefresh])
 
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
-        return getMerchantLocationResponse ? (
+        return getMerchantLocationSubLocationResponse ? (
           <div className='pl-[25px] pr-[10px]'>
-            <SingleViewLocationDetails
-              location={getMerchantLocationResponse}
+            <SingleViewSubLocationDetails
+              location={getMerchantLocationSubLocationResponse}
               isInEditState={isInEditState}
               onCancelEditState={onCancelEditState}
               handleRefresh={handleRefresh}
-              isRefreshing={getMerchantLocationIsFetching}
+              isRefreshing={getMerchantLocationSubLocationIsFetching}
             />
           </div>
         ) : null
-      case DirectorySingleViewTabs.MIDS:
-        return (
-          <div className='px-[25px]'>
-            <SingleViewLocationMids />
-          </div>
-        )
-      case DirectorySingleViewTabs.SECONDARY_MIDS:
-        return (
-          <div className='px-[25px]'>
-            <SingleViewLocationSecondaryMids />
-          </div>
-        )
-      case DirectorySingleViewTabs.SUB_LOCATIONS:
-        return (
-          <div className='px-[25px]'>
-            <SingleViewLocationSubLocations />
-          </div>
-        )
       case DirectorySingleViewTabs.COMMENTS:
         return (
           <div className='pt-[11px]'>
@@ -135,7 +111,7 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCance
 
   return (
     <>
-      <nav className='h-[60px] w-full grid grid-cols-5 mb-[23px] mt-[5px]'>
+      <nav className='h-[60px] w-full grid grid-cols-2 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
       {renderSelectedTabContent()}
@@ -143,4 +119,4 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, onCance
   )
 }
 
-export default memo(SingleViewLocation)
+export default memo(SingleViewSubLocation)
