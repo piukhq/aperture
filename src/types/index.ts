@@ -269,6 +269,7 @@ export type DirectoryLocationMetadata = {
 }
 
 export type DirectoryLocation = {
+  isSubLocation?: boolean,
   location_ref: string,
   location_metadata: DirectoryLocationMetadata,
   location_status: string,
@@ -279,7 +280,15 @@ export type DirectoryLocation = {
   sub_locations?: DirectoryLocations
 }
 
-export type DirectoryEntity = DirectoryPsimi | DirectoryLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
+export type DirectorySubLocation = {
+  parent_location: {
+    location_ref: string,
+    location_title: string,
+  },
+  sub_location: DirectoryLocation
+}
+
+export type DirectoryEntity = DirectoryPsimi | DirectoryLocation | DirectorySubLocation | DirectoryMid | DirectoryMerchantMid | DirectorySecondaryMid
 
 export type DirectoryEntities = Array<DirectoryEntity>
 

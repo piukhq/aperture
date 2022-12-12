@@ -1,18 +1,20 @@
 import {useState, useEffect, memo} from 'react'
 import {useRouter} from 'next/router'
-import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {useAppDispatch} from 'app/hooks'
+import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {SingleViewPsimiDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes} from 'utils/enums'
 import {classNames} from 'utils/classNames'
+import {DirectoryEntity} from 'types'
 
 type Props = {
+  selectedEntity: DirectoryEntity,
   setHeaderFn: (header: string) => void
 }
 
-const SingleViewPsimi = ({setHeaderFn}: Props) => {
+const SingleViewPsimi = ({selectedEntity, setHeaderFn}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -22,8 +24,6 @@ const SingleViewPsimi = ({setHeaderFn}: Props) => {
     merchantRef: merchantId as string,
     psimiRef: ref as string,
   })
-
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

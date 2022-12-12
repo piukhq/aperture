@@ -33,6 +33,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
+  selectedEntity: null,
   isInEditState: false,
   onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,

@@ -6,6 +6,7 @@ import {
   DirectoryMerchantLocationMid,
   DirectoryMerchantLocationAvailableMids,
   DirectoryMerchantLocationSecondaryMid,
+  DirectorySubLocation,
 } from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
@@ -17,6 +18,7 @@ type MerchantLocationsEndpointRefs = {
   locationRef?: string,
   secondaryMidRef?: string,
   linkRef?: string,
+  subLocationRef?: string,
 }
 
 type PostMerchantLocationBody = MerchantLocationsEndpointRefs & {
@@ -39,6 +41,7 @@ export const midManagementMerchantLocationsApi = createApi({
     'MerchantLocationLinkedSecondaryMids',
     'MerchantLocationAvailableMids',
     'MerchantLocationSubLocations',
+    'MerchantLocationSubLocation',
   ],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
@@ -265,6 +268,13 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       providesTags: ['MerchantLocationSubLocations'],
     }),
+    getMerchantLocationSubLocation: builder.query<DirectorySubLocation, MerchantLocationsEndpointRefs>({
+      query: ({planRef, merchantRef, locationRef, subLocationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations/${subLocationRef}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocationSubLocation'],
+    }),
   }),
 })
 
@@ -283,4 +293,5 @@ export const {
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
   useGetMerchantLocationSubLocationsQuery,
+  useGetMerchantLocationSubLocationQuery,
 } = midManagementMerchantLocationsApi
