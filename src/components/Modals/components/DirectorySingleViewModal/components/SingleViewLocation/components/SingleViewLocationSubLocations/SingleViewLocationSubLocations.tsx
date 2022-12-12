@@ -1,17 +1,25 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button} from 'components'
+import {DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 import {DirectoryLocation} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
 
-const SingleViewLocationSubLocations = () => {
+type Props = {
+  location: DirectoryLocation,
+  isInEditState: boolean,
+  setIsInEditState: (isInEditState: boolean) => void,
+  onCancelEditState: () => void,
+}
+
+const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditState, onCancelEditState}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const [selectedUnlinkSubLocationIndex, setSelectedUnlinkSubLocationIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
+  const [selectedUnlinkSubLocationIndex, setSelectedUnlinkSubLocationIndex] = useState(null) // The index of the sub-location that is selected to be unlinked
   const [availableSubLocationNotification, setAvailableSubLocationNotification] = useState('')
 
   const {getMerchantLocationSubLocationsResponse, getMerchantLocationSubLocationsIsLoading} = useMidManagementLocationSubLocations({
@@ -22,6 +30,27 @@ const SingleViewLocationSubLocations = () => {
   })
 
   const hasNoLinkedSubLocations = (!getMerchantLocationSubLocationsResponse || getMerchantLocationSubLocationsResponse.length === 0) && !getMerchantLocationSubLocationsIsLoading
+
+  useEffect(() => {
+    return () => {
+      onCancelEditState()
+    }
+  }, [onCancelEditState])
+
+  const renderNewSubLocationForm = () => (
+    <DirectoryMerchantLocationForm
+      location={location}
+      isSubLocation={true}
+      parentLocationStrings={null}
+      parentLocation={location.location_metadata.name}
+      parentLocationChangeHandler={null}
+      onSaveHandler={null}
+      onCancelHandler={onCancelEditState}
+      isLoading={null}
+      error={null}
+    />
+  )
+
 
   const renderSubLocation = (subLocation: DirectoryLocation, index) => {
     const {
@@ -56,7 +85,7 @@ const SingleViewLocationSubLocations = () => {
   const renderLinkNewSubLocationButton = () => (
     <div className='flex justify-end items-center'>
       <Button
-        handleClick={() => console.log('New Sub Location clicked')}
+        handleClick={() => setIsInEditState(true)}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
         buttonWidth={ButtonWidth.AUTO}
@@ -69,31 +98,39 @@ const SingleViewLocationSubLocations = () => {
     </div>
   )
 
-  const renderLinkedSubLocations = () => {
-    if (hasNoLinkedSubLocations) {
-      return <i className='font-body-4'>There are no Sub-Locations to view.</i>
-    }
-    return (
-      <section>
-        <h2 className='font-modal-heading'>SUB-LOCATIONS</h2>
-        <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationSubLocationsResponse.map((subLocation, index) => renderSubLocation(subLocation, index))}
-        </div>
-      </section>
-    )
-  }
+  const renderLinkedSubLocations = () => (
+    <section>
+      <h2 className='font-modal-heading'>SUB-LOCATIONS</h2>
+      <div className='flex flex-col gap-[14px]'>
+        {getMerchantLocationSubLocationsResponse.map((subLocation, index) => renderSubLocation(subLocation, index))}
+      </div>
+    </section>
+  )
+
+  const renderNewSubLocationButtons = () => (
+    <div className='flex justify-end items-center gap-[14px]'>dkopokp </div>
+  )
+
+  if (!getMerchantLocationSubLocationsResponse && !hasNoLinkedSubLocations) { return <i className='font-body-4'>Loading...</i> }
+
+  if (isInEditState) { return renderNewSubLocationForm() }
+
 
   return (
     <div className='pb-[28px]'>
+      {hasNoLinkedSubLocations && (
+        <section className='font-body-4 h-[40px] mb-[20px]'>
+          <p>Creating a sub-location will make {location.location_metadata.name} non-physical. Any address details for this location will be copied to the new sub-location but can be edited. Continue?</p>
+        </section>
+      )}
       <section className='h-[40px]'>
         {renderLinkNewSubLocationButton()}
       </section>
       <section className='font-body-4 text-red h-[40px]'>
         <p>{availableSubLocationNotification}</p>
       </section>
-      {getMerchantLocationSubLocationsIsLoading ? (
-        <i className='font-body-4'>Loading...</i>
-      ) : renderLinkedSubLocations()}
+      {!hasNoLinkedSubLocations && renderLinkedSubLocations()}
+      {isInEditState && renderNewSubLocationButtons()}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 
 type Props = {
   location?: DirectoryLocation
+  isSubLocation?: boolean
   parentLocationStrings: string[]
   parentLocation: string
   parentLocationChangeHandler: (parentLocation) => void
@@ -15,7 +16,7 @@ type Props = {
   error,
 }
 
-const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentLocation, parentLocationChangeHandler, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
+const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationStrings, parentLocation, parentLocationChangeHandler, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
   const {
     name,
     address_line_1: addressLine1,
@@ -29,7 +30,12 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
     merchant_internal_id: merchantInternalId,
   } = location?.location_metadata || {}
 
-  const [nameValue, setNameValue] = useState(name || '')
+  const [nameValue, setNameValue] = useState(() => {
+    if (name && !isSubLocation) {
+      return name
+    }
+    return ''
+  })
   const [nameValidationError, setNameValidationError] = useState(null)
 
   const [locationIdValue, setLocationIdValue] = useState(locationId || '')
@@ -190,14 +196,14 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
         <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
         <div className='h-[28px] w-[277px]'>
-          <Dropdown
+          {isSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
             displayValue={parentLocation}
             displayValues={parentLocationStrings}
             onChangeDisplayValue={handleParentLocationChange}
-          />
+          />}
         </div>
 
-        {parentLocation !== 'None' && (
+        {parentLocation !== 'None' && !isSubLocation && (
           <p className='font-subheading-4 mt-[10px] w-[489px]'>
             This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location
           </p>
@@ -224,7 +230,7 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
           inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
         />
 
-        {parentLocation === 'None' && (
+        {parentLocation === 'None' && !isSubLocation && (
           <div className='flex gap-[40px] pt-[28px]'>
             <TextInputGroup
               name='location-id'
@@ -263,7 +269,7 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
 
       {/* Address */}
       {isPhysicalLocation && (
-        <section data-testid='address-section' className='pt-[18px]'>
+        <section data-testid='address-section' className='py-[24px] '>
           <h2 className='font-modal-heading pb-[19px]'>ADDRESS</h2>
 
           <div className='flex flex-col gap-[24px]'>
@@ -353,7 +359,7 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
   return (
     <form data-testid='location-form' onSubmit={handleSave}>
       {renderFormContent()}
-      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[42px] pt-[14px]'>
+      <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[16px] pt-[14px]'>
         {errorMessage && (
           <p data-testid='error-message' className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
         )}
@@ -383,6 +389,7 @@ const DirectoryMerchantLocationForm = ({location, parentLocationStrings, parentL
           >{isLoading ? 'Saving' : 'Save'}
           </Button>
         </div>
+
       </div>
     </form>
   )

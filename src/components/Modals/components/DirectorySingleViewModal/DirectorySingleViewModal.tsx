@@ -186,29 +186,14 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.PSIMIS:
         return <SingleViewPsimi selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.LOCATIONS:
-        if (sub_location_ref) {
-          return (
-            <SingleViewSubLocation
-              selectedEntity={selectedEntity}
-              setHeaderFn={setEntityHeading}
-              isInEditState={isInLocationEditState}
-              onCancelEditState={onCancelEditState}
-              setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
-              setShouldDisableEditButton={setShouldDisableEditButton}
-            />
-          )
-        } else {
-          return (
-            <SingleViewLocation
-              selectedEntity={selectedEntity}
-              setHeaderFn={setEntityHeading}
-              isInEditState={isInLocationEditState}
-              onCancelEditState={onCancelEditState}
-              setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
-              setShouldDisableEditButton={setShouldDisableEditButton}
-            />
-          )
-        }
+        return <SingleViewLocation
+          setHeaderFn={setEntityHeading}
+          isInEditState={isInLocationEditState}
+          onCancelEditState={onCancelEditState}
+          setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
+          setShouldDisableEditButton={setShouldDisableEditButton}
+          setIsInEditState={setIsInLocationEditState}
+        />
     }
   }
 

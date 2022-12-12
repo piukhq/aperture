@@ -4,6 +4,7 @@ import SingleViewLocationSubLocations from 'components/Modals/components/Directo
 import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='linked-list-item' />)
+jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='directory-merchant-location-form' />)
 
 const mockName = 'mock_name'
 const mockAddressLine1 = 'mock_address_line_1'
@@ -43,6 +44,15 @@ jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
   })),
 }))
 
+const getSingleViewSubLocationsComponent = (passedProps = {}) => (
+  <SingleViewLocationSubLocations
+    location={mockLocation}
+    isInEditState={false}
+    setIsInEditState={jest.fn()}
+    onCancelEditState={jest.fn()}
+    {...passedProps} />
+)
+
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 describe('SingleViewLocationSubLocations', () => {
@@ -59,24 +69,30 @@ describe('SingleViewLocationSubLocations', () => {
   })
 
   it('should render New Sub-location button', () => {
-    render(<SingleViewLocationSubLocations />)
+    render(getSingleViewSubLocationsComponent())
     expect(screen.getByRole('button', {name: 'New Sub-location'})).toBeInTheDocument()
   })
 
   it('should render the correct section heading', () => {
-    render(<SingleViewLocationSubLocations />)
+    render(getSingleViewSubLocationsComponent())
     expect(screen.getByRole('heading')).toHaveTextContent('SUB-LOCATIONS')
   })
 
   it('should render the LinkedListItem', () => {
-    render(<SingleViewLocationSubLocations />)
+    render(getSingleViewSubLocationsComponent())
     const locationListItems = screen.queryAllByTestId('linked-list-item')
     expect(locationListItems).toHaveLength(1)
   })
 
   it('should render the no linked Locations available message', () => {
     mockgetMerchantLocationSubLocationsResponse = []
-    render(<SingleViewLocationSubLocations />)
-    expect(screen.getByText('There are no Sub-Locations to view.')).toBeInTheDocument()
+    render(getSingleViewSubLocationsComponent())
+    expect(screen.getByText(`Creating a sub-location will make ${mockLocation.location_metadata.name} non-physical. Any address details for this location will be copied to the new sub-location but can be edited. Continue?`)).toBeInTheDocument()
+  })
+
+  it('should render the DirectoryMerchantLocationForm when in edit mode', () => {
+    render(getSingleViewSubLocationsComponent({isInEditState: true}))
+
+    expect(screen.getByTestId('directory-merchant-location-form')).toBeInTheDocument()
   })
 })
