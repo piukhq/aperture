@@ -1,28 +1,30 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
-import SingleViewMid from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid'
-import {Provider} from 'react-redux'
-import configureStore from 'redux-mock-store'
+import SingleViewSubLocation from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSubLocation'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
-const mockMidValue = 'mock_mid_value'
-const mockGetMerchantMidResponse = {
-  mid: {
-    mid_metadata: {
-      mid: mockMidValue,
+const mockName = 'mock_name'
+const mockGetMerchantSubLocationResponse = {
+  parent_location: {
+    location_ref: 'mock_parent_location_ref',
+    location_title: 'mock_parent_location_title',
+  },
+  sub_location: {
+    location_metadata: {
+      name: mockName,
     },
   },
 }
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
-    getMerchantMidResponse: mockGetMerchantMidResponse,
+jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
+  useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
+    getMerchantLocationSubLocationResponse: mockGetMerchantSubLocationResponse,
   })),
 }))
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails',
-  () => () => <div data-testid='SingleViewMidDetails' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewSubLocation/components/SingleViewSubLocationDetails',
+  () => () => <div data-testid='SingleViewSubLocationDetails' />)
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewComments',
   () => () => <div data-testid='SingleViewComments' />)
@@ -36,30 +38,21 @@ const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
   selectedEntity: null,
-  resetError: jest.fn(),
-  setError: jest.fn(),
+  isInEditState: false,
+  onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
-}
-
-const mockMerchantDetailsState = {
-  directoryMerchant: {
-    selectedEntity: {},
-  },
+  setShouldDisplayEditButton: jest.fn(),
+  setShouldDisableEditButton: jest.fn(),
 }
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({...mockMerchantDetailsState})
-
-const getSingleViewMidComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <SingleViewMid {...mockProps} />
-  </Provider>
+const getSingleViewSubLocationComponent = () => (
+  <SingleViewSubLocation {...mockProps} />
 )
 
-describe('SingleViewMid', () => {
+describe('SingleViewSubLocation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -67,7 +60,8 @@ describe('SingleViewMid', () => {
       query: {
         planId: 'mock_plan_id',
         merchantId: 'mock_merchant_id',
-        ref: 'mock_mid_ref',
+        ref: 'mock_location_ref',
+        sub_location_ref: 'mock_sub_location_ref',
       },
     }))
 
@@ -78,30 +72,30 @@ describe('SingleViewMid', () => {
   })
 
   it('should render the Navigation tabs', () => {
-    render(getSingleViewMidComponent())
+    render(getSingleViewSubLocationComponent())
     expect(screen.getByText('Details')).toBeInTheDocument()
     expect(screen.getByText('Comments')).toBeInTheDocument()
   })
 
   it('should call prop function to set header', () => {
-    render(getSingleViewMidComponent())
-    expect(mockSetHeaderFnProp).toBeCalledWith(`MID - ${mockMidValue}`)
+    render(getSingleViewSubLocationComponent())
+    expect(mockSetHeaderFnProp).toBeCalledWith(mockName)
   })
 
-  it('should render SingleViewMidDetails component', () => {
-    render(getSingleViewMidComponent())
-    expect(screen.getByTestId('SingleViewMidDetails')).toBeInTheDocument()
+  it('should render SingleViewSubLocationDetails component', () => {
+    render(getSingleViewSubLocationComponent())
+    expect(screen.getByTestId('SingleViewSubLocationDetails')).toBeInTheDocument()
   })
 
   it('should render the SingleViewComments component', () => {
     React.useState = jest.fn().mockReturnValueOnce(['Comments', jest.fn()])
 
-    render(getSingleViewMidComponent())
+    render(getSingleViewSubLocationComponent())
     expect(screen.getByTestId('SingleViewComments')).toBeInTheDocument()
   })
 
   it('should call function to set selected entity if selected entity is not present', () => {
-    render(getSingleViewMidComponent())
-    expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantMidResponse)
+    render(getSingleViewSubLocationComponent())
+    expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantSubLocationResponse)
   })
 })

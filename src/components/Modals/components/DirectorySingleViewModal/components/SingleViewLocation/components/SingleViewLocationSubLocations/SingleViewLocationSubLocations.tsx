@@ -23,6 +23,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
   const [availableSubLocationNotification, setAvailableSubLocationNotification] = useState('')
 
   const {getMerchantLocationSubLocationsResponse, getMerchantLocationSubLocationsIsLoading} = useMidManagementLocationSubLocations({
+    skipGetSubLocation: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
@@ -68,7 +69,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
         key={subLocationRef}
         index={index}
         value={`${name}, ${addressLine1}, ${postcode}`}
-        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${subLocationRef}`}
+        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${ref}&sub_location_ref=${subLocationRef}`}
         refValue={subLocationRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkSubLocationIndex}
         isInUnlinkingConfirmationState={selectedUnlinkSubLocationIndex === index}

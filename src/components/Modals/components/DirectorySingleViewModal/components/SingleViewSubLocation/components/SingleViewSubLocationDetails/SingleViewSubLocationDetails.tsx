@@ -1,33 +1,32 @@
 import {useEffect} from 'react'
+import {useRouter} from 'next/router'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
-import {DirectoryLocation} from 'types'
+import {DirectorySubLocation} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import EditLocationForm from '../../../EditLocationForm'
 
 type Props = {
   isInEditState: boolean
-  location: DirectoryLocation
+  location: DirectorySubLocation
   onCancelEditState: () => void
   handleRefresh: () => void
   isRefreshing: boolean
 }
 
-const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
-  // Take component out of edit state when unmounted
-  useEffect(() => {
-    return () => {
-      onCancelEditState()
-    }
-  }, [onCancelEditState])
+const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
+  const router = useRouter()
+  const {merchantId, planId} = router.query
+
+  const {parent_location: parentLocation, sub_location: subLocation} = location
+
+  const {location_ref: parentLocationRef, location_title: parentLocationTitle} = parentLocation
 
   const {
     date_added: dateAdded,
-    linked_mids_count: linkedMidsCount,
-    linked_secondary_mids_count: linkedSecondaryMidsCount,
     location_metadata,
-  } = location
+  } = subLocation
 
   const {
     address_line_1: addressLine1,
@@ -37,14 +36,19 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     country,
     postcode,
     is_physical_location: isPhysicalLocation,
-    location_id: locationId,
-    merchant_internal_id: merchantInternalId,
   } = location_metadata
+
+  // Take component out of edit state when unmounted
+  useEffect(() => {
+    return () => {
+      onCancelEditState()
+    }
+  }, [onCancelEditState])
 
   const renderReadOnlyState = () => {
     return (
       <>
-        <div data-testid='location-refresh-button' className='flex justify-end'>
+        <div data-testid='sub-location-refresh-button' className='flex justify-end mb-[12px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
@@ -53,7 +57,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
             labelColour={LabelColour.GREY}
             labelWeight={LabelWeight.SEMIBOLD}
             handleClick={handleRefresh}
-            ariaLabel='Refresh Location details'
+            ariaLabel='Refresh Sub-location details'
             isDisabled={isRefreshing}
           ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
           </Button>
@@ -66,8 +70,8 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
           </section>
 
           <section>
-            <h2 className='font-modal-heading'>LOCATION ID</h2>
-            <p className='font-modal-data'>{locationId}</p>
+            <h2 className='font-modal-heading'>PHYSICAL LOCATION</h2>
+            <p className='font-modal-data'>{isPhysicalLocation ? 'Yes' : 'No'}</p>
           </section>
 
           <section>
@@ -80,26 +84,11 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
             {postcode && <p className='font-modal-data'>{postcode}</p>}
           </section>
 
-          <div className='flex flex-col gap-[32px]'>
-            <section>
-              <h2 className='font-modal-heading'>MERCHANT INTERNAL ID</h2>
-              <p className='font-modal-data'>{merchantInternalId}</p>
-            </section>
-
-            <section>
-              <h2 className='font-modal-heading'>NUMBER OF MIDS</h2>
-              <p className='font-modal-data'>{linkedMidsCount}</p>
-            </section>
-          </div>
-
           <section>
-            <h2 className='font-modal-heading'>PHYSICAL LOCATION</h2>
-            <p className='font-modal-data'>{isPhysicalLocation ? 'Yes' : 'No'}</p>
-          </section>
-
-          <section>
-            <h2 className='font-modal-heading'>SECONDARY MIDS</h2>
-            <p className='font-modal-data'>{linkedSecondaryMidsCount}</p>
+            <h2 className='font-modal-heading'>PARENT LOCATION</h2>
+            <a href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${parentLocationRef}`} className='font-modal-data text-blue'>
+              {parentLocationTitle}
+            </a>
           </section>
         </div>
       </>
@@ -107,11 +96,12 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     )
   }
 
+  // TODO: Handle Sub-location edit form
   return (
     <>
       {isInEditState ? (
         <EditLocationForm
-          location={location}
+          location={subLocation}
           onCancelEditState={onCancelEditState}
         />
       ) : (
@@ -122,4 +112,4 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     </>
   )
 }
-export default SingleViewLocationDetails
+export default SingleViewSubLocationDetails

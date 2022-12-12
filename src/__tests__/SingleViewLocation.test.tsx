@@ -2,8 +2,6 @@ import React from 'react'
 import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import SingleViewLocation from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation'
-import {Provider} from 'react-redux'
-import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
 const mockName = 'mock_name'
@@ -33,6 +31,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
+  selectedEntity: null,
   isInEditState: false,
   setIsInEditState: jest.fn(),
   onCancelEditState: jest.fn(),
@@ -41,22 +40,11 @@ const mockProps = {
   setShouldDisableEditButton: jest.fn(),
 }
 
-const mockMerchantDetailsState = {
-  directoryMerchant: {
-    selectedEntity: {},
-  },
-}
-
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({...mockMerchantDetailsState})
-
-const getSingleViewLocationComponent = (passedStore = undefined) => (
-  <Provider store={passedStore || store}>
-    <SingleViewLocation {...mockProps} />
-  </Provider>
+const getSingleViewLocationComponent = () => (
+  <SingleViewLocation {...mockProps} />
 )
 
 describe('SingleViewLocation', () => {

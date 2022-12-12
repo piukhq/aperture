@@ -16,12 +16,13 @@ import SingleViewMid from './components/SingleViewMid'
 import SingleViewPsimi from './components/SingleViewPsimi'
 import SingleViewSecondaryMid from './components/SingleViewSecondaryMid'
 import SingleViewLocation from './components/SingleViewLocation'
+import SingleViewSubLocation from './components/SingleViewSubLocation'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
 
 const DirectorySingleViewModal = () => {
   const router = useRouter()
-  const {merchantId, planId, tab, ref} = router.query
+  const {merchantId, planId, tab, ref, sub_location_ref} = router.query
 
   const {
     deleteMerchantMid,
@@ -170,20 +171,44 @@ const DirectorySingleViewModal = () => {
   const renderContent = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
-        return <SingleViewMid setError={setErrorMessage} resetError={() => setErrorMessage(null)} setHeaderFn={setEntityHeading} />
+        return (
+          <SingleViewMid
+            selectedEntity={selectedEntity}
+            setError={setErrorMessage}
+            resetError={() => setErrorMessage(null)}
+            setHeaderFn={setEntityHeading}
+          />
+        )
       case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <SingleViewSecondaryMid setHeaderFn={setEntityHeading} />
+        return (
+          <SingleViewSecondaryMid selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} />
+        )
       case DirectoryNavigationTab.PSIMIS:
-        return <SingleViewPsimi setHeaderFn={setEntityHeading} />
+        return <SingleViewPsimi selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} />
       case DirectoryNavigationTab.LOCATIONS:
-        return <SingleViewLocation
-          setHeaderFn={setEntityHeading}
-          isInEditState={isInLocationEditState}
-          onCancelEditState={onCancelEditState}
-          setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
-          setShouldDisableEditButton={setShouldDisableEditButton}
-          setIsInEditState={setIsInLocationEditState}
-        />
+        if (sub_location_ref) {
+          return (
+            <SingleViewSubLocation
+              selectedEntity={selectedEntity}
+              setHeaderFn={setEntityHeading}
+              isInEditState={isInLocationEditState}
+              onCancelEditState={onCancelEditState}
+              setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
+              setShouldDisableEditButton={setShouldDisableEditButton}
+            />
+          )
+        } else {
+          return (
+            <SingleViewLocation
+              selectedEntity={selectedEntity}
+              setHeaderFn={setEntityHeading}
+              isInEditState={isInLocationEditState}
+              onCancelEditState={onCancelEditState}
+              setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
+              setShouldDisableEditButton={setShouldDisableEditButton}
+            />
+          )
+        }
     }
   }
 
