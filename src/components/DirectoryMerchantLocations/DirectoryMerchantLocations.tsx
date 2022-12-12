@@ -141,9 +141,9 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const locationRowObjects = getLocationTableRowObjects()
   const locationRows = locationRowObjects?.map(locationRowObj => locationRowObj.row)
 
+  // Set selected location/sub-location in redux store and open correct modal
   const requestLocationSingleView = (index: number): void => {
-    const locationRow = locationRowObjects[index]
-    const {isSubLocation, ref: locationRef} = locationRow
+    const {isSubLocation, ref: locationRef} = locationRowObjects[index]
 
     if (isSubLocation) {
       const subLocationObj = locationsData?.reduce((accumulator: {subLocation: DirectoryLocation, parentLocationRef: string}, location: DirectoryLocation) => {
