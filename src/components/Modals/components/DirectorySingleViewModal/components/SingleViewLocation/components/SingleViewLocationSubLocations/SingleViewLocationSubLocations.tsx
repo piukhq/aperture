@@ -44,7 +44,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
       parentLocationStrings={null}
       parentLocation={location.location_metadata.name}
       parentLocationChangeHandler={null}
-      onSaveHandler={null}
+      onSaveHandler={() => console.log('Placeholder Save Action')}
       onCancelHandler={onCancelEditState}
       isLoading={null}
       error={null}
