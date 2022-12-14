@@ -3,13 +3,20 @@ import {render, screen} from '@testing-library/react'
 import SingleViewSubLocationDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSubLocation/components/SingleViewSubLocationDetails'
 import {PaymentSchemeSlug} from 'utils/enums'
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/EditLocationForm',
-  () => () => <div data-testid='EditLocationForm' />)
+jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='DirectoryMerchantLocationForm' />)
+
+jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
+  useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
+    putMerchantLocationSubLocations: jest.fn(),
+    putMerchantLocationSubLocationsIsSuccess: false,
+    putMerchantLocationSubLocationsIsLoading: false,
+    putMerchantLocationSubLocationsError: null,
+  })),
+}))
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 const mockParentLocationTitle = 'mock_parent_location_title'
-
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'
 const mockLocationId = 'mock_location_id'
@@ -87,6 +94,7 @@ describe('SingleViewSubLocationDetails', () => {
       query: {
         planId: 'mock_plan_id',
         merchantId: 'mock_merchant_id',
+        ref: 'mock_ref',
       },
     }))
 
@@ -146,9 +154,9 @@ describe('SingleViewSubLocationDetails', () => {
 
   // TODO: Add functionality tests into each section
   describe('Test edit state', () => {
-    it('should render the EditLocationForm', () => {
+    it('should render the DirectoryMerchantLocationForm', () => {
       render(getSingleViewSubLocationDetailsComponent({isInEditState: true}))
-      expect(screen.getByTestId('EditLocationForm')).toBeInTheDocument()
+      expect(screen.getByTestId('DirectoryMerchantLocationForm')).toBeInTheDocument()
     })
   })
 

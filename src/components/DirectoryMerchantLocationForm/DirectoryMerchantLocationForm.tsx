@@ -1,11 +1,18 @@
 import {useCallback, useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
 import {DirectoryLocation, DirectoryLocationMetadata, RTKQueryErrorResponse} from 'types'
 import {Button, Dropdown, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
+import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query'
+import {SerializedError} from '@reduxjs/toolkit'
 
 type Props = {
   location?: DirectoryLocation
+  isLocationSubLocation?: boolean
   isSubLocation?: boolean
   parentLocationStrings: string[]
   parentLocation: string
@@ -13,10 +20,29 @@ type Props = {
   onSaveHandler: (locationMetadata: DirectoryLocationMetadata) => void
   onCancelHandler: () => void
   isLoading: boolean
-  error,
+  isSuccess: boolean
+  resetResponse: () => void
+  error: FetchBaseQueryError | SerializedError
 }
 
-const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationStrings, parentLocation, parentLocationChangeHandler, onSaveHandler, onCancelHandler, isLoading, error}: Props) => {
+const DirectoryMerchantLocationForm = ({
+  location,
+  isLocationSubLocation,
+  isSubLocation,
+  parentLocationStrings,
+  parentLocation,
+  parentLocationChangeHandler,
+  onSaveHandler,
+  onCancelHandler,
+  isLoading,
+  isSuccess,
+  resetResponse,
+  error,
+}: Props) => {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const {merchantId, planId, tab} = router.query
+
   const {
     name,
     address_line_1: addressLine1,
@@ -31,7 +57,7 @@ const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationS
   } = location?.location_metadata || {}
 
   const [nameValue, setNameValue] = useState(() => {
-    if (name && !isSubLocation) {
+    if (name && !isLocationSubLocation) {
       return name
     }
     return ''
@@ -80,8 +106,12 @@ const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationS
   useEffect(() => {
     if (error) {
       handleErrorResponse()
+    } else if (isSuccess) {
+      resetResponse()
+      dispatch(requestModal(ModalType.NO_MODAL))
+      router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
     }
-  }, [error, handleErrorResponse])
+  }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -196,14 +226,14 @@ const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationS
         <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
         <div className='h-[28px] w-[277px]'>
-          {isSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
+          {isLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
             displayValue={parentLocation}
             displayValues={parentLocationStrings}
             onChangeDisplayValue={handleParentLocationChange}
           />}
         </div>
 
-        {parentLocation !== 'None' && !isSubLocation && (
+        {parentLocation !== 'None' && !isLocationSubLocation && (
           <p className='font-subheading-4 mt-[10px] w-[489px]'>
             This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location
           </p>
@@ -389,7 +419,6 @@ const DirectoryMerchantLocationForm = ({location, isSubLocation, parentLocationS
           >{isLoading ? 'Saving' : 'Save'}
           </Button>
         </div>
-
       </div>
     </form>
   )
