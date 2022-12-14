@@ -1,11 +1,11 @@
-import {useEffect} from 'react'
+import {useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {Button} from 'components'
+import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
-import {DirectorySubLocation} from 'types'
+import {DirectoryLocationMetadata, DirectorySubLocation} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import EditLocationForm from '../../../EditLocationForm'
+import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 
 type Props = {
   isInEditState: boolean
@@ -17,10 +17,9 @@ type Props = {
 
 const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
   const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId, ref} = router.query
 
   const {parent_location: parentLocation, sub_location: subLocation} = location
-
   const {location_ref: parentLocationRef, location_title: parentLocationTitle} = parentLocation
 
   const {
@@ -92,17 +91,49 @@ const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditStat
           </section>
         </div>
       </>
-
     )
   }
 
-  // TODO: Handle Sub-location edit form
+  const {
+    putMerchantLocationSubLocation,
+    putMerchantLocationSubLocationIsSuccess: isSuccess,
+    putMerchantLocationSubLocationIsLoading: isLoading,
+    putMerchantLocationSubLocationError: putError,
+    resetPutMerchantLocationSubLocationResponse: resetResponse,
+  } = useMidManagementLocationSubLocations({
+    skipGetSubLocations: true,
+    skipGetSubLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
+
+  const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
+    putMerchantLocationSubLocation({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      locationRef: ref as string,
+      subLocationRef: subLocation.location_ref as string,
+      ...locationMetadata,
+    })
+  }, [putMerchantLocationSubLocation, planId, merchantId, ref, subLocation.location_ref])
+
+
   return (
     <>
       {isInEditState ? (
-        <EditLocationForm
+        <DirectoryMerchantLocationForm
           location={subLocation}
-          onCancelEditState={onCancelEditState}
+          isSubLocation={true}
+          parentLocationStrings={['None']}
+          parentLocation={'None'}
+          parentLocationChangeHandler={() => console.log('Parent location change')}
+          onSaveHandler={handleSave}
+          onCancelHandler={onCancelEditState}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          resetResponse={resetResponse}
+          error={putError}
         />
       ) : (
         <div className='pb-[28px]'>

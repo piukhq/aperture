@@ -40,6 +40,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
   const renderNewSubLocationForm = () => (
     <DirectoryMerchantLocationForm
       location={location}
+      isLocationSubLocation={true}
       isSubLocation={true}
       parentLocationStrings={null}
       parentLocation={location.location_metadata.name}
@@ -47,10 +48,11 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
       onSaveHandler={() => console.log('Placeholder Save Action')}
       onCancelHandler={onCancelEditState}
       isLoading={null}
+      isSuccess={null}
+      resetResponse={() => console.log('Placeholder Reset Response Action')}
       error={null}
     />
   )
-
 
   const renderSubLocation = (subLocation: DirectoryLocation, index) => {
     const {
@@ -73,7 +75,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
         refValue={subLocationRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkSubLocationIndex}
         isInUnlinkingConfirmationState={selectedUnlinkSubLocationIndex === index}
-        unlinkFn={() => console.log('Unlink actions occured')}
+        unlinkFn={() => console.log('Unlink actions occurred')}
         isUnlinking={false}
         setShouldRenderNewLinkDropdownMenuFn={() => false}
         setNewLinkNotificationFn={setAvailableSubLocationNotification}
@@ -114,7 +116,6 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
   if (!getMerchantLocationSubLocationsResponse && !hasNoLinkedSubLocations) { return <i className='font-body-4'>Loading...</i> }
 
   if (isInEditState) { return renderNewSubLocationForm() }
-
 
   return (
     <div className='pb-[28px]'>

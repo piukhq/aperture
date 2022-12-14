@@ -2,6 +2,8 @@ import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
 import DirectoryMerchantLocationForm from 'components/DirectoryMerchantLocationForm'
 import {PaymentSchemeSlug} from 'utils/enums'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'
@@ -55,6 +57,8 @@ const mockLocation = {
 }
 
 jest.mock('components/Dropdown', () => () => <div data-testid='parent-location-dropdown' />)
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
 
 const mockSaveHandler = jest.fn()
 const mockCancelHandler = jest.fn()
@@ -62,18 +66,28 @@ const mockCancelHandler = jest.fn()
 const mockProps = {
   location: mockLocation,
   isSubLocation: false,
+  isLocationSubLocation: false,
   parentLocationStrings: [],
   parentLocation: 'None',
   parentLocationChangeHandler: jest.fn(),
   onSaveHandler: mockSaveHandler,
   onCancelHandler: mockCancelHandler,
+  resetResponse: jest.fn(),
+  isSuccess: false,
   isLoading: false,
   error: null,
 }
 
-const getEditLocationFormComponent = (passedProps = {}) => (
-  <DirectoryMerchantLocationForm {...mockProps} {...passedProps} />
+
+const mockStoreFn = configureStore([])
+const store = mockStoreFn({})
+
+const getDirectoryMerchantModalComponent = (passedProps = {}) => (
+  <Provider store={store}>
+    <DirectoryMerchantLocationForm {...mockProps} {...passedProps} />
+  </Provider>
 )
+
 
 describe('DirectoryMerchantLocationForm', () => {
   const setStateMock = jest.fn()
@@ -81,6 +95,14 @@ describe('DirectoryMerchantLocationForm', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        ref: 'mock_ref',
+      },
+    }))
 
     React.useState = jest
       .fn()
@@ -103,14 +125,14 @@ describe('DirectoryMerchantLocationForm', () => {
 
   describe('Test Parent Location section', () => {
     it('should render the Parent Location section and Dropdown component', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.getAllByRole('heading')[0]).toHaveTextContent('PARENT LOCATION')
       expect(screen.getByTestId('parent-location-section')).toBeInTheDocument()
       expect(screen.getByTestId('parent-location-dropdown')).toBeInTheDocument()
     })
 
     it('should render the Parent Location info message', () => {
-      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location'}))
       expect(screen.getByText(
         'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
       )).toBeInTheDocument()
@@ -119,50 +141,50 @@ describe('DirectoryMerchantLocationForm', () => {
 
   describe('Test Identifiers section', () => {
     it('should render the Identifiers section and header', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.getAllByRole('heading')[1]).toHaveTextContent('IDENTIFIERS')
       expect(screen.getByTestId('identifiers-section')).toBeInTheDocument()
     })
 
     it('should render the Location Name field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const nameInput = screen.getByLabelText('Name')
       expect(nameInput).toHaveProperty('autofocus')
       expect(nameInput).toHaveValue(mockName)
     })
 
     it('should render the Location ID field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const locationIdInput = screen.getByLabelText('Location ID')
       expect(locationIdInput).toHaveValue(mockLocationId)
     })
 
     it('should not render the Location ID field', () => {
-      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location'}))
       expect(screen.queryByLabelText('Location ID')).not.toBeInTheDocument()
     })
 
     it('should render the Merchant Internal ID field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const merchantInternalIdInput = screen.getByLabelText('Merchant Internal ID')
       expect(merchantInternalIdInput).toHaveValue(mockMerchantInternalId)
     })
 
     it('should not render the Merchant Internal ID field', () => {
-      render(getEditLocationFormComponent({parentLocation: 'selected_location'}))
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location'}))
       expect(screen.queryByLabelText('Merchant Internal ID')).not.toBeInTheDocument()
     })
   })
 
   describe('Test physical location', () => {
     it('should render the Physical Location checkbox with text', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.getByTestId('is-physical-location-checkbox')).toBeInTheDocument()
       expect(screen.getByText('Physical location')).toBeInTheDocument()
     })
 
     it('should render the enabled Physical Location', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const isPhysicalLocationCheckbox = screen.getByTestId('is-physical-location-checkbox')
       expect(isPhysicalLocationCheckbox).toBeChecked()
     })
@@ -177,7 +199,7 @@ describe('DirectoryMerchantLocationForm', () => {
         .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
         .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
 
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const isPhysicalLocationCheckbox = screen.getByTestId('is-physical-location-checkbox')
       expect(isPhysicalLocationCheckbox).not.toBeChecked()
     })
@@ -194,48 +216,48 @@ describe('DirectoryMerchantLocationForm', () => {
         .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
         .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
 
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.queryByTestId('address-section')).not.toBeInTheDocument()
     })
 
     it('should render the Address section and header', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.getAllByRole('heading')[2]).toHaveTextContent('ADDRESS')
       expect(screen.getByTestId('address-section')).toBeInTheDocument()
     })
 
     it('should render the Line 1 field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const line1Input = screen.getByLabelText('Line 1')
       expect(line1Input).toHaveValue(mockAddressLine1)
     })
 
     it('should render the Line 2 field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const line2Input = screen.getByLabelText('Line 2')
       expect(line2Input).toHaveValue(mockAddressLine2)
     })
 
     it('should render the Town / City field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const townCityInput = screen.getByLabelText('Town / City')
       expect(townCityInput).toHaveValue(mockTownCity)
     })
 
     it('should render the County field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const countyInput = screen.getByLabelText('County')
       expect(countyInput).toHaveValue(mockCounty)
     })
 
     it('should render the Country field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const countryInput = screen.getByLabelText('Country')
       expect(countryInput).toHaveValue(mockCountry)
     })
 
     it('should render the Postcode field', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       const postcodeInput = screen.getByLabelText('Postcode')
       expect(postcodeInput).toHaveValue(mockPostcode)
     })
@@ -243,7 +265,7 @@ describe('DirectoryMerchantLocationForm', () => {
 
   describe('Test form footer elements', () => {
     it('should render the appropriate buttons', () => {
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
 
       expect(screen.getByRole('button', {name: 'Cancel'})).toBeInTheDocument()
       expect(screen.getByRole('button', {name: 'Save'})).toBeInTheDocument()
@@ -255,12 +277,12 @@ describe('DirectoryMerchantLocationForm', () => {
         .mockReturnValueOnce([mockName, setStateMock]) // nameValue
         .mockReturnValue(['Error', setStateMock]) // nameValidationError
 
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
       expect(screen.getByTestId('error-message')).toBeInTheDocument()
     })
 
     it('should render a disabled button with correct label when saving', () => {
-      render(getEditLocationFormComponent({isLoading: true}))
+      render(getDirectoryMerchantModalComponent({isLoading: true}))
       const saveButton = screen.getByRole('button', {name: 'Save'})
 
       expect(saveButton).toBeDisabled()
@@ -272,7 +294,7 @@ describe('DirectoryMerchantLocationForm', () => {
       jest.clearAllMocks()
     })
 
-    it('should call the PUT function when save button is clicked and form is valid', () => {
+    it('should call the Save function when save button is clicked and form is valid', () => {
       const locationBody = {
         name: mockName,
         location_id: mockLocationId,
@@ -286,7 +308,7 @@ describe('DirectoryMerchantLocationForm', () => {
         postcode: mockPostcode,
       }
 
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
 
       fireEvent.click(screen.getByRole('button', {name: 'Save'}))
 
@@ -319,7 +341,7 @@ describe('DirectoryMerchantLocationForm', () => {
         .mockReturnValueOnce([null, mockSetPostcodeValidationError]) // postcodeValidationError
         .mockReturnValueOnce([null, setStateMock]) // errorMessage
 
-      render(getEditLocationFormComponent())
+      render(getDirectoryMerchantModalComponent())
 
       const nameInput = screen.getByLabelText('Name')
       fireEvent.blur(nameInput)
@@ -340,20 +362,29 @@ describe('DirectoryMerchantLocationForm', () => {
   })
 
   describe('Test sub-location appearance', () => {
-    it('should render the parent location as text', () => {
-      render(getEditLocationFormComponent({isSubLocation: true}))
-      expect(screen.getByTestId('parent-location')).toHaveTextContent(mockProps.parentLocation)
-      expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
-    })
-
     it('should not render the location id field', () => {
-      render(getEditLocationFormComponent({isSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({isSubLocation: true}))
       expect(screen.queryByLabelText('Location ID')).not.toBeInTheDocument()
     })
 
     it('should not render the merchant internal id field', () => {
-      render(getEditLocationFormComponent({isSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({isSubLocation: true}))
       expect(screen.queryByLabelText('Merchant Internal ID')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Test location sub-location appearance', () => {
+    it('should render the parent location as text', () => {
+      render(getDirectoryMerchantModalComponent({isLocationSubLocation: true}))
+      expect(screen.getByTestId('parent-location')).toHaveTextContent(mockProps.parentLocation)
+      expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
+    })
+
+    it('should not render the Parent Location info message', () => {
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location', isLocationSubLocation: true}))
+      expect(screen.queryByText(
+        'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
+      )).not.toBeInTheDocument()
     })
   })
 })
