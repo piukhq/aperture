@@ -52,7 +52,6 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     reset: resetPostMerchantLocationSubLocationResponse,
   }] = usePostMerchantLocationSubLocationMutation({fixedCacheKey: 'postMerchantLocationSubLocation'})
 
-
   return {
     // GET Locations
     getMerchantLocationsResponse,

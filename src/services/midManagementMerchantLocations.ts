@@ -275,6 +275,28 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       providesTags: ['MerchantLocationSubLocation'],
     }),
+    putMerchantLocationSubLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
+      query: ({planRef, merchantRef, locationRef, subLocationRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations/${subLocationRef}`,
+        method: 'PUT',
+        body: {
+          ...rest,
+        },
+      }),
+      async onQueryStarted ({planRef, merchantRef, locationRef, subLocationRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: updatedSubLocation} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationSubLocations', {planRef, merchantRef, locationRef, subLocationRef}, (existingSubLocations) => {
+            const index = existingSubLocations.findIndex((subLocation) => subLocation.location_ref === locationRef)
+            existingSubLocations[index] = updatedSubLocation
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
   }),
 })
 
@@ -294,4 +316,5 @@ export const {
   useDeleteMerchantLocationSecondaryMidLinkMutation,
   useGetMerchantLocationSubLocationsQuery,
   useGetMerchantLocationSubLocationQuery,
+  usePutMerchantLocationSubLocationMutation,
 } = midManagementMerchantLocationsApi
