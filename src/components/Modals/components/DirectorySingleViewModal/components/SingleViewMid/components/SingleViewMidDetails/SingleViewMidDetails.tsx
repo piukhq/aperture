@@ -7,7 +7,7 @@ import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {PaymentSchemeSlug} from 'utils/enums'
+import {PaymentSchemeSlug, PaymentSchemeStatusDisplayValue} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -73,7 +73,13 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
-  const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
+  const paymentSchemeStatusValues = useMemo(() => [
+    PaymentSchemeStatusDisplayValue['enrolled'],
+    PaymentSchemeStatusDisplayValue['enrolling'],
+    PaymentSchemeStatusDisplayValue['not_enrolled'],
+    PaymentSchemeStatusDisplayValue['unenrolled'],
+  ], [])
+
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
   const [editableVisaBin, setEditableVisaBin] = useState('')
   const [associatedLocationRef, setAssociatedLocationRef] = useState('')
@@ -84,7 +90,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   useEffect(() => {
     locationRef && setAssociatedLocationRef(locationRef)
-    paymentEnrolmentStatus && setPaymentSchemeStatus(paymentEnrolmentStatus)
+    paymentEnrolmentStatus && setPaymentSchemeStatus(PaymentSchemeStatusDisplayValue[paymentEnrolmentStatus])
     visaBin && setEditableVisaBin(visaBin)
   }, [locationRef, paymentEnrolmentStatus, visaBin])
 
@@ -151,7 +157,11 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const handlePaymentStatusChange = useCallback((selectedPaymentSchemeStatus: string) => {
     resetError()
     setPaymentSchemeStatus(selectedPaymentSchemeStatus)
-    handleBinOrPaymentStatusSave({payment_enrolment_status: selectedPaymentSchemeStatus})()
+
+    const indexOfPaymentSchemeKey = Object.values(PaymentSchemeStatusDisplayValue).indexOf(selectedPaymentSchemeStatus as PaymentSchemeStatusDisplayValue)
+    const paymentSchemeKey = Object.keys(PaymentSchemeStatusDisplayValue)[indexOfPaymentSchemeKey]
+
+    handleBinOrPaymentStatusSave({payment_enrolment_status: paymentSchemeKey})()
   }, [handleBinOrPaymentStatusSave, resetError])
 
   const handleLocationChange = useCallback((selectedLocationString: string) => {
