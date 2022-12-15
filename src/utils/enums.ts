@@ -159,7 +159,7 @@ enum PaymentSchemeStatus {
   ENROLLED = 'enrolled',
   ENROLLING = 'enrolling',
   NOT_ENROLLED = 'not_enrolled',
-  UN_ENROLLED = 'un_enrolled',
+  UN_ENROLLED = 'unenrolled',
   FAILED = 'failed',
 }
 
@@ -168,7 +168,7 @@ enum PaymentSchemeStatusDisplayValue {
   'enrolled' = 'Enrolled',
   'enrolling' = 'Enrolling',
   'not_enrolled' = 'Not Enrolled',
-  'un_enrolled' = 'Removed',
+  'unenrolled' = 'Removed',
   'failed' = 'Failed',
 }
 

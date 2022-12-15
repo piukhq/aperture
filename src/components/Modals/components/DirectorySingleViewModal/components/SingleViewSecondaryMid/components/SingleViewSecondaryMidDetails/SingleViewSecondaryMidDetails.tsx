@@ -23,7 +23,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     PaymentSchemeStatusDisplayValue['enrolled'],
     PaymentSchemeStatusDisplayValue['enrolling'],
     PaymentSchemeStatusDisplayValue['not_enrolled'],
-    PaymentSchemeStatusDisplayValue['un_enrolled'],
+    PaymentSchemeStatusDisplayValue['unenrolled'],
   ], [])
 
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
