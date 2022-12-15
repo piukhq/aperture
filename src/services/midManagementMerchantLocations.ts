@@ -283,15 +283,16 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      invalidatesTags: ['MerchantLocationSubLocation'], // The response does not match the request, so we need to invalidate the cache
       async onQueryStarted ({planRef, merchantRef, locationRef, subLocationRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedSubLocation} = await queryFulfilled
           dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationSubLocations', {planRef, merchantRef, locationRef, subLocationRef}, (existingSubLocations) => {
             const index = existingSubLocations.findIndex((subLocation) => subLocation.location_ref === locationRef)
             existingSubLocations[index] = updatedSubLocation
-          })
-          )
+          }))
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationSubLocation', {planRef, merchantRef, locationRef, subLocationRef}, (existingSubLocation) => {
+            Object.assign(existingSubLocation.sub_location, {...updatedSubLocation})
+          }))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
