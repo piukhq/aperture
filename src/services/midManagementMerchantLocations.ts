@@ -283,6 +283,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
+      invalidatesTags: ['MerchantLocationSubLocation'], // The response does not match the request, so we need to invalidate the cache
       async onQueryStarted ({planRef, merchantRef, locationRef, subLocationRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedSubLocation} = await queryFulfilled
