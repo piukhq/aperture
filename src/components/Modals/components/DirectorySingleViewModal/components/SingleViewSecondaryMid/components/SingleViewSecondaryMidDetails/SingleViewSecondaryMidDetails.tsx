@@ -1,4 +1,4 @@
-import {useState, useMemo, useCallback} from 'react'
+import {useState, useMemo, useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -9,6 +9,7 @@ import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
+import {PaymentSchemeStatusDisplayValue} from 'utils/enums'
 
 type Props = {
   secondaryMid: DirectorySecondaryMid
@@ -17,15 +18,25 @@ type Props = {
 const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-  const paymentSchemeStatusValues = useMemo(() => ['Enrolled', 'Enrolling', 'Not enrolled', 'Removed'], [])
-  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('Not enrolled')
+
+  const paymentSchemeStatusValues = useMemo(() => [
+    PaymentSchemeStatusDisplayValue['enrolled'],
+    PaymentSchemeStatusDisplayValue['enrolling'],
+    PaymentSchemeStatusDisplayValue['not_enrolled'],
+    PaymentSchemeStatusDisplayValue['un_enrolled'],
+  ], [])
+
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
-  const {payment_scheme_slug: paymentSchemeSlug} = secondaryMidMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, payment_enrolment_status: paymentEnrolmentStatus} = secondaryMidMetadata
 
   const {
     getMerchantSecondaryMidRefresh,
     getMerchantSecondaryMidIsFetching: isRefreshing,
+    patchMerchantSecondaryMid,
+    patchMerchantSecondaryMidResponse,
+    resetPatchMerchantSecondaryMidResponse,
     postMerchantSecondaryMidOnboarding: postOnboarding,
     postMerchantSecondaryMidOnboardingIsLoading: isOnboardingLoading,
     postMerchantSecondaryMidOnboardingIsSuccess: isOnboardingSuccess,
@@ -39,6 +50,16 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
   })
+
+  useEffect(() => {
+    paymentEnrolmentStatus && setPaymentSchemeStatus(PaymentSchemeStatusDisplayValue[paymentEnrolmentStatus])
+  }, [paymentEnrolmentStatus])
+
+  useEffect(() => {
+    if (patchMerchantSecondaryMidResponse) {
+      resetPatchMerchantSecondaryMidResponse()
+    }
+  }, [patchMerchantSecondaryMidResponse, resetPatchMerchantSecondaryMidResponse])
 
   const offboardSecondaryMid = () => {
     resetOffboardingResponse()
@@ -57,10 +78,25 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     })
   }
 
+  const handlePaymentStatusChange = useCallback((selectedPaymentSchemeStatus: string) => {
+    setPaymentSchemeStatus(selectedPaymentSchemeStatus)
+
+    const indexOfPaymentSchemeKey = Object.values(PaymentSchemeStatusDisplayValue).indexOf(selectedPaymentSchemeStatus as PaymentSchemeStatusDisplayValue)
+    const paymentSchemeKey = Object.keys(PaymentSchemeStatusDisplayValue)[indexOfPaymentSchemeKey]
+
+    const {payment_scheme_store_name = ''} = secondaryMid.secondary_mid_metadata
+
+    const updatedSecondaryMid = {
+      payment_enrolment_status: paymentSchemeKey,
+      payment_scheme_store_name,
+    }
+
+    patchMerchantSecondaryMid({planRef: planId as string, merchantRef: merchantId as string, secondaryMidRef: ref as string, ...updatedSecondaryMid})
+  }, [merchantId, patchMerchantSecondaryMid, planId, ref, secondaryMid.secondary_mid_metadata])
+
   const handleRefreshButtonClick = useCallback(() => {
     getMerchantSecondaryMidRefresh()
   }, [getMerchantSecondaryMidRefresh])
-
 
   return (
     <>
@@ -94,7 +130,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
             <Dropdown
               displayValue={paymentSchemeStatus}
               displayValues={paymentSchemeStatusValues}
-              onChangeDisplayValue={setPaymentSchemeStatus}
+              onChangeDisplayValue={handlePaymentStatusChange}
               isDisabled={isRefreshing}
               selectedValueStyles='font-normal text-grey-600' />
           </div>
