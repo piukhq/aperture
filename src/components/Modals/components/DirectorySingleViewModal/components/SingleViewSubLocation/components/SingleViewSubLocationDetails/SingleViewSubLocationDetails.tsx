@@ -9,15 +9,16 @@ import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocati
 
 type Props = {
   isInEditState: boolean
+  setIsInEditState: (isInEditState: boolean) => void
   location: DirectorySubLocation
   onCancelEditState: () => void
   handleRefresh: () => void
   isRefreshing: boolean
 }
 
-const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
+const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
   const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref, sub_location_ref: subLocationRef} = router.query
 
   const {parent_location: parentLocation, sub_location: subLocation} = location
   const {location_ref: parentLocationRef, location_title: parentLocationTitle} = parentLocation
@@ -113,10 +114,10 @@ const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditStat
       planRef: planId as string,
       merchantRef: merchantId as string,
       locationRef: ref as string,
-      subLocationRef: subLocation.location_ref as string,
+      subLocationRef: subLocationRef as string,
       ...locationMetadata,
     })
-  }, [putMerchantLocationSubLocation, planId, merchantId, ref, subLocation.location_ref])
+  }, [putMerchantLocationSubLocation, planId, merchantId, ref, subLocationRef])
 
 
   return (
@@ -125,6 +126,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, onCancelEditStat
         <DirectoryMerchantLocationForm
           location={subLocation}
           isSubLocation={true}
+          setIsInEditState={setIsInEditState}
           parentLocationStrings={['None']}
           parentLocation={'None'}
           parentLocationChangeHandler={() => console.log('Parent location change')}

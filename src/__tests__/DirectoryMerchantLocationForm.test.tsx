@@ -59,7 +59,6 @@ const mockLocation = {
 jest.mock('components/Dropdown', () => () => <div data-testid='parent-location-dropdown' />)
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
-
 const mockSaveHandler = jest.fn()
 const mockCancelHandler = jest.fn()
 
@@ -67,6 +66,7 @@ const mockProps = {
   location: mockLocation,
   isSubLocation: false,
   isLocationSubLocation: false,
+  setIsInEditState: jest.fn(),
   parentLocationStrings: [],
   parentLocation: 'None',
   parentLocationChangeHandler: jest.fn(),
