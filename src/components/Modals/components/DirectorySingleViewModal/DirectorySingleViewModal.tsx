@@ -192,6 +192,7 @@ const DirectorySingleViewModal = () => {
               selectedEntity={selectedEntity}
               setHeaderFn={setEntityHeading}
               isInEditState={isInLocationEditState}
+              setIsInEditState={setIsInLocationEditState}
               onCancelEditState={onCancelEditState}
               setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
               setShouldDisableEditButton={setShouldDisableEditButton}

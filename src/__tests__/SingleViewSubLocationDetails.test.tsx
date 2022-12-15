@@ -76,6 +76,7 @@ const mockSubLocation = {
 
 const mockProps = {
   isInEditState: false,
+  setIsInEditState: jest.fn(),
   location: mockSubLocation,
   onCancelEditState: jest.fn(),
   handleRefresh: jest.fn(),

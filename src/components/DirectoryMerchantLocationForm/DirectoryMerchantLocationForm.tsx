@@ -14,6 +14,7 @@ type Props = {
   location?: DirectoryLocation
   isLocationSubLocation?: boolean
   isSubLocation?: boolean
+  setIsInEditState?: (isInEditState: boolean) => void
   parentLocationStrings: string[]
   parentLocation: string
   parentLocationChangeHandler: (parentLocation) => void
@@ -29,6 +30,7 @@ const DirectoryMerchantLocationForm = ({
   location,
   isLocationSubLocation,
   isSubLocation,
+  setIsInEditState,
   parentLocationStrings,
   parentLocation,
   parentLocationChangeHandler,
@@ -108,10 +110,14 @@ const DirectoryMerchantLocationForm = ({
       handleErrorResponse()
     } else if (isSuccess) {
       resetResponse()
-      dispatch(requestModal(ModalType.NO_MODAL))
-      router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
+      if(!setIsInEditState) {
+        dispatch(requestModal(ModalType.NO_MODAL))
+        router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
+      } else {
+        setIsInEditState(false)
+      }
     }
-  }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse])
+  }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse, isSubLocation, setIsInEditState])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
