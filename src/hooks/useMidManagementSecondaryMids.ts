@@ -2,6 +2,7 @@ import {
   useGetMerchantSecondaryMidsQuery,
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
+  usePatchMerchantSecondaryMidMutation,
   useDeleteMerchantSecondaryMidMutation,
   usePostMerchantSecondaryMidOnboardingMutation,
   usePostMerchantSecondaryMidOffboardingMutation,
@@ -29,6 +30,13 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     error: postMerchantSecondaryMidError,
     reset: resetPostMerchantSecondaryMidResponse,
   }] = usePostMerchantSecondaryMidMutation({fixedCacheKey: 'postMerchantSecondaryMid'})
+
+  const [patchMerchantSecondaryMid, {
+    data: patchMerchantSecondaryMidResponse,
+    isLoading: patchMerchantSecondaryMidIsLoading,
+    error: patchMerchantSecondaryMidError,
+    reset: resetPatchMerchantSecondaryMidResponse,
+  }] = usePatchMerchantSecondaryMidMutation({fixedCacheKey: 'patchMerchantSecondaryMid'})
 
   const [deleteMerchantSecondaryMid, {
     isSuccess: deleteMerchantSecondaryMidIsSuccess,
@@ -71,6 +79,12 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     postMerchantSecondaryMidIsLoading,
     postMerchantSecondaryMidError,
     resetPostMerchantSecondaryMidResponse,
+    // PATCH Secondary MID
+    patchMerchantSecondaryMid,
+    patchMerchantSecondaryMidResponse,
+    patchMerchantSecondaryMidError,
+    patchMerchantSecondaryMidIsLoading,
+    resetPatchMerchantSecondaryMidResponse,
     // DELETE Secondary MID
     deleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsSuccess,

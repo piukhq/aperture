@@ -16,6 +16,10 @@ type PostMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
   secondary_mid_metadata: DirectorySecondaryMidMetadata,
 }
 
+type PatchMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
+  payment_enrolment_status?: string | null
+}
+
 type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
   secondaryMidRefs?: Array<string>,
 }
@@ -61,6 +65,28 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
           dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef}), (existingSecondaryMids) => {
             existingSecondaryMids.push(newSecondaryMid)
           }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
+    }),
+    patchMerchantSecondaryMid: builder.mutation<DirectorySecondaryMid, PatchMerchantSecondaryMidBody>({
+      query: ({planRef, merchantRef, secondaryMidRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}`,
+        method: 'PATCH',
+        body: {
+          ...rest,
+        },
+      }),
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: updatedSecondaryMid} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
+            const index = existingSecondaryMids.findIndex(secondaryMid => secondaryMid.secondary_mid_ref === secondaryMidRef)
+            existingSecondaryMids[index] = updatedSecondaryMid
+          })
+          )
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -159,6 +185,7 @@ export const {
   useGetMerchantSecondaryMidsQuery,
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
+  usePatchMerchantSecondaryMidMutation,
   useGetMerchantSecondaryMidLinkedLocationsQuery,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
