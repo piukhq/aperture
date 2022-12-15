@@ -13,12 +13,13 @@ type Props = {
   selectedEntity: DirectoryEntity,
   setHeaderFn: (header: string) => void
   isInEditState: boolean
+  setIsInEditState: (isInEditState: boolean) => void
   onCancelEditState: () => void
   setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
   setShouldDisableEditButton: (shouldDisableEditButton: boolean) => void
 }
 
-const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
+const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref, sub_location_ref} = router.query
 
@@ -94,6 +95,7 @@ const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, onCa
             <SingleViewSubLocationDetails
               location={getMerchantLocationSubLocationResponse}
               isInEditState={isInEditState}
+              setIsInEditState={setIsInEditState}
               onCancelEditState={onCancelEditState}
               handleRefresh={handleRefresh}
               isRefreshing={getMerchantLocationSubLocationIsFetching}

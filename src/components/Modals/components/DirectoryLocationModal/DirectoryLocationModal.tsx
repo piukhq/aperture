@@ -116,6 +116,8 @@ const DirectoryLocationModal = () => {
           onSaveHandler={handleSave}
           onCancelHandler={closeModal}
           isLoading={postMerchantLocationIsLoading || postMerchantLocationSubLocationIsLoading}
+          isSuccess={postMerchantLocationIsSuccess || postMerchantLocationSubLocationIsSuccess}
+          resetResponse={parentLocation === 'None' ? resetPostMerchantLocationResponse : resetPostMerchantLocationSubLocationResponse}
           error={postMerchantLocationError || postMerchantLocationSubLocationError}
         />
       </div>

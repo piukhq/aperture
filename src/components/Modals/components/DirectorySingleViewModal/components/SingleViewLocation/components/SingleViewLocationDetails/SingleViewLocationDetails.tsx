@@ -1,10 +1,11 @@
-import {useEffect} from 'react'
-import {Button} from 'components'
+import {useCallback, useEffect} from 'react'
+import {useRouter} from 'next/router'
+import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
-import {DirectoryLocation} from 'types'
+import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import EditLocationForm from '../../../EditLocationForm'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 
 type Props = {
   isInEditState: boolean
@@ -15,6 +16,8 @@ type Props = {
 }
 
 const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
+  const router = useRouter()
+  const {planId, merchantId, ref} = router.query
   // Take component out of edit state when unmounted
   useEffect(() => {
     return () => {
@@ -107,12 +110,43 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     )
   }
 
+  const {
+    putMerchantLocation,
+    putMerchantLocationIsSuccess: isSuccess,
+    putMerchantLocationIsLoading: isLoading,
+    putMerchantLocationError: putError,
+    resetPutMerchantLocationResponse: resetResponse,
+  } = useMidManagementLocations({
+    skipGetLocations: true,
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
+
+  const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
+    putMerchantLocation({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      locationRef: ref as string,
+      ...locationMetadata,
+    })
+  }, [putMerchantLocation, planId, merchantId, ref])
+
   return (
     <>
       {isInEditState ? (
-        <EditLocationForm
+        <DirectoryMerchantLocationForm
           location={location}
-          onCancelEditState={onCancelEditState}
+          parentLocationStrings={['None']}
+          parentLocation={'None'}
+          parentLocationChangeHandler={() => console.log('Parent location change')}
+          onSaveHandler={handleSave}
+          onCancelHandler={onCancelEditState}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          resetResponse={resetResponse}
+          error={putError}
         />
       ) : (
         <div className='pb-[28px]'>
