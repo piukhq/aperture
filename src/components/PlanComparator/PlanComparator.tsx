@@ -184,8 +184,17 @@ const PlanComparator = ({plans}: Props) => {
 
   const renderPlanCategories = planCategories.map(category => comparePlanCategory(category))
 
+  if (plansArray.length === 1) {
+    console.log(plansArray[0])
+    return (
+      <div className='w-full h-full flex flex-col items-center justify-center'>
+        <p className='font-heading-7'>We need two to tango and {plansArray[0].account.plan_name} only exists in {Object.keys(plans)[0]}, sorry!</p>
+      </div>
+    )
+  }
+
   return (
-    <div className='w-full p-[20px] flex flex-col items-center'>
+    <div className='w-full h-full p-[20px] flex flex-col items-center'>
       <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
       {renderPlanCategories}
     </div>
@@ -196,8 +205,8 @@ export default PlanComparator
 
 // Stuff to do
 
-// 1. Make Plan Summary look cool - Done
-// 1.5 hide links to non-existent djangos
+// 1. Make Plan Summary look cool
+// 1.75 hide links to non-existent djangos
 // 2.content ordering
 // 4. Write that part to show all properties in each env
 // 3. When not matching offer a button to launch modal to see value in each env
