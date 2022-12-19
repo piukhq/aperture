@@ -125,7 +125,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       {isInEditState ? (
         <DirectoryMerchantLocationForm
           location={subLocation}
-          isSubLocation={true}
+          isExistingSubLocation={true}
           setIsInEditState={setIsInEditState}
           parentLocationStrings={['None']}
           parentLocation={'None'}

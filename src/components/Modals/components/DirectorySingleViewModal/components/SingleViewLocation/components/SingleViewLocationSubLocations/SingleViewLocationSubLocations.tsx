@@ -40,8 +40,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
   const renderNewSubLocationForm = () => (
     <DirectoryMerchantLocationForm
       location={location}
-      isLocationSubLocation={true}
-      isSubLocation={true}
+      isNewLocationSubLocation={true}
       parentLocationStrings={null}
       parentLocation={location.location_metadata.name}
       parentLocationChangeHandler={null}
