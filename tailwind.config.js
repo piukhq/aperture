@@ -106,19 +106,30 @@ module.exports = {
         },
       },
       keyframes: {
-        wave: {
-          '0%': {transform: 'rotate(0.0deg)'},
-          '10%': {transform: 'rotate(14deg)'},
-          '20%': {transform: 'rotate(-8deg)'},
-          '30%': {transform: 'rotate(14deg)'},
-          '40%': {transform: 'rotate(-4deg)'},
-          '50%': {transform: 'rotate(10.0deg)'},
-          '60%': {transform: 'rotate(0.0deg)'},
-          '100%': {transform: 'rotate(0.0deg)'},
+        slideGreen: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '50%': {background: '#ffc542'},
+          '100%': {transform: 'scaleX(100%)', background: '#82c43c'},
+        },
+        slideYellow: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '100%': {transform: 'scaleX(100%)', background: '#ffc542'},
+        },
+        slideOrange: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '100%': {transform: 'scaleX(100%)', background: '#ff974a'},
+        },
+        fadeIn: {
+          '0%': {opacity: '0'},
+          '66%': {opacity: '0'},
+          '100%': {opacity: '1'},
         },
       },
       animation: {
-        'waving-hand': 'wave 2s linear infinite',
+        'slideGreen': 'slideGreen 2s ease-out',
+        'slideYellow': 'slideYellow 2s ease-out',
+        'slideOrange': 'slideOrange 2s ease-out',
+        'fadeIn': 'fadeIn 3s ease-out',
       },
     },
   },
