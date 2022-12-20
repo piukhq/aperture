@@ -105,7 +105,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         {
           label: 'Upload File',
           icon: <TableSvg/>,
-          clickHandler: () => console.log('Clicked'),
+          clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
         },
         {
           label: 'Delete Plan',

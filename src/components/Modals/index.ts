@@ -10,6 +10,7 @@ export {default as DirectoryLocationModal} from './components/DirectoryLocationM
 export {default as DirectorySingleViewModal} from './components/DirectorySingleViewModal'
 export {default as DirectoryPlanDeleteModal} from './components/DirectoryPlanDeleteModal'
 export {default as DirectoryPlanModal} from './components/DirectoryPlanModal'
+export {default as DirectoryFileUploadModal} from './components/DirectoryFileUploadModal'
 export {default as DirectoryPsimiModal} from './components/DirectoryPsimiModal'
 export {default as DirectorySecondaryMidModal} from './components/DirectorySecondaryMidModal'
 export {default as DirectoryMerchantSecondaryMidsDeleteModalContainer} from './components/DirectoryMerchantSecondaryMidsDeleteModalContainer'

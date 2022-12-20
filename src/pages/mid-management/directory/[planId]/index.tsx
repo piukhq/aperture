@@ -100,7 +100,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Upload File',
       icon: <TableSvg/>,
-      clickHandler: () => console.log('Clicked'),
+      clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
@@ -108,7 +108,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       isRed: true,
       clickHandler: () => requestDeletePlanModal(),
     },
-  ], [requestEditPlanModal, requestPlanCommentsModal, requestDeletePlanModal])
+  ], [requestEditPlanModal, requestPlanCommentsModal, dispatch, requestDeletePlanModal])
 
   const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
@@ -156,7 +156,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             {
               label: 'Upload File',
               icon: <TableSvg/>,
-              clickHandler: () => console.log('Clicked'),
+              clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
             },
             {
               label: 'Delete',
