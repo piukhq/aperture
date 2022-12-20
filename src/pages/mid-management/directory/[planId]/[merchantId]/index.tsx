@@ -120,6 +120,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
   }
 
+
   const optionsMenuItems:OptionsMenuItems = [
     {
       label: 'Edit',
@@ -134,7 +135,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Upload File',
       icon: <TableSvg/>,
-      clickHandler: () => console.log('Clicked'),
+      clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
