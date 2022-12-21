@@ -126,6 +126,11 @@ describe('SingleViewSubLocationDetails', () => {
       expect(screen.getByText(mockParentLocationTitle)).toBeInTheDocument()
     })
 
+    it('should render the Parent Location Edit button', () => {
+      render(getSingleViewSubLocationDetailsComponent())
+      expect(screen.getByRole('button', {name: 'Edit parent location'})).toBeInTheDocument()
+    })
+
     describe('Test physical location', () => {
       it('should render the Physical Location heading', () => {
         render(getSingleViewSubLocationDetailsComponent())

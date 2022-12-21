@@ -84,11 +84,22 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
             {postcode && <p className='font-modal-data'>{postcode}</p>}
           </section>
 
+          {/* TODO: Consider replacing with refactored SingleViewMidEditableField once functionality is specified */}
           <section>
             <h2 className='font-modal-heading'>PARENT LOCATION</h2>
-            <a href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${parentLocationRef}`} className='font-modal-data text-blue'>
-              {parentLocationTitle}
-            </a>
+            <div className='flex justify-between items-center'>
+              <a href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${parentLocationRef}`} className='font-modal-data text-blue'>
+                {parentLocationTitle}
+              </a>
+              <Button
+                buttonSize={ButtonSize.MEDIUM}
+                buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+                buttonBackground={ButtonBackground.LIGHT_GREY}
+                labelColour={LabelColour.GREY}
+                labelWeight={LabelWeight.SEMIBOLD}
+                ariaLabel='Edit parent location'
+              >Edit</Button>
+            </div>
           </section>
         </div>
       </>
