@@ -138,9 +138,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
           location={subLocation}
           isExistingSubLocation={true}
           setIsInEditState={setIsInEditState}
-          parentLocationStrings={['None']}
-          parentLocation={'None'}
-          parentLocationChangeHandler={() => console.log('Parent location change')}
+          parentLocation={parentLocation.location_title}
           onSaveHandler={handleSave}
           onCancelHandler={onCancelEditState}
           isLoading={isLoading}
