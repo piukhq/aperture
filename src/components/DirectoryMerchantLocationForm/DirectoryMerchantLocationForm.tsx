@@ -12,8 +12,8 @@ import {SerializedError} from '@reduxjs/toolkit'
 
 type Props = {
   location?: DirectoryLocation
-  isLocationSubLocation?: boolean
-  isSubLocation?: boolean
+  isNewLocationSubLocation?: boolean
+  isExistingSubLocation?: boolean
   setIsInEditState?: (isInEditState: boolean) => void
   parentLocationStrings: string[]
   parentLocation: string
@@ -28,8 +28,8 @@ type Props = {
 
 const DirectoryMerchantLocationForm = ({
   location,
-  isLocationSubLocation,
-  isSubLocation,
+  isNewLocationSubLocation,
+  isExistingSubLocation,
   setIsInEditState,
   parentLocationStrings,
   parentLocation,
@@ -59,7 +59,7 @@ const DirectoryMerchantLocationForm = ({
   } = location?.location_metadata || {}
 
   const [nameValue, setNameValue] = useState(() => {
-    if (name && !isLocationSubLocation) {
+    if (name && !isNewLocationSubLocation) {
       return name
     }
     return ''
@@ -117,7 +117,7 @@ const DirectoryMerchantLocationForm = ({
         setIsInEditState(false)
       }
     }
-  }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse, isSubLocation, setIsInEditState])
+  }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse, isExistingSubLocation, setIsInEditState])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -232,14 +232,14 @@ const DirectoryMerchantLocationForm = ({
         <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
         <div className='h-[28px] w-[277px]'>
-          {isLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
+          {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
             displayValue={parentLocation}
             displayValues={parentLocationStrings}
             onChangeDisplayValue={handleParentLocationChange}
           />}
         </div>
 
-        {parentLocation !== 'None' && !isLocationSubLocation && (
+        {parentLocation !== 'None' && !isExistingSubLocation && !isNewLocationSubLocation && (
           <p className='font-subheading-4 mt-[10px] w-[489px]'>
             This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location
           </p>
@@ -266,7 +266,7 @@ const DirectoryMerchantLocationForm = ({
           inputColour={nameValidationError ? InputColour.RED : InputColour.GREY}
         />
 
-        {parentLocation === 'None' && !isSubLocation && (
+        {parentLocation === 'None' && !isExistingSubLocation && (
           <div className='flex gap-[40px] pt-[28px]'>
             <TextInputGroup
               name='location-id'

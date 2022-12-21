@@ -64,8 +64,8 @@ const mockCancelHandler = jest.fn()
 
 const mockProps = {
   location: mockLocation,
-  isSubLocation: false,
-  isLocationSubLocation: false,
+  isExistingSubLocation: false,
+  isNewLocationSubLocation: false,
   setIsInEditState: jest.fn(),
   parentLocationStrings: [],
   parentLocation: 'None',
@@ -363,25 +363,38 @@ describe('DirectoryMerchantLocationForm', () => {
 
   describe('Test sub-location appearance', () => {
     it('should not render the location id field', () => {
-      render(getDirectoryMerchantModalComponent({isSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({isExistingSubLocation: true}))
       expect(screen.queryByLabelText('Location ID')).not.toBeInTheDocument()
     })
 
     it('should not render the merchant internal id field', () => {
-      render(getDirectoryMerchantModalComponent({isSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({isExistingSubLocation: true}))
       expect(screen.queryByLabelText('Merchant Internal ID')).not.toBeInTheDocument()
     })
-  })
 
-  describe('Test location sub-location appearance', () => {
     it('should render the parent location as text', () => {
-      render(getDirectoryMerchantModalComponent({isLocationSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({isExistingSubLocation: true}))
       expect(screen.getByTestId('parent-location')).toHaveTextContent(mockProps.parentLocation)
       expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
     })
 
     it('should not render the Parent Location info message', () => {
-      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location', isLocationSubLocation: true}))
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location', isNewLocationSubLocation: true}))
+      expect(screen.queryByText(
+        'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
+      )).not.toBeInTheDocument()
+    })
+  })
+
+  describe('Test location sub-location appearance', () => {
+    it('should render the parent location as text', () => {
+      render(getDirectoryMerchantModalComponent({isNewLocationSubLocation: true}))
+      expect(screen.getByTestId('parent-location')).toHaveTextContent(mockProps.parentLocation)
+      expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
+    })
+
+    it('should not render the Parent Location info message', () => {
+      render(getDirectoryMerchantModalComponent({parentLocation: 'selected_location', isNewLocationSubLocation: true}))
       expect(screen.queryByText(
         'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
       )).not.toBeInTheDocument()
