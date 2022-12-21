@@ -3,6 +3,7 @@ import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 import {getLocationLabel, reset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
@@ -22,15 +23,23 @@ const DirectoryLocationModal = () => {
     postMerchantLocationError,
     resetPostMerchantLocationResponse,
     getMerchantLocationsResponse,
+  } = useMidManagementLocations({
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const {
     postMerchantLocationSubLocation,
     postMerchantLocationSubLocationIsSuccess,
     postMerchantLocationSubLocationIsLoading,
     postMerchantLocationSubLocationError,
     resetPostMerchantLocationSubLocationResponse,
-  } = useMidManagementLocations({
-    skipGetLocation: true,
+  } = useMidManagementLocationSubLocations({
+    skipGetSubLocation: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
+    locationRef: null as string,
   })
 
   const locationLabel = useAppSelector(getLocationLabel)
