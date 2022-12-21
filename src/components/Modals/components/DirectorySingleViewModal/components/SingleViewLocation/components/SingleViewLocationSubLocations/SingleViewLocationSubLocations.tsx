@@ -1,12 +1,12 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {Button} from 'components'
 import {DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
-import {DirectoryLocation} from 'types'
+import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
 import {LinkableEntities} from 'utils/enums'
+import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 
 type Props = {
   location: DirectoryLocation,
@@ -22,7 +22,15 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
   const [selectedUnlinkSubLocationIndex, setSelectedUnlinkSubLocationIndex] = useState(null) // The index of the sub-location that is selected to be unlinked
   const [availableSubLocationNotification, setAvailableSubLocationNotification] = useState('')
 
-  const {getMerchantLocationSubLocationsResponse, getMerchantLocationSubLocationsIsLoading} = useMidManagementLocationSubLocations({
+  const {
+    getMerchantLocationSubLocationsResponse,
+    getMerchantLocationSubLocationsIsLoading,
+    postMerchantLocationSubLocation,
+    postMerchantLocationSubLocationIsSuccess,
+    postMerchantLocationSubLocationIsLoading,
+    postMerchantLocationSubLocationError,
+    resetPostMerchantLocationSubLocationResponse,
+  } = useMidManagementLocationSubLocations({
     skipGetSubLocation: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -37,23 +45,32 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     }
   }, [onCancelEditState])
 
+  const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
+    postMerchantLocationSubLocation({
+      planRef: planId as string,
+      merchantRef: merchantId as string,
+      locationRef: ref as string,
+      secondaryMidRef: '',
+      ...locationMetadata,
+    })
+  }, [postMerchantLocationSubLocation, planId, merchantId, ref])
+
   const renderNewSubLocationForm = () => (
     <DirectoryMerchantLocationForm
       location={location}
       isNewLocationSubLocation={true}
-      parentLocationStrings={null}
       parentLocation={location.location_metadata.name}
-      parentLocationChangeHandler={null}
-      onSaveHandler={() => console.log('Placeholder Save Action')}
+      onSaveHandler={handleSave}
+      setIsInEditState={setIsInEditState}
       onCancelHandler={onCancelEditState}
-      isLoading={null}
-      isSuccess={null}
-      resetResponse={() => console.log('Placeholder Reset Response Action')}
-      error={null}
+      isLoading={postMerchantLocationSubLocationIsLoading}
+      isSuccess={postMerchantLocationSubLocationIsSuccess}
+      resetResponse={resetPostMerchantLocationSubLocationResponse}
+      error={postMerchantLocationSubLocationError}
     />
   )
 
-  const renderSubLocation = (subLocation: DirectoryLocation, index) => {
+  const renderSubLocation = (subLocation: DirectoryLocation, index: number) => {
     const {
       location_metadata: subLocationMetadata,
       location_ref: subLocationRef,
@@ -108,10 +125,6 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     </section>
   )
 
-  const renderNewSubLocationButtons = () => (
-    <div className='flex justify-end items-center gap-[14px]'>dkopokp </div>
-  )
-
   if (!getMerchantLocationSubLocationsResponse && !hasNoLinkedSubLocations) { return <i className='font-body-4'>Loading...</i> }
 
   if (isInEditState) { return renderNewSubLocationForm() }
@@ -130,8 +143,9 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
         <p>{availableSubLocationNotification}</p>
       </section>
       {!hasNoLinkedSubLocations && renderLinkedSubLocations()}
-      {isInEditState && renderNewSubLocationButtons()}
+      {isInEditState && renderNewSubLocationForm()}
     </div>
   )
 }
+
 export default SingleViewLocationSubLocations

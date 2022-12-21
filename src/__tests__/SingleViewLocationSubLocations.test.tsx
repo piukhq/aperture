@@ -35,12 +35,16 @@ const mockLocation = {
   ],
 }
 
-let mockgetMerchantLocationSubLocationsResponse = [mockLocation]
+let mockGetMerchantLocationSubLocationsResponse = [mockLocation]
 
 jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
   useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
-    getMerchantLocationSubLocationsResponse: mockgetMerchantLocationSubLocationsResponse,
+    getMerchantLocationSubLocationsResponse: mockGetMerchantLocationSubLocationsResponse,
     getMerchantLocationSubLocationsIsLoading: false,
+    postMerchantLocationSubLocation: jest.fn(),
+    postMerchantLocationSubLocationIsSuccess: false,
+    postMerchantLocationSubLocationIsLoading: false,
+    postMerchantLocationSubLocationError: false,
   })),
 }))
 
@@ -85,7 +89,7 @@ describe('SingleViewLocationSubLocations', () => {
   })
 
   it('should render the no linked Locations available message', () => {
-    mockgetMerchantLocationSubLocationsResponse = []
+    mockGetMerchantLocationSubLocationsResponse = []
     render(getSingleViewSubLocationsComponent())
     expect(screen.getByText(`Creating a sub-location will make ${mockLocation.location_metadata.name} non-physical. Any address details for this location will be copied to the new sub-location but can be edited. Continue?`)).toBeInTheDocument()
   })
