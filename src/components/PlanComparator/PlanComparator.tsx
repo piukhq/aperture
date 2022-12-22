@@ -174,7 +174,7 @@ const PlanComparator = ({plans}: Props) => {
     }
 
     return (
-      <details key={category} className={`mt-[30px] rounded-[10px] min-h-[50px] p-[20px] shadow-md min-w-[800px]
+      <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[400px] open:w-[700px] hover:shadow-md open:shadow-md duration-300 ease-out open:animate-slideDown origin-top 
         ${noKeys ? 'bg-grey-200 dark:bg-grey-800' : allKeysMatch ? 'bg-green/20' : 'bg-red/20'}`}>
         {renderCategorySummary()}
         {renderCategoryDetails()}
@@ -204,13 +204,10 @@ const PlanComparator = ({plans}: Props) => {
 export default PlanComparator
 
 // Stuff to do
-
-// 1. Make Plan Summary look cool
-// 1.75 hide links to non-existent djangos
 // 2.content ordering
 // 4. Write that part to show all properties in each env
 // 3. When not matching offer a button to launch modal to see value in each env
-// 5. Make it look cool. Animate dropdown
+
 
 // 6. remove isPrimitive if not using
 
