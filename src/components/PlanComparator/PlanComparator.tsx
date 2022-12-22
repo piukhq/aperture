@@ -30,6 +30,7 @@ const PlanComparator = ({plans}: Props) => {
   dev && plansArray.push(dev)
   staging && plansArray.push(staging)
   prod && plansArray.push(prod)
+  const validEnvironmentsArray = Object.keys(plans).filter(environment => plans[environment]?.id)
 
   const planCategories = [
     PlanCategory.ACCOUNT,
@@ -152,15 +153,29 @@ const PlanComparator = ({plans}: Props) => {
         if (allKeysMatch) {
           return <p className='font-body-3 italic my-5'> {capitaliseFirstLetter(category)} has {categoryKeys.length} identical properties across all logged-in environments</p>
         } else {
-          return <p className='font-heading-7 my-5'>Mismatched Keys:</p>
+          return <p className='font-heading-7 my-5'>Mismatched Keys</p>
         }
       }
       const renderMismatchedCategoryKey = (categoryKey: string) => { // Displays the key when not identical across all environments
         return (
           <details key={categoryKey} className='m-5 bg-red/20 rounded-[10px] p-[10px]'>
-            <summary className='font-heading-8' key={categoryKey}>
+            <summary className='font-heading-7 cursor-pointer' key={categoryKey}>
               {categoryKey}
             </summary>
+            {
+              // render the value for each environment
+              plansArray.map((plan, index) => {
+                const env = capitaliseFirstLetter(Object.keys(plans)[index])
+                const value = plan[category][categoryKey] || '<missing value>'
+                const valueString = typeof value === 'object' ? JSON.stringify(value) : value
+                return (
+                  <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
+                    <p className='font-heading-8 font-bold'>{env}</p>
+                    <p className='font-body-3'>{valueString}</p>
+                  </div>
+                )
+              })
+            }
           </details>
         )
       }
@@ -182,13 +197,10 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
-  const renderPlanCategories = planCategories.map(category => comparePlanCategory(category))
-
   if (plansArray.length === 1) {
-    console.log(plansArray[0])
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
-        <p className='font-heading-7'>We need two to tango and {plansArray[0].account.plan_name} only exists in {Object.keys(plans)[0]}, sorry!</p>
+        <p className='font-heading-7'>{plansArray[0].account.plan_name} only exists in {validEnvironmentsArray[0]} so there is nothing to compare with.</p>
       </div>
     )
   }
@@ -196,7 +208,7 @@ const PlanComparator = ({plans}: Props) => {
   return (
     <div className='w-full h-full p-[20px] flex flex-col items-center'>
       <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
-      {renderPlanCategories}
+      {planCategories.map(category => comparePlanCategory(category))}
     </div>
   )
 }
