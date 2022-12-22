@@ -28,28 +28,28 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const renderDjangoLinks = () => {
     const environments = Object.keys(plans)
     return environments.map(environment => {
+      const environmentBackground = environment === 'prod' ? 'bg-red hover:bg-red/80' : environment === 'staging' ? 'bg-yellow hover:bg-yellow/80' : 'bg-green hover:bg-green/80'
       return plans[environment]?.id && (
         <a key={environment} href={`https://api.${environment === 'prod' ? '' : environment + '.'}gb.bink.com/admin/scheme/scheme/${plans[environment]?.id}/change/`}
-          className='min-h-[30px] w-[60px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] bg-yellow text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs' // Refactor to an @apply if used elsewhere
+          className={`min-h-[30px] w-[150px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
           target='_blank'
           rel='noreferrer'
-        >{capitaliseFirstLetter(environment)}
+        >View in {capitaliseFirstLetter(environment)}
         </a>
       )
     })
   }
 
   return (
-    <div className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-200 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
+    <div className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
       <div className='flex flex-col items-center gap-3'>
         {renderIcon()}
       </div>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 w-full'>
         <h1 className='font-heading-4'>{plansArray[0].account.plan_name}</h1>
-        <div>
+        <div className='flex flex-col justify-center'>
           <LoadingBar key={plansArray[0].id} width={500} percentage={(totalMatches / totalKeys) * 100}/>
-          <div className='flex flex-col w-full text-center items-center justify-center gap-2'>
-            <h2 className='font-heading-7'>View in Django</h2>
+          <div className='flex flex-col w-1/2 text-center items-center justify-center self-center gap-2 mt-4'>
             <div className='w-full flex space-between justify-center gap-4'>
               {renderDjangoLinks()}
             </div>
