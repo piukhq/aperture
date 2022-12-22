@@ -15,9 +15,9 @@ type Props = {
   isNewLocationSubLocation?: boolean
   isExistingSubLocation?: boolean
   setIsInEditState?: (isInEditState: boolean) => void
-  parentLocationStrings: string[]
   parentLocation: string
-  parentLocationChangeHandler: (parentLocation) => void
+  parentLocationStrings?: string[]
+  parentLocationChangeHandler?: (parentLocation) => void
   onSaveHandler: (locationMetadata: DirectoryLocationMetadata) => void
   onCancelHandler: () => void
   isLoading: boolean
@@ -403,7 +403,7 @@ const DirectoryMerchantLocationForm = ({
         <div className='flex w-full justify-end items-center gap-[15px]'>
           <Button
             handleClick={onCancelHandler}
-            buttonType={ButtonType.SUBMIT}
+            buttonType={ButtonType.BUTTON}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.MEDIUM}
             buttonBackground={ButtonBackground.LIGHT_GREY}

@@ -24,6 +24,13 @@ jest.mock('hooks/useMidManagementLocations', () => ({
     postMerchantLocationIsLoading: false,
   })),
 }))
+jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
+  useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
+    postMerchantLocationSubLocation: jest.fn(),
+    postMerchantLocationSubLocationIsSuccess: false,
+    postMerchantLocationSubLocationIsLoading: false,
+  })),
+}))
 
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='directory-merchant-location-form' />)
 

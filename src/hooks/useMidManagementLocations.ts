@@ -4,7 +4,6 @@ import {
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   usePostMerchantLocationMutation,
-  usePostMerchantLocationSubLocationMutation,
 } from 'services/midManagementMerchantLocations'
 
 export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = ''}) => {
@@ -45,12 +44,6 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     reset: resetPostMerchantLocationResponse,
   }] = usePostMerchantLocationMutation({fixedCacheKey: 'postMerchantLocation'})
 
-  const [postMerchantLocationSubLocation, {
-    isSuccess: postMerchantLocationSubLocationIsSuccess,
-    isLoading: postMerchantLocationSubLocationIsLoading,
-    error: postMerchantLocationSubLocationError,
-    reset: resetPostMerchantLocationSubLocationResponse,
-  }] = usePostMerchantLocationSubLocationMutation({fixedCacheKey: 'postMerchantLocationSubLocation'})
 
   return {
     // GET Locations
@@ -83,11 +76,5 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     postMerchantLocationIsLoading,
     postMerchantLocationError,
     resetPostMerchantLocationResponse,
-    // POST Location Sub-location
-    postMerchantLocationSubLocation,
-    postMerchantLocationSubLocationIsSuccess,
-    postMerchantLocationSubLocationIsLoading,
-    postMerchantLocationSubLocationError,
-    resetPostMerchantLocationSubLocationResponse,
   }
 }
