@@ -31,7 +31,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
       const environmentBackground = environment === 'prod' ? 'bg-red' : environment === 'staging' ? 'bg-yellow hover:bg-yellow/80' : 'bg-green hover:bg-green/80'
       return plans[environment]?.id && (
         <a key={environment} href={`https://api.${environment === 'prod' && environment + '.'}gb.bink.com/admin/scheme/scheme/${plans[environment]?.id}/change/`}
-          className={`min-h-[30px] w-[150px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] hover:animate-pulse text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
+          className={`min-h-[30px] w-[150px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
           target='_blank'
           rel='noreferrer'
         >View in {capitaliseFirstLetter(environment)}

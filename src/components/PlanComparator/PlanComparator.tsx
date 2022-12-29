@@ -42,88 +42,121 @@ const PlanComparator = ({plans}: Props) => {
   ]
 
   const comparePlanCategory = (category: PlanCategory) => {
-    const categoryAcrossEachEnvArray = plansArray.map(plan => plan[category])
-    console.log('category', category, categoryAcrossEachEnvArray) // important debugger
+    let categoryAcrossEnvsArray = plansArray.map(plan => plan[category])
+    console.log('category', category, categoryAcrossEnvsArray) // important debugger
+
+    if (category === PlanCategory.CONTENT) { // Mutate the array to sort the content by column name so we can compare them fairly
+      type PlanContent = {
+        column: string,
+        content: string
+      }
+      categoryAcrossEnvsArray = categoryAcrossEnvsArray.map((envCategory:PlanContent[]) => {
+        return envCategory.slice().sort((a:PlanContent, b:PlanContent) => a.column.localeCompare(b.column))
+      })
+    }
 
     // The environment with the most keys for this category is the one we compare other plans against, not perfect but most likely to be the most complete
-    const categoryWithMostKeysAcrossEnvs = categoryAcrossEachEnvArray.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
-    // Get keys for this category
-    const categoryKeys = Object.keys(categoryWithMostKeysAcrossEnvs)
+    const categoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
+    const indexOfCategoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.findIndex((envCategory) => envCategory === categoryWithMostKeysAcrossEnvs)
+    const mostKeysCategory = Object.keys(categoryAcrossEnvsArray[indexOfCategoryWithMostKeysAcrossEnvs])
 
-    // Check for missing keys in other environments
-    const missingKeysArray = Object.keys(categoryWithMostKeysAcrossEnvs)
-      .filter(categoryKey => categoryAcrossEachEnvArray
-        .every(category => {
-          compare(category[categoryKey], categoryWithMostKeysAcrossEnvs[categoryKey])
-        }))
-
-    if (missingKeysArray.length > 0) { // For debugging
-      console.log('missing Keys!')
-    }
-
-
-    // TODO: Images is a special case...
+    // TODO: Images is a special case since we need human eyes to check if they are visually correct, this just checks if the number of images for each image type match across environments
     if (category === PlanCategory.IMAGES) {
-      const validImageValuesArray = categoryAcrossEachEnvArray.map(envCategory => {
-        return envCategory.map(image => {
+      const getImageTypesCount = () => {
+        const validImageValuesArray = categoryAcrossEnvsArray.map(envCategory => {
+          return envCategory.map(image => {
+            return {
+              cta_url: image.cta_url,
+              description: image.description,
+              encoding: image.encoding,
+              type: ImageTypes[image.type],
+            }
+          })
+        }).sort((a, b) => a.type > b.type ? 1 : -1)
 
-          const trimmedImage = Array.from(image.url.split('/')).pop()
+        // get count of each type of image found in ImageTypes
 
-          return {
-            cta_url: image.cta_url,
-            description: image.description,
-            encoding: image.encoding,
-            type: ImageTypes[image.type],
-            url: trimmedImage,
+        const imageTypeCounts = validImageValuesArray.map(envCategory => {
+          return envCategory.map(image => {
+            return image.type
+          }).reduce((acc, curr) => {
+            if (acc[curr]) {
+              acc[curr]++
+            } else {
+              acc[curr] = 1
+            }
+            return acc
+          }, {})
+        }).sort((a, b) => a.type > b.type ? 1 : -1)
+
+        const isImageTypeCountsEqual = imageTypeCounts.every((imageTypeCount, index) => {
+          if (index === 0) {
+            return true
           }
+          return compare(imageTypeCount, imageTypeCounts[index - 1])
         })
-      }).sort((a, b) => a.type > b.type ? 1 : -1)
+        return isImageTypeCountsEqual
+      }
 
 
-      // get count of each type of image found in ImageTypes
+      const hasSameNumberOfImages = categoryAcrossEnvsArray.every(envCategory => envCategory.length === categoryAcrossEnvsArray[0].length)
+      const hasSameNumberOfImageTypes = hasSameNumberOfImages && getImageTypesCount()
+      const imageReport: string = hasSameNumberOfImages && hasSameNumberOfImageTypes ?
+        'The number of images per type match across environments. Confirm they are visually correct via Asset Comparator.' : !hasSameNumberOfImages ?
+          'The total number of images do not match across environments' : 'The number of images per type do not match across environments'
 
-      //not this below
-
-
-      const imageTypeCounts = validImageValuesArray.map(envCategory => {
-        return envCategory.map(image => {
-          return image.type
-        }).reduce((acc, curr) => {
-          if (acc[curr]) {
-            acc[curr]++
-          } else {
-            acc[curr] = 1
-          }
-          return acc
-        }, {})
-      }).sort((a, b) => a.type > b.type ? 1 : -1)
-      console.log(imageTypeCounts)
-
-
-      const isImageTypeCountsEqual = imageTypeCounts.every((imageTypeCount, index) => {
-        if (index === 0) {
-          return true
-        }
-        return compare(imageTypeCount, imageTypeCounts[index - 1])
-      })
-
-      return isImageTypeCountsEqual ? 'equal' : 'not equal'
+      return (
+        <section key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[400px] ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
+          <div className='w-full font-heading-5'>{capitaliseFirstLetter(category)}
+            <p className='italic font-body-3'>
+              {imageReport}</p>
+          </div>
+        </section>
+      )
     }
 
-    const isKeyMatchedAcrossEnvs = (categoryKey: string) => plansArray.every((plan) => compare(plan[category][categoryKey], plansArray[0][category][categoryKey]))
+    // check the category key against known edge cases
+    const validateCategoryKeyDataAcrossEnvs = (categoryKeyDataAcrossEnvs, categoryKey: string) => {
+      if (categoryKey === 'plan_documents') { // Set the URL to be the same as its different across environments by design
+        type PlanDocument = {
+          url: string,
+          name: string,
+          description: string,
+          display: string[],
+          checkbox: boolean,
+        }
+        return categoryKeyDataAcrossEnvs.map((planDocumentsPerEnv: PlanDocument[]) => {
+          return planDocumentsPerEnv.map((planDocument:PlanDocument) => ({
+            ...planDocument,
+            url: 'meow',
+          })).sort((a, b) => a.name.localeCompare(b.name))
+        })
+      }
+      return categoryKeyDataAcrossEnvs
+    }
+
+    const isKeyMatchedAcrossEnvs = (categoryKey: string) => {
+      const categoryKeyDataAcrossEnvs = categoryAcrossEnvsArray.map((categoryByEnv) => categoryByEnv[categoryKey])
+      const validCategoryKeyDataAcrossEnvs = validateCategoryKeyDataAcrossEnvs(categoryKeyDataAcrossEnvs, categoryKey)
+
+
+      categoryKey === 'plan_documents' && console.log('validCastegoryKeyDataAcrossEnvs', validCategoryKeyDataAcrossEnvs)
+      // Check if the data for a key matches across environments
+      console.log(validCategoryKeyDataAcrossEnvs.every((categoryDataByEnv) => compare(categoryDataByEnv, validCategoryKeyDataAcrossEnvs[0])))
+      return validCategoryKeyDataAcrossEnvs.every((categoryDataByEnv) => compare(categoryDataByEnv, validCategoryKeyDataAcrossEnvs[0]))
+    }
 
     // Check for how many keys for a category match across environments
-    const totalMatchingCategoryKeys = categoryKeys.reduce((acc, categoryKey) => { // TODO: Manually memoise this
+    const totalMatchingCategoryKeys = mostKeysCategory.reduce((acc, categoryKey) => { // TODO: Manually memoise this
       // eslint-disable-next-line no-param-reassign
       isKeyMatchedAcrossEnvs(categoryKey) && acc++
       return acc
     }, 0)
 
-    totalKeys += categoryKeys.length
+    totalKeys += mostKeysCategory.length
     totalMatches += totalMatchingCategoryKeys
-
-    const allKeysMatch = totalMatchingCategoryKeys === categoryKeys.length
-    const noKeys = categoryKeys.length === 0
+    const allKeysMatch = totalMatchingCategoryKeys === mostKeysCategory.length
+    const noKeys = mostKeysCategory.length === 0
 
     // Renders content displayed initially for a category
     const renderCategorySummary = () => {
@@ -133,10 +166,9 @@ const PlanComparator = ({plans}: Props) => {
         } else if (allKeysMatch) {
           return 'fully matched'
         } else {
-          return `${totalMatchingCategoryKeys} matches out of ${categoryKeys.length}`
+          return `${totalMatchingCategoryKeys} matches out of ${mostKeysCategory.length}`
         }
       }
-
       return (
         <summary className='w-full cursor-pointer font-heading-5'>
           {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1'>({renderCategorySummaryInformation()})</span>
@@ -144,34 +176,55 @@ const PlanComparator = ({plans}: Props) => {
       )
     }
 
+
     // Renders content displayed when a category is expanded
     const renderCategoryDetails = () => {
       const renderHeader = () => {
         if (noKeys) {
-          return <p className='font-body-3 italic my-5'> No environments use this category</p>
+          return <p className='font-body-3 italic my-5'>No environments use this category</p>
         }
         if (allKeysMatch) {
-          return <p className='font-body-3 italic my-5'> {capitaliseFirstLetter(category)} has {categoryKeys.length} identical properties across all logged-in environments</p>
+          return <p className='font-body-3 italic my-5'>{capitaliseFirstLetter(category)} has {mostKeysCategory.length} matching propert{mostKeysCategory.length === 1 ? 'y' : 'ies'} across all logged-in environments</p>
         } else {
-          return <p className='font-heading-7 my-5'>Mismatched Keys</p>
+          return <p className='font-heading-7 my-5'>Mismatched Keys:</p>
         }
       }
       const renderMismatchedCategoryKey = (categoryKey: string) => { // Displays the key when not identical across all environments
+
+
+        const renderCategoryValue = (categoryValue) => {
+          if (Array.isArray(categoryValue)) {
+            return categoryValue.map((element, index) => (
+              <p className='mb-2' key={index}>{JSON.stringify(element)}</p>
+            ))
+          }
+          return JSON.stringify(categoryValue)
+        }
+
+        const renderCategoryKeyNotes = (categoryKey: string) => {
+
+          let categoryNote = null
+          categoryKey === 'plan_documents' && (categoryNote = 'URL ignored for comparison')
+          if (categoryNote) {
+            return `(${categoryNote})`
+          }
+          return null
+        }
+
         return (
           <details key={categoryKey} className='m-5 bg-red/20 rounded-[10px] p-[10px]'>
             <summary className='font-heading-7 cursor-pointer' key={categoryKey}>
-              {categoryKey}
+              {categoryKey} {renderCategoryKeyNotes(categoryKey)}
             </summary>
             {
               // render the value for each environment
               plansArray.map((plan, index) => {
                 const env = capitaliseFirstLetter(Object.keys(plans)[index])
-                const value = plan[category][categoryKey] || '<missing value>'
-                const valueString = typeof value === 'object' ? JSON.stringify(value) : value
+                const value = renderCategoryValue(plan[category][categoryKey]) || '<missing value>'
                 return (
                   <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
                     <p className='font-heading-8 font-bold'>{env}</p>
-                    <p className='font-body-3'>{valueString}</p>
+                    <p className='font-body-3'>{value}</p>
                   </div>
                 )
               })
@@ -183,7 +236,7 @@ const PlanComparator = ({plans}: Props) => {
       return (
         <>
           {renderHeader()}
-          {!allKeysMatch && categoryKeys.map(categoryKey => !isKeyMatchedAcrossEnvs(categoryKey) && renderMismatchedCategoryKey(categoryKey))}
+          {!allKeysMatch && mostKeysCategory.map(categoryKey => !isKeyMatchedAcrossEnvs(categoryKey) && renderMismatchedCategoryKey(categoryKey))}
         </>
       )
     }
@@ -197,6 +250,7 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
+  //If there is only one plan, there is nothing to compare with
   if (plansArray.length === 1) {
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -205,10 +259,14 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
+  // Flow reversed to provide plan summary the calculated values from the categories without unnecessary re-renders
   return (
-    <div className='w-full h-full p-[20px] flex flex-col items-center'>
+    <div className='w-full h-full p-[20px] flex flex-col-reverse items-center'>
+      <div>
+        {/* {planCategories.map(category => comparePlanCategory(category))} */}
+        {comparePlanCategory(PlanCategory.CONTENT)}
+      </div>
       <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
-      {planCategories.map(category => comparePlanCategory(category))}
     </div>
   )
 }
@@ -216,10 +274,13 @@ const PlanComparator = ({plans}: Props) => {
 export default PlanComparator
 
 // Stuff to do
-// 2.content ordering
-// 4. Write that part to show all properties in each env
-// 3. When not matching offer a button to launch modal to see value in each env
+// 3.5 Refactor into easier chunks?
+// 4. Merge to modern path!
+// 5. Unit Testing
+// POLISH!
 
 
-// 6. remove isPrimitive if not using
+// Bugs:
 
+// 1. When there is a mismatched key, the environment is not entirely correct.. related to MostKeys categoy?
+// 2. Wasabi content is wierd
