@@ -43,7 +43,7 @@ const PlanComparator = ({plans}: Props) => {
 
   const comparePlanCategory = (category: PlanCategory) => {
     let categoryAcrossEnvsArray = plansArray.map(plan => plan[category])
-    console.log('category', category, categoryAcrossEnvsArray) // important debugger
+    // console.log('category', category, categoryAcrossEnvsArray) // important debugger
 
     if (category === PlanCategory.CONTENT) { // Mutate the array to sort the content by column name so we can compare them fairly
       type PlanContent = {
@@ -54,8 +54,6 @@ const PlanComparator = ({plans}: Props) => {
         return envCategory.slice().sort((a:PlanContent, b:PlanContent) => a.column.localeCompare(b.column))
       })
     }
-
-    console.log('category AFTER', category, categoryAcrossEnvsArray) // important debugger
 
     // The environment with the most keys for this category is the one we compare other plans against, not perfect but most likely to be the most complete
     const categoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
@@ -140,7 +138,6 @@ const PlanComparator = ({plans}: Props) => {
     const isKeyMatchedAcrossEnvs = (categoryKey: string) => {
       const categoryKeyDataAcrossEnvs = categoryAcrossEnvsArray.map((envCategory) => envCategory[categoryKey])
       const validCategoryKeyDataAcrossEnvs = validateCategoryKeyDataAcrossEnvs(categoryKeyDataAcrossEnvs, categoryKey)
-      console.log('validCategoryKeyDataAcrossEnvs', validCategoryKeyDataAcrossEnvs)
       return validCategoryKeyDataAcrossEnvs.every((envCategoryData) => compare(envCategoryData, validCategoryKeyDataAcrossEnvs[0]))
     }
 
@@ -188,13 +185,29 @@ const PlanComparator = ({plans}: Props) => {
         }
       }
       const renderMismatchedCategoryKey = (categoryKey: string) => { // Displays the key when not identical across all environments
-        const renderCategoryValue = (categoryValue) => {
+
+        const renderCategoryValue = (categoryValue: string) => {
+          const renderCharacterComparison = (str: string) => {
+            return Array.from(str).map((char, index) => {
+              if (categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)) {
+                return char
+              } else {
+                return <span className='bg-orange/40' key={index}>{char}</span>
+              }
+            })
+          }
           if (Array.isArray(categoryValue)) {
-            return categoryValue.map((element, index) => (
-              <p className='mb-2' key={index}>{JSON.stringify(element)}</p>
+            return Array.from(categoryValue).map((element, index) => (
+              <p className='mb-2' key={index}>{renderCharacterComparison(element) }</p>
             ))
           }
-          return JSON.stringify(categoryValue)
+
+          if (!categoryAcrossEnvsArray.every((envCategory) => envCategory[categoryKey])) {
+            return <p className='mb-2'>{categoryValue || <em>Not found in this environment</em>}</p>
+          }
+
+          const validatedStringArrayAcrossEnvs = renderCharacterComparison(categoryValue)
+          return validatedStringArrayAcrossEnvs
         }
 
         const renderCategoryKeyNotes = (categoryKey: string) => {
@@ -214,22 +227,16 @@ const PlanComparator = ({plans}: Props) => {
             </summary>
             {
               // render the value for each environment
-              plansArray.map((plan, index) => {
-                const env = capitaliseFirstLetter(Object.keys(plans)[index])
-                const value = renderCategoryValue(categoryAcrossEnvsArray[index][categoryKey]) || '<missing value>'
-                return (
-                  <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
-                    <p className='font-heading-8 font-bold'>{env}</p>
-                    <p className='font-body-3'>{value}</p>
-                  </div>
-                )
-              })
+              categoryAcrossEnvsArray.map((category, index) => (
+                <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
+                  <p className='font-heading-8 font-bold'>{capitaliseFirstLetter(Object.keys(plans)[index])}</p>
+                  <p className='font-body-3'>{renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
+                </div>
+              ))
             }
           </details>
         )
       }
-
-      console.log('mostKeysCategory', mostKeysCategory)
 
       return (
         <>
