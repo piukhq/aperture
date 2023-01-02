@@ -279,13 +279,20 @@ const PlanComparator = ({plans}: Props) => {
 export default PlanComparator
 
 // Stuff to do
+
+// 1. Fix bugs
+// 2. Polish up animations
+
 // 3.5 Refactor into easier chunks?
 // 4. Merge to modern path!
 // 5. Unit Testing
 // POLISH!
 
 
-// Bugs:
+// Bugs
 
-// 1. When there is a mismatched key, the environment is not entirely correct.. related to MostKeys categoy?
-// 2. Wasabi content is wierd
+
+// p1 - Iceland (and others) form field sorting is causing false positives
+// P2 - The details dont close when you change plans
+
+// P3 - The char comparitor could track the removals so far to be more accuate
