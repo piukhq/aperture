@@ -192,7 +192,7 @@ const PlanComparator = ({plans}: Props) => {
               if (categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)) {
                 return char
               } else {
-                return <span className='bg-orange/40' key={index}>{char}</span>
+                return <span className='underline decoration-wavy decoration-red' key={index}>{char}</span>
               }
             })
           }
