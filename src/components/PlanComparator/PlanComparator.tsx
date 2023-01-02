@@ -55,6 +55,8 @@ const PlanComparator = ({plans}: Props) => {
       })
     }
 
+    console.log('category AFTER', category, categoryAcrossEnvsArray) // important debugger
+
     // The environment with the most keys for this category is the one we compare other plans against, not perfect but most likely to be the most complete
     const categoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
     const indexOfCategoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.findIndex((envCategory) => envCategory === categoryWithMostKeysAcrossEnvs)
@@ -128,7 +130,7 @@ const PlanComparator = ({plans}: Props) => {
         return categoryKeyDataAcrossEnvs.map((planDocumentsPerEnv: PlanDocument[]) => {
           return planDocumentsPerEnv.map((planDocument:PlanDocument) => ({
             ...planDocument,
-            url: 'meow',
+            url: 'https://www.homogenisedURL.com',
           })).sort((a, b) => a.name.localeCompare(b.name))
         })
       }
@@ -136,14 +138,10 @@ const PlanComparator = ({plans}: Props) => {
     }
 
     const isKeyMatchedAcrossEnvs = (categoryKey: string) => {
-      const categoryKeyDataAcrossEnvs = categoryAcrossEnvsArray.map((categoryByEnv) => categoryByEnv[categoryKey])
+      const categoryKeyDataAcrossEnvs = categoryAcrossEnvsArray.map((envCategory) => envCategory[categoryKey])
       const validCategoryKeyDataAcrossEnvs = validateCategoryKeyDataAcrossEnvs(categoryKeyDataAcrossEnvs, categoryKey)
-
-
-      categoryKey === 'plan_documents' && console.log('validCastegoryKeyDataAcrossEnvs', validCategoryKeyDataAcrossEnvs)
-      // Check if the data for a key matches across environments
-      console.log(validCategoryKeyDataAcrossEnvs.every((categoryDataByEnv) => compare(categoryDataByEnv, validCategoryKeyDataAcrossEnvs[0])))
-      return validCategoryKeyDataAcrossEnvs.every((categoryDataByEnv) => compare(categoryDataByEnv, validCategoryKeyDataAcrossEnvs[0]))
+      console.log('validCategoryKeyDataAcrossEnvs', validCategoryKeyDataAcrossEnvs)
+      return validCategoryKeyDataAcrossEnvs.every((envCategoryData) => compare(envCategoryData, validCategoryKeyDataAcrossEnvs[0]))
     }
 
     // Check for how many keys for a category match across environments
@@ -190,8 +188,6 @@ const PlanComparator = ({plans}: Props) => {
         }
       }
       const renderMismatchedCategoryKey = (categoryKey: string) => { // Displays the key when not identical across all environments
-
-
         const renderCategoryValue = (categoryValue) => {
           if (Array.isArray(categoryValue)) {
             return categoryValue.map((element, index) => (
@@ -202,7 +198,6 @@ const PlanComparator = ({plans}: Props) => {
         }
 
         const renderCategoryKeyNotes = (categoryKey: string) => {
-
           let categoryNote = null
           categoryKey === 'plan_documents' && (categoryNote = 'URL ignored for comparison')
           if (categoryNote) {
@@ -211,16 +206,17 @@ const PlanComparator = ({plans}: Props) => {
           return null
         }
 
+
         return (
           <details key={categoryKey} className='m-5 bg-red/20 rounded-[10px] p-[10px]'>
             <summary className='font-heading-7 cursor-pointer' key={categoryKey}>
-              {categoryKey} {renderCategoryKeyNotes(categoryKey)}
+              {category === PlanCategory.CONTENT ? categoryWithMostKeysAcrossEnvs[categoryKey].column : categoryKey} {renderCategoryKeyNotes(categoryKey)}
             </summary>
             {
               // render the value for each environment
               plansArray.map((plan, index) => {
                 const env = capitaliseFirstLetter(Object.keys(plans)[index])
-                const value = renderCategoryValue(plan[category][categoryKey]) || '<missing value>'
+                const value = renderCategoryValue(categoryAcrossEnvsArray[index][categoryKey]) || '<missing value>'
                 return (
                   <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
                     <p className='font-heading-8 font-bold'>{env}</p>
@@ -232,6 +228,8 @@ const PlanComparator = ({plans}: Props) => {
           </details>
         )
       }
+
+      console.log('mostKeysCategory', mostKeysCategory)
 
       return (
         <>
@@ -263,7 +261,7 @@ const PlanComparator = ({plans}: Props) => {
   return (
     <div className='w-full h-full p-[20px] flex flex-col-reverse items-center'>
       <div>
-        {/* {planCategories.map(category => comparePlanCategory(category))} */}
+        {planCategories.map(category => comparePlanCategory(category))}
         {comparePlanCategory(PlanCategory.CONTENT)}
       </div>
       <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
