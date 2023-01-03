@@ -15,7 +15,7 @@ const ImageDetails = ({
   // Fade in the component
   const [isMounted, setIsMounted] = useState(false)
   useEffect(() => {
-    setTimeout(() => setIsMounted(true), (200))
+    setTimeout(() => setIsMounted(true), (100))
   }, [])
 
 
@@ -63,7 +63,7 @@ const ImageDetails = ({
 
   return (
     <section className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] ${isMounted ? 'opacity-100' : 'opacity-0'}  
-    ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
+    duration-1000 ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
       <div className='w-full font-heading-5'>{capitaliseFirstLetter('Images')}
         <p className='italic font-body-3'>{imageReport}</p>
       </div>
