@@ -40,7 +40,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   }
 
   return (
-    <div className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
+    <section className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
       <div className='flex flex-col items-center gap-3'>
         {renderIcon()}
       </div>
@@ -55,7 +55,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -136,6 +136,15 @@ enum LinkableEntities {
   LOCATION = 'Location'
 }
 
+enum PlanCategory {
+  ACCOUNT = 'account',
+  BALANCES = 'balances',
+  CARD = 'card',
+  CONTENT = 'content',
+  FEATURE_SET = 'feature_set',
+  IMAGES = 'images',
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -156,4 +165,5 @@ export {
   DirectorySingleViewEntities,
   DirectorySingleViewTabs,
   LinkableEntities,
+  PlanCategory,
 }
