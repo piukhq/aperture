@@ -34,7 +34,6 @@ const PlanComparator = ({plans}: Props) => {
 
   const comparePlanCategory = (category: PlanCategory) => {
     let categoryAcrossEnvsArray = plansArray.map(plan => plan[category])
-    // console.log('category', category, categoryAcrossEnvsArray) // important debugger
 
     if (category === PlanCategory.CONTENT) { // Mutate the array to sort the content by column name so we can compare fairly
       type PlanContent = {
@@ -51,7 +50,7 @@ const PlanComparator = ({plans}: Props) => {
     const indexOfCategoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.findIndex((envCategory) => envCategory === categoryWithMostKeysAcrossEnvs)
     const mostKeysCategory = Object.keys(categoryAcrossEnvsArray[indexOfCategoryWithMostKeysAcrossEnvs])
 
-    // Special case for images
+    // There is a special case for images since it requires a visual comparison anyhow, Plan Comparator just does a high-level comparison
     if (category === PlanCategory.IMAGES) {
       return <ImageDetails key={category} categoryAcrossEnvsArray={categoryAcrossEnvsArray}/>
     }
@@ -110,7 +109,7 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
-  //If there is only one plan, there is nothing to compare with
+  //If there is only one environment a plan exists in, there is nothing to compare with
   if (plansArray.length === 1) {
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -119,7 +118,7 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
-  // Flow reversed to provide plan summary the calculated values from the categories without unnecessary re-renders
+  // TODO: Flow reversed to provide plan summary the calculated values from the categories without unnecessary re-renders. Is there a better way?
   return (
     <div className='w-full h-full p-[20px] flex flex-col-reverse items-center'>
       <section>
@@ -136,7 +135,6 @@ export default PlanComparator
 // 4. Merge to modern path!
 // 5. Unit Testing
 // 6. performace, too many spans, etc
-// POLISH!
 
 
 // Bugs

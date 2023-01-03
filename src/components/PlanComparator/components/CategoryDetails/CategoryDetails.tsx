@@ -52,20 +52,25 @@ const CategoryDetails = ({
       return <p className='font-heading-7 my-5'>Mismatched Keys:</p>
     }
   }
-  const renderMismatchedCategoryKey = (categoryKey: string) => { // Displays the key when not identical across all environments
+  const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key when not identical across all environments
     const renderCategoryValue = (categoryValue: string) => {
-      const renderCharacterComparison = (str: string) => {
+      const renderCharacterComparison = (str: string, arrayIndex = null) => {
         return Array.from(str).map((char, index) => {
-          if (categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)) {
+          if (
+            categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey][arrayIndex] || '')[index] === char) ||
+            categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)
+          ) {
             return char
           } else {
             return <span className='underline decoration-wavy decoration-red' key={index}>{char}</span>
           }
         })
       }
+
       if (Array.isArray(categoryValue)) {
+        categoryKey === 'add_fields' && console.log('categoryValue', JSON.stringify(categoryValue[0]))
         return Array.from(categoryValue).map((element, index) => (
-          <p className='mb-2' key={index}>{renderCharacterComparison(element) }</p>
+          <p className='mb-2' key={index}>{renderCharacterComparison(JSON.stringify(element), index) }</p>
         ))
       }
 
@@ -86,6 +91,8 @@ const CategoryDetails = ({
       return null
     }
 
+    const isArray = Array.isArray(categoryWithMostKeysAcrossEnvs[categoryKey])
+
     return (
       <details key={categoryKey} className={'m-5 bg-red/20 rounded-[10px] p-[10px]'}>
         <summary className='font-heading-7 cursor-pointer' key={categoryKey}>
@@ -94,7 +101,7 @@ const CategoryDetails = ({
         {categoryAcrossEnvsArray.map((category, index) => (
           <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
             <p className='font-heading-8 font-bold'>{capitaliseFirstLetter(Object.keys(plans)[index])}</p>
-            <p className='font-body-3'>{renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
+            <p className='font-body-3'>{isArray ? renderCategoryValue(category[categoryKey]) : renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
           </div>
         ))
         }
@@ -109,7 +116,7 @@ const CategoryDetails = ({
         {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1'>({renderCategorySummaryInformation()})</span>
       </summary>
       {renderHeader()}
-      {!hasAllCategoryValuesMatching && mostKeysCategory.map(categoryKey => !isValueMatchedAcrossEnvsFn(categoryKey) && renderMismatchedCategoryKey(categoryKey))}
+      {!hasAllCategoryValuesMatching && mostKeysCategory.map(categoryKey => !isValueMatchedAcrossEnvsFn(categoryKey) && renderMismatchedCategoryValue(categoryKey))}
     </details>
   )
 }
