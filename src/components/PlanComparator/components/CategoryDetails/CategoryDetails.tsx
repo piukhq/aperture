@@ -42,7 +42,6 @@ const CategoryDetails = ({
       return `${totalMatchingCategoryValues} matches out of ${mostKeysCategory.length}`
     }
   }
-
   const renderHeader = () => {
     if (hasNoCategoryValues) {
       return <p className='font-body-3 italic my-5'>No environments use this category</p>

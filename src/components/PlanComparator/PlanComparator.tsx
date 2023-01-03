@@ -68,7 +68,6 @@ const PlanComparator = ({plans}: Props) => {
         // eslint-disable-next-line no-param-reassign
         categoryValueAcrossEnvs = sortedCategoryValueAcrossEnvsArray
       }
-
       return categoryValueAcrossEnvs
     }
 
