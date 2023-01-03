@@ -86,10 +86,6 @@ module.exports = {
           '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
           '100%': {transform: 'scaleX(100%)', background: '#ff974a'},
         },
-        slideDown: {
-          '0%': {transform: 'scaleY(80%)'},
-          '100%': {transform: 'scaleY(100%)'},
-        },
         fadeIn: {
           '0%': {opacity: '0'},
           '100%': {opacity: '1'},
@@ -99,7 +95,6 @@ module.exports = {
         'slideGreen': 'slideGreen 1s ease-out',
         'slideYellow': 'slideYellow 1s ease-out',
         'slideOrange': 'slideOrange 1s ease-out',
-        'slideDown': 'slideDown 0.3s ease-out',
         'fadeIn': 'fadeIn 2s ease-out',
       },
     },

@@ -106,7 +106,7 @@ const PlanComparator = ({plans}: Props) => {
           'The total number of images do not match across environments' : 'The number of images per type do not match across environments'
 
       return (
-        <section key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[400px] ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
+        <section key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
           <div className='w-full font-heading-5'>{capitaliseFirstLetter(category)}
             <p className='italic font-body-3'>
               {imageReport}</p>
@@ -212,7 +212,7 @@ const PlanComparator = ({plans}: Props) => {
 
         const renderCategoryKeyNotes = (categoryKey: string) => {
           let categoryNote = null
-          categoryKey === 'plan_documents' && (categoryNote = 'URL ignored for comparison')
+          categoryKey === 'plan_documents' && (categoryNote = 'ignoring environment specific URLs')
           if (categoryNote) {
             return `(${categoryNote})`
           }
@@ -247,7 +247,7 @@ const PlanComparator = ({plans}: Props) => {
     }
 
     return (
-      <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[400px] open:w-[700px] hover:shadow-md open:shadow-md duration-300 ease-out open:animate-slideDown origin-top 
+      <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] hover:shadow-md open:shadow-md duration-300 ease-out origin-top 
         ${noKeys ? 'bg-grey-200 dark:bg-grey-800' : allKeysMatch ? 'bg-green/20' : 'bg-red/20'}`}>
         {renderCategorySummary()}
         {renderCategoryDetails()}
@@ -269,7 +269,6 @@ const PlanComparator = ({plans}: Props) => {
     <div className='w-full h-full p-[20px] flex flex-col-reverse items-center'>
       <div>
         {planCategories.map(category => comparePlanCategory(category))}
-        {comparePlanCategory(PlanCategory.CONTENT)}
       </div>
       <PlanSummary plans={plans} plansArray={plansArray} totalKeys={totalKeys} totalMatches={totalMatches}/>
     </div>
@@ -286,13 +285,9 @@ export default PlanComparator
 // 3.5 Refactor into easier chunks?
 // 4. Merge to modern path!
 // 5. Unit Testing
+// 6. performace, too many spans, etc
 // POLISH!
 
 
 // Bugs
-
-
-// p1 - Iceland (and others) form field sorting is causing false positives
 // P2 - The details dont close when you change plans
-
-// P3 - The char comparitor could track the removals so far to be more accuate
