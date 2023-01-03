@@ -10,7 +10,7 @@ const LoadingBar = ({percentage, width}: Props) => {
     if (percentage === 100) {
       return 'animate-slideGreen bg-green'
     } else if (percentage > 90) {
-      return 'animate-slideYellow bg-yellow'
+      return 'animate-slideYellow bg-yellow/75'
     } else {
       return 'animate-slideOrange bg-orange'
     }

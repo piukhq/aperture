@@ -65,13 +65,17 @@ const PlanComparator = ({plans}: Props) => {
           display: string[],
           checkbox: boolean,
         }
-        return categoryValueAcrossEnvs.map((planDocumentsPerEnv: PlanDocument[]) => {
+        const sortedCategoryValueAcrossEnvsArray = categoryValueAcrossEnvs.map((planDocumentsPerEnv: PlanDocument[]) => {
           return planDocumentsPerEnv.map((planDocument:PlanDocument) => ({
             ...planDocument,
             url: 'https://www.homogenisedURL.com',
           })).sort((a, b) => a.name.localeCompare(b.name))
         })
+
+        // eslint-disable-next-line no-param-reassign
+        categoryValueAcrossEnvs = sortedCategoryValueAcrossEnvsArray
       }
+
       return categoryValueAcrossEnvs
     }
 

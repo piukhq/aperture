@@ -90,12 +90,16 @@ module.exports = {
           '0%': {opacity: '0'},
           '100%': {opacity: '1'},
         },
+        shine: {
+          '100%': {left: '125%'},
+        },
       },
       animation: {
         'slideGreen': 'slideGreen 1s ease-out',
         'slideYellow': 'slideYellow 1s ease-out',
         'slideOrange': 'slideOrange 1s ease-out',
         'fadeIn': 'fadeIn 2s ease-out',
+        shine: 'shine 700ms',
       },
     },
   },
