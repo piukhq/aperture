@@ -42,6 +42,7 @@ const CategoryDetails = ({
       return `${totalMatchingCategoryValues} matches out of ${mostKeysCategory.length}`
     }
   }
+
   const renderHeader = () => {
     if (hasNoCategoryValues) {
       return <p className='font-body-3 italic my-5'>No environments use this category</p>
@@ -49,29 +50,21 @@ const CategoryDetails = ({
     if (hasAllCategoryValuesMatching) {
       return <p className='font-body-3 italic my-5'>{capitaliseFirstLetter(category)} has {mostKeysCategory.length} matching propert{mostKeysCategory.length === 1 ? 'y' : 'ies'} across all logged-in environments</p>
     } else {
-      return <p className='font-heading-7 my-5'>Mismatched Values:</p>
+      return <p className='font-heading-7 my-5 text-grey-800 dark:text-grey-100'>Mismatched Values:</p>
     }
   }
+
   const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key when not identical across all environments
     const renderCategoryValue = (categoryValue: string) => {
-      const renderCharacterComparison = (str: string, arrayIndex = null) => {
+      const renderCharacterComparison = (str: string) => {
         return Array.from(str).map((char, index) => {
-          if (
-            categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey][arrayIndex] || '')[index] === char) ||
-            categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)
+          if (categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)
           ) {
             return char
           } else {
-            return <span className='underline decoration-wavy decoration-red font-bold' key={index}>{char}</span>
+            return <span className='bg-red/50' key={index}>{char}</span>
           }
         })
-      }
-
-
-      if (Array.isArray(categoryValue) && categoryKey === 'plan_documents') {
-        return Array.from(categoryValue).map((element, index) => (
-          <p className='mb-2' key={index}>{renderCharacterComparison(JSON.stringify(element), index) }</p>
-        ))
       }
 
       if (!categoryAcrossEnvsArray.every((envCategory) => envCategory[categoryKey])) {
@@ -98,7 +91,7 @@ const CategoryDetails = ({
               .every((envCategory) => JSON.stringify(getSortedArray(envCategory[categoryKey])[arrayIndex] || '')[index] === char)) {
               return char
             } else {
-              return <span className='underline decoration-wavy decoration-red font-bold' key={index}>{char}</span>
+              return <span className='bg-red/50' key={index}>{char}</span>
             }
           })
         }
@@ -138,8 +131,8 @@ const CategoryDetails = ({
   return (
     <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] hover:shadow-md open:shadow-md ${isMounted ? 'opacity-100' : 'opacity-0'} 
     duration-300 ease-in-out origin-top ${hasNoCategoryValues ? 'bg-grey-200 dark:bg-grey-800 hover:bg-grey-200/75 hover:dark:bg-grey-800/75' : hasAllCategoryValuesMatching ? 'bg-green/20 hover:bg-green/25' : 'bg-red/20 hover:bg-red/25 hover:open:bg-red/20'}`}>
-      <summary className='w-full cursor-pointer font-heading-5'>
-        {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1'>({renderCategorySummaryInformation()})</span>
+      <summary className='w-full cursor-pointer font-heading-5 text-grey-800 dark:text-grey-100'>
+        {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1 text-grey-800 dark:text-grey-100'>({renderCategorySummaryInformation()})</span>
       </summary>
       {renderHeader()}
       {!hasAllCategoryValuesMatching && mostKeysCategory.map(categoryKey => !isValueMatchedAcrossEnvsFn(categoryKey) && renderMismatchedCategoryValue(categoryKey))}

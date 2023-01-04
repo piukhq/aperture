@@ -64,8 +64,8 @@ const ImageDetails = ({
   return (
     <section className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] ${isMounted ? 'opacity-100' : 'opacity-0'}  
     duration-1000 ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
-      <div className='w-full font-heading-5'>{capitaliseFirstLetter('Images')}
-        <p className='italic font-body-3'>{imageReport}</p>
+      <div className='w-full font-heading-5 text-grey-800 dark:text-grey-100'>{capitaliseFirstLetter('Images')}
+        <p className='font-body-3 font-light italic my-5'>{imageReport}</p>
       </div>
     </section>
   )

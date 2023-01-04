@@ -138,6 +138,7 @@ export default PlanComparator
 // Stuff to do
 // 4. Merge to modern path!
 // 5. Unit Testing
+// 5.5 Typesafety
 // 6. performace, too many spans, etc
 
 

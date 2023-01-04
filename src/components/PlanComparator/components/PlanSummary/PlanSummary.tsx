@@ -34,7 +34,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const renderDjangoLinks = () => {
     const environments = Object.keys(plans)
     return environments.map(environment => {
-      const environmentBackground = environment === 'prod' ? 'bg-red hover:bg-red/50 duration-300' : environment === 'staging' ? 'bg-yellow/75 hover:bg-yellow/50 duration-300' : 'bg-green hover:bg-green/80 duration-300'
+      const environmentBackground = environment === 'prod' ? 'bg-red hover:bg-red/50 duration-300' : environment === 'staging' ? 'bg-yellow dark:bg-yellow/75 hover:bg-yellow/75 dark:hover:bg-yellow/50 duration-300' : 'bg-green hover:bg-green/80 duration-300'
       return plans[environment]?.id && (
         <a key={environment} target='_blank' href={`https://api.${environment === 'prod' ? '' : environment + '.'}gb.bink.com/admin/scheme/scheme/${plans[environment]?.id}/change/`}
           className={`min-h-[30px] w-[150px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
