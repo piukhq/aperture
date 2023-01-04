@@ -103,7 +103,7 @@ const CategoryDetails = ({
 
     const renderCategoryKeyNotes = (categoryKey: string) => {
       let categoryNote = null
-      categoryKey === 'plan_documents' && (categoryNote = 'the url is not why this is mismatched')
+      categoryKey === 'plan_documents' && (categoryNote = 'url is ignored for comparison')
       if (categoryNote) {
         return `(${categoryNote})`
       }
