@@ -15,7 +15,7 @@ const PlanComparator = ({plans}: Props) => {
   let totalKeys = 0
   let totalMatches = 0
 
-  const plansArray = Object.values(plans)
+  const plansArray = Object.values(plans).filter(Boolean)
   const planCategories = [
     PlanCategory.ACCOUNT,
     PlanCategory.BALANCES,
