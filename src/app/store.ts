@@ -23,7 +23,7 @@ import directoryCommentsReducer from 'features/directoryCommentsSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import directoryLocationReducer from 'features/directoryLocationSlice'
-import planAssetsReducer from 'features/planAssetsSlice'
+import comparatorReducer from 'features/comparatorSlice'
 import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
@@ -39,7 +39,7 @@ import {customerWalletApi} from 'services/customerWallet'
 import {customerWalletLookupHistoryApi} from 'services/customerWalletLookupHistory'
 
 const reducers = combineReducers({
-  planAssets: planAssetsReducer,
+  comparator: comparatorReducer,
   modal: modalReducer,
   apiReflector: apiReflectorReducer,
   customerWallet: customerWalletReducer,

@@ -73,11 +73,39 @@ module.exports = {
       boxShadow: {
         'md': '0 1px 6px 0px rgba(0,0,0,0.5)',
       },
-      scale: {
-        flip: '-1',
+      keyframes: {
+        slideGreen: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '50%': {background: '#ffc542'},
+          '100%': {transform: 'scaleX(100%)', background: '#82c43c'},
+        },
+        slideYellow: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '100%': {transform: 'scaleX(100%)', background: '#ffc542'},
+        },
+        slideOrange: {
+          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
+          '100%': {transform: 'scaleX(100%)', background: '#ff974a'},
+        },
+        fadeIn: {
+          '0%': {opacity: '0'},
+          '100%': {opacity: '1'},
+        },
+        shine: {
+          '100%': {left: '125%'},
+        },
+      },
+      animation: {
+        'slideGreen': 'slideGreen 1s ease-out',
+        'slideYellow': 'slideYellow 1s ease-out',
+        'slideOrange': 'slideOrange 1s ease-out',
+        'fadeIn': 'fadeIn 2s ease-out',
+        shine: 'shine 700ms',
+        scale: {
+          flip: '-1',
+        },
       },
     },
   },
   plugins: [],
 }
-

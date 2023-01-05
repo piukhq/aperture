@@ -26,8 +26,8 @@ export type Plan = {
   status: string,
   balances: Array<Record<string, unknown>>,
   images: PlanImage[],
-  slug: string
-}
+  slug: string,
+} | null
 
 export type HydratedPlan = Plan & {
   isDev: boolean,
@@ -39,6 +39,9 @@ export type HydratedPlan = Plan & {
   balances: Array<Record<string, unknown>>
   images: Array<Record<string, unknown>>
   slug: string
+  devPlan: Plan,
+  stagingPlan: Plan,
+  prodPlan: Plan,
 }
 
 export type AssetType = {
@@ -70,6 +73,8 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
 export type SelectedPlanImages = Record<string, PlanImage[]>
 
 export type SelectedAssetGroup = Record<string, PlanAsset>
+
+export type SelectedPlans = Record<string, Plan>
 
 export type SelectedAssetEnvironment = string
 

@@ -4,7 +4,7 @@ import {render, screen, fireEvent} from '@testing-library/react'
 import Asset from 'components/AssetGrid/components/Asset'
 import configureStore from 'redux-mock-store'
 import {Provider} from 'react-redux'
-import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/planAssetsSlice'
+import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/comparatorSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 

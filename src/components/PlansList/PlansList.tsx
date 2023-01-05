@@ -5,32 +5,52 @@ import SearchSvg from 'icons/svgs/search.svg'
 import CheckSvg from 'icons/svgs/check.svg'
 import {useFormattedPlansList} from 'hooks/useFormattedPlansList'
 import {useAppDispatch} from 'app/hooks'
-import {setSelectedPlanImages} from 'features/planAssetsSlice'
+import {setSelectedPlanImages, setSelectedPlans} from 'features/comparatorSlice'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 import {HydratedPlan} from 'types'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
-const PlansList = () => {
+type Props = {
+  isUsedByPlanComparator?: boolean
+}
+const PlansList = ({isUsedByPlanComparator}: Props) => {
   const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useFormattedPlansList()
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState('')
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [loadAssetsError, setLoadAssetsError] = useState(null)
 
+  const comparatorLabel = isUsedByPlanComparator ? {
+    lower: 'plans',
+    capitalised: 'Plans',
+  } : {
+    lower: 'assets',
+    capitalised: 'Assets',
+  }
+
   const filteredPlansList = uniquePlansList.filter(plan => plan.account.plan_name.toLowerCase().includes(searchValue.toLowerCase()))
 
-  const storePlanAssets = useCallback((selectedPlan) => {
+  const storePlanInformation = useCallback((selectedPlan) => {
     const plan = uniquePlansList.find(plan => plan.slug === selectedPlan.slug)
-
-    const {devImages = [], stagingImages = [], prodImages = []} = plan || {}
-    const planAssets = {
-      dev: devImages,
-      staging: stagingImages,
-      prod: prodImages,
+    if (isUsedByPlanComparator) {
+      const {devPlan: dev = null, stagingPlan: staging = null, prodPlan: prod = null} = plan || {}
+      const plans = {
+        dev,
+        staging,
+        prod,
+      }
+      dispatch(setSelectedPlans(plans))
+    } else {
+      const {devImages = [], stagingImages = [], prodImages = []} = plan || {}
+      const planAssets = {
+        dev: devImages,
+        staging: stagingImages,
+        prod: prodImages,
+      }
+      dispatch(setSelectedPlanImages(planAssets))
     }
-    dispatch(setSelectedPlanImages(planAssets))
-  }, [uniquePlansList, dispatch])
+  }, [uniquePlansList, isUsedByPlanComparator, dispatch])
 
   useEffect(() => {
     const cachedPlanSlug = getCachedPlanSlug()
@@ -42,13 +62,13 @@ const PlansList = () => {
         if (plan) {
           setSearchValue(plan.account.plan_name as string)
           setSelectedPlan(plan)
-          storePlanAssets(plan)
+          storePlanInformation(plan)
         } else {
           removeCachedPlanSlug()
         }
       }
     }
-  }, [devIsLoading, stagingIsLoading, prodIsLoading, uniquePlansList, selectedPlan, storePlanAssets])
+  }, [devIsLoading, stagingIsLoading, prodIsLoading, uniquePlansList, selectedPlan, storePlanInformation])
 
   const handlePlanClick = (plan: HydratedPlan) => {
     setSearchValue(plan.account.plan_name)
@@ -58,10 +78,10 @@ const PlansList = () => {
 
   const handleLoadAssets = () => {
     if (selectedPlan && selectedPlan.account.plan_name === searchValue) {
-      storePlanAssets(selectedPlan)
+      storePlanInformation(selectedPlan)
       setCachedPlanSlug(selectedPlan.slug)
     } else {
-      setLoadAssetsError('Select a plan above to load assets')
+      setLoadAssetsError(`Select a plan above to load ${comparatorLabel.lower}`)
     }
   }
 
@@ -102,9 +122,10 @@ const PlansList = () => {
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
           handleClick={handleLoadAssets}
-          ariaLabel='Load Assets'
+          ariaLabel={`Load ${comparatorLabel.capitalised}`}
+
         >
-          <CheckSvg fill='white' />Load Assets
+          <CheckSvg fill='white' />Load {comparatorLabel.capitalised}
         </Button>
       </div>
       <p className='h-[24px] text-red text-center text-body font-body-3 ml-[160px]'>{loadAssetsError}</p>
