@@ -65,13 +65,15 @@ module.exports = {
       spacing: {
         '112': '28rem',
         '148': '37rem',
-
       },
       opacity: {
         '12': '.12',
       },
       boxShadow: {
         'md': '0 1px 6px 0px rgba(0,0,0,0.5)',
+      },
+      scale: {
+        flip: '-1',
       },
       keyframes: {
         slideGreen: {
@@ -100,10 +102,7 @@ module.exports = {
         'slideYellow': 'slideYellow 1s ease-out',
         'slideOrange': 'slideOrange 1s ease-out',
         'fadeIn': 'fadeIn 2s ease-out',
-        shine: 'shine 700ms',
-        scale: {
-          flip: '-1',
-        },
+        'shine': 'shine 700ms',
       },
     },
   },

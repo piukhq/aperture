@@ -53,7 +53,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
       <div className='flex flex-col gap-2 w-full'>
         <h1 className='font-heading-4'>{plansArray[0].account.plan_name}</h1>
         <div className='flex flex-col justify-center'>
-          <LoadingBar key={plansArray[0].id} width={500} percentage={(totalMatches / totalKeys) * 100}/>
+          <LoadingBar key={plansArray[0].id} percentage={(totalMatches / totalKeys) * 100}/>
           <div className='flex flex-col w-1/2 text-center items-center justify-center self-center gap-2 mt-4'>
             <div className='w-full flex space-between justify-center gap-4'>
               {renderDjangoLinks()}
