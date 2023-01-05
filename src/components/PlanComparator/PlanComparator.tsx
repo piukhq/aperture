@@ -106,7 +106,7 @@ const PlanComparator = ({plans}: Props) => {
     )
   }
 
-  //If there is only one environment a plan exists in, there is nothing to compare with
+  // If there is only one environment a plan exists in, there is nothing to compare with
   if (plansArray.length === 1) {
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
@@ -128,12 +128,3 @@ const PlanComparator = ({plans}: Props) => {
 
 export default PlanComparator
 
-// Stuff to do
-// 4. Merge to modern path!
-// 5. Unit Testing
-// 5.5 Typesafety
-// 6. performace, too many spans, etc
-
-
-// Bugs
-// P2 - The details dont close when you change plans
