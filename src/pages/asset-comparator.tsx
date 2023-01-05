@@ -12,7 +12,7 @@ import {
   requestModal,
   selectModal,
 } from 'features/modalSlice'
-import {getSelectedPlanImages} from 'features/planAssetsSlice'
+import {getSelectedPlanImages} from 'features/comparatorSlice'
 import {SelectedPlanImages} from 'types'
 import {ModalType} from 'utils/enums'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'

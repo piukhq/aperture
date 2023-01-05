@@ -1,21 +1,23 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
-import {SelectedPlanImages, SelectedAssetGroup, SelectedAssetEnvironment} from 'types'
+import {SelectedPlanImages, SelectedAssetGroup, SelectedAssetEnvironment, SelectedPlans} from 'types'
 
 export type PlanAssets = {
   selectedPlanImages: SelectedPlanImages,
   selectedAssetEnvironment: SelectedAssetEnvironment,
   selectedAssetGroup: SelectedAssetGroup,
+  selectedPlans: SelectedPlans,
 }
 
 const initialState: PlanAssets = {
   selectedPlanImages: {dev: [], staging: []}, // All images of a selected plan from the APIs
   selectedAssetEnvironment: null, // The ID of the asset selected in the Asset Grid
   selectedAssetGroup: {dev: null, staging: null}, // All assets matching the selected Asset's type and typeIndex with additional metadata across all available environments
+  selectedPlans: {dev: null, staging: null, prod: null},
 }
 
-export const planAssetsSlice = createSlice({
-  name: 'planAssets',
+export const comparatorSlice = createSlice({
+  name: 'comparator',
   initialState,
   reducers: {
     setSelectedPlanImages: (state, action: PayloadAction<SelectedPlanImages>) => {
@@ -27,12 +29,16 @@ export const planAssetsSlice = createSlice({
     setSelectedAssetGroup: (state, action: PayloadAction<SelectedAssetGroup>) => {
       state.selectedAssetGroup = action.payload
     },
+    setSelectedPlans: (state, action: PayloadAction<SelectedPlans>) => {
+      state.selectedPlans = action.payload
+    },
   },
 })
 
-export const {setSelectedPlanImages, setSelectedAssetEnvironment, setSelectedAssetGroup} = planAssetsSlice.actions
+export const {setSelectedPlanImages, setSelectedAssetEnvironment, setSelectedAssetGroup, setSelectedPlans} = comparatorSlice.actions
 
-export const getSelectedPlanImages = (state: RootState) => state.planAssets.selectedPlanImages
-export const getSelectedAssetEnvironment = (state: RootState) => state.planAssets.selectedAssetEnvironment
-export const getSelectedAssetGroup = (state: RootState) => state.planAssets.selectedAssetGroup
-export default planAssetsSlice.reducer
+export const getSelectedPlanImages = (state: RootState) => state.comparator.selectedPlanImages
+export const getSelectedAssetEnvironment = (state: RootState) => state.comparator.selectedAssetEnvironment
+export const getSelectedAssetGroup = (state: RootState) => state.comparator.selectedAssetGroup
+export const getSelectedPlans = (state: RootState) => state.comparator.selectedPlans
+export default comparatorSlice.reducer

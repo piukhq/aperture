@@ -31,7 +31,7 @@ describe('AssetComparatorPage', () => {
     modal: {
       modalRequested: 'MODAL',
     },
-    planAssets: {
+    comparator: {
       selectedPlanImages: [],
     },
   }
@@ -130,7 +130,7 @@ describe('AssetComparatorPage', () => {
       it('should render verified landing copy', () => {
         const store = mockStoreFn({
           ...initialState,
-          planAssets: {},
+          comparator: {},
         })
         const {getByText} = render(getAssetComparatorComponent(store))
         expect(getByText('Select a plan above to compare assets')).toBeInTheDocument()

@@ -47,7 +47,7 @@ const mockModalObject = {modal: {
 
 const mockInitialState = { // mocks when multiple assets are available
   mockModalObject,
-  planAssets: {
+  comparator: {
     selectedPlanImages: [],
     selectedAssetEnvironment: 'dev',
     selectedAssetGroup: {
@@ -129,7 +129,7 @@ describe('Asset Modal', () => {
     it('should not render navigation buttons', () => {
       store = mockStoreFn({ // mocks when only one asset is found
         mockModalObject,
-        planAssets: {
+        comparator: {
           selectedPlanImages: [],
           selectedAssetEnvironment: 'dev',
           selectedAssetGroup: {
@@ -221,7 +221,7 @@ describe('Asset Modal', () => {
 
   describe('Test Django link and download button', () => {
     it('should render the View in Django anchor tag with correct link', () => {
-      const mockDjangoUrl = `https://api.${mockInitialState.planAssets.selectedAssetEnvironment}.gb.bink.com/admin/scheme/schemeimage/${mockAsset.image.id}/change/`
+      const mockDjangoUrl = `https://api.${mockInitialState.comparator.selectedAssetEnvironment}.gb.bink.com/admin/scheme/schemeimage/${mockAsset.image.id}/change/`
       render(getAssetModalComponent())
       const djangoLink = screen.getByRole('link', {
         name: 'View in Django',

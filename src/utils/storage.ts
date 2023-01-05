@@ -6,6 +6,15 @@ const areAnyVerificationTokensStored = () => [
   getProdVerificationToken(),
 ].some(token => token !== null)
 
+const areMultipleVerificationTokensStored = () => {
+  const tokens = [
+    getDevVerificationToken(),
+    getStagingVerificationToken(),
+    getProdVerificationToken(),
+  ]
+  return tokens.filter(token => token !== null).length > 1
+}
+
 
 const getDevVerificationToken = () => localStorage.getItem(VerificationToken.DEV_VERIFICATION_TOKEN)
 const removeDevVerificationToken = () => localStorage.removeItem(VerificationToken.DEV_VERIFICATION_TOKEN)
@@ -25,6 +34,7 @@ const setCachedPlanSlug = (cachedPlanSlug: string) => localStorage.setItem('cach
 
 export {
   areAnyVerificationTokensStored,
+  areMultipleVerificationTokensStored,
   getDevVerificationToken,
   setDevVerificationToken,
   removeDevVerificationToken,

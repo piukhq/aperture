@@ -197,6 +197,15 @@ enum UserPermissions {
   CUSTOMER_WALLET_READ_WRITE_DELETE = 'customer_wallet:rwd',
 }
 
+enum PlanCategory {
+  ACCOUNT = 'account',
+  BALANCES = 'balances',
+  CARD = 'card',
+  CONTENT = 'content',
+  FEATURE_SET = 'feature_set',
+  IMAGES = 'images',
+}
+
 export {
   Url,
   ApiReflectorUrl,
@@ -223,4 +232,5 @@ export {
   CommentsOwnerTypes,
   CommentsSubjectTypes,
   UserPermissions,
+  PlanCategory,
 }

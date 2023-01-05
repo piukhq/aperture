@@ -25,6 +25,9 @@ export const useFormattedPlansList = () => {
           devImages: devPlan ? devPlan.images : [],
           stagingImages: stagingPlan ? stagingPlan.images : [],
           prodImages: prodPlan ? prodPlan.images : [],
+          devPlan: devPlan ? devPlan : null,
+          stagingPlan: stagingPlan ? stagingPlan : null,
+          prodPlan: prodPlan ? prodPlan : null,
         }
       })
 
