@@ -43,7 +43,7 @@ describe('ModalFactory', () => {
 
   describe('Test Credentials Modal', () => {
     it('should render the Credentials Modal', () => {
-      render(getModalFactoryComponent({modalRequested: ModalType.ASSET_COMPARATOR_CREDENTIALS}))
+      render(getModalFactoryComponent({modalRequested: ModalType.COMPARATOR_CREDENTIALS}))
       expect(screen.queryByTestId('credentials-modal')).toBeInTheDocument()
     })
   })

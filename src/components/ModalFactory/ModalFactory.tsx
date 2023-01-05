@@ -30,7 +30,7 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.LOGOUT: return <LogoutModal />
     case ModalType.ASSET_COMPARATOR_ASSET: return <AssetModal />
     case ModalType.MID_MANAGEMENT_BULK_COMMENT: return <BulkCommentModal />
-    case ModalType.ASSET_COMPARATOR_CREDENTIALS: return <CredentialsModal />
+    case ModalType.COMPARATOR_CREDENTIALS: return <CredentialsModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN: return <DirectoryPlanModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE: return <DirectoryPlanDeleteModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT: return <DirectoryMerchantModal />

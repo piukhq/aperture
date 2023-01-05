@@ -26,7 +26,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
   const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
-  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
+  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.COMPARATOR_CREDENTIALS)) }, [dispatch])
 
   useEffect(() => {
     setIsVerified(areAnyVerificationTokensStored)

@@ -24,7 +24,7 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
   const modalRequested: ModalType = useAppSelector(selectModal)
   const plans: SelectedPlans = useAppSelector(getSelectedPlans)
 
-  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
+  const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.COMPARATOR_CREDENTIALS)) }, [dispatch])
 
   useEffect(() => {
     setIsVerified(areMultipleVerificationTokensStored)
