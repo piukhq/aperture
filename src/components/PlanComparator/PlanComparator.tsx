@@ -15,14 +15,7 @@ const PlanComparator = ({plans}: Props) => {
   let totalKeys = 0
   let totalMatches = 0
 
-  const {dev, staging, prod} = plans
-
-  const plansArray = [] // TODO: Temp check for multiple plans
-  dev && plansArray.push(dev)
-  staging && plansArray.push(staging)
-  prod && plansArray.push(prod)
-  const validEnvironmentsArray = Object.keys(plans).filter(environment => plans[environment]?.id)
-
+  const plansArray = Object.values(plans)
   const planCategories = [
     PlanCategory.ACCOUNT,
     PlanCategory.BALANCES,
@@ -46,7 +39,7 @@ const PlanComparator = ({plans}: Props) => {
     }
 
     // The environment with the most keys for this category is the one we compare other plans against, not perfect but most likely to be the most complete
-    const categoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
+    const categoryWithMostKeysAcrossEnvs = [...categoryAcrossEnvsArray].sort((a, b) => Object.keys(b).length - Object.keys(a).length)[0]
     const indexOfCategoryWithMostKeysAcrossEnvs = categoryAcrossEnvsArray.findIndex((envCategory) => envCategory === categoryWithMostKeysAcrossEnvs)
     const mostKeysCategory = Object.keys(categoryAcrossEnvsArray[indexOfCategoryWithMostKeysAcrossEnvs])
 
@@ -117,7 +110,7 @@ const PlanComparator = ({plans}: Props) => {
   if (plansArray.length === 1) {
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
-        <p className='font-heading-7'>{plansArray[0].account.plan_name} only exists in {validEnvironmentsArray[0]} so there is nothing to compare with.</p>
+        <p className='font-heading-7'>{plansArray[0].account.plan_name} only exists in {Object.keys(plans).filter(environment => plans[environment]?.id)[0]} so there is nothing to compare with.</p>
       </div>
     )
   }
