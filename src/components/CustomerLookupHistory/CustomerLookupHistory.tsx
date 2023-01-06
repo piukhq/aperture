@@ -2,7 +2,7 @@ import React from 'react'
 import {LookupUserHistoryEntity} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 import ArrowRightSvg from 'icons/svgs/arrow-right.svg'
-import BinkBundleSvg from 'icons/svgs/bink-bundle.svg'
+import Image from 'next/image'
 import BarclaysBundleSvg from 'icons/svgs/barclays-bundle.svg'
 import {BundleID} from 'utils/enums'
 import {useAppSelector} from 'app/hooks'
@@ -19,7 +19,7 @@ const CustomerLookupHistory = ({lookupHistory, jwtCustomerLookup}: Props) => {
   const renderBundleIcon = (channel: string) => {
     switch (channel) {
       case BundleID.BINK_WALLET_BUNDLE_ID:
-        return <BinkBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
+        return <Image width={40} height={40} src='/icons/pngs/bink-bundle.png' alt='Bink channel'/>
       case BundleID.BARCLAYS_BUNDLE_ID:
       default:
         return <BarclaysBundleSvg className='h-[40px] w-[40px] rounded-[4px]' />
