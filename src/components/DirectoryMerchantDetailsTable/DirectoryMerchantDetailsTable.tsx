@@ -27,7 +27,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
   }, [dispatch])
 
   useEffect(() => { // This should trigger when the entity is deleted to reset checked rows
-    if (selectedCheckedRows.length === 0) {
+    if (selectedCheckedRows.length === 0 && tableRows.length > 0) {
       dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(false)))
       setIsAllChecked(false)
       dispatch(setSelectedDirectoryTableCheckedRefs([]))
