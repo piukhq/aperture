@@ -32,6 +32,7 @@ const DirectoryMerchantDeleteModal = () => {
     getMerchantCountsResponse,
   } = useMidManagementMerchants({
     skipGetMerchantCounts: merchantCounts !== null,
+    skipGetMerchant: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })

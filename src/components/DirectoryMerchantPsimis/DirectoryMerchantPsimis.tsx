@@ -12,6 +12,7 @@ import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
+import {timeStampToDate} from 'utils/dateFormat'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -64,7 +65,7 @@ const DirectoryMerchantPsimis = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: dateAdded,
+          displayValue: timeStampToDate(dateAdded),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getHarmoniaStatusString(txmStatus)},

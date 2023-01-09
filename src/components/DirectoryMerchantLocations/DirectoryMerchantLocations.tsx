@@ -8,6 +8,7 @@ import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHead
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {timeStampToDate} from 'utils/dateFormat'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {setLocationLabel} from 'features/directoryLocationSlice'
 import PathSvg from 'icons/svgs/path.svg'
@@ -87,7 +88,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         icon: isSubLocation ? <PathSvg /> : null,
       },
       {
-        displayValue: dateAdded,
+        displayValue: timeStampToDate(dateAdded),
         additionalStyles: textStyles,
       },
       {
