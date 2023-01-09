@@ -10,7 +10,6 @@ import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocati
 import SingleViewEditableField from '../../../SingleViewEditableField'
 import {getLocationList} from 'utils/locationStrings'
 
-
 type Props = {
   isInEditState: boolean
   setIsInEditState: (isInEditState: boolean) => void
@@ -153,7 +152,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               isDisabled={isPatchLoading || isPutLoading || isRefreshing || isGetLocationsFetching}
               handleValueChange={handleParentLocationChange}
               handleCancel={() => setSelectedParentLocationName(parentLocationTitle)}
-              handleSave={ handlePatchSave}
+              handleSave={handlePatchSave}
               successResponse={isPatchSuccess}
               errorResponse={patchError}
               warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location' : null}
@@ -200,6 +199,3 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   )
 }
 export default SingleViewSubLocationDetails
-
-// 4. unit tests
-// 5 Code review next day.

@@ -133,7 +133,6 @@ const SingleViewEditableField = ({
         ) : (
           <p className='font-modal-data'>{value || 'Unknown'}</p>
         )}
-
         {isInDeleteState ? renderDeleteState() : (
           <div className='flex gap-[10px]'>
             <Button
