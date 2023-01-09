@@ -3,6 +3,7 @@ import {
   useGetMerchantLocationSubLocationQuery,
   usePutMerchantLocationSubLocationMutation,
   usePostMerchantLocationSubLocationMutation,
+  usePatchMerchantLocationSubLocationMutation,
 } from 'services/midManagementMerchantLocations'
 
 export const useMidManagementLocationSubLocations = ({skipGetSubLocations = false, skipGetSubLocation = false, planRef = '', merchantRef = '', locationRef = '', subLocationRef = ''}) => {
@@ -34,6 +35,14 @@ export const useMidManagementLocationSubLocations = ({skipGetSubLocations = fals
     reset: resetPutMerchantLocationSubLocationResponse,
   }] = usePutMerchantLocationSubLocationMutation({fixedCacheKey: 'putMerchantLocationSubLocation'})
 
+  const [patchMerchantLocationSubLocation, {
+    isSuccess: patchMerchantLocationSubLocationIsSuccess,
+    isLoading: patchMerchantLocationSubLocationIsLoading,
+    error: patchMerchantLocationSubLocationError,
+    reset: resetPatchMerchantLocationSubLocationResponse,
+    data: patchMerchantLocationSubLocationResponse,
+  }] = usePatchMerchantLocationSubLocationMutation({fixedCacheKey: 'patchMerchantLocationSubLocation'})
+
   return {
     // GET Location Linked Sub Locations
     getMerchantLocationSubLocationsResponse,
@@ -57,5 +66,12 @@ export const useMidManagementLocationSubLocations = ({skipGetSubLocations = fals
     putMerchantLocationSubLocationIsLoading,
     putMerchantLocationSubLocationError,
     resetPutMerchantLocationSubLocationResponse,
+    // PATCH Location Linked Sub Location
+    patchMerchantLocationSubLocation,
+    patchMerchantLocationSubLocationIsSuccess,
+    patchMerchantLocationSubLocationIsLoading,
+    patchMerchantLocationSubLocationError,
+    patchMerchantLocationSubLocationResponse,
+    resetPatchMerchantLocationSubLocationResponse,
   }
 }
