@@ -14,6 +14,7 @@ import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
+import {timeStampToDate} from 'utils/dateFormat'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -69,7 +70,7 @@ const DirectoryMerchantMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: dateAdded,
+          displayValue: timeStampToDate(dateAdded),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},

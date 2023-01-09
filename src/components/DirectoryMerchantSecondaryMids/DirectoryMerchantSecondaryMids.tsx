@@ -12,6 +12,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
+import {timeStampToDate} from 'utils/dateFormat'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -67,7 +68,7 @@ const DirectoryMerchantSecondaryMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: dateAdded,
+          displayValue: timeStampToDate(dateAdded),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},
