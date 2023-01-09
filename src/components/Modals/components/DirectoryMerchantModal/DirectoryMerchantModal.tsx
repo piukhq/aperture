@@ -7,6 +7,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {RTKQueryErrorResponse} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
@@ -68,6 +69,7 @@ const DirectoryMerchantModal = () => {
       handleMerchantError(postMerchantError as RTKQueryErrorResponse || putMerchantError as RTKQueryErrorResponse)
     } else if (postMerchantResponse || putMerchantResponse) {
       postMerchantResponse ? resetPostMerchantResponse() : resetPutMerchantResponse()
+      dispatch(midManagementPlansApi.util.resetApiState()) // TODO: Plans need refreshing after adding a merchant as some details are not returned in the response
       reset()
       dispatch(requestModal(ModalType.NO_MODAL))
     }

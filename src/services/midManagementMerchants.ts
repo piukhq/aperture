@@ -49,6 +49,7 @@ export const midManagementMerchantsApi = createApi({
           icon_url: iconUrl,
         },
       }),
+      invalidatesTags: ['Merchants'],
     }),
     putMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
       query: ({name, location_label, iconUrl, planRef, merchantRef}) => ({
