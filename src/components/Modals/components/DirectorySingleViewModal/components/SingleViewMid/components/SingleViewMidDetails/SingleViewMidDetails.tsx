@@ -2,7 +2,7 @@ import {useState, useEffect, useMemo, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import SingleViewMidEditableField from './components/SingleViewMidEditableField'
+import SingleViewEditableField from '../../../SingleViewEditableField'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
@@ -247,7 +247,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         </div>
       </section>
 
-      <SingleViewMidEditableField
+      <SingleViewEditableField
         dropdownValues={locationValues}
         header='LOCATION'
         label='location'
@@ -270,7 +270,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
       />
 
       { paymentSchemeSlug === PaymentSchemeSlug.VISA && (
-        <SingleViewMidEditableField
+        <SingleViewEditableField
           header='BIN'
           label='BIN'
           actionVerb='delete'

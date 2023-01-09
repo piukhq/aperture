@@ -1,11 +1,14 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryLocationMetadata, DirectorySubLocation} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
+import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import SingleViewEditableField from '../../../SingleViewEditableField'
+import {getLocationList} from 'utils/locationStrings'
 
 type Props = {
   isInEditState: boolean
@@ -20,8 +23,44 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const router = useRouter()
   const {merchantId, planId, ref, sub_location_ref: subLocationRef} = router.query
 
+  const {
+    getMerchantLocationsResponse,
+    getMerchantLocationsIsFetching: isGetLocationsFetching,
+  } = useMidManagementLocations({
+    skipGetLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const {
+    putMerchantLocationSubLocation,
+    putMerchantLocationSubLocationIsSuccess: isPutSuccess,
+    putMerchantLocationSubLocationIsLoading: isPutLoading,
+    putMerchantLocationSubLocationError: putError,
+    resetPutMerchantLocationSubLocationResponse: resetPutResponse,
+    patchMerchantLocationSubLocation,
+    patchMerchantLocationSubLocationIsSuccess: isPatchSuccess,
+    patchMerchantLocationSubLocationIsLoading: isPatchLoading,
+    patchMerchantLocationSubLocationError: patchError,
+    patchMerchantLocationSubLocationResponse: patchResponse,
+    resetPatchMerchantLocationSubLocationResponse: resetPatchResponse,
+  } = useMidManagementLocationSubLocations({
+    skipGetSubLocations: true,
+    skipGetSubLocation: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+    locationRef: ref as string,
+  })
+
+
+  const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
+  const locationStringsList = getLocationList(locationsData, true)
+  const locationValues = useMemo(() => locationStringsList ? ['None', ...locationStringsList.map(location => location.title)] : [], [locationStringsList])
+
   const {parent_location: parentLocation, sub_location: subLocation} = location
-  const {location_ref: parentLocationRef, location_title: parentLocationTitle} = parentLocation
+  const {location_title: parentLocationTitle} = parentLocation
+
+  const [selectedParentLocationName, setSelectedParentLocationName] = useState(parentLocationTitle || '')
 
   const {
     date_added: dateAdded,
@@ -45,6 +84,24 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     }
   }, [onCancelEditState])
 
+  useEffect(() => {
+    if (isPatchSuccess) {
+      const routerSuffix = patchResponse.parent_ref ? `${patchResponse.parent_ref}&sub_location_ref=${patchResponse.location_ref}` : `${patchResponse.location_ref}`
+      resetPatchResponse()
+      router.push(`${router.basePath}/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${routerSuffix}`)
+    }
+  }, [isPatchSuccess, merchantId, patchResponse, planId, resetPatchResponse, router])
+
+  const handleParentLocationChange = useCallback((selectedLocationString: string) => {
+    setSelectedParentLocationName(selectedLocationString || null)
+  }, [])
+
+  const handlePatchSave = useCallback(() => {
+    const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
+    patchMerchantLocationSubLocation({parentRef})
+  }, [patchMerchantLocationSubLocation, selectedParentLocationName, locationsData])
+
+
   const renderReadOnlyState = () => {
     return (
       <>
@@ -63,18 +120,18 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
           </Button>
         </div>
 
-        <div className='grid grid-cols-2 gap-[32px]'>
-          <section>
+        <div className='grid grid-cols-5 auto-cols-auto gap-[32px]'>
+          <section className='col-span-2'>
             <h2 className='font-modal-heading'>DATE ADDED</h2>
             <p className='font-modal-data'>{isoToDateTime(dateAdded)}</p>
           </section>
 
-          <section>
+          <section className='col-span-3'>
             <h2 className='font-modal-heading'>PHYSICAL LOCATION</h2>
             <p className='font-modal-data'>{isPhysicalLocation ? 'Yes' : 'No'}</p>
           </section>
 
-          <section>
+          <section className='col-span-2'>
             <h2 className='font-modal-heading'>ADDRESS</h2>
             {addressLine1 && <p className='font-modal-data'>{addressLine1}</p>}
             {addressLine2 && <p className='font-modal-data'>{addressLine2}</p>}
@@ -84,43 +141,30 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
             {postcode && <p className='font-modal-data'>{postcode}</p>}
           </section>
 
-          {/* TODO: Consider replacing with refactored SingleViewMidEditableField once functionality is specified */}
-          <section>
-            <h2 className='font-modal-heading'>PARENT LOCATION</h2>
-            <div className='flex justify-between items-center'>
-              <a href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${parentLocationRef}`} className='font-modal-data text-blue'>
-                {parentLocationTitle}
-              </a>
-              <Button
-                buttonSize={ButtonSize.MEDIUM}
-                buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
-                buttonBackground={ButtonBackground.LIGHT_GREY}
-                labelColour={LabelColour.GREY}
-                labelWeight={LabelWeight.SEMIBOLD}
-                ariaLabel='Edit parent location'
-              >Edit</Button>
-            </div>
+          <section className='col-span-3'>
+            <SingleViewEditableField
+              header='PARENT LOCATION'
+              label='Parent Location'
+              actionVerb='save'
+              value={selectedParentLocationName}
+              dropdownValues={locationValues}
+              isSaving={isPatchLoading}
+              isDisabled={isPatchLoading || isPutLoading || isRefreshing || isGetLocationsFetching}
+              handleValueChange={handleParentLocationChange}
+              handleCancel={() => setSelectedParentLocationName(parentLocationTitle)}
+              handleSave={handlePatchSave}
+              successResponse={isPatchSuccess}
+              errorResponse={patchError}
+              warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location' : null}
+            />
           </section>
         </div>
       </>
     )
   }
 
-  const {
-    putMerchantLocationSubLocation,
-    putMerchantLocationSubLocationIsSuccess: isSuccess,
-    putMerchantLocationSubLocationIsLoading: isLoading,
-    putMerchantLocationSubLocationError: putError,
-    resetPutMerchantLocationSubLocationResponse: resetResponse,
-  } = useMidManagementLocationSubLocations({
-    skipGetSubLocations: true,
-    skipGetSubLocation: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
-  })
 
-  const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
+  const handlePutSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     putMerchantLocationSubLocation({
       planRef: planId as string,
       merchantRef: merchantId as string,
@@ -139,11 +183,11 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
           isExistingSubLocation={true}
           setIsInEditState={setIsInEditState}
           parentLocation={parentLocation.location_title}
-          onSaveHandler={handleSave}
+          onSaveHandler={handlePutSave}
           onCancelHandler={onCancelEditState}
-          isLoading={isLoading}
-          isSuccess={isSuccess}
-          resetResponse={resetResponse}
+          isLoading={isPutLoading}
+          isSuccess={isPutSuccess}
+          resetResponse={resetPutResponse}
           error={putError}
         />
       ) : (

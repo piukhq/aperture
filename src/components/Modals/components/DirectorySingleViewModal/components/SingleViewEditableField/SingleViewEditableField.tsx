@@ -14,18 +14,19 @@ type Props = {
   handleValueChange: (value: string) => void
   handleCancel: () => void
   handleSave: () => void
-  handleDelete: () => void
+  handleDelete?: () => void
   onEdit?: () => void
   isSaving: boolean
   successResponse: unknown
   errorResponse: unknown
   handleValidation?: (value: string) => unknown
   validationErrorMessage?: string
+  warningMessage?: string
   dropdownValues?: Array<string>
   isDisabled: boolean
 }
 
-const SingleViewMidEditableField = ({
+const SingleViewEditableField = ({
   header,
   label,
   actionVerb,
@@ -40,6 +41,7 @@ const SingleViewMidEditableField = ({
   errorResponse,
   handleValidation,
   validationErrorMessage,
+  warningMessage,
   dropdownValues,
   onEdit,
   isDisabled,
@@ -131,7 +133,6 @@ const SingleViewMidEditableField = ({
         ) : (
           <p className='font-modal-data'>{value || 'Unknown'}</p>
         )}
-
         {isInDeleteState ? renderDeleteState() : (
           <div className='flex gap-[10px]'>
             <Button
@@ -147,7 +148,7 @@ const SingleViewMidEditableField = ({
             >{value ? 'Edit' : `Add ${label}`}
             </Button>
 
-            {value && (
+            {value && handleDelete && (
               <Button
                 handleClick={() => setIsInDeleteState(true)}
                 buttonSize={ButtonSize.MEDIUM_ICON}
@@ -239,9 +240,12 @@ const SingleViewMidEditableField = ({
   }
 
   return (
-    <section className='flex mb-[34px] items-center'>
-      {isInEditState ? renderEditState() : renderReadOnlyState()}
+    <section className='items-center'>
+      <div className='flex mb-[15px]'>
+        {isInEditState ? renderEditState() : renderReadOnlyState()}
+      </div>
+      <p className='font-body-4 dark:text-grey-600'>{isInEditState && warningMessage}</p>
     </section>
   )
 }
-export default SingleViewMidEditableField
+export default SingleViewEditableField

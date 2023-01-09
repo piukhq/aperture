@@ -4,6 +4,35 @@ import SingleViewSubLocationDetails from 'components/Modals/components/Directory
 import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='DirectoryMerchantLocationForm' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewEditableField',
+  () => () => <div data-testid='SingleViewEditableField' />)
+
+
+const mockLocations = [
+  {
+    'location_ref': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+    'location_metadata': {
+      'name': 'HARVEY NICHOLS',
+      'location_id': '0018',
+      'merchant_internal_id': '1234',
+      'is_physical_location': true,
+      'address_line_1': '16 Manesty\'s Lane',
+      'town_city': 'Liverpool',
+      'postcode': 'L1 3D',
+    },
+    'location_status': 'status',
+    'date_added': 'Mar 21, 2019, 3:30pm',
+    'payment_schemes': [],
+    'sub_locations': [],
+  },
+]
+
+jest.mock('hooks/useMidManagementLocations', () => ({
+  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+    getMerchantLocationsResponse: mockLocations,
+    getMerchantLocationsIsFetching: false,
+  })),
+}))
 
 jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
   useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
@@ -11,6 +40,15 @@ jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
     putMerchantLocationSubLocationsIsSuccess: false,
     putMerchantLocationSubLocationsIsLoading: false,
     putMerchantLocationSubLocationsError: null,
+    patchMerchantLocationSubLocation: jest.fn(),
+    patchMerchantLocationSubLocationIsSuccess: false,
+    patchMerchantLocationSubLocationIsLoading: false,
+    patchMerchantLocationSubLocationError: null,
+    patchMerchantLocationSubLocationResponse: {
+      location_ref: 'mock_location_ref',
+      parent_ref: 'mock_parent_ref',
+    },
+    resetPatchMerchantLocationSubLocationResponse: jest.fn(),
   })),
 }))
 
@@ -120,15 +158,9 @@ describe('SingleViewSubLocationDetails', () => {
       expect(screen.getByText(mockPostcode)).toBeInTheDocument()
     })
 
-    it('should render the Parent Location heading and value', () => {
+    it('should render the SingleViewEditableField component', () => {
       render(getSingleViewSubLocationDetailsComponent())
-      expect(screen.getAllByRole('heading')[3]).toHaveTextContent('PARENT LOCATION')
-      expect(screen.getByText(mockParentLocationTitle)).toBeInTheDocument()
-    })
-
-    it('should render the Parent Location Edit button', () => {
-      render(getSingleViewSubLocationDetailsComponent())
-      expect(screen.getByRole('button', {name: 'Edit parent location'})).toBeInTheDocument()
+      expect(screen.getByTestId('SingleViewEditableField')).toBeInTheDocument()
     })
 
     describe('Test physical location', () => {
