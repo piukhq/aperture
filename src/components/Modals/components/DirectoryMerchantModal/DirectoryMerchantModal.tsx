@@ -26,6 +26,7 @@ const DirectoryMerchantModal = () => {
     resetPutMerchantResponse,
   } = useMidManagementMerchants({
     skipGetMerchant: true,
+    skipGetMerchantCounts: true,
     planRef: planId as string,
   })
 
