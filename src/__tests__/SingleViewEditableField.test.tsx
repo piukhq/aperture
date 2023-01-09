@@ -1,6 +1,6 @@
 import React from 'react'
 import {render, screen, fireEvent} from '@testing-library/react'
-import SingleViewMidEditableField from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField'
+import SingleViewEditableField from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewEditableField'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 
@@ -9,6 +9,7 @@ const mockLabel = 'mock_label'
 const mockActionVerb = 'mock_action_verb'
 const mockValue = 'mock_value'
 const mockValidationErrorMessage = 'mock_error_message'
+const mockWarningMessage = 'mock_warning_message'
 
 const mockProps = {
   label: mockLabel,
@@ -25,15 +26,16 @@ const mockProps = {
   errorResponse: null,
   handleValidation: jest.fn(),
   validationErrorMessage: mockValidationErrorMessage,
+  warningMessage: null,
 }
 
-const getSingleViewMidEditableField = (passedProps = {}) => (
-  <SingleViewMidEditableField {...mockProps} {...passedProps} />
+const getSingleViewEditableField = (passedProps = {}) => (
+  <SingleViewEditableField {...mockProps} {...passedProps} />
 )
 
 const setStateMock = jest.fn()
 
-describe('SingleViewMidEditableField', () => {
+describe('SingleViewEditableField', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -46,13 +48,13 @@ describe('SingleViewMidEditableField', () => {
 
   describe('Test read-only state', () => {
     it('should render the correct header and value', () => {
-      render(getSingleViewMidEditableField())
+      render(getSingleViewEditableField())
       expect(screen.getByText(mockHeader)).toBeInTheDocument()
       expect(screen.getByText(mockValue)).toBeInTheDocument()
     })
 
     it('should render the correct buttons', () => {
-      render(getSingleViewMidEditableField())
+      render(getSingleViewEditableField())
       expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
       expect(screen.getByRole('button', {name: `${mockActionVerb} ${mockLabel}`})).toBeInTheDocument()
     })
@@ -72,7 +74,7 @@ describe('SingleViewMidEditableField', () => {
 
     describe('Test input field', () => {
       it('should render the correct label and input field with the correct value', () => {
-        render(getSingleViewMidEditableField())
+        render(getSingleViewEditableField())
 
         expect(screen.getByText(mockLabel)).toBeInTheDocument()
         const input = screen.getByLabelText(mockLabel)
@@ -82,7 +84,7 @@ describe('SingleViewMidEditableField', () => {
       })
 
       it('should render the correct buttons', () => {
-        render(getSingleViewMidEditableField())
+        render(getSingleViewEditableField())
         expect(screen.getByRole('button', {name: 'Save'})).toBeInTheDocument()
         expect(screen.getByRole('button', {name: `Close ${mockLabel} edit`})).toBeInTheDocument()
       })
@@ -90,7 +92,7 @@ describe('SingleViewMidEditableField', () => {
       describe('Test save validation', () => {
         it('should fail validation when non-numeric value is entered', () => {
           const mockValidationFunc = jest.fn().mockImplementation(() => false)
-          render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
+          render(getSingleViewEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
           fireEvent.click(screen.getByRole('button', {
             name: 'Save',
@@ -101,7 +103,7 @@ describe('SingleViewMidEditableField', () => {
 
         it('should pass validation when numeric value is entered', () => {
           const mockValidationFunc = jest.fn().mockImplementation(() => true)
-          render(getSingleViewMidEditableField({...mockProps, handleValidation: mockValidationFunc}))
+          render(getSingleViewEditableField({...mockProps, handleValidation: mockValidationFunc}))
 
           fireEvent.click(screen.getByRole('button', {
             name: 'Save',
@@ -113,7 +115,7 @@ describe('SingleViewMidEditableField', () => {
 
       describe('Test saving state', () => {
         it('should render the input field with the correct value', () => {
-          render(getSingleViewMidEditableField({...mockProps, isSaving: true}))
+          render(getSingleViewEditableField({...mockProps, isSaving: true}))
 
           const input = screen.getByLabelText(mockLabel)
           expect(input).toBeInTheDocument()
@@ -122,7 +124,7 @@ describe('SingleViewMidEditableField', () => {
         })
 
         it('should render the disabled saving button with the correct label', () => {
-          render(getSingleViewMidEditableField({...mockProps, isSaving: true}))
+          render(getSingleViewEditableField({...mockProps, isSaving: true}))
           const savingButton = screen.getByRole('button', {name: 'Saving'})
 
           expect(savingButton).toBeInTheDocument()
@@ -133,8 +135,20 @@ describe('SingleViewMidEditableField', () => {
 
     describe('Test Dropdown', () => {
       it('should render the Dropdown component', () => {
-        render(getSingleViewMidEditableField({dropdownValues: []}))
+        render(getSingleViewEditableField({dropdownValues: []}))
         expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+      })
+    })
+
+    describe('Test Warning Message', () => {
+      it('should not render the warning message by default', () => {
+        render(getSingleViewEditableField())
+        expect(screen.queryByText(mockWarningMessage)).not.toBeInTheDocument()
+      })
+
+      it('should render the warning message when it is passed in', () => {
+        render(getSingleViewEditableField({warningMessage: mockWarningMessage}))
+        expect(screen.getByText(mockWarningMessage)).toBeInTheDocument()
       })
     })
   })
@@ -152,12 +166,12 @@ describe('SingleViewMidEditableField', () => {
     })
 
     it('should render the delete confirmation message', () => {
-      render(getSingleViewMidEditableField())
+      render(getSingleViewEditableField())
       expect(screen.getByText(`Are you sure you want to ${mockActionVerb} this ${mockLabel}?`)).toBeInTheDocument()
     })
 
     it('should render the correct buttons', () => {
-      render(getSingleViewMidEditableField())
+      render(getSingleViewEditableField())
       expect(screen.getByRole('button', {name: `Close ${mockLabel} ${mockActionVerb} confirmation`})).toBeInTheDocument()
       expect(screen.getByRole('button', {name: `${mockActionVerb} ${mockLabel} confirmation`})).toBeInTheDocument()
     })
