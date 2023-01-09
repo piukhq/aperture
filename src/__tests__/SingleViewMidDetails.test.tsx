@@ -5,8 +5,8 @@ import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails/components/SingleViewMidEditableField',
-  () => () => <div data-testid='SingleViewMidEditableField' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewEditableField',
+  () => () => <div data-testid='SingleViewEditableField' />)
 
 const mockVisaBin = 'mock_visa_bin'
 const mockDateAdded = 'mock_date_added'
@@ -167,9 +167,9 @@ describe('SingleViewMidDetails', () => {
   })
 
   describe('Test Location and BIN', () => {
-    it('should render the correct number of SingleViewMidEditableField components', () => {
+    it('should render the correct number of SingleViewEditableField components', () => {
       render(getSingleViewMidDetailsComponent())
-      expect(screen.queryAllByTestId('SingleViewMidEditableField')).toHaveLength(2)
+      expect(screen.queryAllByTestId('SingleViewEditableField')).toHaveLength(2)
     })
 
     it('should render the correct BIN error message', () => {
