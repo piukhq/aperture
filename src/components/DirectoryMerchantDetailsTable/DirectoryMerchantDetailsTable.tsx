@@ -57,6 +57,10 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
     })
   )
 
+  if (tableRows.length === 0) {
+    return null
+  }
+
   return (
     <table className='w-full min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
       <thead className='h-[38px] text-left bg-grey-200'>
