@@ -1,11 +1,9 @@
 import {useCallback, useEffect} from 'react'
 import type {NextPage} from 'next'
-import {Button, DirectoryTile, PageLayout, TextInputGroup} from 'components'
+import {Button, DirectoryTile, PageLayout} from 'components'
 import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
-import SearchSvg from 'icons/svgs/search.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {DirectoryPlan, OptionsMenuItems} from 'types'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useAppDispatch} from 'app/hooks'
@@ -129,19 +127,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
       <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
       <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
 
-      <div className='flex justify-between'>
-        <TextInputGroup
-          name='placeholder'
-          label='Search'
-          placeholder='Search'
-          value=''
-          onChange={() => null}
-          inputType={InputType.SEARCH}
-          inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
-          inputWidth={InputWidth.SMALL}
-          inputColour={InputColour.GREY}
-          svgIcon={<SearchSvg/>}
-        />
+      <div className='flex justify-end'>
         <Button
           handleClick={handleRequestNewPlanModal}
           buttonSize={ButtonSize.MEDIUM_ICON}
