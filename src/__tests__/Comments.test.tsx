@@ -105,5 +105,18 @@ describe('Comments', () => {
       render(getCommentsComponent())
       expect(screen.getByTestId('autosize-text-area')).toBeInTheDocument()
     })
+
+    it('should show the correct message when there are no comments', () => {
+      const comments = {
+        entity_comments: {
+          subject_type: CommentsSubjectTypes.PLAN,
+          comments: [],
+        },
+        lower_comments: [],
+      }
+
+      render(getCommentsComponent({comments}))
+      expect(screen.getByText('No comments to view')).toBeInTheDocument()
+    })
   })
 })

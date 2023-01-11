@@ -98,8 +98,8 @@ const DirectoryCommentsModal = () => {
           handleCommentReplySubmit={handleCommentReplySubmit}
         />
       )}
-      {commentsLoading && <p className='font-body-4'>Comments loading ...</p>}
-      {commentsError && <p className='font-body-4'>Error retrieving comments, try again later</p>}
+      {commentsLoading && <i className='font-body-4 ml-8'>Comments loading ...</i>}
+      {commentsError && <i className='font-body-4'>Error retrieving comments, try again later</i>}
     </Modal>
   )
 }

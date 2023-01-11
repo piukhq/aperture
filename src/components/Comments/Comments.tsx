@@ -110,14 +110,14 @@ const Comments = ({
   }
 
   return (
-    <div className='mb-[10px] w-[650px]'>
+    <div className='mb-[10px] w-[620px]'>
       {/* Adding a max-height allows us to fix the AutosizeTextArea and border at the bottom of the modal */}
-      <section ref={commentsContainerRef} className={`ml-[32px] mr-[5px] overflow-auto scrollbar-hidden ${isSingleView ? 'max-h-[42vh]' : 'max-h-[65vh]'}`}>
-        {entityComments && entityComments?.comments.length > 0 && renderCommentSection(entityComments)}
+      <section ref={commentsContainerRef} className={`ml-[32px] mr-[5px] pt-[30px] overflow-auto scrollbar-hidden min-h-[6vh] ${isSingleView ? 'max-h-[42vh]' : 'max-h-[65vh]'}`}>
+        {entityComments && entityComments?.comments.length > 0 ? renderCommentSection(entityComments) : <i className='font-body-4'>No comments to view</i>}
         {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
       </section>
 
-      <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[15px]'>
+      <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[10px]'>
         <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} shouldClearText={newCommentIsSuccess && !newCommentIsLoading} />
       </section>
     </div>
