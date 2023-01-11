@@ -10,7 +10,6 @@ jest.mock('@auth0/nextjs-auth0', () => ({
   withPageAuthRequired: (component) => component,
 }))
 
-jest.mock('components/TextInputGroup', () => () => <div data-testid='search-bar' />)
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
 jest.mock('components/Modals/components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 
@@ -80,9 +79,8 @@ describe('MID Management DirectoryPage', () => {
       expect(getByText('Create, view and manage MIDs for the plans configured on the platform')).toBeInTheDocument()
     })
 
-    it('should render the search bar and new Plan button', () => {
-      const {queryByTestId, getByRole} = render(getDirectoryPageComponent())
-      expect(queryByTestId('search-bar')).toBeInTheDocument()
+    it('should render the new Plan button', () => {
+      const {getByRole} = render(getDirectoryPageComponent())
       expect(getByRole('button', {name: /New Plan/i})).toBeInTheDocument()
     })
   })
