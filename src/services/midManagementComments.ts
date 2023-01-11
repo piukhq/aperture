@@ -34,20 +34,7 @@ export const midManagementCommentsApi = createApi({
           subjects,
         },
       }),
-      async onQueryStarted ({commentsRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: newComment} = await queryFulfilled
-          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
-            const newCommentsObject = Object.assign(existingComments)
-            // Set the new comment as the first item in the array
-            newCommentsObject.entity_comments.comments.unshift(newComment)
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['Comments'], // Optimistic updates does seem to work for the varying scenarios of comments (e.g. replying to a new one just created)
     }),
     deleteComment: builder.mutation<DirectoryComments, {commentRef: string, commentsRef: string}>({
       query: ({commentRef}) => ({
