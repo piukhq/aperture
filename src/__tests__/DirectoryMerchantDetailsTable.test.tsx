@@ -55,13 +55,14 @@ const mockTableRows = [[
   },
 ]]
 
-const getDirectoryMerchantDetailsTable = () => (
+const getDirectoryMerchantDetailsTable = (passedProps = {}) => (
   <Provider store={store}>
     <DirectoryMerchantDetailsTable
       tableHeaders={mockTableHeaders}
       tableRows={mockTableRows}
       singleViewRequestHandler={jest.fn()}
       refArray={[]}
+      {...passedProps}
     />
   </Provider>
 )
@@ -79,5 +80,11 @@ describe('Test DirectoryMerchantDetailsTable', () => {
   it('should render the correct number of DirectoryMerchantDetailsTableRow components', () => {
     render(getDirectoryMerchantDetailsTable())
     expect(screen.getAllByTestId('table-row')).toHaveLength(2)
+  })
+
+  it('should not render the table headers if there are no table rows', () => {
+    render(getDirectoryMerchantDetailsTable({tableRows: []}))
+    expect(screen.queryByTestId('table-header')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('table-row')).not.toBeInTheDocument()
   })
 })

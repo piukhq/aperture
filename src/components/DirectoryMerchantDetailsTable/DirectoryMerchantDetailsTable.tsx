@@ -51,15 +51,19 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
     tableHeaders.map((header, index) => {
       const {additionalStyles, isPaymentIcon, displayValue} = header
       if (isPaymentIcon) {
-        return <th key={index} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px]' />
+        return <th key={index} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px] h-[38px]' />
       }
       return <th key={index} data-testid='table-header' className={`px-[9px] font-table-header ${additionalStyles}`}>{displayValue}</th>
     })
   )
 
+  if (tableRows.length === 0) {
+    return null
+  }
+
   return (
     <table className='w-full min-w-[200px] rounded-[10px] bg-white dark:bg-grey-825 table-fixed'>
-      <thead className='h-[38px] text-left bg-grey-200'>
+      <thead className='text-left bg-grey-200'>
         <tr>
           <th data-testid='table-header' aria-label='group-checkbox' className='px-[9px] w-[40px] rounded-l-[10px]'>
             <div className='flex items-center justify-center'>
