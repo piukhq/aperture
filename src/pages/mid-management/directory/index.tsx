@@ -81,11 +81,16 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         merchants === 1 ? router.push(`${planUrl}/3fa85f64-5717-4562-b3fc-2c963f66afa5?tab=mids`) : router.push(`${planUrl}`) // TODO: Get correct merchant ID from API available
       }
 
+      const handleAddMerchantClick = () => {
+        setSelectedPlan()
+        dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
+      }
+
       const optionsMenuItems:OptionsMenuItems = [
         {
           label: 'Add Merchant',
           icon: <AddSvg/>,
-          clickHandler: () => console.log('Clicked'),
+          clickHandler: () => handleAddMerchantClick(),
         },
         {
           label: 'Edit Plan',

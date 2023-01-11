@@ -4,7 +4,8 @@ import {useRouter} from 'next/router'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
+import {reset as merchantSliceReset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
+import {reset as planSliceReset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {midManagementPlansApi} from 'services/midManagementPlans'
@@ -15,6 +16,7 @@ import {ModalStyle, ModalType} from 'utils/enums'
 const DirectoryMerchantModal = () => {
   const router = useRouter()
   const {planId} = router.query
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan) // Used for when coming from Plans page
 
   const {
     postMerchant,
@@ -53,7 +55,7 @@ const DirectoryMerchantModal = () => {
       const {detail} = data
       // TODO: Handle error responses other that 409 (duplicate) and everything else
       detail.forEach(err => {
-        const {loc, msg} = err
+        const {loc = [], msg} = err
         const location = loc[1]
         if (location === 'name') {
           setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
@@ -64,13 +66,18 @@ const DirectoryMerchantModal = () => {
     }
   }, [])
 
+  const resetSelectors = useCallback(() => {
+    dispatch(merchantSliceReset())
+    dispatch(planSliceReset())
+  }, [dispatch])
+
   useEffect(() => {
     if (postMerchantError || putMerchantError) {
       handleMerchantError(postMerchantError as RTKQueryErrorResponse || putMerchantError as RTKQueryErrorResponse)
     } else if (postMerchantResponse || putMerchantResponse) {
       postMerchantResponse ? resetPostMerchantResponse() : resetPutMerchantResponse()
       dispatch(midManagementPlansApi.util.resetApiState()) // TODO: Plans need refreshing after adding a merchant as some details are not returned in the response
-      reset()
+      resetSelectors()
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
@@ -81,6 +88,7 @@ const DirectoryMerchantModal = () => {
     putMerchantResponse,
     resetPostMerchantResponse,
     resetPutMerchantResponse,
+    resetSelectors,
     dispatch,
   ])
 
@@ -115,7 +123,8 @@ const DirectoryMerchantModal = () => {
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
         if (isNewMerchant) {
-          postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string})
+          const planRef = planId as string || selectedPlan.plan_ref
+          postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef})
         } else {
           putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string, merchantRef})
         }
@@ -171,7 +180,7 @@ const DirectoryMerchantModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`${isNewMerchant ? 'New' : 'Edit'} Merchant`} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`${isNewMerchant ? 'New' : 'Edit'} Merchant`} onCloseFn={() => resetSelectors()}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMerchant}>
         <div className='w-full flex items-center justify-center my-[4px]'>
           <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>
