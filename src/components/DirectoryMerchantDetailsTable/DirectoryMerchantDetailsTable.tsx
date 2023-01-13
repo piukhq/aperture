@@ -53,7 +53,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
       if (isPaymentIcon) {
         return <th key={index} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px] h-[38px]' />
       }
-      return <th key={index} data-testid='table-header' className={`px-[9px] font-table-header ${additionalStyles}`}>{displayValue}</th>
+      return <th key={index} data-testid='table-header' className={`px-[9px] h-[38px] font-table-header ${additionalStyles}`}>{displayValue}</th>
     })
   )
 
