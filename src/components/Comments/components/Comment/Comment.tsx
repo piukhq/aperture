@@ -4,7 +4,7 @@ import {ButtonWidth, ButtonSize} from 'components/Button/styles'
 import {DirectoryComment, DirectoryCommentSubject, OptionsMenuItems} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import ForwardSvg from 'icons/svgs/forward.svg'
-import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeSlug} from 'utils/enums'
+import {CommentsSubjectTypes, DirectoryNavigationTab, PaymentSchemeSlug, UserPermissions} from 'utils/enums'
 import EditSvg from 'icons/svgs/project.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import ReplyComment from '../ReplyComment'
@@ -55,12 +55,14 @@ const Comment = ({
     {
       label: 'Edit',
       icon: <EditSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => setIsInEditState(true),
     },
     {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
       clickHandler: () => handleCommentDelete(commentRef),
     },
   ]

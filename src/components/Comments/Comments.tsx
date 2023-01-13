@@ -3,7 +3,8 @@ import {useRouter} from 'next/router'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
-import {CommentsSubjectTypes} from 'utils/enums'
+import {CommentsSubjectTypes, UserPermissions} from 'utils/enums'
+import usePermissions from 'hooks/usePermissions'
 
 type Props = {
   comments: DirectoryComments
@@ -43,6 +44,7 @@ const Comments = ({
   const router = useRouter()
   const currentRoute = router.asPath
   const {planId} = router.query
+  const {hasRequiredPermission} = usePermissions()
 
   const commentsContainerRef = useRef(null)
 
@@ -117,9 +119,11 @@ const Comments = ({
         {lowerComments && lowerComments.length > 0 && lowerComments.map((highLevelComment, index) => renderCommentSection(highLevelComment, index))}
       </section>
 
-      <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[10px]'>
-        <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} shouldClearText={newCommentIsSuccess && !newCommentIsLoading} />
-      </section>
+      {hasRequiredPermission(UserPermissions.MERCHANT_DATA_READ_WRITE) && (
+        <section className='border-t-[1px] border-grey-200 dark:border-grey-800 pt-[22px] px-[10px]'>
+          <AutosizeTextArea accessibilityLabel='Add comment' placeholder='Add a comment' submitHandler={handleCommentSubmit} shouldClearText={newCommentIsSuccess && !newCommentIsLoading} />
+        </section>
+      )}
     </div>
   )
 }
