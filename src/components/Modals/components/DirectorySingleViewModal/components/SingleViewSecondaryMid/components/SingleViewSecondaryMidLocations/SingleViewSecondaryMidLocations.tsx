@@ -5,7 +5,7 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
 import {useMidManagementSecondaryMidLocations} from 'hooks/useMidManagementSecondaryMidLocations'
 import {DirectoryMerchantMidLocation} from 'types'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, UserPermissions} from 'utils/enums'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 
 const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
@@ -57,6 +57,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         additionalStyles='text-[.75rem] leading-3'
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >Link New Location
       </Button>
 

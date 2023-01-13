@@ -5,7 +5,7 @@ import {DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, UserPermissions} from 'utils/enums'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 
 type Props = {
@@ -111,6 +111,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         additionalStyles='text-[.75rem] leading-3'
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >New Sub-location
       </Button>
     </div>

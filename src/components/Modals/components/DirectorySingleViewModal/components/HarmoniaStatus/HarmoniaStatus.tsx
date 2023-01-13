@@ -1,7 +1,7 @@
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useEffect, useState} from 'react'
-import {DirectoryTxmStatusDisplayValue} from 'utils/enums'
+import {DirectoryTxmStatusDisplayValue, UserPermissions} from 'utils/enums'
 
 type Props = {
   txmStatus: string
@@ -54,6 +54,7 @@ const HarmoniaStatus = ({
         labelColour={LabelColour.GREY}
         labelWeight={LabelWeight.SEMIBOLD}
         isDisabled={isDisabled || isLoading}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >{isLoading ? 'Loading' : harmoniaStatusButtonAction}
       </Button>
     </section>

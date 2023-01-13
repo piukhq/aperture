@@ -4,6 +4,7 @@ import {ButtonType, ButtonWidth, ButtonSize, BorderColour, ButtonBackground, Lab
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CloseIcon from 'icons/svgs/close.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
+import {UserPermissions} from 'utils/enums'
 
 type Props = {
   header: string
@@ -145,6 +146,7 @@ const SingleViewEditableField = ({
               handleClick={onEditHandler}
               ariaLabel={value ? 'Edit' : `Add ${label}`}
               isDisabled={isDisabled}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
             >{value ? 'Edit' : `Add ${label}`}
             </Button>
 
@@ -157,6 +159,7 @@ const SingleViewEditableField = ({
                 labelColour={LabelColour.RED}
                 ariaLabel={`${actionVerb} ${label}`}
                 isDisabled={isDisabled}
+                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               >
                 {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red' />}
               </Button>

@@ -6,7 +6,7 @@ import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
 import {DirectoryMerchantLocationAvailableMid, DirectoryMerchantLocationMid} from 'types'
 import CloseIcon from 'icons/svgs/close.svg'
 import LinkedListItem from '../../../LinkedListItem'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, UserPermissions} from 'utils/enums'
 
 // TODO: Potentially refactor to share more elements with SingleViewLocationSecondaryMids component once all functionality is settled between the two components
 const SingleViewLocationMids = () => {
@@ -114,6 +114,7 @@ const SingleViewLocationMids = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
         additionalStyles='text-[.75rem] leading-3'
       >Link New MID
       </Button>

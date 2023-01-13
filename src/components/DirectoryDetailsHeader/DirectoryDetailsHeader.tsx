@@ -3,6 +3,7 @@ import {Button, DirectoryBreadcrumb, OptionsMenuButton} from 'components'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {OptionsMenuItems} from 'types'
+import {UserPermissions} from 'utils/enums'
 
 type Props = {
   planId: number,
@@ -35,6 +36,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
       buttonBackground={ButtonBackground.BLUE}
       labelColour={LabelColour.WHITE}
       labelWeight={LabelWeight.MEDIUM}
+      requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
     ><PlusSvg/>New Merchant
     </Button>
   )

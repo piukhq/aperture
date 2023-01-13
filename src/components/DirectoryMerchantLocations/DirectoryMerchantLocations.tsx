@@ -7,7 +7,7 @@ import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedS
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {timeStampToDate} from 'utils/dateFormat'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {setLocationLabel} from 'features/directoryLocationSlice'
@@ -200,6 +200,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
                 buttonWidth={ButtonWidth.AUTO}
                 labelColour={LabelColour.GREY}
                 borderColour={BorderColour.GREY}
+                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               >Comments
               </Button>
               <Button
@@ -209,6 +210,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
                 labelColour={LabelColour.RED}
                 labelWeight={LabelWeight.SEMIBOLD}
                 borderColour={BorderColour.RED}
+                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
               >Delete
               </Button>
             </div>
@@ -225,6 +227,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
+          requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
         >{`Add ${locationLabel}`}
         </Button>
       </div>

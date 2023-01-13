@@ -14,7 +14,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryMerchant, setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
-import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes} from 'utils/enums'
+import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes, UserPermissions} from 'utils/enums'
 import {useEffect} from 'react'
 import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
@@ -134,6 +134,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Edit',
       icon: <EditSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => requestEditMerchantModal(),
     },
     {
@@ -144,12 +145,14 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Upload File',
       icon: <TableSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
       clickHandler: () => requestMerchantDeleteModal(),
     },
   ]

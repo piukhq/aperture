@@ -1,7 +1,7 @@
 import {Button, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import CloseIcon from 'icons/svgs/close.svg'
-import {LinkableEntities, PaymentSchemeSlug} from 'utils/enums'
+import {LinkableEntities, PaymentSchemeSlug, UserPermissions} from 'utils/enums'
 
 type Props = {
   index: number,
@@ -47,6 +47,7 @@ const LinkedListItem = ({
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         borderColour={BorderColour.RED}
         ariaLabel={`Unlink ${refValue}`}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       ><CloseIcon className='w-[14px] h-[14px] fill-red' />
       </Button>
     </div>

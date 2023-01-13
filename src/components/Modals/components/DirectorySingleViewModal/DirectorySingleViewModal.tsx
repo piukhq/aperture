@@ -4,7 +4,7 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
-import {DirectoryNavigationTab, DirectorySingleViewEntities} from 'utils/enums'
+import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
@@ -268,6 +268,7 @@ const DirectorySingleViewModal = () => {
                 labelColour={LabelColour.GREY}
                 labelWeight={LabelWeight.SEMIBOLD}
                 isDisabled={shouldDisableEditButton}
+                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               >Edit
               </Button>
             )}
@@ -280,6 +281,7 @@ const DirectorySingleViewModal = () => {
               labelColour={LabelColour.WHITE}
               labelWeight={LabelWeight.SEMIBOLD}
               isDisabled={isDeleting}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
             >{isDeleting ? 'Deleting' : 'Delete'}
             </Button>
           </div>

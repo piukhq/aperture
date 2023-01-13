@@ -9,10 +9,11 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import usePermissions from 'hooks/usePermissions'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -36,6 +37,7 @@ const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const {hasRequiredPermission} = usePermissions()
   const {merchantId, planId} = router.query
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
@@ -116,6 +118,7 @@ const DirectoryMerchantPsimis = () => {
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >Onboard to Harmonia
       </Button>
       <Button
@@ -124,6 +127,7 @@ const DirectoryMerchantPsimis = () => {
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >Offboard from Harmonia
       </Button>
       <Button
@@ -132,6 +136,7 @@ const DirectoryMerchantPsimis = () => {
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
       >Comments
       </Button>
       <Button
@@ -141,6 +146,7 @@ const DirectoryMerchantPsimis = () => {
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
       >Delete
       </Button>
     </div>
@@ -151,23 +157,27 @@ const DirectoryMerchantPsimis = () => {
       <div className='flex items-center justify-between'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
-          <button
-            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-            onClick={() => requestPsimiAddModal(PaymentSchemeName.VISA)}
-            aria-label='Add Visa PSIMI'
-          >
-            <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
-            <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
-          </button>
+          { hasRequiredPermission(UserPermissions.MERCHANT_DATA_READ_WRITE) && (
+            <>
+              <button
+                className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
+                onClick={() => requestPsimiAddModal(PaymentSchemeName.VISA)}
+                aria-label='Add Visa PSIMI'
+              >
+                <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
+                <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
+              </button>
 
-          <button
-            className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-            onClick={() => requestPsimiAddModal(PaymentSchemeName.MASTERCARD)}
-            aria-label='Add Mastercard PSIMI'
-          >
-            <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
-            <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
-          </button>
+              <button
+                className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
+                onClick={() => requestPsimiAddModal(PaymentSchemeName.MASTERCARD)}
+                aria-label='Add Mastercard PSIMI'
+              >
+                <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
+                <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
+              </button>
+            </>
+          )}
         </div>
       </div>
 

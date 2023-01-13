@@ -11,7 +11,7 @@ import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwner
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
 import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
-import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 
 import AddSvg from 'icons/svgs/plus-filled.svg'
 import EditSvg from 'icons/svgs/project.svg'
@@ -88,16 +88,19 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         {
           label: 'Add Merchant',
           icon: <AddSvg/>,
+          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => handleAddMerchantClick(),
         },
         {
           label: 'Edit Plan',
           icon: <EditSvg/>,
+          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN),
         },
         {
           label: 'Offboard from Harmonia',
           icon: <OffboardSvg/>,
+          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => console.log('Clicked'),
         },
         {
@@ -108,12 +111,14 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         {
           label: 'Upload File',
           icon: <TableSvg/>,
+          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
         },
         {
           label: 'Delete Plan',
           icon: <DeleteSvg/>,
           isRed: true,
+          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
         },
       ]
@@ -126,7 +131,6 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
     <PageLayout>
       <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
       <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
-
       <div className='flex justify-end'>
         <Button
           handleClick={handleRequestNewPlanModal}
@@ -135,6 +139,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           buttonBackground={ButtonBackground.BLUE}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.MEDIUM}
+          requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
         ><PlusSvg/>New Plan
         </Button>
       </div>
