@@ -4,7 +4,7 @@ import {useRouter} from 'next/router'
 import {useAppDispatch} from 'app/hooks'
 import {PageLayout, DirectoryTile, DirectoryDetailsHeader} from 'components'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType} from 'utils/enums'
+import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchant} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
@@ -85,11 +85,13 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Edit',
       icon: <EditSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => requestEditPlanModal(),
     },
     {
       label: 'Offboard from Harmonia',
       icon: <OffboardSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
     },
     {
@@ -100,12 +102,14 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     {
       label: 'Upload File',
       icon: <TableSvg/>,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
       icon: <DeleteSvg/>,
       isRed: true,
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
       clickHandler: () => requestDeletePlanModal(),
     },
   ], [requestEditPlanModal, requestPlanCommentsModal, dispatch, requestDeletePlanModal])
@@ -146,6 +150,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             {
               label: 'Edit',
               icon: <EditSvg/>,
+              requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
             },
             {
@@ -156,12 +161,14 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             {
               label: 'Upload File',
               icon: <TableSvg/>,
+              requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
               clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
             },
             {
               label: 'Delete',
               icon: <DeleteSvg/>,
               isRed: true,
+              requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE),
             },
           ]
