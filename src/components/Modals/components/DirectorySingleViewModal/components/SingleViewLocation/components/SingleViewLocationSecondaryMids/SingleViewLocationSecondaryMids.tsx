@@ -7,7 +7,7 @@ import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'type
 import LinkedListItem from '../../../LinkedListItem'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import CloseIcon from 'icons/svgs/close.svg'
-import {LinkableEntities} from 'utils/enums'
+import {LinkableEntities, UserPermissions} from 'utils/enums'
 
 const SingleViewLocationSecondaryMids = () => {
   const router = useRouter()
@@ -107,6 +107,7 @@ const SingleViewLocationSecondaryMids = () => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
         additionalStyles='text-[.75rem] leading-3'
       >Link New Secondary MID
       </Button>

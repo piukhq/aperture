@@ -7,7 +7,7 @@ import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {PaymentSchemeSlug, PaymentSchemeStatusDisplayValue} from 'utils/enums'
+import {PaymentSchemeSlug, PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -242,6 +242,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
               onChangeDisplayValue={handlePaymentStatusChange}
               isDisabled={isRefreshing}
               selectedValueStyles='font-normal text-grey-600'
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
             />
           </div>
         </div>

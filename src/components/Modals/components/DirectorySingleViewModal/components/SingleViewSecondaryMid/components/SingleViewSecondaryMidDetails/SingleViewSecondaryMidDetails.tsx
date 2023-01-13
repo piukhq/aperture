@@ -9,7 +9,7 @@ import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
-import {PaymentSchemeStatusDisplayValue} from 'utils/enums'
+import {PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
 
 type Props = {
   secondaryMid: DirectorySecondaryMid
@@ -132,7 +132,9 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
               displayValues={paymentSchemeStatusValues}
               onChangeDisplayValue={handlePaymentStatusChange}
               isDisabled={isRefreshing}
-              selectedValueStyles='font-normal text-grey-600' />
+              selectedValueStyles='font-normal text-grey-600'
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            />
           </div>
         </div>
       </section>
