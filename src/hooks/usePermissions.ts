@@ -1,5 +1,6 @@
 import {useUser} from '@auth0/nextjs-auth0'
 import {useMemo} from 'react'
+import {UserPermissions} from 'utils/enums'
 
  type Auth0User = {
   name: string
@@ -9,37 +10,28 @@ import {useMemo} from 'react'
   updated_at: string
 }
 
-enum Permissions {
-  CustomerWalletReadOnly='customer_wallet:ro',
-  CustomerWalletReadWrite='customer_wallet:rw',
-  CustomerWalletReadWriteDelete='customer_wallet:rwd',
-  DirectoryReadOnly='merchant_data:ro',
-  DirectoryReadWrite='merchant_data:rw',
-  DirectoryReadWriteDelete='merchant_data:rwd',
-}
-
-
 const usePermissions = () => {
-
   const {user} = useUser()
-  const {permissions} = user as Auth0User
+  const {permissions} = user as Auth0User || {permissions: []}
 
-  const directory = useMemo(() => ({
-    isReader: permissions.includes(Permissions.DirectoryReadOnly),
-    isWriter: permissions.includes(Permissions.DirectoryReadWrite),
-    isAdmin: permissions.includes(Permissions.DirectoryReadWriteDelete),
+  const midManagement = useMemo(() => ({
+    isReader: permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY),
+    isWriter: permissions.includes(UserPermissions.MERCHANT_DATA_READ_WRITE),
+    isAdmin: permissions.includes(UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE),
   }), [permissions])
 
   const customerWallet = useMemo(() => ({
-    isReader: permissions.includes(Permissions.CustomerWalletReadOnly),
-    isWriter: permissions.includes(Permissions.CustomerWalletReadWrite),
-    isAdmin: permissions.includes(Permissions.CustomerWalletReadWriteDelete),
+    isReader: permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_ONLY),
+    isWriter: permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_WRITE),
+    isAdmin: permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_WRITE_DELETE),
   }), [permissions])
 
+  const hasRequiredPermission = (requiredPermission: UserPermissions) => permissions.includes(requiredPermission)
 
   return {
-    directory,
+    midManagement,
     customerWallet,
+    hasRequiredPermission,
   }
 }
 

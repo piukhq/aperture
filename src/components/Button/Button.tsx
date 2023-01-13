@@ -1,5 +1,8 @@
 import React, {ReactNode} from 'react'
 import {classNames} from 'utils/classNames'
+import usePermissions from 'hooks/usePermissions'
+import {UserPermissions} from 'utils/enums'
+
 import {
   ButtonType,
   ButtonSize,
@@ -30,6 +33,7 @@ export interface ButtonProps {
   autoFocus?:boolean
   additionalStyles?: string,
   isDisabled?: boolean,
+  requiredPermission?: UserPermissions,
 }
 
 const Button = (props: ButtonProps) => {
@@ -45,9 +49,15 @@ const Button = (props: ButtonProps) => {
     ariaLabel,
     children,
     autoFocus,
+    requiredPermission,
     additionalStyles = '',
     isDisabled = false,
   } = props
+
+  const {hasRequiredPermission} = usePermissions()
+  if (requiredPermission && !hasRequiredPermission(requiredPermission)) {
+    return null
+  }
 
   return (
     <button
