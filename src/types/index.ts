@@ -302,6 +302,7 @@ export type OptionsMenuItem = {
   label: string,
   icon: ReactNode,
   isRed?: boolean,
+  requiredPermission?: UserPermissions,
   clickHandler: VoidFunction
 }
 
