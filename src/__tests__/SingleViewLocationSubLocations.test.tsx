@@ -3,7 +3,6 @@ import {render, screen} from '@testing-library/react'
 import SingleViewLocationSubLocations from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSubLocations'
 import {PaymentSchemeSlug} from 'utils/enums'
 
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='linked-list-item' />)
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='directory-merchant-location-form' />)
 
 const mockName = 'mock_name'
@@ -82,10 +81,12 @@ describe('SingleViewLocationSubLocations', () => {
     expect(screen.getByRole('heading')).toHaveTextContent('SUB-LOCATIONS')
   })
 
-  it('should render the LinkedListItem', () => {
+  it('should render the sub-location list anchor tag with the correct href', () => {
     render(getSingleViewSubLocationsComponent())
-    const locationListItems = screen.queryAllByTestId('linked-list-item')
-    expect(locationListItems).toHaveLength(1)
+    const subLocationListItem = screen.getByRole('link')
+    expect(subLocationListItem).toHaveTextContent(`${mockName}, ${mockAddressLine1}, ${mockPostcode}`)
+
+    expect(subLocationListItem).toHaveAttribute('href', '/mid-management/directory/mock_plan_id/mock_merchant_id?tab=locations&ref=mock_secondary_mid_ref&sub_location_ref=mock_location_ref')
   })
 
   it('should render the no linked Locations available message', () => {

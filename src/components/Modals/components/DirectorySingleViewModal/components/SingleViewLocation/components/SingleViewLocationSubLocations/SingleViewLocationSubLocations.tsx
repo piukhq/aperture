@@ -1,11 +1,11 @@
-import {useEffect, useState, useCallback} from 'react'
+import {useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
+import Link from 'next/link'
 import {Button} from 'components'
 import {DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
-import LinkedListItem from '../../../LinkedListItem'
-import {LinkableEntities, UserPermissions} from 'utils/enums'
+import {UserPermissions} from 'utils/enums'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 
 type Props = {
@@ -18,9 +18,6 @@ type Props = {
 const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditState, onCancelEditState}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-
-  const [selectedUnlinkSubLocationIndex, setSelectedUnlinkSubLocationIndex] = useState(null) // The index of the sub-location that is selected to be unlinked
-  const [availableSubLocationNotification, setAvailableSubLocationNotification] = useState('')
 
   const {
     getMerchantLocationSubLocationsResponse,
@@ -70,7 +67,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     />
   )
 
-  const renderSubLocation = (subLocation: DirectoryLocation, index: number) => {
+  const renderSubLocation = (subLocation: DirectoryLocation) => {
     const {
       location_metadata: subLocationMetadata,
       location_ref: subLocationRef,
@@ -83,20 +80,14 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     } = subLocationMetadata
 
     return (
-      <LinkedListItem
-        key={subLocationRef}
-        index={index}
-        value={`${name}, ${addressLine1}, ${postcode}`}
-        link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${ref}&sub_location_ref=${subLocationRef}`}
-        refValue={subLocationRef}
-        setSelectedUnlinkIndexFn={setSelectedUnlinkSubLocationIndex}
-        isInUnlinkingConfirmationState={selectedUnlinkSubLocationIndex === index}
-        unlinkFn={() => console.log('Unlink actions occurred')}
-        isUnlinking={false}
-        setShouldRenderNewLinkDropdownMenuFn={() => false}
-        setNewLinkNotificationFn={setAvailableSubLocationNotification}
-        entityType={LinkableEntities.LOCATION}
-      />
+      <li className='flex items-center overflow-x-hidden font-modal-data text-blue w-[500px] truncate' key={subLocationRef}>
+        <Link
+          href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${ref}&sub_location_ref=${subLocationRef}`}
+          passHref
+        >
+          {`${name}, ${addressLine1}, ${postcode}`}
+        </Link>
+      </li>
     )
   }
 
@@ -121,7 +112,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     <section>
       <h2 className='font-modal-heading'>SUB-LOCATIONS</h2>
       <div className='flex flex-col gap-[14px]'>
-        {getMerchantLocationSubLocationsResponse.map((subLocation, index) => renderSubLocation(subLocation, index))}
+        {getMerchantLocationSubLocationsResponse.map((subLocation) => renderSubLocation(subLocation))}
       </div>
     </section>
   )
@@ -139,9 +130,6 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
       )}
       <section className='h-[40px]'>
         {renderLinkNewSubLocationButton()}
-      </section>
-      <section className='font-body-4 text-red h-[40px]'>
-        <p>{availableSubLocationNotification}</p>
       </section>
       {!hasNoLinkedSubLocations && renderLinkedSubLocations()}
       {isInEditState && renderNewSubLocationForm()}
