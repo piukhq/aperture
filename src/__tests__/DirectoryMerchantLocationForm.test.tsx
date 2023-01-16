@@ -64,6 +64,7 @@ const mockCancelHandler = jest.fn()
 
 const mockProps = {
   location: mockLocation,
+  isExistingLocation: false,
   isExistingSubLocation: false,
   isNewLocationSubLocation: false,
   setIsInEditState: jest.fn(),
@@ -136,6 +137,13 @@ describe('DirectoryMerchantLocationForm', () => {
       expect(screen.getByText(
         'This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location'
       )).toBeInTheDocument()
+    })
+
+    it('should not render the Parent Location section for an existing location', () => {
+      render(getDirectoryMerchantModalComponent({isExistingLocation: true}))
+      expect(screen.queryAllByRole('heading')[0]).not.toHaveTextContent('PARENT LOCATION')
+      expect(screen.queryByTestId('parent-location-section')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('parent-location-dropdown')).not.toBeInTheDocument()
     })
   })
 

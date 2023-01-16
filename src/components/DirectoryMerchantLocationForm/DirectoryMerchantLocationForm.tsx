@@ -12,6 +12,7 @@ import {SerializedError} from '@reduxjs/toolkit'
 
 type Props = {
   location?: DirectoryLocation
+  isExistingLocation?: boolean
   isNewLocationSubLocation?: boolean
   isExistingSubLocation?: boolean
   setIsInEditState?: (isInEditState: boolean) => void
@@ -30,6 +31,7 @@ const DirectoryMerchantLocationForm = ({
   location,
   isNewLocationSubLocation,
   isExistingSubLocation,
+  isExistingLocation,
   setIsInEditState,
   parentLocationStrings,
   parentLocation,
@@ -228,23 +230,25 @@ const DirectoryMerchantLocationForm = ({
   const renderFormContent = () => (
     <>
       {/* Parent Location */}
-      <section data-testid='parent-location-section' className='pb-[20px]'>
-        <h2 className='font-modal-heading'>PARENT LOCATION</h2>
+      {!isExistingLocation && (
+        <section data-testid='parent-location-section' className='pb-[20px]'>
+          <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
-        <div className='h-[28px] w-[277px]'>
-          {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
-            displayValue={parentLocation}
-            displayValues={parentLocationStrings}
-            onChangeDisplayValue={handleParentLocationChange}
-          />}
-        </div>
+          <div className='h-[28px] w-[277px]'>
+            {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
+              displayValue={parentLocation}
+              displayValues={parentLocationStrings}
+              onChangeDisplayValue={handleParentLocationChange}
+            />}
+          </div>
 
-        {parentLocation !== 'None' && !isExistingSubLocation && !isNewLocationSubLocation && (
-          <p className='font-subheading-4 mt-[10px] w-[489px]'>
+          {parentLocation !== 'None' && !isExistingSubLocation && !isNewLocationSubLocation && (
+            <p className='font-subheading-4 mt-[10px] w-[489px]'>
             This location will be created as a sub-location and will inherit the MID & Secondary MID information of its parent location. You will not be able to add MIDs to this sub-location
-          </p>
-        )}
-      </section>
+            </p>
+          )}
+        </section>
+      )}
 
       {/* Identifiers */}
       <section data-testid='identifiers-section'>

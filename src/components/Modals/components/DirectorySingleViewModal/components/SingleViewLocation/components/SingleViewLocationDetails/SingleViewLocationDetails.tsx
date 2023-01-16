@@ -140,6 +140,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
           location={location}
           parentLocationStrings={['None']}
           parentLocation={'None'}
+          isExistingLocation
           parentLocationChangeHandler={() => console.log('Parent location change')}
           onSaveHandler={handleSave}
           onCancelHandler={onCancelEditState}
