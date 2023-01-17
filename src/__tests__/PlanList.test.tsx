@@ -12,6 +12,9 @@ jest.mock('hooks/useFormattedPlansList', () => ({
     stagingIsLoading: false,
   })),
 }))
+jest.mock('hooks/useGetPlans', () => ({
+  useGetPlans: jest.fn(),
+}))
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({})

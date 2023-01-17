@@ -6,6 +6,7 @@ import CheckSvg from 'icons/svgs/check.svg'
 import {useFormattedPlansList} from 'hooks/useFormattedPlansList'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedPlanImages, setSelectedPlans} from 'features/comparatorSlice'
+import {useGetPlans} from 'hooks/useGetPlans'
 import {getCachedPlanSlug, setCachedPlanSlug, removeCachedPlanSlug} from 'utils/storage'
 import {HydratedPlan} from 'types'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -15,6 +16,7 @@ type Props = {
   isUsedByPlanComparator?: boolean
 }
 const PlansList = ({isUsedByPlanComparator}: Props) => {
+  useGetPlans() // Fetches plans from API if they haven't already been fetched
   const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useFormattedPlansList()
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState('')
