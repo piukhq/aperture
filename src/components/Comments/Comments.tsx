@@ -111,7 +111,6 @@ const Comments = ({
     )
   }
 
-  console.log(lowerComments)
   return (
     <div className='mb-[10px] w-[620px]'>
       {/* Adding a max-height allows us to fix the AutosizeTextArea and border at the bottom of the modal */}
