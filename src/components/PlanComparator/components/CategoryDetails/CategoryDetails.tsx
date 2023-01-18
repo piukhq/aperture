@@ -55,6 +55,7 @@ const CategoryDetails = ({
   }
 
   const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key when not identical across all environments
+
     const renderCategoryValue = (categoryValue: string) => {
       const renderCharacterComparison = (str: string) => {
         return Array.from(str).map((char, index) => {
@@ -68,7 +69,7 @@ const CategoryDetails = ({
       }
 
       if (!categoryAcrossEnvsArray.every((envCategory) => envCategory[categoryKey])) {
-        return <p className='mb-2'>{categoryValue || <em>Not found in this environment</em>}</p>
+        return <span className='mb-2'>{categoryValue || <em>Not found in this environment</em>}</span>
       }
 
       return renderCharacterComparison(categoryValue)
