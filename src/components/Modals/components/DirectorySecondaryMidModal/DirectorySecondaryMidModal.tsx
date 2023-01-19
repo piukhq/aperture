@@ -31,10 +31,10 @@ const DirectorySecondaryMidModal = () => {
 
   const handlePostMerchantSecondaryMidError = useCallback(() => {
     const {data} = postMerchantSecondaryMidError as RTKQueryErrorResponse
-
     if (data && data.detail) {
       const {detail} = data
-      setSecondaryMidValidationError(detail[0].msg)
+      const errorMessage = detail[0].type === 'unique_error' ? 'Secondary MID already exists' : 'Invalid Secondary MID'
+      setSecondaryMidValidationError(errorMessage)
     }
   }, [postMerchantSecondaryMidError])
 
@@ -81,8 +81,13 @@ const DirectorySecondaryMidModal = () => {
     }
   }
 
+  const handleModalClose = () => {
+    resetPostMerchantSecondaryMidResponse()
+    dispatch(reset())
+  }
+
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} Secondary MID`} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} Secondary MID`} onCloseFn={handleModalClose}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateSecondaryMid}>
         <TextInputGroup
           name='secondary-mid'
