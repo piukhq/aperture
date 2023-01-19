@@ -36,9 +36,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }, [dispatch])
 
   useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans
-    if (getPlanResponse) {
-      router.push(`${router?.asPath}/${planRefForSingleMerchant}/${getPlanResponse.merchants[0].merchant_ref}`)
-    }
+    getPlanResponse && router.push(`${router?.asPath}/${planRefForSingleMerchant}/${getPlanResponse.merchants[0].merchant_ref}`)
   }, [getPlanResponse, planRefForSingleMerchant, router])
 
   const handleRequestNewPlanModal = useCallback(() => {
