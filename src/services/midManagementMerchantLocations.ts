@@ -173,45 +173,16 @@ export const midManagementMerchantLocationsApi = createApi({
       query: ({planRef, merchantRef, locationRef, midRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
         method: 'POST',
-        body: [
-          ...midRefs,
-        ],
+        body: {mid_refs: midRefs},
       }),
-      // Update the cache with the newly linked mids
-      async onQueryStarted (_, {dispatch, queryFulfilled}) {
-        try {
-          const {data: newLinkedMids} = await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', undefined, (existingLinkedMids) => {
-            // Join new mids to existing cache of mids
-            existingLinkedMids.concat(newLinkedMids)
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
-      invalidatesTags: ['MerchantLocationAvailableMids'],
+      invalidatesTags: ['MerchantLocationAvailableMids'], // Optimistic update wont work due to differences in endpoint responses
     }),
     deleteMerchantLocationMidLink: builder.mutation<void, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/${midRef}/location_link`,
         method: 'DELETE',
       }),
-      // Update the cache with the removed linked mid
-      async onQueryStarted ({planRef, merchantRef, locationRef, midRef}, {dispatch, queryFulfilled}) {
-        try {
-          await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationLinkedMids', ({planRef, merchantRef, locationRef}), (existingLinkedMids) => {
-            const index = existingLinkedMids.findIndex(linkedMid => linkedMid.mid_ref === midRef)
-            index !== -1 && existingLinkedMids.splice(index, 1)
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids'], // Optimistic update wont work due to differences in endpoint responses
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -224,7 +195,7 @@ export const midManagementMerchantLocationsApi = createApi({
       query: ({planRef, merchantRef, locationRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`,
         method: 'POST',
-        body: secondaryMidRef,
+        body: {secondary_mid_refs: [secondaryMidRef]},
       }),
       async onQueryStarted ({planRef, merchantRef, locationRef}, {dispatch, queryFulfilled}) {
         try {
