@@ -61,6 +61,7 @@ export const midManagementMerchantsApi = createApi({
           icon_url: iconUrl,
         },
       }),
+      invalidatesTags: ['Merchants'],
     }),
     deleteMerchant: builder.mutation<DirectoryPlan, DeleteMerchantBody>({
       query: ({name, planRef, merchantRef}) => ({
