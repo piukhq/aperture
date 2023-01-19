@@ -37,7 +37,6 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
 
   useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans
     if (getPlanResponse) {
-      console.log(getPlanResponse.merchants[0].merchant_ref)
       router.push(`${router?.asPath}/${planRefForSingleMerchant}/${getPlanResponse.merchants[0].merchant_ref}`)
     }
   }, [getPlanResponse, planRefForSingleMerchant, router])
