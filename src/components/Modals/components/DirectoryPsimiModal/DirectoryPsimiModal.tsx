@@ -74,8 +74,13 @@ const DirectoryPsimiModal = () => {
     }
   }
 
+  const handleModalClose = () => {
+    resetPostMerchantPsimiResponse()
+    dispatch(reset())
+  }
+
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} PSIMI`} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} PSIMI`} onCloseFn={handleModalClose}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePsimi}>
         <TextInputGroup
           name='psimi'

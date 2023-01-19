@@ -47,9 +47,11 @@ const DirectoryLocationModal = () => {
   const [parentLocation, setParentLocation] = useState('None')
 
   const closeModal = useCallback(() => {
+    resetPostMerchantLocationResponse()
+    resetPostMerchantLocationSubLocationResponse()
     dispatch(reset())
     dispatch(requestModal(ModalType.NO_MODAL))
-  }, [dispatch])
+  }, [dispatch, resetPostMerchantLocationResponse, resetPostMerchantLocationSubLocationResponse])
 
   // TODO: Handle unhappy path
   const handleErrorResponse = useCallback((error) => {

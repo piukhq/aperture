@@ -80,8 +80,13 @@ const DirectoryMidModal = () => {
     }
   }
 
+  const handleModalClose = () => {
+    resetPostMerchantMidResponse()
+    dispatch(reset())
+  }
+
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={handleModalClose}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMid}>
         <TextInputGroup
           name='mid'
