@@ -54,6 +54,7 @@ const SingleViewLocationSecondaryMids = () => {
     if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkSecondaryMidIndex(null)
+      setAvailableSecondaryMidNotification('')
     } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
       setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
       setSelectedUnlinkSecondaryMidIndex(null)

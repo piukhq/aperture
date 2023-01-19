@@ -64,6 +64,7 @@ const SingleViewLocationMids = () => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
+      setAvailableMidNotification('')
     } else if (getMerchantLocationAvailableMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
       setSelectedUnlinkMidIndex(null)
       setAvailableMidNotification('No MIDs available to link for this Location.')
