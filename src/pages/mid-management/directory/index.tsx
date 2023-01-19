@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {Button, DirectoryTile, PageLayout} from 'components'
 import {useRouter} from 'next/router'
@@ -22,7 +22,9 @@ import TableSvg from 'icons/svgs/table.svg'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
-  const {getPlansResponse} = useMidManagementPlans({skipGetPlan: true})
+  const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
+  const {getPlansResponse, getPlanResponse} = useMidManagementPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
+
 
   const planList: DirectoryPlan[] = getPlansResponse
 
@@ -32,6 +34,13 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   useEffect(() => { // Clear any previously selected plan
     dispatch(reset())
   }, [dispatch])
+
+  useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans
+    if (getPlanResponse) {
+      console.log(getPlanResponse.merchants[0].merchant_ref)
+      router.push(`${router?.asPath}/${planRefForSingleMerchant}/${getPlanResponse.merchants[0].merchant_ref}`)
+    }
+  }, [getPlanResponse, planRefForSingleMerchant, router])
 
   const handleRequestNewPlanModal = useCallback(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
@@ -75,8 +84,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
 
       const handleViewClick = () => {
         setSelectedPlan()
-        const planUrl = `${router?.asPath}/${plan_ref}`
-        merchants === 1 ? router.push(`${planUrl}/3fa85f64-5717-4562-b3fc-2c963f66afa5?tab=mids`) : router.push(`${planUrl}`) // TODO: Get correct merchant ID from API available
+        merchants === 1 ? setPlanRefForSingleMerchant(plan_ref) : router.push(`${router?.asPath}/${plan_ref}`) // If only one merchant, redirect to merchant details page, otherwise redirect to plan details page
       }
 
       const handleAddMerchantClick = () => {
