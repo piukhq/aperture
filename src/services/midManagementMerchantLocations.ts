@@ -75,19 +75,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      async onQueryStarted ({planRef, merchantRef, locationRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: updatedLocation} = await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', {planRef, merchantRef, locationRef}, (existingLocations) => {
-            const index = existingLocations.findIndex((location) => location.location_ref === locationRef)
-            existingLocations[index] = updatedLocation
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantLocation', 'MerchantLocations'], // Optimistic update wont work due to differences in endpoint responses
     }),
     deleteMerchantLocation: builder.mutation<void, DeleteMerchantLocationRefs>({
       query: ({planRef, merchantRef, locationRefs}) => ({
