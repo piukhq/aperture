@@ -2,6 +2,8 @@ import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewLocationSecondaryMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSecondaryMids'
 import {PaymentSchemeSlug} from 'utils/enums'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
@@ -53,6 +55,15 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
 }))
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+const mockStoreFn = configureStore([])
+const store = mockStoreFn({})
+
+const getSingleViewLocationSecondaryMidsComponent = (passedStore = undefined) => (
+  <Provider store={passedStore || store}>
+    <SingleViewLocationSecondaryMids />
+  </Provider>
+)
+
 
 describe('SingleViewLocationSecondaryMids', () => {
   beforeEach(() => {
@@ -68,37 +79,37 @@ describe('SingleViewLocationSecondaryMids', () => {
   })
 
   it('should render Link New Secondary MID button', () => {
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
     expect(screen.getByRole('button', {name: 'Link New Secondary MID'})).toBeInTheDocument()
   })
 
   it('should render the correct available secondary mid notification when no secondary mids are available', () => {
     mockGetMerchantSecondaryMidsResponse = []
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
     fireEvent.click(screen.getByRole('button', {name: 'Link New Secondary MID'}))
 
     expect(screen.getByText('No Secondary MIDs available to link for this Location.')).toBeInTheDocument()
   })
 
   it('should render the correct section heading', () => {
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
     expect(screen.getAllByRole('heading')[0]).toHaveTextContent('LINKED SECONDARY MIDS')
   })
 
   it('should render the LinkedListItem', () => {
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
     const midListItems = screen.queryAllByTestId('LinkedListItem')
     expect(midListItems).toHaveLength(2)
   })
 
   it('should render the no Secondary MIDs available message', () => {
     mockGetMerchantLocationLinkedSecondaryMidsResponse = []
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
     expect(screen.getByText('There are no Secondary MIDs to view.')).toBeInTheDocument()
   })
 
   it('should not render the Secondary Mid linking elements', () => {
-    render(<SingleViewLocationSecondaryMids />)
+    render(getSingleViewLocationSecondaryMidsComponent())
 
     expect(screen.queryByLabelText('Save Secondary Mid')).not.toBeInTheDocument()
     expect(screen.queryByLabelText('Cancel New Secondary Mid Link')).not.toBeInTheDocument()
@@ -120,25 +131,25 @@ describe('SingleViewLocationSecondaryMids', () => {
     })
 
     it('should not render the New Secondary Mid link button', () => {
-      render(<SingleViewLocationSecondaryMids />)
+      render(getSingleViewLocationSecondaryMidsComponent())
       expect(screen.queryByRole('button', {name: 'Link New Secondary MID'})).not.toBeInTheDocument()
     })
 
     it('should render the Secondary Mid linking dropdown', () => {
-      render(<SingleViewLocationSecondaryMids />)
+      render(getSingleViewLocationSecondaryMidsComponent())
       expect(screen.getByTestId('Dropdown')).toBeInTheDocument()
     })
 
     describe('Test Secondary Mid save button', () => {
       it('should render the Secondary Mid save button', () => {
-        render(<SingleViewLocationSecondaryMids />)
+        render(getSingleViewLocationSecondaryMidsComponent())
         expect(screen.queryByLabelText('Save Secondary Mid')).toBeInTheDocument()
       })
     })
 
     describe('Test Secondary Mid link cancel button', () => {
       it('should render the Secondary Mid link cancel button', () => {
-        render(<SingleViewLocationSecondaryMids />)
+        render(getSingleViewLocationSecondaryMidsComponent())
         expect(screen.queryByLabelText('Cancel New Secondary Mid Link')).toBeInTheDocument()
       })
     })

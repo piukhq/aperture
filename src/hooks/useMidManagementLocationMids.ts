@@ -10,11 +10,13 @@ export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false,
     data: getMerchantLocationLinkedMidsResponse,
     isLoading: getMerchantLocationLinkedMidsIsLoading,
     error: getMerchantLocationLinkedMidsError,
+    refetch: resetGetMerchantLocationLinkedMidsResponse,
   } = useGetMerchantLocationLinkedMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationLinkedMids})
   const {
     data: getMerchantLocationAvailableMidsResponse,
     isLoading: getMerchantLocationAvailableMidsIsLoading,
     error: getMerchantLocationAvailableMidsError,
+    refetch: resetGetMerchantLocationAvailableMidsResponse,
   } = useGetMerchantLocationAvailableMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetLocationAvailableMids})
 
   const [
@@ -38,10 +40,12 @@ export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false,
     getMerchantLocationLinkedMidsResponse,
     getMerchantLocationLinkedMidsIsLoading,
     getMerchantLocationLinkedMidsError,
+    resetGetMerchantLocationLinkedMidsResponse,
     // GET Location Available MIDs
     getMerchantLocationAvailableMidsResponse,
     getMerchantLocationAvailableMidsIsLoading,
     getMerchantLocationAvailableMidsError,
+    resetGetMerchantLocationAvailableMidsResponse,
     // POST Location Linked MID
     postMerchantLocationLinkedMids,
     postMerchantLocationLinkedMidsIsSuccess,

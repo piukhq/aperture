@@ -21,8 +21,10 @@ const SingleViewLocationMids = () => {
 
   const {
     getMerchantLocationLinkedMidsResponse,
+    resetGetMerchantLocationLinkedMidsResponse,
     getMerchantLocationLinkedMidsIsLoading,
     getMerchantLocationAvailableMidsResponse,
+    resetGetMerchantLocationAvailableMidsResponse,
     postMerchantLocationLinkedMids,
     postMerchantLocationLinkedMidsIsLoading,
     postMerchantLocationLinkedMidsIsSuccess,
@@ -41,30 +43,35 @@ const SingleViewLocationMids = () => {
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationMidLinkIsSuccess) {
       resetDeleteMerchantLocationMidLinkResponse()
+      resetGetMerchantLocationAvailableMidsResponse()
       setSelectedUnlinkMidIndex(null)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse])
+
+  }, [deleteMerchantLocationMidLinkIsSuccess, getMerchantLocationAvailableMidsResponse, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetGetMerchantLocationAvailableMidsResponse])
 
   useEffect(() => { // If the user has successfully linked a mid, revert to initial state
     if (postMerchantLocationLinkedMidsIsSuccess) {
       resetPostMerchantLocationLinkedMidsResponse()
+      resetGetMerchantLocationLinkedMidsResponse()
+      resetGetMerchantLocationAvailableMidsResponse()
       setShouldPrepareDropdownMenu(false)
       setShouldRenderDropdownMenu(false)
       setSelectedAvailableMid(null)
     }
-  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetPostMerchantLocationLinkedMidsResponse])
+  }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetGetMerchantLocationAvailableMidsResponse, resetGetMerchantLocationLinkedMidsResponse, resetPostMerchantLocationLinkedMidsResponse])
 
   useEffect(() => {
     if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
+      setAvailableMidNotification('')
     } else if (getMerchantLocationAvailableMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
       setSelectedUnlinkMidIndex(null)
       setAvailableMidNotification('No MIDs available to link for this Location.')
     } else {
       setShouldRenderDropdownMenu(false)
     }
-  }, [getMerchantLocationAvailableMidsResponse?.length, shouldPrepareDropdownMenu])
+  }, [getMerchantLocationAvailableMidsResponse, shouldPrepareDropdownMenu])
 
   useEffect(() => {
     const warningMessage = selectedAvailableMid?.locationLink ? `Linking this MID will break its association with ${selectedAvailableMid.locationLink.location_title}` : ''
@@ -124,7 +131,12 @@ const SingleViewLocationMids = () => {
   const renderAvailableMidDropdown = () => {
     const onSaveHandler = () => {
       if (selectedAvailableMid) {
-        postMerchantLocationLinkedMids({midRefs: [selectedAvailableMid.mid_ref]})
+        postMerchantLocationLinkedMids({
+          planRef: planId as string,
+          merchantRef: merchantId as string,
+          locationRef: ref as string,
+          midRefs: [selectedAvailableMid.mid.mid_ref],
+        })
       }
     }
 

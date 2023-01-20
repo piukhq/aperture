@@ -2,17 +2,19 @@ import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {Button, Dropdown, PaymentCardIcon} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
+import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerchantSecondaryMids'
+import {useAppDispatch} from 'app/hooks'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import CloseIcon from 'icons/svgs/close.svg'
 import {LinkableEntities, UserPermissions} from 'utils/enums'
 
 const SingleViewLocationSecondaryMids = () => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
-
+  const dispatch = useAppDispatch()
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
@@ -24,6 +26,7 @@ const SingleViewLocationSecondaryMids = () => {
     getMerchantLocationLinkedSecondaryMidsIsLoading,
     postMerchantLocationLinkedSecondaryMid,
     postMerchantLocationLinkedSecondaryMidIsLoading,
+    postMerchantLocationLinkedSecondaryMidIsSuccess,
     deleteMerchantLocationSecondaryMidLink,
     deleteMerchantLocationSecondaryMidLinkIsLoading,
     deleteMerchantLocationSecondaryMidLinkIsSuccess,
@@ -45,17 +48,28 @@ const SingleViewLocationSecondaryMids = () => {
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationSecondaryMidLinkIsSuccess) {
       resetDeleteMerchantLocationSecondaryMidLinkResponse()
+      dispatch(midManagementMerchantSecondaryMidsApi.util.resetApiState()) // Reset the secondary mids state so that the next time the user opens the dropdown menu, the list of available secondary mids is refreshed
       setSelectedUnlinkSecondaryMidIndex(null)
       setShouldPrepareDropdownMenu(false)
     }
-  }, [deleteMerchantLocationSecondaryMidLinkIsSuccess, resetDeleteMerchantLocationSecondaryMidLinkResponse])
+  }, [deleteMerchantLocationSecondaryMidLinkIsSuccess, dispatch, resetDeleteMerchantLocationSecondaryMidLinkResponse])
+
+  useEffect(() => { // If the user has successfully linked a MID, revert to initial state
+    if (postMerchantLocationLinkedSecondaryMidIsSuccess) {
+      setSelectedAvailableSecondaryMid(null)
+      dispatch(midManagementMerchantSecondaryMidsApi.util.resetApiState()) // Reset the secondary mids state so that the next time the user opens the dropdown menu, the list of available secondary mids is refreshed
+      setShouldPrepareDropdownMenu(false)
+    }
+  }, [dispatch, postMerchantLocationLinkedSecondaryMidIsSuccess])
 
   useEffect(() => {
     if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkSecondaryMidIndex(null)
+      setAvailableSecondaryMidNotification('')
     } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
       setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
+      setShouldRenderDropdownMenu(false)
       setSelectedUnlinkSecondaryMidIndex(null)
     } else {
       setShouldRenderDropdownMenu(false)
@@ -64,7 +78,7 @@ const SingleViewLocationSecondaryMids = () => {
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
-  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index) => {
+  const renderLocationSecondaryMid = (locationSecondaryMid: DirectoryMerchantLocationSecondaryMid, index: number) => {
     const {
       payment_scheme_slug: paymentSchemeSlug,
       secondary_mid_value: secondaryMidValue,
@@ -82,7 +96,6 @@ const SingleViewLocationSecondaryMids = () => {
         refValue={secondaryMidRef}
         setSelectedUnlinkIndexFn={setSelectedUnlinkSecondaryMidIndex}
         isInUnlinkingConfirmationState={selectedUnlinkSecondaryMidIndex === index}
-
         unlinkFn={() => deleteMerchantLocationSecondaryMidLink({
           linkRef,
           planRef: planId as string,
