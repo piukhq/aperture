@@ -22,7 +22,7 @@ import {
 export interface ButtonProps {
   buttonType?: ButtonType,
   buttonSize?: ButtonSize,
-  buttonWidth: ButtonWidth,
+  buttonWidth?: ButtonWidth,
   buttonBackground?: ButtonBackground,
   labelColour?: LabelColour,
   labelWeight?: LabelWeight,
