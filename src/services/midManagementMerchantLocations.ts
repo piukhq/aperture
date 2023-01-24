@@ -55,7 +55,7 @@ export const midManagementMerchantLocationsApi = createApi({
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef && `?exclude_secondary_mid=${secondaryMidRef}`}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef && `?exclude_secondary_mid=${secondaryMidRef}&n=100`}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
@@ -157,14 +157,14 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedMids: builder.query<Array<DirectoryMerchantLocationMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/mids?n=100`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedMids'],
     }),
     getMerchantLocationAvailableMids: builder.query<DirectoryMerchantLocationAvailableMids, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/available_mids?n=100`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationAvailableMids'],
@@ -186,7 +186,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationLinkedSecondaryMids: builder.query<Array<DirectoryMerchantLocationSecondaryMid>, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/secondary_mid_location_links?n=100`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationLinkedSecondaryMids'],
@@ -220,7 +220,7 @@ export const midManagementMerchantLocationsApi = createApi({
     }),
     getMerchantLocationSubLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations?n=100`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocationSubLocations'],
