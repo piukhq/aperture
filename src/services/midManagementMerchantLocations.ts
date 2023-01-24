@@ -77,7 +77,7 @@ export const midManagementMerchantLocationsApi = createApi({
       }),
       invalidatesTags: ['MerchantLocation', 'MerchantLocations'], // Optimistic update wont work due to differences in endpoint responses
     }),
-    deleteMerchantLocation: builder.mutation<void, DeleteMerchantLocationRefs>({
+    deleteMerchantLocation: builder.mutation<void, DeleteMerchantLocationRefs>({ // We are currently using this to also delete sub-locations
       query: ({planRef, merchantRef, locationRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/deletion`,
         method: 'POST',
