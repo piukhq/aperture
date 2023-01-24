@@ -132,7 +132,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel={'Save Secondary Mid'}
+            ariaLabel={'Save Location'}
           >{ postMerchantSecondaryMidLocationLinkIsLoading ? 'Saving...' : 'Save'}
           </Button>
 
@@ -141,7 +141,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
             buttonSize={ButtonSize.MEDIUM_ICON}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
             buttonBackground={ButtonBackground.LIGHT_GREY}
-            ariaLabel='Cancel New Secondary Mid Link'
+            ariaLabel='Cancel Location Link'
           ><CloseIcon className='w-[14px] h-[14px] fill-grey-700' />
           </Button>
         </div>

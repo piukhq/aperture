@@ -12,7 +12,7 @@ let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   location_title: 'mock_location_title',
 }]
 
-const mockGetMerchantLocations = []
+let mockGetMerchantLocations = []
 
 jest.mock('hooks/useMidManagementSecondaryMidLocations', () => ({
   useMidManagementSecondaryMidLocations: jest.fn().mockImplementation(() => ({
@@ -59,6 +59,8 @@ describe('SingleViewSecondaryMidLocations', () => {
         ref: 'mock_secondary_mid_ref',
       },
     }))
+
+    mockGetMerchantLocations = []
   })
 
   it('should render Link New Location button', () => {
@@ -90,4 +92,44 @@ describe('SingleViewSecondaryMidLocations', () => {
     fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
     expect(screen.getByText('No Locations available to link for this Secondary MID')).toBeInTheDocument()
   })
+
+  describe('Link New Location functionality', () => {
+    beforeEach(() => {
+      mockGetMerchantLocations = [{
+        location_ref: 'mock_location_ref',
+        location_metadata: {
+          name: 'mock_location_name',
+        },
+      }]
+    })
+
+    it('should render the Link New Location dropdown', () => {
+      render(getSingleViewSecondaryMidsLocationComponent())
+      fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
+      expect(screen.getByRole('button', {name: 'Select Location'})).toBeInTheDocument()
+    })
+
+    it('should render the Link New Location save button', () => {
+      render(getSingleViewSecondaryMidsLocationComponent())
+      fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
+      expect(screen.getByRole('button', {name: 'Save Location'})).toBeInTheDocument()
+    })
+
+    it('should render the Link New Location cancel button', () => {
+      render(getSingleViewSecondaryMidsLocationComponent())
+      fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
+
+      expect(screen.getByRole('button', {name: 'Cancel Location Link'})).toBeInTheDocument()
+    })
+    it('should revert to default view after clicking the Link New Location cancel button', () => {
+      render(getSingleViewSecondaryMidsLocationComponent())
+      fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
+      fireEvent.click(screen.getByRole('button', {name: 'Cancel Location Link'}))
+
+      expect(screen.getByRole('button', {name: 'Link New Location'})).toBeInTheDocument()
+      expect(screen.queryByRole('button', {name: 'Cancel Location Link'})).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', {name: 'Select Location'})).not.toBeInTheDocument()
+    })
+  })
+
 })
