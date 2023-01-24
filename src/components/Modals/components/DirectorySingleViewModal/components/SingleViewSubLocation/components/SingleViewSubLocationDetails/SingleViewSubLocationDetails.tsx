@@ -58,14 +58,14 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const locationValues = useMemo(() => locationStringsList ? ['None', ...locationStringsList.map(location => location.title)] : [], [locationStringsList])
 
   const {parent_location: parentLocation, sub_location: subLocation} = location
-  const {location_title: parentLocationTitle} = parentLocation
+  const parentLocationTitle = parentLocation?.location_title
 
   const [selectedParentLocationName, setSelectedParentLocationName] = useState(parentLocationTitle || '')
 
   const {
     date_added: dateAdded,
     location_metadata,
-  } = subLocation
+  } = subLocation || {}
 
   const {
     address_line_1: addressLine1,
@@ -75,7 +75,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     country,
     postcode,
     is_physical_location: isPhysicalLocation,
-  } = location_metadata
+  } = location_metadata || {}
 
   // Take component out of edit state when unmounted
   useEffect(() => {
