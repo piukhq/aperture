@@ -81,27 +81,10 @@ export const midManagementMerchantLocationsApi = createApi({
       query: ({planRef, merchantRef, locationRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/deletion`,
         method: 'POST',
-        body: [
-          ...locationRefs,
-        ],
+        body: {location_refs: [...locationRefs]},
       }),
       // Update the cache with the removed Location
-      async onQueryStarted ({planRef, merchantRef, locationRefs}, {dispatch, queryFulfilled}) {
-        try {
-          await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef}), (existingLocations) => {
-            // For each Location, remove from existing list of Locations
-            locationRefs.forEach(locationRef => {
-              const index = existingLocations.findIndex(location => location.location_ref === locationRef)
-              index !== -1 && existingLocations.splice(index, 1)
-            })
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantLocation', 'MerchantLocations'], // TODO: Figure out why optimistic update wont work here.
     }),
     postMerchantLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
       query: ({planRef, merchantRef, ...rest}) => ({
@@ -140,15 +123,12 @@ export const midManagementMerchantLocationsApi = createApi({
           const {data: newSubLocation} = await queryFulfilled
           dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', {planRef, merchantRef, secondaryMidRef}, (existingLocations) => {
             const index = existingLocations.findIndex((location) => location.location_ref === locationRef)
-
             const existingSubLocations = existingLocations[index].sub_locations
-
             existingLocations[index] = {
               ...existingLocations[index],
               sub_locations: existingSubLocations ? [...existingSubLocations, newSubLocation] : [newSubLocation],
             }
-          })
-          )
+          }))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
