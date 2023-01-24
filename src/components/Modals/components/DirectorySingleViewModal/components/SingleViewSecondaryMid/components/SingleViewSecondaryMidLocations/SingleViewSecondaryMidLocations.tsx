@@ -74,13 +74,21 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     }
   }, [setShouldRenderDropdownMenu, shouldGetAvailableLocations, locationDataRefresh, selectedUnlinkLocationIndex])
 
+  useEffect(() => { // If there is no available locations, set the available location notification
+    if (shouldRenderDropdownMenu && !locationDataIsLoading && locationData.length === 0 && selectedUnlinkLocationIndex === null) {
+      setAvailableLocationNotification('No Locations available to link for this Secondary MID')
+    } else {
+      setAvailableLocationNotification('')
+    }
+  }, [locationData, locationDataIsLoading, selectedUnlinkLocationIndex, shouldRenderDropdownMenu])
+
   const hasNoLinkedLocations = (!getMerchantSecondaryMidLinkedLocationsResponse || getMerchantSecondaryMidLinkedLocationsResponse.length === 0) && !getMerchantSecondaryMidLinkedLocationsIsLoading
 
   const renderDropdownLocation = (location: DirectoryLocation) => {
     return (
       <div className='flex items-center'>
         <p className='ml-[13px] font-modal-data'>
-          {location.location_metadata?.name} PLACEHOLDER
+          {location.location_metadata?.name}
         </p>
       </div>
     )
