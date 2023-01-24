@@ -19,7 +19,7 @@ export const midManagementCommentsApi = createApi({
   endpoints: builder => ({
     getComments: builder.query<DirectoryComments, {commentsRef: string}>({
       query: ({commentsRef}) => ({
-        url: `${UrlEndpoint.COMMENTS}?ref=${commentsRef}`,
+        url: `${UrlEndpoint.COMMENTS}?ref=${commentsRef}&n=100`,
         method: 'GET',
       }),
       providesTags: ['Comments'],

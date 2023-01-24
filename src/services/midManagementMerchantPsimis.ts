@@ -25,7 +25,7 @@ export const midManagementMerchantPsimisApi = createApi({
   endpoints: builder => ({
     getMerchantPsimis: builder.query<DirectoryPsimis, MerchantPsimisEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis?n=100`,
         method: 'GET',
       }),
       providesTags: ['MerchantPsimis'],
