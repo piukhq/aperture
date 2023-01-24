@@ -71,6 +71,16 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         }
       },
     }),
+    postMerchantSecondaryMidLocationLink: builder.mutation<DirectoryMerchantMidLocation, MerchantSecondaryMidsEndpointRefs>({
+      query: ({planRef, merchantRef, secondaryMidRef, locationRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}/secondary_mid_location_links`,
+        method: 'POST',
+        body: {
+          location_refs: [locationRef],
+        },
+      }),
+      invalidatesTags: ['MerchantSecondaryMidLinkedLocations'],
+    }),
     patchMerchantSecondaryMid: builder.mutation<DirectorySecondaryMid, PatchMerchantSecondaryMidBody>({
       query: ({planRef, merchantRef, secondaryMidRef, ...rest}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/${secondaryMidRef}`,
@@ -187,6 +197,7 @@ export const {
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,
   useGetMerchantSecondaryMidLinkedLocationsQuery,
+  usePostMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidMutation,
   usePostMerchantSecondaryMidOnboardingMutation,
