@@ -139,7 +139,7 @@ const SingleViewEditableField = ({
             <Button
               buttonType={ButtonType.SUBMIT}
               buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={value ? ButtonWidth.SINGLE_VIEW_MID_SMALL : ButtonWidth.SINGLE_VIEW_MID_MEDIUM}
+              buttonWidth={value ? ButtonWidth.SINGLE_VIEW_MID_SMALL : ButtonWidth.AUTO}
               buttonBackground={ButtonBackground.LIGHT_GREY}
               labelColour={LabelColour.GREY}
               labelWeight={LabelWeight.SEMIBOLD}

@@ -133,9 +133,7 @@ export const midManagementMerchantMidsApi = createApi({
       query: ({planRef, merchantRef, midRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/deletion`,
         method: 'POST',
-        body: [
-          ...midRefs,
-        ],
+        body: {mid_refs: [...midRefs]},
       }),
       // Update the cache with the removed MID
       async onQueryStarted ({planRef, merchantRef, midRefs}, {dispatch, queryFulfilled}) {

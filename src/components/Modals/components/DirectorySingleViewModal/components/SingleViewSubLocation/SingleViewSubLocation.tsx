@@ -55,7 +55,8 @@ const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setI
         dispatch(setSelectedDirectoryMerchantEntity(getMerchantLocationSubLocationResponse))
       }
 
-      const {name, address_line_1: addressLine1, location_id: locationId} = getMerchantLocationSubLocationResponse.sub_location.location_metadata
+      const subLocationMetadata = getMerchantLocationSubLocationResponse.sub_location?.location_metadata
+      const {name, address_line_1: addressLine1, location_id: locationId} = subLocationMetadata || {}
 
       const title = name || addressLine1 || `Location ${locationId}`
       setHeaderFn(`${isInEditState ? 'Editing - ' : ''}${title}`)

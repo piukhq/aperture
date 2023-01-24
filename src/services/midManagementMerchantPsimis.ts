@@ -63,9 +63,7 @@ export const midManagementMerchantPsimisApi = createApi({
       query: ({planRef, merchantRef, psimiRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis/deletion`,
         method: 'POST',
-        body: [
-          ...psimiRefs,
-        ],
+        body: {psimi_refs: [...psimiRefs]},
       }),
       // Update the cache with the removed PSIMI
       async onQueryStarted ({planRef, merchantRef, psimiRefs}, {dispatch, queryFulfilled}) {

@@ -126,28 +126,10 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       query: ({planRef, merchantRef, secondaryMidRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
         method: 'POST',
-        body: [
-          ...secondaryMidRefs,
-        ],
+        body: {secondary_mid_refs: [...secondaryMidRefs]},
       }),
-      // Update the cache with the removed Secondary MID
-      async onQueryStarted ({planRef, merchantRef, secondaryMidRefs}, {dispatch, queryFulfilled}) {
-        try {
-          await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
-            // For each Secondary MID, remove from existing list of Secondary MIDs
-            secondaryMidRefs.forEach(secondaryMidRef => {
-              const index = existingSecondaryMids.findIndex(secondaryMid => secondaryMid.secondary_mid_ref === secondaryMidRef)
-              index !== -1 && existingSecondaryMids.splice(index, 1)
-            })
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      }}),
-
+      invalidatesTags: ['MerchantSecondaryMids'], // TODO: Optimistic update does not work though it does for mids deletion?
+    }),
     // TODO: IF there is a requirement to onboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
