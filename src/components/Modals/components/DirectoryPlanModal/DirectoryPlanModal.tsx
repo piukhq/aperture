@@ -69,7 +69,7 @@ const DirectoryPlanModal = () => {
       handlePlanError(postPlanError as RTKQueryErrorResponse || putPlanError as RTKQueryErrorResponse)
     } else if (postPlanResponse || putPlanResponse) {
       postPlanResponse ? resetPostPlanResponse() : resetPutPlanResponse()
-      reset()
+      dispatch(reset())
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [

@@ -61,7 +61,7 @@ const DirectoryPlanDeleteModal = () => {
       handleDeletePlanError()
     } else if (deletePlanIsSuccess) {
       resetDeletePlanResponse()
-      reset()
+      dispatch(reset())
       dispatch(requestModal(ModalType.NO_MODAL))
       router.asPath.includes(planId) && router.replace('/mid-management/directory/')
     }
