@@ -23,6 +23,7 @@ type Props = {
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const router = useRouter()
   const {planId, merchantId, ref} = router.query
+  const [isInLocationEditMode, setIsInLocationEditMode] = useState(false)
 
   const {
     getMerchantMidRefresh,
@@ -131,6 +132,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     } else if (putMerchantMidLocationResponse || deleteMerchantMidLocationIsSuccess) {
       resetError()
       putMerchantMidLocationResponse ? resetPutMerchantMidLocationResponse() : resetDeleteMerchantMidLocationResponse()
+      setIsInLocationEditMode(false)
     }
   }, [
     putMerchantMidLocationError,
@@ -254,7 +256,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         label='location'
         actionVerb='unlink'
         link={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${locationRef}`}
-        value={getAssociatedLocationString()}
+        value={isInLocationEditMode ? getAssociatedLocationString() : merchantMid.location?.location_title}
         isSaving={putMerchantMidLocationIsLoading}
         isDisabled={isRefreshing}
         handleValueChange={handleLocationChange}
@@ -262,6 +264,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         handleSave={handleLocationSave}
         handleDelete={handleLocationDelete}
         onEdit={() => {
+          setIsInLocationEditMode(true)
           resetError()
           resetPutMerchantMidLocationResponse()
           resetDeleteMerchantMidLocationResponse()
