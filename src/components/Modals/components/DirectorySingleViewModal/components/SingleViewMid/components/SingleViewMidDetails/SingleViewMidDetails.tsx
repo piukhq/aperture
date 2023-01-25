@@ -102,7 +102,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
       const {detail} = data
       detail.forEach(err => {
         const {loc} = err
-        const location = loc[1]
+        const location = loc?.[1]
         if (location === 'visa_bin') {
           setError('Failed to update BIN association')
           setEditableVisaBin(null)

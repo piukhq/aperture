@@ -56,11 +56,13 @@ const DirectoryMerchantModal = () => {
       // TODO: Handle error responses other that 409 (duplicate) and everything else
       detail.forEach(err => {
         const {loc = [], msg} = err
-        const location = loc[1]
+        const location = loc?.[1]
         if (location === 'name') {
           setNameValidationError(status as unknown === 409 ? 'Name already exists' : msg)
         } else if (location === 'location_label') {
           setLocationLabelValidationError(msg)
+        } else {
+          setNameValidationError(msg)
         }
       })
     }
