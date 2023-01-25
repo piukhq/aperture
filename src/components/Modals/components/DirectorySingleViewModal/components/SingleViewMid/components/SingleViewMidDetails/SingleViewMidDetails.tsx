@@ -12,7 +12,7 @@ import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
-import {constructMidLocationString, getLocationList} from 'utils/locationStrings'
+import {getLocationList} from 'utils/locationStrings'
 
 type Props = {
   resetError: () => void
@@ -202,7 +202,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
-    return location ? constructMidLocationString(location.location_metadata) : ''
+    return location ? location.location_metadata.name : ''
   }, [locationsData, associatedLocationRef])
 
   const locationValues = useMemo(() => locationStringsList ? locationStringsList.map(location => location.title) : [], [locationStringsList])

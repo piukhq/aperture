@@ -54,7 +54,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
 
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
-  const locationStringsList = getLocationList(locationsData, true)
+  const locationStringsList = getLocationList(locationsData)
   const locationValues = useMemo(() => locationStringsList ? ['None', ...locationStringsList.map(location => location.title)] : [], [locationStringsList])
 
   const {parent_location: parentLocation, sub_location: subLocation} = location
@@ -100,7 +100,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
     patchMerchantLocationSubLocation({parentRef})
   }, [patchMerchantLocationSubLocation, selectedParentLocationName, locationsData])
-
 
   const renderReadOnlyState = () => {
     return (
@@ -162,7 +161,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       </>
     )
   }
-
 
   const handlePutSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     putMerchantLocationSubLocation({
