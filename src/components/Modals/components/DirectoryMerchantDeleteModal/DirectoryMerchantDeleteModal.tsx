@@ -61,7 +61,7 @@ const DirectoryMerchantDeleteModal = () => {
       handleDeleteMerchantError()
     } else if (deleteMerchantIsSuccess) {
       resetDeleteMerchantResponse()
-      reset()
+      dispatch(reset())
       dispatch(midManagementPlansApi.util.resetApiState()) // Refetch plan data as merchants property is now different
       dispatch(requestModal(ModalType.NO_MODAL))
       router.asPath.includes(merchantRef) && router.replace(`/mid-management/directory/${planId}`)
