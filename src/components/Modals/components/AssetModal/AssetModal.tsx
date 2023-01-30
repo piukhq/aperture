@@ -224,7 +224,7 @@ const AssetModal = () => {
           target='_blank'
           rel='noreferrer'
         >
-          <SearchWhiteSvg />View in Django
+          <SearchWhiteSvg />View iin Django
         </a>
         <Button
           handleClick={handleDownload}
