@@ -84,8 +84,8 @@ describe('SingleViewLocationSubLocations', () => {
   it('should render the sub-location list anchor tag with the correct href', () => {
     render(getSingleViewSubLocationsComponent())
     const subLocationListItem = screen.getByRole('link')
-    expect(subLocationListItem).toHaveTextContent(`${mockName}, ${mockAddressLine1}, ${mockPostcode}`)
 
+    expect(subLocationListItem).toHaveTextContent(`${mockName}`)
     expect(subLocationListItem).toHaveAttribute('href', '/mid-management/directory/mock_plan_id/mock_merchant_id?tab=locations&ref=mock_secondary_mid_ref&sub_location_ref=mock_location_ref')
   })
 

@@ -73,19 +73,13 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
       location_ref: subLocationRef,
     } = subLocation
 
-    const {
-      name,
-      address_line_1: addressLine1,
-      postcode,
-    } = subLocationMetadata
-
     return (
       <li className='flex items-center overflow-x-hidden font-modal-data text-blue w-[500px] truncate' key={subLocationRef}>
         <Link
           href={`/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${ref}&sub_location_ref=${subLocationRef}`}
           passHref
         >
-          {`${name}, ${addressLine1}, ${postcode}`}
+          {subLocationMetadata.name}
         </Link>
       </li>
     )

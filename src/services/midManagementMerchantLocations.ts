@@ -55,7 +55,7 @@ export const midManagementMerchantLocationsApi = createApi({
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef && `?exclude_secondary_mid=${secondaryMidRef}&n=100`}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef ? `?exclude_secondary_mid=${secondaryMidRef}&n=100` : '?n=100&include_sub_locations=true&n=100'}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
