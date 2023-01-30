@@ -52,19 +52,14 @@ describe('Sidebar', () => {
   )
 
   describe('Test headings', () => {
-    it('should render correct headings', () => {
+    it('should render correct heading', () => {
       render(getSidebarComponent())
 
       const binkHeading = screen.getByRole('heading', {
-        name: 'Bink',
-      })
-
-      const toolsHeading = screen.getByRole('heading', {
-        name: 'TOOLS',
+        name: 'APERTURE',
       })
 
       expect(binkHeading).toBeInTheDocument()
-      expect(toolsHeading).toBeInTheDocument()
     })
   })
 
@@ -81,15 +76,15 @@ describe('Sidebar', () => {
       render(getSidebarComponent())
 
       const assetComparatorLink = screen.getByRole('link', {
-        name: 'Asset Comparator',
+        name: 'ASSET COMPARATOR',
       })
 
       const planComparatorLink = screen.getByRole('link', {
-        name: 'Plan Comparator',
+        name: 'PLAN COMPARATOR',
       })
 
       const styleGuideLink = screen.getByRole('link', {
-        name: 'Style Guide',
+        name: 'STYLE GUIDE',
       })
 
       expect(assetComparatorLink).toBeInTheDocument()
@@ -102,7 +97,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const midManagementLink = screen.queryByRole('link', {
-          name: 'MID Management',
+          name: 'MID MANAGEMENT',
         })
 
         expect(midManagementLink).not.toBeInTheDocument()
@@ -113,7 +108,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const midManagementLink = screen.getByRole('link', {
-          name: 'MID Management',
+          name: 'MID MANAGEMENT',
         })
 
         expect(midManagementLink).toBeInTheDocument()
@@ -123,7 +118,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const customerWalletsLink = screen.queryByRole('link', {
-          name: 'Customer Wallets',
+          name: 'CUSTOMER WALLETS',
         })
 
         expect(customerWalletsLink).not.toBeInTheDocument()
@@ -134,7 +129,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const customerWalletsLink = screen.getByRole('link', {
-          name: 'Customer Wallets',
+          name: 'CUSTOMER WALLETS',
         })
 
         expect(customerWalletsLink).toBeInTheDocument()

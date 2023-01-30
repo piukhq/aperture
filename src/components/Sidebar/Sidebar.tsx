@@ -1,5 +1,6 @@
 import {useState, useEffect, memo} from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import Button from 'components/Button'
@@ -21,6 +22,7 @@ const Sidebar = () => {
   const isApiReflectorEnabled = useAppSelector(getUseApiReflector)
 
   const [selectedTool, setSelectedTool] = useState('')
+  const [isLogoHovered, setIsLogoHovered] = useState(false)
 
   const sidebarOptions = Object.keys(RouteDisplayNames)
 
@@ -42,13 +44,16 @@ const Sidebar = () => {
 
   return (
     <div className='pr-64 z-[1]'>
-      <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-800 bg-white dark:bg-grey-850 '>
-        <div className='flex h-16 border-b border-grey-300 dark:border-grey-800 pl-[25px] items-center'>
-          <Image data-testid='logo' src='/icons/svgs/logo.svg' height={30} width={30} alt='' />
-          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[1.25rem] ml-[10px]'>Bink</h1>
-        </div>
+
+      <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-900 bg-grey-100 dark:bg-grey-850 '>
+        <Link href='/' passHref>
+          <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 border-b border-grey-300 dark:border-grey-900 pl-[25px] items-center ml-6 cursor-pointer'>
+            <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[20s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
+            <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
+            <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE {isLogoHovered}</h1>
+          </div>
+        </Link>
         <div className='mt-6'>
-          <h1 className='font-header text-grey-950 dark:text-grey-400 font-semibold text-[.875rem] tracking-widest ml-5'>TOOLS</h1>
           <nav className='mt-5'>
             {getSidebarOptions().map(option => {
               // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
@@ -82,5 +87,6 @@ const Sidebar = () => {
   )
 }
 
-
 export default memo(Sidebar)
+
+// happy talk hide on load comparators
