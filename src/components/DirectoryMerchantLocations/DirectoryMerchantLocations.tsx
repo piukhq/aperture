@@ -119,7 +119,6 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     ]
   }
 
-  const refArray = locationsData?.map(location => location.location_ref)
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
@@ -140,6 +139,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   }, [locationsData])
 
   const locationRowObjects = getLocationTableRowObjects()
+  const refArray = locationRowObjects?.map(locationRowObj => locationRowObj.ref)
   const locationRows = locationRowObjects?.map(locationRowObj => locationRowObj.row)
 
   // Set selected location/sub-location in redux store and open correct modal
