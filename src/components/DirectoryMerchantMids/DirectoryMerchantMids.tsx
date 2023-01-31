@@ -110,8 +110,8 @@ const DirectoryMerchantMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedMids()
     dispatch(setModalHeader('MID Comment'))
-    dispatch(setCommentsOwnerRef(planId as string))
-    dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
+    dispatch(setCommentsOwnerRef(merchantId as string))
+    dispatch(setCommentsSubjectType(CommentsSubjectTypes.MID))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 

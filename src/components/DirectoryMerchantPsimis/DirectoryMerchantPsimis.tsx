@@ -105,7 +105,7 @@ const DirectoryMerchantPsimis = () => {
     // TODO: Will possibly need to change from Psimis to PSIMIs
     setSelectedPsimis()
     dispatch(setModalHeader('PSIMI Comment'))
-    dispatch(setCommentsOwnerRef(planId as string))
+    dispatch(setCommentsOwnerRef(merchantId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }

@@ -183,7 +183,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const requestBulkCommentModal = () => {
     setSelectedLocations()
     dispatch(setModalHeader('Location Comment'))
-    dispatch(setCommentsOwnerRef(planId as string))
+    dispatch(setCommentsOwnerRef(merchantId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
