@@ -241,7 +241,7 @@ export const midManagementMerchantLocationsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations/${subLocationRef}`,
         method: 'PATCH',
         body: {
-          parent_ref: parentRef,
+          parent_ref: parentRef || null,
         },
       }),
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'],
