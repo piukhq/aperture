@@ -108,7 +108,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedSecondaryMids()
     dispatch(setModalHeader('Secondary MID Comment'))
-    dispatch(setCommentsOwnerRef(planId as string))
+    dispatch(setCommentsOwnerRef(merchantId as string))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.SECONDARY_MID))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
