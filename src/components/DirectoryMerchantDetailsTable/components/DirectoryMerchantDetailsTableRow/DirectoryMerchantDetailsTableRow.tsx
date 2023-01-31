@@ -50,6 +50,8 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     setCopyRow(index)
   }
 
+  const isSubLocation = row[0].icon // TODO: This is a hacky way to determine if the row is a sub location. Possibly need to find a better way to do this.
+
   return (
     <tr
       className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
@@ -58,9 +60,11 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
       aria-label='table-row'
       tabIndex={0}
     >
-      {/* TODO: Determine better method of deciding row indentation */}
-      <td className={`flex items-center h-[40px] ${row[0].icon ? 'justify-end' : 'justify-center'}`}>
-        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
+
+      <td className={`flex items-center h-[40px] ${isSubLocation ? 'justify-end' : 'justify-center'}`}>
+        { isSubLocation ? null : // temporary fix to hide checkbox for sub locations while logic is being worked out for bulk actions involving sub locations
+          <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
+        }
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
         const {paymentSchemeSlug, additionalStyles, displayValue, icon, physicalLocation} = rowCell
@@ -81,8 +85,8 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
           icon ? (
             <td key={index} className={'px-[9px]'} data-testid='icon-display-value'>
               <div className={`flex items-center gap-[9px] ${additionalStyles}`}>
-                {icon}
-                {displayValue}
+                <div className='w-max'>{icon}</div>
+                <div className='truncate'>{displayValue}</div>
               </div>
             </td>
           ) : (
