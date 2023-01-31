@@ -50,7 +50,7 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     setCopyRow(index)
   }
 
-  const isSubLocation = row[0].icon // TODO: This is a hacky way to determine if the row is a sub location. Possibly need to find a better way to do this.
+  const isSubLocationRow = row[0].icon // TODO: This is a hacky way to determine if the row is a sub location. Possibly need to find a better way to do this.
 
   return (
     <tr
@@ -61,10 +61,8 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
       tabIndex={0}
     >
 
-      <td className={`flex items-center h-[40px] ${isSubLocation ? 'justify-end' : 'justify-center'}`}>
-        { isSubLocation ? null : // temporary fix to hide checkbox for sub locations while logic is being worked out for bulk actions involving sub locations
-          <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
-        }
+      <td className={`flex items-center h-[40px] ${isSubLocationRow ? 'justify-end' : 'justify-center'}`}>
+        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
         const {paymentSchemeSlug, additionalStyles, displayValue, icon, physicalLocation} = rowCell
