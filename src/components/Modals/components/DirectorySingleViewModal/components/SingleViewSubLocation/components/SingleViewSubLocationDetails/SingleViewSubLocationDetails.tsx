@@ -23,6 +23,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const router = useRouter()
   const {merchantId, planId, ref, sub_location_ref: subLocationRef} = router.query
 
+
   const {
     getMerchantLocationsResponse,
     getMerchantLocationsIsFetching: isGetLocationsFetching,
@@ -50,6 +51,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
+    subLocationRef: subLocationRef as string,
   })
 
 
@@ -98,8 +100,8 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
 
   const handlePatchSave = useCallback(() => {
     const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
-    patchMerchantLocationSubLocation({parentRef})
-  }, [patchMerchantLocationSubLocation, selectedParentLocationName, locationsData])
+    patchMerchantLocationSubLocation({parentRef, planRef: planId as string, merchantRef: merchantId as string, locationRef: ref as string, subLocationRef: subLocationRef as string})
+  }, [locationsData, merchantId, patchMerchantLocationSubLocation, planId, ref, selectedParentLocationName, subLocationRef])
 
   const renderReadOnlyState = () => {
     return (
