@@ -220,21 +220,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      async onQueryStarted ({planRef, merchantRef, locationRef, subLocationRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: updatedSubLocation} = await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationSubLocations', {planRef, merchantRef, locationRef, subLocationRef}, (existingSubLocations) => {
-            const index = existingSubLocations.findIndex((subLocation) => subLocation.location_ref === locationRef)
-            existingSubLocations[index] = updatedSubLocation
-          }))
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocationSubLocation', {planRef, merchantRef, locationRef, subLocationRef}, (existingSubLocation) => {
-            Object.assign(existingSubLocation.sub_location, {...updatedSubLocation})
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'], // Lots of endpoints to invalidate optimistically
     }),
     patchMerchantLocationSubLocation: builder.mutation<DirectoryPatchMerchantSubLocationResponse, PatchMerchantLocationBody>({ // Responsible for setting the sub location's parent location
       query: ({planRef, merchantRef, locationRef, subLocationRef, parentRef}) => ({
