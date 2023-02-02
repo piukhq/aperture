@@ -202,7 +202,7 @@ const SingleViewEditableField = ({
         {renderHeader()}
       </div>
       <div className='flex h-[36px] w-full gap-[10px] justify-between'>
-        <div className='w-[392px]'>
+        <div className='w-full'>
           <Dropdown
             displayValue={value}
             displayValues={dropdownValues}
