@@ -39,10 +39,18 @@ const DirectoryPlanModal = () => {
   const [nameValue, setNameValue] = useState(name || '')
   const [planIdValue, setPlanIdValue] = useState(`${planId || ''}`)
   const [slugValue, setSlugValue] = useState(slug || '')
-
   const [nameValidationError, setNameValidationError] = useState(null)
   const [planIdValidationError, setPlanIdValidationError] = useState(null)
   const [slugValidationError, setSlugValidationError] = useState(null)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+
+  useEffect(() => { // Reset error when close button is focused
+    if (isCloseButtonFocused) {
+      setNameValidationError(null)
+      setPlanIdValidationError(null)
+      setSlugValidationError(null)
+    }
+  }, [isCloseButtonFocused])
 
   const handlePlanError = useCallback((planError: RTKQueryErrorResponse) => {
     const {status, data} = planError
@@ -180,7 +188,7 @@ const DirectoryPlanModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePlan}>
         <div className='w-full flex items-center justify-center my-[4px]'>
           <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>

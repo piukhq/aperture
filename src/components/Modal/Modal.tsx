@@ -12,12 +12,13 @@ type Props = {
   modalHeader?: string,
   children: React.ReactNode,
   onCloseFn?: VoidFunction,
+  setIsCloseButtonFocused?: (isFocused: boolean) => void,
 }
 interface KeyboardEvent {
   key: string;
 }
 
-const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
+const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFocused}: Props) => {
   const dispatch = useAppDispatch()
 
   const handleClose = useCallback(() => {
@@ -26,7 +27,12 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn}: Props) => {
   }, [dispatch, onCloseFn])
 
   const renderCloseButton = () => (
-    <button aria-label='Close' onClick={handleClose}>
+    <button
+      aria-label='Close'
+      onClick={handleClose}
+      onFocus={() => setIsCloseButtonFocused && setIsCloseButtonFocused(true)}
+      onBlur={() => setIsCloseButtonFocused && setIsCloseButtonFocused(false)}
+    >
       <CloseIcon className='w-[14px] h-[14px]' fill='#92929D' />
     </button>
   )

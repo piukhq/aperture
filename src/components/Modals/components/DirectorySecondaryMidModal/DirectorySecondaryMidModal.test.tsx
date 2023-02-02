@@ -61,6 +61,7 @@ describe('DirectorySecondaryMidModal', () => {
       .mockReturnValueOnce([mockSecondaryMidValue, setStateMock]) // secondaryMidValue
       .mockReturnValueOnce([null, setStateMock]) // secondaryMidValidationError
       .mockReturnValueOnce([false, setStateMock]) // isOnboardRequired
+      .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
   })
 
   it('should render the correct heading', () => {
@@ -130,6 +131,7 @@ describe('DirectorySecondaryMidModal', () => {
       React.useState = jest.fn()
         .mockReturnValueOnce(['', setStateMock])
         .mockReturnValueOnce([mockSecondaryMidErrorMessage, setStateMock])
+        .mockReturnValueOnce([false, setStateMock])
         .mockReturnValueOnce([false, setStateMock])
     })
 

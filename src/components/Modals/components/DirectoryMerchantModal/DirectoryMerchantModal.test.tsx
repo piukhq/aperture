@@ -68,6 +68,7 @@ describe('DirectoryMerchantModal', () => {
       .mockReturnValueOnce(['', setStateMock]) // Location label value
       .mockReturnValueOnce([null, setStateMock]) // nameValidationError
       .mockReturnValueOnce([null, setStateMock]) // locationLabelValidationError
+      .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
   })
 
   describe('Test Edit Plan specifics', () => {
@@ -81,6 +82,7 @@ describe('DirectoryMerchantModal', () => {
         .mockReturnValueOnce([mockLocationLabelValue, setStateMock]) // Location label value
         .mockReturnValueOnce([null, setStateMock]) // nameValidationError
         .mockReturnValueOnce([null, setStateMock]) // locationLabelValidationError
+        .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
     })
 
     const mockEditMerchantInitialState = {
@@ -174,6 +176,7 @@ describe('DirectoryMerchantModal', () => {
           .mockReturnValueOnce(['', setStateMock])
           .mockReturnValueOnce([mockNameErrorMessage, setStateMock])
           .mockReturnValueOnce([mockLocationLabelErrorMessage, setStateMock])
+          .mockReturnValueOnce([false, setStateMock])
       })
 
       it('should render name field error message', () => {
