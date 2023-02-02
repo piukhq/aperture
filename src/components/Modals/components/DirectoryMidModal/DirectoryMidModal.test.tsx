@@ -62,6 +62,7 @@ describe('DirectoryMidModal', () => {
       .mockReturnValueOnce([mockBinValue, setStateMock]) // binValue
       .mockReturnValueOnce([null, setStateMock]) // midValidationError
       .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
+      .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
   })
 
   describe('Test common behaviour', () => {
@@ -138,6 +139,7 @@ describe('DirectoryMidModal', () => {
         .mockReturnValueOnce(['', setStateMock]) // binValue
         .mockReturnValueOnce([mockMidErrorMessage, setStateMock]) // midValidationError
         .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
+        .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
     })
 
     it('should render mid field error message on Add MID button click', () => {

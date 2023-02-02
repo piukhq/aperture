@@ -28,6 +28,11 @@ const DirectorySecondaryMidModal = () => {
   const [secondaryMidValue, setSecondaryMidValue] = useState('')
   const [secondaryMidValidationError, setSecondaryMidValidationError] = useState(null)
   const [isOnboardRequired, setIsOnboardRequired] = useState(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+
+  useEffect(() => { // Reset error when close button is focused
+    isCloseButtonFocused && setSecondaryMidValidationError(null)
+  }, [isCloseButtonFocused])
 
   const handlePostMerchantSecondaryMidError = useCallback(() => {
     const {data} = postMerchantSecondaryMidError as RTKQueryErrorResponse
@@ -87,7 +92,7 @@ const DirectorySecondaryMidModal = () => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} Secondary MID`} onCloseFn={handleModalClose}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} Secondary MID`} onCloseFn={handleModalClose} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateSecondaryMid}>
         <TextInputGroup
           name='secondary-mid'

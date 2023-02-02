@@ -30,6 +30,7 @@ const DirectoryMidModal = () => {
 
   const [midValidationError, setMidValidationError] = useState(null)
   const [isOffboardRequired, setIsOffboardRequired] = useState(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
 
   const handlePostMerchantMidError = useCallback(() => {
     const {status, data} = postMerchantMidError as RTKQueryErrorResponse
@@ -49,6 +50,11 @@ const DirectoryMidModal = () => {
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])
+
+  useEffect(() => { // Reset error when close button is focused
+    isCloseButtonFocused && setMidValidationError(null)
+  }, [isCloseButtonFocused])
+
 
   const handleMidChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMidValue(event.target.value)
@@ -81,12 +87,13 @@ const DirectoryMidModal = () => {
   }
 
   const handleModalClose = () => {
+    setMidValidationError(null)
     resetPostMerchantMidResponse()
     dispatch(reset())
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={handleModalClose}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={handleModalClose} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMid}>
         <TextInputGroup
           name='mid'

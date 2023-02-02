@@ -15,6 +15,7 @@ type Props = {
   isExistingLocation?: boolean
   isNewLocationSubLocation?: boolean
   isExistingSubLocation?: boolean
+  isCloseButtonFocused?: boolean
   setIsInEditState?: (isInEditState: boolean) => void
   parentLocation: string
   parentLocationStrings?: string[]
@@ -32,6 +33,7 @@ const DirectoryMerchantLocationForm = ({
   isNewLocationSubLocation,
   isExistingSubLocation,
   isExistingLocation,
+  isCloseButtonFocused,
   setIsInEditState,
   parentLocationStrings,
   parentLocation,
@@ -120,6 +122,15 @@ const DirectoryMerchantLocationForm = ({
       }
     }
   }, [isSuccess, handleErrorResponse, dispatch, router, planId, merchantId, tab, error, resetResponse, isExistingSubLocation, setIsInEditState])
+
+  useEffect(() => { // Resets errors if the close button is focused
+    if (isCloseButtonFocused) {
+      setNameValidationError(null)
+      setLocationIdValidationError(null)
+      setAddressLine1ValidationError(null)
+      setPostcodeValidationError(null)
+    }
+  }, [isCloseButtonFocused])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)

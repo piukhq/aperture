@@ -58,6 +58,7 @@ describe('DirectoryPlanModal', () => {
       .mockReturnValueOnce([null, setStateMock])
       .mockReturnValueOnce([null, setStateMock])
       .mockReturnValueOnce([null, setStateMock])
+      .mockReturnValueOnce([false, setStateMock])
   })
 
   describe('Test Edit Plan specifics', () => {
@@ -79,6 +80,7 @@ describe('DirectoryPlanModal', () => {
         .mockReturnValueOnce([null, setStateMock])
         .mockReturnValueOnce([null, setStateMock])
         .mockReturnValueOnce([null, setStateMock])
+        .mockReturnValueOnce([false, setStateMock])
     })
 
     const mockEditPlanInitialState = {
@@ -181,6 +183,7 @@ describe('DirectoryPlanModal', () => {
           .mockReturnValueOnce([mockNameErrorMessage, setStateMock])
           .mockReturnValueOnce([mockPlanIdErrorMessage, setStateMock])
           .mockReturnValueOnce([mockSlugErrorMessage, setStateMock])
+          .mockReturnValueOnce([false, setStateMock])
       })
 
       it('should render name field error message', () => {

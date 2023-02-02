@@ -45,6 +45,7 @@ const DirectoryLocationModal = () => {
   const locationLabel = useAppSelector(getLocationLabel)
 
   const [parentLocation, setParentLocation] = useState('None')
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
 
   const closeModal = useCallback(() => {
     resetPostMerchantLocationResponse()
@@ -88,6 +89,7 @@ const DirectoryLocationModal = () => {
     dispatch,
   ])
 
+
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
   const locationList = getLocationList(locationsData)
   const locationValues = useMemo(() => locationList ? ['None'].concat(locationList.map(location => location.title)) : ['None'], [locationList])
@@ -118,7 +120,7 @@ const DirectoryLocationModal = () => {
   }, [])
 
   return (
-    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={`New ${locationLabel}`} onCloseFn={closeModal}>
+    <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={`New ${locationLabel}`} onCloseFn={closeModal} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <div className='mt-[20px] mx-[25px]'>
         <DirectoryMerchantLocationForm
           parentLocationStrings={locationValues}
@@ -130,6 +132,7 @@ const DirectoryLocationModal = () => {
           isSuccess={postMerchantLocationIsSuccess || postMerchantLocationSubLocationIsSuccess}
           resetResponse={parentLocation === 'None' ? resetPostMerchantLocationResponse : resetPostMerchantLocationSubLocationResponse}
           error={postMerchantLocationError || postMerchantLocationSubLocationError}
+          isCloseButtonFocused={isCloseButtonFocused}
         />
       </div>
     </Modal>

@@ -28,6 +28,12 @@ const DirectoryPsimiModal = () => {
   const [psimiValue, setPsimiValue] = useState('')
   const [psimiValidationError, setPsimiValidationError] = useState(null)
   const [isOnboardRequired, setIsOnboardRequired] = useState(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+
+  useEffect(() => { // Reset error when close button is focused
+    isCloseButtonFocused && setPsimiValidationError(null)
+  }, [isCloseButtonFocused])
+
 
   const handlePostMerchantPsimiError = useCallback(() => {
     const {status, data} = postMerchantPsimiError as RTKQueryErrorResponse
@@ -38,7 +44,7 @@ const DirectoryPsimiModal = () => {
     }
   }, [postMerchantPsimiError])
 
-  useEffect(() => {
+  useEffect(() => { // Handle response from postMerchantPsimi
     if (postMerchantPsimiError) {
       handlePostMerchantPsimiError()
     } else if (postMerchantPsimiResponse) {
@@ -46,6 +52,7 @@ const DirectoryPsimiModal = () => {
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantPsimiError, resetPostMerchantPsimiResponse, handlePostMerchantPsimiError, postMerchantPsimiResponse, dispatch])
+
 
   const handlePsimiChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPsimiValue(event.target.value)
@@ -80,7 +87,7 @@ const DirectoryPsimiModal = () => {
   }
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} PSIMI`} onCloseFn={handleModalClose}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} PSIMI`} onCloseFn={handleModalClose} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePsimi}>
         <TextInputGroup
           name='psimi'

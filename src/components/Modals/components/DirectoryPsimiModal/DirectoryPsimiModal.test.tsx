@@ -61,6 +61,7 @@ describe('DirectoryPsimiModal', () => {
       .mockReturnValueOnce([mockPsimiValue, setStateMock]) // psimiValue
       .mockReturnValueOnce([null, setStateMock]) // psimiValidationError
       .mockReturnValueOnce([false, setStateMock]) // isOnboardRequired
+      .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
   })
 
   it('should render the correct heading', () => {
@@ -131,6 +132,7 @@ describe('DirectoryPsimiModal', () => {
         .mockReturnValueOnce(['', setStateMock]) // psimiValue - empty to trigger error
         .mockReturnValueOnce([mockPsimiErrorMessage, setStateMock]) // psimiValidationError
         .mockReturnValueOnce([false, setStateMock]) // isOnboardRequired
+        .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
     })
 
     it('should not call the Post Merchant PSIMI API when Add PSIMI button is clicked', () => {
