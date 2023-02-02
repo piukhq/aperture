@@ -325,6 +325,34 @@ describe('DirectoryMerchantLocationForm', () => {
       })
     })
 
+    it('should call the Save function with address fields removed if physical location is unchecked', () => {
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce([mockName, setStateMock]) // nameValue
+        .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+        .mockReturnValueOnce([mockLocationId, setStateMock]) // locationIdValue
+        .mockReturnValueOnce([null, setStateMock]) // locationIdValidationError
+        .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
+        .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
+
+      render(getDirectoryMerchantModalComponent({mockIsPhysicalLocation: false}))
+
+      fireEvent.click(screen.getByRole('button', {name: 'Save'}))
+
+      expect(mockSaveHandler).toBeCalledWith({
+        name: mockName,
+        location_id: mockLocationId,
+        merchant_internal_id: mockMerchantInternalId,
+        is_physical_location: false,
+        address_line_1: null,
+        address_line_2: null,
+        town_city: null,
+        county: null,
+        country: null,
+        postcode: null,
+      })
+    })
+
     it('should display field specific error messages when mandatory fields are left blank', () => {
       const mockSetNameValidationError = jest.fn()
       const mockSetLocationIdValidationError = jest.fn()

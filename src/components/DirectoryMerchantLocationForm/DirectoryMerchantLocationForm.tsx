@@ -209,12 +209,12 @@ const DirectoryMerchantLocationForm = ({
         location_id: locationIdValue,
         merchant_internal_id: merchantInternalIdValue,
         is_physical_location: isPhysicalLocation,
-        address_line_1: addressLine1Value,
-        address_line_2: addressLine2Value,
-        town_city: townCityValue,
-        county: countyValue,
-        country: countryValue,
-        postcode: postcodeValue,
+        address_line_1: isPhysicalLocation ? addressLine1Value : null,
+        address_line_2: isPhysicalLocation ? addressLine2Value : null,
+        town_city: isPhysicalLocation ? townCityValue : null,
+        county: isPhysicalLocation ? countyValue : null,
+        country: isPhysicalLocation ? countryValue : null,
+        postcode: isPhysicalLocation ? postcodeValue : null,
       })
     }
   }
