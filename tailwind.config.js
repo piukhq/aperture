@@ -105,6 +105,7 @@ module.exports = {
         'shine': 'shine 700ms',
         'spin-medium': 'spin 2s linear infinite',
         'spin-slow': 'spin 14s linear infinite',
+        'spin-more-slow': 'spin 50s linear infinite',
         'spin-super-slow': 'spin 80s linear infinite',
       },
     },
