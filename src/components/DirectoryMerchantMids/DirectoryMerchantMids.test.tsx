@@ -74,7 +74,7 @@ describe('DirectoryMerchantMids', () => {
       name: 'Add Mastercard MID',
     })
     const amexButton = screen.getByRole('button', {
-      name: 'Add Amex MID',
+      name: 'Add AMEX MID',
     })
 
     expect(visaButton).toBeInTheDocument()

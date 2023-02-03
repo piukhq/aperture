@@ -11,9 +11,8 @@ import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import usePermissions from 'hooks/usePermissions'
 import {Button} from 'components'
-import {ButtonWidth, ButtonSize, LabelColour, BorderColour} from 'components/Button/styles'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
 
@@ -41,7 +40,6 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {hasRequiredPermission} = usePermissions()
   const {merchantId, planId} = router.query
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
@@ -161,38 +159,43 @@ const DirectoryMerchantMids = () => {
       <div className='flex items-center justify-between'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons() }
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
-          { hasRequiredPermission(UserPermissions.MERCHANT_DATA_READ_WRITE) && (
-            <>
-              <button
-                className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-visaBlue rounded-[10px]'
-                onClick={() => requestMidModal(PaymentSchemeName.VISA)}
-                aria-label='Add Visa MID'
-              >
-                <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
-                <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
-              </button>
+          <Button
+            handleClick={() => requestMidModal(PaymentSchemeName.VISA)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.VISA_BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel='Add Visa MID'
+          >
+            Add <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
+          </Button>
 
-              <button
-                className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-mastercardBlue rounded-[10px]'
-                onClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
-                aria-label='Add Mastercard MID'
-              >
-                <p className='pr-[5px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
-                <AddMastercardSvg className='pb-[1px] w-[35px]' alt=''/>
-              </button>
-
-              <button
-                className='flex flex-row h-[38px] px-[7px] justify-center items-center bg-amexBlue rounded-[10px]'
-                onClick={() => requestMidModal(PaymentSchemeName.AMEX)}
-                aria-label='Add Amex MID'
-              >
-                <p className='pr-[3px] text-[.875rem] font-medium font-heading text-grey-100'>Add</p>
-                <AddAmexSvg className='pb-[2px] w-[55px]' alt=''/>
-              </button>
-            </>
-
-
-          )}
+          <Button
+            handleClick={() => requestMidModal(PaymentSchemeName.MASTERCARD)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.MASTERCARD_BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel='Add Mastercard MID'
+          >
+            Add <AddMastercardSvg className='pb-[1px] w-[36px]' alt=''/>
+          </Button>
+          <Button
+            handleClick={() => requestMidModal(PaymentSchemeName.AMEX)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.AMEX_BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel='Add AMEX MID'
+          >
+            Add <AddAmexSvg className='pb-[1px] w-[55px]' alt=''/>
+          </Button>
         </div>
       </div>
 
