@@ -34,7 +34,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
             ${appClicked && 'scale-[300%] translate-x-12 translate-y-48 skew-x-0 blur-sm delay-0'}`
           }
         >
-          <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-slow opacity-70 fill-orange' : 'animate-spin-super-slow opacity-20 fill-blue'} duration-1000 ease-out ${isAppHovered && 'fill-red rounded-full'}
+          <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-15s opacity-70 fill-orange' : 'animate-spin-80s opacity-20 fill-blue'} duration-1000 ease-out ${isAppHovered && 'fill-red rounded-full'}
           ${appClicked && 'z-30 bg-grey-100 animate-spin-medium dark:bg-grey-850 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
         </div>
         <div className= // inner ring
@@ -43,8 +43,8 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100'}`
           }
         >
-          <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-slow opacity-40 fill-orange bg-orange/50' : 'animate-spin-more-slow opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
-          ${appClicked && 'z-40 bg-grey-100 animate-spin-medium dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
+          <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-30s opacity-40 fill-orange bg-orange/50' : 'animate-spin-50s opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
+          ${appClicked && 'z-40 bg-grey-100 animate-spin-2s dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
 
         </div>
         <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-40'}`}>
