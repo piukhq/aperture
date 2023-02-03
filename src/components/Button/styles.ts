@@ -38,6 +38,9 @@ export enum ButtonBackground {
   DARK_GREY,
   LIGHT_GREY,
   LIGHTISH_GREY,
+  VISA_BLUE,
+  MASTERCARD_BLUE,
+  AMEX_BLUE,
 }
 
 export enum LabelColour {
@@ -101,6 +104,9 @@ export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
   [ButtonBackground.LIGHTISH_GREY]: 'bg-grey-300',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
+  [ButtonBackground.VISA_BLUE]: 'bg-visaBlue',
+  [ButtonBackground.MASTERCARD_BLUE]: 'bg-mastercardBlue',
+  [ButtonBackground.AMEX_BLUE]: 'bg-amexBlue',
 }
 
 export const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
