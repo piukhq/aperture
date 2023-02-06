@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
 const mockMidValue = 'mock_mid_value'
-const mockGetMerchantMidResponse = {
+let mockGetMerchantMidResponse = {
   mid: {
     mid_metadata: {
       mid: mockMidValue,
@@ -38,6 +38,7 @@ const mockProps = {
   selectedEntity: null,
   resetError: jest.fn(),
   setError: jest.fn(),
+  setIsEntityFound: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
 }
 
@@ -103,5 +104,11 @@ describe('SingleViewMid', () => {
   it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewMidComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantMidResponse)
+  })
+
+  it('should display error message if selected entity is not found', () => {
+    mockGetMerchantMidResponse = null
+    render(getSingleViewMidComponent())
+    expect(screen.getByText('MID could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
 })

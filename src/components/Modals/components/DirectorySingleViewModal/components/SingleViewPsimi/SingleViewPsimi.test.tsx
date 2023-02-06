@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
 const mockPsimiValue = 'mock_psimi_value'
-const mockGetMerchantPsimiResponse = {
+let mockGetMerchantPsimiResponse = {
   psimi_metadata: {
     value: mockPsimiValue,
   },
@@ -16,6 +16,7 @@ const mockGetMerchantPsimiResponse = {
 jest.mock('hooks/useMidManagementPsimis', () => ({
   useMidManagementPsimis: jest.fn().mockImplementation(() => ({
     getMerchantPsimiResponse: mockGetMerchantPsimiResponse,
+    getMerchantPsimiIsLoading: false,
   })),
 }))
 
@@ -36,6 +37,7 @@ const mockProps = {
   selectedEntity: null,
   resetError: jest.fn(),
   setError: jest.fn(),
+  setIsEntityFound: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
 }
 
@@ -101,5 +103,11 @@ describe('SingleViewPsimi', () => {
   it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewPsimiComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantPsimiResponse)
+  })
+
+  it('should display error message if selected entity is not found', () => {
+    mockGetMerchantPsimiResponse = null
+    render(getSingleViewPsimiComponent())
+    expect(screen.getByText('PSIMI could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
 })

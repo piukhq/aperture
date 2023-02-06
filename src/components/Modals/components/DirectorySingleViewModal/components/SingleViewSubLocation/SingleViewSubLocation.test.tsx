@@ -5,7 +5,7 @@ import SingleViewSubLocation from 'components/Modals/components/DirectorySingleV
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
 const mockName = 'mock_name'
-const mockGetMerchantSubLocationResponse = {
+let mockGetMerchantSubLocationResponse = {
   parent_location: {
     location_ref: 'mock_parent_location_ref',
     location_title: 'mock_parent_location_title',
@@ -42,6 +42,7 @@ const mockProps = {
   setIsInEditState: jest.fn(),
   onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
+  setIsEntityFound: jest.fn(),
   setShouldDisplayEditButton: jest.fn(),
   setShouldDisableEditButton: jest.fn(),
 }
@@ -98,5 +99,11 @@ describe('SingleViewSubLocation', () => {
   it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewSubLocationComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantSubLocationResponse)
+  })
+
+  it('should display error message if selected entity is not found', () => {
+    mockGetMerchantSubLocationResponse = null
+    render(getSingleViewSubLocationComponent())
+    expect(screen.getByText('Sub-location could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
 })

@@ -5,7 +5,7 @@ import SingleViewLocation from 'components/Modals/components/DirectorySingleView
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 
 const mockName = 'mock_name'
-const mockGetMerchantLocationResponse = {
+let mockGetMerchantLocationResponse = {
   location_metadata: {
     name: mockName,
   },
@@ -36,6 +36,7 @@ const mockProps = {
   setIsInEditState: jest.fn(),
   onCancelEditState: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
+  setIsEntityFound: jest.fn(),
   setShouldDisplayEditButton: jest.fn(),
   setShouldDisableEditButton: jest.fn(),
 }
@@ -94,5 +95,11 @@ describe('SingleViewLocation', () => {
   it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewLocationComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantLocationResponse)
+  })
+
+  it('should display error message if selected entity is not found by the api', () => {
+    mockGetMerchantLocationResponse = null
+    render(getSingleViewLocationComponent())
+    expect(screen.getByText('Location could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
 })

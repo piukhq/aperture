@@ -8,7 +8,7 @@ import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlic
 import {DirectorySingleViewTabs} from 'utils/enums'
 
 const mockSecondaryMidValue = 'mock_secondary_mid_value'
-const mockGetMerchantSecondaryMidResponse = {
+let mockGetMerchantSecondaryMidResponse = {
   secondary_mid_metadata: {
     secondary_mid: mockSecondaryMidValue,
   },
@@ -37,6 +37,7 @@ const mockProps = {
   selectedEntity: null,
   resetError: jest.fn(),
   setError: jest.fn(),
+  setIsEntityFound: jest.fn(),
   setHeaderFn: mockSetHeaderFnProp,
 }
 
@@ -103,5 +104,11 @@ describe('SingleViewSecondaryMid', () => {
   it('should call function to set selected entity if selected entity is not present', () => {
     render(getSingleViewSecondaryMidComponent())
     expect(setSelectedDirectoryMerchantEntity).toBeCalledWith(mockGetMerchantSecondaryMidResponse)
+  })
+
+  it('should display error message if selected entity is not found', () => {
+    mockGetMerchantSecondaryMidResponse = null
+    render(getSingleViewSecondaryMidComponent())
+    expect(screen.getByText('Secondary MID could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
 })

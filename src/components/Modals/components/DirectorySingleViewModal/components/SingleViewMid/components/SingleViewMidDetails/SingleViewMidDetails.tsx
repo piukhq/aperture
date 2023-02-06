@@ -67,8 +67,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     merchantRef: merchantId as string,
   })
 
-  const {location, mid} = merchantMid
-  const locationRef = location?.location_ref || ''
+  const {mid} = merchantMid
+  const locationRef = merchantMid.location?.location_ref || ''
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
   const {payment_scheme_slug: paymentSchemeSlug, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
 

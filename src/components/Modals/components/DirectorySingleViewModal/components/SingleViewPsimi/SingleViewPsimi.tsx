@@ -5,20 +5,21 @@ import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlic
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {SingleViewPsimiDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
-import {CommentsSubjectTypes} from 'utils/enums'
-import {classNames} from 'utils/classNames'
+import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
 import {DirectoryEntity} from 'types'
+import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
   selectedEntity: DirectoryEntity,
   setHeaderFn: (header: string) => void
+  setIsEntityFound: (isEntityFound: boolean) => void
 }
 
-const SingleViewPsimi = ({selectedEntity, setHeaderFn}: Props) => {
+const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantPsimiResponse} = useMidManagementPsimis({
+  const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useMidManagementPsimis({
     skipGetPsimis: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -28,6 +29,7 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn}: Props) => {
 
   useEffect(() => {
     if (getMerchantPsimiResponse) {
+      setIsEntityFound(true)
       if (!selectedEntity) {
         dispatch(setSelectedDirectoryMerchantEntity(getMerchantPsimiResponse))
       }
@@ -35,43 +37,36 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn}: Props) => {
       const {psimi_metadata: psimiMetadata} = getMerchantPsimiResponse
       setHeaderFn(`PSIMI - ${psimiMetadata.value}`)
     }
-  }, [getMerchantPsimiResponse, setHeaderFn, dispatch, selectedEntity])
+  }, [getMerchantPsimiResponse, setHeaderFn, dispatch, selectedEntity, setIsEntityFound])
 
-  const [tabSelected, setTabSelected] = useState('Details')
+  const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
 
-  const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-medium text-grey-900 dark:text-grey-100 border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-regular text-sm text-grey-600 dark:text-grey-400 dark:hover:text-white hover:text-grey-900 border-b-[1px] border-b-grey-200'
-    return ['Details', 'Comments'].map(tab => (
-      <button
-        key={tab}
-        className={classNames(
-          'font-heading-8 h-[57px]',
-          tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses
-        )}
-        onClick={() => setTabSelected(tab)}
-      >
-        <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
-      </button>
-    ))
+  const renderDetails = () => {
+    if (getMerchantPsimiIsLoading) {
+      return <div className='h-[277px]'>i</div> // placeholder for loading mid details
+    } else if (!getMerchantPsimiResponse) {
+      return <p className='font-body-3 text-center text-red pb-[20px]'>PSIMI could not be found. Check that it has not been deleted or refresh your browser</p>
+    } else {
+      return <SingleViewPsimiDetails psimi={getMerchantPsimiResponse} />
+    }
   }
-
-  const renderDetails = () => getMerchantPsimiResponse ? (
-    <div className='px-[25px]'>
-      <SingleViewPsimiDetails psimi={getMerchantPsimiResponse} />
-    </div>
-  ) : null
 
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[23px] mt-[5px]'>
-        {renderNavigationTabs()}
+        { [DirectorySingleViewTabs.DETAILS,
+          DirectorySingleViewTabs.COMMENTS,
+        ].map(tab => (
+          <DirectorySingleViewNavigationTab key={tab} tab={tab} tabSelected={tabSelected} setTabSelectedFn={setTabSelected} isEntityFound={Boolean(getMerchantPsimiResponse)}/>
+        ))}
       </nav>
 
-      {tabSelected === 'Details' ? renderDetails() : (
-        <div className='pt-[11px]'>
-          <SingleViewComments subjectType={CommentsSubjectTypes.PSIMI} />
+      {tabSelected === 'Details' ? (
+        <div className='pt-[11px] px-[25px]'>
+          {renderDetails()}
         </div>
+      ) : (
+        <SingleViewComments subjectType={CommentsSubjectTypes.PSIMI} />
       )}
     </>
   )
