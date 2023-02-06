@@ -18,7 +18,7 @@ export const useMidManagementLocationSubLocations = ({skipGetSubLocations = fals
     isLoading: getMerchantLocationSubLocationIsLoading,
     error: getMerchantLocationSubLocationError,
     refetch: getMerchantLocationSubLocationRefresh,
-    isFetching: getMerchantLocationSubLocationIsFetching,
+    isFetching: getMerchantLocationSubLocationIsFetching, // TODO: What exactly is fetching here? Is it the same as isLoading? Look into this when I have more time.
   } = useGetMerchantLocationSubLocationQuery({planRef, merchantRef, locationRef, subLocationRef}, {skip: skipGetSubLocation})
 
   const [postMerchantLocationSubLocation, {
