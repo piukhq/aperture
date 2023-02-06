@@ -169,11 +169,34 @@ describe('DirectorySingleViewModal', () => {
       .mockReturnValueOnce([null, jest.fn()]) // setErrorMessage
       .mockReturnValueOnce([false, jest.fn()]) // setIsInDeleteConfirmationState
       .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
+      .mockReturnValueOnce([true, jest.fn()]) // isEntityFound
       .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
-      .mockReturnValue([false, jest.fn()]) // shouldDisableEditButton
 
     render(getDirectorySingleViewModalComponent())
     expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument()
+  })
+
+  it('should disable render the location Edit button when entity is not loaded', () => {
+    useRouter.mockImplementation(() => ({
+      query: {
+        planId: 'mock_plan_id',
+        merchantId: 'mock_merchant_id',
+        tab: 'locations',
+        ref: mockMidRef,
+      },
+    }))
+
+    React.useState = jest.fn()
+      .mockReturnValueOnce(['', jest.fn()]) // setEntityHeading
+      .mockReturnValueOnce([false, jest.fn()]) // setCopyButtonClicked
+      .mockReturnValueOnce([null, jest.fn()]) // setErrorMessage
+      .mockReturnValueOnce([false, jest.fn()]) // setIsInDeleteConfirmationState
+      .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
+      .mockReturnValueOnce([false, jest.fn()]) // isEntityFound
+      .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
+
+    render(getDirectorySingleViewModalComponent())
+    expect(screen.getByRole('button', {name: 'Edit'})).toBeDisabled()
   })
 
   describe('Test is deleting state', () => {
