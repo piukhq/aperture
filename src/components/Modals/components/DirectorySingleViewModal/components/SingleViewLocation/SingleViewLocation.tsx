@@ -66,8 +66,8 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
   }, [getMerchantLocationRefresh])
 
   const renderDetails = () => {
-    if (getMerchantLocationIsFetching) {
-      return <div className='h-[355px]'></div> // placeholder for loading location details
+    if (!getMerchantLocationIsFetching) {
+      return <div className='h-[359px]'></div> // placeholder for loading location details
     } else if (!getMerchantLocationResponse) {
       return <p className='font-body-3 text-center text-red pb-[20px]'>Location could not be found. Check that it has not been deleted or refresh your browser</p>
     } else {
