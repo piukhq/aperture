@@ -60,7 +60,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const styles = MODAL_STYLE_MAPS[modalStyle]
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-100'}`}>
+    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}>
       <div className={`bg-white dark:bg-grey-850 ${styles.innerContainer} shadow-md`}>
         <div className={`flex px-[20px] items-center w-full ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
           {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
