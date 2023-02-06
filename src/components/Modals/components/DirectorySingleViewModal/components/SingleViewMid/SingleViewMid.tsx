@@ -14,13 +14,14 @@ type Props = {
   resetError: () => void
   setError: (errorMessage: string) => void
   setHeaderFn: (header: string) => void
+  setIsEntityFound: (isEntityFound: boolean) => void
 }
 
-const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn}: Props) => {
+const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn, setIsEntityFound}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
-  const {getMerchantMidResponse} = useMidManagementMids({
+  const {getMerchantMidResponse, getMerchantMidIsLoading} = useMidManagementMids({
     skipGetMids: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -31,6 +32,7 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn}: Prop
 
   useEffect(() => {
     if (getMerchantMidResponse) {
+      setIsEntityFound(true)
       if (!selectedEntity) {
         dispatch(setSelectedDirectoryMerchantEntity(getMerchantMidResponse))
       }
@@ -39,7 +41,7 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn}: Prop
       const {mid_metadata: midMetadata} = mid
       setHeaderFn(`MID - ${midMetadata.mid}`)
     }
-  }, [getMerchantMidResponse, setHeaderFn, dispatch, selectedEntity])
+  }, [getMerchantMidResponse, setHeaderFn, dispatch, selectedEntity, setIsEntityFound])
 
   const [tabSelected, setTabSelected] = useState('Details')
 
@@ -60,18 +62,26 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn}: Prop
     ))
   }
 
-  const renderDetails = () => getMerchantMidResponse ? (
-    <div className='px-[25px]'>
-      <SingleViewMidDetails merchantMid={getMerchantMidResponse} setError={setError} resetError={resetError} />
-    </div>
-  ) : null
+  const renderDetails = () => {
+    if (getMerchantMidResponse && !getMerchantMidIsLoading) {
+      return <SingleViewMidDetails merchantMid={getMerchantMidResponse} setError={setError} resetError={resetError} />
+    } else if (getMerchantMidIsLoading) {
+      return <div className='h-[420px]'></div> // placeholder for loading mid details
+    } else {
+      return <p className='font-body-3 text-center text-red pb-[15px]'>MID could not be found. Check that it has not been deleted or refresh your browser</p>
+    }
+  }
 
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-2 mb-[23px] mt-[5px]'>
         {renderNavigationTabs()}
       </nav>
-      {tabSelected === 'Details' ? renderDetails() : (
+      {tabSelected === 'Details' ? (
+        <div className='px-[25px]'>
+          {renderDetails()}
+        </div>
+      ) : (
         <div className='pt-[11px]'>
           <SingleViewComments subjectType={CommentsSubjectTypes.MID} />
         </div>

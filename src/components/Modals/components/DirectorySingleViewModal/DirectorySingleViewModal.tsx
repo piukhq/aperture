@@ -86,9 +86,9 @@ const DirectorySingleViewModal = () => {
   const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState(false)
 
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
+  const [isEntityFound, setIsEntityFound] = useState(false)
 
   const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
-  const [shouldDisableEditButton, setShouldDisableEditButton] = useState(false)
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
@@ -177,14 +177,15 @@ const DirectorySingleViewModal = () => {
             setError={setErrorMessage}
             resetError={() => setErrorMessage(null)}
             setHeaderFn={setEntityHeading}
+            setIsEntityFound={setIsEntityFound}
           />
         )
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return (
-          <SingleViewSecondaryMid selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} />
+          <SingleViewSecondaryMid selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
         )
       case DirectoryNavigationTab.PSIMIS:
-        return <SingleViewPsimi selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} />
+        return <SingleViewPsimi selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
       case DirectoryNavigationTab.LOCATIONS:
         if (sub_location_ref) {
           return (
@@ -195,7 +196,7 @@ const DirectorySingleViewModal = () => {
               setIsInEditState={setIsInLocationEditState}
               onCancelEditState={onCancelEditState}
               setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
-              setShouldDisableEditButton={setShouldDisableEditButton}
+              setIsEntityFound={setIsEntityFound}
             />
           )
         } else {
@@ -207,13 +208,12 @@ const DirectorySingleViewModal = () => {
               setIsInEditState={setIsInLocationEditState}
               onCancelEditState={onCancelEditState}
               setShouldDisplayEditButton={setShouldDisplayFooterEditButton}
-              setShouldDisableEditButton={setShouldDisableEditButton}
+              setIsEntityFound={setIsEntityFound}
             />
           )
         }
     }
   }
-
 
   const renderFormButtons = () => (
     <>
@@ -267,7 +267,7 @@ const DirectorySingleViewModal = () => {
                 buttonBackground={ButtonBackground.LIGHT_GREY}
                 labelColour={LabelColour.GREY}
                 labelWeight={LabelWeight.SEMIBOLD}
-                isDisabled={shouldDisableEditButton}
+                isDisabled={!isEntityFound}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               >Edit
               </Button>
@@ -280,7 +280,7 @@ const DirectorySingleViewModal = () => {
               buttonBackground={ButtonBackground.RED}
               labelColour={LabelColour.WHITE}
               labelWeight={LabelWeight.SEMIBOLD}
-              isDisabled={isDeleting}
+              isDisabled={isDeleting || !isEntityFound}
               requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
             >{isDeleting ? 'Deleting' : 'Delete'}
             </Button>
@@ -289,7 +289,6 @@ const DirectorySingleViewModal = () => {
       )}
     </>
   )
-
 
   const handleModelClose = useCallback(() => {
     resetDeleteMerchantMidResponse()
@@ -309,7 +308,6 @@ const DirectorySingleViewModal = () => {
     return (
       <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModelClose}>
         {renderContent()}
-
         {/* Form buttons shall appear except when editing a location, then the EditLocationForm will handle the form's buttons */}
         {!(tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) && (
           <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[14px]'>

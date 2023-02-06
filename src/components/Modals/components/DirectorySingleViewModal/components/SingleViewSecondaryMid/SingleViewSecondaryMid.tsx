@@ -6,20 +6,21 @@ import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids
 import {SingleViewSecondaryMidDetails, SingleViewSecondaryMidLocations} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
-import {classNames} from 'utils/classNames'
 import {DirectoryEntity} from 'types'
+import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
   selectedEntity: DirectoryEntity,
   setHeaderFn: (header: string) => void
+  setIsEntityFound: (isEntityFound: boolean) => void
 }
 
-const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn}: Props) => {
+const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
   const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
 
-  const {getMerchantSecondaryMidResponse} = useMidManagementSecondaryMids({
+  const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -30,6 +31,7 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn}: Props) => {
 
   useEffect(() => {
     if (getMerchantSecondaryMidResponse) {
+      setIsEntityFound(true)
       if (!selectedEntity) {
         dispatch(setSelectedDirectoryMerchantEntity(getMerchantSecondaryMidResponse))
       }
@@ -37,33 +39,26 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn}: Props) => {
       const {secondary_mid_metadata: secondaryMidMetadata} = getMerchantSecondaryMidResponse
       setHeaderFn(`Secondary MID - ${secondaryMidMetadata.secondary_mid}`)
     }
-  }, [getMerchantSecondaryMidResponse, setHeaderFn, dispatch, selectedEntity])
+  }, [getMerchantSecondaryMidResponse, setHeaderFn, dispatch, selectedEntity, setIsEntityFound])
 
-  const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-medium text-grey-900 dark:text-grey-100 border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-regular text-sm text-grey-600 dark:text-grey-400 dark:hover:text-white hover:text-grey-900 border-b-[1px] border-b-grey-200'
-    return [DirectorySingleViewTabs.DETAILS, DirectorySingleViewTabs.LOCATIONS, DirectorySingleViewTabs.COMMENTS].map(tab => (
-      <button
-        key={tab}
-        className={classNames(
-          'font-heading-8 h-[57px]',
-          tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses
-        )}
-        onClick={() => setTabSelected(tab as DirectorySingleViewTabs)}
-      >
-        <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
-      </button>
-    ))
+  const renderDetails = () => {
+    if (getMerchantSecondaryMidIsLoading) {
+      return <div className='h-[278px] '></div>
+    } else if (!getMerchantSecondaryMidResponse) {
+      return <p className='font-body-3 text-center text-red pb-[15px]'>Secondary MID could not be found. Check that it has not been deleted or refresh your browser</p>
+    } else {
+      return <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} />
+    }
   }
 
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
-        return getMerchantSecondaryMidResponse ? (
+        return (
           <div className='pl-[25px] pr-[10px]'>
-            <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} />
+            {renderDetails()}
           </div>
-        ) : null
+        )
       case DirectorySingleViewTabs.LOCATIONS:
         return (
           <div className='px-[25px]'>
@@ -83,7 +78,12 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn}: Props) => {
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-3 mb-[23px] mt-[5px]'>
-        {renderNavigationTabs()}
+        { [DirectorySingleViewTabs.DETAILS,
+          DirectorySingleViewTabs.LOCATIONS,
+          DirectorySingleViewTabs.COMMENTS,
+        ].map(tab => (
+          <DirectorySingleViewNavigationTab key={tab} tab={tab} tabSelected={tabSelected} setTabSelectedFn={setTabSelected} isEntityFound={Boolean(getMerchantSecondaryMidResponse)}/>
+        ))}
       </nav>
       {renderSelectedTabContent()}
     </>

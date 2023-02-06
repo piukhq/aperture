@@ -11,8 +11,8 @@ import {
   SingleViewLocationSubLocations,
 } from './components'
 import SingleViewComments from '../SingleViewComments'
-import {classNames} from 'utils/classNames'
 import {DirectoryEntity} from 'types'
+import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
   selectedEntity: DirectoryEntity,
@@ -20,11 +20,11 @@ type Props = {
   isInEditState: boolean
   onCancelEditState: () => void
   setShouldDisplayEditButton: (shouldDisplayEditButton: boolean) => void
-  setShouldDisableEditButton: (shouldDisableEditButton: boolean) => void
   setIsInEditState: (isInEditState: boolean) => void
+  setIsEntityFound: (isEntityFound: boolean) => void
 }
 
-const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsInEditState, onCancelEditState, setShouldDisplayEditButton, setShouldDisableEditButton}: Props) => {
+const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsInEditState, onCancelEditState, setShouldDisplayEditButton, setIsEntityFound}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
 
@@ -40,7 +40,7 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
 
   const dispatch = useAppDispatch()
 
-  const [tabSelected, setTabSelected] = useState('Details')
+  const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
 
   useEffect(() => {
     // Edit button should only be visible (currently) on the details tab
@@ -48,12 +48,8 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
   }, [tabSelected, setShouldDisplayEditButton])
 
   useEffect(() => {
-    // Edit button should be disabled when refetching data
-    setShouldDisableEditButton(getMerchantLocationIsFetching)
-  }, [getMerchantLocationIsFetching, setShouldDisableEditButton])
-
-  useEffect(() => {
     if (getMerchantLocationResponse) {
+      setIsEntityFound(true)
       if (!selectedEntity) {
         dispatch(setSelectedDirectoryMerchantEntity(getMerchantLocationResponse))
       }
@@ -63,50 +59,38 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
       const title = name || addressLine1 || `Location ${locationId}`
       setHeaderFn(`${isInEditState && tabSelected === DirectorySingleViewTabs.DETAILS ? 'Editing - ' : ''}${title}`)
     }
-  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity, tabSelected])
-
-
-  const renderNavigationTabs = () => {
-    const tabSelectedClasses = 'font-medium text-grey-900 dark:text-grey-100 border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-regular text-sm text-grey-600 dark:text-grey-400 dark:hover:text-white hover:text-grey-900 border-b-[1px] border-b-grey-200'
-    return [
-      DirectorySingleViewTabs.DETAILS,
-      DirectorySingleViewTabs.MIDS,
-      DirectorySingleViewTabs.SECONDARY_MIDS,
-      DirectorySingleViewTabs.SUB_LOCATIONS,
-      DirectorySingleViewTabs.COMMENTS,
-    ].map(tab => (
-      <button
-        key={tab}
-        className={classNames(
-          'font-heading-8 h-[57px]',
-          tab === tabSelected ? tabSelectedClasses : tabUnselectedClasses
-        )}
-        onClick={() => setTabSelected(tab)}
-      >
-        <span className='place-content-center flex h-[57px] items-center'>{tab}</span>
-      </button>
-    ))
-  }
+  }, [getMerchantLocationResponse, setHeaderFn, isInEditState, dispatch, selectedEntity, tabSelected, setIsEntityFound])
 
   const handleRefresh = useCallback(() => {
     getMerchantLocationRefresh()
   }, [getMerchantLocationRefresh])
 
+  const renderDetails = () => {
+    if (getMerchantLocationIsFetching) {
+      return <div className='h-[359px]'></div> // placeholder for loading location details
+    } else if (!getMerchantLocationResponse) {
+      return <p className='font-body-3 text-center text-red pb-[20px]'>Location could not be found. Check that it has not been deleted or refresh your browser</p>
+    } else {
+      return (
+        <SingleViewLocationDetails
+          location={getMerchantLocationResponse}
+          isInEditState={isInEditState}
+          onCancelEditState={onCancelEditState}
+          handleRefresh={handleRefresh}
+          isRefreshing={getMerchantLocationIsFetching}
+        />
+      )
+    }
+  }
+
   const renderSelectedTabContent = () => {
     switch (tabSelected) {
       case DirectorySingleViewTabs.DETAILS:
-        return getMerchantLocationResponse ? (
+        return (
           <div className='pl-[25px] pr-[10px]'>
-            <SingleViewLocationDetails
-              location={getMerchantLocationResponse}
-              isInEditState={isInEditState}
-              onCancelEditState={onCancelEditState}
-              handleRefresh={handleRefresh}
-              isRefreshing={getMerchantLocationIsFetching}
-            />
+            {renderDetails()}
           </div>
-        ) : null
+        )
       case DirectorySingleViewTabs.MIDS:
         return (
           <div className='px-[25px]'>
@@ -142,7 +126,14 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
   return (
     <>
       <nav className='h-[60px] w-full grid grid-cols-5 mb-[23px] mt-[5px]'>
-        {renderNavigationTabs()}
+        { [DirectorySingleViewTabs.DETAILS,
+          DirectorySingleViewTabs.MIDS,
+          DirectorySingleViewTabs.SECONDARY_MIDS,
+          DirectorySingleViewTabs.SUB_LOCATIONS,
+          DirectorySingleViewTabs.COMMENTS,
+        ].map(tab => (
+          <DirectorySingleViewNavigationTab key={tab} tab={tab} tabSelected={tabSelected} setTabSelectedFn={setTabSelected} isEntityFound={Boolean(getMerchantLocationResponse)}/>
+        ))}
       </nav>
       {renderSelectedTabContent()}
     </>
