@@ -35,6 +35,8 @@ const getSingleViewEditableField = (passedProps = {}) => (
 
 const setStateMock = jest.fn()
 
+const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+
 describe('SingleViewEditableField', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -44,6 +46,12 @@ describe('SingleViewEditableField', () => {
       .mockReturnValueOnce([false, setStateMock]) // isInEditState
       .mockReturnValueOnce([false, setStateMock]) // isInDeleteState
       .mockReturnValueOnce([null, setStateMock]) // validationError
+
+    useRouter.mockImplementation(() => ({
+      query: {
+        tab: 'mids',
+      },
+    }))
   })
 
   describe('Test read-only state', () => {
