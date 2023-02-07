@@ -45,7 +45,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
         >
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-30s opacity-40 fill-orange bg-orange/50' : 'animate-spin-50s opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
           ${appClicked && 'z-40 bg-grey-100 animate-spin-2s dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
-
         </div>
         <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-40'}`}>
           <h1 className='font-heading-1 -skew-x-12 text-[5rem] ml-48 z-40'>APERTURE</h1>
@@ -68,14 +67,12 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
         </div>
       </div>
 
-
       <div className={`${fadeInOutClasses} duration-500 p-4 flex flex-col gap-4 items-center mt-8 z-50 ${appClicked && 'opacity-0'}`}>
         <div className='bg-orange/10 p-4 rounded-lg w-1/3'>
           <h2 className='font-heading-7'>Brontosaurus Update 🦕</h2>
           <p className='font-body-4'>Feb 2023</p>
           <div className='pt-4 flex flex-col rounded-lg items-start'>
-            <li className='font-body-3'>We can have a welcome message for release but can also be...</li>
-            <li className='font-body-3'>..for release notes should we update this on occasion</li>
+            <p className='font-body-3 w-full'>More bug fixes, like...so many of them.</p>
           </div>
         </div>
         <button className={appButtonClasses}
@@ -121,8 +118,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
             Give praise, ideas, or rants
         </a>
       </div>
-
-
     </div>
   )
 })
