@@ -235,6 +235,8 @@ const DirectoryMerchantLocationForm = ({
 
   const handleParentLocationChange = (parentLocation: string) => {
     setLocationIdValidationError(null)
+    setMerchantInternalIdValue('')
+    setLocationIdValue('')
     parentLocationChangeHandler(parentLocation)
   }
 
