@@ -20,10 +20,11 @@ import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import TableSvg from 'icons/svgs/table.svg'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
+import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleton'
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
-  const {getPlansResponse, getPlanResponse} = useMidManagementPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
+  const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useMidManagementPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
 
 
   const planList: DirectoryPlan[] = getPlansResponse
@@ -128,6 +129,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         },
       ]
       return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
+
     })
   }
 
@@ -148,11 +150,20 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         ><PlusSvg/>New Plan
         </Button>
       </div>
-      {planList && planList.length > 0 && (
-        <div className='flex mt-[51px] flex-wrap gap-[30px]'>
-          {renderDirectoryPlans()}
-        </div>
-      )}
+      <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
+        {planList && planList.length > 0 && (
+          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+            {renderDirectoryPlans()}
+          </div>
+        )}
+        {getPlansIsLoading && (
+          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+            {Array(6).fill(0)
+              .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
+          </div>
+        )}
+      </div>
+
     </PageLayout>
   )
 })
