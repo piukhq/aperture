@@ -5,7 +5,6 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import CloseIcon from 'icons/svgs/close.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import {UserPermissions} from 'utils/enums'
-import {useRouter} from 'next/router'
 
 type Props = {
   header: string
@@ -48,8 +47,6 @@ const SingleViewEditableField = ({
   onEdit,
   isDisabled,
 }: Props) => {
-  const router = useRouter()
-  const isMidModal = router.query.tab === 'mids'
   const [isInEditState, setIsInEditState] = useState(false)
   const [isInDeleteState, setIsInDeleteState] = useState(false)
   const [validationError, setValidationError] = useState(null)
@@ -128,8 +125,8 @@ const SingleViewEditableField = ({
     </div>
   )
 
-  const valueMaxLength = isMidModal ? 60 : 18
-  const formattedValue = value?.length > valueMaxLength ? value?.substring(0, valueMaxLength) + '...' : value
+
+  const formattedValue = value?.length > 50 ? value?.substring(0, 50) + '...' : value
 
   const renderReadOnlyState = () => (
     <div className='w-full'>
@@ -145,18 +142,18 @@ const SingleViewEditableField = ({
             <Button
               buttonType={ButtonType.SUBMIT}
               buttonSize={ButtonSize.MEDIUM}
-              buttonWidth={formattedValue ? ButtonWidth.SINGLE_VIEW_MID_SMALL : ButtonWidth.AUTO}
+              buttonWidth={value ? ButtonWidth.SINGLE_VIEW_MID_SMALL : ButtonWidth.AUTO}
               buttonBackground={ButtonBackground.LIGHT_GREY}
               labelColour={LabelColour.GREY}
               labelWeight={LabelWeight.SEMIBOLD}
               handleClick={onEditHandler}
-              ariaLabel={formattedValue ? 'Edit' : `Add ${label}`}
+              ariaLabel={value ? 'Edit' : `Add ${label}`}
               isDisabled={isDisabled}
               requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-            >{formattedValue ? 'Edit' : `Add ${label}`}
+            >{value ? 'Edit' : `Add ${label}`}
             </Button>
 
-            {formattedValue && handleDelete && (
+            {value && handleDelete && (
               <Button
                 handleClick={() => setIsInDeleteState(true)}
                 buttonSize={ButtonSize.MEDIUM_ICON}
@@ -177,7 +174,7 @@ const SingleViewEditableField = ({
   )
 
   const renderEditSaveAndCloseButtons = () => (
-    <div className='flex gap-[10px] w-[150px]'>
+    <div className='flex gap-[10px] justify-end'>
       <Button
         handleClick={onSaveHandler}
         buttonType={ButtonType.SUBMIT}
@@ -208,15 +205,14 @@ const SingleViewEditableField = ({
         {renderHeader()}
       </div>
       <div className='flex h-[36px] w-full gap-[10px] justify-between'>
-        <div className='w-full'>
-          <Dropdown
-            displayValue={formattedValue}
-            displayValues={dropdownValues}
-            onChangeDisplayValue={handleValueChange}
-            isDisabled={isDisabled}
-            selectedValueStyles='font-normal text-grey-600'
-          />
-        </div>
+        <Dropdown
+          displayValue={formattedValue}
+          displayValues={dropdownValues}
+          onChangeDisplayValue={handleValueChange}
+          isDisabled={isDisabled}
+          selectedValueStyles='font-normal text-grey-600'
+        />
+
         {renderEditSaveAndCloseButtons()}
       </div>
     </div>
