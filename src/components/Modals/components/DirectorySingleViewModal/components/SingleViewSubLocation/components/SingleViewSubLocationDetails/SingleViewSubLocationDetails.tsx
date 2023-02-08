@@ -106,7 +106,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const renderReadOnlyState = () => {
     return (
       <>
-        <div data-testid='sub-location-refresh-button' className='flex justify-end mb-[12px]'>
+        <div data-testid='sub-location-refresh-button' className='flex w-full justify-end mb-[12px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
@@ -121,28 +121,17 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
           </Button>
         </div>
 
-        <div className='grid grid-cols-5 auto-cols-auto gap-[32px]'>
-          <section className='col-span-2'>
+
+        <div className='grid grid-cols-2 gap-[32px] w-full'>
+          <section className='col-span-1'>
             <h2 className='font-modal-heading'>DATE ADDED</h2>
             <p className='font-modal-data'>{isoToDateTime(dateAdded)}</p>
           </section>
-
-          <section className='col-span-3'>
+          <section className='col-span-1'>
             <h2 className='font-modal-heading'>PHYSICAL LOCATION</h2>
             <p className='font-modal-data'>{isPhysicalLocation ? 'Yes' : 'No'}</p>
           </section>
-
           <section className='col-span-2'>
-            <h2 className='font-modal-heading'>ADDRESS</h2>
-            {addressLine1 && <p className='font-modal-data'>{addressLine1}</p>}
-            {addressLine2 && <p className='font-modal-data'>{addressLine2}</p>}
-            {townCity && <p className='font-modal-data'>{townCity}</p>}
-            {county && <p className='font-modal-data'>{county}</p>}
-            {country && <p className='font-modal-data'>{country}</p>}
-            {postcode && <p className='font-modal-data'>{postcode}</p>}
-          </section>
-
-          <section className='col-span-3'>
             <SingleViewEditableField
               header='PARENT LOCATION'
               label='Parent Location'
@@ -159,6 +148,17 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location' : null}
             />
           </section>
+          {isPhysicalLocation && (
+            <section className='col-span-2'>
+              <h2 className='font-modal-heading'>ADDRESS</h2>
+              {addressLine1 && <p className='font-modal-data'>{addressLine1}</p>}
+              {addressLine2 && <p className='font-modal-data'>{addressLine2}</p>}
+              {townCity && <p className='font-modal-data'>{townCity}</p>}
+              {county && <p className='font-modal-data'>{county}</p>}
+              {country && <p className='font-modal-data'>{country}</p>}
+              {postcode && <p className='font-modal-data'>{postcode}</p>}
+            </section>
+          )}
         </div>
       </>
     )

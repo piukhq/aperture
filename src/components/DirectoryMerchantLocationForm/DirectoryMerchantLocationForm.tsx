@@ -206,8 +206,8 @@ const DirectoryMerchantLocationForm = ({
 
       onSaveHandler({
         name: nameValue,
-        location_id: locationIdValue,
-        merchant_internal_id: merchantInternalIdValue,
+        location_id: isNewLocationSubLocation ? '' : locationIdValue,
+        merchant_internal_id: isNewLocationSubLocation ? '' : merchantInternalIdValue,
         is_physical_location: isPhysicalLocation,
         address_line_1: isPhysicalLocation ? addressLine1Value : null,
         address_line_2: isPhysicalLocation ? addressLine2Value : null,
@@ -235,6 +235,8 @@ const DirectoryMerchantLocationForm = ({
 
   const handleParentLocationChange = (parentLocation: string) => {
     setLocationIdValidationError(null)
+    setMerchantInternalIdValue('')
+    setLocationIdValue('')
     parentLocationChangeHandler(parentLocation)
   }
 

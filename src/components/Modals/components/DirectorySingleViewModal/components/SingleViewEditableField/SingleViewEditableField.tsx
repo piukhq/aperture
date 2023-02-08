@@ -125,14 +125,17 @@ const SingleViewEditableField = ({
     </div>
   )
 
+
+  const formattedValue = value?.length > 50 ? value?.substring(0, 50) + '...' : value
+
   const renderReadOnlyState = () => (
     <div className='w-full'>
       {renderHeader()}
       <div className='flex w-full items-center justify-between'>
         {link && value ? (
-          <a className='font-modal-data text-blue' href={link}>{value}</a>
+          <a className='font-modal-data text-blue' href={link}>{formattedValue}</a>
         ) : (
-          <p className='font-modal-data'>{value || 'Unknown'}</p>
+          <p className='font-modal-data'>{formattedValue || 'Unknown'}</p>
         )}
         {isInDeleteState ? renderDeleteState() : (
           <div className='flex gap-[10px]'>
@@ -171,12 +174,12 @@ const SingleViewEditableField = ({
   )
 
   const renderEditSaveAndCloseButtons = () => (
-    <div className='flex gap-[10px]'>
+    <div className='flex gap-[10px] justify-end'>
       <Button
         handleClick={onSaveHandler}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
-        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
+        buttonWidth={isSaving ? ButtonWidth.FULL : ButtonWidth.SINGLE_VIEW_MID_SMALL}
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
@@ -202,15 +205,14 @@ const SingleViewEditableField = ({
         {renderHeader()}
       </div>
       <div className='flex h-[36px] w-full gap-[10px] justify-between'>
-        <div className='w-full'>
-          <Dropdown
-            displayValue={value}
-            displayValues={dropdownValues}
-            onChangeDisplayValue={handleValueChange}
-            isDisabled={isDisabled}
-            selectedValueStyles='font-normal text-grey-600'
-          />
-        </div>
+        <Dropdown
+          displayValue={formattedValue}
+          displayValues={dropdownValues}
+          onChangeDisplayValue={handleValueChange}
+          isDisabled={isDisabled}
+          selectedValueStyles='font-normal text-grey-600'
+        />
+
         {renderEditSaveAndCloseButtons()}
       </div>
     </div>
@@ -223,7 +225,7 @@ const SingleViewEditableField = ({
         label={label}
         autofocus
         error={validationError}
-        value={value || ''}
+        value={formattedValue || ''}
         ariaRequired
         onChange={onChangeHandler}
         inputType={InputType.TEXT}
