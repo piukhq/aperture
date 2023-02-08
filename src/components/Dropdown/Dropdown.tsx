@@ -25,7 +25,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
 
   return (
     <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue} disabled={isDisabled}
-      className='flex h-full w-auto'
+      className='flex h-full w-full pr-4'
     >
       {({open}) => (
         <div className='relative w-full'>
