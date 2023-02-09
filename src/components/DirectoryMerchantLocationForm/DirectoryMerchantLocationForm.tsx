@@ -248,7 +248,7 @@ const DirectoryMerchantLocationForm = ({
           <h2 className='font-modal-heading'>PARENT LOCATION</h2>
 
           <div className='h-[28px] w-[277px]'>
-            {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
+            {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2 truncate' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
               displayValue={parentLocation}
               displayValues={parentLocationStrings}
               onChangeDisplayValue={handleParentLocationChange}
