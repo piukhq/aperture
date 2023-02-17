@@ -69,11 +69,13 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
       <div className={`${fadeInOutClasses} duration-500 p-4 flex flex-col gap-4 items-center mt-8 z-50 ${appClicked && 'opacity-0'}`}>
         <div className='bg-orange/10 p-4 rounded-lg w-1/3'>
-          <h2 className='font-heading-7'>Brontosaurus Update 🦕</h2>
+          <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦕</h2>
           <p className='font-body-4'>Feb 2023</p>
-          <div className='pt-4 flex flex-col rounded-lg items-start'>
-            <p className='font-body-3 w-full'>More bug fixes, like...so many of them.</p>
-          </div>
+          <ul className='font-body-3 list-disc list-inside'>
+            <li>Lots of bug fixes</li>
+            <li>File uploading</li>
+            <li>Comment & sub-location revamp</li>
+          </ul>
         </div>
         <button className={appButtonClasses}
           onMouseEnter={() => setIsAppHovered(true)}
@@ -114,7 +116,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
           <h2 className='font-heading-5 italic'>CUSTOMER WALLETS</h2>
           <p className='font-body-3'>View a customers transactions, payment and loyalty cards</p>
         </button>
-        <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500' href={'https://teams.microsoft.com/l/chat/0/0?users=cmorrow@bink.com&topicName=Aperture Feedback&message=I was using Aperture and I thought...'}>
+        <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500' href={'https://teams.microsoft.com/l/chat/0/0?users=cmorrow@bink.com&topicName=Aperture Feedback&message=I was using Aperture and I thought that...'}>
             Give praise, ideas, or rants
         </a>
       </div>
