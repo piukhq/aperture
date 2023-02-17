@@ -61,6 +61,7 @@ describe('DirectoryMidModal', () => {
       .mockReturnValueOnce([mockMidValue, setStateMock]) // midValue
       .mockReturnValueOnce([mockBinValue, setStateMock]) // binValue
       .mockReturnValueOnce([null, setStateMock]) // midValidationError
+      .mockReturnValueOnce([null, setStateMock]) // binvalidationError
       .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
       .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
   })
@@ -129,6 +130,7 @@ describe('DirectoryMidModal', () => {
 
   describe('Test error scenarios', () => {
     const mockMidErrorMessage = 'mock_mid_error'
+    const mockBinErrorMessage = 'mock_bin_error'
 
     beforeEach(() => {
       jest.clearAllMocks()
@@ -138,6 +140,7 @@ describe('DirectoryMidModal', () => {
         .mockReturnValueOnce(['', setStateMock]) // midValue
         .mockReturnValueOnce(['', setStateMock]) // binValue
         .mockReturnValueOnce([mockMidErrorMessage, setStateMock]) // midValidationError
+        .mockReturnValueOnce([mockBinErrorMessage, setStateMock]) // midValidationError
         .mockReturnValueOnce([false, setStateMock]) // isOffboardRequired
         .mockReturnValueOnce([false, setStateMock]) // isCloseButtonFocused
     })
@@ -168,6 +171,45 @@ describe('DirectoryMidModal', () => {
 
       expect(midErrorElement).toBeInTheDocument()
       expect(midErrorText).toBeInTheDocument()
+    })
+
+    it('should render bin field error message on Add MID button click', () => {
+      const visaStore = mockStoreFn({
+        directoryMerchant: {
+          selectedPaymentScheme: PaymentSchemeName.VISA,
+        },
+      })
+      render(getDirectoryMidModalComponent(visaStore))
+
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Add MID',
+      }))
+
+      const binErrorElement = screen.getByTestId('bin-input-error')
+      const binErrorText = screen.getByText(mockMidErrorMessage)
+
+      expect(binErrorElement).toBeInTheDocument()
+      expect(binErrorText).toBeInTheDocument()
+    })
+
+    it('should render bin field error message on Add & Onboard MID button click', () => {
+      const visaStore = mockStoreFn({
+        directoryMerchant: {
+          selectedPaymentScheme: PaymentSchemeName.VISA,
+        },
+      })
+      render(getDirectoryMidModalComponent(visaStore))
+
+      fireEvent.click(screen.getByRole('button', {
+        name: 'Add & Onboard MID',
+      }))
+
+      const binErrorElement = screen.getByTestId('bin-input-error')
+      const binErrorText = screen.getByText(mockMidErrorMessage)
+
+      expect(binErrorElement).toBeInTheDocument()
+      expect(binErrorText).toBeInTheDocument()
     })
   })
 })
