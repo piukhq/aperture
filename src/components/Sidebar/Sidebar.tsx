@@ -44,7 +44,6 @@ const Sidebar = () => {
 
   return (
     <div className='pr-64 z-[1]'>
-
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-900 bg-grey-100 dark:bg-grey-850 '>
         <Link href='/' passHref>
           <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 border-b border-grey-300 dark:border-grey-900 pl-[25px] items-center ml-6 cursor-pointer'>
@@ -53,6 +52,7 @@ const Sidebar = () => {
             <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE {isLogoHovered}</h1>
           </div>
         </Link>
+
         <div className='mt-6'>
           <nav className='mt-5'>
             {getSidebarOptions().map(option => {
@@ -88,5 +88,3 @@ const Sidebar = () => {
 }
 
 export default memo(Sidebar)
-
-// happy talk hide on load comparators
