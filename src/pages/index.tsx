@@ -46,8 +46,8 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-30s opacity-40 fill-orange bg-orange/50' : 'animate-spin-50s opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
           ${appClicked && 'z-40 bg-grey-100 animate-spin-2s dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
         </div>
-        <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-40'}`}>
-          <h1 className='font-heading-1 -skew-x-12 text-[5rem] ml-48 z-40'>APERTURE</h1>
+        <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-30'}`}>
+          <h1 className='font-heading-1 -skew-x-12 text-[5rem] ml-48 z-30'>APERTURE</h1>
           <div className='ml-48 z-20 duration-500'>
             <span className={`${!isLearnMoreClicked && fadeOutInClasses} font-heading-6 text-center z-10`}>
               {!isLearnMoreClicked && 'Select a tool or'}

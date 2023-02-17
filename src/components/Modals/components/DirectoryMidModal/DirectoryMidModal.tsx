@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
+import {isNumberOnlyString} from 'utils/validation'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMidModal = () => {
@@ -29,6 +30,7 @@ const DirectoryMidModal = () => {
   const [binValue, setBinValue] = useState('')
 
   const [midValidationError, setMidValidationError] = useState(null)
+  const [binValidationError, setBinValidationError] = useState(null)
   const [isOffboardRequired, setIsOffboardRequired] = useState(false)
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
 
@@ -66,14 +68,16 @@ const DirectoryMidModal = () => {
   }
   const handleBinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBinValue(event.target.value)
+    isNumberOnlyString(event.target.value) ? setBinValidationError(null) : setBinValidationError('Enter a numeric value')
   }
 
-  const validateMid = (e: React.FormEvent<HTMLFormElement>) => {
+  const validateFields = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (!midValidationError) {
       if (midValue === '') {
         setMidValidationError('Enter MID')
+      } else if (!isNumberOnlyString(binValue)) {
+        setBinValidationError('Enter a numeric value')
       } else {
         const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
         const metadata = {
@@ -94,7 +98,7 @@ const DirectoryMidModal = () => {
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`New ${paymentScheme} MID`} onCloseFn={handleModalClose} setIsCloseButtonFocused={setIsCloseButtonFocused}>
-      <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMid}>
+      <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateFields}>
         <TextInputGroup
           name='mid'
           label='MID'
@@ -108,18 +112,17 @@ const DirectoryMidModal = () => {
           inputWidth={InputWidth.FULL}
           inputColour={midValidationError ? InputColour.RED : InputColour.GREY}
         />
-
         {paymentScheme === PaymentSchemeName.VISA && (
           <TextInputGroup
             name='bin'
             label='BIN'
-            error={null}
+            error={binValidationError}
             value={binValue}
             onChange={handleBinChange}
             inputType={InputType.TEXT}
             inputStyle={InputStyle.FULL}
             inputWidth={InputWidth.FULL}
-            inputColour={InputColour.GREY}
+            inputColour={isNumberOnlyString(binValue) ? InputColour.GREY : InputColour.RED}
           />
         )}
 
