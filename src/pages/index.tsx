@@ -116,7 +116,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
           <h2 className='font-heading-5 italic'>CUSTOMER WALLETS</h2>
           <p className='font-body-3'>View a customers transactions, payment and loyalty cards</p>
         </button>
-        <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500' href={'https://teams.microsoft.com/l/chat/0/0?users=cmorrow@bink.com&topicName=Aperture Feedback&message=I was using Aperture and I thought that...'}>
+        <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500' target='_blank' href={'https://teams.microsoft.com/l/chat/0/0?users=cmorrow@bink.com&topicName=Aperture Feedback&message=Hey Chris, I was using Aperture and I thought that...'} rel='noreferrer'>
             Give praise, ideas, or rants
         </a>
       </div>
