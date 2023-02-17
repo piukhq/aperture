@@ -26,11 +26,44 @@
     height: 0;
   }
 
+  * {
+  scrollbar-width: thin;
+  scrollbar-color:  white white;
+}
+
+*::-webkit-scrollbar {
+  width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #f1f1f5;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b5b5be;
+  border-radius: 14px;
+  border: 3px solid #f1f1f5;
+}
+
   @media (prefers-color-scheme: dark) {
     .scrollable::-webkit-scrollbar-thumb {
       background-color: rgba(255,255,255, 0.1);
     }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #44444f;
+      border-radius: 14px;
+      border: 3px solid #292932;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #171725;
+      border-radius: 5px;
+    }
   }
+  
+
 
   /* Headings default to semibold weight where there is multiple weights. Body and Subheadings default to regular */
   .font-heading-0{

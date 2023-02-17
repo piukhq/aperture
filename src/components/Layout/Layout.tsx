@@ -12,11 +12,9 @@ const Layout = ({children}: Props) => {
   const modalRequested: ModalType = useAppSelector(selectModal)
 
   return (
-    <div className='flex min-h-screen h-max min-w-fit bg-grey-200 dark:bg-grey-950'>
+    <div className='flex min-h-screen h-max min-w-fit bg-grey-200 dark:bg-grey-950 [scrollbar-gutter: stable]'>
       {modalRequested !== ModalType.NO_MODAL && <ModalFactory modalRequested={modalRequested} />}
-
       <Sidebar />
-
       <div className='flex w-full'>
         {children}
       </div>
