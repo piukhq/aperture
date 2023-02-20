@@ -92,10 +92,9 @@ describe('Test Plan Summary', () => {
   })
 
   describe('Test Django Links', () => {
-
     it('should render the dev django link with correct href', () => {
       render(getPlanSummaryComponent())
-      screen.debug()
+
       expect(screen.getByRole('link', {name: /view in dev/i})).toHaveAttribute('href', 'https://api.dev.gb.bink.com/admin/scheme/scheme/1/change/')
     })
 

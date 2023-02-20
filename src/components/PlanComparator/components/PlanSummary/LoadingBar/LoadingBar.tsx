@@ -20,7 +20,7 @@ const LoadingBar = ({percentage}: Props) => {
           {Math.round(percentage)}% match
         </span>
       </p>
-      <style jsx={true}>{ // Workaround for Tailwind JIT not allowing dynamic variables.
+      <style jsx>{ // Workaround for Tailwind JIT not allowing dynamic variables.
         `p {width: ${percentage}%;}`}
       </style>
     </div>
