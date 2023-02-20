@@ -89,7 +89,6 @@ const PlanComparator = ({plans}: Props) => {
     totalMatches += totalMatchingCategoryValues
 
     // Renders content displayed initially for a category
-
     return (
       <CategoryDetails
         key={category}
