@@ -7,6 +7,7 @@ import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
@@ -142,6 +143,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.MIDS: {
         const {mid_ref: midRef} = selectedEntity as DirectoryMid
         deleteMerchantMid({...refs, midRefs: [midRef]})
+        dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
         break
       }
       case DirectoryNavigationTab.SECONDARY_MIDS: {
@@ -157,6 +159,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.LOCATIONS: {
         const {location_ref: locationRef} = selectedEntity as DirectoryLocation
         deleteMerchantLocation({...refs, locationRefs: [locationRef]})
+        dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
       }
     }
     setIsInDeleteConfirmationState(false)
