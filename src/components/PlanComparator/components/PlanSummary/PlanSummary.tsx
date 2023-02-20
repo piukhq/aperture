@@ -14,7 +14,7 @@ type Props = {
 
 const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const heroUrl = plansArray.map(plan => plan.images.filter(image => image.type === ImageTypes.HERO)).flat()[0]?.url || null
-  const renderIcon = () => {
+  const renderHero = () => {
     if (heroUrl) {
       return (
         <div className='rounded-[20px] group flex justify-center items-center relative w-[220px] h-[150px] bg-red-200 overflow-hidden
@@ -45,10 +45,11 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
     })
   }
 
+  console.log(plansArray)
   return (
-    <section className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
+    <section data-testid='plan-summary' className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
       <div className='flex flex-col items-center gap-3'>
-        {renderIcon()}
+        {renderHero()}
       </div>
       <div className='flex flex-col gap-2 w-full'>
         <h1 className='font-heading-4'>{plansArray[0].account.plan_name}</h1>
