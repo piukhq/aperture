@@ -1,11 +1,13 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
 import {useRouter} from 'next/router'
-import {useAppSelector} from 'app/hooks'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 
 const DirectoryMerchantLocationsDeleteModalContainer = () => {
+  const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
   const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
@@ -26,6 +28,7 @@ const DirectoryMerchantLocationsDeleteModalContainer = () => {
   const deleteLocations = () => {
     const checkedEntityRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
     deleteMerchantLocation({planRef: planId as string, merchantRef: merchantId as string, locationRefs: checkedEntityRefs})
+    dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
   }
 
   return (

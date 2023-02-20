@@ -6,8 +6,9 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {isNumberOnlyString} from 'utils/validation'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -49,6 +50,7 @@ const DirectoryMidModal = () => {
     } else if (postMerchantMidResponse) {
       resetPostMerchantMidResponse()
       reset()
+      dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed, and is used for merchants page
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])
