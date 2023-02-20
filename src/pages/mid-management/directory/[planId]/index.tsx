@@ -66,7 +66,6 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       total_mid_count: merchants
         .reduce((acc, merchant) => acc + getMidCountFromPaymentSchemes(merchant.merchant_counts.payment_schemes), 0),
     }))
-
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE))
   }, [dispatch, icon_url, merchants, name, planRef, plan_id, slug])
 

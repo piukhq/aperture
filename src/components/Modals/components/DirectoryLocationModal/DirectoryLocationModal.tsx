@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {getLocationLabel, reset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
@@ -113,7 +114,8 @@ const DirectoryLocationModal = () => {
         ...locationMetadata,
       })
     }
-  }, [locationList, parentLocation, postMerchantLocation, postMerchantLocationSubLocation, planId, merchantId])
+    dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as location count has changed
+  }, [parentLocation, dispatch, locationList, postMerchantLocationSubLocation, planId, merchantId, postMerchantLocation])
 
   const handleParentLocationChange = useCallback((parentLocation) => {
     setParentLocation(parentLocation)
