@@ -353,47 +353,61 @@ describe('DirectoryMerchantLocationForm', () => {
       })
     })
 
-    it('should display field specific error messages when mandatory fields are left blank', () => {
+    describe('Test form validation', () => {
       const mockSetNameValidationError = jest.fn()
       const mockSetLocationIdValidationError = jest.fn()
       const mockSetAddressLine1ValidationError = jest.fn()
       const mockSetPostcodeValidationError = jest.fn()
 
-      React.useState = jest
-        .fn()
-        .mockReturnValueOnce(['', setStateMock]) // nameValue
-        .mockReturnValueOnce([null, mockSetNameValidationError]) // nameValidationError
-        .mockReturnValueOnce(['', setStateMock]) // locationIdValue
-        .mockReturnValueOnce([null, mockSetLocationIdValidationError]) // locationIdValidationError
-        .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
-        .mockReturnValueOnce([mockIsPhysicalLocation, setIsPhysicalLocationStateMock]) // isPhysicalLocation
-        .mockReturnValueOnce(['', setStateMock]) // addressLine1Value
-        .mockReturnValueOnce([null, mockSetAddressLine1ValidationError]) // addressLine1ValidationError
-        .mockReturnValueOnce([mockAddressLine2, setStateMock]) // addressLine2Value
-        .mockReturnValueOnce([mockTownCity, setStateMock]) // townCityValue
-        .mockReturnValueOnce([mockCounty, setStateMock]) // countyValue
-        .mockReturnValueOnce([mockCountry, setStateMock]) // countryValue
-        .mockReturnValueOnce(['', setStateMock]) // postcodeValue
-        .mockReturnValueOnce([null, mockSetPostcodeValidationError]) // postcodeValidationError
-        .mockReturnValueOnce([null, setStateMock]) // errorMessage
+      beforeEach(() => {
+        React.useState = jest
+          .fn()
+          .mockReturnValueOnce(['', setStateMock]) // nameValue
+          .mockReturnValueOnce([null, mockSetNameValidationError]) // nameValidationError
+          .mockReturnValueOnce(['', setStateMock]) // locationIdValue
+          .mockReturnValueOnce([null, mockSetLocationIdValidationError]) // locationIdValidationError
+          .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
+          .mockReturnValueOnce([mockIsPhysicalLocation, setIsPhysicalLocationStateMock]) // isPhysicalLocation
+          .mockReturnValueOnce(['', setStateMock]) // addressLine1Value
+          .mockReturnValueOnce([null, mockSetAddressLine1ValidationError]) // addressLine1ValidationError
+          .mockReturnValueOnce([mockAddressLine2, setStateMock]) // addressLine2Value
+          .mockReturnValueOnce([mockTownCity, setStateMock]) // townCityValue
+          .mockReturnValueOnce([mockCounty, setStateMock]) // countyValue
+          .mockReturnValueOnce([mockCountry, setStateMock]) // countryValue
+          .mockReturnValueOnce(['', setStateMock]) // postcodeValue
+          .mockReturnValueOnce([null, mockSetPostcodeValidationError]) // postcodeValidationError
+          .mockReturnValueOnce([null, setStateMock]) // errorMessage
+      })
 
-      render(getDirectoryMerchantModalComponent())
+      it('should display field specific error messages when mandatory fields are left blank after blurring them', () => {
+        render(getDirectoryMerchantModalComponent())
 
-      const nameInput = screen.getByLabelText('Name')
-      fireEvent.blur(nameInput)
-      expect(mockSetNameValidationError).toHaveBeenCalledWith('Enter name')
+        const nameInput = screen.getByLabelText('Name')
+        fireEvent.blur(nameInput)
+        expect(mockSetNameValidationError).toHaveBeenCalledWith('Enter name')
 
-      const locationIdInput = screen.getByLabelText('Location ID')
-      fireEvent.blur(locationIdInput)
-      expect(mockSetLocationIdValidationError).toHaveBeenCalledWith('Enter location ID')
+        const locationIdInput = screen.getByLabelText('Location ID')
+        fireEvent.blur(locationIdInput)
+        expect(mockSetLocationIdValidationError).toHaveBeenCalledWith('Enter location ID')
 
-      const addressLine1Input = screen.getByLabelText('Line 1')
-      fireEvent.blur(addressLine1Input)
-      expect(mockSetAddressLine1ValidationError).toHaveBeenCalledWith('Enter address line 1')
+        const addressLine1Input = screen.getByLabelText('Line 1')
+        fireEvent.blur(addressLine1Input)
+        expect(mockSetAddressLine1ValidationError).toHaveBeenCalledWith('Enter address line 1')
 
-      const postcodeInput = screen.getByLabelText('Postcode')
-      fireEvent.blur(postcodeInput)
-      expect(mockSetPostcodeValidationError).toHaveBeenCalledWith('Enter postcode')
+        const postcodeInput = screen.getByLabelText('Postcode')
+        fireEvent.blur(postcodeInput)
+        expect(mockSetPostcodeValidationError).toHaveBeenCalledWith('Enter postcode')
+      })
+
+      it('should display field specific error messages when mandatory fields are left blank after clicking save', () => {
+        render(getDirectoryMerchantModalComponent())
+
+        fireEvent.click(screen.getByRole('button', {name: 'Save'}))
+        expect(mockSetNameValidationError).toHaveBeenCalledWith('Enter name')
+        expect(mockSetLocationIdValidationError).toHaveBeenCalledWith('Enter location ID')
+        expect(mockSetAddressLine1ValidationError).toHaveBeenCalledWith('Enter address line 1')
+        expect(mockSetPostcodeValidationError).toHaveBeenCalledWith('Enter postcode')
+      })
     })
   })
 

@@ -222,6 +222,11 @@ const DirectoryMerchantLocationForm = ({
   const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
+    nameValue === '' && setNameValidationError('Enter name')
+    parentLocation === 'None' && locationIdValue === '' && setLocationIdValidationError('Enter location ID')
+    isPhysicalLocation && addressLine1Value === '' && setAddressLine1ValidationError('Enter address line 1')
+    isPhysicalLocation && postcodeValue === '' && setPostcodeValidationError('Enter postcode')
+
     if (
       nameValue === '' ||
       (parentLocation === 'None' && locationIdValue === '') ||
