@@ -14,13 +14,13 @@ const LoadingBar = ({percentage}: Props) => {
   }
 
   return (
-    <div className={'w-[500px] rounded-lg bg-grey-400/25 border border-grey-400 dark:border-grey-700'}>
+    <div data-testid='loading-bar' className={'w-[500px] rounded-lg bg-grey-400/25 border border-grey-400 dark:border-grey-700'}>
       <p className={`origin-left font-heading-7 text-white p-2 text-center rounded-md ${getAnimation()}`}>
         <span className='animate-fadeIn delay-1000 px-2'>
           {Math.round(percentage)}% match
         </span>
       </p>
-      <style jsx>{
+      <style jsx={true}>{ // Workaround for Tailwind JIT not allowing dynamic variables.
         `p {width: ${percentage}%;}`}
       </style>
     </div>
