@@ -7,7 +7,7 @@ type Props = {
   hasNoCategoryValues: boolean
   hasAllCategoryValuesMatching: boolean
   category: string
-  categoryAcrossEnvsArray: any[]
+  categoryAcrossEnvsArray: any[] // TODO: type this
   mostKeysCategory: string[]
   categoryWithMostKeysAcrossEnvs: string
   plans: SelectedPlans
@@ -43,7 +43,7 @@ const CategoryDetails = ({
     }
   }
 
-  const renderHeader = () => {
+  const renderDetailsHeader = () => {
     if (hasNoCategoryValues) {
       return <p className='font-body-3 italic my-5'>No environments use this category</p>
     }
@@ -55,7 +55,6 @@ const CategoryDetails = ({
   }
 
   const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key when not identical across all environments
-
     const renderCategoryValue = (categoryValue: string) => {
       const renderCharacterComparison = (str: string) => {
         return Array.from(str).map((char, index) => {
@@ -135,7 +134,7 @@ const CategoryDetails = ({
       <summary className='w-full cursor-pointer font-heading-5 text-grey-800 dark:text-grey-100'>
         {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1 text-grey-800 dark:text-grey-100'>({renderCategorySummaryInformation()})</span>
       </summary>
-      {renderHeader()}
+      {renderDetailsHeader()}
       {!hasAllCategoryValuesMatching && mostKeysCategory.map(categoryKey => !isValueMatchedAcrossEnvsFn(categoryKey) && renderMismatchedCategoryValue(categoryKey))}
     </details>
   )
