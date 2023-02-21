@@ -158,19 +158,19 @@ enum DirectoryTxmStatusDisplayValue {
 
 enum PaymentSchemeStatus {
   UNKNOWN = 'unknown',
-  ENROLLED = 'enrolled',
   ENROLLING = 'enrolling',
+  ENROLLED = 'enrolled',
   NOT_ENROLLED = 'not_enrolled',
-  UN_ENROLLED = 'unenrolled',
+  REMOVED = 'removed',
   FAILED = 'failed',
 }
 
 enum PaymentSchemeStatusDisplayValue {
   'unknown' = 'Unknown',
-  'enrolled' = 'Enrolled',
   'enrolling' = 'Enrolling',
+  'enrolled' = 'Enrolled',
   'not_enrolled' = 'Not Enrolled',
-  'unenrolled' = 'Removed',
+  'removed' = 'Removed',
   'failed' = 'Failed',
 }
 
