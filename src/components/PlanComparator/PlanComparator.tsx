@@ -10,12 +10,13 @@ type Props = {
   plans: SelectedPlans
 }
 
-const PlanComparator = ({plans}: Props) => {
+const PlanComparator = ({plans}: Props) => { // This component does the algorithmic heavy lifting to compare the plans in the child components
   // used for plan summary component
   let totalKeys = 0
   let totalMatches = 0
 
   const plansArray = Object.values(plans).filter(Boolean)
+
   const planCategories = [
     PlanCategory.ACCOUNT,
     PlanCategory.BALANCES,
@@ -68,7 +69,6 @@ const PlanComparator = ({plans}: Props) => {
         // eslint-disable-next-line no-param-reassign
         categoryValueAcrossEnvs = sortedCategoryValueAcrossEnvsArray
       }
-
       return categoryValueAcrossEnvs
     }
 
