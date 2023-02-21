@@ -134,6 +134,15 @@ const DirectoryMerchantMids = () => {
       >Offboard from Harmonia
       </Button>
       <Button
+        handleClick={() => console.log('Update to Harmonia button pressed') }
+        buttonSize={ButtonSize.SMALL}
+        buttonWidth={ButtonWidth.AUTO}
+        labelColour={LabelColour.GREY}
+        borderColour={BorderColour.GREY}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+      >Update to Harmonia
+      </Button>
+      <Button
         handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
