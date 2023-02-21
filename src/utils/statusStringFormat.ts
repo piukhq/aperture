@@ -9,7 +9,7 @@ export const getPaymentSchemeStatusString = (paymentEnrolmentStatus: string) => 
       `${(paymentEnrolmentStatus === PaymentSchemeStatus.UNKNOWN || paymentEnrolmentStatus === PaymentSchemeStatus.NOT_ENROLLED) && 'text-grey-600'}`,
       `${paymentEnrolmentStatus === PaymentSchemeStatus.ENROLLED && 'text-aquamarine'}`,
       `${paymentEnrolmentStatus === PaymentSchemeStatus.ENROLLING && 'text-yellow'}`,
-      `${(paymentEnrolmentStatus === PaymentSchemeStatus.UN_ENROLLED || paymentEnrolmentStatus === PaymentSchemeStatus.FAILED) && 'text-red'}`,
+      `${(paymentEnrolmentStatus === PaymentSchemeStatus.REMOVED || paymentEnrolmentStatus === PaymentSchemeStatus.FAILED) && 'text-red'}`,
     ),
   }
 }
