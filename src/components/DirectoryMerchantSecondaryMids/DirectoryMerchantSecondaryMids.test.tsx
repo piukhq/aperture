@@ -70,6 +70,7 @@ describe('DirectoryMerchantSecondaryMids', () => {
 
     expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Offboard from Harmonia'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Update to Harmonia'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
