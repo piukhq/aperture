@@ -34,6 +34,8 @@ const mockLoyaltyCardTransaction = {
     suffix: 'mock_suffix',
     value: 12345,
   }],
+  timestamp: 1234567890,
+  description: 'mock_description',
 }
 
 const mockLoyaltyCardVoucher = {

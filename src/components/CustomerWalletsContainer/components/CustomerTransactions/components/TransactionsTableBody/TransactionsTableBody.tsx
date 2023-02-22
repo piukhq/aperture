@@ -10,7 +10,7 @@ type Props = {
 const TransactionsTable = ({transactions, plan}: Props) => {
   const isIceland = plan.slug === 'iceland-bonus-card'
 
-  const renderTransactionRow = (transaction, transactionIndex) => { // TODO: Test accumulator transactions
+  const renderTransactionRow = (transaction: LoyaltyCardTransaction, transactionIndex: number) => { // TODO: Test accumulator transactions
     const {amounts, timestamp, description} = transaction
     const {value, currency} = amounts[0]
 
@@ -38,7 +38,7 @@ const TransactionsTable = ({transactions, plan}: Props) => {
     ]
 
     return (
-      <tr key={transactionIndex} className='border-b-[20px] border-transparent'>
+      <tr data-testid='transaction-row' key={transactionIndex} className='border-b-[20px] border-transparent'>
         {transactionRowArray.map((row, index) => <td key={index} className={`px-[9px] font-body-3 ${index === 0 && 'pl-[38px]'}`}>{row}</td>)}
       </tr>
     ) }
@@ -47,7 +47,6 @@ const TransactionsTable = ({transactions, plan}: Props) => {
     <tbody>
       { transactions.map((transaction, index) => renderTransactionRow(transaction, index))}
     </tbody>
-
   )
 }
 
