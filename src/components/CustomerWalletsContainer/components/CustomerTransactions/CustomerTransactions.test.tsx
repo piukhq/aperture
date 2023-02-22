@@ -43,7 +43,6 @@ const mockPlan = {
   slug: 'mock-slug',
 }
 
-
 const mockLoyaltyCardTransaction = {
   id: mockMatchingId,
   status: 'mock_status',
@@ -53,7 +52,6 @@ const mockLoyaltyCardTransaction = {
     value: 12345,
   }],
 }
-
 
 const mockLoyaltyCard = {
   id: 'mock_loyalty_card_id',
@@ -97,7 +95,6 @@ describe('Test CustomerTransactions', () => {
     jest.clearAllMocks()
     React.useState = jest.fn()
       .mockImplementation(() => [true, jest.fn()])
-
   })
   it('should render the CustomerTransactions component initial structure if there is plans and loyalty cards', () => {
     render(getCustomerTransactionsComponent({userPlans: mockUserPlans}))
