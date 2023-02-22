@@ -49,6 +49,22 @@ describe('ReplyComment', () => {
       expect(screen.getByTestId('reply-comment-text-area')).toBeInTheDocument()
     })
 
+    it('should render a single subject', () => {
+      const mockSingleSubject = [
+        {
+          display_text: mockEntityCommentSubject1Text,
+          subject_ref: mockEntityCommentSubject1Ref,
+          icon_slug: null,
+        },
+      ]
+      render(getReplyCommentComponent({subjects: mockSingleSubject}))
+
+      expect(screen.getByText(`${mockEntityCommentSubject1Text}`)).toBeInTheDocument()
+      expect(screen.queryByText(`${mockEntityCommentSubject2Text}`)).not.toBeInTheDocument()
+      expect(screen.queryByText('see subjects +')).not.toBeInTheDocument()
+
+    })
+
     describe('Test error section', () => {
       it('should render the error section', () => {
         render(getReplyCommentComponent())
@@ -98,6 +114,13 @@ describe('ReplyComment', () => {
         expect(screen.getByTestId(`${mockEntityCommentSubject1Ref}-subject-checkbox`)).toBeInTheDocument()
         expect(screen.getByTestId(`${mockEntityCommentSubject2Ref}-subject-checkbox`)).toBeInTheDocument()
       })
+
+      it('should render the see less prompt', () => {
+        render(getReplyCommentComponent())
+        expect(screen.queryByText('(see less -)')).toBeInTheDocument()
+      })
     })
   })
+
+
 })
