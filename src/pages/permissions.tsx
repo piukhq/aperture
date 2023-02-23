@@ -2,7 +2,7 @@ import type {NextPage} from 'next'
 import {useUser, withPageAuthRequired} from '@auth0/nextjs-auth0'
 import usePermissions from 'hooks/usePermissions'
 import {timeStampToDate} from 'utils/dateFormat'
-import {UserPermissions} from 'utils/enums'
+import {Admin, UserPermissions} from 'utils/enums'
 
 
 type Auth0User = {
@@ -31,7 +31,7 @@ const PermissionsPage: NextPage = withPageAuthRequired(() => {
 
   const renderAccessRequest = (role) => (
     <span>No,
-      <a className='text-blue' href={`https://teams.microsoft.com/l/chat/0/0?users=cmorrow@bink.com&topicName=Permissions Request&message=I would like have more access to the Portal. Please give me the ${role} role`}> request access</a>
+      <a className='text-blue' href={`https://teams.microsoft.com/l/chat/0/0?users=${Admin.EMAIL}&topicName=Permissions Request&message=I would like have more access to the Portal. Please give me the ${role} role`}> request access</a>
     </span>
   )
 

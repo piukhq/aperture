@@ -1,3 +1,8 @@
+enum Admin {
+  EMAIL = 'cmorrow@bink.com',
+  FIRST_NAME = 'Chris'
+}
+
 enum Url {
   DEV_BASE_URL = 'https://api.dev.gb.bink.com/',
   STAGING_BASE_URL = 'https://api.staging.gb.bink.com/',
@@ -207,6 +212,7 @@ enum PlanCategory {
 }
 
 export {
+  Admin,
   Url,
   ApiReflectorUrl,
   UrlEndpoint,
