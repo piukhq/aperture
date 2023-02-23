@@ -24,5 +24,4 @@ const DirectoryTileSkeleton = () => (
   </div>
 )
 
-
 export default DirectoryTileSkeleton
