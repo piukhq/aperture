@@ -369,6 +369,8 @@ export type LoyaltyCardTransaction = {
     suffix: string,
     value: number,
   }>,
+  timestamp: number,
+  description: string,
 }
 
 export type LoyaltyBalance = {

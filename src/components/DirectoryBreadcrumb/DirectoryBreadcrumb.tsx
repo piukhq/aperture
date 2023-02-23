@@ -37,7 +37,7 @@ const DirectoryBreadcrumb = () => {
   const getMerchantName = () => selectedMerchant.merchant_metadata.name || getMerchantNameFromApi()
 
   return (
-    <div className='font-subheading-6 text-blue mt-[15px] flex flex-row gap-[15px]'>
+    <div data-testid='directory-breadcrumb' className='font-subheading-6 text-blue mt-[15px] flex flex-row gap-[15px]'>
       <Link href={`/mid-management/${currentRoute[0]}`} passHref>
         <a>PLANS</a>
       </Link>
