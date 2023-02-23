@@ -72,19 +72,16 @@ describe('TransactionsTableBody', () => {
 
   it('should render the correct number of transactions', () => {
     render(<TransactionsTableBody {...mockProps} />)
-
     expect(screen.getAllByTestId('transaction-row')).toHaveLength(mockTransactions.length)
   })
 
   it('should render the correctly formatted value and currency in both places', () => {
     render(<TransactionsTableBody {...mockProps} />)
-
     expect(screen.getAllByText(`+${mockTransactions[0].amounts[0].value} ${mockTransactions[0].amounts[0].currency}`)).toHaveLength(2)
   })
 
   it('should render the correct timestamp', () => {
     render(<TransactionsTableBody {...mockProps} />)
-
     expect(screen.getByText(timeStampToDate(mockTransactions[0].timestamp))).toBeInTheDocument()
   })
 
