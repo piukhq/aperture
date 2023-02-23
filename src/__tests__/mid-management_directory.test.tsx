@@ -6,53 +6,57 @@ import configureStore from 'redux-mock-store'
 import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
+jest.mock('components/DirectoryTile/DirectoryTileSkeleton', () => () => <div data-testid='directory-tile-skeleton' />)
 jest.mock('components/Modals/components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 
+const mockUseMidManagementPlans = {
+  getPlansResponse: [
+    {
+      plan_ref: 'mock_ref',
+      plan_metadata: {
+        name: 'mock_name',
+        icon_url: 'mock_icon_url',
+        slug: 'mock_slug',
+        plan_id: 0,
+      },
+      plan_counts: {
+        merchants: 1,
+        locations: 1,
+        payment_schemes: [
+          {
+            label: 'mock_scheme',
+            scheme_slug: PaymentSchemeSlug.VISA,
+            count: 1,
+          },
+        ],
+      },
+    },
+    {
+      plan_ref: 'mock_ref_2',
+      plan_metadata: {
+        name: 'mock_name_2',
+        icon_url: 'mock_icon_url',
+        slug: 'mock_slug',
+        plan_id: 0,
+      },
+      plan_counts: {
+        merchants: 1,
+        locations: 1,
+        payment_schemes: [
+          {
+            label: 'mock_scheme',
+            scheme_slug: PaymentSchemeSlug.VISA,
+            count: 1,
+          },
+        ],
+      },
+    },
+  ],
+  getPlansIsLoading: false,
+}
+
 jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
-    getPlansResponse: [
-      {
-        plan_ref: 'mock_ref',
-        plan_metadata: {
-          name: 'mock_name',
-          icon_url: 'mock_icon_url',
-          slug: 'mock_slug',
-          plan_id: 0,
-        },
-        plan_counts: {
-          merchants: 1,
-          locations: 1,
-          payment_schemes: [
-            {
-              label: 'mock_scheme',
-              scheme_slug: PaymentSchemeSlug.VISA,
-              count: 1,
-            },
-          ],
-        },
-      },
-      {
-        plan_ref: 'mock_ref_2',
-        plan_metadata: {
-          name: 'mock_name_2',
-          icon_url: 'mock_icon_url',
-          slug: 'mock_slug',
-          plan_id: 0,
-        },
-        plan_counts: {
-          merchants: 1,
-          locations: 1,
-          payment_schemes: [
-            {
-              label: 'mock_scheme',
-              scheme_slug: PaymentSchemeSlug.VISA,
-              count: 1,
-            },
-          ],
-        },
-      },
-    ],
-  })),
+  useMidManagementPlans: jest.fn().mockImplementation(() => mockUseMidManagementPlans),
 }))
 
 const mockStoreFn = configureStore([])
@@ -85,6 +89,16 @@ describe('MID Management DirectoryPage', () => {
       const {getAllByTestId} = render(getDirectoryPageComponent())
       const planTiles = getAllByTestId('directory-tile')
       expect(planTiles).toHaveLength(2)
+    })
+  })
+
+  describe('Test Loading behaviour', () => {
+    it('should render skeleton tiles when loading', () => {
+      mockUseMidManagementPlans.getPlansIsLoading = true
+      const {getAllByTestId} = render(getDirectoryPageComponent())
+
+      const planTiles = getAllByTestId('directory-tile-skeleton')
+      expect(planTiles).toHaveLength(6)
     })
   })
 })
