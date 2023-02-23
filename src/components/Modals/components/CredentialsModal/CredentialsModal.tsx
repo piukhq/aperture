@@ -3,7 +3,7 @@ import {Button, Modal, Tag, TextInputGroup} from 'components'
 import VerificationTag from './components/VerificationTag'
 import {useGetPlans} from 'hooks/useGetPlans'
 import {useVerification} from 'hooks/useVerification'
-import {EnvironmentName, ModalStyle} from 'utils/enums'
+import {Admin, EnvironmentName, ModalStyle} from 'utils/enums'
 import {
   getDevVerificationToken,
   getStagingVerificationToken,
@@ -171,7 +171,7 @@ const CredentialsModal = () => {
       <div className='mt-[20px] w-[609px] h-[368px]'>
         {renderTags()}
       </div>
-      <p className='font-subheading-4 text-center mb-[44px]'>If you are struggling to verify credentials, email cmorrow@bink.com for support</p>
+      <p className='font-subheading-4 text-center mb-[44px]'>If you are struggling to verify credentials, email {Admin.EMAIL} for support</p>
     </Modal>
   )
 }
