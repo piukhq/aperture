@@ -168,9 +168,9 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   }
 
   const setSelectedLocations = () => {
-    const checkedLocationsToEntity = locationsData.filter((location) => checkedRefArray.includes(location.location_ref)).map((location) => ({
-      entityRef: location.location_ref,
-      entityValue: location.location_metadata.name,
+    const checkedLocationsToEntity = locationRowObjects.filter((location) => checkedRefArray.includes(location.ref)).map((location) => ({
+      entityRef: location.ref,
+      entityValue: location.row[0].displayValue,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
   }
