@@ -11,7 +11,8 @@ type Props = {
 
 const SingleViewComments = ({subjectType}: Props) => {
   const router = useRouter()
-  const {merchantId: ownerRef, ref: commentsRef} = router.query
+  const {merchantId: ownerRef, ref, sub_location_ref} = router.query
+  const commentsRef = sub_location_ref || ref
 
   const {
     getCommentsResponse: comments,

@@ -60,7 +60,6 @@ describe('SingleViewComments', () => {
     expect(screen.queryByText('Comments loading ...')).toBeInTheDocument()
   })
 
-
   it('should render the error copy if there is an error', () => {
     mockCommentsFromApi.getCommentsError = new Error('Error loading comments')
     render(getSingleViewCommentsComponent())
