@@ -67,8 +67,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
 
   return (
-    <div className='w-full flex-col items-center gap-4 overflow-hidden bg-gradient-to-b from-grey-100 to-grey-400 dark:from-grey-900 dark:to-grey-850'>
-
+    <div className='w-full flex-col items-center gap-4 overflow-hidden'>
       {/* Aperture Rings and Title */}
       <div className={
         `${isLearnMoreClicked ? 'pt-16' : 'pt-64'} w-full flex flex-col gap-4 justify-center items-center overflow-hidden duration-500`}>
