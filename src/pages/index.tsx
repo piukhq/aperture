@@ -70,7 +70,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
     <div className='w-full flex-col items-center gap-4 overflow-hidden'>
       {/* Aperture Rings and Title */}
       <div className={
-        `${isLearnMoreClicked ? 'pt-16' : 'pt-64'} w-full flex flex-col gap-4 justify-center items-center overflow-hidden duration-500`}>
+        `${isLearnMoreClicked ? 'pt-24' : 'pt-64'} w-full mt-8 flex flex-col gap-4 justify-center items-center overflow-hidden duration-500`}>
         {/* Outer Ring */}
         <div className=
           {`absolute overflow-hidden skew-x-12 z-20 transform-gpu

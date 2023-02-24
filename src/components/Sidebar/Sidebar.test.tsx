@@ -47,7 +47,7 @@ describe('Sidebar', () => {
 
   const getSidebarComponent = (passedStore = undefined) => (
     <Redux.Provider store={passedStore || store}>
-      <Sidebar />
+      <Sidebar isOpen={true} setIsOpen={jest.fn()} />
     </Redux.Provider>
   )
 
@@ -135,5 +135,20 @@ describe('Sidebar', () => {
         expect(customerWalletsLink).toBeInTheDocument()
       })
     })
+  })
+
+  describe('Test Collapsed Sidebar', () => {
+    it('should render collapsed sidebar with no app links', () => {
+      render(
+        <Redux.Provider store={store}>
+          <Sidebar isOpen={false} setIsOpen={jest.fn()} />
+        </Redux.Provider>
+      )
+
+      const links = screen.queryAllByRole('link')
+      expect(links).toHaveLength(0)
+    })
+
+
   })
 })
