@@ -52,6 +52,15 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (isOpen) {
+      setSidebarWidthClass('w-64')
+    } else {
+      setSidebarWidthClass('w-0')
+    }
+  }, [isOpen])
+
+
   const getSidebarOptions = () => {
     return sidebarOptions.filter(option => {
       if (option === 'mid-management') {
