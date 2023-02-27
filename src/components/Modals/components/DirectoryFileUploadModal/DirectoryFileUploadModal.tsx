@@ -148,7 +148,6 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     </section>
   )
 
-
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`File Upload${isUploading ? 'ing' : ''}`}>
       {isUploading ? renderUploadingNotification() : renderUploadForm()}

@@ -30,7 +30,6 @@ jest.mock('react', () => {
 
 const setState = jest.fn()
 
-
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({})
 const getDirectoryFileUploadModalComponent = () => (
