@@ -19,6 +19,17 @@ jest.mock('components/Modal', () => ({
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown'/>)
 
+jest.mock('react', () => {
+  const actualReact = jest.requireActual('react')
+  return {
+    ...actualReact,
+    useState: jest.fn(),
+    useRef: jest.fn(), // causes issues mocking State without this
+  }
+})
+
+const setState = jest.fn()
+
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({})
 const getDirectoryFileUploadModalComponent = () => (
@@ -27,53 +38,159 @@ const getDirectoryFileUploadModalComponent = () => (
   </Provider>
 )
 
+const mockInvalidFile = {
+  name: 'bad-test.csv',
+  type: 'text/jpg',
+}
+
+const mockValidFile = {
+  name: 'good-test.csv',
+  type: 'text/csv',
+  size: 1000,
+}
+
 describe('DirectoryFileUploadModal', () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-    const setStateMock = jest.fn()
 
-    React.useState = jest
-      .fn()
-      .mockReturnValueOnce([null, setStateMock])
-      .mockReturnValueOnce([null, setStateMock])
-  })
+  describe('Test default behaviour', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
 
-  it('should render the correct heading', () => {
-    render(getDirectoryFileUploadModalComponent())
-    const heading = screen.getByRole('heading', {
-      name: 'File Upload',
+      jest.spyOn(React, 'useState')
+        .mockReturnValueOnce([false, setState])
+        .mockReturnValueOnce([false, setState])
+        .mockReturnValueOnce([false, setState])
+        .mockReturnValue(['Merchant Details', setState])
     })
 
-    expect(heading).toBeInTheDocument()
+
+    it('should render the correct heading', () => {
+      render(getDirectoryFileUploadModalComponent())
+      const heading = screen.getByRole('heading', {
+        name: 'File Upload',
+      })
+
+      expect(heading).toBeInTheDocument()
+    })
+
+    it('should render the file type label', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByText('FILE TYPE')).toBeInTheDocument()
+    })
+
+    it('should render the file type dropdown', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+    })
+
+    it('should render the drag and drop copy', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByText('Drag and drop file here or')).toBeInTheDocument()
+    })
+
+    it('should render the file browser button', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByLabelText('Browse')).toBeInTheDocument()
+    })
+
+    it('should render the upload button', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByLabelText('Upload')).toBeInTheDocument()
+    })
+
+    it('should render a disabled upload button', () => {
+      render(getDirectoryFileUploadModalComponent())
+
+      expect(screen.getByLabelText('Upload')).toBeDisabled()
+    })
   })
 
-  it('should render the file type label', () => {
-    render(getDirectoryFileUploadModalComponent())
+  describe('Test when the file is not valid', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
 
-    expect(screen.getByText('FILE TYPE')).toBeInTheDocument()
+      jest.spyOn(React, 'useState')
+        .mockReturnValueOnce([mockInvalidFile, setState])
+        .mockReturnValueOnce([false, setState])
+        .mockReturnValueOnce([false, setState])
+        .mockReturnValue(['Merchant Details', setState])
+    })
+
+
+    it('should render the invalid file message', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByText('Oops!')).toBeInTheDocument()
+      expect(screen.getByText('The file you have selected is not supported')).toBeInTheDocument()
+      expect(screen.getByText('Drag and drop a CSV here or')).toBeInTheDocument()
+    })
   })
 
-  it('should render the file type dropdown', () => {
-    render(getDirectoryFileUploadModalComponent())
+  describe('Test when the file is valid', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.spyOn(React, 'useState')
+        .mockReturnValueOnce([mockValidFile, jest.fn()]) // file
+        .mockReturnValueOnce([true, jest.fn()]) // isValidFile
+        .mockReturnValueOnce([false, jest.fn()]) // isUploading
+        .mockReturnValueOnce(['Merchant Details', jest.fn()])
+    })
 
-    expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+    it('should render the file name', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByText('good-test.csv')).toBeInTheDocument()
+    })
+
+    it('should render the file size', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByText('1kb')).toBeInTheDocument()
+    })
+
+    it('should render the remove file button', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByRole('button', {name: 'Remove file'})).toBeInTheDocument()
+    })
+
+    it('should render the enabled upload button', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByLabelText('Upload')).toBeEnabled()
+    })
+
   })
 
-  it('should render the drag and drop copy', () => {
-    render(getDirectoryFileUploadModalComponent())
+  describe('Test when the file is uploading', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.spyOn(React, 'useState')
+        .mockReturnValueOnce([mockValidFile, jest.fn()]) // file
+        .mockReturnValueOnce([true, jest.fn()]) // isValidFile
+        .mockReturnValueOnce([true, jest.fn()]) // isUploading
+        .mockReturnValueOnce(['Merchant Details', jest.fn()])
+    })
 
-    expect(screen.getByText('Drag and drop file here or')).toBeInTheDocument()
-  })
+    it('should render the correct heading', () => {
+      render(getDirectoryFileUploadModalComponent())
+      const heading = screen.getByRole('heading', {
+        name: 'File Uploading',
+      })
 
-  it('should render the file browser button', () => {
-    render(getDirectoryFileUploadModalComponent())
+      expect(heading).toBeInTheDocument()
+    })
 
-    expect(screen.getByLabelText('Browse')).toBeInTheDocument()
-  })
+    it('should render the file uploading copy', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByText(/Upload has started for Merchant Details "good-test.csv". Depending on filesize, this could take a few minutes/)).toBeInTheDocument()
+      expect(screen.getByText('Check the Action Log for further updates on upload progress')).toBeInTheDocument()
+    })
 
-  it('should render the upload button', () => {
-    render(getDirectoryFileUploadModalComponent())
-
-    expect(screen.getByLabelText('Upload')).toBeInTheDocument()
+    it('should not render the upload button', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.queryByLabelText('Upload')).not.toBeInTheDocument()
+    })
   })
 })
+
+
