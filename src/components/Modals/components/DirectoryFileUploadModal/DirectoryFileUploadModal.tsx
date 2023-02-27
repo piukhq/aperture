@@ -1,20 +1,33 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import Dropdown from 'components/Dropdown'
 import Modal from 'components/Modal/Modal'
 import Button from 'components/Button'
-import {ButtonBackground, ButtonSize, ButtonType, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
-import {ModalStyle} from 'utils/enums'
+import {BorderColour, ButtonBackground, ButtonSize, ButtonType, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
+import {ModalStyle, UserPermissions} from 'utils/enums'
 import UploadSVG from 'icons/svgs/upload.svg'
+import CSVSvg from 'icons/svgs/csv.svg'
+import TrashSvg from 'icons/svgs/trash.svg'
 
 type Props = {
   isPlanLevelFileUpload?: boolean
 }
 
 const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: Add functionality as required by later tickets
-  const [file, setFile] = useState(null)
   const fileTypes = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID']
+
+  const [file, setFile] = useState(null)
+  const [isValidFile, setIsValidFile] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const [fileType, setFileType] = useState(fileTypes[0])
-  const fileInputRef = useRef(null) // Default file upload input is hidden and assigned to this ref to trigger file browser
+
+  // const fileInputRef = useRef(null) // Default file upload input is hidden and assigned to this ref to trigger file browser
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (file) {
+      setIsValidFile(file.type === 'text/csv')
+    }
+  }, [file])
 
   const fileDrop = (e: React.DragEvent) => {
     e.preventDefault()
@@ -28,51 +41,36 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (file) {
-      console.log(`Placeholder: Submitting ${fileType} file...`)
-      console.log(file)
+    if(file && isValidFile) {
+      setIsUploading(true)
     }
   }
 
-  return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader='File Upload'>
-      <form className='pt-[15px] px-[15px]' onSubmit={(e) => handleFormSubmit(e)}>
-        <section className='flex flex-col mb-[20px]'>
-          <label className='font-modal-heading'>FILE TYPE</label>
-          <div className='w-[277px] h-[28px]'>
-            <Dropdown
-              displayValue={fileType}
-              displayValues={fileTypes}
-              onChangeDisplayValue={setFileType}
-              selectedValueStyles='font-normal text-grey-600'
-            />
-          </div>
-        </section>
+  const handleFileReset = () => {
+    setFile(null)
+    setIsValidFile(false)
+  }
 
-        <section className='flex items-center justify-center h-[295px] w-[420px] border border-grey-300 dark:border-grey-700 rounded-[10%] mb-[15px]'
-          onDrop={fileDrop}
-        >
-          <div className='h-[269px] w-[386px] border border-grey-200 bg-grey-100 dark:border-grey-700 dark:bg-grey-825 rounded-[10%]'>
-            <div className='flex flex-col items-center justify-center h-full'>
-              <UploadSVG/>
-              <label className='font-modal-heading mt-[7px] mb-[12px]'>Drag and drop file here or</label>
-              <input className='hidden' type='file' id='file' name='file' ref={fileInputRef} onChange={handleFileBrowser} multiple={false}/>
-              <Button
-                buttonType={ButtonType.SUBMIT}
-                buttonSize={ButtonSize.MEDIUM}
-                buttonWidth={ButtonWidth.MEDIUM}
-                buttonBackground={ButtonBackground.BLUE}
-                labelColour={LabelColour.WHITE}
-                labelWeight={LabelWeight.SEMIBOLD}
-                ariaLabel={'Browse'}
-                handleClick={() => fileInputRef.current.click()}
-              >Browse
-              </Button>
-            </div>
+  const renderDefaultFileUpload = () => (
+    <section className='flex items-center justify-center h-[295px] w-[420px] border border-grey-300 dark:border-grey-700 rounded-[10%] mb-[15px]'
+      onDrop={fileDrop}
+      onDragOver={(e) => e.preventDefault()}
+    >
+      <div className='h-[269px] w-[386px] border border-grey-200 bg-grey-100 dark:border-grey-700 dark:bg-grey-825 rounded-[10%]'>
+        <div className='flex flex-col items-center justify-center h-full  '>
+          {file && !isValidFile && <h2 className='font-heading-6 mb-[17px] text-grey-700 dark:text-grey-300'>Oops!</h2>}
+          <UploadSVG className='fill-grey-800 dark:fill-grey-400' />
+          <div className='font-heading-9  text-grey-700 dark:text-grey-300 mt-[7px] mb-[12px]'>
+            {file && !isValidFile ? (
+              <div className='text-center '>
+                <p>The file you have selected is not supported</p>
+                <label>Drag and drop a CSV here or</label>
+              </div>
+            ) : (
+              <label>Drag and drop file here or</label>
+            )}
           </div>
-        </section>
-
-        <section className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[14px]'>
+          <input className='hidden' type='file' id='file' name='file' ref={fileInputRef} onChange={handleFileBrowser} multiple={false}/>
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
@@ -80,11 +78,80 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
-            ariaLabel={'Upload'}
-          >Upload
+            ariaLabel={'Browse'}
+            handleClick={() => fileInputRef.current.click()}
+          >Browse
           </Button>
-        </section>
-      </form>
+        </div>
+      </div>
+    </section>
+  )
+
+  const renderFileUploadPreview = () => (
+    <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
+      <CSVSvg />
+      <div className='flex flex-col ml-[10px] w-4/5'>
+        <label className='font-heading-6 font-semibold'>{file.name}</label>
+        <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{Math.round(file.size / 1024)}kb</label>
+      </div>
+      <Button
+        handleClick={handleFileReset}
+        buttonSize={ButtonSize.MEDIUM_ICON}
+        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+        borderColour={BorderColour.RED}
+        labelColour={LabelColour.RED}
+        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+        ariaLabel={'Remove file'}
+      >
+        <TrashSvg className='fill-red' />
+      </Button>
+    </section>
+  )
+
+  const renderUploadForm = () => (
+    <form className='pt-[15px] px-[15px]' onSubmit={(e) => handleFormSubmit(e)}>
+      <section className='flex flex-col mb-[20px]'>
+        <h2 className='font-modal-heading'>FILE TYPE</h2>
+        <div className='w-[277px] h-[28px]'>
+          <Dropdown
+            displayValue={fileType}
+            displayValues={fileTypes}
+            onChangeDisplayValue={setFileType}
+            selectedValueStyles='font-normal text-grey-600'
+          />
+        </div>
+      </section>
+
+      {file && isValidFile && renderFileUploadPreview()}
+      {(!file || !isValidFile) && renderDefaultFileUpload()}
+
+      <section className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[14px]'>
+        <Button
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.MEDIUM}
+          buttonWidth={ButtonWidth.MEDIUM}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.SEMIBOLD}
+          ariaLabel={'Upload'}
+          isDisabled={!isValidFile}
+        >Upload
+        </Button>
+      </section>
+    </form>
+  )
+
+  const renderUploadingNotification = () => (
+    <section className='font-body-3 m-4 flex flex-col gap-4'>
+      <p>Upload has started for {fileType} &quot;{file.name}&quot;. Depending on filesize, this could take a few minutes.</p>
+      <p>Check the Action Log for further updates on upload progress</p>
+    </section>
+  )
+
+
+  return (
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`File Upload${isUploading ? 'ing' : ''}`}>
+      {isUploading ? renderUploadingNotification() : renderUploadForm()}
     </Modal>
   )
 }
