@@ -39,16 +39,16 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
-  const [currentPage, setCurrentPage] = useState('1')
+  const [currentPage, setCurrentPage] = useState(1)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantPsimisResponse} = useMidManagementPsimis({
     skipGetPsimi: true,
-    skipGetPsimisByPage: !(Number(currentPage) > 1),
+    skipGetPsimisByPage: !(currentPage > 1),
     planRef: planId as string,
     merchantRef: merchantId as string,
-    page: currentPage as string,
+    page: currentPage.toString(),
   })
 
   const psimisData: DirectoryPsimis = getMerchantPsimisResponse
@@ -156,8 +156,7 @@ const DirectoryMerchantPsimis = () => {
   )
 
   const handleShowMoreClick = () => {
-    setCurrentPage((prevPage) => (parseInt(prevPage) + 1).toString())
-
+    setCurrentPage((prevPage) => prevPage + 1)
   }
 
   return (
