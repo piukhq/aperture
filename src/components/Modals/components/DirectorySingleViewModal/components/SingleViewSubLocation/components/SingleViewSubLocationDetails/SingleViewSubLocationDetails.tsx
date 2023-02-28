@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
-import {Button, DirectoryMerchantLocationForm} from 'components'
+import {Button, DirectoryMerchantLocationForm, TextInputGroup} from 'components'
+import {InputColour, InputStyle, InputType, InputWidth} from 'components/TextInputGroup/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryLocationMetadata, DirectorySubLocation} from 'types'
@@ -22,8 +23,6 @@ type Props = {
 const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref, sub_location_ref: subLocationRef} = router.query
-
-
   const {
     getMerchantLocationsResponse,
     getMerchantLocationsIsFetching: isGetLocationsFetching,
@@ -54,7 +53,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     subLocationRef: subLocationRef as string,
   })
 
-
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
   const locationStringsList = getLocationList(locationsData)
   const locationValues = useMemo(() => locationStringsList ? ['None', ...locationStringsList.map(location => location.title)] : [], [locationStringsList])
@@ -63,6 +61,8 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const parentLocationTitle = parentLocation?.location_title
 
   const [selectedParentLocationName, setSelectedParentLocationName] = useState(parentLocationTitle || '')
+  const [locationIdValue, setLocationIdValue] = useState('')
+  const [locationIdValidationError, setLocationIdValidationError] = useState(null)
 
   const {
     date_added: dateAdded,
@@ -91,18 +91,37 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       const routerSuffix = patchResponse.parent_ref ? `${patchResponse.parent_ref}&sub_location_ref=${patchResponse.location_ref}` : `${patchResponse.location_ref}`
       resetPatchResponse()
       router.push(`${router.basePath}/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${routerSuffix}`)
+    } else if (patchError) {
+      resetPatchResponse()
+      // Add check to see if location ID already exists
+      setLocationIdValidationError('Enter Unique Location ID')
     }
-  }, [isPatchSuccess, merchantId, patchResponse, planId, resetPatchResponse, router])
+  }, [isPatchSuccess, merchantId, patchError, patchResponse, planId, resetPatchResponse, router])
 
   const handleParentLocationChange = useCallback((selectedLocationString: string) => {
     setSelectedParentLocationName(selectedLocationString || null)
+    setLocationIdValidationError(null)
   }, [])
 
   const handlePatchSave = useCallback(() => {
-    const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
-    patchMerchantLocationSubLocation({parentRef, planRef: planId as string, merchantRef: merchantId as string, locationRef: ref as string, subLocationRef: subLocationRef as string})
-  }, [locationsData, merchantId, patchMerchantLocationSubLocation, planId, ref, selectedParentLocationName, subLocationRef])
+    if (locationIdValue !== '' || selectedParentLocationName !== 'None') {
+      const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
+      patchMerchantLocationSubLocation({parentRef, planRef: planId as string, merchantRef: merchantId as string, locationRef: ref as string, subLocationRef: subLocationRef as string, locationId: locationIdValue as string})
+    } else {
+      setLocationIdValidationError('Enter location ID')
+    }
+  }, [locationIdValue, locationsData, merchantId, patchMerchantLocationSubLocation, planId, ref, selectedParentLocationName, subLocationRef])
 
+  const handleLocationIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLocationIdValue(event.target.value)
+    setLocationIdValidationError(null)
+  }
+
+  const handleLocationIdBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value === '') {
+      setLocationIdValidationError('Enter location ID')
+    }
+  }
   const renderReadOnlyState = () => {
     return (
       <>
@@ -147,6 +166,27 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               errorResponse={patchError}
               warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location' : null}
             />
+            {selectedParentLocationName === 'None' && (
+              <>
+                <p className='font-body-4 dark:text-grey-600 pb-4'>Add a Location ID and save?</p>
+                <div className='w-72'>
+                  <TextInputGroup
+                    name='location-id'
+                    label='Location ID'
+                    value={locationIdValue}
+                    onChange={handleLocationIdChange}
+                    onBlur={handleLocationIdBlur}
+                    onFocus={() => setLocationIdValidationError(null)}
+                    error={locationIdValidationError}
+                    ariaRequired
+                    inputType={InputType.TEXT}
+                    inputStyle={InputStyle.FULL}
+                    inputWidth={InputWidth.FULL}
+                    inputColour={locationIdValidationError ? InputColour.RED : InputColour.GREY}
+                  />
+                </div>
+              </>
+            )}
           </section>
           {isPhysicalLocation && (
             <section className='col-span-2'>
@@ -173,7 +213,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       ...locationMetadata,
     })
   }, [putMerchantLocationSubLocation, planId, merchantId, ref, subLocationRef])
-
 
   return (
     <>
