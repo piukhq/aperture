@@ -7,12 +7,14 @@ import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedS
 import {DirectoryPsimi, DirectoryPsimis} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import ArrowDownSVG from 'icons/svgs/arrow-down.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import {useState} from 'react'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -37,13 +39,16 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [currentPage, setCurrentPage] = useState('1')
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantPsimisResponse} = useMidManagementPsimis({
     skipGetPsimi: true,
+    skipGetPsimisByPage: !(Number(currentPage) > 1),
     planRef: planId as string,
     merchantRef: merchantId as string,
+    page: currentPage as string,
   })
 
   const psimisData: DirectoryPsimis = getMerchantPsimisResponse
@@ -150,6 +155,11 @@ const DirectoryMerchantPsimis = () => {
     </div>
   )
 
+  const handleShowMoreClick = () => {
+    setCurrentPage((prevPage) => (parseInt(prevPage) + 1).toString())
+
+  }
+
   return (
     <>
       <div className='flex items-center justify-between'>
@@ -185,6 +195,21 @@ const DirectoryMerchantPsimis = () => {
 
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
+      )}
+
+      {psimisData && psimisData.length % 10 === 0 && psimisData.length !== 0 && (
+        <div className='w-full flex justify-center p-4'>
+          <Button
+            handleClick={handleShowMoreClick}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+          ><ArrowDownSVG fill='white' /> Show more
+          </Button>
+        </div>
       )}
     </>
   )

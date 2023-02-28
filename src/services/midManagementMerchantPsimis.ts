@@ -25,10 +25,30 @@ export const midManagementMerchantPsimisApi = createApi({
   endpoints: builder => ({
     getMerchantPsimis: builder.query<DirectoryPsimis, MerchantPsimisEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis?n=100`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis`,
         method: 'GET',
       }),
       providesTags: ['MerchantPsimis'],
+    }),
+    getMerchantPsimisByPage: builder.query<DirectoryPsimis, MerchantPsimisEndpointRefs & {page: string}>({
+      query: ({planRef, merchantRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis?p=${page}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantPsimis'],
+      // Update the cache with the additional Psimis
+      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newPsimis} = await queryFulfilled
+          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
+            return existingPsimis.concat(newPsimis)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantPsimi: builder.query<DirectoryPsimi, MerchantPsimisEndpointRefs>({
       query: ({planRef, merchantRef, psimiRef}) => ({
@@ -128,6 +148,7 @@ export const midManagementMerchantPsimisApi = createApi({
 
 export const {
   useGetMerchantPsimisQuery,
+  useGetMerchantPsimisByPageQuery,
   useGetMerchantPsimiQuery,
   usePostMerchantPsimiMutation,
   usePostMerchantPsimiOnboardingMutation,

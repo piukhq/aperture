@@ -61,6 +61,7 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantPsimiResponse,
   } = useMidManagementPsimis({
     skipGetPsimis: true,
+    skipGetPsimisByPage: true,
     skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
