@@ -1,4 +1,4 @@
-import {Button, DirectoryMerchantDetailsTable} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -7,7 +7,6 @@ import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedS
 import {DirectoryPsimi, DirectoryPsimis} from 'types'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import ArrowDownSVG from 'icons/svgs/arrow-down.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
@@ -155,10 +154,6 @@ const DirectoryMerchantPsimis = () => {
     </div>
   )
 
-  const handleShowMoreClick = () => {
-    setCurrentPage((prevPage) => prevPage + 1)
-  }
-
   return (
     <>
       <div className='flex items-center justify-between'>
@@ -196,20 +191,7 @@ const DirectoryMerchantPsimis = () => {
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
 
-      {psimisData && psimisData.length % 10 === 0 && psimisData.length !== 0 && (
-        <div className='w-full flex justify-center p-4'>
-          <Button
-            handleClick={handleShowMoreClick}
-            buttonSize={ButtonSize.MEDIUM_ICON}
-            buttonWidth={ButtonWidth.AUTO}
-            buttonBackground={ButtonBackground.BLUE}
-            labelColour={LabelColour.WHITE}
-            labelWeight={LabelWeight.MEDIUM}
-            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-          ><ArrowDownSVG fill='white' /> Show more
-          </Button>
-        </div>
-      )}
+      <DirectoryMerchantShowMoreButton currentData={psimisData} setPageFn={setCurrentPage} />
     </>
   )
 }
