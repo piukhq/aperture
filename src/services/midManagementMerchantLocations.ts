@@ -29,6 +29,7 @@ type PutPostMerchantLocationBody = MerchantLocationsEndpointRefs & DirectoryLoca
 
 type PatchMerchantLocationBody = MerchantLocationsEndpointRefs & {
   parentRef?: string,
+  locationId?: string,
 }
 
 type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
@@ -223,11 +224,12 @@ export const midManagementMerchantLocationsApi = createApi({
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'], // Lots of endpoints to invalidate optimistically
     }),
     patchMerchantLocationSubLocation: builder.mutation<DirectoryPatchMerchantSubLocationResponse, PatchMerchantLocationBody>({ // Responsible for setting the sub location's parent location
-      query: ({planRef, merchantRef, locationRef, subLocationRef, parentRef}) => ({
+      query: ({planRef, merchantRef, locationRef, subLocationRef, parentRef, locationId}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations/${subLocationRef}`,
         method: 'PATCH',
         body: {
           parent_ref: parentRef || null,
+          location_id: locationId || null,
         },
       }),
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'],
