@@ -61,16 +61,16 @@ export const midManagementMerchantLocationsApi = createApi({
       providesTags: ['MerchantLocations'],
     }),
     getMerchantLocationsByPage: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs & {page: string}>({
-      query: ({planRef, merchantRef, page}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?p=${page}`,
+      query: ({planRef, merchantRef, secondaryMidRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?p=${page}&${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
-      // Update the cache with the additional Locations
-      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+      // Update the cache with the additional Locations, the arguments must match whats in getMerchantLocations
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newLocations} = await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef}), (existingLocations) => {
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef, secondaryMidRef}), (existingLocations) => {
             return existingLocations.concat(newLocations)
           })
           )
