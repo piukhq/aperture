@@ -1,7 +1,7 @@
-import {useCallback} from 'react'
+import {useCallback, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {Button, DirectoryMerchantDetailsTable} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -54,14 +54,17 @@ type Props = {
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [currentPage, setCurrentPage] = useState(1)
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantLocationsResponse} = useMidManagementLocations({
     skipGetLocation: true,
+    skipGetLocationsByPage: !(currentPage > 1),
     planRef: planId as string,
     merchantRef: merchantId as string,
+    page: currentPage.toString(),
   })
 
   const locationsData: DirectoryLocations = getMerchantLocationsResponse
@@ -235,6 +238,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       {locationsData && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
+      <DirectoryMerchantShowMoreButton currentData={locationsData} setPageFn={setCurrentPage} />
     </>
   )
 }

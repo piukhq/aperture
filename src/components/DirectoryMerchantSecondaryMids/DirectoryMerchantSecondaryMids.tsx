@@ -1,4 +1,5 @@
-import {Button, DirectoryMerchantDetailsTable} from 'components'
+import {useState} from 'react'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useRouter} from 'next/router'
@@ -40,13 +41,16 @@ const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [currentPage, setCurrentPage] = useState(1)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
+    skipGetSecondaryMidsByPage: !(currentPage > 1),
     planRef: planId as string,
     merchantRef: merchantId as string,
+    page: currentPage.toString(),
   })
 
   const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse
@@ -198,6 +202,8 @@ const DirectoryMerchantSecondaryMids = () => {
       {secondaryMidsData && (
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
+
+      <DirectoryMerchantShowMoreButton currentData={secondaryMidsData} setPageFn={setCurrentPage} />
     </>
   )
 }

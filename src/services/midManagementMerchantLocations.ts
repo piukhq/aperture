@@ -55,10 +55,30 @@ export const midManagementMerchantLocationsApi = createApi({
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef ? `?exclude_secondary_mid=${secondaryMidRef}&n=100` : '?n=100&include_sub_locations=true&n=100'}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
+    }),
+    getMerchantLocationsByPage: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs & {page: string}>({
+      query: ({planRef, merchantRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?p=${page}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocations'],
+      // Update the cache with the additional Locations
+      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLocations} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef}), (existingLocations) => {
+            return existingLocations.concat(newLocations)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantLocation: builder.query<DirectoryLocation, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -237,6 +257,7 @@ export const midManagementMerchantLocationsApi = createApi({
 
 export const {
   useGetMerchantLocationsQuery,
+  useGetMerchantLocationsByPageQuery,
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,

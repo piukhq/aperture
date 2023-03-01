@@ -31,10 +31,30 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids${locationRef && `?exclude_location=${locationRef}&n=100`}`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids${locationRef ? `?exclude_location=${locationRef}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMids'],
+    }),
+    getMerchantSecondaryMidsByPage: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs & {page: string}>({
+      query: ({planRef, merchantRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids?p=${page}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantSecondaryMids'],
+      // Update the cache with the additional SecondaryMids
+      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newSecondaryMids} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
+            return existingSecondaryMids.concat(newSecondaryMids)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantSecondaryMid: builder.query<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -175,6 +195,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
 
 export const {
   useGetMerchantSecondaryMidsQuery,
+  useGetMerchantSecondaryMidsByPageQuery,
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,
