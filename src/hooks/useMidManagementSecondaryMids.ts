@@ -20,7 +20,7 @@ export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, ski
     data: getMerchantSecondaryMidsByPageResponse,
     isLoading: getMerchantSecondaryMidsByPageIsLoading,
     error: getMerchantSecondaryMidsByPageError,
-  } = useGetMerchantSecondaryMidsByPageQuery({planRef, merchantRef, page}, {skip: skipGetSecondaryMidsByPage})
+  } = useGetMerchantSecondaryMidsByPageQuery({planRef, merchantRef, locationRef, page}, {skip: skipGetSecondaryMidsByPage})
 
   const {
     data: getMerchantSecondaryMidResponse,
