@@ -40,6 +40,7 @@ const SingleViewLocationSecondaryMids = () => {
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({ // Using location ref in query string to only return secondary mids NOT linked to this location
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: !shouldPrepareDropdownMenu,
+    skipGetSecondaryMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,

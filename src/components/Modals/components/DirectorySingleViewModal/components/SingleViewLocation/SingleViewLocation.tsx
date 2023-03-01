@@ -34,6 +34,8 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
     getMerchantLocationIsFetching,
   } = useMidManagementLocations({
     planRef: planId as string,
+    skipGetLocations: true,
+    skipGetLocationsByPage: true,
     merchantRef: merchantId as string,
     locationRef: ref as string,
   })

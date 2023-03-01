@@ -106,7 +106,6 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
           </section>
         </div>
       </>
-
     )
   }
 
@@ -119,6 +118,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
   } = useMidManagementLocations({
     skipGetLocations: true,
     skipGetLocation: true,
+    skipGetLocationsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
