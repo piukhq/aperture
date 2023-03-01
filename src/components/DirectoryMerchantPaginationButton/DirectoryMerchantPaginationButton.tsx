@@ -8,7 +8,7 @@ type Props = {
   setPageFn: React.Dispatch<React.SetStateAction<number>>
 }
 
-const DirectoryMerchantShowMoreButton = ({currentData, setPageFn}: Props) => {
+const DirectoryMerchantPaginationButton = ({currentData, setPageFn}: Props) => {
   if (currentData && currentData.length % 10 === 0 && currentData.length !== 0) {
     return <div className='w-full flex justify-center p-4'>
       <Button
@@ -26,4 +26,4 @@ const DirectoryMerchantShowMoreButton = ({currentData, setPageFn}: Props) => {
 }
 
 
-export default DirectoryMerchantShowMoreButton
+export default DirectoryMerchantPaginationButton
