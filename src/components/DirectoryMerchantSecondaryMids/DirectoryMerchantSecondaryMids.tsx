@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useRouter} from 'next/router'
@@ -203,7 +203,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
-      <DirectoryMerchantShowMoreButton currentData={secondaryMidsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} />
     </>
   )
 }

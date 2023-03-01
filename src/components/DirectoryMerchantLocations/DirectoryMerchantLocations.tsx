@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -238,7 +238,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       {locationsData && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantShowMoreButton currentData={locationsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} />
     </>
   )
 }

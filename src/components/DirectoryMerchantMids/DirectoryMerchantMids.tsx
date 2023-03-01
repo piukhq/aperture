@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
+import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {useRouter} from 'next/router'
 import {DirectoryMids, DirectoryMid} from 'types'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
@@ -220,7 +220,7 @@ const DirectoryMerchantMids = () => {
           refArray={refArray}
         />
       )}
-      <DirectoryMerchantShowMoreButton currentData={midsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={midsData} setPageFn={setCurrentPage} />
     </>
   )
 }

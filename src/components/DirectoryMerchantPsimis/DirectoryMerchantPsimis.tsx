@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -188,7 +188,7 @@ const DirectoryMerchantPsimis = () => {
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantShowMoreButton currentData={psimisData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} />
     </>
   )
 }
