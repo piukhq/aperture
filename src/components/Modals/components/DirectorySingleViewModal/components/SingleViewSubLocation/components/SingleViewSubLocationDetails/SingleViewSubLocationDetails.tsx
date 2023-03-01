@@ -28,6 +28,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     getMerchantLocationsIsFetching: isGetLocationsFetching,
   } = useMidManagementLocations({
     skipGetLocation: true,
+    getAll: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })

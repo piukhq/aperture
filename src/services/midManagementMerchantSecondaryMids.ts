@@ -9,6 +9,7 @@ type MerchantSecondaryMidsEndpointRefs = {
   secondaryMidRef?: string,
   locationRef?: string,
   linkRef?: string,
+  getAll?: boolean,
 }
 
 type PostMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
@@ -30,8 +31,8 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
   tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid', 'MerchantSecondaryMidLinkedLocations'],
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
-      query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids${locationRef ? `?exclude_location=${locationRef}` : ''}`,
+      query: ({planRef, merchantRef, locationRef, getAll}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids?${getAll ? 'n=1000&' : ''}${locationRef ? `exclude_location=${locationRef}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMids'],
@@ -43,10 +44,10 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       }),
       providesTags: ['MerchantSecondaryMids'],
       // Update the cache with the additional SecondaryMids, make sure hook and query are same as getSecondaryMids
-      async onQueryStarted ({planRef, merchantRef, locationRef}, {dispatch, queryFulfilled}) {
+      async onQueryStarted ({planRef, merchantRef, locationRef, getAll}, {dispatch, queryFulfilled}) {
         try {
           const {data: newSecondaryMids} = await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef}), (existingSecondaryMids) => {
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef, getAll}), (existingSecondaryMids) => {
             return existingSecondaryMids.concat(newSecondaryMids)
           }))
         } catch (err) {
