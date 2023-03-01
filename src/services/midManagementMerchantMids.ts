@@ -45,12 +45,12 @@ export const midManagementMerchantMidsApi = createApi({
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
-      // Update the cache with the additional SecondaryMids
+      // Update the cache with the additional Mids
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
-          const {data: newSecondaryMids} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
-            return existingSecondaryMids.concat(newSecondaryMids)
+          const {data: newMids} = await queryFulfilled
+          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+            return existingMids.concat(newMids)
           })
           )
         } catch (err) {
