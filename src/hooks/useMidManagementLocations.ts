@@ -1,12 +1,13 @@
 import {
   useGetMerchantLocationsQuery,
+  useGetMerchantLocationsByPageQuery,
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   usePostMerchantLocationMutation,
 } from 'services/midManagementMerchantLocations'
 
-export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = ''}) => {
+export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocationsByPage = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = '', page = '1'}) => {
   const {
     data: getMerchantLocationsResponse,
     isLoading: getMerchantLocationsIsLoading,
@@ -14,6 +15,12 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     refetch: getMerchantLocationsRefresh,
     isFetching: getMerchantLocationsIsFetching,
   } = useGetMerchantLocationsQuery({planRef, merchantRef, secondaryMidRef}, {skip: skipGetLocations})
+
+  const {
+    data: getMerchantLocationsByPageResponse,
+    isLoading: getMerchantLocationsByPageIsLoading,
+    error: getMerchantLocationsByPageError,
+  } = useGetMerchantLocationsByPageQuery({planRef, merchantRef, secondaryMidRef, page}, {skip: skipGetLocationsByPage})
 
   const {
     data: getMerchantLocationResponse,
@@ -52,6 +59,10 @@ export const useMidManagementLocations = ({skipGetLocations = false, skipGetLoca
     getMerchantLocationsError,
     getMerchantLocationsRefresh,
     getMerchantLocationsIsFetching,
+    // GET Locations by Page
+    getMerchantLocationsByPageResponse,
+    getMerchantLocationsByPageIsLoading,
+    getMerchantLocationsByPageError,
     // GET Location
     getMerchantLocationResponse,
     getMerchantLocationIsLoading,
