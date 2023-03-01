@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantShowMoreButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
@@ -13,7 +14,6 @@ import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} fro
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
-import {useState} from 'react'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -171,7 +171,6 @@ const DirectoryMerchantPsimis = () => {
           >
             Add <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
           </Button>
-
           <Button
             handleClick={() => requestPsimiModal(PaymentSchemeName.MASTERCARD)}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -186,11 +185,9 @@ const DirectoryMerchantPsimis = () => {
           </Button>
         </div>
       </div>
-
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
-
       <DirectoryMerchantShowMoreButton currentData={psimisData} setPageFn={setCurrentPage} />
     </>
   )
