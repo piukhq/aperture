@@ -47,6 +47,8 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementSecondaryMids({
     planRef: planId as string,
+    skipGetSecondaryMids: true,
+    skipGetSecondaryMidsByPage: true,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
   })
