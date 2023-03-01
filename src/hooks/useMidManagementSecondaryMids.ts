@@ -9,18 +9,18 @@ import {
   usePostMerchantSecondaryMidOffboardingMutation,
 } from 'services/midManagementMerchantSecondaryMids'
 
-export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, skipGetSecondaryMidsByPage = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = '', page = '1'}) => {
+export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, skipGetSecondaryMidsByPage = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = '', page = '1', getAll = false}) => {
   const {
     data: getMerchantSecondaryMidsResponse,
     isLoading: getMerchantSecondaryMidsIsLoading,
     error: getMerchantSecondaryMidsError,
-  } = useGetMerchantSecondaryMidsQuery({planRef, merchantRef, locationRef}, {skip: skipGetSecondaryMids})
+  } = useGetMerchantSecondaryMidsQuery({planRef, merchantRef, locationRef, getAll}, {skip: skipGetSecondaryMids})
 
   const {
     data: getMerchantSecondaryMidsByPageResponse,
     isLoading: getMerchantSecondaryMidsByPageIsLoading,
     error: getMerchantSecondaryMidsByPageError,
-  } = useGetMerchantSecondaryMidsByPageQuery({planRef, merchantRef, locationRef, page}, {skip: skipGetSecondaryMidsByPage})
+  } = useGetMerchantSecondaryMidsByPageQuery({planRef, merchantRef, locationRef, page, getAll}, {skip: skipGetSecondaryMidsByPage})
 
   const {
     data: getMerchantSecondaryMidResponse,
