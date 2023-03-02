@@ -94,7 +94,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       router.push(`${router.basePath}/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${routerSuffix}`)
     } else if (patchError) {
       resetPatchResponse()
-      // Add check to see if location ID already exists
+      // TODO: Add check to see if location ID already exists, against actual error response
       setLocationIdValidationError('Enter Unique Location ID')
     }
   }, [isPatchSuccess, merchantId, patchError, patchResponse, planId, resetPatchResponse, router])
@@ -140,8 +140,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
           ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
           </Button>
         </div>
-
-
         <div className='grid grid-cols-2 gap-[32px] w-full'>
           <section className='col-span-1'>
             <h2 className='font-modal-heading'>DATE ADDED</h2>
