@@ -125,7 +125,6 @@ const SingleViewEditableField = ({
     </div>
   )
 
-
   const formattedValue = value?.length > 50 ? value?.substring(0, 50) + '...' : value
 
   const renderReadOnlyState = () => (
