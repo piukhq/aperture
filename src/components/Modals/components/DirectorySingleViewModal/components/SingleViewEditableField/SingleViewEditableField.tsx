@@ -249,7 +249,7 @@ const SingleViewEditableField = ({
       <div className='flex mb-[15px]'>
         {isInEditState ? renderEditState() : renderReadOnlyState()}
       </div>
-      <p className='font-body-4 dark:text-grey-600'>{isInEditState && warningMessage}</p>
+      <p className='font-body-4 dark:text-grey-600 max-w-[550px]'>{isInEditState && warningMessage}</p>
     </section>
   )
 }
