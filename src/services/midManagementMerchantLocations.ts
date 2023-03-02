@@ -138,7 +138,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      invalidatesTags: ['MerchantLocationSubLocations'],
+      invalidatesTags: ['MerchantLocationSubLocations', 'MerchantLocations'],
       // Update the cache with the newly created sub location
       async onQueryStarted ({planRef, merchantRef, locationRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
@@ -250,7 +250,7 @@ export const midManagementMerchantLocationsApi = createApi({
         method: 'PATCH',
         body: {
           parent_ref: parentRef || null,
-          location_id: locationId || null,
+          new_location_id: locationId || null,
         },
       }),
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'],
