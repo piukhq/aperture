@@ -1,5 +1,6 @@
 import {
   useGetMerchantMidsQuery,
+  useGetMerchantMidsByPageQuery,
   useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
@@ -10,12 +11,18 @@ import {
   usePostMerchantMidOffboardingMutation,
 } from 'services/midManagementMerchantMids'
 
-export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = ''}) => {
+export const useMidManagementMids = ({skipGetMids = false, skipGetMidsByPage = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = '', page = '1'}) => {
   const {
     data: getMerchantMidsResponse,
     isLoading: getMerchantMidsIsLoading,
     error: getMerchantMidsError,
   } = useGetMerchantMidsQuery({planRef, merchantRef}, {skip: skipGetMids})
+
+  const {
+    data: getMerchantMidsByPageResponse,
+    isLoading: getMerchantMidsByPageIsLoading,
+    error: getMerchantMidsByPageError,
+  } = useGetMerchantMidsByPageQuery({planRef, merchantRef, page}, {skip: skipGetMidsByPage})
 
   const {
     data: getMerchantMidResponse,
@@ -82,6 +89,10 @@ export const useMidManagementMids = ({skipGetMids = false, skipGetMid = false, p
     getMerchantMidsResponse,
     getMerchantMidsIsLoading,
     getMerchantMidsError,
+    // GET MIDs by Page
+    getMerchantMidsByPageResponse,
+    getMerchantMidsByPageIsLoading,
+    getMerchantMidsByPageError,
     // GET MID
     getMerchantMidResponse,
     getMerchantMidIsLoading,

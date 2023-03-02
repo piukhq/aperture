@@ -1,4 +1,5 @@
-import {DirectoryMerchantDetailsTable} from 'components'
+import {useState} from 'react'
+import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {useRouter} from 'next/router'
 import {DirectoryMids, DirectoryMid} from 'types'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
@@ -41,16 +42,20 @@ const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [currentPage, setCurrentPage] = useState(1)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse} = useMidManagementMids({
     skipGetMid: true,
+    skipGetMidsByPage: !(currentPage > 1),
     planRef: planId as string,
+    page: currentPage.toString() as string,
     merchantRef: merchantId as string,
   })
 
   const midsData: DirectoryMids = getMerchantMidsResponse
+
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
@@ -207,7 +212,6 @@ const DirectoryMerchantMids = () => {
           </Button>
         </div>
       </div>
-
       {midsData && (
         <DirectoryMerchantDetailsTable
           tableHeaders={midsTableHeaders}
@@ -216,6 +220,7 @@ const DirectoryMerchantMids = () => {
           refArray={refArray}
         />
       )}
+      <DirectoryMerchantPaginationButton currentData={midsData} setPageFn={setCurrentPage} />
     </>
   )
 }

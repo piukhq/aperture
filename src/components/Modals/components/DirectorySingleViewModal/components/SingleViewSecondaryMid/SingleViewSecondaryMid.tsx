@@ -22,6 +22,7 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}:
 
   const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
+    skipGetSecondaryMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
@@ -73,7 +74,6 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}:
         )
     }
   }
-
 
   return (
     <>

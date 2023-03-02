@@ -19,6 +19,7 @@ type MerchantLocationsEndpointRefs = {
   secondaryMidRef?: string,
   linkRef?: string,
   subLocationRef?: string,
+  getAll?: boolean,
 }
 
 type PostMerchantLocationBody = MerchantLocationsEndpointRefs & {
@@ -54,11 +55,31 @@ export const midManagementMerchantLocationsApi = createApi({
   ],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
-      query: ({planRef, merchantRef, secondaryMidRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations${secondaryMidRef ? `?exclude_secondary_mid=${secondaryMidRef}&n=100` : '?n=100&include_sub_locations=true&n=100'}`,
+      query: ({planRef, merchantRef, secondaryMidRef, getAll}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?${getAll ? 'n=1000&' : ''}${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
+    }),
+    getMerchantLocationsByPage: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs & {page: string}>({
+      query: ({planRef, merchantRef, secondaryMidRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?p=${page}&${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantLocations'],
+      // Update the cache with the additional Locations, the arguments must match whats in getMerchantLocations
+      async onQueryStarted ({planRef, merchantRef, secondaryMidRef, getAll}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newLocations} = await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', ({planRef, merchantRef, secondaryMidRef, getAll}), (existingLocations) => {
+            return existingLocations.concat(newLocations)
+          })
+          )
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantLocation: builder.query<DirectoryLocation, MerchantLocationsEndpointRefs>({
       query: ({planRef, merchantRef, locationRef}) => ({
@@ -237,6 +258,7 @@ export const midManagementMerchantLocationsApi = createApi({
 
 export const {
   useGetMerchantLocationsQuery,
+  useGetMerchantLocationsByPageQuery,
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,

@@ -1,4 +1,5 @@
-import {Button, DirectoryMerchantDetailsTable} from 'components'
+import {useState} from 'react'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -37,13 +38,16 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const [currentPage, setCurrentPage] = useState(1)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantPsimisResponse} = useMidManagementPsimis({
     skipGetPsimi: true,
+    skipGetPsimisByPage: !(currentPage > 1),
     planRef: planId as string,
     merchantRef: merchantId as string,
+    page: currentPage.toString(),
   })
 
   const psimisData: DirectoryPsimis = getMerchantPsimisResponse
@@ -167,7 +171,6 @@ const DirectoryMerchantPsimis = () => {
           >
             Add <AddVisaSvg className='pb-[1px] w-[39px]' alt=''/>
           </Button>
-
           <Button
             handleClick={() => requestPsimiModal(PaymentSchemeName.MASTERCARD)}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -182,10 +185,10 @@ const DirectoryMerchantPsimis = () => {
           </Button>
         </div>
       </div>
-
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
+      <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} />
     </>
   )
 }

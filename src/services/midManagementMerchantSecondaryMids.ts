@@ -9,6 +9,7 @@ type MerchantSecondaryMidsEndpointRefs = {
   secondaryMidRef?: string,
   locationRef?: string,
   linkRef?: string,
+  getAll?: boolean,
 }
 
 type PostMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
@@ -30,11 +31,30 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
   tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid', 'MerchantSecondaryMidLinkedLocations'],
   endpoints: builder => ({
     getMerchantSecondaryMids: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs>({
-      query: ({planRef, merchantRef, locationRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids${locationRef && `?exclude_location=${locationRef}&n=100`}`,
+      query: ({planRef, merchantRef, locationRef, getAll}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids?${getAll ? 'n=1000&' : ''}${locationRef ? `exclude_location=${locationRef}` : ''}`,
         method: 'GET',
       }),
       providesTags: ['MerchantSecondaryMids'],
+    }),
+    getMerchantSecondaryMidsByPage: builder.query<DirectorySecondaryMids, MerchantSecondaryMidsEndpointRefs & {page: string}>({
+      query: ({planRef, merchantRef, locationRef, page}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids?p=${page}${locationRef ? `&exclude_location=${locationRef}` : ''}`,
+        method: 'GET',
+      }),
+      providesTags: ['MerchantSecondaryMids'],
+      // Update the cache with the additional SecondaryMids, make sure hook and query are same as getSecondaryMids
+      async onQueryStarted ({planRef, merchantRef, locationRef, getAll}, {dispatch, queryFulfilled}) {
+        try {
+          const {data: newSecondaryMids} = await queryFulfilled
+          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef, getAll}), (existingSecondaryMids) => {
+            return existingSecondaryMids.concat(newSecondaryMids)
+          }))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     getMerchantSecondaryMid: builder.query<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
@@ -175,6 +195,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
 
 export const {
   useGetMerchantSecondaryMidsQuery,
+  useGetMerchantSecondaryMidsByPageQuery,
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,

@@ -45,9 +45,11 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   } = useMidManagementLocations({
     skipGetLocations: false,
     skipGetLocation: true,
+    skipGetLocationsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
+    getAll: true,
   })
 
   useEffect(() => { // If the user has successfully unlinked a Location, revert to initial state

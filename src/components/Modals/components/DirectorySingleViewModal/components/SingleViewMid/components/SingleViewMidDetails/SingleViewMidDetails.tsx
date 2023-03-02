@@ -52,6 +52,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     resetPostMerchantMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementMids({
     skipGetMids: true,
+    skipGetMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     midRef: ref as string,
@@ -63,8 +64,10 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     getMerchantLocationsIsFetching,
   } = useMidManagementLocations({
     skipGetLocation: true,
+    skipGetLocationsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
+    getAll: true,
   })
 
   const {mid} = merchantMid

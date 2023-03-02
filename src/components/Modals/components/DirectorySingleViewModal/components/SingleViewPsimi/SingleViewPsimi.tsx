@@ -21,6 +21,7 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props)
 
   const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useMidManagementPsimis({
     skipGetPsimis: true,
+    skipGetPsimisByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     psimiRef: ref as string,

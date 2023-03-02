@@ -34,6 +34,7 @@ const DirectorySingleViewModal = () => {
   } = useMidManagementMids({
     skipGetMids: true,
     skipGetMid: true,
+    skipGetMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     midRef: ref as string,
@@ -48,6 +49,7 @@ const DirectorySingleViewModal = () => {
   } = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
+    skipGetSecondaryMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     secondaryMidRef: ref as string,
@@ -61,6 +63,7 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantPsimiResponse,
   } = useMidManagementPsimis({
     skipGetPsimis: true,
+    skipGetPsimisByPage: true,
     skipGetPsimi: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -76,6 +79,7 @@ const DirectorySingleViewModal = () => {
   } = useMidManagementLocations({
     skipGetLocations: true,
     skipGetLocation: true,
+    skipGetLocationsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: ref as string,
