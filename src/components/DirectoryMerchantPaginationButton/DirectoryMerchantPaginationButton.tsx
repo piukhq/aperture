@@ -25,5 +25,4 @@ const DirectoryMerchantPaginationButton = ({currentData, setPageFn}: Props) => {
   return null
 }
 
-
 export default DirectoryMerchantPaginationButton
