@@ -125,7 +125,6 @@ const SingleViewEditableField = ({
     </div>
   )
 
-
   const formattedValue = value?.length > 50 ? value?.substring(0, 50) + '...' : value
 
   const renderReadOnlyState = () => (
@@ -249,7 +248,7 @@ const SingleViewEditableField = ({
       <div className='flex mb-[15px]'>
         {isInEditState ? renderEditState() : renderReadOnlyState()}
       </div>
-      <p className='font-body-4 dark:text-grey-600'>{isInEditState && warningMessage}</p>
+      <p className='font-body-4 dark:text-grey-600 max-w-[550px]'>{isInEditState && warningMessage}</p>
     </section>
   )
 }

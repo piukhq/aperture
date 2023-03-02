@@ -30,6 +30,7 @@ type PutPostMerchantLocationBody = MerchantLocationsEndpointRefs & DirectoryLoca
 
 type PatchMerchantLocationBody = MerchantLocationsEndpointRefs & {
   parentRef?: string,
+  locationId?: string,
 }
 
 type DeleteMerchantLocationRefs = MerchantLocationsEndpointRefs & {
@@ -137,7 +138,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      invalidatesTags: ['MerchantLocationSubLocations'],
+      invalidatesTags: ['MerchantLocationSubLocations', 'MerchantLocations'],
       // Update the cache with the newly created sub location
       async onQueryStarted ({planRef, merchantRef, locationRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
@@ -244,11 +245,12 @@ export const midManagementMerchantLocationsApi = createApi({
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'], // Lots of endpoints to invalidate optimistically
     }),
     patchMerchantLocationSubLocation: builder.mutation<DirectoryPatchMerchantSubLocationResponse, PatchMerchantLocationBody>({ // Responsible for setting the sub location's parent location
-      query: ({planRef, merchantRef, locationRef, subLocationRef, parentRef}) => ({
+      query: ({planRef, merchantRef, locationRef, subLocationRef, parentRef, locationId}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/${locationRef}/sub_locations/${subLocationRef}`,
         method: 'PATCH',
         body: {
           parent_ref: parentRef || null,
+          new_location_id: locationId || null,
         },
       }),
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'],

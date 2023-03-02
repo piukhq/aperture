@@ -26,7 +26,7 @@ const DirectoryLocationModal = () => {
     getMerchantLocationsResponse,
   } = useMidManagementLocations({
     skipGetLocation: true,
-    skipGetLocations: true,
+    getAll: true,
     skipGetLocationsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,

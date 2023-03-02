@@ -4,8 +4,8 @@ import SingleViewSubLocationDetails from 'components/Modals/components/Directory
 import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='DirectoryMerchantLocationForm' />)
-jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewEditableField',
-  () => () => <div data-testid='SingleViewEditableField' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewEditableField', () => () => <div data-testid='SingleViewEditableField' />)
+jest.mock('components/TextInputGroup', () => () => <div data-testid='location-id-text-input' />)
 
 
 const mockLocations = [
@@ -137,7 +137,10 @@ describe('SingleViewSubLocationDetails', () => {
       },
     }))
 
-    React.useState = jest.fn().mockReturnValueOnce([mockIsPhysicalLocation, jest.fn()]) // isPhysicalLocation
+    React.useState = jest.fn()
+      .mockReturnValueOnce(['mock_selected_parent', jest.fn()]) // selectedParentLocationName
+      .mockReturnValueOnce(['mock_locationId', jest.fn()]) // locationIdValue
+      .mockReturnValueOnce(['', jest.fn()]) // locationIdValidationError
   })
 
   describe('Test read-only state', () => {
@@ -156,6 +159,11 @@ describe('SingleViewSubLocationDetails', () => {
       expect(screen.getByText(mockCounty)).toBeInTheDocument()
       expect(screen.getByText(mockCountry)).toBeInTheDocument()
       expect(screen.getByText(mockPostcode)).toBeInTheDocument()
+    })
+
+    it('should not render the location ID text input', () => {
+      render(getSingleViewSubLocationDetailsComponent())
+      expect(screen.queryByTestId('location-id-text-input')).not.toBeInTheDocument()
     })
 
     it('should render the SingleViewEditableField component', () => {
@@ -207,6 +215,25 @@ describe('SingleViewSubLocationDetails', () => {
     it('should render the "Refreshing" button text when not refreshing', () => {
       render(getSingleViewSubLocationDetailsComponent({isRefreshing: true}))
       expect(screen.getByTestId('sub-location-refresh-button')).toHaveTextContent('Refreshing')
+    })
+  })
+
+  describe('Test behaviour when selected parent location is set to None', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      React.useState = jest.fn()
+        .mockReturnValueOnce(['None', jest.fn()]) // selectedParentLocationName
+        .mockReturnValueOnce(['mock_locationId', jest.fn()]) // locationIdValue
+        .mockReturnValueOnce(['', jest.fn()]) // locationIdValidationError
+    })
+    it('should render the Add location Id copy', () => {
+      render(getSingleViewSubLocationDetailsComponent())
+      expect(screen.getByText('Add a Location ID and save?')).toBeInTheDocument()
+    })
+
+    it('should render the Location ID text input', () => {
+      render(getSingleViewSubLocationDetailsComponent())
+      expect(screen.getByTestId('location-id-text-input')).toBeInTheDocument()
     })
   })
 })
