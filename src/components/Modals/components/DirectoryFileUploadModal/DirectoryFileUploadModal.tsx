@@ -64,7 +64,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
             {file && !isValidFile ? (
               <div className='text-center '>
                 <p>The file you have selected is not supported</p>
-                <label>Drag and drop a CSV here or</label>
+                <label>Drag and drop a CSV here to continue or</label>
               </div>
             ) : (
               <label>Drag and drop file here or</label>
@@ -91,8 +91,8 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
       <CSVSvg />
       <div className='flex flex-col ml-[10px] w-4/5'>
-        <label className='font-heading-6 font-semibold'>{file.name}</label>
-        <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{Math.round(file.size / 1024)}kb</label>
+        <label className={`${file.name.length < 30 ? 'font-heading-6' : 'font-heading-8'} font-semibold truncate`}>{file.name}</label>
+        <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{file.size > 1000 ? `${Math.round(file.size / 1024)}kb` : `${file.size} bytes`}</label>
       </div>
       <Button
         handleClick={handleFileReset}

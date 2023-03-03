@@ -46,6 +46,12 @@ const mockInvalidFile = {
 const mockValidFile = {
   name: 'good-test.csv',
   type: 'text/csv',
+  size: 2000,
+}
+
+const mockValidSmallFile = {
+  name: 'good-small-test.csv',
+  type: 'text/csv',
   size: 1000,
 }
 
@@ -125,7 +131,7 @@ describe('DirectoryFileUploadModal', () => {
       render(getDirectoryFileUploadModalComponent())
       expect(screen.getByText('Oops!')).toBeInTheDocument()
       expect(screen.getByText('The file you have selected is not supported')).toBeInTheDocument()
-      expect(screen.getByText('Drag and drop a CSV here or')).toBeInTheDocument()
+      expect(screen.getByText('Drag and drop a CSV here to continue or')).toBeInTheDocument()
     })
   })
 
@@ -144,11 +150,10 @@ describe('DirectoryFileUploadModal', () => {
       expect(screen.getByText('good-test.csv')).toBeInTheDocument()
     })
 
-    it('should render the file size', () => {
+    it('should render the file size in kb', () => {
       render(getDirectoryFileUploadModalComponent())
-      expect(screen.getByText('1kb')).toBeInTheDocument()
+      expect(screen.getByText('2kb')).toBeInTheDocument()
     })
-
     it('should render the remove file button', () => {
       render(getDirectoryFileUploadModalComponent())
       expect(screen.getByRole('button', {name: 'Remove file'})).toBeInTheDocument()
@@ -158,7 +163,22 @@ describe('DirectoryFileUploadModal', () => {
       render(getDirectoryFileUploadModalComponent())
       expect(screen.getByLabelText('Upload')).toBeEnabled()
     })
+  })
 
+  describe('Test when the file is valid and small', () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      jest.spyOn(React, 'useState')
+        .mockReturnValueOnce([mockValidSmallFile, jest.fn()]) // file
+        .mockReturnValueOnce([true, jest.fn()]) // isValidFile
+        .mockReturnValueOnce([false, jest.fn()]) // isUploading
+        .mockReturnValueOnce(['Merchant Details', jest.fn()])
+    })
+
+    it('should render the file size in bytes', () => {
+      render(getDirectoryFileUploadModalComponent())
+      expect(screen.getByText('1000 bytes')).toBeInTheDocument()
+    })
   })
 
   describe('Test when the file is uploading', () => {
