@@ -19,6 +19,7 @@ const DirectoryMerchantSecondaryMidsDeleteModalContainer = () => {
   } = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: true,
+    skipGetSecondaryMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
