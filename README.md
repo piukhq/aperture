@@ -1,34 +1,108 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 align="center">
+  <a href="https://github.com/binkhq/aperture">
+    <!-- Please provide path to your logo here -->
+    <img src='./docs/aperture-splash.png' alt="Logo" width="400" height="400">
+  </a>
+</h1>
 
+<div align="center">
+  Aperture
+  <br />
+  <a href="#about"><strong>Explore the screenshots »</strong></a>
+  <br />
+  <br />
+  <a href="https://hellobink.atlassian.net/jira/software/c/projects/MER/boards/172/backlog?view=detail&selectedIssue=MER-2151&issueLimit=100">Report a Bug</a>
+
+</div>
+
+
+<details open="open">
+<summary>Table of Contents</summary>
+
+- [About](#about)
+  - [Built With](#built-with)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+- [Authors & contributors](#contributors)
+- [Security](#security)
+
+</details>
+
+---
+
+## About
+
+Aperture aims to provide tooling to simplify several workflows that exist in the company. It is a front-end app that uses [Bullsquid](https://github.com/binkhq/bullsquid) backend to run.
+
+The current tooling:
+
+- Asset Comparator - Compare the images for a given plan across environments
+- Plan Comparator - Compare everything else for a given plan across environments
+- Mid Management - Manage MIDs, locations, secondary MIDs and PSIMIs
+- Customer Wallets - View a customers transactions, payment and loyalty cards
+
+
+<details>
+<summary>Screenshots</summary>
+<br>
+
+### Asset Comparator
+<img src="./docs/asset-comparator.png" title="Asset Comparator" width="50%">
+
+### Plan Comparator
+<img src="./docs/plan-comparator.png" title="Plan Comparator" width="50%">
+
+### Mid Management
+<img src="./docs/mid-management.png" title="Plan Comparator" width="50%">
+
+### Customer Wallets
+<img src="./docs/mid-management.png" title="Plan Comparator" width="50%">
+
+</details>
+
+### Built With
+
+The main technologies used throughout are: 
+
+- NextJs
+- React
+- Typescript
+- Redux Toolkit with RTK Query
+- Jest
+- TailwindCSS
+
+Other technologies will be referenced in further sections as needed.
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- Node, version greater than 14
+- Yarn Package Manager
+
+There may be others that have been forgotten about.
+### Installation
+
+1. Clone this repo locally
+2. Install via `yarn install`
+3. Run a local dev server with `yarn dev`
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Roadmap
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+See the [Merchant Jira Board](https://hellobink.atlassian.net/jira/software/c/projects/MER/boards/172/backlog?view=detail&selectedIssue=MER-2151&issueLimit=100) for an overview of whats planned and what needs working on.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## Contributing
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for getting involved!
+## Contributors
 
-## Learn More
+[Lukie Kang](https://github.com/neosaurrrrus) - Front End Development
+Nathan Read - DevOps/CI Pipeline
 
-To learn more about Next.js, take a look at the following resources:
+## Security
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Aperture follows good practices of security, but 100% security cannot be assured. For more information our [Snyk page](https://app.snyk.io/org/web-n3o/project/0c5bf933-4a5b-4755-b2fa-cd27a76ddf4c).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
