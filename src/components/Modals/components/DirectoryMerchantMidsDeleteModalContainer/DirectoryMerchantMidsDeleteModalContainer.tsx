@@ -21,6 +21,7 @@ const DirectoryMerchantMidsDeleteModalContainer = () => {
   } = useMidManagementMids({
     skipGetMid: true,
     skipGetMids: true,
+    skipGetMidsByPage: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })

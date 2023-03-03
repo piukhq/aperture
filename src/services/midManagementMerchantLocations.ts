@@ -116,19 +116,7 @@ export const midManagementMerchantLocationsApi = createApi({
           ...rest,
         },
       }),
-      // Update the cache with the newly created location
-      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: newLocation} = await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.updateQueryData('getMerchantLocations', {planRef, merchantRef, secondaryMidRef}, (existingLocations) => {
-            existingLocations.push(newLocation)
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantLocations'],
     }),
     postMerchantLocationSubLocation: builder.mutation<DirectoryLocation, PutPostMerchantLocationBody>({
       query: ({planRef, merchantRef, locationRef, ...rest}) => ({
