@@ -89,9 +89,10 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
 
   const renderFileUploadPreview = () => (
     <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
-      <CSVSvg />
-      <div className='flex flex-col ml-[10px] w-4/5'>
-        <label className={`${file.name.length < 30 ? 'font-heading-6' : 'font-heading-8'} font-semibold truncate`}>{file.name}</label>
+
+      <CSVSvg className=''/>
+      <div className='flex flex-col ml-[10px] w-3/5'>
+        <label className={`${file.name.length < 25 ? 'font-heading-6' : 'font-heading-8'} font-semibold truncate`}>{file.name}</label>
         <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{file.size > 1000 ? `${Math.round(file.size / 1024)}kb` : `${file.size} bytes`}</label>
       </div>
       <Button
@@ -102,6 +103,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
         labelColour={LabelColour.RED}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
         ariaLabel={'Remove file'}
+        additionalStyles='p-1 ml-2'
       >
         <TrashSvg className='fill-red' />
       </Button>
