@@ -52,17 +52,12 @@ const SingleViewEditableField = ({
   const [validationError, setValidationError] = useState(null)
 
   useEffect(() => {
-    if (successResponse || errorResponse) {
+    if (successResponse) {
       setIsInEditState(false)
       setIsInDeleteState(false)
     }
   }, [successResponse, errorResponse])
 
-  useEffect(() => {
-    if (isDisabled) {
-      setIsInEditState(false)
-    }
-  }, [isDisabled])
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValidationError(null)
@@ -178,11 +173,12 @@ const SingleViewEditableField = ({
         handleClick={onSaveHandler}
         buttonType={ButtonType.SUBMIT}
         buttonSize={ButtonSize.MEDIUM}
-        buttonWidth={isSaving ? ButtonWidth.FULL : ButtonWidth.SINGLE_VIEW_MID_SMALL}
+        buttonWidth={isSaving ? ButtonWidth.MEDIUM : ButtonWidth.SINGLE_VIEW_MID_SMALL}
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         isDisabled={isDisabled || isSaving}
+        additionalStyles='duration-200'
       >{isSaving ? 'Saving' : 'Save'}
       </Button>
       { !isSaving && (

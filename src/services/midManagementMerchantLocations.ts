@@ -238,7 +238,7 @@ export const midManagementMerchantLocationsApi = createApi({
         method: 'PATCH',
         body: {
           parent_ref: parentRef || null,
-          new_location_id: locationId || null,
+          location_id: locationId || null,
         },
       }),
       invalidatesTags: ['MerchantLocationSubLocation', 'MerchantLocationSubLocations', 'MerchantLocation', 'MerchantLocations'],
