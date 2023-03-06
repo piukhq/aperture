@@ -178,6 +178,7 @@ const SingleViewEditableField = ({
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         isDisabled={isDisabled || isSaving}
+        additionalStyles='duration-200'
       >{isSaving ? 'Saving' : 'Save'}
       </Button>
       { !isSaving && (
