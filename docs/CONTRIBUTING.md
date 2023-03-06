@@ -1,16 +1,13 @@
 <h1 align="center">
   <a href="https://github.com/binkhq/aperture">
     <!-- Please provide path to your logo here -->
-    <img src='./docs/aperture-splash.png' alt="Logo" width="400" height="400">
+    <img src='./aperture-splash.png' alt="Logo" width="400" height="400">
   </a>
 </h1>
 
 # About
 
-This is a guide, we don't need to always following the advice of this document but we ought to have a good reason to make exceptions. Being consistent is king but nothing is ever set in stone, if we feel another approach is better, let's change it up.
-
- I am not going to spell everything out, but to introduce the codebase and flag anything that might trip you up which getting to grips with it.
-
+This is a guide, not a strict rulebook but we ought to have a good reason to make exceptions. Being consistent is king but nothing is ever set in stone, if we feel another approach is better, let's change it up. I am not going to spell everything out, but to introduce the codebase and flag anything that might trip you up which getting to grips with it.
 
 # The very basics
 ## File structure
@@ -47,8 +44,19 @@ Lets lets go in alphabetical order here:
 - utils - Handy little functions that can be used across multiple components live here to be referenced accordingly.
 
 # Our Frameworks
+High-level things to know about our use of various frameworks that differ from what you might expect. This is the part of this guide that is most likely to go stale so lets do our best ot keep it updated when we change things.
 
-High-level things to know about our use of various frameworks to point you in the right direction. This is the part of this guide that is most likely to go stale so lets do our best ot keep it update weh nwe change things.
+## Typescript
+
+This was the first large project where Typescript has been used and it probably shows in the immaturity of how we are using Typescript features but its something we are improving upon as we go.
+
+Some common patterns are are:
+
+1. We define global types (i.e not just used in one component) in the types folder. 
+2. We confirm the types used for component props at the start of a components file.
+3. We use enums for ensuring and centralising global string values only. The [global enums file is here](../src/utils/enums.ts) 
+
+Otherwise expect a little variation in how things are done as our thinking in Typescript has evolved. The only golden rule we have is to avoid deliberate use of `any` as a type. We can normally find something that works instead.
 
 ## NextJs
 
@@ -66,107 +74,178 @@ These frameworks perform two main tasks:
 2. Store and provide data between components where passing it between props is impractical.  
 
 Our data layer follows much of the standard boilerplate found in the RTK/RTK Query documentation so that's a good start place for learning more. Generally we try and split up files by area of concern to avoid a huge singular file. 
-
 ### Example API call process
 
 From the backend to the component the typical pattern we use is as follows:
 
-1. Build the API call in the relevant file in Services using the RTK format. In reality you are better off copying a similar one and changing it. Make sure the created query or mutation is exported
+1. Build the API call in the relevant file in Services using the RTK format. In reality you are better off copying a similar one and changing it. Make sure the created query or mutation is exported once you are done.
 
 2. To better support situations we we need to make multiple API calls in the same component, we have a corresponding custom hook in the hooks folder (e.g services/midManagementPlans and hooks/useMidManagementPlans). This exposes each available property with a unique name. Any required arguments are defined here as well as skipTokens. Due to the nature of hooks, we need to use skipTokens to stop the running of all Queries within that particular hook.  
 
 3. Import the required properties into the component, using skip tokes and providing arguments as needed.
 
-Its bit of an annoying boilerplatey process but it is pretty robust and ensures we can be smart about avoiding unneeded API calls. RTK Query in particular has a lot of quality of life and performance improvements that we can look into.
-
+Its bit of a boilerplate-y process but it is pretty robust and ensures we can be smart about avoiding unneeded API calls. RTK Query in particular has a lot of quality of life and performance improvements that we can look into.
 
 ## Unit Testing with RTL/Jest
 
 This is an interesting one as I am not fully happy with how we do testing thus far. Our coverage is fairly decent, the experience of writing unit tests is poor. We write unit tests for every page and component file that renders something to:
 
 1. Catch any unintended changes
-2. Document the important things the component should so.
+2. Document the important things the component should do.
 
 The test file for each component should be kept in the same location s the component. For pages we keep them in the __tests__ folder.
 
-Internet arguments fly about what good unit testing is but our current thinking is using the Acceptance criteria in the Jira tickets as a good starting point to base tests upon. Any bug tickets are great prompts to write additional tests to cover that scenario.
+Internet arguments fly about what good unit testing is but our current thinking is using the Acceptance criteria in the Jira tickets as a good starting point to base tests upon. Any bug tickets are great prompts to write additional tests to cover that scenario. However we also subscribe to the notion that unit tests have their limitations, especially when most of our components have multiple dependancies that involve heavy amounts of mocking to make work. The more I work with React/Redux/Next/Hooks the less inclined I am see the value of unit tests over end-to-end and integration testing. See [Kent C Dodds on this](https://kentcdodds.com/blog/write-tests)
 
-However we also subscribe to the notion that unit tests have their limitations, especially when most of our components have multiple dependancies that involve heavy amounts of mocking to make work. The more I work with React/Redux/Next/Hooks the less inclined I am see the value of unit tests over end-to-end and integration testing. See [Kent C Dodds on this](https://kentcdodds.com/blog/write-tests)
+As a rule we do not practice TDD for new features due to the many unknowns a new feature will present us with. As we write unit tests against a given component its hard to write the tests first when we don't know the architecture we will end up with. Smaller feature tickets help with this, and maybe thinking differently about our design patterns. At time of writing QA are looking to develop an end-to-end test suite for Aperture so am seeing what the testing landscape looks like once that is complete before seeing how we can improve this.
+## TailwindCSS 
 
-As a rule we do not practice TDD for new features due to the many unknowns a new feature will present us with. As we write unit tests against a given component its hard to write the tests first when we don't know the architecture we will end up with. Smaller feature tickets help with this, and maybe thinking differently about our design patterns.
+We have some set classes in [globals.css](../src/styles/globals.css) for some very common use cases. 
 
-At time of writing QA are looking to develop an end-to-end test suite for Aperture so am seeing what the testing landscape looks like once that is complete before seeing how we can improve this.
+There you will also find some common CSS for scrollbar styling as thats quite bespoke.
 
+The [Tailwind config file](../tailwind.config.js) is where we typically set our colour pallette as well as extending with additions not found in Tailwind by default.
 
+Otherwise we are happy to populate elements with classes as needed, if we repeat a set of classes often in a component we can set it is as a const to reduce duplication as well as breaking things into components.
 
-MOCKING GITCHAS!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## TailwindCSS
-
-## Auth0
-
-## Sentry
-
-## Husky
+We **support Dark Mode** note that every element with a colour set will have a dark equivalent where needed.
 
 ## ESLint
 
+Do we prefer tabs over spaces, or consts over var's? ESlint should stop you worrying about all that and saves me a bunch of typing. Check out the `.eslintrc.json` file in the app root to see how we like things. But this is just preference if you like something to be different, it can be changed. On **very** rare occasions we can override the linting rules for a given line, but it should be because the alternative is worse...
+
+Linting errors (in red) normally will not be fixed on save, but any warnings (in yellow) will auto fix on save so don't worry about being too neat and tidy as you code.
+## Husky
+
+Husky (check out the .Husky folder in root) is our pre-commit and pre-push hook runner.
+
+Before any **commit** Husky will:
+
+- Check for Typescript errors
+- Fix any fixable linting issues
+
+Before any **push** Husky will do the above and run all unit tests to make sure we do not push anything up that is failing tests.
+
+## Auth0
+
+Auth0 is our authentication mechanism to make sure that only Bink employees get access to Aperture in three flavours of access:
+
+- Read (Reader)
+- Read/Write (Writer)
+- Read / Write / Delete (Admin)
+
+We apply these permissions to UI elements (mostly Buttons) to govern if the user has access to them. The main hook that governs this is [usePermissions](../src/hooks/usePermissions.ts) and is baked into our custom Button elements for example.
+
+We can test the user permissions a logged in user has via a hidden [Permissions Page](../src/pages/permissions.tsx).
+
+As for the Auth0 overall setup and configuration , thats a little too in-depth for this guide but its worth knowing much of the setup was in following the NextJS setup for Auth0 and can be found online.
+
+## Sentry
+
+Sentry is our error and exception tracking software and can be accessed via https://bink.sentry.io/issues/?project=6175755
+If you don't have access someone in DevOps should be able to sort you out.
+
+Again, the config follows typical NextJS setup found online to allow Aperture to talk to Sentry.
+
 ## SVGr
+
+SGVr allows us to componentise our SVG files and thus have better control of them. You'll notice it is used wherever we are using SVGs so its best to keep using that pattern.
 
 ## Headless UI
 
+There are a few tricky UI elements to code so in a couple of places we have used [Headless UI](https://headlessui.com/) to help us develop the following components:
+
+- Dropdown
+- TextInputGroup (part of...)
+
+Since we use it already it makes sense to consider it  if need be elsewhere over a different library.
+
 ## Just ...
 
+You will notice in the package.json we have a few little libraries called just-*something*. This is a minor shout out to the [Just suite of libraries](https://github.com/angus-c/just) for doing those little annoying helper functions that would be time consuming to write ourselves. We favour Just as they are written without any other dependencies and minimal size which saves us a headache when vulnerabilities are found. Think of it as our preferred lodash, underscore.js, jquery option.
 
 # Our Code Standards
 
-Ok, so we haven't talked about the code itself the style we use. Life is too short for me to go through every typescript and react pattern we use, ESlint can help with much of that and hopefully the rest of it can be deduced from existing components. So again here I just want to highlight any weirdness and high-level things that matter when writing code for Aperture.
+Ok, so we haven't talked about the code itself. Life is too short for me to go through every typescript and react pattern we use, ESlint can help with much of that and hopefully the rest of it can be deduced from existing components. So again here I just want to highlight any weirdness and high-level principles that matter when writing code for Aperture.
 
+## Browser Compatibility
+
+So good news, Aperture is used by Bink Internal people so we can assume we can use modern browser features. Any feature that is supported by mainstream versions of Chrome(ium), Firefox and Safari should be good to use in our code. As always Safari tends to be an outlier so often worth testing any visually interesting code we write on Safari in particular.
+
+## Generic UI Components
+
+You need to make a button so you start typing `<button....` STOP! We have a component for that and a few other things. They mostly exist to reduce duplication and keep styling consistent across multiple areas of the app so they are worth knowing about before duplicating thier functionality. 
+
+- Button
+- ContentTile
+- Dropdown
+- Modal (a Higher Order Component around the modal content)
+- OptionsMenuButton
+- PageLayout
+- PaymentCardIcon
+- PlansList
+- Tag
+- TextInputGroup
+
+
+They all live in the components folder, there are other components used in multiple places but at least they will be scoped within a particular component folder (and thus a certain part of the app).
 
 ## Accessibility
 
+We make a point to take Accessibility seriously and (thus far) Aperture has fairly decent Accessibility. Broadly speaking we are aiming for AA-standard of [WCAG2.1](https://www.w3.org/TR/WCAG21/). We might have a few things forgotten about here or there but if we find them lets fix it up.
+
+I won't go over all the things we need to look out for to ensure we are aiming for AA-standard but suffice it to say, making sure any components are screenreader-only and keyboard-only friendly is a big chunk of it. I recommend using AXE linter for VSCode as well as the AXE chrome extensions to run audits of the stuff we write.
+
+Its fine if we are not perfect but lets try and do what we can, avoid anything deliberately inaccessible,  and flag up any potential accessibility challenges during refinements.
+
 ## Responsiveness
+
+We currently are assuming Aperture uis being run on a Macbook Pro with at least a 13inch screen.
+
+Its a current todo list item to try and gracefully handle Aperture when smaller viewports are used.
 
 ## Security
 
-Installing new package....
+So we need to use a new package? Probably worth a sanity-check with a colleague. If its a simple function to write ourselves we probably should but let's not be too dogmatic, sometimes we need an external library. 
 
-## Dark Mode
-
+Just one thing before you install it, run an audit of the node package using a CLI-tool called '[NPQ](https://github.com/lirantal/npq)
+.NPQ audits a given package and helps flag up any issues of concern prior to installing it. If there is something of concern it flags up, let's discuss.
 
 ## Images
 
+SVGs are typically stores in `src/icons/svgs` and are used accordingly. 
 
-
-## React
-
-## Typescript
-
+Where we use non-SVGs or are in need of the NextJs Image handling component (i.e when not using a SVG) we also store image files in the public folder in the root.
 
 ## Modals
 
-## When to componentise
+We have a lot of modals. So much so we have a particular pattern for calling them via Redux. I will walk you through as its a little weird.
 
+### Creating a modal
+
+1. The request to render a modal lives in the NextJS Layout component which calls a ModalFactory component.
+2. ModalFactory then decides which modal to actually render, note the use of a ModalType enum to help keep things in order.
+3. The modal itself (which lives in the modals folder, is always wrapped by a general Modal Higher Order Component which governs the generic modal appearence and behaviour).
+4. The modal component is wrapped by a FocusTrap componet which is part of a library to easily ensure keyboard focus remains with in the modal.
+
+### Requesting a modal
+
+If a button wants to call a specific modal we dispatch an action to our redux store to set what modal should be requested: `    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))`. 
+
+To dismiss a modal (for example after a successful api call) we have to send another action to set the modal requested to none like so: `dispatch(requestModal(ModalType.NO_MODAL))`
+
+Its a bit weird but it  keeps things super consistent which is useful when modals can be very tricky from a visual and accessibility standpoint.
 ## Vulnerability Management
 
-What do we do about it?
+Synk is our current tooling for ensuring we are informed of new vulnerabilities in Aperture. However at time of writing this is about to be phased out. We are not sure if there is anything that will replace it currently so cannot tell you what we will do instead about vulnerability reporting.
 
+However as a general rule we treat package vuonerabilities with the following urgency:
 
+1. Critical - As soon as is discovered, or at least once you have finished whatever it is you are doing. Create a new sprint ticket if need be.
+2. High - To be addressed in the next sprint, create a ticket if need be.
+3. Medium/Low. Review the vulnerability and, unless there is a special case, we will typically address them when we have spare time.
 
+There might be special cases where we do something different but thats the general rule of thumb. By keeping on top of things we normally can avoid massive package upgrades with more risk of not knowing what particular change broke everything.
 
 # Development Pipeline
 
@@ -199,8 +278,6 @@ So my typical workflow to add a feature goes like this:
 8. .... Wait, no, QA have found a defect you need to fix! If the defect is not better raised as a bug you need a hotfix... in which case that new feature branch is prefixed with 'hotfix-1-MER-XXX'
 
 
-
-
 ## Code Reviews
 
 This section is TBC as that can be decided when we have multiple devs again. General principle, don't make it overly burdensome, be curious, offer suggestions, communicate well and politely.
@@ -221,7 +298,7 @@ One last thing, I promise. We are a small team but we (used to) have standards i
 
 - Do not accept weird system behaviour. When a system repeatedly exhibits behaviour that we can’t explain, it’s easy to become collectively accustomed to it and treat it as “normal.” A good example of this is console warnings in the browser. We make sure our new code does not create more errors and warnings. If its beyond the scope of the feature itself we make sure it is in the tech debt pile. 
 
-- Write code to be read by humans. If code is hard to understand, its hard to spot bugs. Prefer long descriptive names, prefer multiple simple functions and components rather than one that does it all and prefer to use more lines of code to make the code clearer. Feel free to comment anything that is unavoidably unintuitive, or cannot be summarised via its name (useEffect hooks for example)
+- Write code to be read by humans. If code is hard to understand, its hard to spot bugs. Prefer long descriptive names, prefer multiple simple functions and components rather than one thing that does it all via spagetti code... and prefer to use more lines of code if it makes the code clearer. Feel free to comment anything that is unavoidably unintuitive, or cannot be summarised via its name (useEffect hooks for example)
 
 - If you can’t show it’s a bottleneck, don’t optimise it. Correctness is nearly always more important than performance. Because optimisation generally increases code complexity, only go after performance when you are sure its running at a sufficiently large scale that the gains will be significant. Again, using tech debt for such things is your friend.
 
