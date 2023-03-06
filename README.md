@@ -51,16 +51,16 @@ The current tooling:
 
 
 ### Asset Comparator
-<img src="./docs/asset-comparator.png" title="Asset Comparator" width="50%">
+<img src="./docs/asset-comparator.png" title="Asset Comparator" width="70%">
 
 ### Plan Comparator
-<img src="./docs/plan-comparator.png" title="Plan Comparator" width="50%">
+<img src="./docs/plan-comparator.png" title="Plan Comparator" width="70%">
 
 ### Mid Management
-<img src="./docs/mid-management.png" title="Plan Comparator" width="50%">
+<img src="./docs/mid-management.png" title="Mid Management" width="70%">
 
 ### Customer Wallets
-<img src="./docs/mid-management.png" title="Plan Comparator" width="50%">
+<img src="./docs/customer-wallets.png" title="Customer Wallets" width="70%">
 </details>
 
 ---
