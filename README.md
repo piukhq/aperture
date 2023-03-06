@@ -49,6 +49,7 @@ The current tooling:
 <summary>Screenshots</summary>
 <br>
 
+
 ### Asset Comparator
 <img src="./docs/asset-comparator.png" title="Asset Comparator" width="50%">
 
@@ -60,9 +61,9 @@ The current tooling:
 
 ### Customer Wallets
 <img src="./docs/mid-management.png" title="Plan Comparator" width="50%">
-
 </details>
 
+---
 ### Built With
 
 The main technologies used throughout are: 
@@ -74,7 +75,6 @@ The main technologies used throughout are:
 - Jest
 - TailwindCSS
 
-Other technologies will be referenced in further sections as needed.
 ## Getting Started
 
 ### Prerequisites
@@ -96,11 +96,16 @@ See the [Merchant Jira Board](https://hellobink.atlassian.net/jira/software/c/pr
 
 ## Contributing
 
-Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for getting involved!
+Please read [our contribution guidelines](docs/CONTRIBUTING.md), for more details on how things are set up, common gotchas and preferred ways of working. Thank you for getting involved!
 ## Contributors
 
+There is a whole team but those who actually put code into this repo are: 
+
 [Lukie Kang](https://github.com/neosaurrrrus) - Front End Development
+
 Nathan Read - DevOps/CI Pipeline
+
+
 
 ## Security
 

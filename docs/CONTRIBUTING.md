@@ -9,6 +9,43 @@
 
 This is a guide, not a strict rulebook but we ought to have a good reason to make exceptions. Being consistent is king but nothing is ever set in stone, if we feel another approach is better, let's change it up. I am not going to spell everything out, but to introduce the codebase and flag anything that might trip you up which getting to grips with it.
 
+It helps somewhat proficient with React, Typescript and Redux in particular to make sense of this but its not too detail-heavy.
+
+<summary>Table of Contents</summary>
+
+- [The very basics](#the-very-basics)
+  - [File structure](#file-structure)
+    - [Root](#root)
+    - [Src](#src)
+- [Aperture Frameworks and Libraries](#aperture-frameworks-and-libraries)
+  - [Typescript](#typescript)
+  - [NextJs](#nextjs)
+  - [Redux](#redux-toolkit-with-rtk-query)
+  - [Unit Testing](#unit-testing-with-rtl-and-jest)
+  - [TailwindCSS](#tailwindcss)
+  - [ESLint](#eslint)
+  - [Husky](#husky)
+  - [Auth0](#auth0)
+  - [Sentry](#sentry)
+  - [SVGr](#svgr)
+  - [Headless UI](#headless-ui)
+  - [Just](#just)
+- [Code Standards](#code-standards)
+  -[Browser Compatibility](#browser-compatibility)
+  -[Reuseable UI Components](#reuseable-ui-components)
+  -[Accessibility](#accessibility)
+  -[Responsive Design](#responsive-design)
+  -[Node Package Security](#node-package-security)
+  -[Vulnerability Management](#vulnerability-management)
+  -[Images](#images)
+  -[Modals](#modals)
+    -[Creating a Modal](#creating-a-modal)
+    -[Requesting a Modal](#requesting-a-modal)
+- [Development Pipeline](#development-pipeline)
+  -[Code Reviews](#code-reviews)
+- [Engineering Culture](#engineering-culture)
+
+
 # The very basics
 ## File structure
 
@@ -43,8 +80,8 @@ Lets lets go in alphabetical order here:
 - types - contains a file containing our global Type definitions in typescript. If a type exists in more than one component, it is defined and referenced from here.
 - utils - Handy little functions that can be used across multiple components live here to be referenced accordingly.
 
-# Our Frameworks
-High-level things to know about our use of various frameworks that differ from what you might expect. This is the part of this guide that is most likely to go stale so lets do our best ot keep it updated when we change things.
+# Aperture Frameworks and Libraries
+What we use and the important things to know that differ from what you might expect. This is the part of this guide that is most likely to go stale so lets do our best ot keep it updated when we change things.
 
 ## Typescript
 
@@ -86,7 +123,7 @@ From the backend to the component the typical pattern we use is as follows:
 
 Its bit of a boilerplate-y process but it is pretty robust and ensures we can be smart about avoiding unneeded API calls. RTK Query in particular has a lot of quality of life and performance improvements that we can look into.
 
-## Unit Testing with RTL/Jest
+## Unit Testing with RTL and Jest
 
 This is an interesting one as I am not fully happy with how we do testing thus far. Our coverage is fairly decent, the experience of writing unit tests is poor. We write unit tests for every page and component file that renders something to:
 
@@ -164,7 +201,7 @@ Since we use it already it makes sense to consider it  if need be elsewhere over
 
 You will notice in the package.json we have a few little libraries called just-*something*. This is a minor shout out to the [Just suite of libraries](https://github.com/angus-c/just) for doing those little annoying helper functions that would be time consuming to write ourselves. We favour Just as they are written without any other dependencies and minimal size which saves us a headache when vulnerabilities are found. Think of it as our preferred lodash, underscore.js, jquery option.
 
-# Our Code Standards
+# Code Standards
 
 Ok, so we haven't talked about the code itself. Life is too short for me to go through every typescript and react pattern we use, ESlint can help with much of that and hopefully the rest of it can be deduced from existing components. So again here I just want to highlight any weirdness and high-level principles that matter when writing code for Aperture.
 
@@ -172,7 +209,7 @@ Ok, so we haven't talked about the code itself. Life is too short for me to go t
 
 So good news, Aperture is used by Bink Internal people so we can assume we can use modern browser features. Any feature that is supported by mainstream versions of Chrome(ium), Firefox and Safari should be good to use in our code. As always Safari tends to be an outlier so often worth testing any visually interesting code we write on Safari in particular.
 
-## Generic UI Components
+## Reuseable UI Components
 
 You need to make a button so you start typing `<button....` STOP! We have a component for that and a few other things. They mostly exist to reduce duplication and keep styling consistent across multiple areas of the app so they are worth knowing about before duplicating thier functionality. 
 
@@ -198,19 +235,32 @@ I won't go over all the things we need to look out for to ensure we are aiming f
 
 Its fine if we are not perfect but lets try and do what we can, avoid anything deliberately inaccessible,  and flag up any potential accessibility challenges during refinements.
 
-## Responsiveness
+## Responsive Design
 
 We currently are assuming Aperture uis being run on a Macbook Pro with at least a 13inch screen.
 
 Its a current todo list item to try and gracefully handle Aperture when smaller viewports are used.
 
-## Security
+## Node Package Security
 
 So we need to use a new package? Probably worth a sanity-check with a colleague. If its a simple function to write ourselves we probably should but let's not be too dogmatic, sometimes we need an external library. 
 
 Just one thing before you install it, run an audit of the node package using a CLI-tool called '[NPQ](https://github.com/lirantal/npq)
 .NPQ audits a given package and helps flag up any issues of concern prior to installing it. If there is something of concern it flags up, let's discuss.
 
+We try and be careful about what packages we install so that that we avoid having to spend as much time on....
+
+## Vulnerability Management
+
+Synk is our current tooling for ensuring we are informed of new vulnerabilities in Aperture. However at time of writing this is about to be phased out. We are not sure if there is anything that will replace it currently so cannot tell you what we will do instead about vulnerability reporting.
+
+However as a general rule we treat package vuonerabilities with the following urgency:
+
+1. Critical - As soon as is discovered, or at least once you have finished whatever it is you are doing. Create a new sprint ticket if need be.
+2. High - To be addressed in the next sprint, create a ticket if need be.
+3. Medium/Low. Review the vulnerability and, unless there is a special case, we will typically address them when we have spare time.
+
+There might be special cases where we do something different but thats the general rule of thumb. By keeping on top of things we normally can avoid massive package upgrades with more risk of not knowing what particular change broke everything.
 ## Images
 
 SVGs are typically stores in `src/icons/svgs` and are used accordingly. 
@@ -235,23 +285,10 @@ If a button wants to call a specific modal we dispatch an action to our redux st
 To dismiss a modal (for example after a successful api call) we have to send another action to set the modal requested to none like so: `dispatch(requestModal(ModalType.NO_MODAL))`
 
 Its a bit weird but it  keeps things super consistent which is useful when modals can be very tricky from a visual and accessibility standpoint.
-## Vulnerability Management
-
-Synk is our current tooling for ensuring we are informed of new vulnerabilities in Aperture. However at time of writing this is about to be phased out. We are not sure if there is anything that will replace it currently so cannot tell you what we will do instead about vulnerability reporting.
-
-However as a general rule we treat package vuonerabilities with the following urgency:
-
-1. Critical - As soon as is discovered, or at least once you have finished whatever it is you are doing. Create a new sprint ticket if need be.
-2. High - To be addressed in the next sprint, create a ticket if need be.
-3. Medium/Low. Review the vulnerability and, unless there is a special case, we will typically address them when we have spare time.
-
-There might be special cases where we do something different but thats the general rule of thumb. By keeping on top of things we normally can avoid massive package upgrades with more risk of not knowing what particular change broke everything.
 
 # Development Pipeline
 
 Phew, nearly there. Now you are ready to *Get Things Done* but need to know how we typically get from a Jira ticket, to the code being deployed on production. Lets go through that process to show the conventions we use.
-
-## Git strategy
 
 We use Gitlab Flow as our branching strategy which looks like this:
 
@@ -277,14 +314,19 @@ So my typical workflow to add a feature goes like this:
 
 8. .... Wait, no, QA have found a defect you need to fix! If the defect is not better raised as a bug you need a hotfix... in which case that new feature branch is prefixed with 'hotfix-1-MER-XXX'
 
-
 ## Code Reviews
 
-This section is TBC as that can be decided when we have multiple devs again. General principle, don't make it overly burdensome, be curious, offer suggestions, communicate well and politely.
+This section is TBC as that can be decided when we have multiple devs again. General principles: 
 
-# Culture stuff
+- Don't make it overly burdensome.
+- Be curious when code is unknown.
+- Offer suggestions when it is but you have a better idea. Suggestions not orders, we own our own features.
+- Be patient, we all have off days.
+- Be polite. review how you'd like to be reviewed I guess.
 
-One last thing, I promise. We are a small team but we (used to) have standards in how we work to make it a nice place to be and a nice codebase to code for. Some of these points probably conflict with each other, its not always possible,  just treat them as guidelines rather than strict rules.
+# Engineering Culture
+
+One last thing, I promise. We are a small team but we (used to) have standards in how we work to make it a nice place to be and a nice codebase to code for. 
 
 - Take your time - Explore different approaches, play around with the related code and consider all angles. Give yourself the time it needs, it will make for better code in the long run when you, and only you, choose how long to spend on it.
 
