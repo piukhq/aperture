@@ -97,12 +97,13 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     } else if (patchError) {
       resetPatchResponse()
       const {status} = patchError as FetchBaseQueryError & {data?: {detail: {loc: string[]; msg: string}[]}, status: number} | null // TODO: Consider a more global approach for this
-      setLocationIdValidationError(status === 422 ? 'Enter Unique Location ID' : 'Error updating sub-location')
+      setLocationIdValidationError(status === 409 ? 'Enter Unique Location ID' : 'Error updating sub-location')
     }
   }, [isPatchSuccess, merchantId, patchError, patchResponse, planId, resetPatchResponse, router])
 
   const handleParentLocationChange = useCallback((selectedLocationString: string) => {
     setSelectedParentLocationName(selectedLocationString || null)
+    selectedLocationString !== 'None' && setLocationIdValue('')
     setLocationIdValidationError(null)
   }, [])
 
