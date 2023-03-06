@@ -161,7 +161,7 @@ Before any **commit** Husky will:
 - Check for Typescript errors
 - Fix any fixable linting issues
 
-Before any **push** Husky will do the above and run all unit tests to make sure we do not push anything up that is failing tests.
+Before any **push** Husky will do the above and also run all unit tests to make sure we do not push anything up that is failing tests. This previously used to be a pre-commit hook but the size of our test suite is such it wa starting to discourage smaller commits. Let's see if we regret that.
 
 ## Auth0
 
