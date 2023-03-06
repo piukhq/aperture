@@ -10,6 +10,7 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 import SingleViewEditableField from '../../../SingleViewEditableField'
 import {getLocationList} from 'utils/locationStrings'
+import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query'
 
 type Props = {
   isInEditState: boolean
@@ -28,6 +29,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     getMerchantLocationsIsFetching: isGetLocationsFetching,
   } = useMidManagementLocations({
     skipGetLocation: true,
+    skipGetLocationsByPage: true,
     getAll: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
@@ -94,8 +96,8 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
       router.push(`${router.basePath}/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${routerSuffix}`)
     } else if (patchError) {
       resetPatchResponse()
-      // TODO: Add check to see if location ID already exists, against actual error response
-      setLocationIdValidationError('Enter Unique Location ID')
+      const {status} = patchError as FetchBaseQueryError & {data?: {detail: {loc: string[]; msg: string}[]}, status: number} | null // TODO: Consider a more global approach for this
+      setLocationIdValidationError(status === 422 ? 'Enter Unique Location ID' : 'Error updating sub-location')
     }
   }, [isPatchSuccess, merchantId, patchError, patchResponse, planId, resetPatchResponse, router])
 
