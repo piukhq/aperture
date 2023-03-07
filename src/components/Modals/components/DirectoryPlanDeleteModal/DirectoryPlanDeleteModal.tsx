@@ -17,7 +17,7 @@ const DirectoryPlanDeleteModal = () => {
   const router = useRouter()
   const {plan_ref: planId, total_mid_count: totalMidCount} = selectedPlan
   const {name} = selectedPlan.plan_metadata
-  const {merchants, locations} = selectedPlan.plan_counts
+  const {merchants, locations} = selectedPlan.plan_counts || {}
 
   const {
     deletePlan,
