@@ -197,7 +197,7 @@ const Comment = ({
         <AutosizeTextArea accessibilityLabel='Edit comment' placeholder='Edit comment' prePopulatedValue={text} submitHandler={onEditCommentSubmit} onBlurHandler={handleOnBlur} />
       )
     }
-    return <p className='font-body-3 break-words'>{text}</p>
+    return <p className='font-body-3 break-words w-[93%]'>{text}</p>
   }
 
   const renderComment = () => (
