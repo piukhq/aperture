@@ -60,7 +60,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   const renderSidebarToggle = () => (
     <button
       onClick={() => setIsOpen(!isOpen)}
-      className={`flex items-center justify-center h-8 w-8 ease-in-out border-grey-400 hover:scale-125 rounded-full border-2 p-2 bg-white/90 dark:bg-black/50 duration-200 ${isOpen ? 'translate-x-12 ml-[6px] translate-y-12 rotate-90' : 'translate-x-2 translate-y-4 -rotate-90'}`}
+      className={`flex items-center justify-center h-8 w-8 ease-in-out border-grey-400 dark:border-grey-825 hover:scale-125 rounded-full border-2 bg-white/90 dark:bg-black/50 duration-200 ${isOpen ? 'translate-x-12 ml-[6px] translate-y-12 rotate-90' : 'translate-x-2 translate-y-4 -rotate-90'}`}
     >
       <ArrowDownSvg fill='grey' className='scale-125 pt-[1px]' />
     </button>
@@ -69,7 +69,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   // Render the collapsed sidebar
   if (!isOpen) {
     return (
-      <nav className='flex w-full space-between duration-200 fixed z-50 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:to-900/90'>
+      <nav className='flex w-full space-between duration-200 fixed z-50 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-950 dark:to-grey-950/90'>
         <Link href='/' passHref>
           <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
             <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
@@ -85,7 +85,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   // Render the expanded sidebar
   return (
     <div className='pr-64 z-[1]'>
-      <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-900 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
+      <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
         <div className='flex w-64'>
           <Link href='/' passHref>
             <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
