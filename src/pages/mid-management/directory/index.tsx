@@ -152,12 +152,12 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
       </div>
       <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
         {planList && planList.length > 0 && (
-          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+          <div className='flex w-full justify-center mt-[50px] flex-wrap gap-[30px]'>
             {renderDirectoryPlans()}
           </div>
         )}
         {getPlansIsLoading && (
-          <div className='flex mt-[51px] flex-wrap gap-[30px]'>
+          <div className='flex  w-full justify-center mt-[50px] flex-wrap gap-[30px]'>
             {Array(6).fill(0)
               .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
           </div>

@@ -18,6 +18,7 @@ import TableSvg from 'icons/svgs/table.svg'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
+
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {planId: planRef} = router.query
@@ -115,7 +116,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
-      <div className='flex mt-[30px] flex-wrap gap-[31px]'>
+      <div className='flex mt-[30px] justify-center flex-wrap gap-[31px]'>
         {merchants.map((merchant) => {
           const {merchant_metadata, merchant_counts, merchant_ref} = merchant
 
