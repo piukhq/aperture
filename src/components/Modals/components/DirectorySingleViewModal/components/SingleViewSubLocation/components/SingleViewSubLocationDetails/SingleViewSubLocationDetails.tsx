@@ -166,7 +166,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               handleSave={handlePatchSave}
               successResponse={isPatchSuccess}
               errorResponse={patchError}
-              warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location' : null}
+              warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location.' : null}
             />
             {selectedParentLocationName === 'None' && (
               <>
