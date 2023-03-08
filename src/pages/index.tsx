@@ -50,7 +50,9 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
     return menuOptions.map((option) => {
       const {title, description, link, requiredPermission} = option
       if(!requiredPermission || hasRequiredPermission(requiredPermission)) {
-        return <button key={link} className={appButtonClasses}
+        return <button
+          key={link}
+          className={appButtonClasses}
           onMouseEnter={() => setIsAppHovered(true)}
           onMouseLeave={() => setIsAppHovered(false)}
           disabled= {!isLearnMoreClicked}
