@@ -168,7 +168,7 @@ const CredentialsModal = () => {
         > Verify Credentials
         </Button>
       </form>
-      <div className='mt-[20px] w-[609px] h-[368px]'>
+      <div className='mt-[20px] w-full h-[368px]'>
         {renderTags()}
       </div>
       <p className='font-subheading-4 text-center mb-[44px]'>If you are struggling to verify credentials, email {Admin.EMAIL} for support</p>

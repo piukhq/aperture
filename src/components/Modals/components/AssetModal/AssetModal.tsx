@@ -197,14 +197,14 @@ const AssetModal = () => {
 
     return (
       <div className='h-[212px] mb-[24px] overflow-auto'>
-        <pre className='bg-grey-200 flex text-xs text-grey-800'>
-          <div className='flex flex-col basis-[3%] py-[5px] gap-1 bg-grey-300 text-center' data-testid='line-numbers'>
+        <div className='flex text-xs font-mono text-grey-800 '>
+          <div className='flex flex-col basis-[3%] py-[5px] gap-1 p-2 bg-grey-300 text-center' data-testid='line-numbers'>
             {renderLineNumbers()}
           </div>
-          <div className='flex flex-col basis-[97%] p-[5px] gap-1 text-left overflow-auto' data-testid='json-block' tabIndex={0}>
+          <div className='flex flex-col basis-[93%] p-[5px] gap-1 text-left bg-grey-200' data-testid='json-block' tabIndex={0}>
             {renderJson()}
           </div>
-        </pre>
+        </div>
       </div>
     )
   }

@@ -11,10 +11,10 @@ type ModalElements = {
 
 export const MODAL_STYLE_MAPS: Record<ModalStyle, ModalElements> = {
   [ModalStyle.WIDE]: {
-    outerContainer: 'w-[750px] py-[53px]',
+    outerContainer: 'w-[640px] max-w-full py-[10%]',
     innerContainer: 'rounded-[20px]',
     headerContainer: 'h-[61px] flex-row-reverse',
-    childrenContainer: 'px-[70px]',
+    childrenContainer: 'px-[10%]',
     isHeaderAtTop: false,
     header: 'font-heading-7 font-medium ',
   },

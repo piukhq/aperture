@@ -61,7 +61,6 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   // Render Topbar for mobile viewports
   const renderTopBar = () => {
-
     const handleTopBarSelectChange = () => (e: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedOption = e.target.value
       if (selectedOption === 'Home') {
@@ -119,7 +118,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   // Render the collapsed sidebar
   if (!isOpen) {
     return (
-      <nav className='flex w-full space-between duration-200 fixed z-50 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
+      <nav className='flex w-full space-between duration-200 fixed z-40 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
         {isMobileViewport ? renderTopBar() : (
           <Link href='/' passHref>
             <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
