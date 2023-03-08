@@ -8,6 +8,7 @@ import Button from 'components/Button'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelWeight} from 'components/Button/styles'
 import SidebarOption from './components/SidebarOption'
 import {ModalType, RouteDisplayNames, UserPermissions} from 'utils/enums'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {toggleUseApiReflector, getUseApiReflector} from 'features/apiReflectorSlice'
 import {requestModal} from 'features/modalSlice'
 import {useUser} from '@auth0/nextjs-auth0'
@@ -29,6 +30,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   const [selectedTool, setSelectedTool] = useState('')
   const [isLogoHovered, setIsLogoHovered] = useState(false)
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const sidebarOptions = Object.keys(RouteDisplayNames)
 
@@ -57,6 +59,54 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     })
   }
 
+  // Render Topbar for mobile viewports
+  const renderTopBar = () => {
+
+    const handleTopBarSelectChange = () => (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedOption = e.target.value
+      if (selectedOption === 'Home') {
+        router.push('/')
+      } else if (selectedOption === 'Asset Comparator') {
+        router.push('/asset-comparator')
+      } else if (selectedOption === 'Plan Comparator') {
+        router.push('/plan-comparator')
+      } else if (selectedOption === 'Mid Management') {
+        router.push('/mid-management')
+      } else if (selectedOption === 'Customer Wallets') {
+        router.push('/customer-wallets')
+      }
+    }
+    return (
+      <div className='flex items-center justify-between h-12 w-full min-w-[650px] p-8 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
+        <Link href='/' passHref>
+          <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex  gap-2 justify-center items-center cursor-pointer '>
+            <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
+            <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
+            <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
+          </div>
+        </Link>
+
+        <select className='font-heading-7 text-xs border-1 p-1 m-1 rounded-[10px] bg-transparent col-span-10 text-center w-48 border-[2px] border-grey-500' onChange={handleTopBarSelectChange()}>
+          <option>Home</option>
+          <option>Asset Comparator</option>
+          <option>Plan Comparator</option>
+          <option>Mid Management</option>
+          <option>Customer Wallets</option>
+        </select>
+
+        <Button
+          buttonType={ButtonType.SUBMIT}
+          buttonSize={ButtonSize.SMALL }
+          buttonBackground={ButtonBackground.RED}
+          buttonWidth={ButtonWidth.AUTO}
+          labelWeight={LabelWeight.SEMIBOLD}
+          handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
+          additionalStyles='p-4 flex justify-center items-center'
+        >Log out</Button>
+      </div>
+    )
+  }
+
   const renderSidebarToggle = () => (
     <button
       onClick={() => setIsOpen(!isOpen)}
@@ -70,34 +120,36 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   if (!isOpen) {
     return (
       <nav className='flex w-full space-between duration-200 fixed z-50 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
-        <Link href='/' passHref>
-          <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
-            <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
-            <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-            <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE {isLogoHovered}</h1>
-          </div>
-        </Link>
-        {renderSidebarToggle()}
+        {isMobileViewport ? renderTopBar() : (
+          <Link href='/' passHref>
+            <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
+              <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
+              <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
+              <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE</h1>
+            </div>
+          </Link>
+        )}
+        {!isMobileViewport && renderSidebarToggle()}
       </nav>
     )
   }
 
   // Render the expanded sidebar
   return (
-    <div className='pr-64 z-[1]'>
+    <div className='pr-64 z-40'>
       <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
         <div className='flex w-64'>
           <Link href='/' passHref>
             <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
               <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
               <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-              <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE {isLogoHovered}</h1>
+              <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE</h1>
             </div>
           </Link>
           {renderSidebarToggle()}
         </div>
 
-        <div className='pt-6 border-t border-grey-300 dark:border-grey-900 '>
+        <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
           <div className='mt-5 overflow-hidden'>
             {getSidebarOptions().map(option => {
               // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus

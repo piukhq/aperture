@@ -13,7 +13,7 @@ const Layout = ({children}: Props) => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
 
   return (
-    <div className={`flex min-h-screen h-max ${isSidebarOpen ? 'flex-row' : 'flex-col sticky'} duration-400 [scrollbar-gutter: stable]`}>
+    <div className={`flex min-h-screen h-max min-w-[650px] ${isSidebarOpen ? 'flex-row' : 'flex-col sticky'} duration-400 [scrollbar-gutter: stable]`}>
       {modalRequested !== ModalType.NO_MODAL && <ModalFactory modalRequested={modalRequested} />}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
       <div className={`flex w-full min-h-screen pt-1 ${!isSidebarOpen && 'mt-8'} duration-200 ease-in-out`}>

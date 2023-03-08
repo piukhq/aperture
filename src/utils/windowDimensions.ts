@@ -46,7 +46,7 @@ export const useIsDesktopViewportDimensions = () => {
 export const useIsMobileViewportDimensions = () => {
   const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState(true)
 
-  const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 800)
+  const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 900)
   const debouncedHandleResize = debounce(handleResize, 50)
 
 
