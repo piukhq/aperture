@@ -70,7 +70,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
 
           <section>
             <h2 className='font-modal-heading'>LOCATION ID</h2>
-            <p className='font-modal-data'>{locationId}</p>
+            <p className='font-modal-data break-words'>{locationId}</p>
           </section>
 
           <section>
@@ -86,7 +86,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
           <div className='flex flex-col gap-[32px]'>
             <section>
               <h2 className='font-modal-heading'>MERCHANT INTERNAL ID</h2>
-              <p className='font-modal-data'>{merchantInternalId}</p>
+              <p className='font-modal-data break-words'>{merchantInternalId}</p>
             </section>
 
             <section>
