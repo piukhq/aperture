@@ -125,10 +125,9 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
       {/* Learn more Elements */}
       <div className={`${fadeInOutClasses} duration-500 p-4 flex flex-col gap-4 items-center mt-8 z-50 ${appClicked && 'opacity-0'}`}>
         <div className='bg-orange/10 p-4 rounded-lg w-1/3'>
-          <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦕</h2>
-          <p className='font-body-4'>Feb 2023</p>
+          <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦖</h2>
+          <p className='font-body-4'>March 2023</p>
           <ul className='font-body-3 list-disc list-inside'>
-            <li>Lots of bug fixes</li>
             <li>File uploading</li>
             <li>Comment & sub-location revamp</li>
             <li>Harmonia updating</li>
