@@ -1,13 +1,12 @@
 import type {NextPage} from 'next'
+import {useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import usePermissions from 'hooks/usePermissions'
-import {UserPermissions} from 'utils/enums'
+import {UserPermissions, Admin} from 'utils/enums'
 import ApertureSVG from 'icons/svgs/aperture-logo-large.svg'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour} from 'components/Button/styles'
-import {useEffect, useState} from 'react'
-import {useRouter} from 'next/router'
-import {Admin} from 'utils/enums'
 
 const IndexPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
