@@ -11,7 +11,7 @@ type ModalElements = {
 
 export const MODAL_STYLE_MAPS: Record<ModalStyle, ModalElements> = {
   [ModalStyle.WIDE]: {
-    outerContainer: 'w-[640px] max-w-full py-[10%]',
+    outerContainer: 'min-w-[620px] max-w-screen py-[10%]',
     innerContainer: 'rounded-[20px]',
     headerContainer: 'h-[61px] flex-row-reverse',
     childrenContainer: 'px-[10%]',

@@ -28,21 +28,6 @@ export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivEl
   return isBeyondEdge
 }
 
-export const useIsDesktopViewportDimensions = () => {
-  const [isDesktopViewportDimensions, setIsDesktopViewportDimensions] = useState(true)
-
-  const handleResize = () => setIsDesktopViewportDimensions(getWindowDimensions().width >= 1000)
-  const debouncedHandleResize = debounce(handleResize, 50)
-
-
-  useEffect(() => {
-    window.addEventListener('resize', debouncedHandleResize)
-    return () => window.removeEventListener('resize', debouncedHandleResize)
-  }, [debouncedHandleResize])
-
-  return isDesktopViewportDimensions
-}
-
 export const useIsMobileViewportDimensions = () => {
   const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState(true)
 
