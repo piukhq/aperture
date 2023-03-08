@@ -1,5 +1,7 @@
 import type {NextPage} from 'next'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
+import usePermissions from 'hooks/usePermissions'
+import {UserPermissions} from 'utils/enums'
 import ApertureSVG from 'icons/svgs/aperture-logo-large.svg'
 import {Button} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour} from 'components/Button/styles'
@@ -9,6 +11,7 @@ import {Admin} from 'utils/enums'
 
 const IndexPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
+  const {hasRequiredPermission} = usePermissions()
   const [isLearnMoreClicked, setIsLearnMoreClicked] = useState(false)
   const [isAppHovered, setIsAppHovered] = useState(false)
   const [appClicked, setAppClicked] = useState(null)
@@ -33,27 +36,30 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
       title: 'MID Management',
       description: 'Manage MIDs, locations, secondary MIDs and PSIMIs',
       link: 'mid-management/directory',
+      requiredPermission: UserPermissions.MERCHANT_DATA_READ_ONLY,
     },
     {
       title: 'Customer Wallets',
       description: 'View a customers transactions, payment and loyalty cards',
       link: 'customer-wallets',
+      requiredPermission: UserPermissions.CUSTOMER_WALLET_READ_ONLY,
     },
   ]
 
   const renderMenuOptions = () => {
     return menuOptions.map((option) => {
-      return (
-        <button key={option.link} className={appButtonClasses}
+      const {title, description, link, requiredPermission} = option
+      if(!requiredPermission || hasRequiredPermission(requiredPermission)) {
+        return <button key={link} className={appButtonClasses}
           onMouseEnter={() => setIsAppHovered(true)}
           onMouseLeave={() => setIsAppHovered(false)}
           disabled= {!isLearnMoreClicked}
-          onClick={() => setAppClicked(option.link)}
+          onClick={() => setAppClicked(link)}
         >
-          <h2 className='font-heading-5 italic'>{option.title}</h2>
-          <p className='font-body-3'>{option.description}</p>
+          <h2 className='font-heading-5 italic'>{title}</h2>
+          <p className='font-body-3'>{description}</p>
         </button>
-      )
+      }
     })
   }
 
@@ -128,9 +134,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
             <li>Harmonia updating</li>
           </ul>
         </div>
-
         {renderMenuOptions()}
-
         <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500' target='_blank' href={`https://teams.microsoft.com/l/chat/0/0?users=${Admin.EMAIL}&topicName=Aperture Feedback&message=Hey ${Admin.FIRST_NAME}, I was using Aperture and I thought that...`} rel='noreferrer'>
             Give praise, ideas, or rants
         </a>
