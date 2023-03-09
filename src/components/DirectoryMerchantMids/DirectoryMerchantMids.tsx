@@ -1,21 +1,20 @@
 import {useState} from 'react'
-import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
+import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, Button} from 'components'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useRouter} from 'next/router'
-import {DirectoryMids, DirectoryMid} from 'types'
+import {DirectoryMids, DirectoryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
+import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+import {timeStampToDate} from 'utils/dateFormat'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
+import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
-import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {Button} from 'components'
-import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
-import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
-import {timeStampToDate} from 'utils/dateFormat'
 
 const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -41,6 +40,7 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -119,11 +119,11 @@ const DirectoryMerchantMids = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    <div className='flex gap-[10px] h-[71px] items-center justify-end'>
+    <div className={`flex gap-[10px] items-center justify-end ${isMobileViewport ? 'w-[300px] h-max flex-col py-4' : 'h-[71px]'}` }>
       <Button
         handleClick={() => console.log('Onboard to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -132,7 +132,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={() => console.log('Offboard from Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -141,7 +141,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={() => console.log('Update to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -150,7 +150,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -159,7 +159,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestMidDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.RED}
         borderColour={BorderColour.RED}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
@@ -170,7 +170,7 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-end justify-between'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons() }
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <Button

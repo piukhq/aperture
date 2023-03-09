@@ -2,18 +2,18 @@ import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
+import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+import {timeStampToDate} from 'utils/dateFormat'
 import {useRouter} from 'next/router'
-import {DirectorySecondaryMids, DirectorySecondaryMid} from 'types'
+import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
-import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
-import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
-import {timeStampToDate} from 'utils/dateFormat'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -40,6 +40,7 @@ const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -116,11 +117,11 @@ const DirectoryMerchantSecondaryMids = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    <div className='flex gap-[10px] h-[71px] items-center'>
+    <div className={`flex gap-[10px] items-center justify-end ${isMobileViewport ? 'w-[300px] h-max flex-col py-4' : 'h-[71px]'}` }>
       <Button
         handleClick={() => console.log('Onboard to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -129,7 +130,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={() => console.log('Offboard from Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -138,7 +139,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={() => console.log('Update to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -147,7 +148,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -156,7 +157,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestSecondaryMidDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}
@@ -168,7 +169,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-end justify-between'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <Button

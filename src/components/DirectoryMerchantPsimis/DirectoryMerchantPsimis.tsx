@@ -1,20 +1,20 @@
 import {useState} from 'react'
+import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
-import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
-import {DirectoryPsimi, DirectoryPsimis} from 'types'
-import AddVisaSvg from 'icons/svgs/add-visa.svg'
-import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {DirectoryPsimi, DirectoryPsimis, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
-
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
+import AddVisaSvg from 'icons/svgs/add-visa.svg'
+import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+9
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
     isPaymentIcon: true,
@@ -37,6 +37,7 @@ const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -113,11 +114,11 @@ const DirectoryMerchantPsimis = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    <div className='flex gap-[10px] h-[71px] items-center'>
+    <div className={`flex gap-[10px] items-center justify-end ${isMobileViewport ? 'w-[300px] h-max flex-col py-4' : 'h-[71px]'}` }>
       <Button
         handleClick={() => console.log('Onboard to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -126,7 +127,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={() => console.log('Offboard from Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -135,7 +136,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -144,7 +145,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestPsimisDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}
@@ -156,7 +157,7 @@ const DirectoryMerchantPsimis = () => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
+      <div className='flex items-end justify-between'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
           <Button
