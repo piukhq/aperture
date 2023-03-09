@@ -17,7 +17,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const renderHero = () => {
     if (heroUrl) {
       return (
-        <div className='rounded-[20px] group flex justify-center items-center relative w-[220px] h-[150px] bg-red-200 overflow-hidden
+        <div className='rounded-[20px] group flex justify-center items-center relative max-w-[220px] min-w-[150px] h-[150px] bg-red-200 overflow-hidden
         hover:skew-y-1 hover:rotate-1 hover:shadow-lg hover:scale-105 duration-1000'>
           <Image className='rounded-[20px]' src={heroUrl as string} height={150} width={220} alt={heroUrl} />
           <div className='rounded-[20px] absolute top-0 -inset-full h-[150px] w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-grey-200 opacity-40 group-hover:animate-shine' />
@@ -37,16 +37,16 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
       const environmentBackground = environment === 'prod' ? 'bg-red hover:bg-red/50 duration-300' : environment === 'staging' ? 'bg-yellow dark:bg-yellow/75 hover:bg-yellow/75 dark:hover:bg-yellow/50 duration-300' : 'bg-green hover:bg-green/80 duration-300'
       return plans[environment]?.id && (
         <a key={environment} target='_blank' href={`https://api.${environment === 'prod' ? '' : environment + '.'}gb.bink.com/admin/scheme/scheme/${plans[environment]?.id}/change/`}
-          className={`min-h-[30px] w-[150px] rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
+          className={`min-h-[30px] w-full rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-3xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
           rel='noreferrer'
-        >View in {capitaliseFirstLetter(environment)}
+        >View {capitaliseFirstLetter(environment)}
         </a>
       )
     })
   }
 
   return (
-    <section data-testid='plan-summary' className='relative w-[800px] h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
+    <section data-testid='plan-summary' className='relative max-w-[800px] w-full h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
       <div className='flex flex-col items-center gap-3'>
         {renderHero()}
       </div>
