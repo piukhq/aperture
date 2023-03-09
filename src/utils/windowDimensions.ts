@@ -31,7 +31,7 @@ export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivEl
 export const useIsMobileViewportDimensions = () => {
   const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState(true)
 
-  const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 970)
+  const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 1000)
   const debouncedHandleResize = debounce(handleResize, 50)
 
 
