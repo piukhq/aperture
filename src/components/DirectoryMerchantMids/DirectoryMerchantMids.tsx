@@ -2,11 +2,11 @@ import {useState} from 'react'
 import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, Button} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useRouter} from 'next/router'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {DirectoryMids, DirectoryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
-import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
@@ -139,7 +139,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}

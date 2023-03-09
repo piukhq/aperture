@@ -139,7 +139,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -148,7 +148,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestOffboardModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -157,7 +157,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestUpdateModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -175,7 +175,7 @@ const DirectoryMerchantSecondaryMids = () => {
       <Button
         handleClick={requestSecondaryMidDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}

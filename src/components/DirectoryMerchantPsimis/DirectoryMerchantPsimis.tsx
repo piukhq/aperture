@@ -14,7 +14,6 @@ import {timeStampToDate} from 'utils/dateFormat'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-9
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
@@ -140,7 +139,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestOffboardModal }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -158,7 +157,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestPsimisDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
+        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}
