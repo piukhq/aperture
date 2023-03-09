@@ -49,7 +49,6 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     }
   }, [isOpen])
 
-
   const getSidebarOptions = () => {
     return sidebarOptions.filter(option => {
       if (option === 'mid-management') {
@@ -119,12 +118,22 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     </button>
   )
 
+
+  // Render the Mobile Topbar
+  if (isMobileViewport) {
+    return (
+      <nav className='flex w-full space-between duration-200 fixed z-40 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
+        {renderTopBar()}
+      </nav>
+    )
+  }
+
   // Render the collapsed sidebar
   if (!isOpen) {
     return (
       <nav className='flex w-full space-between duration-200 fixed z-40 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
-        {isMobileViewport ? renderTopBar() : renderApertureLink()}
-        {!isMobileViewport && renderSidebarToggle()}
+        {renderApertureLink()}
+        {renderSidebarToggle()}
       </nav>
     )
   }
@@ -135,7 +144,9 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
       <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
         <div className='flex w-64'>
           {renderApertureLink()}
-          {renderSidebarToggle()}
+          <div className='-translate-x-2'>
+            {renderSidebarToggle()}
+          </div>
         </div>
 
         <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
