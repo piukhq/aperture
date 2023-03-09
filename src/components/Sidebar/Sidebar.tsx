@@ -21,6 +21,8 @@ type Props = {
 
 const Sidebar = ({isOpen, setIsOpen}: Props) => {
   const router = useRouter()
+  const {pathname} = router
+  console.log(pathname)
   const dispatch = useAppDispatch()
 
   const {user = {}} = useUser()
@@ -59,6 +61,15 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     })
   }
 
+  const renderApertureLink = () => (
+    <Link href='/' passHref>
+      <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className={`flex gap-2 justify-center items-center cursor-pointer ${!isMobileViewport && 'h-16 pl-[25px]  ml-6'}`}>
+        <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
+        <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
+        <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
+      </div>
+    </Link>
+  )
   // Render Topbar for mobile viewports
   const renderTopBar = () => {
     const handleTopBarSelectChange = () => (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -77,14 +88,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     }
     return (
       <div className='flex items-center justify-between h-12 w-full min-w-[650px] p-8 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
-        <Link href='/' passHref>
-          <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex  gap-2 justify-center items-center cursor-pointer '>
-            <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
-            <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-            <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
-          </div>
-        </Link>
-
+        {pathname !== '/' ? renderApertureLink() : <div className='w-36' />}
         <select className='font-heading-7 text-xs border-1 p-1 m-1 rounded-[10px] bg-transparent col-span-10 text-center w-48 border-[2px] border-grey-500' onChange={handleTopBarSelectChange()}>
           <option>Home</option>
           <option>Asset Comparator</option>
@@ -119,15 +123,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   if (!isOpen) {
     return (
       <nav className='flex w-full space-between duration-200 fixed z-40 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
-        {isMobileViewport ? renderTopBar() : (
-          <Link href='/' passHref>
-            <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
-              <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
-              <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-              <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE</h1>
-            </div>
-          </Link>
-        )}
+        {isMobileViewport ? renderTopBar() : renderApertureLink()}
         {!isMobileViewport && renderSidebarToggle()}
       </nav>
     )
@@ -138,13 +134,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     <div className='pr-64 z-40'>
       <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
         <div className='flex w-64'>
-          <Link href='/' passHref>
-            <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className='flex h-16 pl-[25px] items-center ml-6 cursor-pointer'>
-              <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
-              <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-              <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE</h1>
-            </div>
-          </Link>
+          {renderApertureLink()}
           {renderSidebarToggle()}
         </div>
 

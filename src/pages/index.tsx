@@ -89,7 +89,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
         {/* Inner Ring */}
         <div className=
           {`absolute overflow-hidden skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu
-            ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[260px] -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in 
+            ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[261px]  -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in 
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100'}`
 
           }
