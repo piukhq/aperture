@@ -1,5 +1,5 @@
 const DirectoryTileSkeleton = () => (
-  <div aria-hidden className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-850 animate-pulse'>
+  <div aria-hidden className='relative w-[330px] h-[330px] rounded-[20px] bg-white dark:bg-grey-850 animate-pulse'>
     <div className='flex flex-col items-center mt-[28px] blur-sm'>
       <div className='w-[93px] rounded-[30px]'></div>
       <div className='w-24 h-24 bg-grey-200 dark:bg-grey-700 rounded-[30px] '></div>

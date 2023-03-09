@@ -98,7 +98,7 @@ describe('MID Management DirectoryPage', () => {
       const {getAllByTestId} = render(getDirectoryPageComponent())
 
       const planTiles = getAllByTestId('directory-tile-skeleton')
-      expect(planTiles).toHaveLength(6)
+      expect(planTiles).toHaveLength(8)
     })
   })
 })

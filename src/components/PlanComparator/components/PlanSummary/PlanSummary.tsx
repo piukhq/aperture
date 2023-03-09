@@ -46,7 +46,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   }
 
   return (
-    <section data-testid='plan-summary' className='relative max-w-[800px] w-full h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
+    <section data-testid='plan-summary' className='relative max-w-[1000px] w-full h-[230px] rounded-[10px] shadow-md bg-grey-100 dark:bg-grey-800 flex items-center gap-6 p-10 mt-8'>
       <div className='flex flex-col items-center gap-3'>
         {renderHero()}
       </div>
