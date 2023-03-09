@@ -95,7 +95,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           icon: isSubLocation ? <PathSvg /> : null,
         },
         {
-          displayValue: timeStampToDate(dateAdded),
+          displayValue: timeStampToDate(dateAdded, isMobileViewport),
           additionalStyles: textStyles,
         },
         {

@@ -75,7 +75,7 @@ const DirectoryMerchantMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: timeStampToDate(dateAdded),
+          displayValue: timeStampToDate(dateAdded, isMobileViewport),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},
