@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+  html { 
+    height: 100%;
+  }
+  body { 
+    height: 100%;
+    width:100%;
+    background-color: #f1f1f5;
+  }
   .scrollable::-webkit-scrollbar {
     background-color: transparent;
     width: 15px;

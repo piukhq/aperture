@@ -19,7 +19,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   const fadeOutInClasses = `${isLearnMoreClicked ? 'opacity-0 hidden' : 'opacity-100'}`
   const appButtonClasses = `${fadeInOutClasses} duration-1000 ease-out font-heading-4 w-3/5  p-4 mx-2 flex flex-col items-center  border-orange bg-orange/5 border-2 rounded-lg shadow-sm hover:shadow-lg hover:border-red hover:bg-red/10 h-max`
 
-
   const menuOptions = [
     {
       title: 'Asset Comparator',
@@ -70,15 +69,15 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   }, [appClicked, router])
 
   return (
-    <div className='w-full flex-col items-center gap-4'>
+    <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-72'}`}>
       {/* Aperture Rings and Title */}
       <div className={
-        `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-4 flex flex-col gap-4 justify-center items-center duration-500  ${isMobileViewport && 'scale-75'}`}>
+        `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-4 flex flex-col gap-4 justify-center items-center duration-500 pb-4 ${isMobileViewport && 'scale-[85%]'} overflow-visible`}>
         {/* Outer Ring */}
         <div className=
-          {`absolute overflow-hidden skew-x-12 z-20 transform-gpu 
+          {`absolute skew-x-12 z-20 transform-gpu 
             ${isLearnMoreClicked ? 'scale-[40%] -translate-x-[260px] -translate-y-6 delay-100' : 'scale-[120%] delay-0'} ml-4 duration-500 ease-in
-            ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 blur-sm delay-0'}`
+            ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 blur-sm delay-0 overflow-hidden'}`
 
           }
         >
@@ -88,10 +87,9 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
         {/* Inner Ring */}
         <div className=
-          {`absolute overflow-hidden skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu
+          {`absolute skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu
             ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[261px]  -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in 
-            ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100'}`
-
+            ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100 overflow-hidden'}`
           }
         >
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-30s opacity-40 fill-orange bg-orange/50' : 'animate-spin-50s opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
@@ -121,7 +119,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
       </div>
 
       {/* Learn more Elements */}
-      <div className={`${fadeInOutClasses} duration-500 flex flex-col gap-4 items-center my-8 z-40 ${appClicked && 'opacity-0'} w-full`}>
+      <div className={`${fadeInOutClasses} duration-500 flex flex-col gap-4 items-center z-40 ${appClicked && 'opacity-0'} w-full`}>
         <div className='bg-orange/10 p-8 rounded-lg'>
           <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦕</h2>
           <p className='font-body-4'>Feb 2023</p>
