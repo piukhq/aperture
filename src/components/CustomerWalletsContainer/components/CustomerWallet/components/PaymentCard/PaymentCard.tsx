@@ -2,6 +2,7 @@ import MastercardSvg from 'icons/svgs/mastercard-logo-small.svg'
 import VisaSvg from 'icons/svgs/visa-logo-small.svg'
 import AmexSvg from 'icons/svgs/amex-logo-small.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
 import {PaymentCard} from 'types'
 import {ReactNode} from 'react'
@@ -14,6 +15,7 @@ type Props = {
 const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
   const {card, id, status} = paymentCard
   const {provider, last_four_digits} = card
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const renderPaymentSchemeLogo = (paymentSchemeName: string) => {
     if (paymentSchemeName === 'Visa') {
@@ -31,10 +33,10 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
       target='blank'
       key={id}
       onClick={() => console.log('Payment Card clicked')}
-      className='dark:bg-grey-825 h-[52px] w-[200px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center space-between'
+      className={`dark:bg-grey-825 h-[70px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center ${isMobileViewport ? 'w-[120px]' : 'w-[200px]'}`}
     >
       <div className='basis-1/5'>
-        {renderPaymentSchemeLogo(provider)}
+        {!isMobileViewport && renderPaymentSchemeLogo(provider)}
       </div>
       <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
         <span>
@@ -42,6 +44,7 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
           .... {last_four_digits}
           </span>
           {getStatusFn(status)}
+          {isMobileViewport && provider}
         </span>
         <p>{id}</p>
       </div>
