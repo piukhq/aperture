@@ -69,13 +69,13 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   }, [appClicked, router])
 
   return (
-    <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-72'}`}>
+    <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-112 overflow-clip'}`}>
       {/* Aperture Rings and Title */}
       <div className={
         `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-4 flex flex-col gap-4 justify-center items-center duration-500 pb-4 ${isMobileViewport && 'scale-[85%]'} overflow-visible`}>
         {/* Outer Ring */}
         <div className=
-          {`absolute skew-x-12 z-20 transform-gpu 
+          {`absolute skew-x-12 z-20 transform-gpu overflow-hidden
             ${isLearnMoreClicked ? 'scale-[40%] -translate-x-[260px] -translate-y-6 delay-100' : 'scale-[120%] delay-0'} ml-4 duration-500 ease-in
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 blur-sm delay-0 overflow-hidden'}`
 
@@ -87,7 +87,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
         {/* Inner Ring */}
         <div className=
-          {`absolute skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu
+          {`absolute skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu overflow-hidden
             ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[261px]  -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in 
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100 overflow-hidden'}`
           }
@@ -97,7 +97,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
         </div>
 
         {/* Title Text and Button */}
-        <div className={`flex flex-col gap-4 overflow-visible ${appClicked && 'opacity-0 duration-500 z-40'}`}>
+        <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-40'}`}>
           <h1 className='font-heading-1 -skew-x-12 text-[5rem] z-40 pl-8 '>APERTURE</h1>
           <div className='ml-48 z-40 duration-500'>
             <span className={`${!isLearnMoreClicked && fadeOutInClasses} font-heading-6 text-center z-10`}>
