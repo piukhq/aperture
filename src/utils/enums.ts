@@ -42,14 +42,12 @@ enum VerificationToken {
 enum EnvironmentName {
   DEV = 'Development',
   STAGING = 'Staging',
-  SANDBOX = 'Sandbox',
   PROD = 'Production',
 }
 
 enum EnvironmentShortName {
   DEV = 'dev',
   STAGING = 'staging',
-  SANDBOX = 'sandbox',
   PROD = 'prod',
 }
 

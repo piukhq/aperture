@@ -57,7 +57,6 @@ const TagsStatus = ({sectionClass}: Props) => {
           <h4 className='font-heading-6 text-grey-600'>ENVIRONMENT</h4>
           <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.AQUAMARINE_FILLED} label='Develop' />
           <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.YELLOW_FILLED} label='Staging' />
-          <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='Sandbox' />
           <Tag tagSize={TagSize.MEDIUM} tagStyle={TagStyle.RED_FILLED} label='Production' />
         </div>
         <div className='flex flex-col gap-4 p-4'>
