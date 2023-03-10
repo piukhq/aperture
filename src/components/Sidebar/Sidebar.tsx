@@ -86,26 +86,29 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
       }
     }
     return (
-      <div className='flex items-center justify-between h-12 w-full min-w-[650px] p-8 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
-        {pathname !== '/' ? renderApertureLink() : <div className='w-36' />}
-        <select className='font-heading-7 text-xs border-1 p-1 m-1 rounded-[10px] bg-transparent col-span-10 text-center w-48 border-[2px] border-grey-500' onChange={handleTopBarSelectChange()}>
-          <option>Home</option>
-          <option>Asset Comparator</option>
-          <option>Plan Comparator</option>
-          <option>Mid Management</option>
-          <option>Customer Wallets</option>
-        </select>
+      <>
+        <div className='flex items-center justify-between  w-full min-w-[650px] px-12 py-3 bg-grey-200 dark:bg-grey-900'>
+          {pathname !== '/' ? renderApertureLink() : <div className='w-36' />}
+          <select className='font-heading-7 italic text-2xs uppercase border-1 p-1 m-1 rounded-[10px] bg-transparent col-span-10 text-center w-48 border-[2px] border-grey-500' onChange={handleTopBarSelectChange()}>
+            <option>Home</option>
+            <option>Asset Comparator</option>
+            <option>Plan Comparator</option>
+            <option>Mid Management</option>
+            <option>Customer Wallets</option>
+          </select>
 
-        <Button
-          buttonType={ButtonType.SUBMIT}
-          buttonSize={ButtonSize.SMALL }
-          buttonBackground={ButtonBackground.RED}
-          buttonWidth={ButtonWidth.AUTO}
-          labelWeight={LabelWeight.SEMIBOLD}
-          handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
-          additionalStyles='p-4 flex justify-center items-center'
-        >Log out</Button>
-      </div>
+          <Button
+            buttonType={ButtonType.SUBMIT}
+            buttonSize={ButtonSize.SMALL }
+            buttonBackground={ButtonBackground.RED}
+            buttonWidth={ButtonWidth.AUTO}
+            labelWeight={LabelWeight.SEMIBOLD}
+            handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
+            additionalStyles='p-4 flex justify-center items-center'
+          >Log out</Button>
+        </div>
+        <div className=''></div>
+      </>
     )
   }
 
@@ -122,7 +125,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   // Render the Mobile Topbar
   if (isMobileViewport) {
     return (
-      <nav className='flex w-full space-between duration-200 fixed z-40 bg-gradient-to-b from-grey-200 via-grey-200 to-grey-200/5 dark:from-grey-900 dark:via-grey-900 dark:to-grey-900/5'>
+      <nav className='flex flex-col w-full space-between duration-200 fixed z-40'>
         {renderTopBar()}
       </nav>
     )
