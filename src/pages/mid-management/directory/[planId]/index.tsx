@@ -5,6 +5,7 @@ import {useAppDispatch} from 'app/hooks'
 import {PageLayout, DirectoryTile, DirectoryDetailsHeader} from 'components'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchant} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
@@ -22,6 +23,7 @@ import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {planId: planRef} = router.query
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const {
     getPlanResponse,
@@ -116,7 +118,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const renderMerchants = (merchants: Array<DirectoryMerchant>) => {
     return (
-      <div className='flex mt-[30px] justify-center flex-wrap gap-[31px]'>
+      <div className={`flex mt-[30px] flex-wrap gap-[31px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
         {merchants.map((merchant) => {
           const {merchant_metadata, merchant_counts, merchant_ref} = merchant
 

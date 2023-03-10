@@ -11,6 +11,7 @@ import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwner
 import {requestModal} from 'features/modalSlice'
 import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
 import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 
 import AddSvg from 'icons/svgs/plus-filled.svg'
@@ -25,9 +26,8 @@ import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleto
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
   const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useMidManagementPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
-
-
   const planList: DirectoryPlan[] = getPlansResponse
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -129,10 +129,8 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         },
       ]
       return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
-
     })
   }
-
 
   return (
     <PageLayout>
@@ -152,12 +150,12 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
       </div>
       <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
         {planList && planList.length > 0 && (
-          <div className='flex w-full justify-center mt-[50px] flex-wrap gap-[30px]'>
+          <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
             {renderDirectoryPlans()}
           </div>
         )}
         {getPlansIsLoading && (
-          <div className='flex w-full justify-center mt-[50px] flex-wrap gap-[30px]'>
+          <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
             {Array(8).fill(0)
               .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
           </div>
