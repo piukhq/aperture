@@ -119,11 +119,11 @@ const DirectoryMerchantMids = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    <div className={`flex gap-[10px] items-center justify-end ${isMobileViewport ? 'w-[300px] h-max flex-col py-4' : 'h-[71px]'}` }>
+    <div className={`flex gap-[10px] items-center ${isMobileViewport ? 'h-max py-4 flex-wrap justify-center items-center' : 'w-full flex-wrap justify-start h-[71px]'}`}>
       <Button
         handleClick={() => console.log('Onboard to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -132,7 +132,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={() => console.log('Offboard from Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -141,7 +141,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={() => console.log('Update to Harmonia button pressed') }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -150,7 +150,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestBulkCommentModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ ButtonWidth.MEDIUM}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -159,7 +159,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestMidDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ ButtonWidth.MEDIUM}
         labelColour={LabelColour.RED}
         borderColour={BorderColour.RED}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
@@ -170,9 +170,9 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      <div className='flex items-end justify-between'>
+      <div className='flex items-end justify-end gap-4'>
         {checkedRefArray.length > 0 && renderCheckedItemButtons() }
-        <div className='flex gap-[10px] h-[71px] items-center justify-end w-full'>
+        <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <Button
             handleClick={() => requestMidModal(PaymentSchemeName.VISA)}
             buttonSize={ButtonSize.MEDIUM_ICON}
