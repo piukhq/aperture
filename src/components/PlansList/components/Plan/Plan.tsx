@@ -14,18 +14,13 @@ const Plan = ({plan}: Props) => (
       <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
     </div>
 
-    <div className='flex items-center'>
+    <div className='flex items-center gap-1'>
       <div className='h-[24px] w-[24px]'>
         {plan.isDev && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.AQUAMARINE_FILLED} label='D' />}
       </div>
 
       <div className='h-[24px] w-[24px]'>
         {plan.isStaging && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.YELLOW_FILLED} label='S' />}
-      </div>
-
-      <div className='h-[24px] w-[24px]'>
-        {/* TODO: To be updated once sandbox is set up */}
-        {/* {plan.isSandbox && <Tag tagSize={TagSize.MINI} textStyle={TextStyle.SINGLE_LETTER} textColour={TextColour.GREY} tagStyle={TagStyle.LIGHT_BLUE_FILLED} label='S' />} */}
       </div>
 
       <div className='h-[24px] w-[24px]'>
