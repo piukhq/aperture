@@ -45,7 +45,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
   )
 
   const renderIconImage = () => (
-    <div className={isMobileViewport ? 'ml-[10px]' : 'ml-[40px]'}>
+    <div className={isMobileViewport ? 'ml-[0px]' : 'ml-[40px]'}>
       {/* Icon image div to provide top border shadow */}
       <div className={`flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md ${isMobileViewport ? 'scale-75 -translate-y-[15px]' : '-translate-y-[50px]'} `} />
       {/* Icon image div container */}
@@ -68,7 +68,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
         {renderIconImage()}
         <div className='flex justify-between flex-1 pt-[20px] pl-[50px] pb-[32px]'>
           <div>
-            <h3 className='font-heading-3 mb-[8px]'>{name}</h3>
+            <h3 className={`${isMobileViewport ? 'font-heading-5' : 'font-heading-3'} mb-[8px] mr-4`}>{name}</h3>
             <div className='flex flex-row w-full'>
               <div className='flex flex-col min-w-[74px]'>
                 <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Slug</p>
