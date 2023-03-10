@@ -76,10 +76,10 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
 
     return (
       <>
-        <div className='grid grid-cols-5 w-full text-center'>
-          <span className='col-span-5 grid grid-cols-5 rounded-t-[10px] h-[38px] bg-grey-300'>
+        <div className='grid grid-cols-4 w-full text-center'>
+          <span className='col-span-4 grid grid-cols-4 rounded-t-[10px] h-[38px] bg-grey-300'>
             <span></span>
-            {['DEVELOPMENT', 'STAGING', 'SANDBOX', 'PRODUCTION'].map(header => (
+            {['DEVELOPMENT', 'STAGING', 'PRODUCTION'].map(header => (
               <h2 key={header} className='grid place-items-center font-table-header'>{header}</h2>
             ))}
           </span>

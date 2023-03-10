@@ -95,17 +95,12 @@ describe('AssetComparatorPage', () => {
           name: 'STAGING',
         })
 
-        const sandboxHeading = screen.getByRole('heading', {
-          name: 'SANDBOX',
-        })
-
         const prodHeading = screen.getByRole('heading', {
           name: 'PRODUCTION',
         })
 
         expect(devHeading).toBeInTheDocument()
         expect(stagingHeading).toBeInTheDocument()
-        expect(sandboxHeading).toBeInTheDocument()
         expect(prodHeading).toBeInTheDocument()
       })
 

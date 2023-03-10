@@ -154,19 +154,17 @@ describe('Credentials Modal', () => {
       render(getCredentialsModal())
       const devTag = screen.getByText('Development')
       const stagingTag = screen.getByText('Staging')
-      const sandboxTag = screen.getByText('Sandbox')
       const prodTag = screen.getByText('Production')
 
       expect(devTag).toBeInTheDocument()
       expect(stagingTag).toBeInTheDocument()
-      expect(sandboxTag).toBeInTheDocument()
       expect(prodTag).toBeInTheDocument()
     })
     it('should render all verification tags', () => {
       render(getCredentialsModal())
       const verificationTags = screen.getAllByTestId('verification-tag')
 
-      expect(verificationTags).toHaveLength(4)
+      expect(verificationTags).toHaveLength(3)
     })
   })
 

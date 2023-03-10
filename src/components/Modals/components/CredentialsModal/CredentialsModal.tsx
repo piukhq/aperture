@@ -46,14 +46,12 @@ const CredentialsModal = () => {
   const {
     AQUAMARINE_FILLED,
     YELLOW_FILLED,
-    LIGHT_BLUE_FILLED,
     RED_FILLED,
   } = TagStyle
 
   const ENVIRONMENT_TAG_MAPS = {
     'DEV': AQUAMARINE_FILLED,
     'STAGING': YELLOW_FILLED,
-    'SANDBOX': LIGHT_BLUE_FILLED,
     'PROD': RED_FILLED,
   }
 
@@ -168,7 +166,7 @@ const CredentialsModal = () => {
         > Verify Credentials
         </Button>
       </form>
-      <div className='mt-[20px] w-full h-[368px]'>
+      <div className='mt-[20px] w-full h-[300px]'>
         {renderTags()}
       </div>
       <p className='font-subheading-4 text-center mb-[44px]'>If you are struggling to verify credentials, email {Admin.EMAIL} for support</p>
