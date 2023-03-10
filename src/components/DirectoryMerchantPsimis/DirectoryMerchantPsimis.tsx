@@ -139,7 +139,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestOffboardModal }
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
@@ -157,7 +157,7 @@ const DirectoryMerchantPsimis = () => {
       <Button
         handleClick={requestPsimisDeleteModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ButtonWidth.MEDIUM}
         labelColour={LabelColour.RED}
         labelWeight={LabelWeight.SEMIBOLD}
         borderColour={BorderColour.RED}

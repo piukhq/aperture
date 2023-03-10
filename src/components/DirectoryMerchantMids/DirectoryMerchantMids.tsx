@@ -139,7 +139,7 @@ const DirectoryMerchantMids = () => {
       <Button
         handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
-        buttonWidth={isMobileViewport ? ButtonWidth.FULL : ButtonWidth.AUTO}
+        buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
         borderColour={BorderColour.GREY}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
