@@ -22,7 +22,6 @@ type Props = {
 const Sidebar = ({isOpen, setIsOpen}: Props) => {
   const router = useRouter()
   const {pathname} = router
-  console.log(pathname)
   const dispatch = useAppDispatch()
 
   const {user = {}} = useUser()
@@ -32,14 +31,18 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   const [selectedTool, setSelectedTool] = useState('')
   const [isLogoHovered, setIsLogoHovered] = useState(false)
+  const [currentLocation, setCurrentLocation] = useState('/')
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const sidebarOptions = Object.keys(RouteDisplayNames)
 
   useEffect(() => {
     // Remove the / at the start of the route path
-    setSelectedTool(router.pathname.substring(1))
-  }, [router.pathname])
+    setSelectedTool(pathname.substring(1))
+    const path = pathname.split('/')[1]
+    setCurrentLocation('/' + path)
+  }, [pathname])
+
 
   useEffect(() => {
     if (isOpen) {
@@ -60,42 +63,38 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     })
   }
 
-  const renderApertureLink = () => (
+  const renderApertureLink = (renderAperture = true) => (
     <Link href='/' passHref>
       <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className={`flex gap-2 justify-center items-center cursor-pointer ${!isMobileViewport && 'h-16 pl-[25px]  ml-6'}`}>
         <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
-        <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
-        <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
+        {renderAperture && (
+          <>
+            <div className='absolute h-[14px] w-[15px] translate-x-[28px] -skew-x-[30deg] bg-white dark:bg-grey-850' />
+            <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
+          </>
+        )}
       </div>
     </Link>
   )
   // Render Topbar for mobile viewports
   const renderTopBar = () => {
     const handleTopBarSelectChange = () => (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedOption = e.target.value
-      if (selectedOption === 'Home') {
-        router.push('/')
-      } else if (selectedOption === 'Asset Comparator') {
-        router.push('/asset-comparator')
-      } else if (selectedOption === 'Plan Comparator') {
-        router.push('/plan-comparator')
-      } else if (selectedOption === 'Mid Management') {
-        router.push('/mid-management')
-      } else if (selectedOption === 'Customer Wallets') {
-        router.push('/customer-wallets')
-      }
+      router.push(e.target.value)
+      setCurrentLocation(e.target.value)
     }
     return (
       <>
         <div className='flex items-center justify-between  w-full min-w-[650px] px-12 py-3 bg-grey-200 dark:bg-grey-900'>
-          {pathname !== '/' ? renderApertureLink() : <div className='w-36' />}
-          <select className='font-heading-7 italic text-2xs uppercase border-1 p-1 m-1 rounded-[10px] bg-transparent col-span-10 text-center w-48 border-[2px] border-grey-500' onChange={handleTopBarSelectChange()}>
-            <option>Home</option>
-            <option>Asset Comparator</option>
-            <option>Plan Comparator</option>
-            <option>Mid Management</option>
-            <option>Customer Wallets</option>
-          </select>
+          <div className='flex'>
+            {renderApertureLink(false)}
+            <select className='w-34 font-heading-7 italic text-2xs uppercase p-1 m-1 bg-transparent col-span-10' value={currentLocation} onChange={handleTopBarSelectChange()}>
+              <option value='/'>Home</option>
+              <option value='/asset-comparator'>Asset Comparator</option>
+              <option value='/plan-comparator'>Plan Comparator</option>
+              <option value='/mid-management'>Mid Management</option>
+              <option value='/customer-wallets'>Customer Wallets</option>
+            </select>
+          </div>
 
           <Button
             buttonType={ButtonType.SUBMIT}
