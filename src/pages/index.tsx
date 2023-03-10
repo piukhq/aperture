@@ -72,7 +72,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
     <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-112 overflow-clip'}`}>
       {/* Aperture Rings and Title */}
       <div className={
-        `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-4 flex flex-col gap-4 justify-center items-center duration-500 pb-4 ${isMobileViewport && 'scale-[85%]'} overflow-visible`}>
+        `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-8 flex flex-col gap-4 justify-center items-center duration-500 pb-4 ${isMobileViewport && 'scale-[85%]'} overflow-visible`}>
         {/* Outer Ring */}
         <div className=
           {`absolute skew-x-12 z-20 transform-gpu overflow-hidden
