@@ -82,6 +82,13 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     is_physical_location: isPhysicalLocation,
   } = location_metadata || {}
 
+  useEffect(() => { // Reset Parent location field behaviour when edit mode is entered
+    if (isInEditState) {
+      setLocationIdValue('')
+      setSelectedParentLocationName(parentLocationTitle || '')
+    }
+  }, [isInEditState, parentLocationTitle])
+
   // Take component out of edit state when unmounted
   useEffect(() => {
     return () => {
@@ -168,7 +175,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               errorResponse={patchError}
               warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location.' : null}
             />
-            {selectedParentLocationName === 'None' && (
+            {selectedParentLocationName === 'None' && !isInEditState && (
               <>
                 <p className='font-body-4 dark:text-grey-600 pb-4'>Add a Location ID and save?</p>
                 <div className='w-72'>
