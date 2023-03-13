@@ -42,7 +42,7 @@ const Sidebar = () => {
     })
   }
 
-  const sidebarSubHeadingClasses = 'my-2 font-header text-grey-600 dark:text-grey-700 uppercase font-semibold text-[14px] tracking-widest ml-5'
+  const sidebarSubHeadingClasses = 'my-2  font-header text-grey-600 dark:text-grey-700 uppercase font-semibold text-[14px] tracking-widest ml-[21px]'
   return (
     <div className='pr-64 z-[1]'>
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-900 bg-grey-100 dark:bg-grey-850 '>
