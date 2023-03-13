@@ -17,3 +17,4 @@ export {default as DirectoryMerchantSecondaryMidsDeleteModalContainer} from './c
 export {default as DirectoryMerchantLocationsDeleteModalContainer} from './components/DirectoryMerchantLocationsDeleteModalContainer'
 export {default as DirectoryMerchantPsimisDeleteModalContainer} from './components/DirectoryMerchantPsimisDeleteModalContainer'
 export {default as DirectoryCommentsModal} from './components/DirectoryCommentsModal'
+export {default as DirectoryHarmoniaModal} from './components/DirectoryHarmoniaModal'
