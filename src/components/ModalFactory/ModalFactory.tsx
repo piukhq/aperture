@@ -18,6 +18,7 @@ import {
   DirectoryMerchantPsimisDeleteModalContainer,
   DirectoryFileUploadModal,
   DirectoryCommentsModal,
+  DirectoryHarmoniaModal,
 } from 'components/Modals'
 import {ModalType} from 'utils/enums'
 
@@ -30,6 +31,7 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.LOGOUT: return <LogoutModal />
     case ModalType.ASSET_COMPARATOR_ASSET: return <AssetModal />
     case ModalType.MID_MANAGEMENT_BULK_COMMENT: return <BulkCommentModal />
+    case ModalType.MID_MANAGEMENT_BULK_HARMONIA: return <DirectoryHarmoniaModal />
     case ModalType.ASSET_COMPARATOR_CREDENTIALS: return <CredentialsModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN: return <DirectoryPlanModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE: return <DirectoryPlanDeleteModal />
@@ -44,7 +46,6 @@ const ModalFactory = ({modalRequested}: Props) => {
     case ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE: return <DirectoryMerchantSecondaryMidsDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_DIRECTORY_LOCATIONS_DELETE: return <DirectoryMerchantLocationsDeleteModalContainer />
     case ModalType.MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE: return <DirectoryMerchantPsimisDeleteModalContainer />
-    // TODO: Review this method to differentiate between the two file upload modals once we implement the file upload functionality
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD: return <DirectoryFileUploadModal isPlanLevelFileUpload />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD: return <DirectoryFileUploadModal />
     case ModalType.MID_MANAGEMENT_COMMENTS: return <DirectoryCommentsModal />
