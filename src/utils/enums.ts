@@ -116,6 +116,7 @@ enum ModalType {
   MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD = 'MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD',
   MID_MANAGEMENT_COMMENTS = 'MID_MANAGEMENT_COMMENTS',
   MID_MANAGEMENT_BULK_COMMENT = 'MID_MANAGEMENT_BULK_COMMENT',
+  MID_MANAGEMENT_BULK_HARMONIA = 'MID_MANAGEMENT_BULK_HARMONIA',
 }
 
 enum ModalStyle {
@@ -208,6 +209,12 @@ enum PlanCategory {
   IMAGES = 'images',
 }
 
+enum HarmoniaActionTypes {
+  ONBOARD = 'onboard',
+  OFFBOARD = 'offboard',
+  UPDATE = 'update',
+}
+
 export {
   Admin,
   Url,
@@ -236,4 +243,5 @@ export {
   CommentsSubjectTypes,
   UserPermissions,
   PlanCategory,
+  HarmoniaActionTypes,
 }
