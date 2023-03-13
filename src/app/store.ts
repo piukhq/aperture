@@ -20,6 +20,7 @@ import storage from 'redux-persist/lib/storage'
 import apiReflectorReducer from 'features/apiReflectorSlice'
 import customerWalletReducer from 'features/customerWalletSlice'
 import directoryCommentsReducer from 'features/directoryCommentsSlice'
+import directoryHarmoniaReducer from 'features/directoryHarmoniaSlice'
 import directoryPlanReducer from 'features/directoryPlanSlice'
 import directoryMerchantReducer from 'features/directoryMerchantSlice'
 import directoryLocationReducer from 'features/directoryLocationSlice'
@@ -44,6 +45,7 @@ const reducers = combineReducers({
   apiReflector: apiReflectorReducer,
   customerWallet: customerWalletReducer,
   directoryComments: directoryCommentsReducer,
+  directoryHarmonia: directoryHarmoniaReducer,
   directoryPlan: directoryPlanReducer,
   directoryMerchant: directoryMerchantReducer,
   directoryLocation: directoryLocationReducer,
@@ -57,6 +59,7 @@ const reducers = combineReducers({
   [prodPlansApi.reducerPath]: prodPlansApi.reducer,
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
   [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
+  [midManagementCommentsApi.reducerPath]: midManagementCommentsApi.reducer,
   [midManagementCommentsApi.reducerPath]: midManagementCommentsApi.reducer,
   [midManagementPlansApi.reducerPath]: midManagementPlansApi.reducer,
   [midManagementMerchantsApi.reducerPath]: midManagementMerchantsApi.reducer,
