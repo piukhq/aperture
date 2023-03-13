@@ -42,6 +42,7 @@ const Sidebar = () => {
     })
   }
 
+  const sidebarSubHeadingClasses = 'my-2 font-header text-grey-600 dark:text-grey-700 uppercase font-semibold text-[14px] tracking-widest ml-5'
   return (
     <div className='pr-64 z-[1]'>
       <div className='fixed w-64 h-full border-r-2 border-grey-300 dark:border-grey-900 bg-grey-100 dark:bg-grey-850 '>
@@ -52,13 +53,19 @@ const Sidebar = () => {
             <h1 className='font-heading-1 text-[1.25rem] -translate-x-[9px] -skew-x-12'>APERTURE {isLogoHovered}</h1>
           </div>
         </Link>
-
         <div className='mt-6'>
           <nav className='mt-5'>
             {getSidebarOptions().map(option => {
-              // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
               const selected = selectedTool === option || selectedTool.includes(option)
-              return <SidebarOption key={option} option={option} selected={selected} />
+              // Not the most robust way to handle subheadings but it is fine till the sidebar grows
+              return (
+                <>
+                  {option === 'mid-management' && <h2 className={sidebarSubHeadingClasses}>MID Management</h2>}
+                  {option === 'asset-comparator' && <h2 className={sidebarSubHeadingClasses}>Plan Management</h2>}
+                  {option === 'customer-wallets' && <h2 className={sidebarSubHeadingClasses}>Customer Support</h2>}
+                  <SidebarOption key={option} option={option} selected={selected} />
+                </>
+              )
             })}
           </nav>
         </div>
