@@ -82,6 +82,13 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     is_physical_location: isPhysicalLocation,
   } = location_metadata || {}
 
+  useEffect(() => { // Reset Parent location field behaviour when edit mode is entered
+    if (isInEditState) {
+      setLocationIdValue('')
+      setSelectedParentLocationName(parentLocationTitle || '')
+    }
+  }, [isInEditState, parentLocationTitle])
+
   // Take component out of edit state when unmounted
   useEffect(() => {
     return () => {
