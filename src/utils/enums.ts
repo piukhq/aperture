@@ -88,11 +88,10 @@ enum DirectoryNavigationTab {
 }
 
 enum RouteDisplayNames {
+  'mid-management' = 'MID Directory',
   'asset-comparator' = 'Asset Comparator',
   'plan-comparator' = 'Plan Comparator',
-  'mid-management' = 'MID Management',
   'customer-wallets' = 'Customer Wallets',
-  'style-guide' = 'Style Guide',
 }
 
 enum ModalType {

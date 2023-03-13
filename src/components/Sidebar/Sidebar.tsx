@@ -63,6 +63,8 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     })
   }
 
+  const sidebarSubHeadingClasses = 'my-2 font-header text-grey-600 dark:text-grey-700 uppercase font-semibold text-[14px] tracking-widest ml-5'
+
   const renderApertureLink = (renderAperture = true) => (
     <Link href='/' passHref>
       <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className={`flex gap-2 justify-center items-center cursor-pointer ${!isMobileViewport && 'h-16 pl-[25px]  ml-6'}`}>
@@ -154,9 +156,16 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
         <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
           <div className='mt-5 overflow-hidden'>
             {getSidebarOptions().map(option => {
-              // TODO: Remove this secondary condition once refactor takes place to include mid/mgn sub-menus
               const selected = selectedTool === option || selectedTool.includes(option)
-              return <SidebarOption key={option} option={option} selected={selected} />
+              // Not the most robust way to handle subheadings but it is fine till the sidebar grows
+              return (
+                <>
+                  {option === 'mid-management' && <h2 className={sidebarSubHeadingClasses}>MID Management</h2>}
+                  {option === 'asset-comparator' && <h2 className={sidebarSubHeadingClasses}>Plan Management</h2>}
+                  {option === 'customer-wallets' && <h2 className={sidebarSubHeadingClasses}>Customer Support</h2>}
+                  <SidebarOption key={option} option={option} selected={selected} />
+                </>
+              )
             })}
           </div>
         </div>
