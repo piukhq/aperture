@@ -4,16 +4,18 @@ import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonB
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {timeStampToDate} from 'utils/dateFormat'
 import {useRouter} from 'next/router'
 import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
+import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -116,10 +118,26 @@ const DirectoryMerchantSecondaryMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const requestOnboardModal = ():void => {
+    setSelectedSecondaryMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.ONBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+  const requestOffboardModal = ():void => {
+    setSelectedSecondaryMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.OFFBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+  const requestUpdateModal = ():void => {
+    setSelectedSecondaryMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.UPDATE))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+
   const renderCheckedItemButtons = ():JSX.Element => (
     <div className={`flex gap-[10px] items-center ${isMobileViewport ? 'h-max py-4 flex-wrap justify-center items-center' : 'w-full flex-wrap justify-start h-[71px]'}`}>
       <Button
-        handleClick={() => console.log('Onboard to Harmonia button pressed') }
+        handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -128,7 +146,7 @@ const DirectoryMerchantSecondaryMids = () => {
       >Onboard to Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Offboard from Harmonia button pressed') }
+        handleClick={requestOffboardModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -137,7 +155,7 @@ const DirectoryMerchantSecondaryMids = () => {
       >Offboard from Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Update to Harmonia button pressed') }
+        handleClick={requestUpdateModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}

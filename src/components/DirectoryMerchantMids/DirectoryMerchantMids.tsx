@@ -5,13 +5,14 @@ import {useRouter} from 'next/router'
 import {DirectoryMids, DirectoryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {timeStampToDate} from 'utils/dateFormat'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
@@ -55,7 +56,6 @@ const DirectoryMerchantMids = () => {
   })
 
   const midsData: DirectoryMids = getMerchantMidsResponse
-
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
@@ -118,10 +118,26 @@ const DirectoryMerchantMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const requestOnboardModal = ():void => {
+    setSelectedMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.ONBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+  const requestOffboardModal = ():void => {
+    setSelectedMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.OFFBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+  const requestUpdateModal = ():void => {
+    setSelectedMids()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.UPDATE))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+
   const renderCheckedItemButtons = ():JSX.Element => (
     <div className={`flex gap-[10px] items-center ${isMobileViewport ? 'h-max py-4 flex-wrap justify-center items-center' : 'w-full flex-wrap justify-start h-[71px]'}`}>
       <Button
-        handleClick={() => console.log('Onboard to Harmonia button pressed') }
+        handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -130,7 +146,7 @@ const DirectoryMerchantMids = () => {
       >Onboard to Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Offboard from Harmonia button pressed') }
+        handleClick={requestOffboardModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -139,7 +155,7 @@ const DirectoryMerchantMids = () => {
       >Offboard from Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Update to Harmonia button pressed') }
+        handleClick={requestUpdateModal}
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
