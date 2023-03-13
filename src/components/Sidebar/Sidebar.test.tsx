@@ -71,6 +71,25 @@ describe('Sidebar', () => {
     })
   })
 
+  describe('Test Sub-Headings', () => {
+    it('should render the Mid Management subheading', () => {
+      mockPermissions = [UserPermissions.MERCHANT_DATA_READ_ONLY]
+      render(getSidebarComponent())
+      expect(screen.getByRole('heading', {name: 'MID Management'})).toBeInTheDocument()
+    })
+
+    it('should render the Plan Management subheading', () => {
+      render(getSidebarComponent())
+      expect(screen.getByRole('heading', {name: 'Plan Management'})).toBeInTheDocument()
+    })
+
+    it('should render the Customer Support subheading', () => {
+      mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
+      render(getSidebarComponent())
+      expect(screen.getByRole('heading', {name: 'Customer Support'})).toBeInTheDocument()
+    })
+  })
+
   describe('Test links', () => {
     it('should render correct links', () => {
       render(getSidebarComponent())
@@ -83,13 +102,8 @@ describe('Sidebar', () => {
         name: 'PLAN COMPARATOR',
       })
 
-      const styleGuideLink = screen.getByRole('link', {
-        name: 'STYLE GUIDE',
-      })
-
       expect(assetComparatorLink).toBeInTheDocument()
       expect(planComparatorLink).toBeInTheDocument()
-      expect(styleGuideLink).toBeInTheDocument()
     })
 
     describe('Test permissions specific links', () => {
@@ -97,7 +111,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const midManagementLink = screen.queryByRole('link', {
-          name: 'MID MANAGEMENT',
+          name: 'MID DIRECTORY',
         })
 
         expect(midManagementLink).not.toBeInTheDocument()
@@ -108,7 +122,7 @@ describe('Sidebar', () => {
         render(getSidebarComponent())
 
         const midManagementLink = screen.getByRole('link', {
-          name: 'MID MANAGEMENT',
+          name: 'MID DIRECTORY',
         })
 
         expect(midManagementLink).toBeInTheDocument()
