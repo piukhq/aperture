@@ -10,10 +10,11 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -112,10 +113,21 @@ const DirectoryMerchantPsimis = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const requestOnboardModal = ():void => {
+    setSelectedPsimis()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.ONBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+  const requestOffboardModal = ():void => {
+    setSelectedPsimis()
+    dispatch(setHarmoniaActionType(HarmoniaActionTypes.OFFBOARD))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
+  }
+
   const renderCheckedItemButtons = ():JSX.Element => (
     <div className='flex gap-[10px] h-[71px] items-center'>
       <Button
-        handleClick={() => console.log('Onboard to Harmonia button pressed') }
+        handleClick={requestOnboardModal }
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
@@ -124,7 +136,7 @@ const DirectoryMerchantPsimis = () => {
       >Onboard to Harmonia
       </Button>
       <Button
-        handleClick={() => console.log('Offboard from Harmonia button pressed') }
+        handleClick={requestOffboardModal }
         buttonSize={ButtonSize.SMALL}
         buttonWidth={ButtonWidth.AUTO}
         labelColour={LabelColour.GREY}
