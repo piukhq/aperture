@@ -1,3 +1,4 @@
+export {default as ApertureHeader} from './ApertureHeader'
 export {default as AssetGrid} from './AssetGrid'
 export {default as AutosizeTextArea} from './AutosizeTextArea'
 export {default as DirectoryBreadcrumb} from './DirectoryBreadcrumb'
