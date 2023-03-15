@@ -49,7 +49,7 @@ const ErrorTest = () => {
         >Generate Error
         </Button>
         <p className='font-body-2 font-medium mt-16 mb-2 w-1/2 text-center'> This button will open a new tab to a page that does not exist and thus show the 404 page instead.</p>
-        <a className='flex justify-center items-center text-white text-md hover:bg-green/75 bg-green text-center rounded-lg font-heading-7 text-sm duration-500 w-[120px] h-[38px] pointer-cursor' target='_blank' href={'/thispagedoesnotexistsoitwillgivea404error'} rel='noreferrer'>
+        <a className='flex justify-center items-center text-white text-md hover:bg-green/75 bg-green text-center rounded-lg font-heading-7 text-sm duration-500 w-[160px] h-[38px] pointer-cursor' target='_blank' href={'/thispagedoesnotexistsoitwillgivea404error'} rel='noreferrer'>
           Generate 404 Page
         </a>
 
