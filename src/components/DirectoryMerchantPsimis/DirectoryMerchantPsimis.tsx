@@ -103,7 +103,7 @@ const DirectoryMerchantPsimis = () => {
 
   const requestPsimisDeleteModal = ():void => {
     setSelectedPsimis()
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MIDS_DELETE))
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PSIMIS_DELETE))
   }
 
   const requestBulkCommentModal = () => {
