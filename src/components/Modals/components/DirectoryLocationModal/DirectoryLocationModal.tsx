@@ -40,6 +40,7 @@ const DirectoryLocationModal = () => {
     resetPostMerchantLocationSubLocationResponse,
   } = useMidManagementLocationSubLocations({
     skipGetSubLocation: true,
+    skipGetSubLocations: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
     locationRef: null as string,

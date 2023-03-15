@@ -19,7 +19,7 @@ const DirectoryPsimiModal = () => {
     postMerchantPsimiResponse,
     postMerchantPsimiError,
     resetPostMerchantPsimiResponse,
-  } = useMidManagementPsimis({skipGetPsimis: true, skipGetPsimi: true})
+  } = useMidManagementPsimis({skipGetPsimis: true, skipGetPsimi: true, skipGetPsimisByPage: true})
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 
