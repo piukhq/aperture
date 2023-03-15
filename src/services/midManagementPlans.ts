@@ -38,7 +38,7 @@ export const midManagementPlansApi = createApi({
           const {data: newPlan} = await queryFulfilled
           dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
             // Add new plan to existing cache of plans
-            existingPlans.push(newPlan)
+            existingPlans.unshift(newPlan)
           })
           )
         } catch (err) {
