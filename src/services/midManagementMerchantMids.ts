@@ -72,7 +72,7 @@ export const midManagementMerchantMidsApi = createApi({
         try {
           const {data: newMid} = await queryFulfilled
           dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
-            existingMids.push(newMid)
+            existingMids.unshift(newMid)
           })
           )
         } catch (err) {

@@ -70,7 +70,7 @@ export const midManagementMerchantPsimisApi = createApi({
         try {
           const {data: newPsimi} = await queryFulfilled
           dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
-            existingPsimis.push(newPsimi)
+            existingPsimis.unshift(newPsimi)
           })
           )
         } catch (err) {
