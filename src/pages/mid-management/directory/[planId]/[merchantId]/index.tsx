@@ -7,6 +7,7 @@ import {
   DirectoryMerchantMids,
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantPsimis,
+  PageNotFound,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -44,6 +45,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const {
     getMerchantResponse,
+    getMerchantError,
   } = useMidManagementMerchants({
     skipGetMerchantCounts: true,
     planRef: planId as string,
@@ -164,6 +166,10 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     return (
       <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
     )
+  }
+
+  if (getMerchantError) { // TODO: Add more in depth error handling
+    return <PageNotFound />
   }
 
   return (
