@@ -2,7 +2,7 @@ import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
 import {useAppDispatch} from 'app/hooks'
-import {PageLayout, DirectoryTile, DirectoryDetailsHeader} from 'components'
+import {PageLayout, DirectoryTile, DirectoryDetailsHeader, PageNotFound} from 'components'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
@@ -24,6 +24,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const {
     getPlanResponse,
+    getPlanError,
   } = useMidManagementPlans({
     skipGetPlans: true,
     planRef: planRef as string,
@@ -188,6 +189,10 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
         {merchants.length > 0 && renderMerchants(merchants)}
       </>
     )
+  }
+
+  if (getPlanError) { // TODO: Add more in depth error handling
+    return <PageNotFound />
   }
 
   return (
