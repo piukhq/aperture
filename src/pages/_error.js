@@ -1,7 +1,17 @@
 import Link from 'next/link'
 import {ApertureHeader} from 'components'
 import {Admin} from 'utils/enums'
+import {useEffect} from 'react'
+import {useAppDispatch} from 'app/hooks'
+import {requestModal} from 'features/modalSlice'
+import {ModalType} from 'utils/enums'
+
 function Error ({statusCode}) {
+  const dispatch = useAppDispatch()
+  useEffect(() => { // Clear any previously open modals
+    dispatch(requestModal(ModalType.NO_MODAL))
+  }, [dispatch])
+
   return (
     <div className='w-full flex-col justify-center items-center gap-4 overflow-hidden'>
       <ApertureHeader />
