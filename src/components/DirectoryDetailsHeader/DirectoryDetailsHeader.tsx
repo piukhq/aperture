@@ -65,19 +65,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
         <DirectoryBreadcrumb />
       </div>
       <div className=' flex rounded-[10px]  h-[152px] mt-[15px] pr-[16px] bg-white dark:bg-grey-825 shadow-md'>
-        <div className='ml-[40px]'>
-          {/* Icon image div to provide top border shadow */}
-          <div className='-translate-y-[50px] flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md' />
-
-          {/* Icon image div container */}
-          <div className='-translate-y-[230px] z-20 flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d]'>
-            {iconUrl ? <Image className='z-40 absolute rounded-[30px]' src={iconUrl} height={165} width={165} alt='' data-testid='icon-image' /> :
-              <div data-testid='icon-placeholder' className='flex justify-center items-center rounded-[30px] h-[160px] w-[160px] bg-grey-200 dark:bg-grey-400'>
-                <h1 className='font-heading-1 text-grey-900' aria-hidden>{name.charAt(0)}</h1>
-              </div>
-            }
-          </div>
-        </div>
+        {renderIconImage()}
         <div className='flex justify-between flex-1 pt-[20px] pl-[50px] pb-[32px]'>
           <div>
             <h3 className={`${isMobileViewport ? 'font-heading-5' : 'font-heading-3'} mb-[8px] mr-4`}>{name}</h3>

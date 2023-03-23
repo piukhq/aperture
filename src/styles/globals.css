@@ -69,6 +69,10 @@
       background: #171725;
       border-radius: 5px;
     }
+
+    body {
+      background-color: #171725;
+    }
   }
   
 
