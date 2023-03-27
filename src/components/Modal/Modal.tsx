@@ -60,7 +60,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const styles = MODAL_STYLE_MAPS[modalStyle]
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}>
+    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out m-auto ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}>
       <div className={`bg-white dark:bg-grey-850 ${styles.innerContainer} shadow-md`}>
         <div className={`flex px-[20px] items-center w-full ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
           {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
@@ -78,7 +78,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     <FocusTrap>
       <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
         <div className={`fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`} onClick={handleClose} />
-        <div className='absolute left-2/4 translate-x-[-50%] justify-center z-50' onClick={handleClose}>
+        <div className='absolute z-50 m-auto left-0 right-0' onClick={handleClose}>
           {renderModal()}
         </div>
       </div>
