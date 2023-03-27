@@ -11,9 +11,18 @@ const numberWithOrdinal = (n: number) => {
   return `${n}${ordinals[pluralRule.select(n)]}`
 }
 
-export const timeStampToDate = (timestamp: number | string) => {
+export const timeStampToDate = (timestamp: number | string, isShortDate = false) => {
   const time = typeof(timestamp) === 'number' ? timestamp * 1000 : timestamp
   const date = new Date(time)
+
+  if(isShortDate) {
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear().toString()
+      .slice(-2)
+    return `${day}/${month}/${year}`
+  }
+
   const day = numberWithOrdinal(date.getDate())
   const month = date.toLocaleString('default', {month: 'long'})
   const year = date.getFullYear()

@@ -6,7 +6,7 @@ type Props = {
 
 const PageLayout = ({children}: Props) => {
   return (
-    <main className='flex w-full flex-col min-w-[200px] mt-[57px] mr-[63px] mb-[133px] ml-[63px]'>
+    <main className='flex w-full flex-col min-w-[650px] mt-[60px] px-[5%] mb-[100px]'>
       {children}
     </main>
   )

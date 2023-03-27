@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import Image from 'next/image'
 import {Button} from 'components'
-
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {ButtonType, ButtonBackground, ButtonWidth, ButtonSize, LabelColour, LabelWeight} from 'components/Button/styles'
 import {OptionsMenuItems, PaymentScheme} from 'types'
 import {OptionsMenuButton} from 'components'
@@ -30,6 +30,7 @@ type Props = {
 
 const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
   const [imageLoadError, setImageLoadError] = useState(false)
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const {
     name,
@@ -76,7 +77,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
   }
 
   return (
-    <div className='relative w-[363px] h-[331px] rounded-[20px] bg-white dark:bg-grey-825 shadow-md'>
+    <div className={`relative h-[330px] rounded-[20px] bg-white dark:bg-grey-825 shadow-md ${!isMobileViewport ? 'w-[330px]' : 'w-[270px]'}`}>
       {optionsMenuItems.length > 0 && (
         <div className='absolute top-[17px] right-[20px]'>
           <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>

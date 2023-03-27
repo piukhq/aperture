@@ -10,12 +10,13 @@ type Props = {
 
 const Layout = ({children}: Props) => {
   const modalRequested: ModalType = useAppSelector(selectModal)
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
 
   return (
-    <div className='flex min-h-screen h-max min-w-fit bg-grey-200 dark:bg-grey-950 [scrollbar-gutter: stable]'>
+    <div className={`flex min-w-[650px] ${isSidebarOpen ? 'flex-row' : 'flex-col sticky'} duration-400 [scrollbar-gutter: stable]`}>
       {modalRequested !== ModalType.NO_MODAL && <ModalFactory modalRequested={modalRequested} />}
-      <Sidebar />
-      <div className='flex w-full'>
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
+      <div className={`flex w-full pt-1 ${!isSidebarOpen && 'mt-8'} duration-200 ease-in-out`}>
         {children}
       </div>
     </div>

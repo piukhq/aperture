@@ -129,7 +129,7 @@ const CategoryDetails = ({
   }
 
   return (
-    <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] hover:shadow-md open:shadow-md ${isMounted ? 'opacity-100' : 'opacity-0'} 
+    <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] hover:shadow-md open:shadow-md ${isMounted ? 'opacity-100' : 'opacity-0'} 
     duration-300 ease-in-out origin-top ${hasNoCategoryValues ? 'bg-grey-200 dark:bg-grey-800 hover:bg-grey-200/75 hover:dark:bg-grey-800/75' : hasAllCategoryValuesMatching ? 'bg-green/20 hover:bg-green/25' : 'bg-red/20 hover:bg-red/25 hover:open:bg-red/20'}`}>
       <summary className='w-full cursor-pointer font-heading-5 text-grey-800 dark:text-grey-100'>
         {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1 text-grey-800 dark:text-grey-100'>({renderCategorySummaryInformation()})</span>

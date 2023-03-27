@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -12,34 +13,6 @@ import {timeStampToDate} from 'utils/dateFormat'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {setLocationLabel} from 'features/directoryLocationSlice'
 import PathSvg from 'icons/svgs/path.svg'
-
-const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
-  {
-    displayValue: 'NAME',
-  },
-  {
-    displayValue: 'DATE ADDED',
-  },
-  {
-    additionalStyles: 'w-[100px]',
-    displayValue: 'PHYSICAL',
-  },
-  {
-    displayValue: 'ADDRESS',
-  },
-  {
-    displayValue: 'TOWN',
-  },
-  {
-    displayValue: 'POSTCODE',
-  },
-  {
-    displayValue: 'LOCATION ID',
-  },
-  {
-    displayValue: 'INTERNAL ID',
-  },
-]
 
 type LocationRowObject = {
   ref: string,
@@ -54,6 +27,7 @@ type Props = {
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId, planId} = router.query
+  const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState(1)
 
   const dispatch = useAppDispatch()
@@ -67,63 +41,106 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     page: currentPage.toString(),
   })
 
+  const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+    {
+      displayValue: 'NAME',
+    },
+    {
+      displayValue: 'DATE ADDED',
+    },
+    {
+      additionalStyles: 'w-[100px]',
+      displayValue: 'PHYSICAL',
+    },
+    {
+      displayValue: 'ADDRESS',
+    },
+    {
+      displayValue: 'TOWN',
+      additionalStyles: isMobileViewport && 'hidden',
+    },
+    {
+      displayValue: 'POSTCODE',
+      additionalStyles: isMobileViewport && 'hidden',
+    },
+    {
+      displayValue: 'LOCATION ID',
+    },
+    {
+      displayValue: 'INTERNAL ID',
+    },
+  ]
+
   const locationsData: DirectoryLocations = getMerchantLocationsResponse
 
-  // TODO: Would be good to have this in a hook once the data is retrieved from the api
-  const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
-    const {date_added: dateAdded, location_metadata: locationMetadata} = locationObj
-    const {
-      name,
-      is_physical_location: isPhysicalLocation,
-      address_line_1: addressLine,
-      town_city: townCity,
-      postcode,
-      location_id: locationId,
-      merchant_internal_id: internalId,
-    } = locationMetadata
-
-    const textStyles = `${isSubLocation ? 'font-subheading-4 font-medium' : 'font-heading-8 font-regular'} truncate`
-
-    return [
-      {
-        displayValue: name,
-        additionalStyles: textStyles,
-        icon: isSubLocation ? <PathSvg /> : null,
-      },
-      {
-        displayValue: timeStampToDate(dateAdded),
-        additionalStyles: textStyles,
-      },
-      {
-        physicalLocation: {
-          isPhysicalLocation,
-        },
-      },
-      {
-        displayValue: addressLine,
-        additionalStyles: textStyles,
-      },
-      {
-        displayValue: townCity,
-        additionalStyles: textStyles,
-      },
-      {
-        displayValue: postcode,
-        additionalStyles: textStyles,
-      },
-      {
-        displayValue: locationId,
-        additionalStyles: textStyles,
-      },
-      {
-        displayValue: internalId,
-        additionalStyles: textStyles,
-      },
-    ]
-  }
-
-
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
+    const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
+      const {date_added: dateAdded, location_metadata: locationMetadata} = locationObj
+      const {
+        name,
+        is_physical_location: isPhysicalLocation,
+        address_line_1: addressLine,
+        town_city: townCity,
+        postcode,
+        location_id: locationId,
+        merchant_internal_id: internalId,
+      } = locationMetadata
+
+      const textStyles = `${isSubLocation ? 'font-subheading-4 font-medium' : 'font-heading-8 font-regular'} truncate`
+
+      const standardFields = [
+        {
+          displayValue: name,
+          additionalStyles: textStyles,
+          icon: isSubLocation ? <PathSvg /> : null,
+        },
+        {
+          displayValue: timeStampToDate(dateAdded, isMobileViewport),
+          additionalStyles: textStyles,
+        },
+        {
+          physicalLocation: {
+            isPhysicalLocation,
+          },
+        },
+        {
+          displayValue: addressLine,
+          additionalStyles: textStyles,
+        },
+      ]
+
+      const extraFields = isMobileViewport ? [
+        {
+          displayValue: locationId,
+          additionalStyles: textStyles,
+        },
+        {
+          displayValue: internalId,
+          additionalStyles: textStyles,
+        },
+      ] : [
+        {
+          displayValue: townCity,
+          additionalStyles: textStyles,
+        },
+        {
+          displayValue: postcode,
+          additionalStyles: textStyles,
+        },
+        {
+          displayValue: locationId,
+          additionalStyles: textStyles,
+        },
+        {
+          displayValue: internalId,
+          additionalStyles: textStyles,
+        },
+      ]
+
+
+      return [...standardFields, ...extraFields]
+    }
+
     return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
       const locationTableRow = hydrateLocationTableRow(locationObj)
       accumulator.push({ref: locationObj.location_ref, row: locationTableRow})
@@ -139,7 +156,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
       return accumulator
     }, [])
-  }, [locationsData])
+  }, [isMobileViewport, locationsData])
 
   const locationRowObjects = getLocationTableRowObjects()
   const refArray = locationRowObjects?.map(locationRowObj => locationRowObj.ref)

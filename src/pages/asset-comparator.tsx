@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
 import {areAnyVerificationTokensStored} from 'utils/storage'
-import {useIsDesktopViewportDimensions} from 'utils/windowDimensions'
 import {AssetGrid, Button, ContentTile, PageLayout, PlansList} from 'components'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import {
@@ -24,7 +23,6 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)
-  const isDesktopViewportDimensions = useIsDesktopViewportDimensions()
 
   const handleRequestCredentialsModal = useCallback(() => { dispatch(requestModal(ModalType.ASSET_COMPARATOR_CREDENTIALS)) }, [dispatch])
 
@@ -42,9 +40,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
   }, [modalRequested, handleRequestCredentialsModal, shouldInitialCredentialsModalLaunchOccur])
 
   const determineContentToRender = () => {
-    if (!isDesktopViewportDimensions) {
-      return renderSmallViewportCopy()
-    } else if (isVerified) {
+    if (isVerified) {
       return renderVerifiedLanding()
     } else {
       return renderUnverifiedLanding()
@@ -64,14 +60,6 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
       ><SettingsSvg/>Credentials
       </Button>
     </>
-  )
-
-  const renderSmallViewportCopy = () => (
-    <div data-testid='small-viewport-copy' className='mt-[75px] flex flex-col items-center gap-6 text-left w-3/5'>
-      <h1 className='font-heading-4 w-full'>Viewport too small</h1>
-      <p className='font-subheading-3 w-full'>To use the asset comparator your browser window must be a minimum width of 1000px.</p>
-      <p className='font-subheading-3 w-full'>Increase the size of your browser window to continue</p>
-    </div>
   )
 
   const renderUnverifiedLanding = () => (
@@ -104,7 +92,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
   return (
     <PageLayout>
       <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
-        { isDesktopViewportDimensions && renderHeaderTools()}
+        { renderHeaderTools()}
       </div>
 
       <ContentTile>

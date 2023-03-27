@@ -95,17 +95,17 @@ describe('Test Plan Summary', () => {
     it('should render the dev django link with correct href', () => {
       render(getPlanSummaryComponent())
 
-      expect(screen.getByRole('link', {name: /view in dev/i})).toHaveAttribute('href', 'https://api.dev.gb.bink.com/admin/scheme/scheme/1/change/')
+      expect(screen.getByRole('link', {name: /view dev/i})).toHaveAttribute('href', 'https://api.dev.gb.bink.com/admin/scheme/scheme/1/change/')
     })
 
     it('should render the staging django link with correct href', () => {
       render(getPlanSummaryComponent())
-      expect(screen.getByRole('link', {name: /view in staging/i})).toHaveAttribute('href', 'https://api.staging.gb.bink.com/admin/scheme/scheme/2/change/')
+      expect(screen.getByRole('link', {name: /view staging/i})).toHaveAttribute('href', 'https://api.staging.gb.bink.com/admin/scheme/scheme/2/change/')
     })
 
     it('should render the prod django link with correct href', () => {
       render(getPlanSummaryComponent())
-      expect(screen.getByRole('link', {name: /view in prod/i})).toHaveAttribute('href', 'https://api.gb.bink.com/admin/scheme/scheme/3/change/')
+      expect(screen.getByRole('link', {name: /view prod/i})).toHaveAttribute('href', 'https://api.gb.bink.com/admin/scheme/scheme/3/change/')
     })
 
     it('should not render the django links if the environment plan is not in the plans object', () => {
@@ -113,9 +113,9 @@ describe('Test Plan Summary', () => {
         plans: {},
       }))
 
-      expect(screen.queryByRole('link', {name: /view in dev/i})).not.toBeInTheDocument()
-      expect(screen.queryByRole('link', {name: /view in staging/i})).not.toBeInTheDocument()
-      expect(screen.queryByRole('link', {name: /view in prod/i})).not.toBeInTheDocument()
+      expect(screen.queryByRole('link', {name: /view dev/i})).not.toBeInTheDocument()
+      expect(screen.queryByRole('link', {name: /view staging/i})).not.toBeInTheDocument()
+      expect(screen.queryByRole('link', {name: /view prod/i})).not.toBeInTheDocument()
     })
 
   })

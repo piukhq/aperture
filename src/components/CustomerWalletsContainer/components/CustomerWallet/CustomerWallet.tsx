@@ -70,7 +70,7 @@ const CustomerWallet = ({userPlans}: Props) => {
     if (plan) {
       const {id, payment_cards: paymentCards} = loyaltyCard
       return (
-        <div key={id} className='flex space-between mb-[17px]'>
+        <div key={id} className='flex mb-[17px]'>
           <LoyaltyCard card={loyaltyCard} getStatusFn={getStatusIcon} plan={plan} />
           <div className={`grid grid-cols-${getAllPaymentCardIds().length} gap-[15px]`}>
             {getAllPaymentCardIds().map((_, index) => (
@@ -105,14 +105,14 @@ const CustomerWallet = ({userPlans}: Props) => {
   return (
     <>
       <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
-      <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[900px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col'>
+      <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[600px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col'>
         { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
           <>
             {renderPaymentCards()}
             {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
             {externalMembershipCardIds?.map(id => renderExternalLoyaltyCardsRow(id))}
           </>
-        ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>} {/* TODO: Placeholder for loading */}
+        ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>}
       </div>
     </>
   )

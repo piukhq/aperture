@@ -62,7 +62,7 @@ const ImageDetails = ({
       'The total number of images do not match across environments' : 'The number of images per type do not match across environments'
 
   return (
-    <section className={`mt-[30px] rounded-[10px] p-[20px] w-[700px] ${isMounted ? 'opacity-100' : 'opacity-0'}  
+    <section className={`mt-[30px] rounded-[10px] p-[20px] w-[550px] ${isMounted ? 'opacity-100' : 'opacity-0'}  
     duration-1000 ${!hasSameNumberOfImageTypes ? 'bg-red/20' : 'bg-green/20'}`}>
       <div className='w-full font-heading-5 text-grey-800 dark:text-grey-100'>{capitaliseFirstLetter('Images')}
         <p className='font-body-3 font-light italic my-5'>{imageReport}</p>

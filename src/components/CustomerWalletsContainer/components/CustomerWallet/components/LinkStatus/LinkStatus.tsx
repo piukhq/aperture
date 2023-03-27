@@ -1,6 +1,7 @@
 import CheckSvg from 'icons/svgs/check.svg'
 import CloseSvg from 'icons/svgs/close.svg'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
 type Props = {
   isPllCard: boolean,
@@ -10,6 +11,7 @@ type Props = {
 
 const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Props) => {
   const {getPaymentCardsResponse} = useCustomerWallet()
+  const isMobileViewport = useIsMobileViewportDimensions()
 
   const getLinkStatus = () => {
     const paymentCardId = getPaymentCardsResponse[paymentCardIndex]?.id
@@ -18,7 +20,7 @@ const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Pr
   }
 
   return (
-    <div className='w-[200px] flex items-center justify-center'>
+    <div className={`flex items-center justify-center ${isMobileViewport ? 'w-[120px]' : 'w-[200px]'}`}>
       { isPllCard ? getLinkStatus() : <div aria-label='Not applicable' role='img' className='h-[3px] bg-grey-600 w-[20px]'/>}
     </div>
   )

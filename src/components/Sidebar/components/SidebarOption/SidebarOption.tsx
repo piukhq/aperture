@@ -28,7 +28,7 @@ const SidebarOption = ({option, selected}: Props) => {
   const displayName = RouteDisplayNames[option]
 
   return (
-    <div className='h-[52px] flex'>
+    <div className='h-[52px] flex my-1'>
       <Link href={`/${option}`}>
         <a className='flex w-full items-center'>
           <div className={`w-[3px] h-[32px] mr-[17px] rounded-tr-[100px] rounded-br-[100px] ${selected ? 'bg-blue' : ''}`} />

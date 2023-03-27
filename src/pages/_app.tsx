@@ -12,9 +12,9 @@ function MyApp ({Component, pageProps}: AppProps) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Head>
-          <title>Bink Portal</title>
+          <title>Aperture</title>
           <meta charSet='utf-8' />
-          <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+          <meta name='viewport' />
         </Head>
         <UserProvider>
           <Layout>

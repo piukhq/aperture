@@ -4,7 +4,6 @@ import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import AssetComparatorPage from 'pages/asset-comparator'
-import * as WindowDimensions from 'utils/windowDimensions'
 
 jest.mock('components/PlansList', () => () => <div data-testid='plan-list' />)
 jest.mock('components/AssetGrid', () => () => <div data-testid='asset-grid' />)
@@ -19,7 +18,6 @@ jest.mock('hooks/useGetPlans', () => ({
 describe('AssetComparatorPage', () => {
   const mockStoreFn = configureStore([])
   const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-  const isDesktopViewportDimensionsMock = jest.spyOn(WindowDimensions, 'useIsDesktopViewportDimensions')
 
   let store
   const initialState = {
@@ -36,7 +34,7 @@ describe('AssetComparatorPage', () => {
     store = mockStoreFn({...initialState})
     const dummyDispatch = jest.fn()
     useDispatchMock.mockReturnValue(dummyDispatch)
-    isDesktopViewportDimensionsMock.mockReturnValue(true)
+
 
     // isVerified state value
     React.useState = jest.fn().mockReturnValue([false, jest.fn()])
@@ -72,17 +70,6 @@ describe('AssetComparatorPage', () => {
   })
 
   describe('Test copy variations', () => {
-    it('should render small viewport copy', () => {
-      isDesktopViewportDimensionsMock.mockReturnValue(false)
-      const {getByText, queryByTestId} = render(getAssetComparatorComponent())
-
-      expect(queryByTestId('small-viewport-copy')).toBeInTheDocument()
-      expect(getByText('Viewport too small')).toBeInTheDocument()
-      expect(getByText('To use the asset comparator your browser window must be a minimum width of 1000px.')).toBeInTheDocument()
-      expect(getByText('Increase the size of your browser window to continue')).toBeInTheDocument()
-      expect(queryByTestId('unverified-landing-copy')).not.toBeInTheDocument()
-    })
-
     it('should render unverified landing copy', () => {
       const {getByText, queryByTestId} = render(getAssetComparatorComponent())
 
