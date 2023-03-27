@@ -14,7 +14,11 @@ import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
+import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
+import {timeStampToDate} from 'utils/dateFormat'
 
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [

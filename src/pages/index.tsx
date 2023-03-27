@@ -9,6 +9,7 @@ import {Button} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour} from 'components/Button/styles'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
+
 const IndexPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {hasRequiredPermission} = usePermissions()

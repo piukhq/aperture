@@ -106,7 +106,6 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
               <option value='/customer-wallets'>Customer Wallets</option>
             </select>
           </div>
-
           <Button
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.SMALL }
