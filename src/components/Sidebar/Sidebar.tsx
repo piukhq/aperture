@@ -161,41 +161,43 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
           </div>
         </div>
 
-        <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
-          <div className='mt-5 overflow-hidden'>
-            {getSidebarOptions().map(option => {
-              const selected = selectedTool === option || selectedTool.includes(option)
-              // Not the most robust way to handle subheadings but it is fine till the sidebar grows
-              return (
-                <>
-                  {option === 'mid-management' && <h2 className={sidebarSubHeadingClasses}>MID Management</h2>}
-                  {option === 'asset-comparator' && <h2 className={sidebarSubHeadingClasses}>Plan Management</h2>}
-                  {option === 'customer-wallets' && <h2 className={sidebarSubHeadingClasses}>Customer Support</h2>}
-                  <SidebarOption key={option} option={option} selected={selected} />
-                </>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className='absolute bottom-[45px] w-full flex flex-col items-center'>
-          {process.env.NEXT_PUBLIC_ENV !== 'production' && (
-            <div className='mb-[20px]'>
-              <label className='flex items-center font-bold dark:text-white'>
-                Enable API Reflector
-                <input className='ml-[20px]' type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
-              </label>
+        <div className='flex flex-col justify-between h-[90%]'>
+          <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
+            <div className='mt-5 overflow-hidden h-[90%]'>
+              {getSidebarOptions().map(option => {
+                const selected = selectedTool === option || selectedTool.includes(option)
+                // Not the most robust way to handle subheadings but it is fine till the sidebar grows
+                return (
+                  <>
+                    {option === 'mid-management' && <h2 className={sidebarSubHeadingClasses}>MID Management</h2>}
+                    {option === 'asset-comparator' && <h2 className={sidebarSubHeadingClasses}>Plan Management</h2>}
+                    {option === 'customer-wallets' && <h2 className={sidebarSubHeadingClasses}>Customer Support</h2>}
+                    <SidebarOption key={option} option={option} selected={selected} />
+                  </>
+                )
+              })}
             </div>
-          )}
+          </div>
 
-          <Button
-            buttonType={ButtonType.SUBMIT}
-            buttonSize={ButtonSize.MEDIUM}
-            buttonBackground={ButtonBackground.RED}
-            buttonWidth={ButtonWidth.MEDIUM}
-            labelWeight={LabelWeight.SEMIBOLD}
-            handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
-          >Log out</Button>
+          <div className='w-full flex flex-col items-center pb-6'>
+            {process.env.NEXT_PUBLIC_ENV !== 'production' && (
+              <div className='mb-[20px]'>
+                <label className='flex items-center font-bold dark:text-white'>
+                Enable API Reflector
+                  <input className='ml-[20px]' type='checkbox' checked={isApiReflectorEnabled} onChange={() => dispatch(toggleUseApiReflector())} />
+                </label>
+              </div>
+            )}
+
+            <Button
+              buttonType={ButtonType.SUBMIT}
+              buttonSize={ButtonSize.MEDIUM}
+              buttonBackground={ButtonBackground.RED}
+              buttonWidth={ButtonWidth.MEDIUM}
+              labelWeight={LabelWeight.SEMIBOLD}
+              handleClick={() => dispatch(requestModal(ModalType.LOGOUT))}
+            >Log out</Button>
+          </div>
         </div>
       </nav>
     </div>
