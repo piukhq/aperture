@@ -74,7 +74,7 @@ describe('MID Management DirectoryPage', () => {
   describe('Test header content', () => {
     it('should render correct heading and sub heading text', () => {
       const {getByText} = render(getDirectoryPageComponent())
-      expect(getByText('MID Management')).toBeInTheDocument()
+      expect(getByText('MID Directory')).toBeInTheDocument()
       expect(getByText('Create, view and manage MIDs for the plans configured on the platform')).toBeInTheDocument()
     })
 

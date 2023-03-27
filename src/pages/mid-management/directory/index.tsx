@@ -136,7 +136,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <PageLayout>
-      <h3 className='font-heading-3 mb-[5px]'>MID Management</h3>
+      <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
       <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
       <div className='flex justify-end'>
         <Button
