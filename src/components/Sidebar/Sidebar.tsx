@@ -161,7 +161,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
           </div>
         </div>
 
-        <div className='flex flex-col justify-between h-[90%]'>
+        <div className='flex flex-col justify-between h-[90%] overflow-auto'>
           <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
             <div className='mt-5 overflow-hidden h-[90%]'>
               {getSidebarOptions().map(option => {
