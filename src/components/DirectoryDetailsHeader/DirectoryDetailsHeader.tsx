@@ -20,16 +20,6 @@ type Props = {
 const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locationLabel, newItemButtonHandler, optionsMenuItems}: Props) => {
 
   const isMobileViewport = useIsMobileViewportDimensions()
-  const renderLocationLabel = () => (
-    <>
-      <div className='flex flex-col ml-[15%]'>
-        <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Location Label</p>
-      </div>
-      <div className='flex flex-col ml-[10%]'>
-        <p className='font-subheading-3'>{locationLabel}</p>
-      </div>
-    </>
-  )
 
   const renderNewMerchantButton = () => (
     <Button
@@ -45,11 +35,11 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
   )
 
   const renderIconImage = () => (
-    <div className={isMobileViewport ? 'ml-[0px]' : 'ml-[40px]'}>
+    <div className='ml-[10px]'>
       {/* Icon image div to provide top border shadow */}
-      <div className={`flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md ${isMobileViewport ? 'scale-75 -translate-y-[15px]' : '-translate-y-[50px]'} `} />
+      <div className={'flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md translate-y-[50px]'} />
       {/* Icon image div container */}
-      <div className={`z-20 flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d] ${isMobileViewport ? 'scale-75 -translate-y-[195px]' : '-translate-y-[230px]'} `}>
+      <div className={'z-20 flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d] -translate-y-[130px]'}>
         {iconUrl ? <Image className='z-40 absolute rounded-[30px]' src={iconUrl} height={165} width={165} alt='' data-testid='icon-image' /> :
           <div data-testid='icon-placeholder' className='flex justify-center items-center rounded-[30px] h-[160px] w-[160px] bg-grey-200 dark:bg-grey-400'>
             <h1 className='font-heading-1 text-grey-900' aria-hidden>{name.charAt(0)}</h1>
@@ -59,24 +49,33 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
     </div>
   )
 
-  return (
+  const renderLocationLabel = () => (
     <>
-      <div className={`${!isMobileViewport && 'ml-[245px]'}`}>
+      <p className='font-subheading-5 text-grey-600 dark:text-grey-500 max-w-[100px]'>Location Label</p>
+      <p className='font-subheading-3'>{locationLabel}</p>
+    </>
+  )
+
+  return (
+    <div className={`${isMobileViewport ? 'min-w-[580px]' : 'min-w-[720px]'}`}>
+      <div className={`${!isMobileViewport && 'ml-[225px]'}`}>
         <DirectoryBreadcrumb />
       </div>
-      <div className=' flex rounded-[10px]  h-[152px] mt-[15px] pr-[16px] bg-white dark:bg-grey-825 shadow-md'>
-        {renderIconImage()}
-        <div className='flex justify-between flex-1 pt-[20px] pl-[50px] pb-[32px]'>
-          <div>
-            <h3 className={`${isMobileViewport ? 'font-heading-5' : 'font-heading-3'} mb-[8px] mr-4`}>{name}</h3>
-            <div className='flex flex-row w-full'>
-              <div className='flex flex-col min-w-[74px]'>
-                <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Slug</p>
-                <p className='font-subheading-5 text-grey-600 dark:text-grey-500'>Scheme ID</p>
-              </div>
-              <div className='flex flex-col ml-[10%]'>
-                <p className='font-subheading-3'>{slug}</p>
-                <p className='font-subheading-3'>{planId}</p>
+      <div className=' flex rounded-[10px] items-center h-[152px] mt-[15px] px-[16px] bg-white dark:bg-grey-825 shadow-md'>
+        {!isMobileViewport && renderIconImage()}
+        <div className={`flex justify-between flex-1 pt-[20px] pb-[32px] ${!isMobileViewport && 'pl-[40px]'}`}>
+          <div className='w-full'>
+            <h3 className={'font-heading-4 mb-[8px] mr-4'}>{name}</h3>
+            <div className='flex flex-row w-full gap-6'>
+              <div className='flex flex-col'>
+                <div className='flex'>
+                  <p className='font-subheading-5 text-grey-600 dark:text-grey-500 w-[100px]'>Slug</p>
+                  <p className='font-subheading-3 w-[120px]'>{slug}</p>
+                </div>
+                <div className='flex'>
+                  <p className='font-subheading-5 text-grey-600 dark:text-grey-500 w-[100px]'>Scheme ID</p>
+                  <p className='font-subheading-3 w-[120px]'>{planId}</p>
+                </div>
               </div>
               { isMerchant && renderLocationLabel()}
             </div>
@@ -90,7 +89,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
