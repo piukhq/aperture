@@ -86,7 +86,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
 
       <div className='flex flex-col items-center mt-[28px]'>
         {renderIcon()}
-        <p className='font-heading-5 mt-[5px]'>{name}</p>
+        <p className='font-heading-5 mt-[5px] px-4'>{name}</p>
         <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 
         <div className='flex mt-[16px] mb-[20px] w-[218px] justify-between'>

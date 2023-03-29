@@ -70,7 +70,7 @@ const AssetGrid = ({planAssets}: Props) => {
   )
 
   return (
-    <div className='grid grid-cols-4 gap-2 grid-flow-col w-full text-center mt-[10px]'>
+    <div className='grid grid-cols-4 gap-2 grid-flow-col w-full text-center mt-[10px] p-2'>
       <div className='flex flex-col'>{renderLabelColumnContents()}</div>
       <div className='flex flex-col'>{dev && renderAssetColumnContents(EnvironmentShortName.DEV)}</div>
       <div className='flex flex-col'>{staging && renderAssetColumnContents(EnvironmentShortName.STAGING)}</div>
