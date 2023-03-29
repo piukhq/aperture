@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 import {SelectedPlans} from 'types'
 import {PlanCategory} from 'utils/enums'
+import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
 type Props = {
   hasNoCategoryValues: boolean
@@ -27,6 +28,7 @@ const CategoryDetails = ({
   totalMatchingCategoryValues,
 }: Props) => {
 
+  const isMobileViewport = useIsMobileViewportDimensions()
   // Fade in the component
   const [isMounted, setIsMounted] = useState(false)
   useEffect(() => {
@@ -120,7 +122,7 @@ const CategoryDetails = ({
         {categoryAcrossEnvsArray.map((category, index) => (
           <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
             <p className='font-heading-8 font-bold'>{capitaliseFirstLetter(Object.keys(plans)[index])}</p>
-            <p className='font-body-3'>{isArray ? renderCategoryArray(category[categoryKey]) : renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
+            <p className='font-body-3 break-words w-full font-body-4'>{isArray ? renderCategoryArray(category[categoryKey]) : renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
           </div>
         ))
         }
@@ -129,7 +131,7 @@ const CategoryDetails = ({
   }
 
   return (
-    <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] hover:shadow-md open:shadow-md ${isMounted ? 'opacity-100' : 'opacity-0'} 
+    <details key={category} className={`mt-[30px] rounded-[10px] p-[20px] hover:shadow-md open:shadow-md ${isMobileViewport ? 'w-[550px]' : 'w-[750px]'} ${isMounted ? 'opacity-100' : 'opacity-0'} 
     duration-300 ease-in-out origin-top ${hasNoCategoryValues ? 'bg-grey-200 dark:bg-grey-800 hover:bg-grey-200/75 hover:dark:bg-grey-800/75' : hasAllCategoryValuesMatching ? 'bg-green/20 hover:bg-green/25' : 'bg-red/20 hover:bg-red/25 hover:open:bg-red/20'}`}>
       <summary className='w-full cursor-pointer font-heading-5 text-grey-800 dark:text-grey-100'>
         {capitaliseFirstLetter(category)}{' '}<span className='italic font-body-3 ml-1 text-grey-800 dark:text-grey-100'>({renderCategorySummaryInformation()})</span>
