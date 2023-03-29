@@ -57,7 +57,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
     const {scheme_slug: schemeSlug, count} = paymentScheme
     return (
       <div key={schemeSlug} className='flex flex-col items-center'>
-        <p className='font-subheading-4'>{schemeSlug.toLocaleUpperCase()}</p>
+        <p className='font-subheading-4'>{schemeSlug?.toLocaleUpperCase()}</p>
         <p className='font-heading-5'>{count}</p>
       </div>
     )
