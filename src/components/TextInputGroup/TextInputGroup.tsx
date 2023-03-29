@@ -30,6 +30,7 @@ type Props = {
   autofocus?: boolean
   value?: string
   ariaRequired?: boolean
+  maxLength?: number
   selectValues?: SelectItem[]
   selectedValue?: SelectItem
   borderShadow?: boolean
@@ -52,6 +53,7 @@ const TextInputGroup = (props: Props) => {
     placeholder,
     autofocus,
     value,
+    maxLength,
     ariaRequired,
     selectValues,
     selectedValue,
@@ -87,6 +89,7 @@ const TextInputGroup = (props: Props) => {
       name={name}
       id={`bink-form-field-${name}`}
       placeholder={placeholder}
+      maxLength={maxLength}
       value={value}
       onChange={onChange}
       className={classNames(
