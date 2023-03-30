@@ -9,7 +9,7 @@ type Props = {
 }
 
 const DirectoryMerchantPaginationButton = ({currentData, setPageFn}: Props) => {
-  if (currentData && currentData.length % 10 === 0 && currentData.length !== 0) {
+  if (currentData && currentData.length % 20 === 0 && currentData.length !== 0) { // TODO: Replace with logic to check counts once implemented in API
     return <div className='w-full flex justify-center p-4'>
       <Button
         handleClick={() => setPageFn((prevPage: number) => prevPage + 1)}
