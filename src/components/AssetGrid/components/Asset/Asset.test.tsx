@@ -57,7 +57,7 @@ describe('Asset', () => {
 
     it('should render the asset image with correct alt-text', () => {
       render(getAssetComponent())
-      const assetImage = screen.getByAltText(`${mockImageEnv} ${mockAssetType.heading} ${mockAssetType.hasMultipleImagesOfThisType && mockTypeIndex + 1}`)
+      const assetImage = screen.getByAltText(`${mockImageEnv} ${mockAssetType.heading}`)
 
       expect(assetImage).toBeInTheDocument()
     })

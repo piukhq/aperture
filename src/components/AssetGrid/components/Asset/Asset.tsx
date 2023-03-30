@@ -66,7 +66,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       <button aria-label={`${imageEnv} ${description || assetType.heading}`} onClick={handleAssetClick}>
         <Image
           className={imageClasses}
-          alt={`${imageEnv} ${assetType.heading} ${assetType.hasMultipleImagesOfThisType && typeIndex + 1}`}
+          alt={`${imageEnv} ${assetType.heading}`}
           width={150}
           height={73}
           objectFit='contain'

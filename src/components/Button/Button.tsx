@@ -61,6 +61,7 @@ const Button = (props: ButtonProps) => {
 
   return (
     <button
+      id={ariaLabel ? ariaLabel : `${children}-button`} // Used for QA Automation Testing to more easily target buttons
       className={classNames(
         BUTTON_SIZE_MAPS[buttonSize],
         BUTTON_WIDTH_MAPS[buttonWidth],

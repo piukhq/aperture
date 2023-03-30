@@ -164,6 +164,7 @@ const DirectoryPlanModal = () => {
         name='plan-id'
         label='Plan ID'
         error={planIdValidationError}
+        maxLength={9} // TODO: raise this limit once the int size is increased in the API
         value={planIdValue}
         onChange={handlePlanIdChange}
         onFocus={() => setPlanIdValidationError(null)}

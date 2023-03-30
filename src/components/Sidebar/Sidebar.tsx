@@ -95,7 +95,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     }
     return (
       <>
-        <div className='flex items-center justify-between  w-full min-w-[650px] px-12 py-3 bg-grey-200 dark:bg-grey-900'>
+        <div className='flex items-center justify-between w-full px-12 py-3 bg-grey-200 dark:bg-grey-900'>
           <div className='flex'>
             {renderApertureLink(false)}
             <select className='w-34 font-heading-7 italic text-2xs uppercase p-1 m-1 bg-transparent col-span-10' value={currentLocation} onChange={handleTopBarSelectChange()}>
@@ -161,7 +161,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
           </div>
         </div>
 
-        <div className='flex flex-col justify-between h-[90%]'>
+        <div className='flex flex-col justify-between h-[90%] overflow-auto'>
           <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
             <div className='mt-5 overflow-hidden h-[90%]'>
               {getSidebarOptions().map(option => {
