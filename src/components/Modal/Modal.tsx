@@ -78,7 +78,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     <FocusTrap>
       <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
         <div className={`fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`} onClick={handleClose} />
-        <div className='absolute z-50 m-auto left-0 right-0' onClick={handleClose}>
+        <div className='fixed z-50 m-auto left-0 right-0' onClick={handleClose}>
           {renderModal()}
         </div>
       </div>
