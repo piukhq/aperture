@@ -16,11 +16,14 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const selectedJwtToken = useAppSelector(getJwtToken)
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
+  const [errorMessage, setErrorMessage] = useState('')
   const [lookupValue, setLookupValue] = useState('')
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
     lookupValue.length > 0 && lookupTypeValue === 'JWT' && jwtCustomerLookup(lookupValue, lookupTypeValue)
+    hasErrorOccurred && selectedJwtToken && lookupValue.length > 0 && setErrorMessage('Your search didn\'t return any results. Please try again')
+    lookupValue.length === 0 && setErrorMessage('Enter JWT to load user')
   }
 
   return (
@@ -50,9 +53,9 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
           </div>
 
           <div className='mt-[5px]'>
-            {hasErrorOccurred && selectedJwtToken && (
+            {errorMessage && (
               <p className='text-body text-[.75rem] text-red' data-testid='error-message'>
-                Your search didn&apos;t return any results. Please try again
+                {errorMessage}
               </p>
             )}
           </div>
