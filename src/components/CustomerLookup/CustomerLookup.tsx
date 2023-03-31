@@ -13,9 +13,8 @@ type Props = {
 const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
-  const [errorMessage, setErrorMessage] = useState('')
   const [lookupValue, setLookupValue] = useState('')
-
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLookupValue(e.target.value)
