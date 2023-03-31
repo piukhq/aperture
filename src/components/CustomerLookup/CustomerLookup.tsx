@@ -1,9 +1,7 @@
-import {useState, FormEvent} from 'react'
+import {useState, FormEvent, useEffect} from 'react'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
-import {useAppSelector} from 'app/hooks'
-import {getJwtToken} from 'features/customerWalletSlice'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
 
@@ -13,15 +11,29 @@ type Props = {
 }
 
 const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
-  const selectedJwtToken = useAppSelector(getJwtToken)
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLookupValue(e.target.value)
+    setErrorMessage('')
+  }
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    lookupValue.length > 0 && lookupTypeValue === 'JWT' && jwtCustomerLookup(lookupValue, lookupTypeValue)
+    setErrorMessage('')
+    if (lookupValue.length > 0 && lookupTypeValue === 'JWT') {
+      jwtCustomerLookup(lookupValue, lookupTypeValue)
+    } else if (lookupValue.length === 0) {
+      setErrorMessage('Enter JWT to load user')
+    }
   }
+
+  useEffect(() => {
+    hasErrorOccurred && lookupTypeValue.length > 0 && setErrorMessage('Your search didn\'t return any results. Please try again')
+  }, [hasErrorOccurred, lookupTypeValue.length])
 
   return (
     <>
@@ -39,7 +51,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
               error={null}
               value={lookupValue}
               ariaRequired
-              onChange={(e) => setLookupValue(e.target.value)}
+              onChange={handleTextChange}
               inputType={InputType.SEARCH}
               inputStyle={InputStyle.ICON_LEFT}
               inputWidth={InputWidth.FULL}
@@ -50,9 +62,9 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
           </div>
 
           <div className='mt-[5px]'>
-            {hasErrorOccurred && selectedJwtToken && (
+            {errorMessage && (
               <p className='text-body text-[.75rem] text-red' data-testid='error-message'>
-                Your search didn&apos;t return any results. Please try again
+                {errorMessage}
               </p>
             )}
           </div>

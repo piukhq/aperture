@@ -51,10 +51,10 @@ describe('CustomerLookup', () => {
       expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
     })
 
-    it('should render the error message', () => {
+    it('should render the failed search error message', () => {
       mockHasErrorOccurred = true
       render(getCustomerLookupComponent())
-      expect(screen.getByTestId('error-message')).toBeInTheDocument()
+      expect(screen.getByTestId('error-message')).toHaveTextContent('Your search didn\'t return any results. Please try again')
     })
   })
 
@@ -68,6 +68,7 @@ describe('CustomerLookup', () => {
         .fn()
         .mockReturnValueOnce(['Not Valid Lookup Value', jest.fn()]) // Invalid LookupTypeValue state value
         .mockReturnValueOnce(['', jest.fn()]) // Invalid lookupValue state value
+        .mockReturnValueOnce(['', jest.fn()]) // Invalid ErrorMessage state value
 
       render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
@@ -81,6 +82,7 @@ describe('CustomerLookup', () => {
         .fn()
         .mockReturnValueOnce(['JWT', jest.fn()]) // Valid LookupTypeValue state value
         .mockReturnValueOnce(['mock_token_string', jest.fn()]) // Valid lookupValue state value
+        .mockReturnValueOnce(['', jest.fn()]) // Invalid ErrorMessage state value
 
       render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
