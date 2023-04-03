@@ -32,8 +32,8 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   }
 
   useEffect(() => {
-    hasErrorOccurred && lookupTypeValue.length > 0 && setErrorMessage('Your search didn\'t return any results. Please try again')
-  }, [hasErrorOccurred, lookupTypeValue.length])
+    hasErrorOccurred && lookupValue.length > 0 && setErrorMessage('Your search didn\'t return any results. Please try again')
+  }, [hasErrorOccurred, lookupValue.length])
 
   return (
     <>
