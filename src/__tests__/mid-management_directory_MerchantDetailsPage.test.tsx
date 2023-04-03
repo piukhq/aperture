@@ -30,6 +30,15 @@ const mockGetMerchantResponse = {
   merchant_ref: 'mock_merchant_ref',
   plan_metadata: {},
   merchant_metadata: {},
+  merchant_counts: {
+    total_locations: 5,
+    payment_schemes: [{
+      slug: 'visa',
+      mids: 1,
+      secondary_mids: 2,
+      psimis: 3,
+    }],
+  },
 }
 
 jest.mock('hooks/useMidManagementMerchants', () => ({
@@ -88,10 +97,10 @@ describe('MID Management MerchantDetailsPage', () => {
   })
 
   describe('Test MIDs', () => {
-    it('should render the MIDs button', () => {
+    it('should render the MIDs button with count', () => {
       render(getMerchantDetailsPageComponent())
       const midsButton = screen.getByRole('button', {
-        name: 'MIDs',
+        name: 'MIDs (1)',
       })
 
       expect(midsButton).toBeInTheDocument()
@@ -106,10 +115,10 @@ describe('MID Management MerchantDetailsPage', () => {
   })
 
   describe('Test Secondary MIDs', () => {
-    it('should render Secondary MIDs button', () => {
+    it('should render Secondary MIDs button with correct count', () => {
       render(getMerchantDetailsPageComponent())
       const secondaryMidsButton = screen.getByRole('button', {
-        name: 'Secondary MIDs',
+        name: 'Secondary MIDs (2)',
       })
 
       expect(secondaryMidsButton).toBeInTheDocument()
@@ -118,10 +127,10 @@ describe('MID Management MerchantDetailsPage', () => {
   })
 
   describe('Test Locations', () => {
-    it('should render Locations button', () => {
+    it('should render Locations button with correct count', () => {
       render(getMerchantDetailsPageComponent())
       const locationsButton = screen.getByRole('button', {
-        name: 'Locations',
+        name: 'Locations (5)',
       })
 
       expect(locationsButton).toBeInTheDocument()
@@ -141,10 +150,10 @@ describe('MID Management MerchantDetailsPage', () => {
       }))
     })
 
-    it('should render Psimis button', () => {
+    it('should render Psimis button with correct count', () => {
       render(getMerchantDetailsPageComponent())
       const psimisButton = screen.getByRole('button', {
-        name: 'PSIMIs',
+        name: 'PSIMIs (3)',
       })
       expect(psimisButton).toBeInTheDocument()
     })
