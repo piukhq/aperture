@@ -1,12 +1,13 @@
 import {useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
 import Link from 'next/link'
-import {Button} from 'components'
-import {DirectoryMerchantLocationForm} from 'components'
+import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {UserPermissions} from 'utils/enums'
+import {useAppDispatch} from 'app/hooks'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 
 type Props = {
   location: DirectoryLocation,
@@ -17,6 +18,7 @@ type Props = {
 
 const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditState, onCancelEditState}: Props) => {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   const {merchantId, planId, ref} = router.query
 
   const {
@@ -50,7 +52,8 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
       secondaryMidRef: '',
       ...locationMetadata,
     })
-  }, [postMerchantLocationSubLocation, planId, merchantId, ref])
+    dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
+  }, [postMerchantLocationSubLocation, planId, merchantId, ref, dispatch])
 
   const renderNewSubLocationForm = () => (
     <DirectoryMerchantLocationForm

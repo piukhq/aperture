@@ -1,9 +1,12 @@
 import {useState, FormEvent, useEffect} from 'react'
 import {Button, TextInputGroup, Dropdown} from 'components'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {getJwtToken, setJwtToken} from 'features/customerWalletSlice'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
+
 
 type Props = {
   jwtCustomerLookup: (criteria: string, type: string) => void,
@@ -11,6 +14,8 @@ type Props = {
 }
 
 const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
+  const selectedJwtToken = useAppSelector(getJwtToken)
+  const dispatch = useAppDispatch()
   const lookupTypeValues = ['JWT']
   const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState('')
@@ -19,6 +24,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLookupValue(e.target.value)
     setErrorMessage('')
+    selectedJwtToken && dispatch(setJwtToken(null))
   }
 
   const handleSubmit = (e: FormEvent) => {
@@ -32,8 +38,8 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   }
 
   useEffect(() => {
-    hasErrorOccurred && lookupValue.length > 0 && setErrorMessage('Your search didn\'t return any results. Please try again')
-  }, [hasErrorOccurred, lookupValue.length])
+    hasErrorOccurred && selectedJwtToken && setErrorMessage('Your search didn\'t return any results. Please try again')
+  }, [hasErrorOccurred, lookupValue.length, selectedJwtToken])
 
   return (
     <>

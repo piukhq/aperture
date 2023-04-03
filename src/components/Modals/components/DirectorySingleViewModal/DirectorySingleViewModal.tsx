@@ -8,6 +8,7 @@ import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} fr
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
 import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
@@ -89,15 +90,11 @@ const DirectorySingleViewModal = () => {
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
   const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState(false)
-
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
   const [isEntityFound, setIsEntityFound] = useState(false)
-
   const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
-
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const dispatch = useAppDispatch()
-
   const singleViewEntityLabel = DirectorySingleViewEntities[tab as string]
 
   const closeSingleViewModal = useCallback(() => {
@@ -112,26 +109,12 @@ const DirectorySingleViewModal = () => {
       deleteMerchantSecondaryMidIsSuccess && resetDeleteMerchantSecondaryMidResponse()
       deleteMerchantLocationIsSuccess && resetDeleteMerchantLocationResponse()
       deleteMerchantPsimiIsSuccess && resetDeleteMerchantPsimiResponse()
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       closeSingleViewModal()
     } else if (deleteMerchantMidError || deleteMerchantSecondaryMidError || deleteMerchantLocationError || deleteMerchantPsimiError) {
       setErrorMessage(`Failed to delete ${singleViewEntityLabel}`)
     }
-  }, [
-    closeSingleViewModal,
-    singleViewEntityLabel,
-    deleteMerchantMidIsSuccess,
-    deleteMerchantSecondaryMidIsSuccess,
-    deleteMerchantLocationIsSuccess,
-    deleteMerchantPsimiIsSuccess,
-    deleteMerchantMidError,
-    deleteMerchantSecondaryMidError,
-    deleteMerchantLocationError,
-    deleteMerchantPsimiError,
-    resetDeleteMerchantMidResponse,
-    resetDeleteMerchantSecondaryMidResponse,
-    resetDeleteMerchantLocationResponse,
-    resetDeleteMerchantPsimiResponse,
-  ])
+  }, [closeSingleViewModal, singleViewEntityLabel, deleteMerchantMidIsSuccess, deleteMerchantSecondaryMidIsSuccess, deleteMerchantLocationIsSuccess, deleteMerchantPsimiIsSuccess, deleteMerchantMidError, deleteMerchantSecondaryMidError, deleteMerchantLocationError, deleteMerchantPsimiError, resetDeleteMerchantMidResponse, resetDeleteMerchantSecondaryMidResponse, resetDeleteMerchantLocationResponse, resetDeleteMerchantPsimiResponse, dispatch])
 
   const handleCopyLinkClick = () => {
     navigator.clipboard.writeText(window.location.href)

@@ -21,7 +21,7 @@ import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import TableSvg from 'icons/svgs/table.svg'
-import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant, DirectoryMerchant} from 'types'
+import {OptionsMenuItems, DirectoryPlanDetails, DirectorySingleMerchant, DirectorySingleMerchantCountsPaymentScheme} from 'types'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 
@@ -56,7 +56,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const planDetails: DirectoryPlanDetails = getPlanResponse
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-  const merchant: DirectorySingleMerchant | DirectoryMerchant = getMerchantResponse
+  const merchant: DirectorySingleMerchant = getMerchantResponse
 
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
@@ -85,11 +85,24 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-heading-8 h-[51px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white border-b-2 border-b-blue'
-    const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white  hover:text-grey-900'
+    const tabUnselectedClasses = 'font-heading-8 h-[51px] font-regular text-sm text-grey-600 dark:text-grey-400 bg-white dark:bg-grey-825 dark:hover:text-white hover:text-grey-900'
     const handleNavigationClick = (selectedTab: string) => {
       router.replace(`${baseUrl}?tab=${selectedTab}`)
       dispatch(setSelectedDirectoryTableCheckedRows([]))
     }
+
+
+    const renderCount = (navigationKey: string) => {
+      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = merchant.merchant_counts
+      const getCount = (tab: string) => paymentSchemes.reduce((acc: number, paymentScheme: DirectorySingleMerchantCountsPaymentScheme) => {
+        return acc + paymentScheme[tab]
+      }, 0)
+
+      return <span className={`${DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses} h-full border-b-0 ml-1`}>
+          ({navigationKey === 'LOCATIONS' ? totalLocations : getCount(navigationKey.toLocaleLowerCase())})
+      </span>
+    }
+
 
     return Object.keys(DirectoryNavigationTab).map(navigationKey => (
       <button
@@ -97,7 +110,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
         className={DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
         onClick={() => handleNavigationClick(DirectoryNavigationTab[navigationKey])}
       >
-        <span className='place-content-center flex h-[51px] items-center'>{NavigationLabel[navigationKey]}</span>
+        <span className='flex justify-center items-center'>{NavigationLabel[navigationKey]} {renderCount(navigationKey)}</span>
       </button>
     ))
   }
@@ -130,7 +143,6 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
   }
-
 
   const optionsMenuItems:OptionsMenuItems = [
     {

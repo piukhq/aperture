@@ -9,6 +9,7 @@ import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {isNumberOnlyString} from 'utils/validation'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -51,6 +52,7 @@ const DirectoryMidModal = () => {
       resetPostMerchantMidResponse()
       reset()
       dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed, and is used for merchants page
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])

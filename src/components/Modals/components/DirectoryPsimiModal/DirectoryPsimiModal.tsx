@@ -6,6 +6,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
@@ -49,7 +50,9 @@ const DirectoryPsimiModal = () => {
       handlePostMerchantPsimiError()
     } else if (postMerchantPsimiResponse) {
       resetPostMerchantPsimiResponse()
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
+
     }
   }, [postMerchantPsimiError, resetPostMerchantPsimiResponse, handlePostMerchantPsimiError, postMerchantPsimiResponse, dispatch])
 

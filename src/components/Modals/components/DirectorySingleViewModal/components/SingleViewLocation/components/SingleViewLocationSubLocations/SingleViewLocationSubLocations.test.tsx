@@ -1,5 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
+import configureStore from 'redux-mock-store'
+import {Provider} from 'react-redux'
 import SingleViewLocationSubLocations from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationSubLocations'
 import {PaymentSchemeSlug} from 'utils/enums'
 
@@ -47,13 +49,19 @@ jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
   })),
 }))
 
+const mockStoreFn = configureStore([])
+const store = mockStoreFn({})
+
 const getSingleViewSubLocationsComponent = (passedProps = {}) => (
-  <SingleViewLocationSubLocations
-    location={mockLocation}
-    isInEditState={false}
-    setIsInEditState={jest.fn()}
-    onCancelEditState={jest.fn()}
-    {...passedProps} />
+  <Provider store={store}>
+    <SingleViewLocationSubLocations
+      location={mockLocation}
+      isInEditState={false}
+      setIsInEditState={jest.fn()}
+      onCancelEditState={jest.fn()}
+      {...passedProps}
+    />
+  </Provider>
 )
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')

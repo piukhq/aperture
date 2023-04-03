@@ -24,15 +24,15 @@ const DirectoryMerchantDeleteModal = () => {
   const [nameValue, setNameValue] = useState('')
   const [nameValidationError, setNameValidationError] = useState(null)
 
+  console.log(merchantCounts)
   const {
     deleteMerchant,
     deleteMerchantIsSuccess,
     deleteMerchantError,
     resetDeleteMerchantResponse,
-    getMerchantCountsResponse,
+    getMerchantResponse,
   } = useMidManagementMerchants({
-    skipGetMerchantCounts: merchantCounts !== null,
-    skipGetMerchant: true,
+    skipGetMerchantCounts: true,
     planRef: planId as string,
     merchantRef: merchantId as string,
   })
@@ -41,11 +41,15 @@ const DirectoryMerchantDeleteModal = () => {
   const {name, location_label: locationLabel} = merchantMetadata
 
   useEffect(() => {
-    if (getMerchantCountsResponse) {
-      setLocationsCount(getMerchantCountsResponse.locations_count)
-      setMidsCount(getMerchantCountsResponse.mids_count)
+    if (getMerchantResponse) {
+      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = getMerchantResponse.merchant_counts
+      const totalMids = paymentSchemes.reduce((acc, paymentScheme) => {
+        return acc + paymentScheme.mids + paymentScheme.secondary_mids + paymentScheme.psimis
+      }, 0)
+      setLocationsCount(totalLocations)
+      setMidsCount(totalMids)
     }
-  }, [getMerchantCountsResponse, merchantCounts])
+  }, [getMerchantResponse, merchantCounts])
 
   const handleDeleteMerchantError = useCallback(() => {
     const {data} = deleteMerchantError as RTKQueryErrorResponse
@@ -123,7 +127,7 @@ const DirectoryMerchantDeleteModal = () => {
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader='Delete Merchant' onCloseFn={() => dispatch(reset())}>
-      {merchantCounts || getMerchantCountsResponse ? renderDeleteForm() : <i className='font-body-4'>Loading...</i>}
+      {merchantCounts || getMerchantResponse ? renderDeleteForm() : <i className='font-body-4'>Loading...</i>}
     </Modal>
   )
 }

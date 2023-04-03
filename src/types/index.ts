@@ -148,6 +148,7 @@ export type DirectorySingleMerchant = { // Matches the response from GET Merchan
   merchant_ref: string,
   plan_metadata: DirectoryPlanMetadata,
   merchant_metadata: DirectoryMerchantMetadata,
+  merchant_counts: DirectorySingleMerchantCounts,
 }
 
 export type DirectoryMerchant = { // Matches the response from GET Merchants
@@ -167,9 +168,18 @@ export type DirectoryMerchantCounts = { // The counts found in the response from
   payment_schemes: Array<PaymentScheme>,
 }
 
-export type DirectorySingleMerchantCounts = { // The counts via the merchant counts endpoint
-  locations_count: number,
-  mids_count: number,
+export type DirectorySingleMerchantCounts = { // The counts via the GET Merchant response
+  locations: number,
+  sub_locations: number,
+  total_locations: number,
+  payment_schemes: DirectorySingleMerchantCountsPaymentScheme[],
+}
+
+export type DirectorySingleMerchantCountsPaymentScheme = {
+  slug: PaymentSchemeSlug,
+  mids: number,
+  secondary_mids: number,
+  psimis: number,
 }
 
 export type DirectoryMidMetadata = {

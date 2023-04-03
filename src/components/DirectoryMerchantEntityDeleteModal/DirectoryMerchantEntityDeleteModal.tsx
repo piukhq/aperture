@@ -7,6 +7,7 @@ import {requestModal} from 'features/modalSlice'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantEntitySelectedItem, RTKQueryErrorResponse} from 'types'
 import {setSelectedDirectoryTableCheckedRows, setSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 
 type Props = {
   entitiesToBeDeleted: DirectoryMerchantEntitySelectedItem[],
@@ -45,6 +46,7 @@ const DirectoryMerchantEntityDeleteModal = ({
     } else if (isDeleteSuccess) {
       resetDeleteResponseFn()
       dispatch(setSelectedDirectoryTableCheckedRows([]))
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [deleteError, dispatch, handleDeleteError, isDeleteSuccess, resetDeleteResponseFn])
