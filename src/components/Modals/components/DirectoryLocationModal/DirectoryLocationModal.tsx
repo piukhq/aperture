@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {midManagementPlansApi} from 'services/midManagementPlans'
 import {getLocationLabel, reset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
@@ -68,6 +69,7 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationError)
     } else if (postMerchantLocationIsSuccess) {
       resetPostMerchantLocationResponse()
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
@@ -83,6 +85,7 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationSubLocationError)
     } else if (postMerchantLocationSubLocationIsSuccess) {
       resetPostMerchantLocationSubLocationResponse()
+      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
@@ -117,6 +120,7 @@ const DirectoryLocationModal = () => {
         ...locationMetadata,
       })
     }
+
     dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as location count has changed
   }, [parentLocation, dispatch, locationList, postMerchantLocationSubLocation, planId, merchantId, postMerchantLocation])
 
