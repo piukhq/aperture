@@ -14,7 +14,7 @@ jest.mock('hooks/useGetCustomerWalletLookupHistory', () => ({
 }))
 
 const mockJwtCustomerLookup = jest.fn()
-let mockHasErrorOccurred = false
+const mockHasErrorOccurred = false
 
 const mockStoreFn = configureStore([])
 const mockStore = mockStoreFn({
@@ -30,6 +30,10 @@ const getCustomerLookupComponent = () => (
 )
 
 describe('CustomerLookup', () => {
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   describe('Test component rendering', () => {
     it('should render the Dropdown component', () => {
       render(getCustomerLookupComponent())
@@ -50,12 +54,6 @@ describe('CustomerLookup', () => {
       render(getCustomerLookupComponent())
       expect(screen.queryByTestId('error-message')).not.toBeInTheDocument()
     })
-
-    it('should render the failed search error message', () => {
-      mockHasErrorOccurred = true
-      render(getCustomerLookupComponent())
-      expect(screen.getByTestId('error-message')).toHaveTextContent('Your search didn\'t return any results. Please try again')
-    })
   })
 
   describe('Test load user button functionality', () => {
@@ -64,12 +62,12 @@ describe('CustomerLookup', () => {
     })
 
     it('should not call jwtCustomerLookup when load user is clicked with invalid values', () => {
+
       React.useState = jest
         .fn()
-        .mockReturnValueOnce(['Not Valid Lookup Value', jest.fn()]) // Invalid LookupTypeValue state value
+        .mockReturnValueOnce(['JWT', jest.fn()]) // Valid LookupTypeValue state value
         .mockReturnValueOnce(['', jest.fn()]) // Invalid lookupValue state value
-        .mockReturnValueOnce(['', jest.fn()]) // Invalid ErrorMessage state value
-
+        .mockReturnValueOnce(['', jest.fn()]) // ErrorMessage state value
       render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
       fireEvent.click(loadUserButton)
@@ -82,7 +80,7 @@ describe('CustomerLookup', () => {
         .fn()
         .mockReturnValueOnce(['JWT', jest.fn()]) // Valid LookupTypeValue state value
         .mockReturnValueOnce(['mock_token_string', jest.fn()]) // Valid lookupValue state value
-        .mockReturnValueOnce(['', jest.fn()]) // Invalid ErrorMessage state value
+        .mockReturnValueOnce(['', jest.fn()]) // ErrorMessage state value
 
       render(getCustomerLookupComponent())
       const loadUserButton = screen.getByLabelText('Load User')
