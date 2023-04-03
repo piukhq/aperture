@@ -150,7 +150,6 @@ const DirectorySingleViewModal = () => {
       }
     }
     setIsInDeleteConfirmationState(false)
-
   }
 
   const isDeleting = deleteMerchantMidIsLoading || deleteMerchantSecondaryMidIsLoading || deleteMerchantLocationIsLoading || deleteMerchantPsimiIsLoading
