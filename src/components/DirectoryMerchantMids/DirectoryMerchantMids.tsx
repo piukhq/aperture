@@ -136,7 +136,7 @@ const DirectoryMerchantMids = () => {
   }
 
   const renderCheckedItemButtons = ():JSX.Element => (
-    <div className={`flex gap-[10px] items-center ${isMobileViewport ? 'h-max py-4 flex-wrap justify-center items-center' : 'w-full flex-wrap justify-start h-[71px]'}`}>
+    <div className={`flex gap-[10px] items-center h-max py-4 flex-wrap  ${isMobileViewport ? 'justify-center ' : 'w-full justify-start'}`}>
       <Button
         handleClick={requestOnboardModal}
         buttonSize={ButtonSize.SMALL}
