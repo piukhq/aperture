@@ -48,7 +48,7 @@ const LinkedListItem = ({
         borderColour={BorderColour.RED}
         ariaLabel={`Unlink ${refValue}`}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-      ><CloseIcon className='w-[14px] h-[14px] fill-red' />
+      ><CloseIcon className='w-[14px] h-[14px] fill-red hover:fill-red/70' />
       </Button>
     </div>
   )
