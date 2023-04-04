@@ -24,7 +24,6 @@ const DirectoryMerchantDeleteModal = () => {
   const [nameValue, setNameValue] = useState('')
   const [nameValidationError, setNameValidationError] = useState(null)
 
-  console.log(merchantCounts)
   const {
     deleteMerchant,
     deleteMerchantIsSuccess,
