@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
+import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {Button, DirectoryMerchantLocationForm, TextInputGroup} from 'components'
 import {InputColour, InputStyle, InputType, InputWidth} from 'components/TextInputGroup/styles'
@@ -80,6 +81,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     country,
     postcode,
     is_physical_location: isPhysicalLocation,
+    name,
   } = location_metadata || {}
 
   useEffect(() => { // Reset Parent location field behaviour when edit mode is entered
@@ -136,6 +138,11 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const renderReadOnlyState = () => {
     return (
       <>
+        <Head>
+          <title>Aperture MID Directory Sub-location: {name}</title>
+          <meta property='og:title' content={`Aperture MID Directory - Sub-location: ${name}`} key='title'/>
+          <meta property='og:description' content={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} sub-location in the MID Directory. It is the child location of ${parentLocationTitle}`} key='description' />
+        </Head>
         <div data-testid='sub-location-refresh-button' className='flex w-full justify-end mb-[12px]'>
           <Button
             buttonType={ButtonType.SUBMIT}

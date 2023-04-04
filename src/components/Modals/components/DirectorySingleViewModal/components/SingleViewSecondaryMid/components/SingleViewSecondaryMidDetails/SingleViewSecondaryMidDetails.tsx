@@ -1,5 +1,6 @@
 import {useState, useMemo, useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
@@ -29,7 +30,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
-  const {payment_scheme_slug: paymentSchemeSlug, payment_enrolment_status: paymentEnrolmentStatus} = secondaryMidMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, payment_enrolment_status: paymentEnrolmentStatus, secondary_mid: secondaryMidValue} = secondaryMidMetadata
 
   const {
     getMerchantSecondaryMidRefresh,
@@ -102,6 +103,11 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Aperture - MID Directory Secondary MID: {secondaryMidValue}</title>
+        <meta property='og:title' content={`Aperture MID Directory - Secondary MID: ${secondaryMidValue}`} key='title'/>
+        <meta property='og:description' content={`View this ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} secondary MID in the MID Directory`} key='description' />
+      </Head>
       <div data-testid='secondary-mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}

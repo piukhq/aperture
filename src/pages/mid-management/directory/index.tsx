@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
+import Head from 'next/head'
 import {Button, DirectoryTile, PageLayout} from 'components'
 import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
@@ -134,6 +135,11 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <PageLayout>
+      <Head>
+        <title>Aperture - MID Directory</title>
+        <meta property='og:title' content='Aperture MID Directory' key='title'/>
+        <meta property='og:description' content='Manage MIDs, locations, secondary MIDs and PSIMIs' key='description' />
+      </Head>
       <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
       <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
       <div className='flex justify-end'>

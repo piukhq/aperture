@@ -1,4 +1,5 @@
 import type {NextPage} from 'next'
+import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {
   PageLayout,
@@ -15,7 +16,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryMerchant, setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
-import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes, UserPermissions} from 'utils/enums'
+import {ModalType, DirectoryNavigationTab, CommentsSubjectTypes, UserPermissions, DirectorySingleViewEntities} from 'utils/enums'
 import {useEffect} from 'react'
 import EditSvg from 'icons/svgs/project.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
@@ -172,11 +173,18 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   ]
 
   const renderDetailsHeader = () => {
-    const {slug, plan_id: schemeId} = planDetails.plan_metadata
+    const {slug, plan_id: schemeId, name: planName} = planDetails.plan_metadata
     const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
 
     return (
-      <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+      <>
+        <Head>
+          <title>Aperture MID Directory: {planName} - {name} {DirectorySingleViewEntities[tab as string]}s</title>
+          <meta property='og:title' content={`Aperture MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} key='title'/>
+          <meta property='og:description' content={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} key='description' />
+        </Head>
+        <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+      </>
     )
   }
 

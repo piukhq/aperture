@@ -1,4 +1,5 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
+import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {Button, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -73,7 +74,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {mid} = merchantMid
   const locationRef = merchantMid.location?.location_ref || ''
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
-  const {payment_scheme_slug: paymentSchemeSlug, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = midMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus, mid: midValue} = midMetadata
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
@@ -214,6 +215,11 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Aperture MID Directory MID: {midValue}</title>
+        <meta property='og:title' content={`Aperture MID Directory - MID: ${mid}`} key='title'/>
+        <meta property='og:description' content={`View this ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} MID in the MID Directory`} key='description' />
+      </Head>
       <div data-testid='mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}
