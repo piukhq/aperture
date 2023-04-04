@@ -1,7 +1,7 @@
 import {useState, useMemo, useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import Head from 'next/head'
-import {Button, Dropdown} from 'components'
+
+import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 
@@ -103,11 +103,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Aperture - MID Directory Secondary MID: {secondaryMidValue}</title>
-        <meta property='og:title' content={`Aperture MID Directory - Secondary MID: ${secondaryMidValue}`} key='title'/>
-        <meta property='og:description' content={`View this ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} secondary MID in the MID Directory`} key='description' />
-      </Head>
+      <HeadMetadata pageTitle={`MID Directory - Secondary MID: ${secondaryMidValue}`} pageDescription={`View this ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} secondary MID in the MID Directory`} />
       <div data-testid='secondary-mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}

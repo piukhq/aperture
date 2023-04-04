@@ -1,8 +1,7 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import {areAnyVerificationTokensStored} from 'utils/storage'
-import {AssetGrid, Button, ContentTile, PageLayout, PlansList} from 'components'
+import {AssetGrid, Button, ContentTile, HeadMetadata, PageLayout, PlansList} from 'components'
 import SettingsSvg from 'icons/svgs/settings.svg'
 import {
   useAppDispatch,
@@ -92,11 +91,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <PageLayout>
-      <Head>
-        <title>Aperture - Asset Comparator</title>
-        <meta property='og:title' content='Aperture Asset Comparator' key='title'/>
-        <meta property='og:description' content='Compare the images for a given plan across environments' key='description' />
-      </Head>
+      <HeadMetadata pageTitle='Asset Comparator' pageDescription='Compare the images for a given plan across environments' />
       <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
         { renderHeaderTools()}
       </div>

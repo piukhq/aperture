@@ -1,7 +1,6 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
-import Head from 'next/head'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
+import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import SingleViewEditableField from '../../../SingleViewEditableField'
 import RefreshSvg from 'icons/svgs/refresh.svg'
@@ -215,11 +214,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Aperture MID Directory MID: {midValue}</title>
-        <meta property='og:title' content={`Aperture MID Directory - MID: ${mid}`} key='title'/>
-        <meta property='og:description' content={`View this ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} MID in the MID Directory`} key='description' />
-      </Head>
+      <HeadMetadata pageTitle={`MID Directory - MID: ${mid}`} pageDescription={`View ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} MID in the MID Directory`} />
       <div data-testid='mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}

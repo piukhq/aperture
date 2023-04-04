@@ -1,8 +1,7 @@
 import {useRouter} from 'next/router'
-import Head from 'next/head'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {DirectoryPsimi} from 'types'
-import {Button} from 'components'
+import {Button, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -61,11 +60,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Aperture - MID Directory PSIMI: {psimiValue}</title>
-        <meta property='og:title' content={`Aperture MID Directory - PSIMI: ${psimiValue}`} key='title'/>
-        <meta property='og:description' content={`View this ${paymentSchemeSlug} PSIMI in the MID Directory`} key='description' />
-      </Head>
+      <HeadMetadata pageTitle={`MID Directory - PSIMI: ${psimiValue}`} pageDescription={`View this ${paymentSchemeSlug} PSIMI in the MID Directory`} />
       <div data-testid='psimi-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}

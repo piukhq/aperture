@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
-import Head from 'next/head'
 import {useRouter} from 'next/router'
-import {Button, DirectoryMerchantLocationForm, TextInputGroup} from 'components'
+import {Button, DirectoryMerchantLocationForm, HeadMetadata, TextInputGroup} from 'components'
 import {InputColour, InputStyle, InputType, InputWidth} from 'components/TextInputGroup/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
@@ -138,11 +137,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const renderReadOnlyState = () => {
     return (
       <>
-        <Head>
-          <title>Aperture MID Directory Sub-location: {name}</title>
-          <meta property='og:title' content={`Aperture MID Directory - Sub-location: ${name}`} key='title'/>
-          <meta property='og:description' content={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} sub-location in the MID Directory. It is the child location of ${parentLocationTitle}`} key='description' />
-        </Head>
+        <HeadMetadata pageTitle={`MID Directory - Sub-location: ${name}`} pageDescription={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} sub-location in the MID Directory. It is the child location of ${parentLocationTitle}`}/>
         <div data-testid='sub-location-refresh-button' className='flex w-full justify-end mb-[12px]'>
           <Button
             buttonType={ButtonType.SUBMIT}
