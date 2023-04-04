@@ -70,6 +70,7 @@ const Button = (props: ButtonProps) => {
         LABEL_COLOUR_MAPS[labelColour],
         LABEL_WEIGHT_MAPS[labelWeight],
         isDisabled ? 'bg-opacity-[.7] cursor-not-allowed' : 'hover:bg-opacity-[.7] active:bg-opacity-[.55] duration-300',
+        !buttonBackground && 'hover:text-opacity-70 hover:border-opacity-70 active:text-opacity-70 active:border-opacity-70',
         additionalStyles,
       )}
       aria-label={ariaLabel}

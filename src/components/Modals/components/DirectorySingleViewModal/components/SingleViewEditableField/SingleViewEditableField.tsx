@@ -158,7 +158,7 @@ const SingleViewEditableField = ({
                 isDisabled={isDisabled}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               >
-                {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red' />}
+                {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red hover:fill-red/70' />}
               </Button>
             )}
           </div>

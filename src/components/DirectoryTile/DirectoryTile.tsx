@@ -54,11 +54,15 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
   }
 
   const renderPaymentSchemeInfo = (paymentScheme: PaymentScheme) => {
-    const {scheme_slug: schemeSlug, count} = paymentScheme
+    // The data below can come from plan or merchant which provide this data slightly differently hence the weird logic
+    const {scheme_slug, count, slug, mids, secondary_mids, psimis} = paymentScheme
+    const slugLabel = slug || scheme_slug
+    const countToRender = mids + secondary_mids + psimis || count || 0
+
     return (
-      <div key={schemeSlug} className='flex flex-col items-center'>
-        <p className='font-subheading-4'>{schemeSlug?.toLocaleUpperCase()}</p>
-        <p className='font-heading-5'>{count}</p>
+      <div key={slugLabel + name} className='flex flex-col items-center'>
+        <p className='font-subheading-4'>{slugLabel.toLocaleUpperCase()}</p>
+        <p className='font-heading-5'>{countToRender}</p>
       </div>
     )
   }
@@ -86,7 +90,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
 
       <div className='flex flex-col items-center mt-[28px]'>
         {renderIcon()}
-        <p className='font-heading-5 mt-[5px] px-4'>{name}</p>
+        <p className='font-heading-5 mt-[5px]'>{name}</p>
         <p className='font-subheading-5 mt-[6px]'>{renderChildCount()}</p>
 
         <div className='flex mt-[16px] mb-[20px] w-[218px] justify-between'>

@@ -61,16 +61,14 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   }, [isOpen])
 
 
-  const getSidebarOptions = () => {
-    return sidebarOptions.filter(option => {
-      if (option === 'mid-management') {
-        return permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY)
-      } else if (option === 'customer-wallets') {
-        return permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_ONLY)
-      }
-      return true
-    })
-  }
+  const allowedSidebarOptions = sidebarOptions.filter(option => {
+    if (option === 'mid-management') {
+      return permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY)
+    } else if (option === 'customer-wallets') {
+      return permissions.includes(UserPermissions.CUSTOMER_WALLET_READ_ONLY)
+    }
+    return true
+  })
 
   const sidebarSubHeadingClasses = 'my-2 font-header text-grey-600 dark:text-grey-700 uppercase font-semibold text-[14px] tracking-widest ml-5'
 
@@ -100,10 +98,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
             {renderApertureLink(false)}
             <select className='w-34 font-heading-7 italic text-2xs uppercase p-1 m-1 bg-transparent col-span-10' value={currentLocation} onChange={handleTopBarSelectChange()}>
               <option value='/'>Home</option>
-              <option value='/asset-comparator'>Asset Comparator</option>
-              <option value='/plan-comparator'>Plan Comparator</option>
-              <option value='/mid-management'>Mid Management</option>
-              <option value='/customer-wallets'>Customer Wallets</option>
+              {allowedSidebarOptions.map(option => <option key={option} value={`/${option}`}>{RouteDisplayNames[option as keyof typeof RouteDisplayNames]}</option>) }
             </select>
           </div>
           <Button
@@ -164,16 +159,16 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
         <div className='flex flex-col justify-between h-[90%] overflow-auto'>
           <div className='pt-6 border-t border-grey-300 dark:border-grey-900'>
             <div className='mt-5 overflow-hidden h-[90%]'>
-              {getSidebarOptions().map(option => {
+              {allowedSidebarOptions.map(option => {
                 const selected = selectedTool === option || selectedTool.includes(option)
                 // Not the most robust way to handle subheadings but it is fine till the sidebar grows
                 return (
-                  <>
+                  <div key={option + '-container'}>
                     {option === 'mid-management' && <h2 className={sidebarSubHeadingClasses}>MID Management</h2>}
                     {option === 'asset-comparator' && <h2 className={sidebarSubHeadingClasses}>Plan Management</h2>}
                     {option === 'customer-wallets' && <h2 className={sidebarSubHeadingClasses}>Customer Support</h2>}
                     <SidebarOption key={option} option={option} selected={selected} />
-                  </>
+                  </div>
                 )
               })}
             </div>

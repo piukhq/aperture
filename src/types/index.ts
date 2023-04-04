@@ -80,9 +80,13 @@ export type SelectedAssetEnvironment = string
 
 export type PaymentSchemeNameType = PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX
 
-export type PaymentScheme = {
-  scheme_slug: PaymentSchemeSlug,
-  count: number,
+export type PaymentScheme = { // This object is different depending if its a plan or merchant. Consider changing the api to be consistent
+  slug?: PaymentSchemeSlug,
+  scheme_slug?: PaymentSchemeSlug,
+  count?: number,
+  mids?: number,
+  secondary_mids?: number,
+  psimis?: number,
 }
 
 export type DirectoryCommentSubject = {
