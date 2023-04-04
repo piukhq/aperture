@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
+import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {useAppDispatch} from 'app/hooks'
 import {PageLayout, DirectoryTile, DirectoryDetailsHeader, PageNotFound} from 'components'
@@ -188,6 +189,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
     return (
       <>
+        <Head>
+          <title>Aperture MID Directory Plan: {name}</title>
+          <meta property='og:title' content={`Aperture MID Directory: ${name}`} key='title'/>
+          <meta property='og:description' content={`View the ${merchants.length} merchants for the ${name} plan`} key='description' />
+        </Head>
         <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
         {merchants.length > 0 && renderMerchants(merchants)}
       </>

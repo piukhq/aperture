@@ -41,7 +41,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
     },
     {
       title: 'Customer Wallets',
-      description: 'View a customers transactions, payment and loyalty cards',
+      description: 'View a customer\'s transactions, payment and loyalty cards',
       link: 'customer-wallets',
       requiredPermission: UserPermissions.CUSTOMER_WALLET_READ_ONLY,
     },
