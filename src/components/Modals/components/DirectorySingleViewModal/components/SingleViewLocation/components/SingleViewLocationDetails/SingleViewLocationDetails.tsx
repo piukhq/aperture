@@ -1,7 +1,6 @@
-import Head from 'next/head'
 import {useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {Button, DirectoryMerchantLocationForm} from 'components'
+import {Button, DirectoryMerchantLocationForm, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
@@ -49,11 +48,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
   const renderReadOnlyState = () => {
     return (
       <>
-        <Head>
-          <title>Aperture MID Directory Location: {name}</title>
-          <meta property='og:title' content={`Aperture MID Directory - Location: ${name}`} key='title'/>
-          <meta property='og:description' content={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} location in the MID Directory`} key='description' />
-        </Head>
+        <HeadMetadata pageTitle={`MID Directory Location: ${name}`} pageDescription={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} location in the MID Directory`} />
         <div data-testid='location-refresh-button' className='flex justify-end'>
           <Button
             buttonType={ButtonType.SUBMIT}

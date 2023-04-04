@@ -1,5 +1,4 @@
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import {useRouter} from 'next/router'
 import {
   PageLayout,
@@ -9,6 +8,7 @@ import {
   DirectoryMerchantSecondaryMids,
   DirectoryMerchantPsimis,
   PageNotFound,
+  HeadMetadata,
 } from 'components'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -178,11 +178,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
     return (
       <>
-        <Head>
-          <title>Aperture MID Directory: {planName} - {name} {DirectorySingleViewEntities[tab as string]}s</title>
-          <meta property='og:title' content={`Aperture MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} key='title'/>
-          <meta property='og:description' content={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} key='description' />
-        </Head>
+        <HeadMetadata pageTitle={`MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} />
         <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
       </>
     )

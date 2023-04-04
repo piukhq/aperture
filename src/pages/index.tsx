@@ -1,12 +1,11 @@
 import type {NextPage} from 'next'
-import Head from 'next/head'
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import usePermissions from 'hooks/usePermissions'
 import {UserPermissions, Admin} from 'utils/enums'
 import ApertureSVG from 'icons/svgs/aperture-logo-large.svg'
-import {Button} from 'components'
+import {Button, HeadMetadata} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour} from 'components/Button/styles'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
@@ -77,10 +76,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-112 overflow-clip'}`}>
-      <Head>
-        <meta property='og:title' content='Aperture' key='title'/>
-        <meta property='og:description' content='The Internal Tooling Portal for Bink' key='description'/>
-      </Head>
+      <HeadMetadata pageTitle='Home' pageDescription='The Internal Tooling Portal for Bink' />
       {/* Aperture Rings and Title */}
       <div className={
         `${isLearnMoreClicked ? 'pt-12' : 'pt-64'}  mt-8 flex flex-col gap-4 justify-center items-center duration-500 pb-4 ${isMobileViewport && 'scale-[85%]'} overflow-visible`}>
