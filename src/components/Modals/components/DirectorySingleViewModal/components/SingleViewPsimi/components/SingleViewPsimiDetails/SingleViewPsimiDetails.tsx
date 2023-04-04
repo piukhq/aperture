@@ -1,4 +1,5 @@
 import {useRouter} from 'next/router'
+import Head from 'next/head'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {DirectoryPsimi} from 'types'
 import {Button} from 'components'
@@ -17,7 +18,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
   const router = useRouter()
   const {merchantId, planId, ref} = router.query
   const {date_added: dateAdded, psimi_metadata: psimiMetadata, txm_status: txmStatus} = psimi
-  const {payment_scheme_slug: paymentSchemeSlug} = psimiMetadata
+  const {payment_scheme_slug: paymentSchemeSlug, value: psimiValue} = psimiMetadata
 
   const {
     getMerchantPsimiRefresh,
@@ -60,6 +61,11 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Aperture - MID Directory PSIMI: {psimiValue}</title>
+        <meta property='og:title' content={`Aperture MID Directory - PSIMI: ${psimiValue}`} key='title'/>
+        <meta property='og:description' content={`View this ${paymentSchemeSlug} PSIMI in the MID Directory`} key='description' />
+      </Head>
       <div data-testid='psimi-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}

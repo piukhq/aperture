@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import {useCallback, useEffect} from 'react'
 import {useRouter} from 'next/router'
 import {Button, DirectoryMerchantLocationForm} from 'components'
@@ -42,11 +43,17 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     is_physical_location: isPhysicalLocation,
     location_id: locationId,
     merchant_internal_id: merchantInternalId,
+    name,
   } = location_metadata
 
   const renderReadOnlyState = () => {
     return (
       <>
+        <Head>
+          <title>Aperture MID Directory Location: {name}</title>
+          <meta property='og:title' content={`Aperture MID Directory - Location: ${name}`} key='title'/>
+          <meta property='og:description' content={`View this ${isPhysicalLocation ? 'physical' : 'non-physical'} location in the MID Directory`} key='description' />
+        </Head>
         <div data-testid='location-refresh-button' className='flex justify-end'>
           <Button
             buttonType={ButtonType.SUBMIT}
