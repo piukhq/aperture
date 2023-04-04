@@ -214,7 +214,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   return (
     <>
-      <HeadMetadata pageTitle={`MID Directory - MID: ${mid}`} pageDescription={`View ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} MID in the MID Directory`} />
+      <HeadMetadata pageTitle={`MID Directory - MID: ${midValue}`} pageDescription={`View ${paymentSchemeStatus?.toLocaleLowerCase()} ${paymentSchemeSlug} MID in the MID Directory`} />
       <div data-testid='mid-refresh-button' className='flex justify-end'>
         <Button
           buttonType={ButtonType.SUBMIT}
