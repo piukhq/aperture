@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
+import Head from 'next/head'
 import {areMultipleVerificationTokensStored} from 'utils/storage'
 import {Button, ContentTile, PageLayout, PlanComparator, PlansList} from 'components'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
@@ -77,6 +78,11 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
   return (
     <>
       <PageLayout>
+        <Head>
+          <title>Aperture - Plan Comparator</title>
+          <meta property='og:title' content='Aperture Plan Comparator' key='title'/>
+          <meta property='og:description' content='Compare the properties for a given plan across environments' key='description' />
+        </Head>
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
           {renderHeaderTools()}
         </div>
