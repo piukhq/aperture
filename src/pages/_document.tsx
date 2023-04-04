@@ -10,6 +10,8 @@ const Document = () => <Html>
     <meta property='og:title' content='Aperture'/>
     <meta property='og:description' content='Internal Tooling for Bink Users' />
     <meta property='og:image' content='/icons/pngs/aperture-transparent.png' />
+    <meta property='og:image:width' content='505' />
+    <meta property='og:image:height' content='494' />
     <meta property='og:site_name' content='Aperture' />
   </Head>
   <body>
