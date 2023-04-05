@@ -5,9 +5,9 @@ type Props = {
     pageDescription: string;
 }
 
-const HeadMetadata = ({pageTitle, pageDescription}: Props) => (
+const HeadMetadata = ({pageTitle, pageDescription = 'test to see if this overrides'}: Props) => (
   <Head>
-    <title>{pageTitle}</title>
+    <title>Aperture {pageTitle}</title>
     <meta name='description' content={pageDescription} />
     <meta property='og:title' content={pageTitle} />
     <meta property='og:description' content={pageDescription} />
