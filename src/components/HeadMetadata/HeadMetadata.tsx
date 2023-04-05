@@ -5,17 +5,13 @@ type Props = {
     pageDescription: string;
 }
 
-const HeadMetadata = ({pageTitle, pageDescription = 'test to see if this overrides'}: Props) => (
-  <Head>
-    <title>Aperture {pageTitle}</title>
-    <meta name='description' content={pageDescription} />
-    <meta property='og:title' content={pageTitle} />
-    <meta property='og:description' content={pageDescription} />
-    <meta property='og:image' content='/icons/pngs/aperture-transparent.png' />
-    <meta property='og:image:width' content='505' />
-    <meta property='og:image:height' content='494' />
-    <meta property='og:site_name' content='Aperture' />
-  </Head>
-)
+const HeadMetadata = ({pageTitle, pageDescription = 'test to see if this overrides'}: Props) => {
+  console.log('HeadMetadata', pageTitle, pageDescription)
+  return (
+    <Head>
+      <title>Aperture {pageTitle}</title>
+      <meta name='description' content={pageDescription} />
+    </Head>
+  ) }
 
 export default HeadMetadata
