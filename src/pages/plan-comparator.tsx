@@ -76,8 +76,8 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
+      <HeadMetadata pageTitle='Plan Comparator' pageDescription='Compare the properties for a given plan across environments' />
       <PageLayout>
-        <HeadMetadata pageTitle='Plan Comparator' pageDescription='Compare the properties for a given plan across environments' />
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
           {renderHeaderTools()}
         </div>

@@ -5,8 +5,7 @@ type Props = {
     pageDescription: string;
 }
 
-const HeadMetadata = ({pageTitle, pageDescription = 'test to see if this overrides'}: Props) => {
-  console.log('HeadMetadata', pageTitle, pageDescription)
+const HeadMetadata = ({pageTitle = 'Aperture', pageDescription = 'Internal Portal for Bink Tooling'}: Props) => {
   return (
     <Head>
       <title>Aperture {pageTitle}</title>
