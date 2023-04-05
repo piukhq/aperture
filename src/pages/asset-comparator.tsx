@@ -15,9 +15,9 @@ import {getSelectedPlanImages} from 'features/comparatorSlice'
 import {SelectedPlanImages} from 'types'
 import {ModalType} from 'utils/enums'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
+
+const AssetComparatorPage: NextPage = () => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
@@ -101,6 +101,6 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
       </ContentTile>
     </PageLayout>
   )
-})
+}
 
 export default AssetComparatorPage
