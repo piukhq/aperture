@@ -15,9 +15,9 @@ import {getSelectedPlanImages} from 'features/comparatorSlice'
 import {SelectedPlanImages} from 'types'
 import {ModalType} from 'utils/enums'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
-
-const AssetComparatorPage: NextPage = () => {
+const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
   const [isVerified, setIsVerified] = useState(false)
   const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
   const dispatch = useAppDispatch()
@@ -90,17 +90,19 @@ const AssetComparatorPage: NextPage = () => {
   }
 
   return (
-    <PageLayout>
+    <>
       <HeadMetadata pageTitle='Asset Comparator' pageDescription='Compare the images for a given plan across environments' />
-      <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
-        { renderHeaderTools()}
-      </div>
+      <PageLayout>
+        <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
+          { renderHeaderTools()}
+        </div>
 
-      <ContentTile>
-        {determineContentToRender()}
-      </ContentTile>
-    </PageLayout>
+        <ContentTile>
+          {determineContentToRender()}
+        </ContentTile>
+      </PageLayout>
+    </>
   )
-}
+})
 
 export default AssetComparatorPage

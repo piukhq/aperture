@@ -59,6 +59,8 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const merchant: DirectorySingleMerchant = getMerchantResponse
 
+  const {slug, plan_id: schemeId} = planDetails.plan_metadata
+  const {name, icon_url: iconUrl, location_label: locationLabel, name: planName} = merchant.merchant_metadata
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
   useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the DirectoryNavigationTab enum
@@ -172,39 +174,34 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     },
   ]
 
-  const renderDetailsHeader = () => {
-    const {slug, plan_id: schemeId, name: planName} = planDetails.plan_metadata
-    const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
+  const renderDetailsHeader = () => (
+    <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+  )
 
-    return (
-      <>
-        <HeadMetadata pageTitle={`MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} />
-        <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
-      </>
-    )
-  }
 
   if (getMerchantError) { // TODO: Add more in depth error handling
     return <PageNotFound />
   }
 
   return (
-    <PageLayout>
-      {merchant && (
-        <>
-          {planDetails && renderDetailsHeader()}
-          <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
-            <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
-              {renderNavigationTabs()}
-            </nav>
-
-            <div className='mx-[10px]'>
-              {renderSelectedTabContent()}
+    <>
+      <HeadMetadata pageTitle={`MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} />
+      <PageLayout>
+        {merchant && (
+          <>
+            {planDetails && renderDetailsHeader()}
+            <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
+              <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
+                {renderNavigationTabs()}
+              </nav>
+              <div className='mx-[10px]'>
+                {renderSelectedTabContent()}
+              </div>
             </div>
-          </div>
-        </>
-      )}
-    </PageLayout>
+          </>
+        )}
+      </PageLayout>
+    </>
   )
 })
 

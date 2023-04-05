@@ -10,13 +10,15 @@ const CustomerWalletsPage: NextPage = withPageAuthRequired(() => {
   const {hasErrorOccurred} = useCustomerLookup()
 
   return (
-    <PageLayout>
+    <>
       <HeadMetadata pageTitle='Customer Wallets' pageDescription='View a customers transactions, payment and loyalty cards' />
-      <div className='flex flex-col gap-[30px]'>
-        <CustomerWalletsHeader />
-        {selectedJwtToken && !hasErrorOccurred && <CustomerWalletsContainer />}
-      </div>
-    </PageLayout>
+      <PageLayout>
+        <div className='flex flex-col gap-[30px]'>
+          <CustomerWalletsHeader />
+          {selectedJwtToken && !hasErrorOccurred && <CustomerWalletsContainer />}
+        </div>
+      </PageLayout>
+    </>
   )
 })
 

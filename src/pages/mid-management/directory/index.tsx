@@ -133,37 +133,39 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }
 
   return (
-    <PageLayout>
+    <>
       <HeadMetadata pageTitle='MID Directory' pageDescription='Manage MIDs, locations, secondary MIDs and PSIMIs'/>
-      <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
-      <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
-      <div className='flex justify-end'>
-        <Button
-          handleClick={handleRequestNewPlanModal}
-          buttonSize={ButtonSize.MEDIUM_ICON}
-          buttonWidth={ButtonWidth.AUTO}
-          buttonBackground={ButtonBackground.BLUE}
-          labelColour={LabelColour.WHITE}
-          labelWeight={LabelWeight.MEDIUM}
-          requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-        ><PlusSvg/>New Plan
-        </Button>
-      </div>
-      <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
-        {planList && planList.length > 0 && (
-          <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
-            {renderDirectoryPlans()}
-          </div>
-        )}
-        {getPlansIsLoading && (
-          <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
-            {Array(8).fill(0)
-              .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
-          </div>
-        )}
-      </div>
+      <PageLayout>
+        <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
+        <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
+        <div className='flex justify-end'>
+          <Button
+            handleClick={handleRequestNewPlanModal}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+          ><PlusSvg/>New Plan
+          </Button>
+        </div>
+        <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
+          {planList && planList.length > 0 && (
+            <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
+              {renderDirectoryPlans()}
+            </div>
+          )}
+          {getPlansIsLoading && (
+            <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
+              {Array(8).fill(0)
+                .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
+            </div>
+          )}
+        </div>
 
-    </PageLayout>
+      </PageLayout>
+    </>
   )
 })
 
