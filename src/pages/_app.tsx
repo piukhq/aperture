@@ -15,8 +15,8 @@ function MyApp ({Component, pageProps}: AppProps) {
           <title>Aperture</title>
           <meta charSet='utf-8' />
           <meta name='viewport' />
-          <meta property='og:title' content='Aperture - Bink Internal Portal' />
-          <meta property='og:description' content='This is coming from app' />
+          <meta property='og:title' content='Aperture' />
+          <meta property='og:description' content='The Bink Internal Portal providing tooling for Mid Management, Plan Management and Customer Support' />
           <meta property='og:image' content='/icons/pngs/aperture-transparent.png' />
           <meta property='og:image:width' content='400' />
           <meta property='og:image:height' content='400' />
