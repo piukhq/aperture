@@ -75,7 +75,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   }, [appClicked, router])
 
   return (
-    <div className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-112 overflow-clip'}`}>
+    <main id='main-content' className={`w-full h-max flex-col items-center gap-4 overflow-hidden ${!isLearnMoreClicked && 'pb-112 overflow-clip'}`}>
       <HeadMetadata pageTitle='Home' pageDescription='The Internal Tooling Portal for Bink' />
       {/* Aperture Rings and Title */}
       <div className={
@@ -85,7 +85,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
           {`absolute skew-x-12 z-20 transform-gpu overflow-hidden
             ${isLearnMoreClicked ? 'scale-[40%] -translate-x-[260px] -translate-y-6 delay-100' : 'scale-[120%] delay-0'} ml-4 duration-500 ease-in
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 blur-sm delay-0 overflow-hidden'}`
-
           }
         >
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-15s opacity-70 fill-orange' : 'animate-spin-80s opacity-20 fill-blue'} duration-1000 ease-out ${isAppHovered && 'fill-red rounded-full'}
@@ -141,7 +140,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
             Give praise, ideas, or rants
         </a>
       </div>
-    </div>
+    </main>
   )
 })
 

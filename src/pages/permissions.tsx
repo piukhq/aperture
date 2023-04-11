@@ -44,7 +44,7 @@ const PermissionsPage: NextPage = withPageAuthRequired(() => {
         <p className='font-body-2'>Email: {email}</p>
         <p className='font-body-2'>Nickname: {nickname}</p>
         <p className='font-body-2'>Updated At: {timeStampToDate(updatedAt)}</p>
-        <p className='font-body-2'>Permission Roles:  {renderPermissions()}</p>
+        <p className='font-body-2'>Permission Roles: {renderPermissions()}</p>
       </section>
       <section className='bg-black/5 dark:bg-white/5 shadow-lg p-8 flex flex-col gap-2 m-8'>
         <h2 className='font-heading-3'>Permission Levels</h2>
