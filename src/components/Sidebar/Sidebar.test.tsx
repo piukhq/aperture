@@ -1,7 +1,7 @@
 import React from 'react'
 import * as Redux from 'react-redux'
 import configureStore from 'redux-mock-store'
-import {fireEvent, render, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import Sidebar from 'components/Sidebar'
 import {UserPermissions} from 'utils/enums'
 
