@@ -61,6 +61,15 @@ describe('Sidebar', () => {
 
       expect(binkHeading).toBeInTheDocument()
     })
+
+    it('should render the skip to main content link but visible onto when focused', () => {
+      render(getSidebarComponent())
+      const skipToContentLink = screen.getByRole('link', {name: 'Skip to content'})
+
+      expect(skipToContentLink).toBeInTheDocument()
+      expect(skipToContentLink).toHaveClass('opacity-0')
+      expect(skipToContentLink).toHaveClass('focus:opacity-100')
+    })
   })
 
   describe('Test logo', () => {
@@ -152,7 +161,7 @@ describe('Sidebar', () => {
   })
 
   describe('Test Collapsed Sidebar', () => {
-    it('should render collapsed sidebar with no app links', () => {
+    it('should render collapsed sidebar with no app links bar home page link', () => {
       render(
         <Redux.Provider store={store}>
           <Sidebar isOpen={false} setIsOpen={jest.fn()} />
@@ -160,7 +169,7 @@ describe('Sidebar', () => {
       )
 
       const links = screen.queryAllByRole('link')
-      expect(links).toHaveLength(0)
+      expect(links).toHaveLength(1)
     })
 
 

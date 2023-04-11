@@ -74,7 +74,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   const renderApertureLink = (renderAperture = true) => (
     <Link href='/' passHref>
-      <div onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className={`flex gap-2 justify-center items-center cursor-pointer ${!isMobileViewport && 'h-16 pl-[25px]  ml-6'}`}>
+      <a onMouseOver={() => setIsLogoHovered(true)} onMouseLeave={() => setIsLogoHovered(false)} className={`flex gap-2 justify-center items-center cursor-pointer ${!isMobileViewport && 'h-16 pl-[25px]  ml-6'}`}>
         <Image className={`${isLogoHovered && 'hue-rotate-[170deg]'} opacity-60 duration-[7s] skew-x-12`} data-testid='logo' src='/icons/svgs/aperture-logo-large.svg' height={35} width={35} alt='' />
         {renderAperture && (
           <>
@@ -82,7 +82,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
             <h1 className='font-heading-1 text-[1.25rem] -translate-x-[14px] -skew-x-12'>APERTURE</h1>
           </>
         )}
-      </div>
+      </a>
     </Link>
   )
   // Render Topbar for mobile viewports
@@ -125,7 +125,6 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
     </button>
   )
 
-
   // Render the Mobile Topbar
   if (isMobileViewport) {
     return (
@@ -149,6 +148,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   return (
     <div className='pr-64 z-40'>
       <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
+        <a href='#main-content' className='absolute font-heading-7 uppercase m-2 z-40 bg-white dark:bg-black/50 focus:opacity-100 opacity-0 duration-300'>Skip to content</a>
         <div className='flex w-64'>
           {renderApertureLink()}
           <div className='-translate-x-2'>
