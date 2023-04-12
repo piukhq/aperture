@@ -59,8 +59,6 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const merchant: DirectorySingleMerchant = getMerchantResponse
 
-  const {slug, plan_id: schemeId} = planDetails.plan_metadata
-  const {name, icon_url: iconUrl, location_label: locationLabel, name: planName} = merchant.merchant_metadata
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
   useEffect(() => { // Force a redirect to mids tab if tab query string is missing or not recognised in the DirectoryNavigationTab enum
@@ -174,9 +172,13 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     },
   ]
 
-  const renderDetailsHeader = () => (
-    <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
-  )
+  const renderDetailsHeader = () => {
+    const {slug, plan_id: schemeId} = planDetails.plan_metadata
+    const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
+    return (
+      <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+    )
+  }
 
 
   if (getMerchantError) { // TODO: Add more in depth error handling
@@ -185,7 +187,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
-      <HeadMetadata pageTitle={`MID Directory - ${planName} - ${name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the ${name} merchant in the ${planName} plan`} />
+      <HeadMetadata pageTitle={`MID Directory: ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the merchant in the plan`} />
       <PageLayout>
         {merchant && (
           <>
