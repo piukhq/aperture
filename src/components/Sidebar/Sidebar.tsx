@@ -148,7 +148,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
   return (
     <div className='pr-64 z-40'>
       <nav className={`fixed ${sidebarWidthClass} h-full border-r-2 border-grey-300 dark:border-grey-825 bg-grey-100 dark:bg-grey-850 shadow-sm duration-200 ease-out`}>
-        <a href='#main-content' className='absolute font-heading-7 uppercase m-2 z-40 bg-white dark:bg-black/50 focus:opacity-100 opacity-0 duration-300'>Skip to content</a>
+        <a href='#main-content' className='absolute font-heading-7 uppercase m-2 z-40 bg-white dark:bg-black/50 focus:opacity-100 opacity-0 duration-300 pointer-events-none'>Skip to content</a>
         <div className='flex w-64'>
           {renderApertureLink()}
           <div className='-translate-x-2'>
