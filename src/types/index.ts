@@ -89,6 +89,18 @@ export type PaymentScheme = { // This object is different depending if its a pla
   psimis?: number,
 }
 
+export type PlanPaymentScheme = {
+  scheme_slug: PaymentSchemeSlug,
+  count: number,
+}
+
+export type MerchantPaymentScheme = {
+  slug: PaymentSchemeSlug,
+  mids: number,
+  secondary_mids: number,
+  psimis: number,
+}
+
 export type DirectoryCommentSubject = {
   display_text: string,
   subject_ref: string
@@ -145,7 +157,7 @@ export type DirectoryPlanMetadata = {
 export type DirectoryPlanCounts = {
   merchants: number,
   locations: number,
-  payment_schemes: Array<PaymentScheme>,
+  payment_schemes: Array<PlanPaymentScheme>,
 }
 
 export type DirectorySingleMerchant = { // Matches the response from GET Merchant
@@ -169,7 +181,7 @@ export type DirectoryMerchantMetadata = {
 
 export type DirectoryMerchantCounts = { // The counts found in the response from GET Merchants
   locations: number,
-  payment_schemes: Array<PaymentScheme>,
+  payment_schemes: Array<MerchantPaymentScheme>,
 }
 
 export type DirectorySingleMerchantCounts = { // The counts via the GET Merchant response

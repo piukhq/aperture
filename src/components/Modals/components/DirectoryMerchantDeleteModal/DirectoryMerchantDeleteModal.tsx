@@ -7,7 +7,7 @@ import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderCol
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
-import {getMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
+import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 import {midManagementPlansApi} from 'services/midManagementPlans'
@@ -20,7 +20,7 @@ const DirectoryMerchantDeleteModal = () => {
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
   const [locationsCount, setLocationsCount] = useState(merchantCounts?.locations || 0)
-  const [midsCount, setMidsCount] = useState(getMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
+  const [midsCount, setMidsCount] = useState(getMerchantMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
   const [nameValue, setNameValue] = useState('')
   const [nameValidationError, setNameValidationError] = useState(null)
 
@@ -42,9 +42,7 @@ const DirectoryMerchantDeleteModal = () => {
   useEffect(() => {
     if (getMerchantResponse) {
       const {total_locations: totalLocations, payment_schemes: paymentSchemes} = getMerchantResponse.merchant_counts
-      const totalMids = paymentSchemes.reduce((acc, paymentScheme) => {
-        return acc + paymentScheme.mids + paymentScheme.secondary_mids + paymentScheme.psimis
-      }, 0)
+      const totalMids = getMerchantMidCountFromPaymentSchemes(paymentSchemes)
       setLocationsCount(totalLocations)
       setMidsCount(totalMids)
     }
