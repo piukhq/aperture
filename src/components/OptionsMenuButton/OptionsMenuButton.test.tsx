@@ -5,6 +5,9 @@ import configureStore from 'redux-mock-store'
 
 jest.mock('components/OptionsMenuButton/components/OptionsMenuItem', () => () => <div data-testid='mock-options-menu-item'/>)
 
+// mock focus trap to avoid errors in tests
+jest.mock('focus-trap-react', () => ({children}) => <div> {children} </div>)
+
 const mockInitialState = {
   modal: {
     modalRequested: 'NO_MODAL',

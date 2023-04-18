@@ -44,6 +44,12 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     setCopyRow(null)
   }
 
+  const handleRowKeyPress = (e:React.KeyboardEvent<HTMLTableRowElement>) => {
+    if (e.key === 'Enter') {
+      handleRowClick()
+    }
+  }
+
   const handleCopyButtonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
     navigator.clipboard.writeText(`${window.location.href}&ref=${refValue}`)
@@ -56,6 +62,7 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     <tr
       className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
       onClick={handleRowClick}
+      onKeyPress={handleRowKeyPress} // tr does not work like buttons, so we need to add keypress event
       role='button'
       aria-label='table-row'
       tabIndex={0}
