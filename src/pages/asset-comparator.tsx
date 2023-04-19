@@ -57,6 +57,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
         buttonBackground={ButtonBackground.BLUE}
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.MEDIUM}
+        additionalStyles='mt-[2px]'
       ><SettingsSvg/>Credentials
       </Button>
     </>
