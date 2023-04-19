@@ -99,16 +99,16 @@ export const BUTTON_WIDTH_MAPS: Record<ButtonWidth, string> = {
 
 export const BUTTON_BACKGROUND_MAPS: Record<ButtonBackground, string> = {
   [ButtonBackground.WHITE]: 'bg-white',
-  [ButtonBackground.BLUE]: 'bg-blue outline-green outline-offset-2',
-  [ButtonBackground.COMMENTS_BLUE]: 'bg-commentsBlue outline-green outline-offset-2',
+  [ButtonBackground.BLUE]: 'bg-blue outline-orange outline-offset-2',
+  [ButtonBackground.COMMENTS_BLUE]: 'bg-commentsBlue outline-orange outline-offset-2',
   [ButtonBackground.RED]: 'bg-red',
   [ButtonBackground.ORANGE]: 'bg-orange',
   [ButtonBackground.LIGHT_GREY]: 'bg-grey-200',
   [ButtonBackground.LIGHTISH_GREY]: 'bg-grey-300',
   [ButtonBackground.DARK_GREY]: 'bg-grey-900/50',
-  [ButtonBackground.VISA_BLUE]: 'bg-visaBlue',
-  [ButtonBackground.MASTERCARD_BLUE]: 'bg-mastercardBlue',
-  [ButtonBackground.AMEX_BLUE]: 'bg-amexBlue',
+  [ButtonBackground.VISA_BLUE]: 'bg-visaBlue outline-orange outline-offset-2',
+  [ButtonBackground.MASTERCARD_BLUE]: 'bg-mastercardBlue outline-orange outline-offset-2',
+  [ButtonBackground.AMEX_BLUE]: 'bg-amexBlue outline-orange outline-offset-2',
 }
 
 export const LABEL_COLOUR_MAPS: Record<LabelColour, string> = {
