@@ -96,7 +96,6 @@ const TextInputGroup = (props: Props) => {
         'w-full h-full font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-300 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
         INPUT_STYLE_MAPS[inputStyle].input,
-        borderShadow && 'shadow-md',
         isSearchSelectMenuOpen && 'rounded-none rounded-t-[10px] border-b-2 border-grey-300'
       )}
     />
@@ -211,6 +210,7 @@ const TextInputGroup = (props: Props) => {
       'relative',
       INPUT_STYLE_MAPS[inputStyle].container,
       INPUT_WIDTH_MAPS[inputWidth],
+      borderShadow && 'shadow-sm rounded-[10px]',
     )}>
       {label && (
         <label htmlFor={`bink-form-field-${name}`} className={classNames(

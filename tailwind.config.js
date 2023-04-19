@@ -71,7 +71,10 @@ module.exports = {
         '12': '.12',
       },
       boxShadow: {
-        'md': '0 1px 6px 0px rgba(0,0,0,0.5)',
+        'xs-90': '2px 0px 3px 0px rgba(0,0,0,0.2)',
+        'xs-90-reverse': '-2px 0px 3px 0px rgba(0,0,0,0.2)',
+        'sm': '0 4px 5px 0px rgba(0,0,0,0.2)',
+        'md': '0 4px 8px 0px rgba(0,0,0,0.4)',
       },
       scale: {
         flip: '-1',

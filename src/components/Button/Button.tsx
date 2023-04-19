@@ -72,6 +72,7 @@ const Button = (props: ButtonProps) => {
         isDisabled ? 'bg-opacity-[.7] cursor-not-allowed' : 'hover:bg-opacity-[.7] active:bg-opacity-[.55] duration-300',
         !buttonBackground && 'hover:text-opacity-70 hover:border-opacity-70 active:text-opacity-70 active:border-opacity-70',
         additionalStyles,
+        'shadow-sm'
       )}
       aria-label={ariaLabel}
       autoFocus={autoFocus}
