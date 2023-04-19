@@ -225,7 +225,7 @@ const Comment = ({
                   optionsMenuItems={optionsMenuItems}
                   buttonWidth={ButtonWidth.ICON_ONLY}
                   buttonSize={ButtonSize.INHERIT}
-                  buttonAdditionalStyles='border-none'
+                  buttonAdditionalStyles='border-none shadow-none'
                   iconStyles='h-[11px] w-[11px]'
                   shouldOnlyDisplayLeft={true}
                 />
@@ -243,7 +243,7 @@ const Comment = ({
             handleClick={() => setIsInCommentReplyState(true)}
             buttonSize={ButtonSize.INHERIT}
             buttonWidth={ButtonWidth.ICON_ONLY}
-            additionalStyles='ml-[3px] h-[20px] w-[20px] self-end'
+            additionalStyles='ml-[3px] h-[20px] w-[20px] self-end shadow-none'
             ariaLabel='Reply'
           >
             <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />

@@ -20,7 +20,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const renderHero = () => {
     if (heroUrl) {
       return (
-        <div className={`rounded-[20px] group flex justify-center items-center relative h-[150px] bg-red-200 overflow-hidden
+        <div className={`rounded-[20px] group flex justify-center items-center relative h-[150px] bg-red-200 overflow-hidden shadow-sm
         hover:skew-y-1 hover:rotate-1 hover:shadow-lg hover:scale-105 duration-1000 ${isMobileViewport ? 'w-[150px]' : 'w-[220px]'}`}>
           <Image className='rounded-[20px]' src={heroUrl as string} height={150} width={220} alt={heroUrl} />
           <div className={`rounded-[20px] absolute top-0 -inset-full h-[150px] z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-grey-200 opacity-40 group-hover:animate-shine ${isMobileViewport ? 'scale-[60%] w-1/3' : 'w-1/2'}`} />
@@ -40,7 +40,7 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
       const environmentBackground = environment === 'prod' ? 'bg-red hover:bg-red/50 duration-300' : environment === 'staging' ? 'bg-yellow dark:bg-yellow/75 hover:bg-yellow/75 dark:hover:bg-yellow/50 duration-300' : 'bg-green hover:bg-green/80 duration-300'
       return plans[environment]?.id && (
         <a key={environment} target='_blank' href={`https://api.${environment === 'prod' ? '' : environment + '.'}gb.bink.com/admin/scheme/scheme/${plans[environment]?.id}/change/`}
-          className={`min-h-[30px] w-full rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-2xs ${environmentBackground}`} // Refactor to an @apply if used elsewhere
+          className={`min-h-[30px] w-full rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px] text-grey-100 font-medium font-heading tracking-[0.6px] text-2xs shadow-sm ${environmentBackground}`} // Refactor to an @apply if used elsewhere
           rel='noreferrer'
         >View {capitaliseFirstLetter(environment)}
         </a>
