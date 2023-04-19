@@ -98,8 +98,8 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
   }
 
   return (
-    <div className='w-full z-20' data-testid='plan-list-container'>
-      <div className='w-full flex gap-[25px]'>
+    <div className='w-full z-20 h-[38px]' data-testid='plan-list-container'>
+      <div className='w-full flex gap-[25px] items-center'>
         <TextInputGroup
           name='placeholder'
           label='Search'
@@ -115,6 +115,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
           inputWidth={InputWidth.FULL}
           inputColour={InputColour.LIGHT_GREY}
           svgIcon={<SearchSvg/>}
+          borderShadow
         />
         <Button
           buttonType={ButtonType.SUBMIT}
@@ -125,7 +126,6 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
           labelWeight={LabelWeight.MEDIUM}
           handleClick={handleLoadAssets}
           ariaLabel={`Load ${comparatorLabel.capitalised}`}
-
         >
           <CheckSvg fill='white' />Load {comparatorLabel.capitalised}
         </Button>
