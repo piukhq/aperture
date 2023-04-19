@@ -33,7 +33,7 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
       target='blank'
       key={id}
       onClick={() => console.log('Payment Card clicked')}
-      className={`dark:bg-grey-825 h-[70px] shadow-md flex gap-1 p-[6px] rounded-[8px] text-left items-center ${isMobileViewport ? 'w-[120px]' : 'w-[200px]'}`}
+      className={`dark:bg-grey-825 h-[70px] flex gap-1 p-[6px] rounded-[8px] text-left items-center shadow-sm hover:shadow-md dark:hover:bg-grey-800 duration-200 ${isMobileViewport ? 'w-[120px]' : 'w-[200px]'}`}
     >
       <div className='basis-1/5'>
         {!isMobileViewport && renderPaymentSchemeLogo(provider)}

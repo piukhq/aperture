@@ -66,7 +66,7 @@ const CustomerTransactions = ({userPlans}: Props) => {
             />
           </div>
 
-          <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[600px] overflow-x-auto shadow-md rounded-[20px] p-[20px]'>
+          <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[600px] overflow-x-auto shadow-sm rounded-[20px] p-[20px]'>
             <table className='w-full min-w-[200px] rounded-[10px] table-fixed'>
               <thead className='h-[40px] w-full text-left bg-grey-200 border-[20px] border-transparent'>
                 <tr>

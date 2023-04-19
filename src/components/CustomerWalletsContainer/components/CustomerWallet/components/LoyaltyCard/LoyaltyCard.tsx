@@ -43,7 +43,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
       href={`${process.env.NEXT_PUBLIC_LOYALTY_API_URL}/admin/scheme/schemeaccount/${id}/change/`}
       target='blank'
       onClick={() => console.log('Loyalty Card clicked')} // TODO: Placeholder for future functionality
-      className='dark:bg-grey-825 flex h-[90px] w-[180px]  shadow-md rounded-[8px] text-left items-center p-[6px]'
+      className='dark:bg-grey-825 flex h-[90px] w-[180px] rounded-[8px] text-left items-center p-[6px] shadow-sm hover:shadow-md dark:hover:bg-grey-800 duration-300'
     >
       <div className='flex flex-col h-full space-between basis-4/5 font-body-4'>
         <div className='font-bold h-full leading-snug flex items-center'>
