@@ -188,7 +188,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
     return (
       <>
-        <HeadMetadata pageTitle={`MID Directory Plan: ${name}`} pageDescription={`View the ${merchants.length} merchants for the ${name} plan`} />
+        <HeadMetadata pageTitle={`MID Directory: ${name}`} pageDescription={`View the ${merchants.length} merchants for the ${name} plan`} />
         <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
         {merchants.length > 0 && renderMerchants(merchants)}
       </>
