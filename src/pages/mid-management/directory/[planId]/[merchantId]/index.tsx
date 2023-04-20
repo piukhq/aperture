@@ -187,7 +187,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
-      <HeadMetadata pageTitle={`MID Directory: ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the merchant in the plan`} />
+      <HeadMetadata pageTitle={`MID Directory: ${merchant?.merchant_metadata?.name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the merchant in the plan`} />
       <PageLayout>
         {merchant && (
           <>
