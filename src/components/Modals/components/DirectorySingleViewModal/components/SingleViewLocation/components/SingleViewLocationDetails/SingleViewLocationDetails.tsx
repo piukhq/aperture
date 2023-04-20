@@ -60,6 +60,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
             handleClick={handleRefresh}
             ariaLabel='Refresh Location details'
             isDisabled={isRefreshing}
+            noShadow
           ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
           </Button>
         </div>

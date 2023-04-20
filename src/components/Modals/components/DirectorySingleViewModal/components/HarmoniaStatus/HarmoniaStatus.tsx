@@ -55,7 +55,7 @@ const HarmoniaStatus = ({
         labelWeight={LabelWeight.SEMIBOLD}
         isDisabled={isDisabled || isLoading}
         requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-        additionalStyles='shadow-none'
+        noShadow
       >{isLoading ? 'Loading' : harmoniaStatusButtonAction}
       </Button>
     </section>
