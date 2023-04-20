@@ -243,8 +243,9 @@ const Comment = ({
             handleClick={() => setIsInCommentReplyState(true)}
             buttonSize={ButtonSize.INHERIT}
             buttonWidth={ButtonWidth.ICON_ONLY}
-            additionalStyles='ml-[3px] h-[20px] w-[20px] self-end shadow-none'
+            additionalStyles='ml-[3px] h-[20px] w-[20px] self-end'
             ariaLabel='Reply'
+            noShadow
           >
             <ForwardSvg className='h-[20px] w-[20px] scale-x-flip fill-grey-600' />
           </Button>

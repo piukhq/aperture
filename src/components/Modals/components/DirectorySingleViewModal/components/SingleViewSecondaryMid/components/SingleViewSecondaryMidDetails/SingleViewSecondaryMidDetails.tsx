@@ -115,6 +115,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
           handleClick={handleRefreshButtonClick}
           ariaLabel='Refresh Secondary MID details'
           isDisabled={isRefreshing}
+          noShadow
         ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
         </Button>
       </div>

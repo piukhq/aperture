@@ -102,7 +102,7 @@ const SingleViewEditableField = ({
         buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
         buttonBackground={ButtonBackground.LIGHT_GREY}
         ariaLabel={`Close ${label} ${actionVerb} confirmation`}
-        additionalStyles='shadow-none'
+        noShadow
       ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
       </Button>
 
@@ -116,7 +116,7 @@ const SingleViewEditableField = ({
         labelWeight={LabelWeight.SEMIBOLD}
         ariaLabel={`${actionVerb} ${label} confirmation`}
         isDisabled={isDisabled}
-        additionalStyles='shadow-none'
+        noShadow
       >Yes, {actionVerb}
       </Button>
     </div>
@@ -146,7 +146,7 @@ const SingleViewEditableField = ({
               ariaLabel={value ? 'Edit' : `Add ${label}`}
               isDisabled={isDisabled}
               requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-              additionalStyles='shadow-none'
+              noShadow
             >{value ? 'Edit' : `Add ${label}`}
             </Button>
 
@@ -160,7 +160,7 @@ const SingleViewEditableField = ({
                 ariaLabel={`${actionVerb} ${label}`}
                 isDisabled={isDisabled}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-                additionalStyles='shadow-none'
+                noShadow
               >
                 {actionVerb === 'unlink' ? <CloseIcon className='w-[14px] h-[14px] fill-red' /> : <TrashSvg className='fill-red hover:fill-red/70' />}
               </Button>
@@ -182,7 +182,7 @@ const SingleViewEditableField = ({
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.SEMIBOLD}
         isDisabled={isDisabled || isSaving}
-        additionalStyles='duration-200 shadow-none'
+        noShadow
       >{isSaving ? 'Saving' : 'Save'}
       </Button>
       { !isSaving && (
@@ -192,7 +192,7 @@ const SingleViewEditableField = ({
           buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
           buttonBackground={ButtonBackground.LIGHT_GREY}
           ariaLabel={`Close ${label} edit`}
-          additionalStyles='shadow-none'
+          noShadow
         ><CloseIcon className='w-[14px] h-[14px] fill-grey-600' />
         </Button>
       )}

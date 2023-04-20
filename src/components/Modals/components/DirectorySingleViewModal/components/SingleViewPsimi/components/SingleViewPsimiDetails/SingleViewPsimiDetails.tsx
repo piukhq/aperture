@@ -72,6 +72,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
           handleClick={handleRefreshButtonClick}
           ariaLabel='Refresh PSIMI details'
           isDisabled={isRefreshing}
+          noShadow
         ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
         </Button>
       </div>

@@ -226,6 +226,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
           handleClick={handleRefreshButtonClick}
           ariaLabel='Refresh MID details'
           isDisabled={isRefreshing}
+          noShadow
         ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
         </Button>
       </div>

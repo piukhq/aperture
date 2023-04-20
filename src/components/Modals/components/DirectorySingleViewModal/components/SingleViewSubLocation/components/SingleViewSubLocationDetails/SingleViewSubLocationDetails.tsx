@@ -149,6 +149,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
             handleClick={handleRefresh}
             ariaLabel='Refresh Sub-location details'
             isDisabled={isRefreshing}
+            noShadow
           ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
           </Button>
         </div>
