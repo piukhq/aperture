@@ -104,7 +104,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
         {/* Title Text and Button */}
         <div className={`flex flex-col gap-4 ${appClicked && 'opacity-0 duration-500 z-40'}`}>
-          <h1 className='font-heading-1 -skew-x-12 text-[5rem] z-40 pl-8 '>APERTURE</h1>
+          <h1 className='font-heading-1 -skew-x-12 text-[5rem] z-40 pl-8 [text-shadow:_0_3px_0_rgb(0_0_0_/_40%)]'>APERTURE</h1>
           <div className='ml-48 z-40 duration-500'>
             <span className={`${!isLearnMoreClicked && fadeOutInClasses} font-heading-6 text-center z-10`}>
               {!isLearnMoreClicked && 'Select a tool or'}
@@ -126,12 +126,11 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
       {/* Learn more Elements */}
       <div className={`${fadeInOutClasses} duration-500 flex flex-col gap-4 items-center z-40 ${appClicked && 'opacity-0'} w-full`}>
-        <div className='bg-orange/10 p-8 rounded-lg'>
+        <div className='bg-orange/10 p-8 rounded-lg shadow-md my-4'>
           <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦕</h2>
-          <p className='font-body-4'>March 2023</p>
+          <p className='font-body-4'>April 2023</p>
           <ul className='font-body-3 list-disc list-inside'>
             <li>File uploading</li>
-            <li>Comment & sub-location revamp</li>
             <li>Harmonia updating</li>
           </ul>
         </div>
