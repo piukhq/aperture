@@ -230,7 +230,7 @@ export type DirectoryMerchantLocationAvailableMid = {
   mid: DirectoryMerchantLocationMid
 }
 
-export type DirectoryMerchantLocationAvailableMids = Array<DirectoryMerchantLocationMid>
+export type DirectoryMerchantLocationAvailableMids = DirectoryMerchantLocationAvailableMid[]
 
 export type DirectoryMerchantMid = {
   location: DirectoryMerchantMidLocation,
