@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown, PaymentCardIcon} from 'components'
+import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
@@ -8,6 +8,7 @@ import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerch
 import {useAppDispatch} from 'app/hooks'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
+import SingleViewCombobox from '../../../SingleViewCombobox'
 import CloseIcon from 'icons/svgs/close.svg'
 import {LinkableEntities, UserPermissions} from 'utils/enums'
 
@@ -147,28 +148,18 @@ const SingleViewLocationSecondaryMids = () => {
       setShouldPrepareDropdownMenu(false)
     }
 
-    const renderDropdownSecondaryMid = (secondaryMid: DirectorySecondaryMid) => {
-      const {secondary_mid: midValue, payment_scheme_slug: paymentSchemeSlug} = secondaryMid.secondary_mid_metadata
-      return (
-        <div className='flex items-center'>
-          <div className='w-[32px] h-[23px]'>
-            <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />
-          </div>
-          <p className='ml-[13px] font-modal-data'>
-            {midValue}
-          </p>
-        </div>
-      )
-    }
-
     return (
       <div className='flex items-center justify-end gap-[10px]'>
         <div className='h-[36px] w-full'>
-          <Dropdown
-            displayValue={selectedAvailableSecondaryMid || 'Select Secondary MID'}
-            displayValues={getMerchantSecondaryMidsResponse}
-            onChangeDisplayValue={setSelectedAvailableSecondaryMid}
-            renderFn={renderDropdownSecondaryMid}
+          <SingleViewCombobox
+            selectedEntity={selectedAvailableSecondaryMid}
+            availableEntities={getMerchantSecondaryMidsResponse}
+            entityValueFn={(entity: DirectorySecondaryMid) => entity?.secondary_mid_metadata?.secondary_mid}
+            entityPaymentSchemeSlugFn={(entity: DirectorySecondaryMid) => entity?.secondary_mid_metadata?.payment_scheme_slug}
+            onChangeFn={setSelectedAvailableSecondaryMid}
+            shouldRenderPaymentCardIcon
+            entityLabel = 'Secondary MID'
+            isDisabled={postMerchantLocationLinkedSecondaryMidIsLoading}
           />
         </div>
 
