@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown, PaymentCardIcon} from 'components'
+import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
 import {DirectoryMerchantLocationAvailableMid, DirectoryMerchantLocationMid} from 'types'
+import SingleViewCombobox from '../../../SingleViewCombobox'
 import CloseIcon from 'icons/svgs/close.svg'
 import LinkedListItem from '../../../LinkedListItem'
 import {LinkableEntities, UserPermissions} from 'utils/enums'
@@ -146,28 +147,18 @@ const SingleViewLocationMids = () => {
       setShouldPrepareDropdownMenu(false)
     }
 
-    const renderDropdownMid = (mid: DirectoryMerchantLocationAvailableMid) => {
-      const {mid_value: midValue, payment_scheme_slug: paymentSchemeSlug} = mid.mid
-      return (
-        <div className='flex items-center'>
-          <div className='w-[32px] h-[23px]'>
-            <PaymentCardIcon paymentSchemeSlug={paymentSchemeSlug} />
-          </div>
-          <p className='ml-[13px] font-modal-data'>
-            {midValue}
-          </p>
-        </div>
-      )
-    }
-
     return (
       <div className='flex items-center justify-end gap-[10px]'>
         <div className='h-[36px] w-full'>
-          <Dropdown
-            displayValue={selectedAvailableMid || 'Select MID'}
-            displayValues={getMerchantLocationAvailableMidsResponse}
-            onChangeDisplayValue={setSelectedAvailableMid}
-            renderFn={renderDropdownMid}
+          <SingleViewCombobox
+            selectedEntity={selectedAvailableMid}
+            availableEntities={getMerchantLocationAvailableMidsResponse}
+            entityValueFn={(entity: DirectoryMerchantLocationAvailableMid) => entity?.mid?.mid_value}
+            entityPaymentSchemeSlugFn={(entity: DirectoryMerchantLocationAvailableMid) => entity?.mid?.payment_scheme_slug}
+            onChangeFn={setSelectedAvailableMid}
+            shouldRenderPaymentCardIcon
+            entityLabel = 'MID'
+            isDisabled={postMerchantLocationLinkedMidsIsLoading}
           />
         </div>
 
@@ -181,6 +172,7 @@ const SingleViewLocationMids = () => {
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
             ariaLabel={'Save Mid'}
+            isDisabled={!selectedAvailableMid || postMerchantLocationLinkedMidsIsLoading}
           >{postMerchantLocationLinkedMidsIsLoading ? 'Saving...' : 'Save'}
           </Button>
 
