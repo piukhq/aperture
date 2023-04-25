@@ -34,10 +34,10 @@ function SingleViewCombobox ({selectedEntity, availableEntities, entityValueFn, 
   return (
     <div className='w-4/5'>
       <Combobox value={selectedEntity} onChange={onChangeFn} disabled={isDisabled}>
-        <div className='relative'>
+        <div className='relative font-body-3'>
           <div className='relative w-full cursor-default rounded-[10px] bg-white dark:bg-grey-900 text-left sm:text-sm border-[1px] border-grey-500 dark:border-grey-700'>
             <Combobox.Input
-              className='w-full border-none py-2 pl-6 pr-10 text-sm leading-5 font-body-3 dark:bg-grey-850 rounded-[10px]'
+              className='w-full border-none py-2 pl-6 pr-10  dark:bg-grey-850 rounded-[10px]'
               displayValue={() => entityValueFn(selectedEntity) || '' }
               onChange={(event) => setQuery(event.target.value)}
               autoFocus
@@ -58,7 +58,7 @@ function SingleViewCombobox ({selectedEntity, availableEntities, entityValueFn, 
             leaveTo='opacity-0'
             afterLeave={() => setQuery('')}
           >
-            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-[10px] bg-white dark:bg-grey-825 py-1 text-grey-900 shadow-lg sm:text-sm '>
+            <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-[10px] bg-white dark:bg-grey-825 py-1 shadow-md sm:text-sm '>
               {filteredEntities.length === 0 && query !== '' ? (
                 <div className='relative cursor-default select-none py-2 px-4 text-grey-700'>
                       No {entityLabel}s found
