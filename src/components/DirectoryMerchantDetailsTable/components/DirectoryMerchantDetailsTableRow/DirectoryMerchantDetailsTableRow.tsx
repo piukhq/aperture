@@ -60,7 +60,7 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
 
   return (
     <tr
-      className='hover:bg-yellow/20 dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
+      className='hover:bg-lightYellow dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
       onClick={handleRowClick}
       onKeyPress={handleRowKeyPress} // tr does not work like buttons, so we need to add keypress event
       role='button'

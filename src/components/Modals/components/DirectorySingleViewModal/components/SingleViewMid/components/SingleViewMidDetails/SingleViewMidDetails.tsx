@@ -264,6 +264,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         value={isInLocationEditMode ? getAssociatedLocationString() : merchantMid.location?.location_title}
         isSaving={putMerchantMidLocationIsLoading}
         isDisabled={isRefreshing}
+        shouldUseCombobox
         handleValueChange={handleLocationChange}
         handleCancel={() => setAssociatedLocationRef(locationRef)}
         handleSave={handleLocationSave}

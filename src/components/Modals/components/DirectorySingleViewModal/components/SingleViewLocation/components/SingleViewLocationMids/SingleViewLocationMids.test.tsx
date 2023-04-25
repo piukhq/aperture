@@ -4,7 +4,7 @@ import {PaymentSchemeSlug} from 'utils/enums'
 import SingleViewLocationMids from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation/components/SingleViewLocationMids'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
-jest.mock('components/DropDown', () => () => <div data-testid='Dropdown' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewCombobox', () => () => <div data-testid='SingleViewCombobox' />)
 
 let mockGetMerchantLocationLinkedMidsResponse = [
   {
@@ -143,9 +143,9 @@ describe('SingleViewLocationMids', () => {
       expect(screen.queryByRole('button', {name: 'Link New MID'})).not.toBeInTheDocument()
     })
 
-    it('should render the Mid linking dropdown', () => {
+    it('should render the Mid linking combobox', () => {
       render(<SingleViewLocationMids />)
-      expect(screen.getByTestId('Dropdown')).toBeInTheDocument()
+      expect(screen.getByTestId('SingleViewCombobox')).toBeInTheDocument()
     })
 
     it('should render the Mid save button', () => {

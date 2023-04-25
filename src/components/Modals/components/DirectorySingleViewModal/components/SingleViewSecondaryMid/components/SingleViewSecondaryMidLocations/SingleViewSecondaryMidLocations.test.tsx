@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
+jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewCombobox', () => () => <div data-testid='SingleViewCombobox' />)
 
 let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   link_ref: 'mock_link_ref',
@@ -106,7 +107,7 @@ describe('SingleViewSecondaryMidLocations', () => {
     it('should render the Link New Location dropdown', () => {
       render(getSingleViewSecondaryMidsLocationComponent())
       fireEvent.click(screen.getByRole('button', {name: 'Link New Location'}))
-      expect(screen.getByRole('button', {name: 'Select Location'})).toBeInTheDocument()
+      expect(screen.getByTestId('SingleViewCombobox')).toBeInTheDocument()
     })
 
     it('should render the Link New Location save button', () => {

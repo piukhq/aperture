@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {Button, TextInputGroup, Dropdown} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, BorderColour, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import SingleViewCombobox from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewCombobox'
 import CloseIcon from 'icons/svgs/close.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
 import {UserPermissions} from 'utils/enums'
@@ -25,6 +26,7 @@ type Props = {
   warningMessage?: string
   dropdownValues?: Array<string>
   isDisabled: boolean
+  shouldUseCombobox?: boolean
 }
 
 const SingleViewEditableField = ({
@@ -46,6 +48,7 @@ const SingleViewEditableField = ({
   dropdownValues,
   onEdit,
   isDisabled,
+  shouldUseCombobox,
 }: Props) => {
   const [isInEditState, setIsInEditState] = useState(false)
   const [isInDeleteState, setIsInDeleteState] = useState(false)
@@ -93,7 +96,7 @@ const SingleViewEditableField = ({
 
   const renderDeleteState = () => (
     <div className='flex gap-[10px] h-[38px]'>
-      <div className='w-[160px]'>
+      <div className='w-[160px] absolute -translate-x-40 bg-white/75 dark:bg-black/50'>
         <p className='font-body-4 text-red'>Are you sure you want to {actionVerb} this {label}?</p>
       </div>
       <Button
@@ -199,20 +202,31 @@ const SingleViewEditableField = ({
     </div>
   )
 
-  const renderEditableDropdownMenu = () => (
+  const renderEditableSelectionMenu = () => (
     <div className='w-full'>
       <div className='mb-[3px]'>
         {renderHeader()}
       </div>
       <div className='flex h-[36px] w-full gap-[10px] justify-between'>
-        <Dropdown
-          displayValue={formattedValue}
-          displayValues={dropdownValues}
-          onChangeDisplayValue={handleValueChange}
-          isDisabled={isDisabled}
-          selectedValueStyles='font-normal text-grey-600'
-        />
-
+        { shouldUseCombobox ? (
+          <SingleViewCombobox
+            selectedEntity={value}
+            availableEntities={dropdownValues}
+            entityValueFn={(entity: string) => entity}
+            onChangeFn={handleValueChange}
+            entityLabel = 'Location'
+            isDisabled={isDisabled}
+          />
+        ) : (
+          <Dropdown
+            displayValue={formattedValue}
+            displayValues={dropdownValues}
+            onChangeDisplayValue={handleValueChange}
+            isDisabled={isDisabled}
+            selectedValueStyles='font-normal text-grey-600'
+          />
+        )
+        }
         {renderEditSaveAndCloseButtons()}
       </div>
     </div>
@@ -241,7 +255,7 @@ const SingleViewEditableField = ({
   )
 
   const renderEditState = () => {
-    return dropdownValues ? renderEditableDropdownMenu() : renderEditableInputField()
+    return dropdownValues ? renderEditableSelectionMenu() : renderEditableInputField()
   }
 
   return (
