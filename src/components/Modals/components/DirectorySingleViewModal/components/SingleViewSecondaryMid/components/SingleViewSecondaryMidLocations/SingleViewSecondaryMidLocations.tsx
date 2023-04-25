@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react'
 import {useRouter} from 'next/router'
-import {Button, Dropdown} from 'components'
+import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
+import SingleViewCombobox from '../../../SingleViewCombobox'
 import {useMidManagementSecondaryMidLocations} from 'hooks/useMidManagementSecondaryMidLocations'
 import {DirectoryLocation, DirectoryMerchantMidLocation} from 'types'
 import {LinkableEntities, UserPermissions} from 'utils/enums'
@@ -39,9 +40,9 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   })
 
   const {
-    getMerchantLocationsResponse: locationData,
-    getMerchantLocationsIsLoading: locationDataIsLoading,
-    getMerchantLocationsRefresh: locationDataRefresh,
+    getMerchantLocationsResponse: locationsData,
+    getMerchantLocationsIsLoading: locationsDataIsLoading,
+    getMerchantLocationsRefresh: locationsDataRefresh,
   } = useMidManagementLocations({
     skipGetLocations: false,
     skipGetLocation: true,
@@ -57,7 +58,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       resetDeleteMerchantSecondaryMidLocationLinkResponse()
       setSelectedUnlinkLocationIndex(null)
     }
-  }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, dispatch, locationDataRefresh, resetDeleteMerchantSecondaryMidLocationLinkResponse])
+  }, [deleteMerchantSecondaryMidLocationLinkIsSuccess, dispatch, locationsDataRefresh, resetDeleteMerchantSecondaryMidLocationLinkResponse])
 
   useEffect(() => { // If the user has successfully linked a Location, revert to initial state
     if (postMerchantSecondaryMidLocationLinkIsSuccess) {
@@ -66,35 +67,25 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       setSelectedAvailableLocation(null)
       setShouldRenderDropdownMenu(false)
     }
-  }, [dispatch, locationDataRefresh, postMerchantSecondaryMidLocationLinkIsSuccess, resetPostMerchantSecondaryMidLocationLinkResponse])
+  }, [dispatch, locationsDataRefresh, postMerchantSecondaryMidLocationLinkIsSuccess, resetPostMerchantSecondaryMidLocationLinkResponse])
 
 
   useEffect(() => { // If the user has clicked the 'Add Location' button, get the available locations
     if (shouldGetAvailableLocations) {
-      locationDataRefresh()
+      locationsDataRefresh()
       setShouldRenderDropdownMenu(true)
     }
-  }, [setShouldRenderDropdownMenu, shouldGetAvailableLocations, locationDataRefresh, selectedUnlinkLocationIndex])
+  }, [setShouldRenderDropdownMenu, shouldGetAvailableLocations, locationsDataRefresh, selectedUnlinkLocationIndex])
 
   useEffect(() => { // If there is no available locations, set the available location notification
-    if (shouldRenderDropdownMenu && !locationDataIsLoading && locationData.length === 0 && selectedUnlinkLocationIndex === null) {
+    if (shouldRenderDropdownMenu && !locationsDataIsLoading && locationsData.length === 0 && selectedUnlinkLocationIndex === null) {
       setAvailableLocationNotification('No Locations available to link for this Secondary MID')
     } else {
       setAvailableLocationNotification('')
     }
-  }, [locationData, locationDataIsLoading, selectedUnlinkLocationIndex, shouldRenderDropdownMenu])
+  }, [locationsData, locationsDataIsLoading, selectedUnlinkLocationIndex, shouldRenderDropdownMenu])
 
   const hasNoLinkedLocations = (!getMerchantSecondaryMidLinkedLocationsResponse || getMerchantSecondaryMidLinkedLocationsResponse.length === 0) && !getMerchantSecondaryMidLinkedLocationsIsLoading
-
-  const renderDropdownLocation = (location: DirectoryLocation) => {
-    return (
-      <div className='flex items-center'>
-        <p className='ml-[13px] font-modal-data'>
-          {location.location_metadata?.name}
-        </p>
-      </div>
-    )
-  }
 
   const renderAvailableLocationsDropdown = () => {
     const onCloseHandler = () => {
@@ -117,11 +108,13 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     return (
       <div className='flex items-center justify-end gap-[10px] mb-[26px]'>
         <div className='h-[36px] w-full'>
-          <Dropdown
-            displayValue={selectedAvailableLocation || 'Select Location'}
-            displayValues={locationData}
-            onChangeDisplayValue={setSelectedAvailableLocation}
-            renderFn={renderDropdownLocation}
+          <SingleViewCombobox
+            selectedEntity={selectedAvailableLocation}
+            availableEntities={locationsData}
+            entityValueFn={(entity: DirectoryLocation) => entity?.location_metadata?.name}
+            onChangeFn={setSelectedAvailableLocation}
+            entityLabel = 'Location'
+            isDisabled={postMerchantSecondaryMidLocationLinkIsLoading}
           />
         </div>
 
@@ -167,7 +160,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       </Button>
 
       <div className='h-[20px] mt-[6px]'>
-        {locationData?.length === 0 && !locationDataIsLoading && shouldRenderDropdownMenu && (
+        {locationsData?.length === 0 && !locationsDataIsLoading && shouldRenderDropdownMenu && (
           <p className='font-body text-[.75rem] text-red'>{availableLocationNotification}</p>
         )}
       </div>
@@ -220,7 +213,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
   return (
     <div className='pb-[28px]'>
-      {shouldRenderDropdownMenu && locationData.length > 0 ? renderAvailableLocationsDropdown() : renderLinkLocationButton()}
+      {shouldRenderDropdownMenu && locationsData.length > 0 ? renderAvailableLocationsDropdown() : renderLinkLocationButton()}
       {getMerchantSecondaryMidLinkedLocationsIsLoading ? (
         <i className='font-body-4'>Loading...</i>
       ) : renderLocations()}
