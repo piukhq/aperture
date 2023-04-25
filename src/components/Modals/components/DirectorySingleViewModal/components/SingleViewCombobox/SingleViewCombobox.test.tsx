@@ -2,9 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewCombobox from './SingleViewCombobox'
 
-
-describe('Dropdown', () => {
-
+describe('SingleViewCombobox', () => {
   const mockProps = {
     selectedEntity: 'mock_selected_entity',
     availableEntities: ['mock_available_entity_1', 'mock_available_entity_2'],
@@ -15,7 +13,6 @@ describe('Dropdown', () => {
     entityLabel: 'mockEntityLabel',
     isDisabled: false,
   }
-
 
   describe('Test component renders', () => { // Limited tests as it is mostly Headless UI code
     it('should render an input with the correct placeholder', () => {
