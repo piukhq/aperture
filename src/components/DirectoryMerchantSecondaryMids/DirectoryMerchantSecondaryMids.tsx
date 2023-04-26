@@ -44,12 +44,13 @@ const DirectoryMerchantSecondaryMids = () => {
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
+  const [shouldSkipGetSecondaryMidsByPage, setShouldSkipGetSecondaryMidsByPage] = useState(true)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
-    skipGetSecondaryMidsByPage: !(currentPage > 1),
+    skipGetSecondaryMidsByPage: shouldSkipGetSecondaryMidsByPage,
     planRef: planId as string,
     merchantRef: merchantId as string,
     page: currentPage.toString(),
@@ -221,7 +222,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
-      <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetSecondaryMidsByPage} />
     </>
   )
 }
