@@ -6,7 +6,8 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
 import {midManagementMerchantsApi} from 'services/midManagementMerchants'
 import {midManagementPlansApi} from 'services/midManagementPlans'
-import {getLocationLabel, reset} from 'features/directoryLocationSlice'
+import {reset as merchantReset} from 'features/directoryMerchantSlice'
+import {getLocationLabel, reset as locationReset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
 import {DirectoryLocationMetadata} from 'types'
@@ -55,7 +56,7 @@ const DirectoryLocationModal = () => {
   const closeModal = useCallback(() => {
     resetPostMerchantLocationResponse()
     resetPostMerchantLocationSubLocationResponse()
-    dispatch(reset())
+    dispatch(locationReset())
     dispatch(requestModal(ModalType.NO_MODAL))
   }, [dispatch, resetPostMerchantLocationResponse, resetPostMerchantLocationSubLocationResponse])
 
@@ -71,6 +72,8 @@ const DirectoryLocationModal = () => {
       resetPostMerchantLocationResponse()
       dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
+      dispatch(merchantReset())
+      dispatch(locationReset())
     }
   }, [
     postMerchantLocationIsSuccess,
