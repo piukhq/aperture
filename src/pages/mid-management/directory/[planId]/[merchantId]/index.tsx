@@ -71,6 +71,10 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     ref && dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW))
   }, [ref, dispatch])
 
+  useEffect(() => { // set the selected merchant in the store if there is no previously selected merchant counts available (AKA a empty merchant in the store)
+    !selectedMerchant?.merchant_counts && getMerchantResponse && dispatch(setSelectedDirectoryMerchant(merchant)
+    ), [merchant, dispatch, getMerchantResponse] })
+
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
     switch(tab) {
       case DirectoryNavigationTab.MIDS:

@@ -49,6 +49,7 @@ const DirectorySecondaryMidModal = () => {
       handlePostMerchantSecondaryMidError()
     } else if (postMerchantSecondaryMidResponse) {
       resetPostMerchantSecondaryMidResponse()
+      dispatch(reset())
       dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
     }
@@ -90,7 +91,6 @@ const DirectorySecondaryMidModal = () => {
 
   const handleModalClose = () => {
     resetPostMerchantSecondaryMidResponse()
-    dispatch(reset())
   }
 
   return (

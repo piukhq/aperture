@@ -50,10 +50,10 @@ const DirectoryMidModal = () => {
       handlePostMerchantMidError()
     } else if (postMerchantMidResponse) {
       resetPostMerchantMidResponse()
-      reset()
       dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed, and is used for merchants page
       dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
+      dispatch(reset())
     }
   }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])
 
@@ -97,7 +97,6 @@ const DirectoryMidModal = () => {
   const handleModalClose = () => {
     setMidValidationError(null)
     resetPostMerchantMidResponse()
-    dispatch(reset())
   }
 
   return (
@@ -111,6 +110,7 @@ const DirectoryMidModal = () => {
           onChange={handleMidChange}
           onFocus={() => setMidValidationError(null)}
           onBlur={handleMidBlur}
+          autofocus
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}
           inputWidth={InputWidth.FULL}

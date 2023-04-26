@@ -45,12 +45,13 @@ const DirectoryMerchantMids = () => {
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
+  const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState(true)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse} = useMidManagementMids({
     skipGetMid: true,
-    skipGetMidsByPage: !(currentPage > 1),
+    skipGetMidsByPage: shouldSkipGetMidsByPage,
     planRef: planId as string,
     page: currentPage.toString() as string,
     merchantRef: merchantId as string,
@@ -237,7 +238,7 @@ const DirectoryMerchantMids = () => {
           refArray={refArray}
         />
       )}
-      <DirectoryMerchantPaginationButton currentData={midsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={midsData} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetMidsByPage} setPageFn={setCurrentPage} />
     </>
   )
 }

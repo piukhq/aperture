@@ -52,6 +52,7 @@ const DirectoryPsimiModal = () => {
       resetPostMerchantPsimiResponse()
       dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       dispatch(requestModal(ModalType.NO_MODAL))
+      dispatch(reset())
 
     }
   }, [postMerchantPsimiError, resetPostMerchantPsimiResponse, handlePostMerchantPsimiError, postMerchantPsimiResponse, dispatch])
@@ -86,7 +87,6 @@ const DirectoryPsimiModal = () => {
 
   const handleModalClose = () => {
     resetPostMerchantPsimiResponse()
-    dispatch(reset())
   }
 
   return (

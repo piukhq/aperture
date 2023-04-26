@@ -21,6 +21,7 @@ const DirectorySingleViewNavigationTab = ({tab, tabSelected, setTabSelectedFn, i
   return (
     <button
       key={tab}
+      id={tab}
       className={classNames(
         'font-heading-8 h-[57px]',
         isTabSelected ? tabSelectedClasses : tabUnselectedClasses,

@@ -41,12 +41,13 @@ const DirectoryMerchantPsimis = () => {
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
+  const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState(true)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantPsimisResponse} = useMidManagementPsimis({
     skipGetPsimi: true,
-    skipGetPsimisByPage: !(currentPage > 1),
+    skipGetPsimisByPage: shouldSkipGetPsimisByPage,
     planRef: planId as string,
     merchantRef: merchantId as string,
     page: currentPage.toString(),
@@ -201,7 +202,7 @@ const DirectoryMerchantPsimis = () => {
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetPsimisByPage} />
     </>
   )
 }

@@ -29,13 +29,14 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const {merchantId, planId} = router.query
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState(1)
+  const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState(true)
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantLocationsResponse} = useMidManagementLocations({
     skipGetLocation: true,
-    skipGetLocationsByPage: !(currentPage > 1),
+    skipGetLocationsByPage: shouldSkipGetLocationsByPage,
     planRef: planId as string,
     merchantRef: merchantId as string,
     page: currentPage.toString(),
@@ -255,7 +256,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       {locationsData && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} />
+      <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetLocationsByPage} />
     </>
   )
 }
