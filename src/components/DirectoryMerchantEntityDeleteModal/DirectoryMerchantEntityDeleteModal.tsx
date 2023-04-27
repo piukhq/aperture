@@ -78,14 +78,6 @@ const DirectoryMerchantEntityDeleteModal = ({
       </li>
     )
   }
-  const missingReason = reasonValue.length < 1 && entitiesToBeDeleted.length > 1
-  const handleDeleteButtonClick = () => {
-    if (missingReason) {
-      setReasonValidationError('Enter reason for deletion')
-    } else {
-      deleteButtonClickFn()
-    }
-  }
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
@@ -114,14 +106,14 @@ const DirectoryMerchantEntityDeleteModal = ({
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
         <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
         <Button
-          handleClick={handleDeleteButtonClick}
+          handleClick={deleteButtonClickFn}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.LARGE}
           buttonBackground={ButtonBackground.RED}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.SEMIBOLD}
-          isDisabled={isDeleteLoading || missingReason}
+          isDisabled={isDeleteLoading || reasonValue.length < 1 && entitiesToBeDeleted.length > 1}
         >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
         </Button>
       </section>
