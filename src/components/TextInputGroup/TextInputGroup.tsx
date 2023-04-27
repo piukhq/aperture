@@ -137,7 +137,6 @@ const TextInputGroup = (props: Props) => {
   const renderSearchSelectElement = () => (
     <>
       {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
-
       <div className='relative'>
         <Combobox value={selectedValue} onChange={handleSelectItemClick}>
           <Combobox.Input as='input' ref={inputRef}
@@ -230,7 +229,7 @@ const TextInputGroup = (props: Props) => {
         </div>
       )}
       {error && (
-        <span data-testid={`${name}-input-error`} className='text-body text-[.75rem] text-right text-red absolute top-[33%] right-[12px]'>
+        <span data-testid={`${name}-input-error`} className='text-body text-[.75rem] text-right text-red absolute top-[28%] right-[12px]'>
           {error}
         </span>
       )}
