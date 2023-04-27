@@ -70,6 +70,8 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
     jest.clearAllMocks()
     React.useState = jest
       .fn()
+      .mockReturnValueOnce(['', jest.fn()]) // reasonValue
+      .mockReturnValueOnce([null, jest.fn()]) // reasonValidationError
       .mockReturnValueOnce(['', jest.fn()]) // ErrorMessage
   })
 
@@ -95,6 +97,18 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
     render(getDirectoryMerchantEntityDeleteModalContentComponent())
 
     expect(screen.getByTestId('paragraph-1')).toHaveTextContent('Are you sure you want to delete the following Locations:')
+  })
+
+  it('should render a reason input for multiple entities', () => {
+    render(getDirectoryMerchantEntityDeleteModalContentComponent())
+    expect(screen.getByLabelText('Reason for deletion')).toBeInTheDocument()
+  })
+
+  it('should not render a reason input for a single entity', () => {
+    render(getDirectoryMerchantEntityDeleteModalContentComponent({
+      entitiesToBeDeleted: [{entityRef: 'mock_ref_1', entityValue: mockEntityValue1}],
+    }))
+    expect(screen.queryByLabelText('Reason for deletion')).not.toBeInTheDocument()
   })
 
   it('should render the harmonia paragraph', () => {
@@ -126,19 +140,41 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
     })
 
     it('should call the deleteButtonClick function when the delete button is clicked', () => {
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['mock_reason', jest.fn()]) // reasonValue
+        .mockReturnValueOnce([null, jest.fn()]) // reasonValidationError
+        .mockReturnValueOnce([null, jest.fn()]) // ErrorMessage
+
       render(getDirectoryMerchantEntityDeleteModalContentComponent())
       fireEvent.click(screen.getByRole('button', {name: 'Delete Locations'}))
-
       expect(mockDeleteButtonClickFn).toHaveBeenCalledTimes(1)
+    })
+
+    it('should not disable the delete button when there is only a single entity with no reason provided', () => {
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['', jest.fn()]) // reasonValue
+        .mockReturnValueOnce([null, jest.fn()]) // reasonValidationError
+        .mockReturnValueOnce([null, jest.fn()]) // ErrorMessage
+      render(getDirectoryMerchantEntityDeleteModalContentComponent({
+        entitiesToBeDeleted: [{entityRef: 'mock_ref_1', entityValue: mockEntityValue1}],
+      }))
+      const deletingButton = screen.getByRole('button', {name: 'Delete Location'})
+
+      expect(deletingButton).toBeInTheDocument()
+      expect(deletingButton).not.toBeDisabled()
     })
   })
 
   describe('Test non-happy path functionality', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-
-      React.useState = jest.fn()
-        .mockReturnValueOnce(['mock_error', jest.fn])
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['', jest.fn()]) // reasonValue
+        .mockReturnValueOnce([null, jest.fn()]) // reasonValidationError
+        .mockReturnValueOnce(['mock_error', jest.fn()]) // ErrorMessage
     })
 
     it('should render an error message if present', () => {
@@ -146,12 +182,28 @@ describe('DirectoryMerchantEntityDeleteModal', () => {
       expect(screen.getByText('mock_error')).toBeInTheDocument()
     })
 
-    it('should render a disabled button with correct label when deletion is in progress', () => {
-      render(getDirectoryMerchantEntityDeleteModalContentComponent({isDeleteLoading: true}))
-      const deletingButton = screen.getByRole('button', {name: 'Deleting Locations...'})
+    it('should render a disabled button with correct label when reason is not provided', () => {
+      render(getDirectoryMerchantEntityDeleteModalContentComponent())
+      const deletingButton = screen.getByRole('button', {name: 'Delete Locations'})
 
       expect(deletingButton).toBeInTheDocument()
       expect(deletingButton).toBeDisabled()
     })
+
+    it('should render a disabled button with correct label when deletion is in progress', () => {
+      render(getDirectoryMerchantEntityDeleteModalContentComponent({isDeleteLoading: true}))
+      const deletingButton = screen.getByRole('button', {name: 'Deleting Locations...'})
+
+      React.useState = jest
+        .fn()
+        .mockReturnValueOnce(['mock_reason', jest.fn()]) // reasonValue
+        .mockReturnValueOnce([null, jest.fn()]) // reasonValidationError
+        .mockReturnValueOnce(['mock_error', jest.fn()]) // ErrorMessage
+
+      expect(deletingButton).toBeInTheDocument()
+      expect(deletingButton).toBeDisabled()
+    })
+
+
   })
 })
