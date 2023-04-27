@@ -70,7 +70,8 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationError)
     } else if (postMerchantLocationIsSuccess) {
       resetPostMerchantLocationResponse()
-      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
+      dispatch(midManagementPlansApi.util.resetApiState())
+      dispatch(midManagementMerchantsApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(merchantReset())
       dispatch(locationReset())
@@ -88,7 +89,8 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationSubLocationError)
     } else if (postMerchantLocationSubLocationIsSuccess) {
       resetPostMerchantLocationSubLocationResponse()
-      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
+      dispatch(midManagementMerchantsApi.util.resetApiState())
+      dispatch(midManagementPlansApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [

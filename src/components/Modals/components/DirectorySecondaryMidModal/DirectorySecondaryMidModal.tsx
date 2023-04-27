@@ -4,6 +4,7 @@ import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {midManagementMerchantsApi} from 'services/midManagementMerchants'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {ModalStyle, ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
@@ -50,7 +51,8 @@ const DirectorySecondaryMidModal = () => {
     } else if (postMerchantSecondaryMidResponse) {
       resetPostMerchantSecondaryMidResponse()
       dispatch(reset())
-      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
+      dispatch(midManagementMerchantsApi.util.resetApiState())
+      dispatch(midManagementPlansApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [postMerchantSecondaryMidError, resetPostMerchantSecondaryMidResponse, handlePostMerchantSecondaryMidError, postMerchantSecondaryMidResponse, dispatch])
