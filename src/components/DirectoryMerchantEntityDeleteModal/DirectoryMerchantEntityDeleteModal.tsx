@@ -1,4 +1,5 @@
-import {Button, Modal, PaymentCardIcon} from 'components'
+import {Button, Modal, PaymentCardIcon, TextInputGroup} from 'components'
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch} from 'app/hooks'
 import {ModalType, ModalStyle, DirectorySingleViewEntities} from 'utils/enums'
@@ -32,12 +33,21 @@ const DirectoryMerchantEntityDeleteModal = ({
   const router = useRouter()
   const {tab} = router.query
 
+  const [reasonValue, setReasonValue] = useState('')
+  const [reasonValidationError, setReasonValidationError] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
   const entityLabel = `${DirectorySingleViewEntities[tab as keyof typeof DirectorySingleViewEntities]}${entitiesToBeDeleted.length > 1 ? 's' : ''}`
 
+
+  const handleReasonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setReasonValue(event.target.value)
+    setReasonValidationError(null)
+  }
+
   const handleDeleteError = useCallback(() => {
     const {data} = deleteError
-    setErrorMessage(data.detail[0].msg)
+    setErrorMessage(
+      data.detail[0].msg)
   }, [deleteError])
 
   useEffect(() => {
@@ -50,7 +60,7 @@ const DirectoryMerchantEntityDeleteModal = ({
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(reset())
     }
-  }, [deleteError, dispatch, handleDeleteError, isDeleteSuccess, resetDeleteResponseFn])
+  }, [deleteError, dispatch, handleDeleteError, isDeleteSuccess, reasonValue, resetDeleteResponseFn])
 
   const renderListItem = (listItem: DirectoryMerchantEntitySelectedItem) => {
     const {entityRef, entityValue, paymentSchemeSlug} = listItem
@@ -68,6 +78,14 @@ const DirectoryMerchantEntityDeleteModal = ({
       </li>
     )
   }
+  const missingReason = reasonValue.length < 1 && entitiesToBeDeleted.length > 1
+  const handleDeleteButtonClick = () => {
+    if (missingReason) {
+      setReasonValidationError('Enter reason for deletion')
+    } else {
+      deleteButtonClickFn()
+    }
+  }
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`Delete ${entityLabel}`} onCloseFn={() => dispatch(setSelectedDirectoryEntityCheckedSelection([]))}>
@@ -76,19 +94,34 @@ const DirectoryMerchantEntityDeleteModal = ({
         <ul>
           {entitiesToBeDeleted.map(entity => renderListItem(entity))}
         </ul>
+        { entitiesToBeDeleted.length > 1 && (
+          <TextInputGroup
+            name='deletion-reason'
+            label='Reason for deletion'
+            onBlur={() => reasonValue.length < 1 && setReasonValidationError('Enter reason for deletion')}
+            error={reasonValidationError && reasonValidationError}
+            autofocus
+            value={reasonValue}
+            onChange={handleReasonChange}
+            inputType={InputType.TEXT}
+            inputStyle={InputStyle.FULL}
+            inputWidth={InputWidth.FULL}
+            inputColour={reasonValidationError ? InputColour.RED : InputColour.GREY}
+          />
+        )}
         {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
       </section>
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
         <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
         <Button
-          handleClick={deleteButtonClickFn}
+          handleClick={handleDeleteButtonClick}
           buttonType={ButtonType.SUBMIT}
           buttonSize={ButtonSize.MEDIUM}
           buttonWidth={ButtonWidth.LARGE}
           buttonBackground={ButtonBackground.RED}
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.SEMIBOLD}
-          isDisabled={isDeleteLoading}
+          isDisabled={isDeleteLoading || missingReason}
         >{isDeleteLoading ? `Deleting ${entityLabel}...` : `Delete ${entityLabel}`}
         </Button>
       </section>
