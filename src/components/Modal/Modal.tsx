@@ -1,8 +1,7 @@
 import React, {useEffect, useCallback, useState} from 'react'
 import CloseIcon from 'icons/svgs/close.svg'
-
-import {useAppDispatch} from 'app/hooks'
-import {requestModal} from 'features/modalSlice'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {requestModal, isModalHidden, shouldCloseHidableModal, selectIsModalHidden, selectModal, selectShouldCloseHidableModal} from 'features/modalSlice'
 import {ModalType} from 'utils/enums'
 import {MODAL_STYLE_MAPS} from './styles'
 import FocusTrap from 'focus-trap-react'
@@ -20,21 +19,50 @@ interface KeyboardEvent {
 
 const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFocused}: Props) => {
   const dispatch = useAppDispatch()
+  const isModalCurrentlyHidden = useAppSelector(selectIsModalHidden)
+  const closeHidableModal = useAppSelector(selectShouldCloseHidableModal)
+  const modalRequested = useAppSelector(selectModal)
+
+  const hidableModals = [ // Modals that can be hidden so state can be preserved.
+    ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD,
+    ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD,
+    ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD,
+    ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW,
+    ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION,
+    ModalType.MID_MANAGEMENT_DIRECTORY_MID,
+    ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MID,
+    ModalType.MID_MANAGEMENT_DIRECTORY_PSIMI,
+    ModalType.ASSET_COMPARATOR_CREDENTIALS,
+    ModalType.MID_MANAGEMENT_COMMENTS,
+    ModalType.MID_MANAGEMENT_BULK_COMMENT,
+  ]
+
   const [isFadedIn, setIsFadedIn] = useState(false)
 
   const handleClose = useCallback(() => {
+    console.log('handleClose')
     setIsFadedIn(false)
     setTimeout(() => {
       onCloseFn && onCloseFn()
       dispatch(requestModal(ModalType.NO_MODAL))
+      dispatch(shouldCloseHidableModal(false))
     }, 300)
   }, [dispatch, onCloseFn])
+
+  const handleHide = useCallback(() => {
+    console.log('Hiding...')
+    setIsFadedIn(false)
+    setTimeout(() => {
+      dispatch(isModalHidden(true))
+    }, 300)
+  }, [dispatch])
 
   useEffect(() => { // fade in modal
     if (children) {
       setIsFadedIn(true)
     }
-  }, [children])
+  }, [children, isModalCurrentlyHidden])
+
 
   const renderCloseButton = () => (
     <button
@@ -74,15 +102,22 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     </div>
   )
 
+  const isModalHidable = hidableModals.includes(modalRequested) && !closeHidableModal
+
   return (
-    <FocusTrap>
-      <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
-        <div className={`fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`} onClick={handleClose} />
-        <div className='fixed z-50 m-auto left-0 right-0' onClick={handleClose}>
-          {renderModal()}
+    <div className={`${isModalCurrentlyHidden ? 'hidden -z-50 pointer-events-none' : 'bg-red/50'}`}>
+      <FocusTrap active={!isModalCurrentlyHidden}>
+        <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
+          <div
+            className={`fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33] z-50 duration-500 ease-out ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}
+            onClick={ isModalHidable ? handleHide : handleClose}
+          />
+          <div className='fixed z-50 m-auto left-0 right-0' onClick={ isModalHidable ? handleHide : handleClose}>
+            {renderModal()}
+          </div>
         </div>
-      </div>
-    </FocusTrap>
+      </FocusTrap>
+    </div>
   )
 }
 

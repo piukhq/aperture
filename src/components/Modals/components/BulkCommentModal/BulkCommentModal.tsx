@@ -1,15 +1,17 @@
 import {useCallback, useEffect, useState} from 'react'
-import {useAppSelector} from 'app/hooks'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {Modal, AutosizeTextArea, PaymentCardIcon} from 'components'
 import {getCommentsOwnerRef, getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {shouldCloseHidableModal} from 'features/modalSlice'
 import {ModalStyle} from 'utils/enums'
 import {determineCommentOwnerType} from 'utils/comments'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
 import CheckSvg from 'icons/svgs/check.svg'
 
 const BulkCommentModal = () => {
+  const dispatch = useAppDispatch()
   const commentsOwnerRef = useAppSelector(getCommentsOwnerRef)
   const commentsModalHeader = useAppSelector(getCommentsModalHeader)
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
@@ -22,11 +24,18 @@ const BulkCommentModal = () => {
     setCheckedRefs(checkedSubjects.map(subject => subject.entityRef))
   }, [checkedSubjects])
 
+
   const {
     postComment,
     postCommentIsLoading: newBulkCommentIsLoading,
     postCommentIsSuccess: newBulkCommentIsSuccess,
   } = useMidManagementComments({skipGetComments: true})
+
+  useEffect(() => {
+    if (newBulkCommentIsSuccess) {
+      dispatch(shouldCloseHidableModal(true))
+    }
+  }, [newBulkCommentIsSuccess, dispatch])
 
   const handleBulkCommentSubmit = useCallback((comment: string) => {
     if (checkedRefs.length !== 0) {
