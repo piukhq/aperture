@@ -41,6 +41,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }, [getPlanResponse, planRefForSingleMerchant, router])
 
   const handleRequestNewPlanModal = useCallback(() => {
+    dispatch(reset())
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
   }, [dispatch])
 

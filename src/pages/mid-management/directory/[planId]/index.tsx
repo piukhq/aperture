@@ -43,7 +43,10 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(reset())
   }, [dispatch])
 
-  const handleRequestNewMerchantModal = useCallback(() => { dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT)) }, [dispatch])
+  const handleRequestNewMerchantModal = useCallback(() => {
+    dispatch(reset())
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
+  }, [dispatch])
 
   const requestPlanCommentsModal = useCallback(() => {
     dispatch(setModalHeader(planDetails?.plan_metadata?.name))

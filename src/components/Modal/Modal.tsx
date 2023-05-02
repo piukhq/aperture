@@ -24,8 +24,9 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const modalRequested = useAppSelector(selectModal)
 
   const hidableModals = [ // Modals that can be hidden so state can be preserved.
+    ModalType.MID_MANAGEMENT_DIRECTORY_PLAN,
+    ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT,
     ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD,
-    ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD,
     ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD,
     ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW,
     ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION,
