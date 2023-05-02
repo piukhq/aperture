@@ -86,6 +86,7 @@ const DirectorySingleViewModal = () => {
     locationRef: ref as string,
   })
 
+  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const [entityHeading, setEntityHeading] = useState('')
   const [copyButtonClicked, setCopyButtonClicked] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -93,7 +94,27 @@ const DirectorySingleViewModal = () => {
   const [isInLocationEditState, setIsInLocationEditState] = useState(false)
   const [isEntityFound, setIsEntityFound] = useState(false)
   const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
+  const [entityRef, setEntityRef] = useState('')
+
+  useEffect(() => { // TODO: Set the entityRef as the ref of the selected entity, needs rethink of how we do types to be smarter
+    if (selectedEntity) {
+      if (tab === DirectoryNavigationTab.MIDS) {
+        const {mid_ref} = selectedEntity as DirectoryMid
+        setEntityRef(mid_ref)
+      } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
+        const {secondary_mid_ref} = selectedEntity as DirectorySecondaryMid
+        setEntityRef(secondary_mid_ref)
+      } else if (tab === DirectoryNavigationTab.LOCATIONS) {
+        const {location_ref} = selectedEntity as DirectoryLocation
+        setEntityRef(location_ref)
+      } else if (tab === DirectoryNavigationTab.PSIMIS) {
+        const {psimi_ref} = selectedEntity as DirectoryPsimi
+        setEntityRef(psimi_ref)
+      }
+    }
+  }, [selectedEntity, tab])
+
+
   const dispatch = useAppDispatch()
   const singleViewEntityLabel = DirectorySingleViewEntities[tab as string]
 
@@ -123,32 +144,26 @@ const DirectorySingleViewModal = () => {
 
   const handleDelete = () => {
     setErrorMessage(null)
-
     const refs = {planRef: planId as string, merchantRef: merchantId as string}
-
     switch (tab) {
       case DirectoryNavigationTab.MIDS: {
-        const {mid_ref: midRef} = selectedEntity as DirectoryMid
-        deleteMerchantMid({...refs, midRefs: [midRef]})
-        dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
+        deleteMerchantMid({...refs, midRefs: [entityRef]})
         break
       }
       case DirectoryNavigationTab.SECONDARY_MIDS: {
-        const {secondary_mid_ref: secondaryMidRef} = selectedEntity as DirectorySecondaryMid
-        deleteMerchantSecondaryMid({...refs, secondaryMidRefs: [secondaryMidRef]})
+        deleteMerchantSecondaryMid({...refs, secondaryMidRefs: [entityRef]})
         break
       }
       case DirectoryNavigationTab.PSIMIS: {
-        const {psimi_ref: psimiRef} = selectedEntity as DirectoryPsimi
-        deleteMerchantPsimi({...refs, psimiRefs: [psimiRef]})
+        deleteMerchantPsimi({...refs, psimiRefs: [entityRef]})
         break
       }
       case DirectoryNavigationTab.LOCATIONS: {
-        const {location_ref: locationRef} = selectedEntity as DirectoryLocation
-        deleteMerchantLocation({...refs, locationRefs: [locationRef]})
-        dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
+        deleteMerchantLocation({...refs, locationRefs: [entityRef]})
       }
     }
+    dispatch(midManagementPlansApi.util.resetApiState())
+    dispatch(midManagementMerchantsApi.util.resetApiState())
     setIsInDeleteConfirmationState(false)
   }
 
@@ -163,6 +178,7 @@ const DirectorySingleViewModal = () => {
       case DirectoryNavigationTab.MIDS:
         return (
           <SingleViewMid
+            key={entityRef}
             selectedEntity={selectedEntity}
             setError={setErrorMessage}
             resetError={() => setErrorMessage(null)}
@@ -172,14 +188,15 @@ const DirectorySingleViewModal = () => {
         )
       case DirectoryNavigationTab.SECONDARY_MIDS:
         return (
-          <SingleViewSecondaryMid selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
+          <SingleViewSecondaryMid key={entityRef} selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
         )
       case DirectoryNavigationTab.PSIMIS:
-        return <SingleViewPsimi selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
+        return <SingleViewPsimi key={entityRef} selectedEntity={selectedEntity} setHeaderFn={setEntityHeading} setIsEntityFound={setIsEntityFound}/>
       case DirectoryNavigationTab.LOCATIONS:
         if (sub_location_ref) {
           return (
             <SingleViewSubLocation
+              key={entityRef}
               selectedEntity={selectedEntity}
               setHeaderFn={setEntityHeading}
               isInEditState={isInLocationEditState}
@@ -192,6 +209,7 @@ const DirectorySingleViewModal = () => {
         } else {
           return (
             <SingleViewLocation
+              key={entityRef}
               selectedEntity={selectedEntity}
               setHeaderFn={setEntityHeading}
               isInEditState={isInLocationEditState}
