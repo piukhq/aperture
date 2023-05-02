@@ -166,6 +166,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   // Set selected location/sub-location in redux store and open correct modal
   const requestLocationSingleView = (index: number): void => {
     const {isSubLocation, ref: locationRef} = locationRowObjects[index]
+    const baseUrl = router.asPath.split('&ref')[0]
 
     if (isSubLocation) {
       const subLocationObj = locationsData?.reduce((accumulator: {subLocation: DirectoryLocation, parentLocationRef: string}, location: DirectoryLocation) => {
@@ -180,11 +181,11 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
       const {subLocation, parentLocationRef} = subLocationObj
       dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
-      router.push(`${router.asPath}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
+      router.push(`${baseUrl}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
     } else {
       const location = locationsData.find(location => location.location_ref === locationRef)
       dispatch(setSelectedDirectoryMerchantEntity(location))
-      router.push(`${router.asPath}&ref=${locationRef}`)
+      router.push(`${baseUrl}&ref=${locationRef}`)
     }
   }
 
