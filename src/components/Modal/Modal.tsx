@@ -5,6 +5,7 @@ import {requestModal, isModalHidden, shouldCloseHidableModal, selectIsModalHidde
 import {ModalType} from 'utils/enums'
 import {MODAL_STYLE_MAPS} from './styles'
 import FocusTrap from 'focus-trap-react'
+import {useRouter} from 'next/router'
 
 type Props = {
   modalStyle: string,
@@ -18,6 +19,7 @@ interface KeyboardEvent {
 }
 
 const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFocused}: Props) => {
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const isModalCurrentlyHidden = useAppSelector(selectIsModalHidden)
   const closeHidableModal = useAppSelector(selectShouldCloseHidableModal)
@@ -54,7 +56,10 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     setTimeout(() => {
       dispatch(isModalHidden(true))
     }, 300)
-  }, [dispatch])
+    router.query.ref && router.push(router.asPath.split('&ref')[0]) // Remove ref query param from url for single view modals
+
+  }, [dispatch, router])
+
 
   useEffect(() => { // fade in modal
     if (children) {
