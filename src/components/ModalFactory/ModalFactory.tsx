@@ -21,21 +21,26 @@ import {
   DirectoryHarmoniaModal,
 } from 'components/Modals'
 import {ModalType} from 'utils/enums'
+import {useAppSelector} from 'app/hooks'
 
 type Props = {
   modalRequested: ModalType,
 }
 
 const ModalFactory = ({modalRequested}: Props) => {
+
+  const planRef = useAppSelector(state => state.directoryPlan.plan_ref)
+  const merchantRef = useAppSelector(state => state.directoryMerchant.selectedMerchant.merchant_ref)
+
   switch(modalRequested) {
     case ModalType.LOGOUT: return <LogoutModal />
     case ModalType.ASSET_COMPARATOR_ASSET: return <AssetModal />
     case ModalType.MID_MANAGEMENT_BULK_COMMENT: return <BulkCommentModal />
     case ModalType.MID_MANAGEMENT_BULK_HARMONIA: return <DirectoryHarmoniaModal />
     case ModalType.ASSET_COMPARATOR_CREDENTIALS: return <CredentialsModal />
-    case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN: return <DirectoryPlanModal />
+    case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN: return <DirectoryPlanModal key={planRef}/>
     case ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE: return <DirectoryPlanDeleteModal />
-    case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT: return <DirectoryMerchantModal />
+    case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT: return <DirectoryMerchantModal key={merchantRef} />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE: return <DirectoryMerchantDeleteModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_MID: return <DirectoryMidModal />
     case ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MID: return <DirectorySecondaryMidModal />

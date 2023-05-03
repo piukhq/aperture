@@ -2,6 +2,20 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import ModalFactory from 'components/ModalFactory'
 import {ModalType} from 'utils/enums'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
+const mockStoreFn = configureStore([])
+const store = mockStoreFn({
+  directoryPlan: {
+    plan_ref: null,
+  },
+  directoryMerchant: {
+    selectedMerchant: {
+      merchant_ref: null,
+    },
+  },
+})
+
 
 jest.mock('components/Modals/components/AssetModal', () => () => <div data-testid='asset-comparator-modal' />)
 jest.mock('components/Modals/components/CredentialsModal', () => () => <div data-testid='credentials-modal' />)
@@ -23,7 +37,9 @@ describe('ModalFactory', () => {
   }
 
   const getModalFactoryComponent = (passedProps = {}) => (
-    <ModalFactory {...mockProps} {...passedProps} />
+    <Provider store={store}>
+      <ModalFactory {...mockProps} {...passedProps} />
+    </Provider>
   )
 
   describe('Test no modals rendered', () => {

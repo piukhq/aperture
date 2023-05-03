@@ -40,6 +40,11 @@ const store = mockStoreFn({
       },
     ],
   },
+  modal: {
+    isModalHidden: false,
+    shouldModalClose: false,
+    modalType: 'BULK_COMMENT_MODAL',
+  },
 })
 
 const getBulkCommentModalComponent = () => {

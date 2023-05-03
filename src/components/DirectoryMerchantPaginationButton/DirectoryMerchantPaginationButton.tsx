@@ -46,7 +46,6 @@ const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn,
 
   const handlePaginationClick = () => {
     if (currentData?.length < entityCount && entityCount > currentPage * 20) {
-      console.log('setting page to ', currentPage + 1)
       setShouldSkipGetEntityByPage(false)
       setPageFn((prevPage: number) => prevPage + 1)
     }

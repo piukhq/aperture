@@ -2,6 +2,8 @@ import React, {useState, useRef, useEffect} from 'react'
 import Dropdown from 'components/Dropdown'
 import Modal from 'components/Modal/Modal'
 import Button from 'components/Button'
+import {useAppDispatch} from 'app/hooks'
+import {shouldCloseHidableModal} from 'features/modalSlice'
 import {BorderColour, ButtonBackground, ButtonSize, ButtonType, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
 import {ModalStyle, UserPermissions} from 'utils/enums'
 import UploadSVG from 'icons/svgs/upload.svg'
@@ -13,6 +15,7 @@ type Props = {
 }
 
 const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: Add functionality as required by later tickets
+  const dispatch = useAppDispatch()
   const fileTypes = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID']
 
   const [file, setFile] = useState(null)
@@ -143,12 +146,16 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     </form>
   )
 
-  const renderUploadingNotification = () => (
-    <section className='font-body-3 m-4 flex flex-col gap-4'>
-      <p>Upload has started for {fileType} &quot;{file.name}&quot;. Depending on filesize, this could take a few minutes.</p>
-      <p>Check the Action Log for further updates on upload progress</p>
-    </section>
-  )
+  const renderUploadingNotification = () => {
+    dispatch(shouldCloseHidableModal(true))
+    return (
+      <section className='font-body-3 m-4 flex flex-col gap-4'>
+        <p>Upload has started for {fileType} &quot;{file.name}&quot;. Depending on filesize, this could take a few minutes.</p>
+        <p>Check the Action Log for further updates on upload progress</p>
+      </section>
+    )
+  }
+
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`File Upload${isUploading ? 'ing' : ''}`}>

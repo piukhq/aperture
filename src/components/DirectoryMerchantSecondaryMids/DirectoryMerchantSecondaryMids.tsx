@@ -88,7 +88,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const requestSecondaryMidSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
-    router.push(`${router.asPath}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
+    router.push(`${router.asPath.split('&ref')[0]}&ref=${secondaryMidsData[index].secondary_mid_ref}`)
   }
 
   const requestSecondaryMidModal = (paymentScheme: PaymentSchemeName) => {
