@@ -7,21 +7,9 @@ import configureStore from 'redux-mock-store'
 import {HarmoniaActionTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
+jest.mock('components/Modal', () => ({children}) => <div data-testid='modal'>{children}</div>)
 
-jest.mock('components/Modal', () => ({
-  __esModule: true,
-  default ({modalHeader, children}: Record<string, unknown>) {
-    return (
-      <div>
-        <h1>{modalHeader}</h1>
-        {children}
-      </div>
-    )
-  },
-}))
-
-const mockStoreFn = configureStore([])
-const store = mockStoreFn({
+const defaultMockStore = {
   directoryHarmonia: {
     harmoniaActionType: HarmoniaActionTypes.ONBOARD,
   },
@@ -37,7 +25,12 @@ const store = mockStoreFn({
       },
     ],
   },
-})
+  modal: {
+    isModalHidden: false,
+    shouldModalClose: false,
+  }}
+const mockStoreFn = configureStore([])
+const store = mockStoreFn(defaultMockStore)
 
 const getDirectoryHarmoniaModalComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
@@ -85,6 +78,7 @@ describe('DirectoryHarmoniaModal', () => {
       it('should render the payment card icon when a payment scheme slug is provided', () => {
 
         const paymentSchemeSlugStore = mockStoreFn({
+          ...defaultMockStore,
           directoryHarmonia: {
             harmoniaActionType: HarmoniaActionTypes.ONBOARD,
           },
@@ -120,6 +114,7 @@ describe('DirectoryHarmoniaModal', () => {
 
       it('should adjust the heading and button text when there is a single MID', () => {
         const singleMidStore = mockStoreFn({
+          ...defaultMockStore,
           directoryHarmonia: {
             harmoniaActionType: HarmoniaActionTypes.ONBOARD,
           },
@@ -221,6 +216,7 @@ describe('DirectoryHarmoniaModal', () => {
 
   describe('Test Offboarding differences', () => {
     const offboardingStore = mockStoreFn({
+      ...defaultMockStore,
       directoryHarmonia: {
         harmoniaActionType: HarmoniaActionTypes.OFFBOARD,
       },
@@ -274,6 +270,7 @@ describe('DirectoryHarmoniaModal', () => {
 
   describe('Test Update differences', () => {
     const updateStore = mockStoreFn({
+      ...defaultMockStore,
       directoryHarmonia: {
         harmoniaActionType: HarmoniaActionTypes.UPDATE,
       },
@@ -331,6 +328,7 @@ describe('DirectoryHarmoniaModal', () => {
 
     it('should render the additional update-specific paragraph for single Entity', () => {
       const singleMidStore = mockStoreFn({
+        ...defaultMockStore,
         directoryHarmonia: {
           harmoniaActionType: HarmoniaActionTypes.UPDATE,
         },
