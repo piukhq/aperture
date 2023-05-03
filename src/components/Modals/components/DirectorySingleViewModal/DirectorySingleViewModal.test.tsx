@@ -178,8 +178,6 @@ describe('DirectorySingleViewModal', () => {
       .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
       .mockReturnValueOnce([true, jest.fn()]) // isEntityFound
       .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
-      .mockReturnValue([false, jest.fn()]) // setIsInLocationEditState
-      .mockReturnValue([false, jest.fn()]) // isEntityFound
       .mockReturnValue([false, jest.fn()]) // shouldDisplayFooterEditButton
       .mockReturnValue(['', jest.fn()]) // entity Ref
 
@@ -205,8 +203,6 @@ describe('DirectorySingleViewModal', () => {
       .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
       .mockReturnValueOnce([false, jest.fn()]) // isEntityFound
       .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
-      .mockReturnValue([false, jest.fn()]) // setIsInLocationEditState
-      .mockReturnValue([false, jest.fn()]) // isEntityFound
       .mockReturnValue([false, jest.fn()]) // shouldDisplayFooterEditButton
       .mockReturnValue(['', jest.fn()]) // entity Ref
 
@@ -225,8 +221,6 @@ describe('DirectorySingleViewModal', () => {
         .mockReturnValueOnce([false, jest.fn()]) // isInLocationEditState
         .mockReturnValueOnce([false, jest.fn()]) // isEntityFound
         .mockReturnValueOnce([true, jest.fn()]) // shouldDisplayEditButton
-        .mockReturnValue([false, jest.fn()]) // setIsInLocationEditState
-        .mockReturnValue([false, jest.fn()]) // isEntityFound
         .mockReturnValue([false, jest.fn()]) // shouldDisplayFooterEditButton
         .mockReturnValue(['', jest.fn()]) // entity Ref
 
