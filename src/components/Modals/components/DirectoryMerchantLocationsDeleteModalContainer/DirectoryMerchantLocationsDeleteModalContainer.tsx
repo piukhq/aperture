@@ -5,6 +5,8 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantLocations'
+import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerchantSecondaryMids'
 
 const DirectoryMerchantLocationsDeleteModalContainer = () => {
   const dispatch = useAppDispatch()
@@ -29,13 +31,19 @@ const DirectoryMerchantLocationsDeleteModalContainer = () => {
   const deleteLocations = () => {
     const checkedEntityRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
     deleteMerchantLocation({planRef: planId as string, merchantRef: merchantId as string, locationRefs: checkedEntityRefs})
+  }
+
+  const deleteSuccess = () => {
     dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as count has changed
+    dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationSubLocations']))
+    dispatch(midManagementMerchantSecondaryMidsApi.util.invalidateTags(['MerchantSecondaryMidLinkedLocations']))
   }
 
   return (
     <DirectoryMerchantEntityDeleteModal
       entitiesToBeDeleted={directoryEntityCheckedSelection}
       deleteButtonClickFn={deleteLocations}
+      deleteSuccessFn={deleteSuccess}
       deleteError={deleteMerchantLocationError as RTKQueryErrorResponse}
       isDeleteSuccess={deleteMerchantLocationIsSuccess}
       isDeleteLoading={deleteMerchantLocationIsLoading}
