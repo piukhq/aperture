@@ -62,7 +62,7 @@ const DirectoryMerchantEntityDeleteModal = ({
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(midManagementPlansApi.util.resetApiState())
       dispatch(midManagementMerchantsApi.util.resetApiState())
-      deleteSuccessFn()
+      deleteSuccessFn && deleteSuccessFn()
       dispatch(reset())
     }
   }, [deleteError, deleteSuccessFn, dispatch, handleDeleteError, isDeleteSuccess, reasonValue, resetDeleteResponseFn])
