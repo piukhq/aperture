@@ -65,20 +65,7 @@ export const midManagementPlansApi = createApi({
           icon_url,
         },
       }),
-      // Update the cache with the newly created plan
-      async onQueryStarted ({planRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: updatedPlan} = await queryFulfilled
-          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
-            // Update existing cached plan
-            const index = existingPlans.findIndex(plan => plan.plan_ref === planRef)
-            existingPlans[index] = updatedPlan
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['Plan'],
     }),
     deletePlan: builder.mutation<DirectoryPlan, PlansEndpointRefs>({
       query: ({planRef}) => ({
