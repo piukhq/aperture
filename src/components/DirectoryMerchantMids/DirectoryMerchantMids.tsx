@@ -96,7 +96,7 @@ const DirectoryMerchantMids = () => {
   const requestMidSingleView = (index:number):void => {
     const requestedMid = midsData[index]
     dispatch(setSelectedDirectoryMerchantEntity(requestedMid))
-    router.push(`${router.asPath.split('&ref')[0]}&ref=${requestedMid.mid_ref}`)
+    router.push(`${router.asPath.split('&ref')[0]}&ref=${requestedMid.mid_ref}`, undefined, {scroll: false})
   }
 
   const setSelectedMids = () => {
