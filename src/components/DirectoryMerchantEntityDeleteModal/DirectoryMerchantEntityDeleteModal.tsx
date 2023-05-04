@@ -14,6 +14,7 @@ import {midManagementPlansApi} from 'services/midManagementPlans'
 type Props = {
   entitiesToBeDeleted: DirectoryMerchantEntitySelectedItem[],
   deleteButtonClickFn: () => void,
+  deleteSuccessFn?: () => void,
   deleteError: RTKQueryErrorResponse,
   isDeleteLoading: boolean,
   isDeleteSuccess: boolean,
@@ -24,6 +25,7 @@ type Props = {
 const DirectoryMerchantEntityDeleteModal = ({
   entitiesToBeDeleted,
   deleteButtonClickFn,
+  deleteSuccessFn,
   deleteError,
   isDeleteLoading,
   isDeleteSuccess,
@@ -60,9 +62,10 @@ const DirectoryMerchantEntityDeleteModal = ({
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(midManagementPlansApi.util.resetApiState())
       dispatch(midManagementMerchantsApi.util.resetApiState())
+      deleteSuccessFn()
       dispatch(reset())
     }
-  }, [deleteError, dispatch, handleDeleteError, isDeleteSuccess, reasonValue, resetDeleteResponseFn])
+  }, [deleteError, deleteSuccessFn, dispatch, handleDeleteError, isDeleteSuccess, reasonValue, resetDeleteResponseFn])
 
   const renderListItem = (listItem: DirectoryMerchantEntitySelectedItem) => {
     const {entityRef, entityValue, paymentSchemeSlug} = listItem
