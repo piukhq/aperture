@@ -185,7 +185,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     } else {
       const location = locationsData.find(location => location.location_ref === locationRef)
       dispatch(setSelectedDirectoryMerchantEntity(location))
-      router.push(`${baseUrl}&ref=${locationRef}`)
+      router.push(`${baseUrl}&ref=${locationRef}`, undefined, {scroll: false})
     }
   }
 

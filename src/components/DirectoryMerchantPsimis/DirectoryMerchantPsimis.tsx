@@ -84,7 +84,7 @@ const DirectoryMerchantPsimis = () => {
 
   const requestPsimiSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(psimisData[index]))
-    router.push(`${router.asPath.split('&ref')[0]}&ref=${psimisData[index].psimi_ref}`)
+    router.push(`${router.asPath.split('&ref')[0]}&ref=${psimisData[index].psimi_ref}`, undefined, {scroll: false})
   }
 
   const setSelectedPsimis = () => {
