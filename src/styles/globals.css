@@ -75,11 +75,12 @@
     }
   }
 
-  @media screen and (max-width: 768px) { // Helps control small viewport device behaviour in a predictable way
-body {
-    min-height: 1240px;
-}
-}
+  /* Fixes inconsistancies with mobile safari */
+  @media screen and (max-width: 768px) { 
+    body {
+        min-height: 1240px;
+    }
+  }
   
 
   /* Headings default to semibold weight where there is multiple weights. Body and Subheadings default to regular */
