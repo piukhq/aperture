@@ -44,9 +44,14 @@ yarn-error.log*
 
 # Typescript build files
 tsconfig.tsbuildinfo
+
+
+# playwright
 /test-results/
 /playwright-report/
 /playwright/.cache/
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+playwright/.auth
