@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
@@ -14,7 +14,7 @@ import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions} from 'utils/enums'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -135,56 +135,61 @@ const DirectoryMerchantSecondaryMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
 
-  const renderCheckedItemButtons = ():JSX.Element => (
-    <div className={`flex gap-[10px] items-center h-max py-4 flex-wrap  ${isMobileViewport ? 'justify-center ' : 'w-full justify-start'}`}>
-      <Button
-        handleClick={requestOnboardModal}
-        buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
-        labelColour={LabelColour.GREY}
-        borderColour={BorderColour.GREY}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-      >Onboard to Harmonia
-      </Button>
-      <Button
-        handleClick={requestOffboardModal}
-        buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
-        labelColour={LabelColour.GREY}
-        borderColour={BorderColour.GREY}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-      >Offboard from Harmonia
-      </Button>
-      <Button
-        handleClick={requestUpdateModal}
-        buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.AUTO}
-        labelColour={LabelColour.GREY}
-        borderColour={BorderColour.GREY}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-      >Update to Harmonia
-      </Button>
-      <Button
-        handleClick={requestBulkCommentModal}
-        buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
-        labelColour={LabelColour.GREY}
-        borderColour={BorderColour.GREY}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-      >Comments
-      </Button>
-      <Button
-        handleClick={requestSecondaryMidDeleteModal}
-        buttonSize={ButtonSize.SMALL}
-        buttonWidth={ButtonWidth.MEDIUM}
-        labelColour={LabelColour.RED}
-        labelWeight={LabelWeight.SEMIBOLD}
-        borderColour={BorderColour.RED}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
-      >Delete
-      </Button>
-    </div>
-  )
+  const renderCheckedItemButtons = ():JSX.Element => {
+    const actionsMenuItems = [
+      {
+        label: 'Onboard to Harmonia',
+        handleClick: requestOnboardModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+      {
+        label: 'Offboard from Harmonia',
+        handleClick: requestOffboardModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+      {
+        label: 'Update to Harmonia',
+        handleClick: requestUpdateModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+      {
+        label: 'Comments',
+        handleClick: requestBulkCommentModal,
+        buttonStyle: BulkActionButtonStyle.COMMENT,
+      },
+      {
+        label: 'Delete',
+        handleClick: requestSecondaryMidDeleteModal,
+        buttonStyle: BulkActionButtonStyle.DELETE,
+      },
+    ]
+
+    if (isMobileViewport) {
+      return (
+        <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
+      )
+    } else {
+      return (
+        <div className='flex gap-[10px] items-center h-max py-4 flex-wrap w-full justify-start'>
+          {actionsMenuItems.map((actionMenuItem) => {
+            const {label, handleClick, buttonStyle} = actionMenuItem
+            return (
+              <Button
+                key={label}
+                handleClick={handleClick}
+                buttonSize={ButtonSize.SMALL}
+                buttonWidth={buttonStyle === BulkActionButtonStyle.HARMONIA ? ButtonWidth.AUTO : ButtonWidth.MEDIUM}
+                labelColour={buttonStyle !== BulkActionButtonStyle.DELETE ? LabelColour.GREY : LabelColour.RED}
+                borderColour={BorderColour.GREY}
+                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+              >{label}
+              </Button>
+            )
+          })}
+        </div>
+      )
+    }
+  }
 
   return (
     <>

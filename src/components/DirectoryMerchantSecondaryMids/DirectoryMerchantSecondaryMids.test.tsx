@@ -31,6 +31,11 @@ const mockGetMerchantSecondaryMidsResponse = [
 ]
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+jest.mock('utils/windowDimensions', () => {
+  return {
+    useIsMobileViewportDimensions: jest.fn().mockImplementation(() => false),
+  }
+})
 
 jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({

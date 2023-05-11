@@ -94,6 +94,12 @@ enum RouteDisplayNames {
   'customer-wallets' = 'Customer Wallets',
 }
 
+enum BulkActionButtonStyle {
+  HARMONIA = 'HARMONIA',
+  COMMENT = 'COMMENT',
+  DELETE = 'DELETE',
+}
+
 enum ModalType {
   NO_MODAL = 'NO_MODAL',
   LOGOUT = 'LOGOUT',
@@ -220,6 +226,7 @@ export {
   Url,
   ApiReflectorUrl,
   UrlEndpoint,
+  BulkActionButtonStyle,
   ClientID,
   BundleID,
   VerificationToken,

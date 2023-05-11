@@ -36,6 +36,12 @@ const mockGetMerchantPsimisResponse = [
 ]
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+jest.mock('components/BulkActionsDropdown', () => () => <div data-testid='bulk-actions-dropdown' />)
+jest.mock('utils/windowDimensions', () => {
+  return {
+    useIsMobileViewportDimensions: jest.fn().mockImplementation(() => false),
+  }
+})
 
 jest.mock('hooks/useMidManagementPsimis', () => ({
   useMidManagementPsimis: jest.fn().mockImplementation(() => ({
@@ -60,6 +66,7 @@ describe('DirectoryMerchantPsimis', () => {
   const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
   beforeEach(() => {
+    jest.clearAllMocks()
     useRouter.mockImplementation(() => ({
       query: {
         planId: 'mock_plan_id',
@@ -77,6 +84,7 @@ describe('DirectoryMerchantPsimis', () => {
     expect(screen.getByRole('button', {name: 'Offboard from Harmonia'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
+    expect(screen.queryByTestId('bulk-actions-dropdown')).not.toBeInTheDocument()
   })
 
   it('should render the add PSIMI buttons', () => {
