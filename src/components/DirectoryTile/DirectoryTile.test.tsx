@@ -13,7 +13,7 @@ describe('DirectoryTile', () => {
   const mockSchemeCount = 123456
   const mockPaymentSchemes = [
     {
-      scheme_slug: PaymentSchemeSlug.VISA,
+      slug: PaymentSchemeSlug.VISA,
       count: mockSchemeCount,
     },
   ]
