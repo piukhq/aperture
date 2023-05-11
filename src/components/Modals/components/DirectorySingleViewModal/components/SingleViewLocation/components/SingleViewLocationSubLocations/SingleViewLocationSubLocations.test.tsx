@@ -30,7 +30,7 @@ const mockLocation = {
   payment_schemes: [
     {
       label: 'VISA',
-      scheme_slug: PaymentSchemeSlug.VISA,
+      slug: PaymentSchemeSlug.VISA,
       count: 1,
     },
   ],

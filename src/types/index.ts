@@ -82,7 +82,6 @@ export type PaymentSchemeNameType = PaymentSchemeName.VISA | PaymentSchemeName.M
 
 export type PaymentScheme = { // This object is different depending if its a plan or merchant. Consider changing the api to be consistent
   slug?: PaymentSchemeSlug,
-  scheme_slug?: PaymentSchemeSlug,
   count?: number,
   mids?: number,
   secondary_mids?: number,
@@ -90,7 +89,7 @@ export type PaymentScheme = { // This object is different depending if its a pla
 }
 
 export type PlanPaymentScheme = {
-  scheme_slug: PaymentSchemeSlug,
+  slug: PaymentSchemeSlug,
   count: number,
 }
 

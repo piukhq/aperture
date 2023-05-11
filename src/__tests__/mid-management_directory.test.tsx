@@ -25,7 +25,7 @@ const mockUseMidManagementPlans = {
         payment_schemes: [
           {
             label: 'mock_scheme',
-            scheme_slug: PaymentSchemeSlug.VISA,
+            slug: PaymentSchemeSlug.VISA,
             count: 1,
           },
         ],
@@ -45,7 +45,7 @@ const mockUseMidManagementPlans = {
         payment_schemes: [
           {
             label: 'mock_scheme',
-            scheme_slug: PaymentSchemeSlug.VISA,
+            slug: PaymentSchemeSlug.VISA,
             count: 1,
           },
         ],
