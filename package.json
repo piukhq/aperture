@@ -9,6 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
+    "e2etest" : "yarn playwright test",
+    "e2edebug" : "yarn playwright test --debug",
+    "e2eui" : "yarn playwright test --ui",
+    "e2ereport" : "yarn playwright show-report",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -34,6 +38,7 @@
     "sharp": "^0.31.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.33.0",
     "@svgr/webpack": "^6.2.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
