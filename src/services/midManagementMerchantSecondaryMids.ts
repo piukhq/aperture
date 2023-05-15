@@ -1,3 +1,6 @@
+import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantLocations'
+import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from './midManagementMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantMidLocation, DirectorySecondaryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -80,6 +83,16 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         },
       }),
       invalidatesTags: ['MerchantSecondaryMids'],
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     postMerchantSecondaryMidLocationLink: builder.mutation<DirectoryMerchantMidLocation, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef, locationRef}) => ({
@@ -122,6 +135,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, secondaryMidRef, linkRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
           dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMidLinkedLocations', ({planRef, merchantRef, secondaryMidRef}), (existingLinkedLocations) => {
             const index = existingLinkedLocations.findIndex(linkedLocation => linkedLocation.link_ref === linkRef)
             index !== -1 && existingLinkedLocations.splice(index, 1)
@@ -139,6 +153,17 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
         body: {secondary_mid_refs: [...secondaryMidRefs]},
       }),
       invalidatesTags: ['MerchantSecondaryMids'], // TODO: Optimistic update does not work though it does for mids deletion?
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     // TODO: IF there is a requirement to onboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({

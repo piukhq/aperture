@@ -1,5 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlan, DirectorySingleMerchant, DirectorySingleMerchantCounts} from 'types'
+import {midManagementPlansApi} from 'services/midManagementPlans'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -24,7 +25,7 @@ type DeleteMerchantBody = MerchantsEndpointRefs & {
 export const midManagementMerchantsApi = createApi({
   reducerPath: 'midManagementMerchantsApi',
   baseQuery: getDynamicBaseQuery(),
-  tagTypes: ['Merchants'],
+  tagTypes: ['Merchants', 'MerchantCounts'],
   endpoints: builder => ({
     getMerchant: builder.query<DirectorySingleMerchant, MerchantsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
@@ -38,6 +39,7 @@ export const midManagementMerchantsApi = createApi({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/counts`,
         method: 'GET',
       }),
+      providesTags: ['MerchantCounts'],
     }),
     postMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
       query: ({name, location_label, iconUrl, planRef}) => ({
@@ -49,7 +51,16 @@ export const midManagementMerchantsApi = createApi({
           icon_url: iconUrl,
         },
       }),
-      invalidatesTags: ['Merchants'],
+      invalidatesTags: ['Merchants', 'MerchantCounts'],
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     putMerchant: builder.mutation<DirectoryPlan, PostPutMerchantBody>({
       query: ({name, location_label, iconUrl, planRef, merchantRef}) => ({
@@ -62,6 +73,15 @@ export const midManagementMerchantsApi = createApi({
         },
       }),
       invalidatesTags: ['Merchants'],
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
     deleteMerchant: builder.mutation<DirectoryPlan, DeleteMerchantBody>({
       query: ({name, planRef, merchantRef}) => ({
@@ -71,7 +91,16 @@ export const midManagementMerchantsApi = createApi({
           name,
         },
       }),
-      invalidatesTags: ['Merchants'], // Merchant deletion can take a few seconds, so we invalidate the entire query
+      invalidatesTags: ['Merchants', 'MerchantCounts'],
+      async onQueryStarted (_, {dispatch, queryFulfilled}) {
+        try {
+          await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+        } catch (err) {
+          // TODO: Handle error scenarios gracefully in future error handling app wide
+          console.error('Error:', err)
+        }
+      },
     }),
   }),
 })

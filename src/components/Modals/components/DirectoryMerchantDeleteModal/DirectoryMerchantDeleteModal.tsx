@@ -10,7 +10,6 @@ import {ModalStyle, ModalType} from 'utils/enums'
 import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
-import {midManagementPlansApi} from 'services/midManagementPlans'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
@@ -63,7 +62,6 @@ const DirectoryMerchantDeleteModal = () => {
     } else if (deleteMerchantIsSuccess) {
       resetDeleteMerchantResponse()
       dispatch(reset())
-      dispatch(midManagementPlansApi.util.resetApiState()) // Refetch plan data as merchants property is now different
       dispatch(requestModal(ModalType.NO_MODAL))
       router.asPath.includes(merchantRef) && router.replace(`/mid-management/directory/${planId}`)
     }

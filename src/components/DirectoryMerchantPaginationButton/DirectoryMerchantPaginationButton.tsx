@@ -2,12 +2,11 @@ import {useEffect, useState} from 'react'
 import Button from 'components/Button'
 import {ButtonBackground, ButtonSize, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
 import ArrowDownSVG from 'icons/svgs/arrow-down.svg'
-import {DirectoryLocations, DirectoryMerchant, DirectoryMids, DirectoryPsimis, DirectorySecondaryMids} from 'types'
-import {useAppSelector} from 'app/hooks'
+import {DirectoryLocations, DirectoryMids, DirectoryPsimis, DirectorySecondaryMids} from 'types'
 import {useRouter} from 'next/router'
 import {getMerchantEntityCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {DirectoryNavigationTab} from 'utils/enums'
-
+import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
 
 type Props = {
   currentData: DirectoryPsimis | DirectorySecondaryMids | DirectoryLocations | DirectoryMids,
@@ -17,35 +16,43 @@ type Props = {
 }
 
 const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn, setShouldSkipGetEntityByPage}: Props) => {
-  const [entityCount, setEntityCount] = useState(0)
+  const [merchantEntityCount, setMerchantEntityCount] = useState(0)
   const [shouldRefresh, setShouldRefresh] = useState(false)
 
   const router = useRouter()
-  const tab = router.query.tab as DirectoryNavigationTab
-  const selectedMerchant = useAppSelector(state => state.directoryMerchant.selectedMerchant) as DirectoryMerchant
+  const {tab, planId, merchantId} = router.query
+
+  const {
+    getMerchantResponse,
+  } = useMidManagementMerchants({
+    skipGetMerchantCounts: true,
+    planRef: planId as string,
+    merchantRef: merchantId as string,
+  })
+
+  const dataCount = currentData?.length
 
   useEffect(() => {
-    const paymentSchemes = selectedMerchant?.merchant_counts?.payment_schemes
+    const paymentSchemes = getMerchantResponse?.merchant_counts?.payment_schemes
     if (paymentSchemes) {
       if(tab === DirectoryNavigationTab.LOCATIONS) {
-        setEntityCount(selectedMerchant?.merchant_counts?.locations)
+        setMerchantEntityCount(getMerchantResponse?.merchant_counts?.locations)
       } else {
-        setEntityCount(getMerchantEntityCountFromPaymentSchemes(tab, paymentSchemes))
+        setMerchantEntityCount(getMerchantEntityCountFromPaymentSchemes(tab as DirectoryNavigationTab, paymentSchemes))
       }
     }
-  }, [selectedMerchant, tab])
-
+  }, [getMerchantResponse, tab])
 
   useEffect(() => {
-    if (currentData?.length < entityCount && currentData?.length % 20 !== 0) {
+    if (dataCount < merchantEntityCount && dataCount % 20 !== 0) {
       setShouldRefresh(true)
     } else {
       setShouldRefresh(false)
     }
-  }, [currentData, currentPage, entityCount])
+  }, [currentPage, dataCount, merchantEntityCount])
 
   const handlePaginationClick = () => {
-    if (currentData?.length < entityCount && entityCount > currentPage * 20) {
+    if (dataCount < merchantEntityCount && merchantEntityCount > currentPage * 20) {
       setShouldSkipGetEntityByPage(false)
       setPageFn((prevPage: number) => prevPage + 1)
     }
@@ -55,7 +62,7 @@ const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn,
     window.location.reload()
   }
 
-  if (currentData?.length < entityCount) {
+  if (merchantEntityCount > dataCount) {
     return <div className='w-full flex justify-center p-4'>
       <Button
         handleClick={shouldRefresh ? handleRefreshClick : handlePaginationClick}

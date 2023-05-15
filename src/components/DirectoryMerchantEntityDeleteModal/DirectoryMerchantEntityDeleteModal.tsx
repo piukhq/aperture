@@ -8,8 +8,6 @@ import {requestModal} from 'features/modalSlice'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryMerchantEntitySelectedItem, RTKQueryErrorResponse} from 'types'
 import {setSelectedDirectoryTableCheckedRows, setSelectedDirectoryEntityCheckedSelection, reset} from 'features/directoryMerchantSlice'
-import {midManagementMerchantsApi} from 'services/midManagementMerchants'
-import {midManagementPlansApi} from 'services/midManagementPlans'
 
 type Props = {
   entitiesToBeDeleted: DirectoryMerchantEntitySelectedItem[],
@@ -60,8 +58,6 @@ const DirectoryMerchantEntityDeleteModal = ({
       resetDeleteResponseFn()
       dispatch(setSelectedDirectoryTableCheckedRows([]))
       dispatch(requestModal(ModalType.NO_MODAL))
-      dispatch(midManagementPlansApi.util.resetApiState())
-      dispatch(midManagementMerchantsApi.util.resetApiState())
       deleteSuccessFn && deleteSuccessFn()
       dispatch(reset())
     }
