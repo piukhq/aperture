@@ -7,10 +7,6 @@ import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
-import {midManagementPlansApi} from 'services/midManagementPlans'
-import {midManagementMerchantsApi} from 'services/midManagementMerchants'
-import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantLocations'
-import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerchantSecondaryMids'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
@@ -132,7 +128,6 @@ const DirectorySingleViewModal = () => {
       deleteMerchantSecondaryMidIsSuccess && resetDeleteMerchantSecondaryMidResponse()
       deleteMerchantLocationIsSuccess && resetDeleteMerchantLocationResponse()
       deleteMerchantPsimiIsSuccess && resetDeleteMerchantPsimiResponse()
-      dispatch(midManagementMerchantsApi.util.resetApiState()) // Reset midManagementMerchantsApi state as count will have changed, consider a less destructive way to do this
       closeSingleViewModal()
     } else if (deleteMerchantMidError || deleteMerchantSecondaryMidError || deleteMerchantLocationError || deleteMerchantPsimiError) {
       setErrorMessage(`Failed to delete ${singleViewEntityLabel}`)
@@ -150,13 +145,10 @@ const DirectorySingleViewModal = () => {
     switch (tab) {
       case DirectoryNavigationTab.MIDS: {
         deleteMerchantMid({...refs, midRefs: [entityRef]})
-        dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
-        dispatch
         break
       }
       case DirectoryNavigationTab.SECONDARY_MIDS: {
         deleteMerchantSecondaryMid({...refs, secondaryMidRefs: [entityRef]})
-        dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
         break
       }
       case DirectoryNavigationTab.PSIMIS: {
@@ -165,12 +157,8 @@ const DirectorySingleViewModal = () => {
       }
       case DirectoryNavigationTab.LOCATIONS: {
         deleteMerchantLocation({...refs, locationRefs: [entityRef]})
-        dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationSubLocations']))
-        dispatch(midManagementMerchantSecondaryMidsApi.util.invalidateTags(['MerchantSecondaryMidLinkedLocations']))
       }
     }
-    dispatch(midManagementPlansApi.util.resetApiState())
-    dispatch(midManagementMerchantsApi.util.resetApiState())
     setIsInDeleteConfirmationState(false)
   }
 

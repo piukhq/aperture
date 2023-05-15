@@ -4,7 +4,6 @@ import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
-import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerchantSecondaryMids'
 import {useAppDispatch} from 'app/hooks'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
@@ -51,7 +50,6 @@ const SingleViewLocationSecondaryMids = () => {
   useEffect(() => { // If the user has successfully unlinked a MID, revert to initial state
     if (deleteMerchantLocationSecondaryMidLinkIsSuccess) {
       resetDeleteMerchantLocationSecondaryMidLinkResponse()
-      dispatch(midManagementMerchantSecondaryMidsApi.util.resetApiState()) // Reset the secondary mids state so that the next time the user opens the dropdown menu, the list of available secondary mids is refreshed
       setSelectedUnlinkSecondaryMidIndex(null)
       setShouldPrepareDropdownMenu(false)
     }
@@ -60,7 +58,6 @@ const SingleViewLocationSecondaryMids = () => {
   useEffect(() => { // If the user has successfully linked a MID, revert to initial state
     if (postMerchantLocationLinkedSecondaryMidIsSuccess) {
       setSelectedAvailableSecondaryMid(null)
-      dispatch(midManagementMerchantSecondaryMidsApi.util.resetApiState()) // Reset the secondary mids state so that the next time the user opens the dropdown menu, the list of available secondary mids is refreshed
       setShouldPrepareDropdownMenu(false)
     }
   }, [dispatch, postMerchantLocationLinkedSecondaryMidIsSuccess])

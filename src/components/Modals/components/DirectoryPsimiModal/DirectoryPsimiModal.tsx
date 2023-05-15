@@ -6,8 +6,6 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {midManagementMerchantsApi} from 'services/midManagementMerchants'
-import {midManagementPlansApi} from 'services/midManagementPlans'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
@@ -51,8 +49,6 @@ const DirectoryPsimiModal = () => {
       handlePostMerchantPsimiError()
     } else if (postMerchantPsimiResponse) {
       resetPostMerchantPsimiResponse()
-      dispatch(midManagementPlansApi.util.resetApiState())
-      dispatch(midManagementMerchantsApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(reset())
 

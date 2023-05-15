@@ -4,8 +4,6 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
-import {midManagementMerchantsApi} from 'services/midManagementMerchants'
-import {midManagementPlansApi} from 'services/midManagementPlans'
 import {reset as merchantReset} from 'features/directoryMerchantSlice'
 import {getLocationLabel, reset as locationReset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
@@ -70,8 +68,6 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationError)
     } else if (postMerchantLocationIsSuccess) {
       resetPostMerchantLocationResponse()
-      dispatch(midManagementPlansApi.util.resetApiState())
-      dispatch(midManagementMerchantsApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
       dispatch(merchantReset())
       dispatch(locationReset())
@@ -89,8 +85,6 @@ const DirectoryLocationModal = () => {
       handleErrorResponse(postMerchantLocationSubLocationError)
     } else if (postMerchantLocationSubLocationIsSuccess) {
       resetPostMerchantLocationSubLocationResponse()
-      dispatch(midManagementMerchantsApi.util.resetApiState())
-      dispatch(midManagementPlansApi.util.resetApiState())
       dispatch(requestModal(ModalType.NO_MODAL))
     }
   }, [
@@ -125,9 +119,7 @@ const DirectoryLocationModal = () => {
         ...locationMetadata,
       })
     }
-
-    dispatch(midManagementPlansApi.util.resetApiState()) // Update plan list as location count has changed
-  }, [parentLocation, dispatch, locationList, postMerchantLocationSubLocation, planId, merchantId, postMerchantLocation])
+  }, [parentLocation, locationList, postMerchantLocationSubLocation, planId, merchantId, postMerchantLocation])
 
   const handleParentLocationChange = useCallback((parentLocation) => {
     setParentLocation(parentLocation)
