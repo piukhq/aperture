@@ -16,7 +16,7 @@ export const midManagementPlansApi = createApi({
   endpoints: builder => ({
     getPlans: builder.query<DirectoryPlan[], void>({
       query: () => ({
-        url: `${UrlEndpoint.PLANS}?n=100`,
+        url: `${UrlEndpoint.PLANS}?n=1000`,
         method: 'GET',
       }),
       providesTags: ['Plans'],

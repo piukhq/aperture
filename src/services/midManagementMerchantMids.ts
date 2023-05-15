@@ -1,3 +1,6 @@
+import {midManagementMerchantLocationsApi} from './midManagementMerchantLocations'
+import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from './midManagementMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryMerchantMid, DirectoryMids, DirectoryMid, DirectoryMerchantMidLocation, DirectoryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -71,6 +74,8 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newMid} = await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
           dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             existingMids.unshift(newMid)
           })
@@ -139,6 +144,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
+          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
           dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
             existingMid.location = null
           })
@@ -159,6 +165,9 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRefs}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
           dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             // For each MID, remove from existing list of MIDs
             midRefs.forEach(midRef => {

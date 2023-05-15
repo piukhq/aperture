@@ -1,3 +1,5 @@
+import {midManagementPlansApi} from 'services/midManagementPlans'
+import {midManagementMerchantsApi} from './midManagementMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPsimis, DirectoryPsimi, DirectoryPsimiMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -69,6 +71,8 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newPsimi} = await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
           dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
             existingPsimis.unshift(newPsimi)
           })
@@ -89,6 +93,8 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef, psimiRefs}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
+          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
           dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
             // For each PSIMI, remove from existing list of Psimis
             psimiRefs.forEach(psimiRef => {
