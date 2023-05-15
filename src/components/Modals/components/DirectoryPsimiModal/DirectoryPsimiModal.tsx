@@ -93,6 +93,7 @@ const DirectoryPsimiModal = () => {
         <TextInputGroup
           name='psimi'
           label='PSIMI'
+          autofocus
           error={psimiValidationError}
           value={psimiValue}
           onChange={handlePsimiChange}

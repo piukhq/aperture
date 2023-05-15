@@ -92,7 +92,7 @@ const DirectoryMerchantEntityDeleteModal = ({
             name='deletion-reason'
             label='Reason for deletion'
             onBlur={() => reasonValue.length < 1 && setReasonValidationError('Enter reason for deletion')}
-            error={reasonValidationError && reasonValidationError}
+            error={reasonValidationError ? reasonValidationError : ''}
             autofocus
             value={reasonValue}
             onChange={handleReasonChange}

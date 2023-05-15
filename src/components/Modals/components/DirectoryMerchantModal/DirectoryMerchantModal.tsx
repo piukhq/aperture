@@ -158,6 +158,7 @@ const DirectoryMerchantModal = () => {
       <TextInputGroup
         name='merchant-name'
         label='Name'
+        autofocus
         error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}
