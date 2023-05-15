@@ -6,6 +6,8 @@ import {PageLayout, DirectoryTile, DirectoryDetailsHeader, PageNotFound, HeadMet
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
+import {usePrefetch as useMerchantPrefetch} from 'services/midManagementMerchants'
+import {usePrefetch as useMidsPrefetch} from 'services/midManagementMerchantMids'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchant} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
@@ -22,8 +24,11 @@ import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
-  const {planId: planRef} = router.query
+  const planRef = router.query.planId as string
   const isMobileViewport = useIsMobileViewportDimensions()
+
+  const prefetchMerchant = useMerchantPrefetch('getMerchant')
+  const prefetchMids = useMidsPrefetch('getMerchantMids')
 
   const {
     getPlanResponse,
@@ -141,6 +146,8 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
           const handleViewClick = () => {
             setSelectedMerchant()
+            prefetchMerchant({planRef, merchantRef: merchant_ref})
+            prefetchMids({planRef, merchantRef: merchant_ref})
             router.push(`${router?.asPath}/${merchant_ref}?tab=mids`)
           }
 
