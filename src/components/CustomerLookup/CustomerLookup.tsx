@@ -53,6 +53,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
             <TextInputGroup
               name='user-identifier'
               label='User identifier'
+              autofocus
               placeholder='Enter JWT from Django'
               error={null}
               value={lookupValue}
