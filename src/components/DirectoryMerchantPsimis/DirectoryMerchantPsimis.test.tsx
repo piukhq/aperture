@@ -36,6 +36,7 @@ const mockGetMerchantPsimisResponse = [
 ]
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
 jest.mock('components/BulkActionsDropdown', () => () => <div data-testid='bulk-actions-dropdown' />)
 jest.mock('utils/windowDimensions', () => {
   return {

@@ -31,6 +31,8 @@ const mockGetMerchantSecondaryMidsResponse = [
 ]
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
+
 jest.mock('utils/windowDimensions', () => {
   return {
     useIsMobileViewportDimensions: jest.fn().mockImplementation(() => false),
