@@ -226,6 +226,7 @@ export const midManagementMerchantMidsApi = createApi({
 })
 
 export const {
+  usePrefetch,
   useGetMerchantMidsQuery,
   useGetMerchantMidsByPageQuery,
   useGetMerchantMidQuery,
