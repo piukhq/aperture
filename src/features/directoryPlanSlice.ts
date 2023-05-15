@@ -2,7 +2,6 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {RootState} from 'app/store'
 import {DirectoryPlan} from 'types'
 
-
 const initialState: DirectoryPlan = {
   plan_metadata: {
     name: null,
