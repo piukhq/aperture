@@ -102,6 +102,7 @@ export const midManagementPlansApi = createApi({
 })
 
 export const {
+  usePrefetch,
   useGetPlansQuery,
   useGetPlanQuery,
   usePostPlanMutation,

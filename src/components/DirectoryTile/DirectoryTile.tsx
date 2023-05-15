@@ -49,7 +49,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
     if (planId) { // Determines if this is a plan as opposed to a merchant
       return merchants === 1 ? getCountWithCorrectNoun(locations, 'Location') : `${merchants} Merchants`
     } else {
-      return `${locations} ${locationLabel}`
+      return `${locations} ${locationLabel ? locationLabel : 'Locations'}`
     }
   }
 

@@ -106,6 +106,7 @@ export const midManagementMerchantsApi = createApi({
 })
 
 export const {
+  usePrefetch,
   useGetMerchantQuery,
   useGetMerchantCountsQuery,
   usePostMerchantMutation,

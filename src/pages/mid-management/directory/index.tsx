@@ -5,6 +5,8 @@ import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryPlan, OptionsMenuItems} from 'types'
+import {usePrefetch as useMerchantPrefetch} from 'services/midManagementMerchants'
+import {usePrefetch as useMidsPrefetch} from 'services/midManagementMerchantMids'
 import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 import {useAppDispatch} from 'app/hooks'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
@@ -29,6 +31,9 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const planList: DirectoryPlan[] = getPlansResponse
   const isMobileViewport = useIsMobileViewportDimensions()
 
+  const prefetchMerchant = useMerchantPrefetch('getMerchant')
+  const prefetchMids = useMidsPrefetch('getMerchantMids')
+
   const dispatch = useAppDispatch()
   const router = useRouter()
 
@@ -36,9 +41,14 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
     dispatch(reset())
   }, [dispatch])
 
-  useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans
-    getPlanResponse && router.push(`${router?.asPath}/${planRefForSingleMerchant}/${getPlanResponse.merchants[0].merchant_ref}`)
-  }, [getPlanResponse, planRefForSingleMerchant, router])
+  useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans, prefetching merchant and mids data
+    if (getPlanResponse) {
+      const merchantRef = getPlanResponse.merchants[0].merchant_ref
+      prefetchMerchant({planRef: planRefForSingleMerchant, merchantRef})
+      prefetchMids({planRef: planRefForSingleMerchant, merchantRef})
+      router.push(`${router?.asPath}/${planRefForSingleMerchant}/${merchantRef}`)
+    }
+  }, [getPlanResponse, planRefForSingleMerchant, prefetchMerchant, prefetchMids, router])
 
   const handleRequestNewPlanModal = useCallback(() => {
     dispatch(reset())
