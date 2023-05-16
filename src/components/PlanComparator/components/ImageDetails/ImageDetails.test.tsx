@@ -39,7 +39,7 @@ describe('Test ImageDetails', () => {
 
   it('should display the correct copy when all images match across environments', () => {
     render(getImageDetailsComponent({}))
-    expect(screen.queryByText('The number of images per type match across environments but confirm via Asset Comparator')).toBeInTheDocument()
+    expect(screen.queryByText('The number of images per type match across environments but please confirm they are actually the same via Asset Comparator')).toBeInTheDocument()
   })
 
   it('should display the correct copy when image types do not match across environments', () => {
