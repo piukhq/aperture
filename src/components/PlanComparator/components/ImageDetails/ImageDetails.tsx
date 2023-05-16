@@ -5,9 +5,17 @@ import {ImageTypes} from 'utils/enums'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
 
+type CategoryAcrossEnvs = {
+  cta_url: string
+  description: string
+  encoding: string
+  type: ImageTypes
+}[]
+
 type Props = {
-  categoryAcrossEnvsArray: any[]
+  categoryAcrossEnvsArray: CategoryAcrossEnvs[]
 }
+
 
 const ImageDetails = ({
   categoryAcrossEnvsArray,
@@ -30,8 +38,8 @@ const ImageDetails = ({
           encoding: image.encoding,
           type: ImageTypes[image.type],
         }
-      })
-    }).sort((a, b) => a.type > b.type ? 1 : -1)
+      }).sort((a, b) => a.type > b.type ? 1 : -1)
+    })
 
     // get count of each type of image found in ImageTypes
     const imageTypeCounts = validImageValuesArray.map(envCategory => {
@@ -45,7 +53,7 @@ const ImageDetails = ({
         }
         return acc
       }, {})
-    }).sort((a, b) => a.type > b.type ? 1 : -1)
+    })
 
     const isImageTypeCountsEqual = imageTypeCounts.every((imageTypeCount, index) => {
       if (index === 0) {
@@ -60,7 +68,7 @@ const ImageDetails = ({
   const hasSameNumberOfImages = categoryAcrossEnvsArray.every(envCategory => envCategory.length === categoryAcrossEnvsArray[0].length)
   const hasSameNumberOfImageTypes = hasSameNumberOfImages && getImageTypesCount()
   const imageReport: string = hasSameNumberOfImages && hasSameNumberOfImageTypes ?
-    'The number of images per type match across environments but confirm via Asset Comparator' : !hasSameNumberOfImages ?
+    'The number of images per type match across environments but please confirm they are actually the same via Asset Comparator' : !hasSameNumberOfImages ?
       'The total number of images do not match across environments' : 'The number of images per type do not match across environments'
 
   return (
