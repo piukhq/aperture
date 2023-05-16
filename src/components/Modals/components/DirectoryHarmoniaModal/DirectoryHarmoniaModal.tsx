@@ -53,7 +53,7 @@ const DirectoryHarmoniaModal = () => {
         {harmoniaAction === HarmoniaActionTypes.UPDATE && <p>{hasMultipleEntities ? '' : 'This '}{entityLabel} will be updated in Harmonia to include current location links and metadata</p>}
       </section>
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
-        <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
+        <p role='alert' className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
         <Button
           handleClick={() => console.log('Doing nothing for now')}
           buttonType={ButtonType.SUBMIT}

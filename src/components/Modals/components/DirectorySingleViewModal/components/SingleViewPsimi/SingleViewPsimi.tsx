@@ -46,7 +46,7 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props)
     if (getMerchantPsimiIsLoading) {
       return <div className='h-[277px]'>i</div> // placeholder for loading mid details
     } else if (!getMerchantPsimiResponse) {
-      return <p className='font-body-3 text-center text-red pb-[20px]'>PSIMI could not be found. Check that it has not been deleted or refresh your browser</p>
+      return <p role='alert' className='font-body-3 text-center text-red pb-[20px]'>PSIMI could not be found. Check that it has not been deleted or refresh your browser</p>
     } else {
       return <SingleViewPsimiDetails psimi={getMerchantPsimiResponse} />
     }

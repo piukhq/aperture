@@ -205,7 +205,7 @@ const SingleViewLocationSecondaryMids = () => {
       <section className='h-[40px]'>
         {shouldRenderDropdownMenu ? renderAvailableSecondaryMidDropdown() : renderLinkNewSecondaryMidButton() }
       </section>
-      <section className='font-body-4 text-red h-[40px]'>
+      <section role='alert' className='font-body-4 text-red h-[40px]'>
         <p>{availableSecondaryMidNotification}</p>
       </section>
       {getMerchantLocationLinkedSecondaryMidsIsLoading ? (

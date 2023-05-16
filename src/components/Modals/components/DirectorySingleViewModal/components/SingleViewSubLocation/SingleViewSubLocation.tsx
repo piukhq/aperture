@@ -67,7 +67,7 @@ const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setI
     if (getMerchantLocationSubLocationIsLoading) {
       return <div className='h-[230px]'></div> // Placeholder for loading state (height is the same as the SingleViewLocationDetails component when no address is present)
     } else if (!getMerchantLocationSubLocationResponse) {
-      return <p className='font-body-3 text-center text-red pb-[20px]'>Sub-location could not be found. Check that it has not been deleted or refresh your browser</p>
+      return <p role='alert' className='font-body-3 text-center text-red pb-[20px]'>Sub-location could not be found. Check that it has not been deleted or refresh your browser</p>
     } else {
       return <SingleViewSubLocationDetails
         location={getMerchantLocationSubLocationResponse}

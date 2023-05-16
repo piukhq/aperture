@@ -78,7 +78,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = 
         autoFocus
       />
       {inputValidationError && (
-        <span onMouseDown={(e) => e.preventDefault()} data-testid={'input-error'} className='font-body-3 text-right text-red absolute right-[50px] bottom-[13px]'>
+        <span role='alert' onMouseDown={(e) => e.preventDefault()} data-testid={'input-error'} className='font-body-3 text-right text-red absolute right-[50px] bottom-[13px]'>
           {inputValidationError}
         </span>
       )}

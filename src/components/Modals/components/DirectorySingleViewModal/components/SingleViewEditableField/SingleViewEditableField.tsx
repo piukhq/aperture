@@ -97,7 +97,7 @@ const SingleViewEditableField = ({
   const renderDeleteState = () => (
     <div className='flex gap-[10px] h-[38px]'>
       <div className='w-[160px] absolute -translate-x-40 bg-white/75 dark:bg-black/50'>
-        <p className='font-body-4 text-red'>Are you sure you want to {actionVerb} this {label}?</p>
+        <p role='alert' className='font-body-4 text-red'>Are you sure you want to {actionVerb} this {label}?</p>
       </div>
       <Button
         handleClick={onCancelHandler}

@@ -233,7 +233,7 @@ const DirectorySingleViewModal = () => {
 
       {isInDeleteConfirmationState ? (
         <div className='flex items-center justify-between gap-[5px]'>
-          <p className='font-body-4 text-red px-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
+          <p role='alert' className='font-body-4 text-red px-[20px]'>Are you sure you want to delete this {singleViewEntityLabel}?</p>
           <Button
             handleClick={() => setIsInDeleteConfirmationState(false)}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -258,7 +258,7 @@ const DirectorySingleViewModal = () => {
       ) : (
         <>
           {errorMessage && (
-            <p className='font-body-4 text-red'>{errorMessage}</p>
+            <p role='alert' className='font-body-4 text-red'>{errorMessage}</p>
           )}
           <div className='flex gap-[15px]'>
             {tab === DirectoryNavigationTab.LOCATIONS && shouldDisplayFooterEditButton && !isDeleting && (

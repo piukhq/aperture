@@ -131,7 +131,7 @@ const ReplyComment = ({
 
       <section data-testid='error-message-section' className='h-[20px] ml-[16px] pt-[5px]'>
         {noSubjectsValidationIsError && (
-          <p data-testid='error-message' className='font-body-4 text-red'>No subject selected</p>
+          <p role='alert' data-testid='error-message' className='font-body-4 text-red'>No subject selected</p>
         )}
       </section>
     </>

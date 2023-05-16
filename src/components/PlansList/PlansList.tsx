@@ -130,7 +130,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
           <CheckSvg fill='white' />Load {comparatorLabel.capitalised}
         </Button>
       </div>
-      <p className='h-[24px] text-red text-center text-body font-body-3 ml-[160px]'>{loadAssetsError}</p>
+      <p role='alert' className='h-[24px] text-red text-center text-body font-body-3 ml-[160px]'>{loadAssetsError}</p>
     </div>
   )
 }
