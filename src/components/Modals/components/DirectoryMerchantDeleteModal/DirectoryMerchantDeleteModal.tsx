@@ -98,6 +98,7 @@ const DirectoryMerchantDeleteModal = () => {
       <TextInputGroup
         name='merchant-name'
         label='Merchant Name'
+        autofocus
         error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}

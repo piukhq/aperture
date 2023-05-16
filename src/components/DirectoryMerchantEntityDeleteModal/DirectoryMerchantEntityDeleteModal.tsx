@@ -92,7 +92,7 @@ const DirectoryMerchantEntityDeleteModal = ({
             name='deletion-reason'
             label='Reason for deletion'
             onBlur={() => reasonValue.length < 1 && setReasonValidationError('Enter reason for deletion')}
-            error={reasonValidationError && reasonValidationError}
+            error={reasonValidationError ? reasonValidationError : ''}
             autofocus
             value={reasonValue}
             onChange={handleReasonChange}
@@ -105,7 +105,7 @@ const DirectoryMerchantEntityDeleteModal = ({
         {isHarmoniaEntity && <p>{entityLabel} will also be offboarded from Harmonia</p>}
       </section>
       <section className='border-t-[1px] border-t-grey-200 dark:border-t-grey-800 pt-[15px] flex justify-between items-center'>
-        <p className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
+        <p role='alert' className='font-body-4 text-red text-center w-full'>{errorMessage}</p>
         <Button
           handleClick={deleteButtonClickFn}
           buttonType={ButtonType.SUBMIT}

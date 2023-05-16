@@ -69,7 +69,7 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn, setIs
     } else if (getMerchantMidIsLoading) {
       return <div className='h-[420px]'></div> // placeholder for loading mid details
     } else {
-      return <p className='font-body-3 text-center text-red pb-[15px]'>MID could not be found. Check that it has not been deleted or refresh your browser</p>
+      return <p role='alert' className='font-body-3 text-center text-red pb-[15px]'>MID could not be found. Check that it has not been deleted or refresh your browser</p>
     }
   }
 

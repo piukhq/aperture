@@ -150,6 +150,7 @@ const DirectoryPlanModal = () => {
       <TextInputGroup
         name='plan-name'
         label='Name'
+        autofocus
         error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}

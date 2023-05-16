@@ -419,7 +419,7 @@ const DirectoryMerchantLocationForm = ({
       {renderFormContent()}
       <div className='flex justify-between items-center border-t-[1px] border-t-grey-200 dark:border-t-grey-800 mt-[16px] pt-[14px]'>
         {errorMessage && (
-          <p data-testid='error-message' className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
+          <p role='alert' data-testid='error-message' className='font-body-4 w-full text-center text-red'>{errorMessage}</p>
         )}
 
         <div className='flex w-full justify-end items-center gap-[15px]'>

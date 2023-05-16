@@ -101,12 +101,12 @@ const DirectoryMidModal = () => {
         <TextInputGroup
           name='mid'
           label='MID'
+          autofocus
           error={midValidationError}
           value={midValue}
           onChange={handleMidChange}
           onFocus={() => setMidValidationError(null)}
           onBlur={handleMidBlur}
-          autofocus
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}
           inputWidth={InputWidth.FULL}

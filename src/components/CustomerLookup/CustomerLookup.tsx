@@ -53,6 +53,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
             <TextInputGroup
               name='user-identifier'
               label='User identifier'
+              autofocus
               placeholder='Enter JWT from Django'
               error={null}
               value={lookupValue}
@@ -69,7 +70,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
 
           <div className='mt-[5px]'>
             {errorMessage && (
-              <p className='text-body text-[.75rem] text-red' data-testid='error-message'>
+              <p role='alert' className='text-body text-[.75rem] text-red' data-testid='error-message'>
                 {errorMessage}
               </p>
             )}

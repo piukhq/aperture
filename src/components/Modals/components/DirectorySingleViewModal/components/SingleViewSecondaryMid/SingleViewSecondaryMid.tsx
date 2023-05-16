@@ -46,7 +46,7 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}:
     if (getMerchantSecondaryMidIsLoading) {
       return <div className='h-[278px] '></div>
     } else if (!getMerchantSecondaryMidResponse) {
-      return <p className='font-body-3 text-center text-red pb-[15px]'>Secondary MID could not be found. Check that it has not been deleted or refresh your browser</p>
+      return <p role='alert' className='font-body-3 text-center text-red pb-[15px]'>Secondary MID could not be found. Check that it has not been deleted or refresh your browser</p>
     } else {
       return <SingleViewSecondaryMidDetails secondaryMid={getMerchantSecondaryMidResponse} />
     }

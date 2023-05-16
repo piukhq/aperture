@@ -161,7 +161,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
       <div className='h-[20px] mt-[6px]'>
         {locationsData?.length === 0 && !locationsDataIsLoading && shouldRenderDropdownMenu && (
-          <p className='font-body text-[.75rem] text-red'>{availableLocationNotification}</p>
+          <p role='alert' className='font-body text-[.75rem] text-red'>{availableLocationNotification}</p>
         )}
       </div>
     </section>

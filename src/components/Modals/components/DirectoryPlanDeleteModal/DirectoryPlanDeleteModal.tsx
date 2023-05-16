@@ -78,6 +78,7 @@ const DirectoryPlanDeleteModal = () => {
           <p>Please enter the Plan Name to confirm.</p>
         </div>
         <TextInputGroup
+          autofocus
           name='plan-name'
           label='Plan Name'
           error={nameValidationError}
