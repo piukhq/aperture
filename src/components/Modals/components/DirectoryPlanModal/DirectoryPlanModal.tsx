@@ -26,7 +26,6 @@ const DirectoryPlanModal = () => {
   })
 
   const dispatch = useAppDispatch()
-
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
 
   const {plan_ref, plan_metadata} = selectedPlan
@@ -130,7 +129,7 @@ const DirectoryPlanModal = () => {
         if (isNewPlan) {
           postPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue})
         } else {
-          putPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref as string})
+          putPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue, planRef: plan_ref})
         }
       }
     }
