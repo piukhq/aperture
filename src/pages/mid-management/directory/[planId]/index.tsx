@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useMemo} from 'react'
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {PageLayout, DirectoryTile, DirectoryDetailsHeader, PageNotFound, HeadMetadata} from 'components'
 import {requestModal} from 'features/modalSlice'
@@ -24,7 +25,7 @@ import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
-  const planRef = router.query.planId as string
+  const planRef = useGetRouterQueryString().planId
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const prefetchMerchant = useMerchantPrefetch('getMerchant')
@@ -35,7 +36,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     getPlanError,
   } = useMidManagementPlans({
     skipGetPlans: true,
-    planRef: planRef as string,
+    planRef: planRef,
   })
 
   const planDetails: DirectoryPlanDetails = getPlanResponse
@@ -55,15 +56,15 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const requestPlanCommentsModal = useCallback(() => {
     dispatch(setModalHeader(planDetails?.plan_metadata?.name))
-    dispatch(setCommentsRef(planRef as string))
-    dispatch(setCommentsOwnerRef(planRef as string))
+    dispatch(setCommentsRef(planRef))
+    dispatch(setCommentsOwnerRef(planRef))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PLAN))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }, [dispatch, planDetails?.plan_metadata?.name, planRef])
 
   const requestDeletePlanModal = useCallback(() => {
     dispatch(setSelectedDirectoryPlan({
-      plan_ref: planRef as string,
+      plan_ref: planRef,
       plan_metadata: {
         name,
         icon_url,
@@ -83,7 +84,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const requestEditPlanModal = useCallback(() => {
     dispatch(setSelectedDirectoryPlan({
-      plan_ref: planRef as string,
+      plan_ref: planRef,
       plan_metadata: planMetadata,
       plan_counts: null,
       total_mid_count: null,
@@ -154,7 +155,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
           const requestMerchantCommentsModal = () => {
             dispatch(setModalHeader(merchant_metadata.name))
             dispatch(setCommentsRef(merchant_ref))
-            dispatch(setCommentsOwnerRef(planRef as string))
+            dispatch(setCommentsOwnerRef(planRef))
             dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
             dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
           }

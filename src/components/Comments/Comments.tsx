@@ -1,5 +1,6 @@
 import {useRef, useEffect} from 'react'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {AutosizeTextArea} from 'components'
 import Comment from './components/Comment'
 import {DirectoryComments, DirectoryCommentHighLevel, DirectoryComment} from 'types'
@@ -43,7 +44,7 @@ const Comments = ({
 }: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
-  const {planId} = router.query
+  const {planId} = useGetRouterQueryString()
   const {hasRequiredPermission} = usePermissions()
 
   const commentsContainerRef = useRef(null)
@@ -73,7 +74,7 @@ const Comments = ({
           comment={comment}
           subjectType={subjectType}
           currentRoute={currentRoute}
-          currentPlanId={planId as string}
+          currentPlanId={planId}
           handleCommentDelete={handleCommentDelete}
           handleCommentEditSubmit={handleCommentEditSubmit}
           handleCommentReplySubmit={handleCommentReplySubmit}

@@ -1,5 +1,6 @@
 import type {NextPage} from 'next'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {
   PageLayout,
   DirectoryDetailsHeader,
@@ -35,13 +36,13 @@ enum NavigationLabel {
 
 const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
-  const {merchantId, planId, tab, ref} = router.query
+  const {merchantId, planId, tab, ref} = useGetRouterQueryString()
 
   const {
     getPlanResponse,
   } = useMidManagementPlans({
     skipGetPlans: true,
-    planRef: planId as string,
+    planRef: planId,
   })
 
   const {
@@ -49,8 +50,8 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     getMerchantError,
   } = useMidManagementMerchants({
     skipGetMerchantCounts: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const dispatch = useAppDispatch()
@@ -122,8 +123,8 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const requestMerchantCommentsModal = () => {
     dispatch(setModalHeader(merchant.merchant_metadata.name))
-    dispatch(setCommentsRef(merchantId as string))
-    dispatch(setCommentsOwnerRef(planId as string))
+    dispatch(setCommentsRef(merchantId))
+    dispatch(setCommentsOwnerRef(planId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }
@@ -131,7 +132,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const requestMerchantDeleteModal = () => {
     // Only set the selectedDirectoryMerchant if there is no previously selected merchant counts available
     !selectedMerchant.merchant_counts && dispatch(setSelectedDirectoryMerchant({
-      merchant_ref: merchantId as string,
+      merchant_ref: merchantId,
       merchant_metadata: merchant.merchant_metadata,
       merchant_counts: null,
     }))
@@ -191,7 +192,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
-      <HeadMetadata pageTitle={`MID Directory: ${merchant?.merchant_metadata?.name} ${DirectorySingleViewEntities[tab as string]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab as string]}s for the merchant in the plan`} />
+      <HeadMetadata pageTitle={`MID Directory: ${merchant?.merchant_metadata?.name} ${DirectorySingleViewEntities[tab]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab]}s for the merchant in the plan`} />
       <PageLayout>
         {merchant && (
           <>
