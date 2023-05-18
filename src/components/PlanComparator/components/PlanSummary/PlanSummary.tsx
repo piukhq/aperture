@@ -20,9 +20,9 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const renderHero = () => {
     if (heroUrl) {
       return (
-        <div className={`rounded-[20px] group flex justify-center items-center relative h-[150px] bg-red-200 overflow-hidden shadow-sm
-        hover:skew-y-1 hover:rotate-1 hover:shadow-lg hover:scale-105 duration-1000 ${isMobileViewport ? 'w-[150px]' : 'w-[220px]'}`}>
-          <Image className='rounded-[20px]' src={heroUrl as string} height={150} width={220} alt={heroUrl} />
+        <div className={`rounded-[20px] group flex justify-center items-center relative h-[150px] bg-red-200 overflow-hidden
+        hover:skew-y-1 hover:rotate-1 hover:scale-105 duration-1000 ${isMobileViewport ? 'w-[150px]' : 'w-[220px]'}`}>
+          <Image className='rounded-[20px]' src={heroUrl} height={150} width={220} alt={heroUrl} />
           <div className={`rounded-[20px] absolute top-0 -inset-full h-[150px] z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-grey-200 opacity-40 group-hover:animate-shine ${isMobileViewport ? 'scale-[60%] w-1/3' : 'w-1/2'}`} />
         </div>
       )
