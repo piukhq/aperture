@@ -1,5 +1,5 @@
 import {useState, useEffect, memo} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
@@ -16,16 +16,15 @@ type Props = {
 }
 
 const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
   const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
 
   const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useMidManagementSecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    secondaryMidRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    secondaryMidRef: ref,
   })
 
   const dispatch = useAppDispatch()

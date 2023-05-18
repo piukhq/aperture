@@ -6,6 +6,7 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
@@ -42,7 +43,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState(1)
   const [shouldSkipGetSecondaryMidsByPage, setShouldSkipGetSecondaryMidsByPage] = useState(true)
 
@@ -51,8 +52,8 @@ const DirectoryMerchantSecondaryMids = () => {
   const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
     skipGetSecondaryMid: true,
     skipGetSecondaryMidsByPage: shouldSkipGetSecondaryMidsByPage,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
     page: currentPage.toString(),
   })
 
@@ -114,7 +115,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedSecondaryMids()
     dispatch(setModalHeader('Secondary MID Comment'))
-    dispatch(setCommentsOwnerRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(merchantId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.SECONDARY_MID))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }

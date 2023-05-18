@@ -1,13 +1,12 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
 const DirectoryMerchantSecondaryMidsDeleteModalContainer = () => {
-  const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
 
   const {
@@ -20,13 +19,13 @@ const DirectoryMerchantSecondaryMidsDeleteModalContainer = () => {
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const deleteSecondaryMids = () => {
     const checkedEntityRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
-    deleteMerchantSecondaryMid({planRef: planId as string, merchantRef: merchantId as string, secondaryMidRefs: checkedEntityRefs})
+    deleteMerchantSecondaryMid({planRef: planId, merchantRef: merchantId, secondaryMidRefs: checkedEntityRefs})
   }
 
 

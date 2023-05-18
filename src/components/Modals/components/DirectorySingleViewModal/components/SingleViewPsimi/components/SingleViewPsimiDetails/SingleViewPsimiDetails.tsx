@@ -1,4 +1,4 @@
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {DirectoryPsimi} from 'types'
 import {Button, HeadMetadata} from 'components'
@@ -14,8 +14,7 @@ type Props = {
 }
 
 const SingleViewPsimiDetails = ({psimi}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
   const {date_added: dateAdded, psimi_metadata: psimiMetadata, txm_status: txmStatus} = psimi
   const {payment_scheme_slug: paymentSchemeSlug, value: psimiValue} = psimiMetadata
 
@@ -31,26 +30,26 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
     postMerchantPsimiOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantPsimiOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementPsimis({
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    psimiRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    psimiRef: ref,
     skipGetPsimisByPage: true,
   })
 
   const offboardPsimi = () => {
     resetOffboardingResponse()
     postOffboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      psimiRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      psimiRef: ref,
     })
   }
   const onboardPsimi = () => {
     resetOnboardingResponse()
     postOnboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      psimiRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      psimiRef: ref,
     })
   }
 

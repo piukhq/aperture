@@ -1,5 +1,5 @@
 import {useState, useEffect, useMemo, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import SingleViewEditableField from '../../../SingleViewEditableField'
@@ -21,8 +21,7 @@ type Props = {
 }
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
-  const router = useRouter()
-  const {planId, merchantId, ref} = router.query
+  const {planId, merchantId, ref} = useGetRouterQueryString()
   const [isInLocationEditMode, setIsInLocationEditMode] = useState(false)
 
   const {
@@ -53,9 +52,9 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   } = useMidManagementMids({
     skipGetMids: true,
     skipGetMidsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    midRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    midRef: ref,
   })
 
   const {
@@ -65,8 +64,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   } = useMidManagementLocations({
     skipGetLocation: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
     getAll: true,
   })
 
@@ -151,7 +150,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   // Using currying here to keep the function generic
   const handleBinOrPaymentStatusSave = useCallback((fieldValueObj: {visa_bin: string | null} | {payment_enrolment_status: string | null}) => () => {
-    patchMerchantMid({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, ...fieldValueObj})
+    patchMerchantMid({planRef: planId, merchantRef: merchantId, midRef: ref, ...fieldValueObj})
   }, [planId, merchantId, ref, patchMerchantMid])
 
   const handleBinDelete = useCallback((fieldValueObj: {visa_bin: null}) => () => {
@@ -176,27 +175,27 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   }, [resetError, locationStringsList])
 
   const handleLocationDelete = useCallback(() => {
-    deleteMerchantMidLocation({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string})
+    deleteMerchantMidLocation({planRef: planId, merchantRef: merchantId, midRef: ref})
   }, [planId, merchantId, ref, deleteMerchantMidLocation])
 
   const handleLocationSave = useCallback(() => {
-    putMerchantMidLocation({planRef: planId as string, merchantRef: merchantId as string, midRef: ref as string, location_ref: associatedLocationRef})
+    putMerchantMidLocation({planRef: planId, merchantRef: merchantId, midRef: ref, location_ref: associatedLocationRef})
   }, [planId, merchantId, ref, associatedLocationRef, putMerchantMidLocation])
 
   const offboardMid = () => {
     resetOffboardingResponse()
     postOffboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      midRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      midRef: ref,
     })
   }
   const onboardMid = () => {
     resetOnboardingResponse()
     postOnboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      midRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      midRef: ref,
     })
   }
 

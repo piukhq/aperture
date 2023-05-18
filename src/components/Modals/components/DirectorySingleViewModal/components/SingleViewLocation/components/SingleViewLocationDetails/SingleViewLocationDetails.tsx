@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, DirectoryMerchantLocationForm, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
@@ -16,8 +16,7 @@ type Props = {
 }
 
 const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
-  const router = useRouter()
-  const {planId, merchantId, ref} = router.query
+  const {planId, merchantId, ref} = useGetRouterQueryString()
   // Take component out of edit state when unmounted
   useEffect(() => {
     return () => {
@@ -122,16 +121,16 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     skipGetLocations: true,
     skipGetLocation: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
   })
 
   const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     putMerchantLocation({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      locationRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      locationRef: ref,
       ...locationMetadata,
     })
   }, [putMerchantLocation, planId, merchantId, ref])

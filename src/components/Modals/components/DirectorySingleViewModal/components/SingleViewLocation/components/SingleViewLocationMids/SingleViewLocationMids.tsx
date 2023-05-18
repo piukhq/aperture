@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
@@ -11,8 +11,7 @@ import {LinkableEntities, UserPermissions} from 'utils/enums'
 
 // TODO: Potentially refactor to share more elements with SingleViewLocationSecondaryMids component once all functionality is settled between the two components
 const SingleViewLocationMids = () => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
 
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
@@ -35,9 +34,9 @@ const SingleViewLocationMids = () => {
     deleteMerchantLocationMidLinkIsSuccess,
     resetDeleteMerchantLocationMidLinkResponse,
   } = useMidManagementLocationMids({
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
     skipGetLocationAvailableMids: !shouldPrepareDropdownMenu,
   })
 
@@ -99,9 +98,9 @@ const SingleViewLocationMids = () => {
         setSelectedUnlinkIndexFn={setSelectedUnlinkMidIndex}
         isInUnlinkingConfirmationState={selectedUnlinkMidIndex === index}
         unlinkFn={() => deleteMerchantLocationMidLink({
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-          locationRef: ref as string,
+          planRef: planId,
+          merchantRef: merchantId,
+          locationRef: ref,
           midRef,
         })}
         isUnlinking={deleteMerchantLocationMidLinkIsLoading}
@@ -133,9 +132,9 @@ const SingleViewLocationMids = () => {
     const onSaveHandler = () => {
       if (selectedAvailableMid) {
         postMerchantLocationLinkedMids({
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-          locationRef: ref as string,
+          planRef: planId,
+          merchantRef: merchantId,
+          locationRef: ref,
           midRefs: [selectedAvailableMid.mid.mid_ref],
         })
       }

@@ -3,6 +3,7 @@ import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
@@ -39,7 +40,7 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState(1)
   const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState(true)
 
@@ -48,8 +49,8 @@ const DirectoryMerchantPsimis = () => {
   const {getMerchantPsimisResponse} = useMidManagementPsimis({
     skipGetPsimi: true,
     skipGetPsimisByPage: shouldSkipGetPsimisByPage,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
     page: currentPage.toString(),
   })
 
@@ -110,7 +111,7 @@ const DirectoryMerchantPsimis = () => {
     // TODO: Will possibly need to change from Psimis to PSIMIs
     setSelectedPsimis()
     dispatch(setModalHeader('PSIMI Comment'))
-    dispatch(setCommentsOwnerRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(merchantId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PSIMI))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }

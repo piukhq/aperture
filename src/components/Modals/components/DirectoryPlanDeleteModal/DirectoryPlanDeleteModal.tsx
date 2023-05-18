@@ -13,8 +13,8 @@ import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryPlanDeleteModal = () => {
   const dispatch = useAppDispatch()
-  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const router = useRouter()
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const {plan_ref: planId, total_mid_count: totalMidCount} = selectedPlan
   const {name} = selectedPlan.plan_metadata
   const {merchants, locations} = selectedPlan.plan_counts || {}
@@ -26,7 +26,7 @@ const DirectoryPlanDeleteModal = () => {
     resetDeletePlanResponse,
   } = useMidManagementPlans({
     skipGetPlan: true,
-    planRef: planId as string,
+    planRef: planId,
   })
 
   const [nameValue, setNameValue] = useState('')
@@ -44,7 +44,7 @@ const DirectoryPlanDeleteModal = () => {
       setNameValidationError('Enter correct plan name')
     } else {
       setNameValidationError(null)
-      deletePlan({planRef: selectedPlan.plan_ref as string})
+      deletePlan({planRef: selectedPlan.plan_ref})
     }
   }
 

@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, DirectoryMerchantLocationForm, HeadMetadata, TextInputGroup} from 'components'
 import {InputColour, InputStyle, InputType, InputWidth} from 'components/TextInputGroup/styles'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -23,7 +24,7 @@ type Props = {
 
 const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
   const router = useRouter()
-  const {merchantId, planId, ref, sub_location_ref: subLocationRef} = router.query
+  const {merchantId, planId, ref, sub_location_ref: subLocationRef} = useGetRouterQueryString()
   const {
     getMerchantLocationsResponse,
     getMerchantLocationsIsFetching: isGetLocationsFetching,
@@ -31,8 +32,8 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     skipGetLocation: true,
     skipGetLocationsByPage: true,
     getAll: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const {
@@ -50,10 +51,10 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   } = useMidManagementLocationSubLocations({
     skipGetSubLocations: true,
     skipGetSubLocation: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
-    subLocationRef: subLocationRef as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
+    subLocationRef: subLocationRef,
   })
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
@@ -118,7 +119,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const handlePatchSave = useCallback(() => {
     if (locationIdValue !== '' || selectedParentLocationName !== 'None') {
       const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
-      patchMerchantLocationSubLocation({parentRef, planRef: planId as string, merchantRef: merchantId as string, locationRef: ref as string, subLocationRef: subLocationRef as string, locationId: locationIdValue as string})
+      patchMerchantLocationSubLocation({parentRef, planRef: planId, merchantRef: merchantId, locationRef: ref, subLocationRef: subLocationRef, locationId: locationIdValue})
     } else {
       setLocationIdValidationError('Enter location ID')
     }
@@ -218,10 +219,10 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
 
   const handlePutSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     putMerchantLocationSubLocation({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      locationRef: ref as string,
-      subLocationRef: subLocationRef as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      locationRef: ref,
+      subLocationRef: subLocationRef,
       ...locationMetadata,
     })
   }, [putMerchantLocationSubLocation, planId, merchantId, ref, subLocationRef])

@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
@@ -12,8 +12,7 @@ import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {useAppDispatch} from 'app/hooks'
 
 const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
 
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
@@ -34,9 +33,9 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     deleteMerchantSecondaryMidLocationLinkIsLoading,
     resetDeleteMerchantSecondaryMidLocationLinkResponse,
   } = useMidManagementSecondaryMidLocations({
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    secondaryMidRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    secondaryMidRef: ref,
   })
 
   const {
@@ -47,9 +46,9 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     skipGetLocations: false,
     skipGetLocation: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    secondaryMidRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    secondaryMidRef: ref,
     getAll: true,
   })
 
@@ -97,9 +96,9 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     const onSaveHandler = () => {
       if(selectedAvailableLocation) {
         postMerchantSecondaryMidLocationLink({
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-          secondaryMidRef: ref as string,
+          planRef: planId,
+          merchantRef: merchantId,
+          secondaryMidRef: ref,
           locationRef: selectedAvailableLocation.location_ref,
         })
       }
@@ -185,9 +184,9 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
         isInUnlinkingConfirmationState={selectedUnlinkLocationIndex === index}
         unlinkFn={() => deleteMerchantSecondaryMidLocationLink({
           linkRef,
-          planRef: planId as string,
-          merchantRef: merchantId as string,
-          secondaryMidRef: ref as string,
+          planRef: planId,
+          merchantRef: merchantId,
+          secondaryMidRef: ref,
         })}
         isUnlinking={deleteMerchantSecondaryMidLocationLinkIsLoading}
         setShouldRenderNewLinkDropdownMenuFn={setShouldRenderDropdownMenu}

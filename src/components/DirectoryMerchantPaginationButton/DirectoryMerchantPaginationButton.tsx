@@ -3,7 +3,7 @@ import Button from 'components/Button'
 import {ButtonBackground, ButtonSize, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
 import ArrowDownSVG from 'icons/svgs/arrow-down.svg'
 import {DirectoryLocations, DirectoryMids, DirectoryPsimis, DirectorySecondaryMids} from 'types'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {getMerchantEntityCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
@@ -18,16 +18,14 @@ type Props = {
 const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn, setShouldSkipGetEntityByPage}: Props) => {
   const [merchantEntityCount, setMerchantEntityCount] = useState(0)
   const [shouldRefresh, setShouldRefresh] = useState(false)
-
-  const router = useRouter()
-  const {tab, planId, merchantId} = router.query
+  const {tab, planId, merchantId} = useGetRouterQueryString()
 
   const {
     getMerchantResponse,
   } = useMidManagementMerchants({
     skipGetMerchantCounts: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const dataCount = currentData?.length

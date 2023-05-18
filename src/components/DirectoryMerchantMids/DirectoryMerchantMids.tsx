@@ -12,7 +12,7 @@ import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {useMidManagementMids} from 'hooks/useMidManagementMids'
-
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
@@ -42,19 +42,18 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const {planId, merchantId} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = router.query
   const [currentPage, setCurrentPage] = useState(1)
   const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState(true)
-
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse} = useMidManagementMids({
     skipGetMid: true,
     skipGetMidsByPage: shouldSkipGetMidsByPage,
-    planRef: planId as string,
-    page: currentPage.toString() as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    page: currentPage.toString(),
+    merchantRef: merchantId,
   })
 
   const midsData: DirectoryMids = getMerchantMidsResponse
@@ -88,7 +87,7 @@ const DirectoryMerchantMids = () => {
 
   const refArray = midsData?.map(mid => mid.mid_ref)
 
-  const requestMidModal = (paymentScheme) => {
+  const requestMidModal = (paymentScheme: PaymentSchemeName) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MID))
   }
@@ -116,7 +115,7 @@ const DirectoryMerchantMids = () => {
   const requestBulkCommentModal = () => {
     setSelectedMids()
     dispatch(setModalHeader('MID Comment'))
-    dispatch(setCommentsOwnerRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(merchantId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.MID))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
@@ -192,7 +191,6 @@ const DirectoryMerchantMids = () => {
       )
     }
   }
-
 
   return (
     <>

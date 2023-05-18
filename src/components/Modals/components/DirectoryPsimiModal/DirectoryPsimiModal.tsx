@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -11,8 +11,7 @@ import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directo
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryPsimiModal = () => {
-  const router = useRouter()
-  const {planId, merchantId} = router.query
+  const {planId, merchantId} = useGetRouterQueryString()
 
   const {
     postMerchantPsimi,
@@ -78,7 +77,7 @@ const DirectoryPsimiModal = () => {
           payment_scheme_merchant_name: null, // Never populated for a new PSIMI
           payment_scheme_slug: paymentSchemeSlug,
         }
-        postMerchantPsimi({onboard: isOnboardRequired, planRef: planId as string, merchantRef: merchantId as string, psimi_metadata: metadata})
+        postMerchantPsimi({onboard: isOnboardRequired, planRef: planId, merchantRef: merchantId, psimi_metadata: metadata})
       }
     }
   }
