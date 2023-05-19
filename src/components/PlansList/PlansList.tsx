@@ -62,7 +62,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
         // Check if plan still exists
         const plan = uniquePlansList.find(plan => plan.slug === cachedPlanSlug)
         if (plan) {
-          setSearchValue(plan.account.plan_name as string)
+          setSearchValue(plan.account.plan_name)
           setSelectedPlan(plan)
           storePlanInformation(plan)
         } else {
