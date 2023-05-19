@@ -68,7 +68,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
 
   const renderIcon = () => {
     if (iconUrl && !imageLoadError) {
-      return <Image className='rounded-[30px]' src={iconUrl as string} height={93} width={93} alt='' data-testid='icon'
+      return <Image className='rounded-[30px]' src={iconUrl} height={93} width={93} alt='' data-testid='icon'
         onError={() => setImageLoadError(true)}
       />
     }

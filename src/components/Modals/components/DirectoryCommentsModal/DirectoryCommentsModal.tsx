@@ -70,7 +70,7 @@ const DirectoryCommentsModal = () => {
   ) => {
     postReplyComment({
       commentRef,
-      commentsRef: commentsRef as string,
+      commentsRef: commentsRef,
       metadata: {
         owner_ref: ownerRef,
         owner_type: determineCommentOwnerType(subjectType),
