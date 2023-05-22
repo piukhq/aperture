@@ -1,5 +1,5 @@
 import {useEffect, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import Link from 'next/link'
 import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -15,8 +15,7 @@ type Props = {
 }
 
 const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditState, onCancelEditState}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
 
   const {
     getMerchantLocationSubLocationsResponse,
@@ -28,9 +27,9 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     resetPostMerchantLocationSubLocationResponse,
   } = useMidManagementLocationSubLocations({
     skipGetSubLocation: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
   })
 
   const hasNoLinkedSubLocations = (!getMerchantLocationSubLocationsResponse || getMerchantLocationSubLocationsResponse.length === 0) && !getMerchantLocationSubLocationsIsLoading
@@ -43,9 +42,9 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
 
   const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     postMerchantLocationSubLocation({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      locationRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      locationRef: ref,
       secondaryMidRef: '',
       ...locationMetadata,
     })

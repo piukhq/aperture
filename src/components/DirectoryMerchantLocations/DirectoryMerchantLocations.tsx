@@ -7,6 +7,7 @@ import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, Bor
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {timeStampToDate} from 'utils/dateFormat'
@@ -26,7 +27,7 @@ type Props = {
 
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState(1)
   const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState(true)
@@ -37,8 +38,8 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const {getMerchantLocationsResponse} = useMidManagementLocations({
     skipGetLocation: true,
     skipGetLocationsByPage: shouldSkipGetLocationsByPage,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
     page: currentPage.toString(),
   })
 
@@ -205,7 +206,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const requestBulkCommentModal = () => {
     setSelectedLocations()
     dispatch(setModalHeader('Location Comment'))
-    dispatch(setCommentsOwnerRef(merchantId as string))
+    dispatch(setCommentsOwnerRef(merchantId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.LOCATION))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }

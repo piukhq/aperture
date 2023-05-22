@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
@@ -12,9 +12,7 @@ import {DirectoryLocationMetadata} from 'types'
 import {getLocationList} from 'utils/locationStrings'
 
 const DirectoryLocationModal = () => {
-  const router = useRouter()
-  const {planId, merchantId} = router.query
-
+  const {planId, merchantId} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
 
   const {
@@ -28,8 +26,8 @@ const DirectoryLocationModal = () => {
     skipGetLocation: true,
     getAll: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const {
@@ -41,13 +39,12 @@ const DirectoryLocationModal = () => {
   } = useMidManagementLocationSubLocations({
     skipGetSubLocation: true,
     skipGetSubLocations: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: null as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: null,
   })
 
   const locationLabel = useAppSelector(getLocationLabel)
-
   const [parentLocation, setParentLocation] = useState('None')
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
 
@@ -105,16 +102,16 @@ const DirectoryLocationModal = () => {
       const locationRef = locationList.find(location => location.title === parentLocation).location_ref
 
       postMerchantLocationSubLocation({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
+        planRef: planId,
+        merchantRef: merchantId,
         locationRef,
         secondaryMidRef: '',
         ...locationMetadata,
       })
     } else {
       postMerchantLocation({
-        planRef: planId as string,
-        merchantRef: merchantId as string,
+        planRef: planId,
+        merchantRef: merchantId,
         secondaryMidRef: '',
         ...locationMetadata,
       })

@@ -1,5 +1,5 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
@@ -7,8 +7,7 @@ import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerc
 
 
 const DirectoryMerchantLocationsDeleteModalContainer = () => {
-  const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
 
   const {
@@ -21,13 +20,13 @@ const DirectoryMerchantLocationsDeleteModalContainer = () => {
     skipGetLocation: true,
     skipGetLocations: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const deleteLocations = () => {
     const checkedEntityRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
-    deleteMerchantLocation({planRef: planId as string, merchantRef: merchantId as string, locationRefs: checkedEntityRefs})
+    deleteMerchantLocation({planRef: planId, merchantRef: merchantId, locationRefs: checkedEntityRefs})
   }
 
   return (

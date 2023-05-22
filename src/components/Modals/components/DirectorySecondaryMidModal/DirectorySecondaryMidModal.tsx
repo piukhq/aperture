@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -11,8 +11,7 @@ import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directo
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectorySecondaryMidModal = () => {
-  const router = useRouter()
-  const {planId, merchantId} = router.query
+  const {planId, merchantId} = useGetRouterQueryString()
 
   const {
     postMerchantSecondaryMid,
@@ -77,8 +76,8 @@ const DirectorySecondaryMidModal = () => {
           payment_scheme_slug: paymentSchemeSlug,
         }
         postMerchantSecondaryMid({
-          planRef: planId as string,
-          merchantRef: merchantId as string,
+          planRef: planId,
+          merchantRef: merchantId,
           locationRef: '',
           secondary_mid_metadata: metadata,
           onboard: isOnboardRequired,

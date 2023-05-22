@@ -1,13 +1,12 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
 const DirectoryMerchantPsimisDeleteModalContainer = () => {
-  const router = useRouter()
-  const {merchantId, planId} = router.query
+  const {merchantId, planId} = useGetRouterQueryString()
   const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
 
   const {
@@ -20,13 +19,13 @@ const DirectoryMerchantPsimisDeleteModalContainer = () => {
     skipGetPsimi: true,
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const deletePsimis = () => {
     const checkedEntityRefs = directoryEntityCheckedSelection.map(entity => entity.entityRef)
-    deleteMerchantPsimi({planRef: planId as string, merchantRef: merchantId as string, psimiRefs: checkedEntityRefs})
+    deleteMerchantPsimi({planRef: planId, merchantRef: merchantId, psimiRefs: checkedEntityRefs})
   }
 
   return (

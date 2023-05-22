@@ -8,7 +8,7 @@ type Props = {
   hasNoCategoryValues: boolean
   hasAllCategoryValuesMatching: boolean
   category: string
-  categoryAcrossEnvsArray: any[] // TODO: type this
+  categoryAcrossEnvsArray: []
   mostKeysCategory: string[]
   categoryWithMostKeysAcrossEnvs: string
   plans: SelectedPlans

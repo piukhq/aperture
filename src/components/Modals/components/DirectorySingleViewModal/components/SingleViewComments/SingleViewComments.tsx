@@ -1,4 +1,4 @@
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Comments} from 'components'
 import {useMidManagementComments} from 'hooks/useMidManagementComments'
 import {CommentsSubjectTypes} from 'utils/enums'
@@ -10,8 +10,7 @@ type Props = {
 }
 
 const SingleViewComments = ({subjectType}: Props) => {
-  const router = useRouter()
-  const {merchantId: ownerRef, ref, sub_location_ref} = router.query
+  const {merchantId: ownerRef, ref, sub_location_ref} = useGetRouterQueryString()
   const commentsRef = sub_location_ref || ref
 
   const {
@@ -28,29 +27,29 @@ const SingleViewComments = ({subjectType}: Props) => {
     postReplyComment,
     postReplyCommentIsLoading: replyCommentIsLoading,
     postReplyCommentIsSuccess: replyCommentIsSuccess,
-  } = useMidManagementComments({commentsRef: commentsRef as string})
+  } = useMidManagementComments({commentsRef: commentsRef})
 
   const handleNewCommentSubmit = useCallback((comment: string) => {
     postComment({
-      commentsRef: commentsRef as string,
+      commentsRef: commentsRef,
       metadata: {
-        owner_ref: ownerRef as string,
+        owner_ref: ownerRef,
         owner_type: determineCommentOwnerType(subjectType),
         text: comment,
       },
       subject_type: subjectType,
-      subjects: [commentsRef as string],
+      subjects: [commentsRef],
     })
   }, [postComment, subjectType, ownerRef, commentsRef])
 
   const handleCommentDelete = useCallback((commentRef: string) => {
-    deleteComment({commentRef, commentsRef: commentsRef as string})
+    deleteComment({commentRef, commentsRef: commentsRef})
   }, [deleteComment, commentsRef])
 
   const handleCommentEditSubmit = useCallback((commentRef: string, editedComment: string) => {
     patchComment({
       commentRef,
-      commentsRef: commentsRef as string,
+      commentsRef: commentsRef,
       text: editedComment,
     })
   }, [patchComment, commentsRef])
@@ -63,9 +62,9 @@ const SingleViewComments = ({subjectType}: Props) => {
   ) => {
     postReplyComment({
       commentRef,
-      commentsRef: commentsRef as string,
+      commentsRef: commentsRef,
       metadata: {
-        owner_ref: ownerRef as string,
+        owner_ref: ownerRef,
         owner_type: determineCommentOwnerType(subjectType),
         text: comment,
       },

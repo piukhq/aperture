@@ -41,8 +41,8 @@ describe('Sidebar', () => {
     }))
 
     const setStateMock = jest.fn()
-    const useStateMock: any = (useState: any) => [useState, setStateMock]
-    jest.spyOn(React, 'useState').mockImplementation(useStateMock)
+    const useStateMock = (useState) => [useState, setStateMock]
+    jest.spyOn(React, 'useState').mockImplementation(useStateMock as unknown as () => [boolean, React.Dispatch<React.SetStateAction<boolean>>]) // Hardcore TS!
   })
 
   const getSidebarComponent = (passedStore = undefined) => (

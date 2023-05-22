@@ -1,5 +1,6 @@
 import React from 'react'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import Link from 'next/link'
 import {useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
@@ -8,13 +9,13 @@ import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
 
 const DirectoryBreadcrumb = () => {
   const router = useRouter()
-  const {planId} = router.query
+  const {planId} = useGetRouterQueryString()
 
   const {
     getPlanResponse,
   } = useMidManagementPlans({
     skipGetPlans: true,
-    planRef: planId as string,
+    planRef: planId,
   })
 
   // Split out '/' and '?' characters from route

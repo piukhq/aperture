@@ -1,5 +1,5 @@
 import {useState, useEffect, memo} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
@@ -16,15 +16,14 @@ type Props = {
 }
 
 const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
 
   const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useMidManagementPsimis({
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    psimiRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    psimiRef: ref,
   })
   const dispatch = useAppDispatch()
 

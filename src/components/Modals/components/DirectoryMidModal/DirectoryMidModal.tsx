@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -12,8 +12,7 @@ import {isNumberOnlyString} from 'utils/validation'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMidModal = () => {
-  const router = useRouter()
-  const {planId, merchantId} = router.query
+  const {planId, merchantId} = useGetRouterQueryString()
 
   const {
     postMerchantMid,
@@ -85,7 +84,7 @@ const DirectoryMidModal = () => {
           mid: midValue,
           visa_bin: binValue,
         }
-        postMerchantMid({onboard: isOffboardRequired, planRef: planId as string, merchantRef: merchantId as string, mid_metadata: metadata})
+        postMerchantMid({onboard: isOffboardRequired, planRef: planId, merchantRef: merchantId, mid_metadata: metadata})
       }
     }
   }

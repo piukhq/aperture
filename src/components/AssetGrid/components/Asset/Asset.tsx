@@ -32,7 +32,7 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
     }
   )
 
-  const handleAssetClick = () => {
+  const handleAssetClick: React.MouseEventHandler = () => {
     const assetGroup = {}
     const environmentArray = [EnvironmentShortName.DEV, EnvironmentShortName.STAGING, EnvironmentShortName.PROD]
 

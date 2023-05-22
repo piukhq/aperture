@@ -1,5 +1,6 @@
 import {useState, useEffect, useCallback} from 'react'
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {reset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
@@ -14,7 +15,7 @@ import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
   const router = useRouter()
-  const {planId, merchantId} = router.query
+  const {planId, merchantId} = useGetRouterQueryString()
   // Seed state if selected merchant has counts available, else counts endpoint will be called to populate state
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
@@ -31,8 +32,8 @@ const DirectoryMerchantDeleteModal = () => {
     getMerchantResponse,
   } = useMidManagementMerchants({
     skipGetMerchantCounts: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
+    planRef: planId,
+    merchantRef: merchantId,
   })
 
   const dispatch = useAppDispatch()
@@ -79,7 +80,7 @@ const DirectoryMerchantDeleteModal = () => {
     } else if (nameValue !== name) {
       setNameValidationError('Enter correct merchant name')
     } else {
-      deleteMerchant({name: nameValue, planRef: planId as string, merchantRef})
+      deleteMerchant({name: nameValue, planRef: planId, merchantRef})
     }
   }
 

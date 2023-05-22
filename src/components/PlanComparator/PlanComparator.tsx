@@ -9,13 +9,14 @@ import {PlanCategory} from 'utils/enums'
 type Props = {
   plans: SelectedPlans
 }
+type ArrayPlan = Array<SelectedPlans[keyof SelectedPlans]>
 
 const PlanComparator = ({plans}: Props) => { // This component does the algorithmic heavy lifting to compare the plans in the child components
   // used for plan summary component
   let totalKeys = 0
   let totalMatches = 0
 
-  const plansArray = Object.values(plans).filter(Boolean)
+  const plansArray:ArrayPlan = Object.values(plans).filter(Boolean)
 
   const planCategories = [
     PlanCategory.ACCOUNT,
@@ -96,7 +97,7 @@ const PlanComparator = ({plans}: Props) => { // This component does the algorith
         hasAllCategoryValuesMatching={totalMatchingCategoryValues === mostKeysCategory.length}
         category={category}
         mostKeysCategory={mostKeysCategory}
-        categoryAcrossEnvsArray={categoryAcrossEnvsArray}
+        categoryAcrossEnvsArray={categoryAcrossEnvsArray as []}
         isValueMatchedAcrossEnvsFn={isValueMatchedAcrossEnvs}
         categoryWithMostKeysAcrossEnvs={categoryWithMostKeysAcrossEnvs}
         plans={plans}

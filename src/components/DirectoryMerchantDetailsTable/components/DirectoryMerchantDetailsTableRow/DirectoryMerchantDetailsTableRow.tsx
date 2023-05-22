@@ -69,7 +69,12 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
     >
 
       <td className={`flex items-center h-[40px] ${isSubLocationRow ? 'justify-end' : 'justify-center'}`}>
-        <input type='checkbox' className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()} onChange={() => onCheckboxChange(index)} />
+        <input
+          type='checkbox'
+          aria-label={`checkbox-${index}`}
+          className='flex h-[16px] w-[16px]' checked={selectedCheckedRow} onClick={(e) => e.stopPropagation()}
+          onChange={() => onCheckboxChange(index)}
+        />
       </td>
       {row.map((rowCell: DirectoryMerchantDetailsTableCell, index) => {
         const {paymentSchemeSlug, additionalStyles, displayValue, icon, physicalLocation} = rowCell

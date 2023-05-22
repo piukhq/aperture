@@ -1,4 +1,5 @@
 import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -22,7 +23,7 @@ import {ModalType, ModalStyle} from 'utils/enums'
 
 const DirectorySingleViewModal = () => {
   const router = useRouter()
-  const {merchantId, planId, tab, ref, sub_location_ref} = router.query
+  const {merchantId, planId, tab, ref, sub_location_ref} = useGetRouterQueryString()
 
   const {
     deleteMerchantMid,
@@ -34,9 +35,9 @@ const DirectorySingleViewModal = () => {
     skipGetMids: true,
     skipGetMid: true,
     skipGetMidsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    midRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    midRef: ref,
   })
 
   const {
@@ -49,9 +50,9 @@ const DirectorySingleViewModal = () => {
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
     skipGetSecondaryMidsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    secondaryMidRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    secondaryMidRef: ref,
   })
 
   const {
@@ -64,9 +65,9 @@ const DirectorySingleViewModal = () => {
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
     skipGetPsimi: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    psimiRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    psimiRef: ref,
   })
 
   const {
@@ -79,9 +80,9 @@ const DirectorySingleViewModal = () => {
     skipGetLocations: true,
     skipGetLocation: true,
     skipGetLocationsByPage: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
   })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
@@ -114,7 +115,7 @@ const DirectorySingleViewModal = () => {
 
 
   const dispatch = useAppDispatch()
-  const singleViewEntityLabel = DirectorySingleViewEntities[tab as string]
+  const singleViewEntityLabel = DirectorySingleViewEntities[tab]
 
   const closeSingleViewModal = useCallback(() => {
     dispatch(merchantReset())
@@ -141,7 +142,7 @@ const DirectorySingleViewModal = () => {
 
   const handleDelete = () => {
     setErrorMessage(null)
-    const refs = {planRef: planId as string, merchantRef: merchantId as string}
+    const refs = {planRef: planId, merchantRef: merchantId}
     switch (tab) {
       case DirectoryNavigationTab.MIDS: {
         deleteMerchantMid({...refs, midRefs: [entityRef]})

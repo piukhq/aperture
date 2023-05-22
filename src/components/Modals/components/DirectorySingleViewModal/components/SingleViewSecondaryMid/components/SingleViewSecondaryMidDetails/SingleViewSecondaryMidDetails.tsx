@@ -1,10 +1,8 @@
 import {useState, useMemo, useCallback, useEffect} from 'react'
-import {useRouter} from 'next/router'
-
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
-
 import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -17,8 +15,7 @@ type Props = {
 }
 
 const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref} = router.query
+  const {merchantId, planId, ref} = useGetRouterQueryString()
 
   const paymentSchemeStatusValues = useMemo(() => [
     PaymentSchemeStatusDisplayValue['enrolled'],
@@ -47,11 +44,11 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     postMerchantSecondaryMidOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
   } = useMidManagementSecondaryMids({
-    planRef: planId as string,
+    planRef: planId,
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,
-    merchantRef: merchantId as string,
-    secondaryMidRef: ref as string,
+    merchantRef: merchantId,
+    secondaryMidRef: ref,
   })
 
   useEffect(() => {
@@ -67,17 +64,17 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const offboardSecondaryMid = () => {
     resetOffboardingResponse()
     postOffboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      secondaryMidRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      secondaryMidRef: ref,
     })
   }
   const onboardSecondaryMid = () => {
     resetOnboardingResponse()
     postOnboarding({
-      planRef: planId as string,
-      merchantRef: merchantId as string,
-      secondaryMidRef: ref as string,
+      planRef: planId,
+      merchantRef: merchantId,
+      secondaryMidRef: ref,
     })
   }
 
@@ -94,7 +91,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
       payment_scheme_store_name,
     }
 
-    patchMerchantSecondaryMid({planRef: planId as string, merchantRef: merchantId as string, secondaryMidRef: ref as string, ...updatedSecondaryMid})
+    patchMerchantSecondaryMid({planRef: planId, merchantRef: merchantId, secondaryMidRef: ref, ...updatedSecondaryMid})
   }, [merchantId, patchMerchantSecondaryMid, planId, ref, secondaryMid.secondary_mid_metadata])
 
   const handleRefreshButtonClick = useCallback(() => {

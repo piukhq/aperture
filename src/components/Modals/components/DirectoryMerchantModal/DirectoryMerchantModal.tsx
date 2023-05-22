@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react'
 import Image from 'next/image'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -13,8 +13,7 @@ import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
 
 const DirectoryMerchantModal = () => {
-  const router = useRouter()
-  const {planId} = router.query
+  const {planId} = useGetRouterQueryString()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan) // Used for when coming from Plans page
 
   const {
@@ -29,7 +28,7 @@ const DirectoryMerchantModal = () => {
   } = useMidManagementMerchants({
     skipGetMerchant: true,
     skipGetMerchantCounts: true,
-    planRef: planId as string,
+    planRef: planId,
   })
 
   const dispatch = useAppDispatch()
@@ -128,10 +127,10 @@ const DirectoryMerchantModal = () => {
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
         if (isNewMerchant) {
-          const planRef = planId as string || selectedPlan.plan_ref
+          const planRef = planId || selectedPlan.plan_ref
           postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef})
         } else {
-          putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId as string, merchantRef})
+          putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId, merchantRef})
         }
       } else {
         if (nameValue === '') {

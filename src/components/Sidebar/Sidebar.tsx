@@ -118,6 +118,7 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   const renderSidebarToggle = () => (
     <button
+      name='sidebar-toggle'
       onClick={() => setIsOpen(!isOpen)}
       className={`flex items-center justify-center h-8 w-8 ease-in-out border-grey-400 dark:border-grey-825 hover:scale-125 rounded-full border-2 bg-white/90 dark:bg-black/50 duration-200 ${isOpen ? 'translate-x-12 ml-[6px] translate-y-12 rotate-90 shadow-xs-90 ' : 'translate-x-2 translate-y-4 -rotate-90 shadow-xs-90-reverse'}`}
     >

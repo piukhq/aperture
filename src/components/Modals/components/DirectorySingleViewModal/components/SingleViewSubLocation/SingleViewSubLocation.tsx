@@ -1,5 +1,5 @@
 import {useState, useEffect, memo, useCallback} from 'react'
-import {useRouter} from 'next/router'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
@@ -20,8 +20,7 @@ type Props = {
 }
 
 const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsInEditState, onCancelEditState, setShouldDisplayEditButton, setIsEntityFound}: Props) => {
-  const router = useRouter()
-  const {merchantId, planId, ref, sub_location_ref} = router.query
+  const {merchantId, planId, ref, sub_location_ref} = useGetRouterQueryString()
 
   const {
     getMerchantLocationSubLocationResponse,
@@ -29,10 +28,10 @@ const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setI
     getMerchantLocationSubLocationIsLoading,
   } = useMidManagementLocationSubLocations({
     skipGetSubLocations: true,
-    planRef: planId as string,
-    merchantRef: merchantId as string,
-    locationRef: ref as string,
-    subLocationRef: sub_location_ref as string,
+    planRef: planId,
+    merchantRef: merchantId,
+    locationRef: ref,
+    subLocationRef: sub_location_ref,
   })
 
   const dispatch = useAppDispatch()

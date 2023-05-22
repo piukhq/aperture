@@ -5,7 +5,7 @@ import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCh
 import {getHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {HarmoniaActionTypes, ModalStyle} from 'utils/enums'
-import {useRouter} from 'next/router'
+import useGetDirectoryRouterString from 'hooks/useGetRouterQueryString'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 
@@ -15,10 +15,10 @@ const DirectoryHarmoniaModal = () => {
     'secondary-mids'= 'Secondary MID',
     'psimis'= 'PSIMI',
   }
-  const {tab} = useRouter().query
+  const {tab} = useGetDirectoryRouterString()
   const selectedEntities = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
   const hasMultipleEntities = selectedEntities.length > 1
-  const entityLabel = `${RouterEntityLabel[tab as string]}${hasMultipleEntities ? 's' : ''}`
+  const entityLabel = `${RouterEntityLabel[tab]}${hasMultipleEntities ? 's' : ''}`
 
 
   const dispatch = useAppDispatch()

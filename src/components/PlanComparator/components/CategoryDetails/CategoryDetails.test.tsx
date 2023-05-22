@@ -46,7 +46,7 @@ const mockProps = {
   hasNoCategoryValues: false,
   hasAllCategoryValuesMatching: false,
   category: 'account',
-  categoryAcrossEnvsArray: [],
+  categoryAcrossEnvsArray: [] as [],
   mostKeysCategory: ['account'],
   categoryWithMostKeysAcrossEnvs: 'account',
   plans: {

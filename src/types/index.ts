@@ -501,7 +501,7 @@ export type LookupUserHistoryEntity = {
   },
   lookup: {
     type: string,
-    criteria: unknown,
+    criteria: string,
     datetime: string
   }
 }
