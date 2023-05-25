@@ -9,8 +9,8 @@ jest.mock('components/Modal', () => ({
   default ({modalHeader, children}: Record<string, unknown>) {
     return (
       <div>
-        <h1>{modalHeader}</h1>
-        {children}
+        <h1>{modalHeader as string}</h1>
+        {children as React.ReactNode}
       </div>
     )
   },
@@ -26,7 +26,6 @@ jest.mock('hooks/useMidManagementPlans', () => ({
 }))
 
 const mockName = 'mock_name'
-const mockNameValue = 'mock_name_value'
 const mockCount = 3
 
 const mockNewPlanInitialState = {
@@ -62,12 +61,6 @@ const getDirectoryPlanDeleteModalComponent = (passedStore = undefined) => (
 describe('DirectoryPlanDeleteModal', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    const setStateMock = jest.fn()
-
-    React.useState = jest
-      .fn()
-      .mockReturnValueOnce([mockNameValue, setStateMock])
-      .mockReturnValueOnce([null, setStateMock])
   })
 
   it('should render the correct heading', () => {
@@ -108,12 +101,9 @@ describe('DirectoryPlanDeleteModal', () => {
 
   describe('Test submit button', () => {
     it('should call the deletePlan function if matching name provided', () => {
-      React.useState = jest
-        .fn()
-        .mockReturnValueOnce([mockName, jest.fn()]) // matches name in the mock plan
-        .mockReturnValueOnce([null, jest.fn()])
-
       render(getDirectoryPlanDeleteModalComponent())
+      const input = screen.getByLabelText('Plan Name')
+      fireEvent.change(input, {target: {value: mockName}})
       fireEvent.click(screen.getByRole('button', {
         name: 'Delete Plan',
       }))

@@ -8,7 +8,7 @@ const mockComment = {}
 
 jest.mock('components/Modal', () => ({
   __esModule: true,
-  default ({modalHeader, children}: Record<string, unknown>) {
+  default ({modalHeader, children}: Record<string, React.ReactNode>) {
     return (
       <div>
         <h1>{modalHeader}</h1>

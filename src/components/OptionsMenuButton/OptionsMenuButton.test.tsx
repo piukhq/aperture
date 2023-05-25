@@ -2,6 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import OptionsMenuButton from 'components/OptionsMenuButton'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {OptionsMenuItems} from 'types'
 
 jest.mock('components/OptionsMenuButton/components/OptionsMenuItem', () => () => <div data-testid='mock-options-menu-item'/>)
 
@@ -30,7 +31,7 @@ const store = mockStoreFn({...mockInitialState})
 
 const getOptionsMenuButtonComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>
-    <OptionsMenuButton optionsMenuItems={mockOptionsMenuItems}/>
+    <OptionsMenuButton optionsMenuItems={mockOptionsMenuItems as unknown as OptionsMenuItems}/>
   </Provider>
 )
 

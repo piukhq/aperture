@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -17,8 +16,6 @@ jest.mock('hooks/useGetPlans', () => ({
 
 describe('AssetComparatorPage', () => {
   const mockStoreFn = configureStore([])
-  const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-
   let store
   const initialState = {
     modal: {
@@ -32,10 +29,6 @@ describe('AssetComparatorPage', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     store = mockStoreFn({...initialState})
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
-
-
     // isVerified state value
     React.useState = jest.fn().mockReturnValue([false, jest.fn()])
   })

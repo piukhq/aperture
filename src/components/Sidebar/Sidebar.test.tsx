@@ -6,12 +6,8 @@ import Sidebar from 'components/Sidebar'
 import {UserPermissions} from 'utils/enums'
 
 describe('Sidebar', () => {
-  const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
   const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-
   const useUser = jest.spyOn(require('@auth0/nextjs-auth0'), 'useUser')
-
-  const dummyDispatch = jest.fn()
 
   const mockStoreFn = configureStore([])
 
@@ -26,8 +22,6 @@ describe('Sidebar', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-
-    useDispatchMock.mockReturnValue(dummyDispatch)
     store = mockStoreFn({...initialState})
 
     useRouter.mockImplementation(() => ({
@@ -171,7 +165,5 @@ describe('Sidebar', () => {
       const links = screen.queryAllByRole('link')
       expect(links).toHaveLength(1)
     })
-
-
   })
 })

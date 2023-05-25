@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import DirectoryTile from 'components/DirectoryTile'
 import {PaymentSchemeSlug} from 'utils/enums'
+import {OptionsMenuItems} from 'types'
 
 jest.mock('components/OptionsMenuButton', () => () => <div data-testid='options-button' />)
 
@@ -39,7 +40,7 @@ describe('DirectoryTile', () => {
       label: 'mockItem',
       icon: jest.fn(),
       clickHandler: jest.fn(),
-    }],
+    }] as unknown as OptionsMenuItems,
   }
 
   const getPlanDirectoryTile = (passedProps = {}) => {

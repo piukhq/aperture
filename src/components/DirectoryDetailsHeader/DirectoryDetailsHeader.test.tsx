@@ -1,6 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import {DirectoryDetailsHeader} from 'components'
+import {OptionsMenuItems} from 'types'
 
 jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-tile' />)
 jest.mock('components/Modals/components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
@@ -12,7 +13,7 @@ const mockIconUrl = '/mock_url'
 const mockSlug = 'mock_slug'
 const mockPlanId = 1234
 const mockLocationLabel = 'mock_cafe'
-const mockOptionsMenuItems = [{label: 'mock_option_1', icon: jest.fn(), clickHandler: jest.fn()}]
+const mockOptionsMenuItems = [{label: 'mock_option_1', icon: jest.fn(), clickHandler: jest.fn()}] as unknown as OptionsMenuItems
 
 const getDirectoryDetailsHeaderComponent = (passedProps = {}) => (
   <DirectoryDetailsHeader name={mockName} iconUrl={mockIconUrl} slug={mockSlug} planId={mockPlanId} newItemButtonHandler={() => null} optionsMenuItems={mockOptionsMenuItems} {...passedProps}/>

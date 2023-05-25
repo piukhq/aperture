@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import SingleViewMid from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid'
 import {Provider} from 'react-redux'
@@ -14,6 +13,10 @@ let mockGetMerchantMidResponse = {
     },
   },
 }
+
+jest.mock('app/hooks', () => ({
+  useAppDispatch: () => jest.fn(),
+}))
 
 jest.mock('hooks/useMidManagementMids', () => ({
   useMidManagementMids: jest.fn().mockImplementation(() => ({
@@ -49,8 +52,6 @@ const mockMerchantDetailsState = {
 }
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
 
@@ -71,9 +72,6 @@ describe('SingleViewMid', () => {
         ref: 'mock_mid_ref',
       },
     }))
-
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
 
     React.useState = jest.fn().mockReturnValueOnce(['Details', jest.fn()]) // tabSelected
   })

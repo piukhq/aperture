@@ -86,6 +86,6 @@ describe('PaymentCard', () => {
   it('should render a payment scheme icon', () => {
     render(getPaymentCardComponent())
 
-    expect(screen.getByAltText('Visa')).toBeInTheDocument()
+    expect(screen.getByTestId('visa-icon')).toBeInTheDocument()
   })
 })
