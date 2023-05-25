@@ -63,14 +63,15 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
       </div>
     ) } else {
     return (
-      <button aria-label={`${imageEnv} ${description || assetType.heading}`} onClick={handleAssetClick}>
+      <button aria-label={`${imageEnv} ${description || assetType.heading}`} onClick={handleAssetClick} className='relative p-2 h-full '>
         <Image
           className={imageClasses}
           alt={`${imageEnv} ${assetType.heading}`}
-          width={150}
-          height={73}
+          width={100}
+          height={100}
+          style={{objectFit: 'contain', height: '100%', width: '100%'}}
           src={url}
-          quality={25} // TODO: Revisit this once the hover zoom effect is in place
+          quality={40} // TODO: Revisit this once the hover zoom effect is in place
           onLoadingComplete={handleOnLoadingComplete}
           onError={handleOnError}
         />
