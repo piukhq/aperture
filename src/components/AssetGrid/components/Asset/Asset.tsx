@@ -69,7 +69,6 @@ const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
           alt={`${imageEnv} ${assetType.heading}`}
           width={150}
           height={73}
-          objectFit='contain'
           src={url}
           quality={25} // TODO: Revisit this once the hover zoom effect is in place
           onLoadingComplete={handleOnLoadingComplete}
