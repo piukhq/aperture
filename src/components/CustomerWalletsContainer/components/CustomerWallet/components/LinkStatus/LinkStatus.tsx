@@ -16,7 +16,7 @@ const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Pr
   const getLinkStatus = () => {
     const paymentCardId = getPaymentCardsResponse[paymentCardIndex]?.id
     const isPaymentCardLinkedToThisLoyaltyCard = loyaltyCardPaymentCardIds.some((id:number) => id === paymentCardId)
-    return isPaymentCardLinkedToThisLoyaltyCard ? <CheckSvg fill='green' className='scale-125' alt='Linked' /> : <CloseSvg fill='red' className={'h-[15px]'} alt='Not linked'/>
+    return isPaymentCardLinkedToThisLoyaltyCard ? <CheckSvg fill='green' className='scale-125' data-testid='linked' alt='Linked' /> : <CloseSvg fill='red' className={'h-[15px]'} data-testid='not-linked' alt='Not linked'/>
   }
 
   return (

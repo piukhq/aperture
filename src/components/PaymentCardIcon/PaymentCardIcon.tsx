@@ -15,19 +15,19 @@ const PaymentCardIcon = ({paymentSchemeSlug, paymentSchemeIconStyles = defaultPa
     switch (paymentSchemeSlug) {
       case PaymentSchemeSlug.VISA:
         return (
-          <div className={`${paymentSchemeIconStyles} bg-visaBlue`}>
+          <div className={`${paymentSchemeIconStyles} bg-visaBlue`} data-testid='visa-container' >
             <VisaSvg className='scale-[90%] mr-[1px] h-full w-full' alt='Visa' />
           </div>
         )
       case PaymentSchemeSlug.MASTERCARD:
         return (
-          <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`}>
+          <div className={`${paymentSchemeIconStyles} bg-mastercardBlue`} data-testid='mastercard-container'>
             <MastercardSvg className='scale-[78%] h-full w-full' alt='Mastercard' />
           </div>
         )
       case PaymentSchemeSlug.AMEX:
         return (
-          <div className={`${paymentSchemeIconStyles} bg-amexBlue`}>
+          <div className={`${paymentSchemeIconStyles} bg-amexBlue`} data-testid='amex-container'>
             <AmexSvg className='scale-[85%] h-full w-full' alt='Amex' />
           </div>
         )

@@ -17,9 +17,9 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
   const {provider, last_four_digits} = card
   const isMobileViewport = useIsMobileViewportDimensions()
 
-  const renderPaymentSchemeLogo = (paymentSchemeName: string) => {
+  const renderPaymentSchemeIcon = (paymentSchemeName: string) => {
     if (paymentSchemeName === 'Visa') {
-      return <VisaSvg alt='Visa' className='scale-125'/>
+      return <VisaSvg data-testid='visa-icon' alt='Visa' className='scale-125'/>
     } else if (paymentSchemeName === 'Mastercard') {
       return <MastercardSvg alt='Mastercard' className='scale-125'/>
     } else if (paymentSchemeName === 'American Express') {
@@ -36,7 +36,7 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
       className={`dark:bg-grey-825 h-[70px] flex gap-1 p-[6px] rounded-[8px] text-left items-center shadow-sm hover:shadow-md dark:hover:bg-grey-800 duration-200 ${isMobileViewport ? 'w-[120px]' : 'w-[200px]'}`}
     >
       <div className='basis-1/5'>
-        {!isMobileViewport && renderPaymentSchemeLogo(provider)}
+        {!isMobileViewport && renderPaymentSchemeIcon(provider)}
       </div>
       <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
         <span>
