@@ -6,7 +6,7 @@ import {UserPermissions} from 'utils/enums'
 
 type Props = {
   label?: string
-  displayValue: string | unknown
+  displayValue: string
   displayValues: string[] | unknown[]
   hasShadow?: boolean
   onChangeDisplayValue: (displayValue: string) => void
@@ -22,6 +22,11 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
   if (requiredPermission && !hasRequiredPermission(requiredPermission)) {
     return <p className='font-modal-data'>{displayValue}</p>
   }
+
+  const renderDisplayValue = (value: string | unknown) => {
+    if(typeof(value) === 'string') {
+      return renderFn ? renderFn(value) : value
+    } }
 
   return (
     <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue} disabled={isDisabled}
@@ -62,7 +67,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
                 >
                   {({active}) => (
                     <li className={active && 'bg-lightYellow dark:bg-grey-800'}>
-                      {renderFn ? renderFn(value) : value}
+                      { renderDisplayValue(value)}
                     </li>
                   )}
                 </Listbox.Option>

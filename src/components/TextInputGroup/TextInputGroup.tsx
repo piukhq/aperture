@@ -119,7 +119,7 @@ const TextInputGroup = (props: Props) => {
     >
       <option value='default' disabled hidden>Search...</option>
       {selectValues && selectValues.map((value, _index) => (
-        <option key={_index}>{value}</option>
+        <option key={_index}>{value as unknown as ReactNode}</option>
       ))}
     </select>
   )

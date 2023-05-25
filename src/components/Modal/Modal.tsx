@@ -8,7 +8,7 @@ import FocusTrap from 'focus-trap-react'
 type Props = {
   modalStyle: string,
   modalHeader?: string,
-  children: React.ReactNode,
+  children: React.ReactNode | React.ReactNode[],
   onCloseFn?: VoidFunction,
   setIsCloseButtonFocused?: (isFocused: boolean) => void,
 }
