@@ -12,6 +12,8 @@ import {getCountWithCorrectNoun} from 'utils/stringFormat'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryPlanDeleteModal = () => {
+  const [nameValue, setNameValue] = useState('')
+  const [nameValidationError, setNameValidationError] = useState(null)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
@@ -29,8 +31,6 @@ const DirectoryPlanDeleteModal = () => {
     planRef: planId,
   })
 
-  const [nameValue, setNameValue] = useState('')
-  const [nameValidationError, setNameValidationError] = useState(null)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)

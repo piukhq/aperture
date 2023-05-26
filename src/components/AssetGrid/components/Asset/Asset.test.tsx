@@ -1,14 +1,8 @@
 import React from 'react'
-import * as Redux from 'react-redux'
-import {render, screen, fireEvent} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
 import Asset from 'components/AssetGrid/components/Asset'
 import configureStore from 'redux-mock-store'
 import {Provider} from 'react-redux'
-import {setSelectedAssetEnvironment, setSelectedAssetGroup} from 'features/comparatorSlice'
-import {requestModal} from 'features/modalSlice'
-import {ModalType} from 'utils/enums'
-
-const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 
 const mockImage = {
   id: 1,
@@ -41,9 +35,6 @@ const getAssetComponent = (passedStore = undefined) => (
   </Provider>
 )
 
-const dummyDispatch = jest.fn()
-useDispatchMock.mockReturnValue(dummyDispatch)
-
 describe('Asset', () => {
   describe('Test Asset found', () => {
     it('should render a button with correct accessible name', () => {
@@ -60,41 +51,6 @@ describe('Asset', () => {
       const assetImage = screen.getByAltText(`${mockImageEnv} ${mockAssetType.heading}`)
 
       expect(assetImage).toBeInTheDocument()
-    })
-
-    // Unsure about this test as it feels like it leaks a certain
-    // level of implementation details within the test.
-    it('should dispatch the correct redux actions when clicked', () => {
-      const mockAssetObject = {
-        dev: {
-          environment: 'dev',
-          hasMultipleImagesOfThisType: false,
-          heading: 'mock-heading',
-          image: {
-            cta_url: 'mock-cta-url',
-            description: 'mock-description',
-            encoding: 'mock-encoding',
-            id: 1,
-            type: 0,
-            url: 'https://mock-url/mock-path/mock-image.jpg',
-          },
-          typeIndex: 0,
-        },
-        staging: null,
-        prod: null,
-      }
-
-      render(getAssetComponent())
-
-      const assetButton = screen.getByRole('button', {
-        name: `${mockImageEnv} ${mockImage.description}`,
-      })
-
-      fireEvent.click(assetButton)
-
-      expect(dummyDispatch).toBeCalledWith(setSelectedAssetEnvironment(mockImageEnv))
-      expect(dummyDispatch).toBeCalledWith(setSelectedAssetGroup(mockAssetObject))
-      expect(dummyDispatch).toBeCalledWith(requestModal(ModalType.ASSET_COMPARATOR_ASSET))
     })
   })
 

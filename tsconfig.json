@@ -19,12 +19,18 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": "./src",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": false // TODO: should be true but 417(!) errors to fix so leaving for now
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    ".next/types/**/*.ts", ],
   "exclude": [
     "node_modules"
   ]

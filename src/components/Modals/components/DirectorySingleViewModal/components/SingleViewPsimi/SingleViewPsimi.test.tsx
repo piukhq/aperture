@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import SingleViewPsimi from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi'
 import {Provider} from 'react-redux'
@@ -12,6 +11,10 @@ let mockGetMerchantPsimiResponse = {
     value: mockPsimiValue,
   },
 }
+
+jest.mock('app/hooks', () => ({
+  useAppDispatch: () => jest.fn(),
+}))
 
 jest.mock('hooks/useMidManagementPsimis', () => ({
   useMidManagementPsimis: jest.fn().mockImplementation(() => ({
@@ -48,8 +51,6 @@ const mockMerchantDetailsState = {
 }
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
-
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
 
@@ -70,9 +71,6 @@ describe('SingleViewPsimi', () => {
         ref: 'mock_mid_ref',
       },
     }))
-
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
 
     React.useState = jest.fn().mockReturnValueOnce(['Details', jest.fn()]) // tabSelected
   })

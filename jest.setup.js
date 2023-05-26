@@ -13,3 +13,5 @@ jest.mock('@auth0/nextjs-auth0', () => ({ // Mocks auth0 as an admin user
     ]}}
   },
 }))
+
+jest.mock('next/router', () => require('next-router-mock'))

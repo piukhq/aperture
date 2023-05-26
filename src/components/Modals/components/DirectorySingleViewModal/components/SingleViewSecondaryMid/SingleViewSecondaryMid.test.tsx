@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import SingleViewSecondaryMid from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid'
 import {Provider} from 'react-redux'
@@ -47,8 +46,11 @@ const mockMerchantDetailsState = {
   },
 }
 
+jest.mock('app/hooks', () => ({
+  useAppDispatch: () => jest.fn(),
+}))
+
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 
 const mockStoreFn = configureStore([])
 const store = mockStoreFn({...mockMerchantDetailsState})
@@ -71,8 +73,6 @@ describe('SingleViewSecondaryMid', () => {
       },
     }))
 
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
 
     React.useState = jest.fn().mockReturnValueOnce([DirectorySingleViewTabs.DETAILS, jest.fn()]) // tabSelected
   })

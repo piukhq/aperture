@@ -104,7 +104,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
         return acc + paymentScheme[tab]
       }, 0)
 
-      return <span className={`${DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses} h-full border-b-0 ml-1`}>
+      return <span className={`${DirectoryNavigationTab[navigationKey] === tab ? 'font-heading-8 h-[51px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white' : tabUnselectedClasses} h-full border-0`}>
           ({navigationKey === 'LOCATIONS' ? totalLocations : getCount(navigationKey.toLocaleLowerCase())})
       </span>
     }

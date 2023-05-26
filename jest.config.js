@@ -11,6 +11,12 @@ const customJestConfig = {
   // If using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
   moduleDirectories: ['node_modules', 'src', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
+  fakeTimers: {
+    enableGlobally: true,
+  },
+  moduleNameMapper: { // Fixes SVG error with react 18
+    '^.+\\.(svg)$': 'src/__mocks__/svg.tsx',
+  },
 }
 
 // CreateJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

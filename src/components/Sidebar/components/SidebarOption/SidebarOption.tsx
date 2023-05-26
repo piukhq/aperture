@@ -29,12 +29,12 @@ const SidebarOption = ({option, selected}: Props) => {
 
   return (
     <div className='h-[52px] flex my-1'>
-      <Link href={`/${option}`}>
-        <a className='flex w-full items-center'>
+      <Link href={`/${option}`} passHref>
+        <div className='flex w-full items-center'>
           <div className={`w-[3px] h-[32px] mr-[17px] rounded-tr-[100px] rounded-br-[100px] ${selected ? 'bg-blue' : ''}`} />
           <Icon className={`w-[25px] h-[25px] ${selected ? 'fill-blue' : 'fill-grey-900 dark:fill-grey-400'}`} />
           <p className={`font-heading-7 ml-[14px] ${selected ? 'text-blue' : 'text-grey-950 dark:text-grey-400 hover:text-grey-600 duration-200'}`}>{displayName.toLocaleUpperCase() }</p>
-        </a>
+        </div>
       </Link>
     </div>
   )

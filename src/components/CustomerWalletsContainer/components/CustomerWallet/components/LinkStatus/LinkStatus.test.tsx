@@ -27,7 +27,7 @@ describe('LinkStatus', () => {
       </Provider>
     )
 
-    expect(screen.getByAltText('Linked')).toBeInTheDocument()
+    expect(screen.getByTestId('linked')).toBeInTheDocument()
   })
 
   it('should render not applicable icon when N/A', () => {
@@ -47,7 +47,7 @@ describe('LinkStatus', () => {
       </Provider>
     )
 
-    expect(screen.getByAltText('Not linked')).toBeInTheDocument()
+    expect(screen.getByTestId('not-linked')).toBeInTheDocument()
   })
 
 })

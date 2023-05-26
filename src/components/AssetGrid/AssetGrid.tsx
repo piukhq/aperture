@@ -35,7 +35,7 @@ const AssetGrid = ({planAssets}: Props) => {
     assetMatrix.map(assetType => {
       const {heading, longestAssetArray, hasMultipleImagesOfThisType} = assetType
       return longestAssetArray.map((_, i) => (
-        <h3 key={heading + i} className= 'w-full h-[100px] grid items-center font-table-header dark:text-grey-100'>
+        <h3 key={heading + i} className= 'w-full h-[120px] grid items-center font-table-header dark:text-grey-100'>
           {heading.toLocaleUpperCase() } { hasMultipleImagesOfThisType && i + 1}
         </h3>)
       )
@@ -48,7 +48,7 @@ const AssetGrid = ({planAssets}: Props) => {
       if (currentImage) {
         const {url} = currentImage
         return (
-          <div key={url} className='relative w-full h-[100px] flex items-center justify-center hover-scale-regular'>
+          <div key={url} className='relative w-full h-[120px] flex items-center justify-center hover-scale-regular'>
             <Asset
               image={currentImage}
               assetType={assetType}
@@ -59,7 +59,7 @@ const AssetGrid = ({planAssets}: Props) => {
         )
       } else {
         return (
-          <div key={assetType.heading + i} className='relative w-full h-[100px] flex items-center justify-center'>
+          <div key={assetType.heading + i} className='relative w-full h-[120px] flex items-center justify-center'>
             <div title='No asset available' className='w-[60px] h-[60px] flex items-center justify-center'>
               <BlockSVG/>
             </div>

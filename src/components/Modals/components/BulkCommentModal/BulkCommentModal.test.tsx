@@ -7,6 +7,18 @@ import BulkCommentModal from 'components/Modals/components/BulkCommentModal'
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/AutosizeTextArea', () => () => <div data-testid='autosize-text-area' />)
 
+jest.mock('components/Modal', () => ({
+  __esModule: true,
+  default ({modalHeader, children}: Record<string, React.ReactNode>) {
+    return (
+      <div>
+        <h1>{modalHeader}</h1>
+        {children}
+      </div>
+    )
+  },
+}))
+
 let mockCommentIsLoading = false
 let mockCommentIsSuccess = false
 

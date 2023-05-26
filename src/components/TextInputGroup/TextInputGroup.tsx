@@ -119,7 +119,7 @@ const TextInputGroup = (props: Props) => {
     >
       <option value='default' disabled hidden>Search...</option>
       {selectValues && selectValues.map((value, _index) => (
-        <option key={_index}>{value}</option>
+        <option key={_index}>{value as unknown as ReactNode}</option>
       ))}
     </select>
   )
@@ -137,7 +137,7 @@ const TextInputGroup = (props: Props) => {
   const renderSearchSelectElement = () => (
     <>
       {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
-      <div className='relative'>
+      <div className='relative h-full'>
         <Combobox value={selectedValue} onChange={handleSelectItemClick}>
           <Combobox.Input as='input' ref={inputRef}
             aria-label='Plan List'

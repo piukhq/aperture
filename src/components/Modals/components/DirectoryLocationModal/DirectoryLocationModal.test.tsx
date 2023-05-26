@@ -1,5 +1,4 @@
 import React from 'react'
-import * as Redux from 'react-redux'
 import {render, screen} from '@testing-library/react'
 import {DirectoryLocationModal} from 'components/Modals'
 import {Provider} from 'react-redux'
@@ -10,8 +9,8 @@ jest.mock('components/Modal', () => ({
   default ({modalHeader, children}: Record<string, unknown>) {
     return (
       <div>
-        <h1>{modalHeader}</h1>
-        {children}
+        <h1>{modalHeader as string}</h1>
+        {children as string}
       </div>
     )
   },
@@ -35,7 +34,6 @@ jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='directory-merchant-location-form' />)
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
-const useDispatchMock = jest.spyOn(Redux, 'useDispatch')
 
 const mockPlanId = 'mock_plan_id'
 const mockMerchantId = 'mock_merchant_id'
@@ -70,9 +68,6 @@ describe('DirectoryLocationModal', () => {
         ref: mockLocationRef,
       },
     }))
-
-    const dummyDispatch = jest.fn()
-    useDispatchMock.mockReturnValue(dummyDispatch)
   })
 
   it('should render the correct heading', () => {
