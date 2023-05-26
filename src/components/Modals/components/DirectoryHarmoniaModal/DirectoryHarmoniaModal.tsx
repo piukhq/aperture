@@ -1,6 +1,5 @@
-import {Button, PaymentCardIcon} from 'components'
+import {Button, PaymentCardIcon, Modal} from 'components'
 import {ButtonType, ButtonSize, ButtonWidth, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import Modal from 'components/Modal/Modal'
 import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {getHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'

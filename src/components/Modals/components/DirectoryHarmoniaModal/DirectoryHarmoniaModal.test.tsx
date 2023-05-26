@@ -7,7 +7,17 @@ import configureStore from 'redux-mock-store'
 import {HarmoniaActionTypes} from 'utils/enums'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='payment-card-icon' />)
-jest.mock('components/Modal', () => ({children}) => <div data-testid='modal'>{children}</div>)
+jest.mock('components/Modal', () => ({
+  __esModule: true,
+  default ({modalHeader, children}: Record<string, React.ReactNode>) {
+    return (
+      <div>
+        <h1>{modalHeader}</h1>
+        {children}
+      </div>
+    )
+  },
+}))
 
 const defaultMockStore = {
   directoryHarmonia: {
