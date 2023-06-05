@@ -168,7 +168,7 @@ describe('DirectoryPlanModal', () => {
     describe('Test error scenarios', () => {
       const mockNameErrorMessage = 'mock_name_error'
       const mockPlanIdErrorMessage = 'mock_plan_id_error'
-      const mockSlugErrorMessage = 'mock_slug_error'
+      const mockSlugErrorMessage = 'mock_slug_error' // contains invalid underscore characters
 
       beforeEach(() => {
         jest.clearAllMocks()

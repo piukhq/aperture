@@ -125,7 +125,6 @@ const DirectoryPlanModal = () => {
 
   const validatePlan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (!nameValidationError && !planIdValidationError && !slugValidationError) {
       if (nameValue === '') {
         setNameValidationError('Enter name')
