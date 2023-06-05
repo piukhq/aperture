@@ -106,8 +106,15 @@ const DirectoryPlanModal = () => {
   }
 
   const handleSlugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSlugValue(event.target.value)
-    setSlugValidationError(null)
+    const lowerCasedValue = event.target.value.toLowerCase()
+    setSlugValue(lowerCasedValue)
+    // check of event target value is a valid slug, which can only contain lower case letters, minus and hyphens
+    const validSlugRegex = /^[a-z-]*$/
+    if (!validSlugRegex.test(lowerCasedValue) && lowerCasedValue !== '') {
+      setSlugValidationError('Unsupported characters')
+    } else {
+      setSlugValidationError(null)
+    }
   }
 
   const handleNameBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,8 +125,7 @@ const DirectoryPlanModal = () => {
 
   const validatePlan = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    if (!nameValidationError) {
+    if (!nameValidationError && !planIdValidationError && !slugValidationError) {
       if (nameValue === '') {
         setNameValidationError('Enter name')
       } else {
