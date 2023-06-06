@@ -1,13 +1,17 @@
+import React from 'react'
 import {classNames} from 'utils/classNames'
 import {Listbox} from '@headlessui/react'
 import TriangleDownSvg from 'icons/svgs/triangle-down.svg'
 import usePermissions from 'hooks/usePermissions'
 import {UserPermissions} from 'utils/enums'
+import {Plan} from 'types'
+
+type DisplayValue = string | Plan // Don't like how this can be two radically different types
 
 type Props = {
   label?: string
   displayValue: string
-  displayValues: string[] | unknown[]
+  displayValues: DisplayValue[]
   hasShadow?: boolean
   onChangeDisplayValue: (displayValue: string) => void
   selectedValueStyles?: string
@@ -23,10 +27,16 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
     return <p className='font-modal-data'>{displayValue}</p>
   }
 
-  const renderDisplayValue = (value: string | unknown) => {
-    if(typeof(value) === 'string') {
-      return renderFn ? renderFn(value) : value
-    } }
+  const renderDisplayValue = (value: string | Plan) => {
+    if (typeof(value) === 'object') {
+      return renderFn && renderFn(value)
+    }
+    return renderFn ? renderFn(value) : value
+  }
+
+  // Weird fix for TS bug when filtering out displayValues - https://github.com/microsoft/TypeScript/issues/44373
+  const displayValuesFixed: Array<typeof displayValues[number]> = displayValues
+  const filteredDisplayValues = displayValuesFixed.filter((filteredValue) => filteredValue !== displayValue)
 
   return (
     <Listbox as='div' value={displayValue} onChange={onChangeDisplayValue} disabled={isDisabled}
@@ -59,7 +69,7 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
               hasShadow ? 'shadow-sm' : 'border-b-[1px] border-l-[1px] border-r-[1px] border-grey-500 dark:border-grey-700',
             )}
             >
-              {displayValues.filter(filteredValue => filteredValue !== displayValue).map((value, index) => (
+              {filteredDisplayValues.map((value, index) => (
                 <Listbox.Option
                   key={index}
                   value={value}
