@@ -76,7 +76,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const locationsData = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
-  const paymentSchemeStatusValues = useMemo(() => [
+  const paymentSchemeStatusValues: string[] = useMemo(() => [
     PaymentSchemeStatusDisplayValue['enrolled'],
     PaymentSchemeStatusDisplayValue['enrolling'],
     PaymentSchemeStatusDisplayValue['not_enrolled'],
