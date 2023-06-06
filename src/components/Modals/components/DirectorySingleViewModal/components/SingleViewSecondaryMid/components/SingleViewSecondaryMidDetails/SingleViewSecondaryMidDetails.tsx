@@ -17,7 +17,7 @@ type Props = {
 const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const {merchantId, planId, ref} = useGetRouterQueryString()
 
-  const paymentSchemeStatusValues = useMemo(() => [
+  const paymentSchemeStatusValues:string[] = useMemo(() => [
     PaymentSchemeStatusDisplayValue['enrolled'],
     PaymentSchemeStatusDisplayValue['enrolling'],
     PaymentSchemeStatusDisplayValue['not_enrolled'],
