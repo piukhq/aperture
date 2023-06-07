@@ -60,7 +60,43 @@ describe('Test TransactionTableRow', () => {
         },
       }))
 
+      screen.debug()
       expect(screen.getByText('£12345')).toBeInTheDocument()
+    })
+  })
+
+  describe('Test Change column', () => {
+    it('should render the change cell as green if the value is positive', () => {
+      render(getTransactionTableRowComponent())
+      expect(screen.getByTestId('positive-change')).toBeInTheDocument()
+    })
+
+    it('should render the change cell as red if the value is negative', () => {
+      render(getTransactionTableRowComponent({
+        transaction: {
+          ...mockTransaction,
+          amounts: [{
+            currency: 'mock_currency',
+            suffix: 'mock_suffix',
+            value: -12345,
+          }],
+        },
+      }))
+      expect(screen.getByTestId('negative-change')).toBeInTheDocument()
+    })
+
+    it('should render the change cell as orange if the value is 0', () => {
+      render(getTransactionTableRowComponent({
+        transaction: {
+          ...mockTransaction,
+          amounts: [{
+            currency: 'mock_currency',
+            suffix: 'mock_suffix',
+            value: 0,
+          }],
+        },
+      }))
+      expect(screen.getByTestId('zero-change')).toBeInTheDocument()
     })
   })
 })

@@ -12,11 +12,11 @@ const TransactionTableRow = ({transaction, isIceland}: {transaction: LoyaltyTran
 
   const getChangeCell = () => {
     if (value > 0) {
-      return <ArrowDownSvg className={'rotate-180 fill-green'} />
+      return <ArrowDownSvg data-testid='positive-change' className={'rotate-180 fill-green'} />
     } else if (value < 0) {
-      return <ArrowDownSvg className={'fill-red'}/>
+      return <ArrowDownSvg data-testid='negative-change' className={'fill-red'}/>
     } else {
-      return <ArrowDownSvg className={'rotate-90 fill-orange'}/>
+      return <ArrowDownSvg data-testid='zero-change' className={'rotate-90 fill-orange'}/>
     }
   }
   const getNullAmountCell = () => isIceland ? `£${Math.abs(value)}` : rewardCell
