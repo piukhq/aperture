@@ -42,7 +42,7 @@ describe('Test VoucherTableRow', () => {
 
   it('should render the code', () => {
     render(getVoucherTableRowComponent())
-    expect(screen.getByText('MOCK_CODE')).toBeInTheDocument()
+    expect(screen.getByText('mock_code')).toBeInTheDocument()
   })
 
   it('should render the date issued', () => {
