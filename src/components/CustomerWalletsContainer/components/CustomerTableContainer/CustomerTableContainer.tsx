@@ -2,10 +2,10 @@ import React, {useCallback, useEffect, useState} from 'react'
 import Image from 'next/image'
 import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import Dropdown from 'components/Dropdown'
-import {LoyaltyTransaction, LoyaltyVoucher, Plan} from 'types'
+import VoucherTableRow from './components/VoucherTableRow'
+import TransactionTableRow from './components/TransactionTableRow'
+import {LoyaltyVoucher, Plan} from 'types'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
-import {timeStampToDate} from 'utils/dateFormat'
-import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
 type Props = {
   userPlans: Plan[]
@@ -68,82 +68,11 @@ const CustomerTableContainer = ({userPlans, entity, tableHeaders}: Props) => {
   }
 
   const renderTableBody = () => {
-    const renderTransactionRow = (transaction: LoyaltyTransaction, transactionIndex: number) => {
-      const isIceland = selectedPlan.slug === 'iceland-bonus-card'
-      const {amounts, timestamp, description} = transaction
-      const {value, currency} = amounts[0]
-
-      const rewardCell = isIceland ? 'N/A' : `${value > 0 ? '+' : ''}${value} ${currency}`
-      const detailsAmountCells = description.split('£')
-
-      const getChangeCell = () => {
-        if (value > 0) {
-          return <ArrowDownSvg className={'rotate-180 fill-green'} />
-        } else if (value < 0) {
-          return <ArrowDownSvg className={'fill-red'}/>
-        } else {
-          return <ArrowDownSvg className={'rotate-90 fill-orange'}/>
-        }
-      }
-      const getNullAmountCell = () => isIceland ? `£${Math.abs(value)}` : rewardCell
-
-      const transactionRowArray = [
-        rewardCell, // REWARD
-        timeStampToDate(timestamp, true), //DATE
-        detailsAmountCells[0], // DETAILS
-        detailsAmountCells[1] ? `£${detailsAmountCells[1]}` : getNullAmountCell(), // AMOUNT
-        getChangeCell(), // CHANGE
-      ]
-
-      return (
-        <tr data-testid='transaction-row' key={transactionIndex} className='border-b-[20px] border-transparent'>
-          {transactionRowArray.map((row, index) => <td key={index} className={`px-[9px] font-body-3 ${index === 0 && 'pl-[38px]'}`}>{row}</td>)}
-        </tr>
-      )
-    }
-
-    const renderVoucherRow = (voucher: LoyaltyVoucher, voucherIndex: number) => {
-      const {burn, date_issued: dateIssued, expiry_date: expiryDate, state, code} = voucher
-      const {prefix = '', suffix = '', type} = burn || {}
-
-      if (state === 'inprogress') {
-        return null
-      }
-      const renderVoucherState = () => { 74
-        switch (state) {
-          case 'redeemed': return <span className='text-blue dark:text-lightBlue'>Redeemed</span>
-          case 'expired': return <span className='text-red'>Expired</span>
-          case 'cancelled': return <span className='text-grey-700 dark:text-grey-500'>Cancelled</span>
-          case 'issued': return <span className='text-green'>Issued</span>
-          default: return null
-        }
-      }
-
-
-      const voucherColumnArray = [
-        `${prefix} ${suffix} ${type}`,
-        code.toLocaleUpperCase(),
-        dateIssued ? timeStampToDate(dateIssued, true) : '-',
-        expiryDate ? timeStampToDate(expiryDate, true) : '-',
-        renderVoucherState(),
-      ]
-
-      return (
-        <tr data-testid='voucher-row' key={voucherIndex} className='border-b-[20px] border-transparent'>
-          {voucherColumnArray.map((column, index) => (
-            <td key={index} className={`px-[9px] font-body-3 ${index === 0 && 'pl-[38px]'}`}>{column}</td>
-          ))}
-        </tr>
-      )
-    }
-
     return getLoyaltyCardEntity().map((entityObject, index:number) => {
-      return entity === 'transactions' ? renderTransactionRow(entityObject, index) : renderVoucherRow(entityObject, index)
+      return entity === 'transactions' ? <TransactionTableRow key={index} transaction={entityObject} isIceland={selectedPlan.slug === 'iceland-bonus-card'}/> : <VoucherTableRow key={index} voucher={entityObject} />
     })
   }
 
-  console.log('selectedPlan', selectedPlan)
-  console.log(getLoyaltyCardEntity())
   return (
     <section>
       <h1 className='font-heading-4 mb-[10px]'>{capitaliseFirstLetter(entity)}</h1>
