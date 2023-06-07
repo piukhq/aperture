@@ -21,7 +21,7 @@ const VoucherTableRow = ({voucher}: {voucher:LoyaltyVoucher}) => {
 
   const voucherColumnArray = [
     `${prefix} ${suffix} ${type}`,
-    code.toLocaleUpperCase(),
+    code,
     dateIssued ? timeStampToDate(dateIssued, true) : '-',
     expiryDate ? timeStampToDate(expiryDate, true) : '-',
     renderVoucherState(),
