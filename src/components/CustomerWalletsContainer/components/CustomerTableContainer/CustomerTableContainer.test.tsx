@@ -3,8 +3,6 @@ import {render, screen} from '@testing-library/react'
 import CustomerTableContainer from './CustomerTableContainer'
 import {ImageTypes} from 'utils/enums'
 
-jest.mock('./components/TransactionsTableBody', () => () => <div data-testid='transactions-table-body' />)
-jest.mock('./components/VouchersTableBody', () => () => <div data-testid='vouchers-table-body' />)
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 
 const mockMatchingId = 12345
@@ -77,8 +75,6 @@ const mockLoyaltyCard = {
 
 let mockGetPlansResponse = [mockPlan]
 let mockGetLoyaltyCardsResponse = [mockLoyaltyCard]
-const mockEntity = 'transactions'
-const mockTableHeaders = ['REWARD', 'DATE', 'DETAILS', 'AMOUNT', 'CHANGE']
 
 jest.mock('hooks/useCustomerWallet', () => ({
   useCustomerWallet: jest.fn().mockImplementation(() => ({
@@ -89,8 +85,11 @@ jest.mock('hooks/useCustomerWallet', () => ({
 
 const mockUserPlans = [mockPlan]
 
-const getCustomerTableContainerComponent = (passedProps = {}) => (
-  <CustomerTableContainer userPlans={mockUserPlans} entity={mockEntity} tableHeaders={mockTableHeaders} {...passedProps} />
+const getCustomerTableContainerTransactionsComponent = (passedProps = {}) => (
+  <CustomerTableContainer userPlans={mockUserPlans} entity={'transactions'} tableHeaders={['REWARD', 'DATE', 'DETAILS', 'AMOUNT', 'CHANGE']} {...passedProps} />
+)
+const getCustomerTableContainerVouchersComponent = (passedProps = {}) => (
+  <CustomerTableContainer userPlans={mockUserPlans} entity={'vouchers'} tableHeaders={['TYPE', 'CODE', 'ISSUED', 'EXPIRES', 'STATE']} {...passedProps} />
 )
 
 describe('Test CustomerTableContainer', () => {
@@ -99,45 +98,69 @@ describe('Test CustomerTableContainer', () => {
     React.useState = jest.fn()
       .mockImplementation(() => [true, jest.fn()])
   })
-  it('should render the CustomerTableContainer component initial structure if there is plans and loyalty cards', () => {
-    render(getCustomerTableContainerComponent({userPlans: mockUserPlans}))
 
-    expect(screen.getByText('Transactions')).toBeInTheDocument()
-    expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+
+  describe('Test CustomerTableContainer with transactions', () => {
+    it('should render the CustomerTableContainer component initial structure if there is plans and loyalty cards', () => {
+      render(getCustomerTableContainerTransactionsComponent({userPlans: mockUserPlans}))
+
+      expect(screen.getByRole('heading', {name: 'Transactions'})).toBeInTheDocument()
+      expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+    })
+
+    it('should render the table headers', () => {
+      render(getCustomerTableContainerTransactionsComponent())
+
+      expect(screen.getByText('REWARD')).toBeInTheDocument()
+      expect(screen.getByText('DATE')).toBeInTheDocument()
+      expect(screen.getByText('DETAILS')).toBeInTheDocument()
+      expect(screen.getByText('AMOUNT')).toBeInTheDocument()
+      expect(screen.getByText('CHANGE')).toBeInTheDocument()
+    })
   })
 
-  it('should render the table headers', () => {
-    render(getCustomerTableContainerComponent())
+  describe('Test CustomerTableContainer with vouchers', () => {
+    it('should render the CustomerTableContainer component initial structure if there is plans and loyalty cards', () => {
+      render(getCustomerTableContainerVouchersComponent({userPlans: mockUserPlans}))
 
-    expect(screen.getByText('REWARD')).toBeInTheDocument()
-    expect(screen.getByText('DATE')).toBeInTheDocument()
-    expect(screen.getByText('DETAILS')).toBeInTheDocument()
-    expect(screen.getByText('AMOUNT')).toBeInTheDocument()
-    expect(screen.getByText('CHANGE')).toBeInTheDocument()
+      expect(screen.getByRole('heading', {name: 'Vouchers'})).toBeInTheDocument()
+      expect(screen.getByTestId('dropdown')).toBeInTheDocument()
+    })
+
+    it('should render the table headers', () => {
+      render(getCustomerTableContainerVouchersComponent())
+
+      expect(screen.getByText('TYPE')).toBeInTheDocument()
+      expect(screen.getByText('CODE')).toBeInTheDocument()
+      expect(screen.getByText('ISSUED')).toBeInTheDocument()
+      expect(screen.getByText('EXPIRES')).toBeInTheDocument()
+      expect(screen.getByText('STATE')).toBeInTheDocument()
+    })
   })
 
-  it('should render Select Plan copy if there is no selected plan', () => {
-    render(getCustomerTableContainerComponent())
-    expect(screen.getByText('Select a plan above to see transactions')).toBeInTheDocument()
-  })
-
-  // TODO: Tricky to work around useEffect setting SelectedPlan to null to test other non-table copy
-
-  describe('Test unhappy paths', () => {
+  describe('Test CustomerTableContainer unhappy paths', () => {
     it('should not render the CustomerTableContainer dropdown if there is no plans response', () => {
       mockGetPlansResponse = null
-      render(getCustomerTableContainerComponent())
+      render(getCustomerTableContainerTransactionsComponent())
 
       expect(screen.queryByText('Transactions')).toBeInTheDocument()
       expect(screen.queryByTestId('dropdown')).not.toBeInTheDocument()
     })
 
     it('should not render the CustomerTableContainer dropdown if there is no loyalty cards response', () => {
-      mockGetLoyaltyCardsResponse = null
-      render(getCustomerTableContainerComponent())
+      mockGetLoyaltyCardsResponse = []
+      render(getCustomerTableContainerTransactionsComponent())
 
       expect(screen.queryByText('Transactions')).toBeInTheDocument()
       expect(screen.queryByTestId('dropdown')).not.toBeInTheDocument()
+    })
+
+    it('should render Select Plan copy if there is no selected plan', () => {
+      mockGetLoyaltyCardsResponse = [mockLoyaltyCard]
+      mockGetPlansResponse = [mockPlan]
+      render(getCustomerTableContainerTransactionsComponent())
+
+      expect(screen.getByText('Select a plan above to see transactions')).toBeInTheDocument()
     })
   })
 })

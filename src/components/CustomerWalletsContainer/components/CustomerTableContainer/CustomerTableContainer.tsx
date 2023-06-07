@@ -29,7 +29,7 @@ const CustomerTableContainer = ({userPlans, entity, tableHeaders}: Props) => {
     const entityKey = entity === 'transactions' ? 'membership_transactions' : 'vouchers'
     if (loyaltyCard) {
       if (entity === 'vouchers') {
-        // sort loyalty vouchers by state, with the order of issued, redeemed, cancelled and expired
+        // sort loyalty vouchers by state, with the order of issued, redeemed, cancelled, expired and inprogress
         const vouchers = [...loyaltyCard[entityKey]] as LoyaltyVoucher[]
         const sortedVouchers = vouchers.sort((a, b) => {
           const stateOrder = ['issued', 'redeemed', 'cancelled', 'expired', 'inprogress']
@@ -103,15 +103,13 @@ const CustomerTableContainer = ({userPlans, entity, tableHeaders}: Props) => {
     }
 
     const renderVoucherRow = (voucher: LoyaltyVoucher, voucherIndex: number) => {
-      console.log('voucher', voucher)
       const {burn, date_issued: dateIssued, expiry_date: expiryDate, state, code} = voucher
       const {prefix = '', suffix = '', type} = burn || {}
 
       if (state === 'inprogress') {
         return null
       }
-
-      const renderVoucherState = () => {
+      const renderVoucherState = () => { 74
         switch (state) {
           case 'redeemed': return <span className='text-blue dark:text-lightBlue'>Redeemed</span>
           case 'expired': return <span className='text-red'>Expired</span>
@@ -144,6 +142,8 @@ const CustomerTableContainer = ({userPlans, entity, tableHeaders}: Props) => {
     })
   }
 
+  console.log('selectedPlan', selectedPlan)
+  console.log(getLoyaltyCardEntity())
   return (
     <section>
       <h1 className='font-heading-4 mb-[10px]'>{capitaliseFirstLetter(entity)}</h1>
