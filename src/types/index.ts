@@ -386,7 +386,7 @@ export type DecodedUserAuthToken = {
   permissions?: Array<UserPermissions>
 }
 
-export type LoyaltyCardTransaction = {
+export type LoyaltyTransaction = {
   id: number,
   status: string,
   amounts: Array<{
@@ -434,7 +434,7 @@ export type LoyaltyCard = {
     id: number
     link_active: boolean
   }>,
-  membership_transactions: Array<LoyaltyCardTransaction>,
+  membership_transactions: Array<LoyaltyTransaction>,
   status: {
     state: string
     reason_codes: Array<string>

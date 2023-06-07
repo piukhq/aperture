@@ -103,7 +103,7 @@ const CustomerWallet = ({userPlans}: Props) => {
   }
 
   return (
-    <>
+    <section>
       <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
       <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[600px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col'>
         { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
@@ -114,7 +114,7 @@ const CustomerWallet = ({userPlans}: Props) => {
           </>
         ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>}
       </div>
-    </>
+    </section>
   )
 }
 

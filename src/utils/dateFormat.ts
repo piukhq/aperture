@@ -16,10 +16,9 @@ export const timeStampToDate = (timestamp: number | string, isShortDate = false)
   const date = new Date(time)
 
   if(isShortDate) {
-    const day = date.getDate()
-    const month = date.getMonth()
-    const year = date.getFullYear().toString()
-      .slice(-2)
+    const day = date.toLocaleDateString('en-GB', {day: '2-digit'})
+    const month = date.toLocaleDateString('en-GB', {month: '2-digit'})
+    const year = date.toLocaleDateString('en-GB', {year: 'numeric'})
     return `${day}/${month}/${year}`
   }
 
