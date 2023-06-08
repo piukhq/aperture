@@ -1,22 +1,18 @@
 import React, {useCallback, useMemo} from 'react'
 import Image from 'next/image'
-import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import PaymentCard from './components/PaymentCard'
 import LoyaltyCard from './components/LoyaltyCard'
 import LinkStatus from './components/LinkStatus'
 import ExternalCard from './components/ExternalCard'
-import {Plan} from 'types'
+import {Plan, LoyaltyCard as LoyaltyCardType, PaymentCard as PaymentCardType} from 'types'
 
 type Props = {
   userPlans: Plan[]
+  loyaltyCards: LoyaltyCardType[]
+  paymentCards: PaymentCardType[]
 }
 
-const CustomerWallet = ({userPlans}: Props) => {
-  const {
-    getLoyaltyCardsResponse,
-    getPaymentCardsResponse,
-  } = useCustomerWallet()
-
+const CustomerWallet = ({userPlans, loyaltyCards, paymentCards}: Props) => {
   const getStatusIcon = useCallback((status: string) => {
     switch (status) {
       case 'authorised':
@@ -41,14 +37,14 @@ const CustomerWallet = ({userPlans}: Props) => {
     return ids
   }, [])
 
-  const externalPaymentCardIds = useMemo(() => getExternalCardIds(getPaymentCardsResponse, getLoyaltyCardsResponse, 'payment_cards'), [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
-  const externalMembershipCardIds = useMemo(() => getExternalCardIds(getLoyaltyCardsResponse, getPaymentCardsResponse, 'membership_cards'), [getExternalCardIds, getLoyaltyCardsResponse, getPaymentCardsResponse])
+  const externalPaymentCardIds = useMemo(() => getExternalCardIds(paymentCards, loyaltyCards, 'payment_cards'), [getExternalCardIds, loyaltyCards, paymentCards])
+  const externalMembershipCardIds = useMemo(() => getExternalCardIds(loyaltyCards, paymentCards, 'membership_cards'), [getExternalCardIds, loyaltyCards, paymentCards])
 
   const renderPaymentCards = () => {
     return (
       <div className={'h-[92px] pl-[180px] flex'}>
-        <div className={`grid grid-cols-${getPaymentCardsResponse?.length + externalPaymentCardIds.length} gap-[15px]`}>
-          {getPaymentCardsResponse?.map((paymentCard) => (
+        <div className={`grid grid-cols-${paymentCards.length + externalPaymentCardIds.length} gap-[15px]`}>
+          {paymentCards?.map((paymentCard) => (
             <PaymentCard key={paymentCard.id} paymentCard={paymentCard} getStatusFn={getStatusIcon}/>
           ))}
           {externalPaymentCardIds.map((id, index) => (
@@ -60,9 +56,9 @@ const CustomerWallet = ({userPlans}: Props) => {
   }
 
   const getAllPaymentCardIds = useCallback(() => {
-    return getPaymentCardsResponse?.map((paymentCard) => paymentCard.id)
+    return paymentCards?.map((paymentCard) => paymentCard.id)
       .concat(externalPaymentCardIds)
-  }, [externalPaymentCardIds, getPaymentCardsResponse])
+  }, [externalPaymentCardIds, paymentCards])
 
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
@@ -85,7 +81,7 @@ const CustomerWallet = ({userPlans}: Props) => {
 
   // Render the loyalty cards and status that were found on the payment cards for the user
   const renderExternalLoyaltyCardsRow = (loyaltyCardId: number) => {
-    const sourcePaymentCardIds = getPaymentCardsResponse.map((paymentCard) => {
+    const sourcePaymentCardIds = paymentCards.map((paymentCard) => {
       const membershipCards = paymentCard.membership_cards.filter(card => card.id === loyaltyCardId)
       return membershipCards.length > 0 ? paymentCard.id : null
     })
@@ -104,15 +100,12 @@ const CustomerWallet = ({userPlans}: Props) => {
 
   return (
     <section>
-      <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
       <div className='bg-white dark:bg-grey-850 min-h-[400px] min-w-[600px] overflow-x-auto shadow-md rounded-[20px] p-[20px] flex flex-col'>
-        { getLoyaltyCardsResponse && getPaymentCardsResponse ? (
-          <>
-            {renderPaymentCards()}
-            {getLoyaltyCardsResponse?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
-            {externalMembershipCardIds?.map(id => renderExternalLoyaltyCardsRow(id))}
-          </>
-        ) : <p className='w-full text-center font-body-4'>Loading wallet...</p>}
+        <>
+          {renderPaymentCards()}
+          {loyaltyCards?.map((loyaltyCard) => renderLoyaltyCardsRow(loyaltyCard))}
+          {externalMembershipCardIds?.map(id => renderExternalLoyaltyCardsRow(id))}
+        </>
       </div>
     </section>
   )
