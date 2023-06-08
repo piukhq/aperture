@@ -32,13 +32,14 @@ const CustomerWalletsContainer = () => {
     const {images} = plan
     const image = images.find(image => image.type === 3)
     const src = image?.url
+    const loyaltyCard = getLoyaltyCardsResponse?.find(card => card.membership_plan === plan.id)
 
     return (
       <div className='flex items-center ml-[5px]'>
         <div className='h-[24px] w-[24px] mr-[10px]'>
           {src && <Image src={src} height={24} width={24} alt='' />}
         </div>
-        <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
+        <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name} {loyaltyCard.id} </p>
       </div>
     )
   }
@@ -49,7 +50,7 @@ const CustomerWalletsContainer = () => {
         <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
         <CustomerWallet loyaltyCards={getLoyaltyCardsResponse} paymentCards={getPaymentCardsResponse} userPlans={userPlans} />
         <h1 className='font-heading-4'>Transactions</h1>
-        <div className='h-[42px] w-[280px]'>
+        <div className='h-[42px] w-[350px]'>
           <Dropdown
             displayValue={selectedPlan || 'Select Plan'}
             displayValues={userPlans}
