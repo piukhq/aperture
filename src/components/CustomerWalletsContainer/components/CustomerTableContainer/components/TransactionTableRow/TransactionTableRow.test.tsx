@@ -60,7 +60,6 @@ describe('Test TransactionTableRow', () => {
         },
       }))
 
-      screen.debug()
       expect(screen.getByText('£12345')).toBeInTheDocument()
     })
   })
