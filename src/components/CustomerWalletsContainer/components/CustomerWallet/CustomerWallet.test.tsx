@@ -2,54 +2,25 @@ import {render, screen} from '@testing-library/react'
 import CustomerWallet from 'components/CustomerWalletsContainer/components/CustomerWallet'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {LoyaltyCard, PaymentCard} from 'types'
 
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/PaymentCard', () => () => <div data-testid='payment-card'></div>)
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LoyaltyCard', () => () => <div data-testid='loyalty-card'></div>)
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/ExternalCard', () => () => <div data-testid='external-card'></div>)
 jest.mock('components/CustomerWalletsContainer/components/CustomerWallet/components/LinkStatus', () => () => <div data-testid='link-status'></div>)
 
-const mockMatchingId = 12345
-const mockPlanNumber = 123
-
-const mockLoyaltyCardTransaction = {
-  id: 12345,
-  status: 'mock_status',
-  amounts: [{
-    currency: 'mock_currency',
-    suffix: 'mock_suffix',
-    value: 12345,
-  }],
-}
+const mockMatchingId = 12345 // Used to link loyalty cards to payment cards
 
 const mockPaymentCard = {
   id: mockMatchingId,
   membership_cards: [
     {id: mockMatchingId, link_active: true},
   ],
-}
-const mockLoyaltyCard = {
-  id: 'mock_loyalty_card_id',
-  membership_plan: mockPlanNumber,
-  payment_cards: [{
-    id: mockMatchingId,
-    link_active: true,
-  }],
-  membership_transactions: [mockLoyaltyCardTransaction],
-  status: {
-    state: 'mock_status',
-    reason_codes: ['mock_reason_code'],
-  },
-  card: {
-    membership_id: 'mock_membership_id',
-    colour: 'mock_colour',
-  },
-  account: {
-    tier: 1,
-  },
-}
+  status: 'mock_status',
+} as unknown as PaymentCard
 
 const mockPlan = {
-  id: mockPlanNumber,
+  id: mockMatchingId,
   account: {
     add_fields: [],
     authorise_fields: [],
@@ -75,11 +46,32 @@ const mockPlan = {
   slug: '',
 }
 
+const mockLoyaltyCard: LoyaltyCard = {
+  id: 1,
+  membership_plan: mockMatchingId,
+  payment_cards: [{
+    id: mockMatchingId,
+    link_active: true,
+  }],
+  membership_transactions: [],
+  vouchers: [],
+  status: {
+    state: 'mock_status',
+    reason_codes: ['mock_reason_code'],
+  },
+  card: {
+    membership_id: 'mock_membership_id',
+    colour: 'mock_colour',
+  },
+  account: {
+    tier: 1,
+  },
+  images: [],
+  balances: [],
+}
+
 jest.mock('hooks/useCustomerWallet', () => ({
   useCustomerWallet: jest.fn().mockImplementation(() => ({
-    getPaymentCardsResponse: [mockPaymentCard],
-    getLoyaltyCardsResponse: [mockLoyaltyCard],
-    getPlansResponse: [mockPlan],
     getLoyaltyCardsRefresh: jest.fn(),
     getPaymentCardsRefresh: jest.fn(),
     getPlansRefresh: jest.fn(),
@@ -96,7 +88,7 @@ const store = mockStoreFn({...mockCustomerWalletApiState})
 
 const getCustomerWalletComponent = () => (
   <Provider store={store}>
-    <CustomerWallet userPlans={[mockPlan]} />
+    <CustomerWallet userPlans={[mockPlan]} loyaltyCards={[mockLoyaltyCard]} paymentCards={[mockPaymentCard]} />
   </Provider>
 )
 
@@ -128,5 +120,4 @@ describe('CustomerWallet', () => {
 
     expect(screen.getAllByTestId('link-status')).toHaveLength(2)
   })
-  // TODO: Add loading/error state tests once they are defined in the component properly.
 })
