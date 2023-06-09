@@ -11,8 +11,8 @@ import {
   PageNotFound,
   HeadMetadata,
 } from 'components'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
+import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryMerchant, setSelectedDirectoryMerchant, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
@@ -40,7 +40,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const {
     getPlanResponse,
-  } = useMidManagementPlans({
+  } = useDirectoryPlans({
     skipGetPlans: true,
     planRef: planId,
   })
@@ -48,7 +48,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const {
     getMerchantResponse,
     getMerchantError,
-  } = useMidManagementMerchants({
+  } = useDirectoryMerchants({
     skipGetMerchantCounts: true,
     planRef: planId,
     merchantRef: merchantId,

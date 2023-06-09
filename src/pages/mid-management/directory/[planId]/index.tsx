@@ -7,9 +7,9 @@ import {PageLayout, DirectoryTile, DirectoryDetailsHeader, PageNotFound, HeadMet
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
-import {usePrefetch as useMerchantPrefetch} from 'services/midManagementMerchants'
-import {usePrefetch as useMidsPrefetch} from 'services/midManagementMerchantMids'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {usePrefetch as useMerchantPrefetch} from 'services/DirectoryMerchants'
+import {usePrefetch as useMidsPrefetch} from 'services/DirectoryMerchantMids'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
 import {DirectoryPlanDetails, OptionsMenuItems, DirectoryMerchant} from 'types'
 import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSlice'
 import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
@@ -34,7 +34,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const {
     getPlanResponse,
     getPlanError,
-  } = useMidManagementPlans({
+  } = useDirectoryPlans({
     skipGetPlans: true,
     planRef: planRef,
   })
