@@ -85,8 +85,8 @@ const mockGetPlanDetailsResponse = {
   ],
 }
 
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => ({
     getPlanResponse: mockGetPlanDetailsResponse,
   })),
 }))

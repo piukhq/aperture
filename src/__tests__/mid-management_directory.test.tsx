@@ -9,7 +9,7 @@ jest.mock('components/DirectoryTile', () => () => <div data-testid='directory-ti
 jest.mock('components/DirectoryTile/DirectoryTileSkeleton', () => () => <div data-testid='directory-tile-skeleton' />)
 jest.mock('components/Modals/components/DirectoryMerchantModal', () => () => <div data-testid='new-merchant-modal' />)
 
-const mockUseMidManagementPlans = {
+const mockUseDirectoryPlans = {
   getPlansResponse: [
     {
       plan_ref: 'mock_ref',
@@ -55,8 +55,8 @@ const mockUseMidManagementPlans = {
   getPlansIsLoading: false,
 }
 
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => mockUseMidManagementPlans),
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => mockUseDirectoryPlans),
 }))
 
 const mockStoreFn = configureStore([])
@@ -94,7 +94,7 @@ describe('MID Management DirectoryPage', () => {
 
   describe('Test Loading behaviour', () => {
     it('should render skeleton tiles when loading', () => {
-      mockUseMidManagementPlans.getPlansIsLoading = true
+      mockUseDirectoryPlans.getPlansIsLoading = true
       const {getAllByTestId} = render(getDirectoryPageComponent())
 
       const planTiles = getAllByTestId('directory-tile-skeleton')

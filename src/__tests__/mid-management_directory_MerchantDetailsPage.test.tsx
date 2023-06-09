@@ -20,8 +20,8 @@ const mockGetPlanResponse = {
   merchants: [],
 }
 
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => ({
     getPlanResponse: mockGetPlanResponse,
   })),
 }))
@@ -41,8 +41,8 @@ const mockGetMerchantResponse = {
   },
 }
 
-jest.mock('hooks/useMidManagementMerchants', () => ({
-  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMerchants', () => ({
+  useDirectoryMerchants: jest.fn().mockImplementation(() => ({
     getMerchantResponse: mockGetMerchantResponse,
   })),
 }))
