@@ -38,8 +38,8 @@ let mockGetMerchantLocationAvailableMidsResponse = [
 ]
 
 const mockPostMerchantLocationLinkedMid = jest.fn()
-jest.mock('hooks/useMidManagementLocationMids', () => ({
-  useMidManagementLocationMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocationMids', () => ({
+  useDirectoryLocationMids: jest.fn().mockImplementation(() => ({
     getMerchantLocationLinkedMidsResponse: mockGetMerchantLocationLinkedMidsResponse,
     getMerchantLocationAvailableMidsResponse: mockGetMerchantLocationAvailableMidsResponse,
     getMerchantLocationLinkedMidsIsLoading: false,

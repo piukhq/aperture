@@ -1,7 +1,7 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
@@ -15,7 +15,7 @@ const DirectoryMerchantSecondaryMidsDeleteModalContainer = () => {
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-  } = useMidManagementSecondaryMids({
+  } = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,

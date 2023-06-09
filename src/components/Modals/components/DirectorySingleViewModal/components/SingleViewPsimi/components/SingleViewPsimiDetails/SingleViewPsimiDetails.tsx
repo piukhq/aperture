@@ -1,5 +1,5 @@
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {DirectoryPsimi} from 'types'
 import {Button, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -29,7 +29,7 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
     postMerchantPsimiOffboardingIsLoading: isOffboardingLoading,
     postMerchantPsimiOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantPsimiOffboardingResponse: resetOffboardingResponse,
-  } = useMidManagementPsimis({
+  } = useDirectoryPsimis({
     planRef: planId,
     merchantRef: merchantId,
     psimiRef: ref,

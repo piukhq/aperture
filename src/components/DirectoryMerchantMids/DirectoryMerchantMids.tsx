@@ -11,7 +11,7 @@ import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {setModalHeader, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useDirectoryMids} from 'hooks/useDirectoryMids'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
@@ -48,7 +48,7 @@ const DirectoryMerchantMids = () => {
   const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState(true)
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantMidsResponse} = useMidManagementMids({
+  const {getMerchantMidsResponse} = useDirectoryMids({
     skipGetMid: true,
     skipGetMidsByPage: shouldSkipGetMidsByPage,
     planRef: planId,

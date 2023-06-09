@@ -17,8 +17,8 @@ useRouter.mockImplementation(() => ({
 const mockDeleteMerchantLocation = jest.fn()
 const mockDeleteMerchantLocationIsLoading = false
 
-jest.mock('hooks/useMidManagementLocations', () => ({
-  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocations', () => ({
+  useDirectoryLocations: jest.fn().mockImplementation(() => ({
     deleteMerchantLocation: mockDeleteMerchantLocation,
     deleteMerchantLocationIsLoading: mockDeleteMerchantLocationIsLoading,
   })),

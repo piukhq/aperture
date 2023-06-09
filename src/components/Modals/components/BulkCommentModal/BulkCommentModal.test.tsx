@@ -22,8 +22,8 @@ jest.mock('components/Modal', () => ({
 let mockCommentIsLoading = false
 let mockCommentIsSuccess = false
 
-jest.mock('hooks/useMidManagementComments', () => ({
-  useMidManagementComments: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryComments', () => ({
+  useDirectoryComments: jest.fn().mockImplementation(() => ({
     postComment: jest.fn(),
     postCommentIsLoading: mockCommentIsLoading,
     postCommentIsSuccess: mockCommentIsSuccess,
@@ -35,7 +35,7 @@ const mockModalHeader = 'mock_modal_header'
 const mockStoreFn = configureStore([])
 
 const store = mockStoreFn({
-  midManagementCommentsApi: {},
+  directoryCommentsApi: {},
   directoryComments: {
     commentsModalHeader: mockModalHeader,
     commentsSubjectType: 'mock_subject_type',

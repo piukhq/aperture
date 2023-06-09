@@ -16,8 +16,8 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
-jest.mock('hooks/useMidManagementMerchants', () => ({
-  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMerchants', () => ({
+  useDirectoryMerchants: jest.fn().mockImplementation(() => ({
     postMerchant: jest.fn(),
     postMerchantResponse: null,
     postMerchantError: null,

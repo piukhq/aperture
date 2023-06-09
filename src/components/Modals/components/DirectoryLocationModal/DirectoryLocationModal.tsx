@@ -2,8 +2,8 @@ import {useCallback, useEffect, useMemo, useState} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Modal, DirectoryMerchantLocationForm} from 'components'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
+import {useDirectoryLocationSubLocations} from 'hooks/useDirectoryLocationSubLocations'
 import {reset as merchantReset} from 'features/directoryMerchantSlice'
 import {getLocationLabel, reset as locationReset} from 'features/directoryLocationSlice'
 import {requestModal} from 'features/modalSlice'
@@ -22,7 +22,7 @@ const DirectoryLocationModal = () => {
     postMerchantLocationError,
     resetPostMerchantLocationResponse,
     getMerchantLocationsResponse,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocation: true,
     getAll: true,
     skipGetLocationsByPage: true,
@@ -36,7 +36,7 @@ const DirectoryLocationModal = () => {
     postMerchantLocationSubLocationIsLoading,
     postMerchantLocationSubLocationError,
     resetPostMerchantLocationSubLocationResponse,
-  } = useMidManagementLocationSubLocations({
+  } = useDirectoryLocationSubLocations({
     skipGetSubLocation: true,
     skipGetSubLocations: true,
     planRef: planId,

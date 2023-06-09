@@ -2,7 +2,7 @@ import {useState, useEffect, memo} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useDirectoryMids} from 'hooks/useDirectoryMids'
 import SingleViewMidDetails from './components/SingleViewMidDetails'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes} from 'utils/enums'
@@ -21,7 +21,7 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn, setIs
 
   const {merchantId, planId, ref} = useGetRouterQueryString()
 
-  const {getMerchantMidResponse, getMerchantMidIsLoading} = useMidManagementMids({
+  const {getMerchantMidResponse, getMerchantMidIsLoading} = useDirectoryMids({
     skipGetMids: true,
     skipGetMidsByPage: true,
     planRef: planId,

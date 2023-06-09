@@ -16,8 +16,8 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => ({
     postPlan: jest.fn(),
     postPlanResponse: null,
     postPlanError: null,

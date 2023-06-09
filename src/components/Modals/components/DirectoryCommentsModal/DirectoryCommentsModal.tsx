@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {useMidManagementComments} from 'hooks/useMidManagementComments'
+import {useDirectoryComments} from 'hooks/useDirectoryComments'
 import {Modal, Comments} from 'components'
 import {getCommentsModalHeader, getCommentsOwnerRef, getCommentsRef, getCommentsSubjectType, reset} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
@@ -29,7 +29,7 @@ const DirectoryCommentsModal = () => {
     postReplyComment,
     postReplyCommentIsLoading: replyCommentIsLoading,
     postReplyCommentIsSuccess: replyCommentIsSuccess,
-  } = useMidManagementComments({commentsRef})
+  } = useDirectoryComments({commentsRef})
 
   const closeModal = useCallback(() => {
     dispatch(reset())

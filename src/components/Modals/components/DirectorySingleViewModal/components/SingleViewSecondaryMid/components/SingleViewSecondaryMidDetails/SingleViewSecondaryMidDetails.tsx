@@ -3,7 +3,7 @@ import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import RefreshSvg from 'icons/svgs/refresh.svg'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {DirectorySecondaryMid} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
@@ -43,7 +43,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     postMerchantSecondaryMidOffboardingIsLoading: isOffboardingLoading,
     postMerchantSecondaryMidOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
-  } = useMidManagementSecondaryMids({
+  } = useDirectorySecondaryMids({
     planRef: planId,
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,

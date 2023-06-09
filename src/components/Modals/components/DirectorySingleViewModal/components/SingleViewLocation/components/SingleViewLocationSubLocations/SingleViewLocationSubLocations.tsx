@@ -5,7 +5,7 @@ import {Button, DirectoryMerchantLocationForm} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {UserPermissions} from 'utils/enums'
-import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {useDirectoryLocationSubLocations} from 'hooks/useDirectoryLocationSubLocations'
 
 type Props = {
   location: DirectoryLocation,
@@ -25,7 +25,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     postMerchantLocationSubLocationIsLoading,
     postMerchantLocationSubLocationError,
     resetPostMerchantLocationSubLocationResponse,
-  } = useMidManagementLocationSubLocations({
+  } = useDirectoryLocationSubLocations({
     skipGetSubLocation: true,
     planRef: planId,
     merchantRef: merchantId,

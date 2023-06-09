@@ -20,8 +20,8 @@ jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
 }))
 
-jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
-  useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocationSubLocations', () => ({
+  useDirectoryLocationSubLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationSubLocationResponse: mockGetMerchantSubLocationResponse,
   })),
 }))

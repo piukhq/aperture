@@ -6,7 +6,7 @@ import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
@@ -35,7 +35,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantLocationsResponse} = useMidManagementLocations({
+  const {getMerchantLocationsResponse} = useDirectoryLocations({
     skipGetLocation: true,
     skipGetLocationsByPage: shouldSkipGetLocationsByPage,
     planRef: planId,

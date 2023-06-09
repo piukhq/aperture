@@ -2,7 +2,7 @@ import {useState, useEffect, memo, useCallback} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
 import {
   SingleViewLocationDetails,
@@ -31,7 +31,7 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
     getMerchantLocationResponse,
     getMerchantLocationRefresh,
     getMerchantLocationIsFetching,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     planRef: planId,
     skipGetLocations: true,
     skipGetLocationsByPage: true,

@@ -6,7 +6,7 @@ import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
 import {SingleViewSubLocationDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {DirectoryEntity} from 'types'
-import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {useDirectoryLocationSubLocations} from 'hooks/useDirectoryLocationSubLocations'
 import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
@@ -26,7 +26,7 @@ const SingleViewSubLocation = ({selectedEntity, setHeaderFn, isInEditState, setI
     getMerchantLocationSubLocationResponse,
     getMerchantLocationSubLocationRefresh,
     getMerchantLocationSubLocationIsLoading,
-  } = useMidManagementLocationSubLocations({
+  } = useDirectoryLocationSubLocations({
     skipGetSubLocations: true,
     planRef: planId,
     merchantRef: merchantId,

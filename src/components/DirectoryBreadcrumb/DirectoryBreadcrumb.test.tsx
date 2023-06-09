@@ -15,8 +15,8 @@ const mockGetPlanResponse = {
   plan_metadata: {},
   merchants: [],
 }
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => ({
     getPlanResponse: mockGetPlanResponse,
   })),
 }))

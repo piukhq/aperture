@@ -6,7 +6,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -18,7 +18,7 @@ const DirectoryPsimiModal = () => {
     postMerchantPsimiResponse,
     postMerchantPsimiError,
     resetPostMerchantPsimiResponse,
-  } = useMidManagementPsimis({skipGetPsimis: true, skipGetPsimi: true, skipGetPsimisByPage: true})
+  } = useDirectoryPsimis({skipGetPsimis: true, skipGetPsimi: true, skipGetPsimisByPage: true})
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

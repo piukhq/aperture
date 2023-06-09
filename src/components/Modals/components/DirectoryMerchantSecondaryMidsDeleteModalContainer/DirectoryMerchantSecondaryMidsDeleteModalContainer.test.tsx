@@ -18,8 +18,8 @@ useRouter.mockImplementation(() => ({
 const mockDeleteMerchantSecondaryMid = jest.fn()
 const mockDeleteMerchantSecondaryMidIsLoading = false
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     deleteMerchantSecondaryMid: mockDeleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsLoading: mockDeleteMerchantSecondaryMidIsLoading,
   })),

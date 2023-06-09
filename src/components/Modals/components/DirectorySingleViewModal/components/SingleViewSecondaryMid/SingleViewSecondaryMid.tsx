@@ -2,7 +2,7 @@ import {useState, useEffect, memo} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {SingleViewSecondaryMidDetails, SingleViewSecondaryMidLocations} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
@@ -19,7 +19,7 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}:
   const {merchantId, planId, ref} = useGetRouterQueryString()
   const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
 
-  const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useMidManagementSecondaryMids({
+  const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,
     planRef: planId,

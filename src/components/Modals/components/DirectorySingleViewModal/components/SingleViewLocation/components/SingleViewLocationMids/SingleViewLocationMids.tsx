@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementLocationMids} from 'hooks/useMidManagementLocationMids'
+import {useDirectoryLocationMids} from 'hooks/useDirectoryLocationMids'
 import {DirectoryMerchantLocationAvailableMid, DirectoryMerchantLocationMid} from 'types'
 import SingleViewCombobox from '../../../SingleViewCombobox'
 import CloseIcon from 'icons/svgs/close.svg'
@@ -33,7 +33,7 @@ const SingleViewLocationMids = () => {
     deleteMerchantLocationMidLinkIsLoading,
     deleteMerchantLocationMidLinkIsSuccess,
     resetDeleteMerchantLocationMidLinkResponse,
-  } = useMidManagementLocationMids({
+  } = useDirectoryLocationMids({
     planRef: planId,
     merchantRef: merchantId,
     locationRef: ref,

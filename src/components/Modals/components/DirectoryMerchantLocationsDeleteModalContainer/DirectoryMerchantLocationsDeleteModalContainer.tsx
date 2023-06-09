@@ -1,7 +1,7 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
@@ -16,7 +16,7 @@ const DirectoryMerchantLocationsDeleteModalContainer = () => {
     deleteMerchantLocationIsLoading,
     deleteMerchantLocationError,
     resetDeleteMerchantLocationResponse,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocation: true,
     skipGetLocations: true,
     skipGetLocationsByPage: true,

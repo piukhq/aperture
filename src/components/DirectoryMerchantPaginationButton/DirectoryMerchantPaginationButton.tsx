@@ -6,7 +6,7 @@ import {DirectoryLocations, DirectoryMids, DirectoryPsimis, DirectorySecondaryMi
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {getMerchantEntityCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {DirectoryNavigationTab} from 'utils/enums'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
 
 type Props = {
   currentData: DirectoryPsimis | DirectorySecondaryMids | DirectoryLocations | DirectoryMids,
@@ -22,7 +22,7 @@ const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn,
 
   const {
     getMerchantResponse,
-  } = useMidManagementMerchants({
+  } = useDirectoryMerchants({
     skipGetMerchantCounts: true,
     planRef: planId,
     merchantRef: merchantId,

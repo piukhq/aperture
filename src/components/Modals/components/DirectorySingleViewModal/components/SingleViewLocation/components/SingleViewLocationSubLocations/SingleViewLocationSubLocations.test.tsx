@@ -38,8 +38,8 @@ const mockLocation = {
 
 let mockGetMerchantLocationSubLocationsResponse = [mockLocation]
 
-jest.mock('hooks/useMidManagementLocationSubLocations', () => ({
-  useMidManagementLocationSubLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocationSubLocations', () => ({
+  useDirectoryLocationSubLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationSubLocationsResponse: mockGetMerchantLocationSubLocationsResponse,
     getMerchantLocationSubLocationsIsLoading: false,
     postMerchantLocationSubLocation: jest.fn(),

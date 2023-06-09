@@ -3,7 +3,7 @@ import {useRouter} from 'next/router'
 import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {requestModal} from 'features/modalSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
@@ -26,7 +26,7 @@ const DirectoryPlanDeleteModal = () => {
     deletePlanIsSuccess,
     deletePlanError,
     resetDeletePlanResponse,
-  } = useMidManagementPlans({
+  } = useDirectoryPlans({
     skipGetPlan: true,
     planRef: planId,
   })

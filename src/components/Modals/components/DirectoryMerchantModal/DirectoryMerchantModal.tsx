@@ -7,7 +7,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {reset as merchantSliceReset, getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 import {reset as planSliceReset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
 import {RTKQueryErrorResponse} from 'types'
 import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
@@ -25,7 +25,7 @@ const DirectoryMerchantModal = () => {
     putMerchantResponse,
     putMerchantError,
     resetPutMerchantResponse,
-  } = useMidManagementMerchants({
+  } = useDirectoryMerchants({
     skipGetMerchant: true,
     skipGetMerchantCounts: true,
     planRef: planId,

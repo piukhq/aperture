@@ -18,8 +18,8 @@ jest.mock('components/Modal', () => ({
 
 const mockPostMerchantSecondaryMid = jest.fn()
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     postMerchantSecondaryMid: mockPostMerchantSecondaryMid,
     postMerchantSecondaryMidResponse: null,
     postMerchantSecondaryMidError: null,

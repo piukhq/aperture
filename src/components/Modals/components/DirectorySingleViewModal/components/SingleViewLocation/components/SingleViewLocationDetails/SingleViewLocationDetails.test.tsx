@@ -5,8 +5,8 @@ import {PaymentSchemeSlug} from 'utils/enums'
 
 jest.mock('components/DirectoryMerchantLocationForm', () => () => <div data-testid='DirectoryMerchantLocationForm' />)
 
-jest.mock('hooks/useMidManagementLocations', () => ({
-  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocations', () => ({
+  useDirectoryLocations: jest.fn().mockImplementation(() => ({
     putMerchantLocation: jest.fn(),
     putMerchantLocationIsSuccess: false,
     putMerchantLocationIsLoading: false,

@@ -16,8 +16,8 @@ jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
 }))
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
     getMerchantPsimiResponse: mockGetMerchantPsimiResponse,
     getMerchantPsimiIsLoading: false,
   })),

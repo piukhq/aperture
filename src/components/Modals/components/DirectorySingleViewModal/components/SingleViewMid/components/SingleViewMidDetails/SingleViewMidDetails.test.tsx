@@ -70,8 +70,8 @@ const mockGetLocationsResponse = [
   },
 ]
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
     patchMerchantMid: jest.fn(),
     patchMerchantMidError: mockPatchErrorResponse,
     patchMerchantMidIsLoading: null,
@@ -82,8 +82,8 @@ jest.mock('hooks/useMidManagementMids', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementLocations', () => ({
-  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocations', () => ({
+  useDirectoryLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationsResponse: mockGetLocationsResponse,
   })),
 }))

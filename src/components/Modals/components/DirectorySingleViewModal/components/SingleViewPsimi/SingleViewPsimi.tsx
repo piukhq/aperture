@@ -2,7 +2,7 @@ import {useState, useEffect, memo} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppDispatch} from 'app/hooks'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {SingleViewPsimiDetails} from './components'
 import SingleViewComments from '../SingleViewComments'
 import {CommentsSubjectTypes, DirectorySingleViewTabs} from 'utils/enums'
@@ -18,7 +18,7 @@ type Props = {
 const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
   const {merchantId, planId, ref} = useGetRouterQueryString()
 
-  const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useMidManagementPsimis({
+  const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useDirectoryPsimis({
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
     planRef: planId,
