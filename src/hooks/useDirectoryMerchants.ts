@@ -4,9 +4,9 @@ import {
   usePostMerchantMutation,
   usePutMerchantMutation,
   useDeleteMerchantMutation,
-} from 'services/midManagementMerchants'
+} from 'services/DirectoryMerchants'
 
-export const useMidManagementMerchants = ({skipGetMerchant = false, skipGetMerchantCounts = false, planRef = '', merchantRef = ''}) => {
+export const useDirectoryMerchants = ({skipGetMerchant = false, skipGetMerchantCounts = false, planRef = '', merchantRef = ''}) => {
   const {data: getMerchantResponse, isLoading: getMerchantIsLoading, error: getMerchantError} = useGetMerchantQuery({planRef, merchantRef}, {skip: skipGetMerchant})
 
   const {data: getMerchantCountsResponse, isLoading: getMerchantCountsIsLoading, error: getMerchantCountsError} = useGetMerchantCountsQuery({planRef, merchantRef}, {skip: skipGetMerchantCounts})

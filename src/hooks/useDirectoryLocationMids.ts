@@ -3,9 +3,9 @@ import {
   useGetMerchantLocationAvailableMidsQuery,
   usePostMerchantLocationLinkedMidsMutation,
   useDeleteMerchantLocationMidLinkMutation,
-} from 'services/midManagementMerchantLocations'
+} from 'services/DirectoryMerchantLocations'
 
-export const useMidManagementLocationMids = ({skipGetLocationLinkedMids = false, skipGetLocationAvailableMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
+export const useDirectoryLocationMids = ({skipGetLocationLinkedMids = false, skipGetLocationAvailableMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
   const {
     data: getMerchantLocationLinkedMidsResponse,
     isLoading: getMerchantLocationLinkedMidsIsLoading,

@@ -6,10 +6,10 @@ import {
   useDeleteCommentMutation,
   usePatchCommentMutation,
   usePostReplyCommentMutation,
-  midManagementCommentsApi,
-} from 'services/midManagementComments'
+  directoryCommentsApi,
+} from 'services/DirectoryComments'
 
-export const useMidManagementComments = ({skipGetComments = false, commentsRef = ''}) => {
+export const useDirectoryComments = ({skipGetComments = false, commentsRef = ''}) => {
   const {data: getCommentsResponse, isLoading: getCommentsIsLoading, error: getCommentsError} = useGetCommentsQuery({commentsRef}, {skip: skipGetComments})
 
   const [postComment, {
@@ -50,7 +50,7 @@ export const useMidManagementComments = ({skipGetComments = false, commentsRef =
   // Remove cached comments data when relevant component unmounts
   useEffect(() => {
     return () => {
-      dispatch(midManagementCommentsApi.util.resetApiState())
+      dispatch(directoryCommentsApi.util.resetApiState())
     }
   }, [dispatch])
 

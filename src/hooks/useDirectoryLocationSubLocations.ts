@@ -4,9 +4,9 @@ import {
   usePutMerchantLocationSubLocationMutation,
   usePostMerchantLocationSubLocationMutation,
   usePatchMerchantLocationSubLocationMutation,
-} from 'services/midManagementMerchantLocations'
+} from 'services/DirectoryMerchantLocations'
 
-export const useMidManagementLocationSubLocations = ({skipGetSubLocations = false, skipGetSubLocation = false, planRef = '', merchantRef = '', locationRef = '', subLocationRef = ''}) => {
+export const useDirectoryLocationSubLocations = ({skipGetSubLocations = false, skipGetSubLocation = false, planRef = '', merchantRef = '', locationRef = '', subLocationRef = ''}) => {
   const {
     data: getMerchantLocationSubLocationsResponse,
     isLoading: getMerchantLocationSubLocationsIsLoading,
