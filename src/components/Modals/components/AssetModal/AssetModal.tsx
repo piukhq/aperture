@@ -17,8 +17,8 @@ import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} fro
 const AssetModal = () => {
   const dispatch = useAppDispatch()
   const [imageDimensionsState, setImageDimensionsState] = useState(null)
-  const [isError, setIsError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const imageClasses = imageDimensionsState ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)

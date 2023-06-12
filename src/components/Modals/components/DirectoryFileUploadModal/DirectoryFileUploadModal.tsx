@@ -19,9 +19,9 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
   const fileTypes = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID']
 
   const [file, setFile] = useState(null)
-  const [isValidFile, setIsValidFile] = useState(false)
-  const [isUploading, setIsUploading] = useState(false)
-  const [fileType, setFileType] = useState(fileTypes[0])
+  const [isValidFile, setIsValidFile] = useState<boolean>(false)
+  const [isUploading, setIsUploading] = useState<boolean>(false)
+  const [fileType, setFileType] = useState<string>(fileTypes[0])
 
   // const fileInputRef = useRef(null) // Default file upload input is hidden and assigned to this ref to trigger file browser
   const fileInputRef = useRef<HTMLInputElement>(null)

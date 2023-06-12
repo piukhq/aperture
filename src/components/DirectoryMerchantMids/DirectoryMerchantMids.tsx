@@ -44,8 +44,8 @@ const DirectoryMerchantMids = () => {
   const router = useRouter()
   const {planId, merchantId} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState(true)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState<boolean>(true)
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse} = useDirectoryMids({

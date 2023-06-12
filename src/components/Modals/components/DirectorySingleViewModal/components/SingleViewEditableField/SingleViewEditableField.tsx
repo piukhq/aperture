@@ -50,9 +50,9 @@ const SingleViewEditableField = ({
   isDisabled,
   shouldUseCombobox,
 }: Props) => {
-  const [isInEditState, setIsInEditState] = useState(false)
-  const [isInDeleteState, setIsInDeleteState] = useState(false)
-  const [validationError, setValidationError] = useState(null)
+  const [isInEditState, setIsInEditState] = useState<boolean>(false)
+  const [isInDeleteState, setIsInDeleteState] = useState<boolean>(false)
+  const [validationError, setValidationError] = useState<string>(null)
 
   useEffect(() => {
     if (successResponse) {

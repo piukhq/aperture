@@ -29,7 +29,7 @@ type Props = {
 }
 
 const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
-  const [imageLoadError, setImageLoadError] = useState(false)
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false)
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const {

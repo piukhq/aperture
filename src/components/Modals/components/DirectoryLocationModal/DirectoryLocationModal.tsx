@@ -45,8 +45,8 @@ const DirectoryLocationModal = () => {
   })
 
   const locationLabel = useAppSelector(getLocationLabel)
-  const [parentLocation, setParentLocation] = useState('None')
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [parentLocation, setParentLocation] = useState<string>('None')
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   const closeModal = useCallback(() => {
     resetPostMerchantLocationResponse()

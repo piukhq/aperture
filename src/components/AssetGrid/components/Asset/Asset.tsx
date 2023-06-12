@@ -18,8 +18,8 @@ type Props = {
 const Asset = ({image, assetType, typeIndex, imageEnv}: Props) => {
   const dispatch = useAppDispatch()
   const {url, description} = image
-  const [isError, setIsError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isError, setIsError] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const imageClasses = isLoading ? 'opacity-25 transition-opacity' : 'opacity-100 transition-opacity'
 
   const buildAssetObject = (image: PlanImage, env: string): PlanAsset => ( // Provides additional metadata for use in the Asset modal

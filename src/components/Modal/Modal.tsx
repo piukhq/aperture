@@ -37,7 +37,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     ModalType.MID_MANAGEMENT_BULK_COMMENT,
   ]
 
-  const [isFadedIn, setIsFadedIn] = useState(false)
+  const [isFadedIn, setIsFadedIn] = useState<boolean>(false)
 
   const handleClose = useCallback(() => {
     setIsFadedIn(false)

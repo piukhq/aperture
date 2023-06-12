@@ -65,9 +65,9 @@ const TextInputGroup = (props: Props) => {
     renderFn,
   } = props
 
-  const [selectDefaultValue, setSelectDefaultValue] = useState('default')
-  const [isFocused, setIsFocused] = useState(false)
-  const [isSearchSelectMenuOpen, setIsSearchSelectMenuOpen] = useState(false)
+  const [selectDefaultValue, setSelectDefaultValue] = useState<string>('default')
+  const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [isSearchSelectMenuOpen, setIsSearchSelectMenuOpen] = useState<boolean>(false)
 
   const isOutlineStyle = inputStyle === InputStyle.FULL || inputStyle === InputStyle.FULL_SMALL
 
@@ -125,7 +125,7 @@ const TextInputGroup = (props: Props) => {
   )
 
   // This is needed to ensure that the input field looses focus when the user selects a an item from the list
-  const [fieldJustBlurred, setFieldJustBlurred] = useState(false)
+  const [fieldJustBlurred, setFieldJustBlurred] = useState<boolean>(false)
   const inputRef = useRef(null)
 
   const handleSelectItemClick = (item: SelectItem) => {

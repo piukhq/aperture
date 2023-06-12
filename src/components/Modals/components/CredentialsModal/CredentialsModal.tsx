@@ -18,10 +18,10 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 
 const CredentialsModal = () => {
-  const [emailValue, setEmailValue] = useState('')
-  const [isEmailReadyForValidation, setIsEmailReadyForValidation] = useState(false)
-  const [passwordValue, setPasswordValue] = useState('')
-  const [isPasswordReadyForValidation, setIsPasswordReadyForValidation] = useState(false)
+  const [emailValue, setEmailValue] = useState<string>('')
+  const [isEmailReadyForValidation, setIsEmailReadyForValidation] = useState<boolean>(false)
+  const [passwordValue, setPasswordValue] = useState<string>('')
+  const [isPasswordReadyForValidation, setIsPasswordReadyForValidation] = useState<boolean>(false)
 
   const {resetDevPlans, resetStagingPlans, resetProdPlans} = useGetPlans()
 

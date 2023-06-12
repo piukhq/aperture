@@ -23,7 +23,7 @@ const ImageDetails = ({
 
   // Fade in the component
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState<boolean>(false)
   useEffect(() => {
     setTimeout(() => setIsMounted(true), (100))
   }, [])

@@ -22,7 +22,7 @@ type Props = {
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {planId, merchantId, ref} = useGetRouterQueryString()
-  const [isInLocationEditMode, setIsInLocationEditMode] = useState(false)
+  const [isInLocationEditMode, setIsInLocationEditMode] = useState<boolean>(false)
 
   const {
     getMerchantMidRefresh,
@@ -83,9 +83,9 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     PaymentSchemeStatusDisplayValue['unenrolled'],
   ], [])
 
-  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
-  const [editableVisaBin, setEditableVisaBin] = useState('')
-  const [associatedLocationRef, setAssociatedLocationRef] = useState('')
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>('')
+  const [editableVisaBin, setEditableVisaBin] = useState<string>('')
+  const [associatedLocationRef, setAssociatedLocationRef] = useState<string>('')
 
   const isRefreshing = getMerchantMidIsFetching || getMerchantLocationsIsFetching
 

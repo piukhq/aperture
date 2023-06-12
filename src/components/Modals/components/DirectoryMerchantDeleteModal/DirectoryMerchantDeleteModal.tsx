@@ -19,10 +19,10 @@ const DirectoryMerchantDeleteModal = () => {
   // Seed state if selected merchant has counts available, else counts endpoint will be called to populate state
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
   const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
-  const [locationsCount, setLocationsCount] = useState(merchantCounts?.locations || 0)
-  const [midsCount, setMidsCount] = useState(getMerchantMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
-  const [nameValue, setNameValue] = useState('')
-  const [nameValidationError, setNameValidationError] = useState(null)
+  const [locationsCount, setLocationsCount] = useState<number>(merchantCounts?.locations || 0)
+  const [midsCount, setMidsCount] = useState<number>(getMerchantMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
+  const [nameValue, setNameValue] = useState<string>('')
+  const [nameValidationError, setNameValidationError] = useState<string>(null)
 
   const {
     deleteMerchant,

@@ -26,7 +26,7 @@ import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleton'
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
-  const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
+  const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState<string>(null)
   const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useDirectoryPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
   const planList: DirectoryPlan[] = getPlansResponse
   const isMobileViewport = useIsMobileViewportDimensions()

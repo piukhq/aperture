@@ -29,8 +29,8 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId, planId} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState(true)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState<boolean>(true)
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)

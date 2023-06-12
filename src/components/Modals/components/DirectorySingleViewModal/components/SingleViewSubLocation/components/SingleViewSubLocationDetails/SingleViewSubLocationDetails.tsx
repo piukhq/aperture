@@ -64,9 +64,9 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const {parent_location: parentLocation, sub_location: subLocation} = location
   const parentLocationTitle = parentLocation?.location_title
 
-  const [selectedParentLocationName, setSelectedParentLocationName] = useState(parentLocationTitle || '')
-  const [locationIdValue, setLocationIdValue] = useState('')
-  const [locationIdValidationError, setLocationIdValidationError] = useState(null)
+  const [selectedParentLocationName, setSelectedParentLocationName] = useState<string>(parentLocationTitle || '')
+  const [locationIdValue, setLocationIdValue] = useState<string>('')
+  const [locationIdValidationError, setLocationIdValidationError] = useState<string>(null)
 
   const {
     date_added: dateAdded,

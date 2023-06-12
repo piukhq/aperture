@@ -7,7 +7,7 @@ type Props = {
 }
 
 const IconImage = ({plan}: Props) => {
-  const [imageIndex, setImageIndex] = useState(0)
+  const [imageIndex, setImageIndex] = useState<number>(0)
   const devIcon = plan.devImages.find(image => image.type === 3)
   const stagingIcon = plan.stagingImages.find(image => image.type === 3)
 

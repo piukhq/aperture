@@ -20,7 +20,7 @@ type Props = {
 
 function SingleViewCombobox ({selectedEntity, availableEntities, entityValueFn, entityPaymentSchemeSlugFn, onChangeFn, shouldRenderPaymentCardIcon, entityLabel = 'item', isDisabled = false}: Props) {
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState<string>('')
 
   const filteredEntities =
   query === ''

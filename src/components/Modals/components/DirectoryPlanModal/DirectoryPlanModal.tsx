@@ -35,13 +35,13 @@ const DirectoryPlanModal = () => {
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
-  const [nameValue, setNameValue] = useState(name || '')
-  const [planIdValue, setPlanIdValue] = useState(`${planId || ''}`)
-  const [slugValue, setSlugValue] = useState(slug || '')
-  const [nameValidationError, setNameValidationError] = useState(null)
-  const [planIdValidationError, setPlanIdValidationError] = useState(null)
-  const [slugValidationError, setSlugValidationError] = useState(null)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [nameValue, setNameValue] = useState<string>(name || '')
+  const [planIdValue, setPlanIdValue] = useState<string>(`${planId || ''}`)
+  const [slugValue, setSlugValue] = useState<string>(slug || '')
+  const [nameValidationError, setNameValidationError] = useState<string>(null)
+  const [planIdValidationError, setPlanIdValidationError] = useState<string>(null)
+  const [slugValidationError, setSlugValidationError] = useState<string>(null)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
     if (isCloseButtonFocused) {

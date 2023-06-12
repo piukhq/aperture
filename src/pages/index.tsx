@@ -13,9 +13,9 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 const IndexPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {hasRequiredPermission} = usePermissions()
-  const [isLearnMoreClicked, setIsLearnMoreClicked] = useState(false)
-  const [isAppHovered, setIsAppHovered] = useState(false)
-  const [appClicked, setAppClicked] = useState(null)
+  const [isLearnMoreClicked, setIsLearnMoreClicked] = useState<boolean>(false)
+  const [isAppHovered, setIsAppHovered] = useState<boolean>(false)
+  const [appClicked, setAppClicked] = useState<string>(null)
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const fadeInOutClasses = `${isLearnMoreClicked ? 'opacity-100' : 'opacity-[0] h-0 scale-25'}`

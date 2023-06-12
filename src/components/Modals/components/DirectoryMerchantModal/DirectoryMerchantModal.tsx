@@ -40,12 +40,12 @@ const DirectoryMerchantModal = () => {
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
-  const [nameValue, setNameValue] = useState(name || '')
-  const [locationLabelValue, setLocationLabelValue] = useState(locationLabel || 'Locations')
+  const [nameValue, setNameValue] = useState<string>(name || '')
+  const [locationLabelValue, setLocationLabelValue] = useState<string>(locationLabel || 'Locations')
 
-  const [nameValidationError, setNameValidationError] = useState(null)
-  const [locationLabelValidationError, setLocationLabelValidationError] = useState(null)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [nameValidationError, setNameValidationError] = useState<string>(null)
+  const [locationLabelValidationError, setLocationLabelValidationError] = useState<string>(null)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
     isCloseButtonFocused && setNameValidationError(null)

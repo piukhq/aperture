@@ -62,36 +62,36 @@ const DirectoryMerchantLocationForm = ({
     merchant_internal_id: merchantInternalId,
   } = location?.location_metadata || {}
 
-  const [nameValue, setNameValue] = useState(() => {
+  const [nameValue, setNameValue] = useState<string>(() => {
     if (name && !isNewLocationSubLocation) {
       return name
     }
     return ''
   })
-  const [nameValidationError, setNameValidationError] = useState(null)
+  const [nameValidationError, setNameValidationError] = useState<string>(null)
 
-  const [locationIdValue, setLocationIdValue] = useState(locationId || '')
-  const [locationIdValidationError, setLocationIdValidationError] = useState(null)
+  const [locationIdValue, setLocationIdValue] = useState<string>(locationId || '')
+  const [locationIdValidationError, setLocationIdValidationError] = useState<string>(null)
 
-  const [merchantInternalIdValue, setMerchantInternalIdValue] = useState(merchantInternalId || '')
+  const [merchantInternalIdValue, setMerchantInternalIdValue] = useState<string>(merchantInternalId || '')
 
-  const [isPhysicalLocation, setIsPhysicalLocation] = useState(location ? is_physical_location : true)
+  const [isPhysicalLocation, setIsPhysicalLocation] = useState<boolean>(location ? is_physical_location : true)
 
-  const [addressLine1Value, setAddressLine1Value] = useState(addressLine1 || '')
-  const [addressLine1ValidationError, setAddressLine1ValidationError] = useState(null)
+  const [addressLine1Value, setAddressLine1Value] = useState<string>(addressLine1 || '')
+  const [addressLine1ValidationError, setAddressLine1ValidationError] = useState<string>(null)
 
-  const [addressLine2Value, setAddressLine2Value] = useState(addressLine2 || '')
+  const [addressLine2Value, setAddressLine2Value] = useState<string>(addressLine2 || '')
 
-  const [townCityValue, setTownCityValue] = useState(townCity || '')
+  const [townCityValue, setTownCityValue] = useState<string>(townCity || '')
 
-  const [countyValue, setCountyValue] = useState(county || '')
+  const [countyValue, setCountyValue] = useState<string>(county || '')
 
-  const [countryValue, setCountryValue] = useState(country || '')
+  const [countryValue, setCountryValue] = useState<string>(country || '')
 
-  const [postcodeValue, setPostcodeValue] = useState(postcode || '')
-  const [postcodeValidationError, setPostcodeValidationError] = useState(null)
+  const [postcodeValue, setPostcodeValue] = useState<string>(postcode || '')
+  const [postcodeValidationError, setPostcodeValidationError] = useState<string>(null)
 
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState<string>(null)
 
   const handleErrorResponse = useCallback(() => {
     const {status, data} = error as RTKQueryErrorResponse

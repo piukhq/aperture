@@ -15,11 +15,11 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   const {merchantId, planId, ref} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
 
-  const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
-  const [shouldGetAvailableLocations, setShouldGetAvailableLocations] = useState(false)
+  const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState<boolean>(false)
+  const [shouldGetAvailableLocations, setShouldGetAvailableLocations] = useState<boolean>(false)
   const [selectedAvailableLocation, setSelectedAvailableLocation] = useState(null)
-  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState(null)
-  const [availableLocationNotification, setAvailableLocationNotification] = useState('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
+  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState<number>(null)
+  const [availableLocationNotification, setAvailableLocationNotification] = useState<string>('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
 
   const {
     getMerchantSecondaryMidLinkedLocationsResponse,

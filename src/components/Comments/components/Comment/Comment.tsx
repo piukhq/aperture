@@ -47,9 +47,9 @@ const Comment = ({
   const {comment_ref: commentRef, created_by: createdBy, created_at: createdAt, subjects, metadata, is_deleted: isDeleted, is_edited: isEdited} = comment
   const {owner_ref: ownerRef, text} = metadata
 
-  const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
-  const [isInEditState, setIsInEditState] = useState(false)
-  const [isInCommentReplyState, setIsInCommentReplyState] = useState(false)
+  const [isSubjectListExpanded, setIsSubjectListExpanded] = useState<boolean>(false)
+  const [isInEditState, setIsInEditState] = useState<boolean>(false)
+  const [isInCommentReplyState, setIsInCommentReplyState] = useState<boolean>(false)
 
   const optionsMenuItems: OptionsMenuItems = [
     {

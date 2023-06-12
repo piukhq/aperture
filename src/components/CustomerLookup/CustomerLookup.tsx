@@ -17,9 +17,9 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const selectedJwtToken = useAppSelector(getJwtToken)
   const dispatch = useAppDispatch()
   const lookupTypeValues = ['JWT']
-  const [lookupTypeValue, setLookupTypeValue] = useState(lookupTypeValues[0])
-  const [lookupValue, setLookupValue] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [lookupTypeValue, setLookupTypeValue] = useState<string>(lookupTypeValues[0])
+  const [lookupValue, setLookupValue] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLookupValue(e.target.value)

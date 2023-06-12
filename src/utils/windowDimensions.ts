@@ -12,7 +12,7 @@ export const getWindowDimensions = () => {
 }
 
 export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivElement>, buffer: number) => {
-  const [isBeyondEdge, setIsBeyondEdge] = useState(false)
+  const [isBeyondEdge, setIsBeyondEdge] = useState<boolean>(false)
   const handleResize = () => setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
   const debouncedHandleResize = debounce(handleResize, 50)
 
@@ -29,7 +29,7 @@ export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivEl
 }
 
 export const useIsMobileViewportDimensions = () => {
-  const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState(getWindowDimensions().width <= 1000)
+  const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState<boolean>(getWindowDimensions().width <= 1000)
 
   const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 1000)
   const debouncedHandleResize = debounce(handleResize, 50)

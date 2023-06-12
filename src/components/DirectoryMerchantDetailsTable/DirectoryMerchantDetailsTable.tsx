@@ -14,8 +14,8 @@ type Props = {
 }
 
 const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewRequestHandler, refArray}: Props) => {
-  const [copyRow, setCopyRow] = useState(null)
-  const [isAllChecked, setIsAllChecked] = useState(false)
+  const [copyRow, setCopyRow] = useState<number>(null)
+  const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
   const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)

@@ -41,8 +41,8 @@ const DirectoryMerchantPsimis = () => {
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId, planId} = useGetRouterQueryString()
-  const [currentPage, setCurrentPage] = useState(1)
-  const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState(true)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState<boolean>(true)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 

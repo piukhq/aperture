@@ -30,7 +30,7 @@ const CategoryDetails = ({
 
   const isMobileViewport = useIsMobileViewportDimensions()
   // Fade in the component
-  const [isMounted, setIsMounted] = useState(false)
+  const [isMounted, setIsMounted] = useState<boolean>(false)
   useEffect(() => {
     setTimeout(() => setIsMounted(true), (200))
   }, [])

@@ -18,7 +18,7 @@ type Props = {
 const OptionsMenuButton = ({optionsMenuItems = [], buttonSize, buttonWidth, buttonAdditionalStyles = '', iconStyles = '', shouldOnlyDisplayLeft = false}: Props) => {
   const buttonRef = useRef(null)
   const isElementBeyondRightViewportEdge = useIsElementBeyondRightViewportEdge(buttonRef, 280)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   useEffect(() => { // Check for Escape key to close the menu
     const handleKeyDown = (e: KeyboardEvent) => {
