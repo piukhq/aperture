@@ -7,7 +7,7 @@ import {ModalStyle, ModalType, PaymentSchemeName, PaymentSchemeSlug} from 'utils
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
+import {useDirectoryMids} from 'hooks/useDirectoryMids'
 import {isNumberOnlyString} from 'utils/validation'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -19,7 +19,7 @@ const DirectoryMidModal = () => {
     postMerchantMidResponse,
     postMerchantMidError,
     resetPostMerchantMidResponse,
-  } = useMidManagementMids({skipGetMids: true, skipGetMid: true, skipGetMidsByPage: true}) // Don't call GET MIDs or GET MID details
+  } = useDirectoryMids({skipGetMids: true, skipGetMid: true, skipGetMidsByPage: true}) // Don't call GET MIDs or GET MID details
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

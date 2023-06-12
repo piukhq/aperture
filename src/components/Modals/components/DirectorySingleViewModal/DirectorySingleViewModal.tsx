@@ -8,10 +8,10 @@ import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
 import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryMids} from 'hooks/useDirectoryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import CloseIcon from 'icons/svgs/close.svg'
 import SingleViewMid from './components/SingleViewMid'
 import SingleViewPsimi from './components/SingleViewPsimi'
@@ -31,7 +31,7 @@ const DirectorySingleViewModal = () => {
     deleteMerchantMidIsLoading,
     deleteMerchantMidError,
     resetDeleteMerchantMidResponse,
-  } = useMidManagementMids({
+  } = useDirectoryMids({
     skipGetMids: true,
     skipGetMid: true,
     skipGetMidsByPage: true,
@@ -46,7 +46,7 @@ const DirectorySingleViewModal = () => {
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
-  } = useMidManagementSecondaryMids({
+  } = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
     skipGetSecondaryMidsByPage: true,
@@ -61,7 +61,7 @@ const DirectorySingleViewModal = () => {
     deleteMerchantPsimiIsLoading,
     deleteMerchantPsimiError,
     resetDeleteMerchantPsimiResponse,
-  } = useMidManagementPsimis({
+  } = useDirectoryPsimis({
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
     skipGetPsimi: true,
@@ -76,7 +76,7 @@ const DirectorySingleViewModal = () => {
     deleteMerchantLocationIsLoading,
     deleteMerchantLocationError,
     resetDeleteMerchantLocationResponse,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocations: true,
     skipGetLocation: true,
     skipGetLocationsByPage: true,

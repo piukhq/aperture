@@ -44,8 +44,8 @@ const mockLocationLabel = 'mock_location_label'
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
 
-jest.mock('hooks/useMidManagementLocations', () => ({
-  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocations', () => ({
+  useDirectoryLocations: jest.fn().mockImplementation(() => ({
     getMerchantLocationsResponse: mockGetMerchantLocationsResponse,
   })),
 }))

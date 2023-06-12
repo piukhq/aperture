@@ -10,7 +10,7 @@ import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
 import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
-import {useMidManagementMerchants} from 'hooks/useMidManagementMerchants'
+import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
@@ -30,7 +30,7 @@ const DirectoryMerchantDeleteModal = () => {
     deleteMerchantError,
     resetDeleteMerchantResponse,
     getMerchantResponse,
-  } = useMidManagementMerchants({
+  } = useDirectoryMerchants({
     skipGetMerchantCounts: true,
     planRef: planId,
     merchantRef: merchantId,

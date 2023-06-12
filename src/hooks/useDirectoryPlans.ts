@@ -1,6 +1,6 @@
-import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, usePutPlanMutation, useDeletePlanMutation} from 'services/midManagementPlans'
+import {useGetPlansQuery, useGetPlanQuery, usePostPlanMutation, usePutPlanMutation, useDeletePlanMutation} from 'services/DirectoryPlans'
 
-export const useMidManagementPlans = ({skipGetPlans = false, skipGetPlan = false, planRef = ''}) => {
+export const useDirectoryPlans = ({skipGetPlans = false, skipGetPlan = false, planRef = ''}) => {
   const {
     data: getPlansResponse,
     isLoading: getPlansIsLoading,

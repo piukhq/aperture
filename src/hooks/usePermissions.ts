@@ -14,7 +14,7 @@ const usePermissions = () => {
   const {user} = useUser()
   const {permissions} = user as Auth0User || {permissions: []}
 
-  const midManagement = useMemo(() => ({
+  const directory = useMemo(() => ({
     isReader: permissions.includes(UserPermissions.MERCHANT_DATA_READ_ONLY),
     isWriter: permissions.includes(UserPermissions.MERCHANT_DATA_READ_WRITE),
     isAdmin: permissions.includes(UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE),
@@ -29,7 +29,7 @@ const usePermissions = () => {
   const hasRequiredPermission = (requiredPermission: UserPermissions) => permissions.includes(requiredPermission)
 
   return {
-    midManagement,
+    directory,
     customerWallet,
     hasRequiredPermission,
   }

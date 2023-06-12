@@ -27,8 +27,8 @@ const mockMerchantPsimi = {
 
 let mockIsFetching = false
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({ // Placeholder for future functionality
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({ // Placeholder for future functionality
     postMerchantPsimiOnboarding: jest.fn(),
     postMerchantPsimiOffboarding: jest.fn(),
     getMerchantPsimiIsFetching: mockIsFetching,

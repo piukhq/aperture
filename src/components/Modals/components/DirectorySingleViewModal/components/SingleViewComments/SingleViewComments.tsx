@@ -1,6 +1,6 @@
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Comments} from 'components'
-import {useMidManagementComments} from 'hooks/useMidManagementComments'
+import {useDirectoryComments} from 'hooks/useDirectoryComments'
 import {CommentsSubjectTypes} from 'utils/enums'
 import {useCallback} from 'react'
 import {determineCommentOwnerType} from 'utils/comments'
@@ -27,7 +27,7 @@ const SingleViewComments = ({subjectType}: Props) => {
     postReplyComment,
     postReplyCommentIsLoading: replyCommentIsLoading,
     postReplyCommentIsSuccess: replyCommentIsSuccess,
-  } = useMidManagementComments({commentsRef: commentsRef})
+  } = useDirectoryComments({commentsRef: commentsRef})
 
   const handleNewCommentSubmit = useCallback((comment: string) => {
     postComment({

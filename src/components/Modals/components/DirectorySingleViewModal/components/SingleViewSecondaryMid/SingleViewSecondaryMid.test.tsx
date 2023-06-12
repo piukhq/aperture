@@ -13,8 +13,8 @@ let mockGetMerchantSecondaryMidResponse = {
   },
 }
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     getMerchantSecondaryMidResponse: mockGetMerchantSecondaryMidResponse,
   })),
 }))

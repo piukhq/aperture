@@ -6,7 +6,7 @@ import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInp
 import {ModalStyle, ModalType, PaymentSchemeSlug} from 'utils/enums'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directoryMerchantSlice'
 import {RTKQueryErrorResponse} from 'types'
 
@@ -18,7 +18,7 @@ const DirectorySecondaryMidModal = () => {
     postMerchantSecondaryMidResponse,
     postMerchantSecondaryMidError,
     resetPostMerchantSecondaryMidResponse,
-  } = useMidManagementSecondaryMids({skipGetSecondaryMids: true, skipGetSecondaryMid: true, skipGetSecondaryMidsByPage: true})
+  } = useDirectorySecondaryMids({skipGetSecondaryMids: true, skipGetSecondaryMid: true, skipGetSecondaryMidsByPage: true})
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

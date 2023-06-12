@@ -1,7 +1,7 @@
 import {useState} from 'react'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
@@ -49,7 +49,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({
+  const {getMerchantSecondaryMidsResponse} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
     skipGetSecondaryMidsByPage: shouldSkipGetSecondaryMidsByPage,
     planRef: planId,

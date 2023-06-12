@@ -5,9 +5,9 @@ import {
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   usePostMerchantLocationMutation,
-} from 'services/midManagementMerchantLocations'
+} from 'services/DirectoryMerchantLocations'
 
-export const useMidManagementLocations = ({skipGetLocations = false, skipGetLocationsByPage = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = '', page = '1', getAll = false}) => {
+export const useDirectoryLocations = ({skipGetLocations = false, skipGetLocationsByPage = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = '', page = '1', getAll = false}) => {
   const {
     data: getMerchantLocationsResponse,
     isLoading: getMerchantLocationsIsLoading,

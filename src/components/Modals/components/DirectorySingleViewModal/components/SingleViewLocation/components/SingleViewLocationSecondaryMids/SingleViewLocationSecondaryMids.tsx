@@ -2,8 +2,8 @@ import {useEffect, useState} from 'react'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {useMidManagementSecondaryMids} from 'hooks/useMidManagementSecondaryMids'
-import {useMidManagementLocationSecondaryMids} from 'hooks/useMidManagementLocationSecondaryMids'
+import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
+import {useDirectoryLocationSecondaryMids} from 'hooks/useDirectoryLocationSecondaryMids'
 import {useAppDispatch} from 'app/hooks'
 import {DirectoryMerchantLocationSecondaryMid, DirectorySecondaryMid} from 'types'
 import LinkedListItem from '../../../LinkedListItem'
@@ -30,13 +30,13 @@ const SingleViewLocationSecondaryMids = () => {
     deleteMerchantLocationSecondaryMidLinkIsLoading,
     deleteMerchantLocationSecondaryMidLinkIsSuccess,
     resetDeleteMerchantLocationSecondaryMidLinkResponse,
-  } = useMidManagementLocationSecondaryMids({
+  } = useDirectoryLocationSecondaryMids({
     planRef: planId,
     merchantRef: merchantId,
     locationRef: ref,
   })
 
-  const {getMerchantSecondaryMidsResponse} = useMidManagementSecondaryMids({ // Using location ref in query string to only return secondary mids NOT linked to this location
+  const {getMerchantSecondaryMidsResponse} = useDirectorySecondaryMids({ // Using location ref in query string to only return secondary mids NOT linked to this location
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: !shouldPrepareDropdownMenu,
     getAll: true,

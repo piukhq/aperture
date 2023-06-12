@@ -6,9 +6,9 @@ import {
   useDeleteMerchantPsimiMutation,
   usePostMerchantPsimiOnboardingMutation,
   usePostMerchantPsimiOffboardingMutation,
-} from 'services/midManagementMerchantPsimis'
+} from 'services/DirectoryMerchantPsimis'
 
-export const useMidManagementPsimis = ({skipGetPsimis = false, skipGetPsimi = false, skipGetPsimisByPage = false, planRef = '', merchantRef = '', psimiRef = '', page = '1'}) => {
+export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false, skipGetPsimisByPage = false, planRef = '', merchantRef = '', psimiRef = '', page = '1'}) => {
   const {
     data: getMerchantPsimisResponse,
     isLoading: getMerchantPsimisIsLoading,

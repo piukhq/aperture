@@ -27,8 +27,8 @@ const mockMerchantSecondaryMid = {
 
 let mockIsFetching = false
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     postMerchantPsimiOnboarding: jest.fn(),
     postMerchantPsimiOffboarding: jest.fn(),
     getMerchantSecondaryMidIsFetching: mockIsFetching,

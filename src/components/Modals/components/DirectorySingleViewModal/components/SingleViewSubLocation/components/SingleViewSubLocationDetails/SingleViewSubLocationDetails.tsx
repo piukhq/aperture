@@ -7,8 +7,8 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryLocationMetadata, DirectorySubLocation} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
-import {useMidManagementLocationSubLocations} from 'hooks/useMidManagementLocationSubLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
+import {useDirectoryLocationSubLocations} from 'hooks/useDirectoryLocationSubLocations'
 import SingleViewEditableField from '../../../SingleViewEditableField'
 import {getLocationList} from 'utils/locationStrings'
 import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query'
@@ -28,7 +28,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   const {
     getMerchantLocationsResponse,
     getMerchantLocationsIsFetching: isGetLocationsFetching,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocation: true,
     skipGetLocationsByPage: true,
     getAll: true,
@@ -48,7 +48,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     patchMerchantLocationSubLocationError: patchError,
     patchMerchantLocationSubLocationResponse: patchResponse,
     resetPatchMerchantLocationSubLocationResponse: resetPatchResponse,
-  } = useMidManagementLocationSubLocations({
+  } = useDirectoryLocationSubLocations({
     skipGetSubLocations: true,
     skipGetSubLocation: true,
     planRef: planId,

@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from 'react'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
-import {useMidManagementComments} from 'hooks/useMidManagementComments'
+import {useDirectoryComments} from 'hooks/useDirectoryComments'
 import {Modal, AutosizeTextArea, PaymentCardIcon} from 'components'
 import {getCommentsOwnerRef, getCommentsModalHeader, getCommentsSubjectType} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
@@ -29,7 +29,7 @@ const BulkCommentModal = () => {
     postComment,
     postCommentIsLoading: newBulkCommentIsLoading,
     postCommentIsSuccess: newBulkCommentIsSuccess,
-  } = useMidManagementComments({skipGetComments: true})
+  } = useDirectoryComments({skipGetComments: true})
 
   useEffect(() => {
     if (newBulkCommentIsSuccess) {

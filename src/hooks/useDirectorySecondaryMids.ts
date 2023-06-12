@@ -7,9 +7,9 @@ import {
   useDeleteMerchantSecondaryMidMutation,
   usePostMerchantSecondaryMidOnboardingMutation,
   usePostMerchantSecondaryMidOffboardingMutation,
-} from 'services/midManagementMerchantSecondaryMids'
+} from 'services/DirectoryMerchantSecondaryMids'
 
-export const useMidManagementSecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, skipGetSecondaryMidsByPage = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = '', page = '1', getAll = false}) => {
+export const useDirectorySecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, skipGetSecondaryMidsByPage = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = '', page = '1', getAll = false}) => {
   const {
     data: getMerchantSecondaryMidsResponse,
     isLoading: getMerchantSecondaryMidsIsLoading,

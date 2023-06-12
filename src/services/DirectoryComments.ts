@@ -12,8 +12,8 @@ type DirectoryCommentBody = {
   subject_type: CommentsSubjectTypes,
 }
 
-export const midManagementCommentsApi = createApi({
-  reducerPath: 'midManagementCommentsApi',
+export const directoryCommentsApi = createApi({
+  reducerPath: 'directoryCommentsApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['Comments'],
   endpoints: builder => ({
@@ -44,7 +44,7 @@ export const midManagementCommentsApi = createApi({
       async onQueryStarted ({commentRef, commentsRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+          dispatch(directoryCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
             if (existingComments.entity_comments) {
               const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
               if (comment) {
@@ -79,7 +79,7 @@ export const midManagementCommentsApi = createApi({
       async onQueryStarted ({commentsRef, commentRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: editedComment} = await queryFulfilled
-          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+          dispatch(directoryCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
             if (existingComments.entity_comments) {
               const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
               if (comment) {
@@ -118,7 +118,7 @@ export const midManagementCommentsApi = createApi({
       async onQueryStarted ({commentsRef, commentRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newReplyComment} = await queryFulfilled
-          dispatch(midManagementCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+          dispatch(directoryCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
             if (existingComments.entity_comments) {
               const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
               if (comment) {
@@ -153,4 +153,4 @@ export const {
   useDeleteCommentMutation,
   usePatchCommentMutation,
   usePostReplyCommentMutation,
-} = midManagementCommentsApi
+} = directoryCommentsApi

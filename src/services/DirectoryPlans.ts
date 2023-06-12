@@ -9,8 +9,8 @@ type PlansEndpointRefs = {
 
 type PutPlanBody = DirectoryPlanMetadata & PlansEndpointRefs
 
-export const midManagementPlansApi = createApi({
-  reducerPath: 'midManagementPlansApi',
+export const directoryPlansApi = createApi({
+  reducerPath: 'directoryPlansApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['Plans', 'Plan'],
   endpoints: builder => ({
@@ -36,7 +36,7 @@ export const midManagementPlansApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           const {data: newPlan} = await queryFulfilled
-          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+          dispatch(directoryPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
             // Add new plan to existing cache of plans
             existingPlans.unshift(newPlan)
           })
@@ -69,7 +69,7 @@ export const midManagementPlansApi = createApi({
       async onQueryStarted ({planRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedPlan} = await queryFulfilled
-          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+          dispatch(directoryPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
             // Update existing cached plan
             const index = existingPlans.findIndex(plan => plan.plan_ref === planRef)
             existingPlans[index] = updatedPlan
@@ -88,7 +88,7 @@ export const midManagementPlansApi = createApi({
       async onQueryStarted ({planRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
+          dispatch(directoryPlansApi.util.updateQueryData('getPlans', undefined, (existingPlans) => {
             const index = existingPlans.findIndex(plan => plan.plan_ref === planRef)
             index !== -1 && existingPlans.splice(index, 1)
           }))
@@ -108,4 +108,4 @@ export const {
   usePostPlanMutation,
   usePutPlanMutation,
   useDeletePlanMutation,
-} = midManagementPlansApi
+} = directoryPlansApi

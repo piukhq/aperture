@@ -18,8 +18,8 @@ jest.mock('components/Modal', () => ({
 
 const mockPostMerchantPsimi = jest.fn()
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
     postMerchantPsimi: mockPostMerchantPsimi,
     postMerchantPsimiResponse: null,
     postMerchantPsimiError: null,

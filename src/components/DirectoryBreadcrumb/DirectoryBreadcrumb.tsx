@@ -5,7 +5,7 @@ import Link from 'next/link'
 import {useAppSelector} from 'app/hooks'
 import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
 
 const DirectoryBreadcrumb = () => {
   const router = useRouter()
@@ -13,7 +13,7 @@ const DirectoryBreadcrumb = () => {
 
   const {
     getPlanResponse,
-  } = useMidManagementPlans({
+  } = useDirectoryPlans({
     skipGetPlans: true,
     planRef: planId,
   })

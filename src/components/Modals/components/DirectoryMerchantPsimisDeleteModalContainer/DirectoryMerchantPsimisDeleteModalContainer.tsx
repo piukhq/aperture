@@ -1,7 +1,7 @@
 import {DirectoryMerchantEntityDeleteModal} from 'components'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useAppSelector} from 'app/hooks'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
@@ -15,7 +15,7 @@ const DirectoryMerchantPsimisDeleteModalContainer = () => {
     deleteMerchantPsimiIsLoading,
     deleteMerchantPsimiError,
     resetDeleteMerchantPsimiResponse,
-  } = useMidManagementPsimis({
+  } = useDirectoryPsimis({
     skipGetPsimi: true,
     skipGetPsimis: true,
     skipGetPsimisByPage: true,

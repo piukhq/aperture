@@ -36,8 +36,8 @@ jest.mock('components/Modals/components/DirectorySingleViewModal/components/Sing
 
 let mockDeleteMidIsLoading = false
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
     deleteMerchantMid: jest.fn(),
     deleteMerchantMidIsSuccess: false,
     deleteMerchantMidIsLoading: mockDeleteMidIsLoading,
@@ -46,8 +46,8 @@ jest.mock('hooks/useMidManagementMids', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     deleteMerchantSecondaryMid: jest.fn(),
     deleteMerchantSecondaryMidIsSuccess: false,
     deleteMerchantSecondaryMidIsLoading: false,
@@ -56,8 +56,8 @@ jest.mock('hooks/useMidManagementSecondaryMids', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
     deleteMerchantPsimi: jest.fn(),
     deleteMerchantPsimiIsSuccess: false,
     deleteMerchantPsimiIsLoading: false,
@@ -66,8 +66,8 @@ jest.mock('hooks/useMidManagementPsimis', () => ({
   })),
 }))
 
-jest.mock('hooks/useMidManagementLocations', () => ({
-  useMidManagementLocations: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryLocations', () => ({
+  useDirectoryLocations: jest.fn().mockImplementation(() => ({
     deleteMerchantLocation: jest.fn(),
     deleteMerchantLocationIsSuccess: false,
     deleteMerchantLocationIsLoading: false,

@@ -33,8 +33,8 @@ const mockGetMerchantMidsResponse = [
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
     getMerchantMidsResponse: mockGetMerchantMidsResponse,
   })),
 }))

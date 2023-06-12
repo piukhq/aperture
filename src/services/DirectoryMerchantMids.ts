@@ -1,6 +1,6 @@
-import {midManagementMerchantLocationsApi} from './midManagementMerchantLocations'
-import {midManagementPlansApi} from 'services/midManagementPlans'
-import {midManagementMerchantsApi} from './midManagementMerchants'
+import {directoryMerchantLocationsApi} from './DirectoryMerchantLocations'
+import {directoryPlansApi} from 'services/DirectoryPlans'
+import {directoryMerchantsApi} from './DirectoryMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryMerchantMid, DirectoryMids, DirectoryMid, DirectoryMerchantMidLocation, DirectoryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -30,8 +30,8 @@ type DeleteMerchantMidRefs = MerchantMidsEndpointRefs & {
   midRefs?: Array<string>,
 }
 
-export const midManagementMerchantMidsApi = createApi({
-  reducerPath: 'midManagementMerchantMidsApi',
+export const directoryMerchantMidsApi = createApi({
+  reducerPath: 'directoryMerchantMidsApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['MerchantMids', 'MerchantMid'],
   endpoints: builder => ({
@@ -52,7 +52,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newMids} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             return existingMids.concat(newMids)
           })
           )
@@ -74,9 +74,9 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newMid} = await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             existingMids.unshift(newMid)
           })
           )
@@ -97,7 +97,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedMid} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             const index = existingMids.findIndex(mid => mid.mid_ref === midRef)
             existingMids[index] = updatedMid
           })
@@ -126,7 +126,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedLocation} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
             existingMid.location = updatedLocation
           })
           )
@@ -144,8 +144,8 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+          dispatch(directoryMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
             existingMid.location = null
           })
           )
@@ -165,10 +165,10 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRefs}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
-          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
             // For each MID, remove from existing list of MIDs
             midRefs.forEach(midRef => {
               const index = existingMids.findIndex(mid => mid.mid_ref === midRef)
@@ -193,7 +193,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: onboardingMidsArray} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
             Object.assign(existingMid, {...existingMid, mid: onboardingMidsArray[0]})
           }))
         } catch (err) {
@@ -213,7 +213,7 @@ export const midManagementMerchantMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: offboardingMidsArray} = await queryFulfilled
-          dispatch(midManagementMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
+          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
             Object.assign(existingMid, {...existingMid, mid: offboardingMidsArray[0]})
           }))
         } catch (err) {
@@ -237,4 +237,4 @@ export const {
   useDeleteMerchantMidMutation,
   usePostMerchantMidOnboardingMutation,
   usePostMerchantMidOffboardingMutation,
-} = midManagementMerchantMidsApi
+} = directoryMerchantMidsApi

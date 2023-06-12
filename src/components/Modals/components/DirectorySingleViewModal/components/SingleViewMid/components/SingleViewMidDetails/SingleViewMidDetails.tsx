@@ -5,8 +5,8 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import SingleViewEditableField from '../../../SingleViewEditableField'
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryMerchantMid, RTKQueryErrorResponse} from 'types'
-import {useMidManagementMids} from 'hooks/useMidManagementMids'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryMids} from 'hooks/useDirectoryMids'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import {PaymentSchemeSlug, PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
 import {isNumberOnlyString} from 'utils/validation'
 import {isoToDateTime} from 'utils/dateFormat'
@@ -49,7 +49,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     postMerchantMidOffboardingIsLoading: isOffboardingLoading,
     postMerchantMidOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantMidOffboardingResponse: resetOffboardingResponse,
-  } = useMidManagementMids({
+  } = useDirectoryMids({
     skipGetMids: true,
     skipGetMidsByPage: true,
     planRef: planId,
@@ -61,7 +61,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     getMerchantLocationsResponse,
     getMerchantLocationsRefresh,
     getMerchantLocationsIsFetching,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocation: true,
     skipGetLocationsByPage: true,
     planRef: planId,

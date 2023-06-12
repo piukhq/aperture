@@ -1,6 +1,6 @@
-import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantLocations'
-import {midManagementPlansApi} from 'services/midManagementPlans'
-import {midManagementMerchantsApi} from './midManagementMerchants'
+import {directoryMerchantLocationsApi} from 'services/DirectoryMerchantLocations'
+import {directoryPlansApi} from 'services/DirectoryPlans'
+import {directoryMerchantsApi} from './DirectoryMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantMidLocation, DirectorySecondaryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -28,8 +28,8 @@ type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
   secondaryMidRefs?: Array<string>,
 }
 
-export const midManagementMerchantSecondaryMidsApi = createApi({
-  reducerPath: 'midManagementMerchantSecondaryMidsApi',
+export const directoryMerchantSecondaryMidsApi = createApi({
+  reducerPath: 'directoryMerchantSecondaryMidsApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['MerchantSecondaryMids', 'MerchantSecondaryMid', 'MerchantSecondaryMidLinkedLocations'],
   endpoints: builder => ({
@@ -50,7 +50,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, locationRef, getAll}, {dispatch, queryFulfilled}) {
         try {
           const {data: newSecondaryMids} = await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef, getAll}), (existingSecondaryMids) => {
+          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef, locationRef, getAll}), (existingSecondaryMids) => {
             return existingSecondaryMids.concat(newSecondaryMids)
           }))
         } catch (err) {
@@ -86,8 +86,8 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -115,7 +115,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: updatedSecondaryMid} = await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
+          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMids', ({planRef, merchantRef}), (existingSecondaryMids) => {
             const index = existingSecondaryMids.findIndex(secondaryMid => secondaryMid.secondary_mid_ref === secondaryMidRef)
             existingSecondaryMids[index] = updatedSecondaryMid
           })
@@ -135,8 +135,8 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, secondaryMidRef, linkRef}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMidLinkedLocations', ({planRef, merchantRef, secondaryMidRef}), (existingLinkedLocations) => {
+          dispatch(directoryMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
+          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMidLinkedLocations', ({planRef, merchantRef, secondaryMidRef}), (existingLinkedLocations) => {
             const index = existingLinkedLocations.findIndex(linkedLocation => linkedLocation.link_ref === linkRef)
             index !== -1 && existingLinkedLocations.splice(index, 1)
           }))
@@ -156,9 +156,9 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
-          dispatch(midManagementMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedSecondaryMids']))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -176,7 +176,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: onboardingSecondaryMidsArray} = await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
             Object.assign(existingSecondaryMid, onboardingSecondaryMidsArray[0])
           }))
         } catch (err) {
@@ -196,7 +196,7 @@ export const midManagementMerchantSecondaryMidsApi = createApi({
       async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: offboardingSecondaryMidsArray} = await queryFulfilled
-          dispatch(midManagementMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
+          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
             Object.assign(existingSecondaryMid, offboardingSecondaryMidsArray[0])
           }))
         } catch (err) {
@@ -220,4 +220,4 @@ export const {
   useDeleteMerchantSecondaryMidMutation,
   usePostMerchantSecondaryMidOnboardingMutation,
   usePostMerchantSecondaryMidOffboardingMutation,
-} = midManagementMerchantSecondaryMidsApi
+} = directoryMerchantSecondaryMidsApi

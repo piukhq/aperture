@@ -29,13 +29,13 @@ import modalReducer from 'features/modalSlice'
 
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
-import {midManagementCommentsApi} from 'services/midManagementComments'
-import {midManagementPlansApi} from 'services/midManagementPlans'
-import {midManagementMerchantsApi} from 'services/midManagementMerchants'
-import {midManagementMerchantMidsApi} from 'services/midManagementMerchantMids'
-import {midManagementMerchantSecondaryMidsApi} from 'services/midManagementMerchantSecondaryMids'
-import {midManagementMerchantLocationsApi} from 'services/midManagementMerchantLocations'
-import {midManagementMerchantPsimisApi} from 'services/midManagementMerchantPsimis'
+import {directoryCommentsApi} from 'services/DirectoryComments'
+import {directoryPlansApi} from 'services/DirectoryPlans'
+import {directoryMerchantsApi} from 'services/DirectoryMerchants'
+import {directoryMerchantMidsApi} from 'services/DirectoryMerchantMids'
+import {directoryMerchantSecondaryMidsApi} from 'services/DirectoryMerchantSecondaryMids'
+import {directoryMerchantLocationsApi} from 'services/DirectoryMerchantLocations'
+import {directoryMerchantPsimisApi} from 'services/DirectoryMerchantPsimis'
 import {customerWalletApi} from 'services/customerWallet'
 import {customerWalletLookupHistoryApi} from 'services/customerWalletLookupHistory'
 
@@ -59,14 +59,14 @@ const reducers = combineReducers({
   [prodPlansApi.reducerPath]: prodPlansApi.reducer,
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
   [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
-  [midManagementCommentsApi.reducerPath]: midManagementCommentsApi.reducer,
-  [midManagementCommentsApi.reducerPath]: midManagementCommentsApi.reducer,
-  [midManagementPlansApi.reducerPath]: midManagementPlansApi.reducer,
-  [midManagementMerchantsApi.reducerPath]: midManagementMerchantsApi.reducer,
-  [midManagementMerchantMidsApi.reducerPath]: midManagementMerchantMidsApi.reducer,
-  [midManagementMerchantSecondaryMidsApi.reducerPath]: midManagementMerchantSecondaryMidsApi.reducer,
-  [midManagementMerchantLocationsApi.reducerPath]: midManagementMerchantLocationsApi.reducer,
-  [midManagementMerchantPsimisApi.reducerPath]: midManagementMerchantPsimisApi.reducer,
+  [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer,
+  [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer,
+  [directoryPlansApi.reducerPath]: directoryPlansApi.reducer,
+  [directoryMerchantsApi.reducerPath]: directoryMerchantsApi.reducer,
+  [directoryMerchantMidsApi.reducerPath]: directoryMerchantMidsApi.reducer,
+  [directoryMerchantSecondaryMidsApi.reducerPath]: directoryMerchantSecondaryMidsApi.reducer,
+  [directoryMerchantLocationsApi.reducerPath]: directoryMerchantLocationsApi.reducer,
+  [directoryMerchantPsimisApi.reducerPath]: directoryMerchantPsimisApi.reducer,
 })
 
 // Allows the apiReflector enabled status to be persisted between browser refreshes
@@ -95,13 +95,13 @@ export const store = configureStore({
     prodPlansApi.middleware,
     customerWalletApi.middleware,
     customerWalletLookupHistoryApi.middleware,
-    midManagementCommentsApi.middleware,
-    midManagementPlansApi.middleware,
-    midManagementMerchantsApi.middleware,
-    midManagementMerchantMidsApi.middleware,
-    midManagementMerchantSecondaryMidsApi.middleware,
-    midManagementMerchantLocationsApi.middleware,
-    midManagementMerchantPsimisApi.middleware,
+    directoryCommentsApi.middleware,
+    directoryPlansApi.middleware,
+    directoryMerchantsApi.middleware,
+    directoryMerchantMidsApi.middleware,
+    directoryMerchantSecondaryMidsApi.middleware,
+    directoryMerchantLocationsApi.middleware,
+    directoryMerchantPsimisApi.middleware,
   ),
 })
 

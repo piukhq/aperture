@@ -1,6 +1,6 @@
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPlan, DirectorySingleMerchant, DirectorySingleMerchantCounts} from 'types'
-import {midManagementPlansApi} from 'services/midManagementPlans'
+import {directoryPlansApi} from 'services/DirectoryPlans'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
 import {UrlEndpoint} from 'utils/enums'
 
@@ -22,8 +22,8 @@ type DeleteMerchantBody = MerchantsEndpointRefs & {
   name: string,
 }
 
-export const midManagementMerchantsApi = createApi({
-  reducerPath: 'midManagementMerchantsApi',
+export const directoryMerchantsApi = createApi({
+  reducerPath: 'directoryMerchantsApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['Merchants', 'MerchantCounts'],
   endpoints: builder => ({
@@ -55,7 +55,7 @@ export const midManagementMerchantsApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -76,7 +76,7 @@ export const midManagementMerchantsApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -95,7 +95,7 @@ export const midManagementMerchantsApi = createApi({
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)
@@ -112,4 +112,4 @@ export const {
   usePostMerchantMutation,
   usePutMerchantMutation,
   useDeleteMerchantMutation,
-} = midManagementMerchantsApi
+} = directoryMerchantsApi

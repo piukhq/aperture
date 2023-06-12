@@ -18,8 +18,8 @@ jest.mock('components/Modal', () => ({
 }))
 
 const mockDeleteMerchant = jest.fn()
-jest.mock('hooks/useMidManagementMerchants', () => ({
-  useMidManagementMerchants: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMerchants', () => ({
+  useDirectoryMerchants: jest.fn().mockImplementation(() => ({
     deleteMerchant: mockDeleteMerchant,
     deleteMerchantIsSuccess: false,
     deleteMerchantError: null,

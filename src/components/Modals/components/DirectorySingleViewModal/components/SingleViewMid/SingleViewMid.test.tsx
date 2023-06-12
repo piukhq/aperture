@@ -18,8 +18,8 @@ jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
 }))
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
     getMerchantMidResponse: mockGetMerchantMidResponse,
   })),
 }))

@@ -44,8 +44,8 @@ jest.mock('utils/windowDimensions', () => {
   }
 })
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
     getMerchantPsimisResponse: mockGetMerchantPsimisResponse,
   })),
 }))

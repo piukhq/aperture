@@ -113,22 +113,22 @@ describe('Sidebar', () => {
       it('should not render the MID Management Sidebar link', () => {
         render(getSidebarComponent())
 
-        const midManagementLink = screen.queryByRole('link', {
+        const directoryLink = screen.queryByRole('link', {
           name: 'MID DIRECTORY',
         })
 
-        expect(midManagementLink).not.toBeInTheDocument()
+        expect(directoryLink).not.toBeInTheDocument()
       })
 
       it('should render the MID Management Sidebar link', () => {
         mockPermissions = [UserPermissions.MERCHANT_DATA_READ_ONLY]
         render(getSidebarComponent())
 
-        const midManagementLink = screen.getByRole('link', {
+        const directoryLink = screen.getByRole('link', {
           name: 'MID DIRECTORY',
         })
 
-        expect(midManagementLink).toBeInTheDocument()
+        expect(directoryLink).toBeInTheDocument()
       })
 
       it('should not render the Customer Wallets Sidebar link', () => {

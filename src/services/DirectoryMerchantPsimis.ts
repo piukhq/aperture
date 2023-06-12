@@ -1,5 +1,5 @@
-import {midManagementPlansApi} from 'services/midManagementPlans'
-import {midManagementMerchantsApi} from './midManagementMerchants'
+import {directoryPlansApi} from 'services/DirectoryPlans'
+import {directoryMerchantsApi} from './DirectoryMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryPsimis, DirectoryPsimi, DirectoryPsimiMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
@@ -20,8 +20,8 @@ type DeleteMerchantPsimiRefs = MerchantPsimisEndpointRefs & {
   psimiRefs?: Array<string>,
 }
 
-export const midManagementMerchantPsimisApi = createApi({
-  reducerPath: 'midManagementMerchantPsimisApi',
+export const directoryMerchantPsimisApi = createApi({
+  reducerPath: 'directoryMerchantPsimisApi',
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['MerchantPsimis', 'MerchantPsimi'],
   endpoints: builder => ({
@@ -42,7 +42,7 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newPsimis} = await queryFulfilled
-          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
+          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
             return existingPsimis.concat(newPsimis)
           })
           )
@@ -71,9 +71,9 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newPsimi} = await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
-          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
             existingPsimis.unshift(newPsimi)
           })
           )
@@ -93,9 +93,9 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef, psimiRefs}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
-          dispatch(midManagementPlansApi.util.invalidateTags(['Plan', 'Plans']))
-          dispatch(midManagementMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
-          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
+          dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
+          dispatch(directoryMerchantsApi.util.invalidateTags(['Merchants', 'MerchantCounts']))
+          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimis', ({planRef, merchantRef}), (existingPsimis) => {
             // For each PSIMI, remove from existing list of Psimis
             psimiRefs.forEach(psimiRef => {
               const index = existingPsimis.findIndex(psimi => psimi.psimi_ref === psimiRef)
@@ -120,7 +120,7 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef, psimiRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: onboardingPsimisArray} = await queryFulfilled
-          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
+          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
             Object.assign(existingPsimi, onboardingPsimisArray[0])
           }))
         } catch (err) {
@@ -140,7 +140,7 @@ export const midManagementMerchantPsimisApi = createApi({
       async onQueryStarted ({planRef, merchantRef, psimiRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: offboardingPsimisArray} = await queryFulfilled
-          dispatch(midManagementMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
+          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
             Object.assign(existingPsimi, offboardingPsimisArray[0])
           }))
         } catch (err) {
@@ -160,4 +160,4 @@ export const {
   usePostMerchantPsimiOnboardingMutation,
   usePostMerchantPsimiOffboardingMutation,
   useDeleteMerchantPsimiMutation,
-} = midManagementMerchantPsimisApi
+} = directoryMerchantPsimisApi

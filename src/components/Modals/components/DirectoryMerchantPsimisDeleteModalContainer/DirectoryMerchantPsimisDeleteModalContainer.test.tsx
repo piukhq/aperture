@@ -17,8 +17,8 @@ useRouter.mockImplementation(() => ({
 const mockDeleteMerchantSecondaryMid = jest.fn()
 const mockDeleteMerchantSecondaryMidIsLoading = false
 
-jest.mock('hooks/useMidManagementPsimis', () => ({
-  useMidManagementPsimis: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
     deleteMerchantSecondaryMid: mockDeleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsLoading: mockDeleteMerchantSecondaryMidIsLoading,
   })),

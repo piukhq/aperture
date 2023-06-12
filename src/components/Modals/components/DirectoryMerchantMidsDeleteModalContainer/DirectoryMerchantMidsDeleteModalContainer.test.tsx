@@ -17,8 +17,8 @@ useRouter.mockImplementation(() => ({
 const mockDeleteMerchantMid = jest.fn()
 const mockDeleteMerchantMidIsLoading = false
 
-jest.mock('hooks/useMidManagementMids', () => ({
-  useMidManagementMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
     deleteMerchantMid: mockDeleteMerchantMid,
     deleteMerchantMidIsLoading: mockDeleteMerchantMidIsLoading,
   })),

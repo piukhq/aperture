@@ -6,7 +6,7 @@ import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
 import {ModalStyle, ModalType} from 'utils/enums'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
 import {RTKQueryErrorResponse} from 'types'
 import {requestModal} from 'features/modalSlice'
 
@@ -20,7 +20,7 @@ const DirectoryPlanModal = () => {
     putPlanResponse,
     putPlanError,
     resetPutPlanResponse,
-  } = useMidManagementPlans({
+  } = useDirectoryPlans({
     skipGetPlans: true,
     skipGetPlan: true,
   })

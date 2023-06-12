@@ -8,7 +8,7 @@ import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
-import {useMidManagementPsimis} from 'hooks/useMidManagementPsimis'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {DirectoryPsimi, DirectoryPsimis, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {getHarmoniaStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
@@ -46,7 +46,7 @@ const DirectoryMerchantPsimis = () => {
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantPsimisResponse} = useMidManagementPsimis({
+  const {getMerchantPsimisResponse} = useDirectoryPsimis({
     skipGetPsimi: true,
     skipGetPsimisByPage: shouldSkipGetPsimisByPage,
     planRef: planId,

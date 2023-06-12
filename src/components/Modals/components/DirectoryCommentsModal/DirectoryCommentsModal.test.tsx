@@ -36,8 +36,8 @@ const mockCommentsFromApi = {
   postReplyCommentIsSuccess: false,
 }
 
-jest.mock('hooks/useMidManagementComments', () => ({
-  useMidManagementComments: jest.fn().mockImplementation(() => (mockCommentsFromApi)),
+jest.mock('hooks/useDirectoryComments', () => ({
+  useDirectoryComments: jest.fn().mockImplementation(() => (mockCommentsFromApi)),
 }))
 
 jest.mock('components/Comments', () => () => <div data-testid='comments' />)

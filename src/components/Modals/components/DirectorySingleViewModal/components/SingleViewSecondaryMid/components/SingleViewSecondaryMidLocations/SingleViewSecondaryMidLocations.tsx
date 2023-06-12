@@ -4,11 +4,11 @@ import {Button} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import LinkedListItem from 'components/Modals/components/DirectorySingleViewModal/components/LinkedListItem'
 import SingleViewCombobox from '../../../SingleViewCombobox'
-import {useMidManagementSecondaryMidLocations} from 'hooks/useMidManagementSecondaryMidLocations'
+import {useDirectorySecondaryMidLocations} from 'hooks/useDirectorySecondaryMidLocations'
 import {DirectoryLocation, DirectoryMerchantMidLocation} from 'types'
 import {LinkableEntities, UserPermissions} from 'utils/enums'
 import CloseIcon from 'icons/svgs/close.svg'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import {useAppDispatch} from 'app/hooks'
 
 const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
@@ -32,7 +32,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     deleteMerchantSecondaryMidLocationLinkIsSuccess,
     deleteMerchantSecondaryMidLocationLinkIsLoading,
     resetDeleteMerchantSecondaryMidLocationLinkResponse,
-  } = useMidManagementSecondaryMidLocations({
+  } = useDirectorySecondaryMidLocations({
     planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,
@@ -42,7 +42,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
     getMerchantLocationsResponse: locationsData,
     getMerchantLocationsIsLoading: locationsDataIsLoading,
     getMerchantLocationsRefresh: locationsDataRefresh,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocations: false,
     skipGetLocation: true,
     skipGetLocationsByPage: true,

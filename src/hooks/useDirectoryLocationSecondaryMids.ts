@@ -2,9 +2,9 @@ import {
   useGetMerchantLocationLinkedSecondaryMidsQuery,
   usePostMerchantLocationLinkedSecondaryMidMutation,
   useDeleteMerchantLocationSecondaryMidLinkMutation,
-} from 'services/midManagementMerchantLocations'
+} from 'services/DirectoryMerchantLocations'
 
-export const useMidManagementLocationSecondaryMids = ({skipGetLocationLinkedSecondaryMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
+export const useDirectoryLocationSecondaryMids = ({skipGetLocationLinkedSecondaryMids = false, planRef = '', merchantRef = '', locationRef = ''}) => {
   const {
     data: getMerchantLocationLinkedSecondaryMidsResponse,
     isLoading: getMerchantLocationLinkedSecondaryMidsIsLoading,

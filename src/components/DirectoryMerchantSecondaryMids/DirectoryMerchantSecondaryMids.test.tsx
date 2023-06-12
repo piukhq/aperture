@@ -39,8 +39,8 @@ jest.mock('utils/windowDimensions', () => {
   }
 })
 
-jest.mock('hooks/useMidManagementSecondaryMids', () => ({
-  useMidManagementSecondaryMids: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
     getMerchantSecondaryMidsResponse: mockGetMerchantSecondaryMidsResponse,
   })),
 }))

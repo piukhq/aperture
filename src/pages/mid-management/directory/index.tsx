@@ -5,9 +5,9 @@ import {useRouter} from 'next/router'
 import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {DirectoryPlan, OptionsMenuItems} from 'types'
-import {usePrefetch as useMerchantPrefetch} from 'services/midManagementMerchants'
-import {usePrefetch as useMidsPrefetch} from 'services/midManagementMerchantMids'
-import {useMidManagementPlans} from 'hooks/useMidManagementPlans'
+import {usePrefetch as useMerchantPrefetch} from 'services/DirectoryMerchants'
+import {usePrefetch as useMidsPrefetch} from 'services/DirectoryMerchantMids'
+import {useDirectoryPlans} from 'hooks/useDirectoryPlans'
 import {useAppDispatch} from 'app/hooks'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import {requestModal} from 'features/modalSlice'
@@ -27,7 +27,7 @@ import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleto
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
-  const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useMidManagementPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
+  const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useDirectoryPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
   const planList: DirectoryPlan[] = getPlansResponse
   const isMobileViewport = useIsMobileViewportDimensions()
 

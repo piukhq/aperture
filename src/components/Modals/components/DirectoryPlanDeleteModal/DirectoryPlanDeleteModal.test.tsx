@@ -17,8 +17,8 @@ jest.mock('components/Modal', () => ({
 }))
 
 const mockDeletePlan = jest.fn()
-jest.mock('hooks/useMidManagementPlans', () => ({
-  useMidManagementPlans: jest.fn().mockImplementation(() => ({
+jest.mock('hooks/useDirectoryPlans', () => ({
+  useDirectoryPlans: jest.fn().mockImplementation(() => ({
     deletePlan: mockDeletePlan,
     deletePlanIsSuccess: false,
     deletePlanError: null,

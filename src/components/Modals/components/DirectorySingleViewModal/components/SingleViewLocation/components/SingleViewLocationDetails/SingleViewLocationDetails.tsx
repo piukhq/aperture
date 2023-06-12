@@ -5,7 +5,7 @@ import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, Labe
 import RefreshSvg from 'icons/svgs/refresh.svg'
 import {DirectoryLocation, DirectoryLocationMetadata} from 'types'
 import {isoToDateTime} from 'utils/dateFormat'
-import {useMidManagementLocations} from 'hooks/useMidManagementLocations'
+import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 
 type Props = {
   isInEditState: boolean
@@ -117,7 +117,7 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
     putMerchantLocationIsLoading: isLoading,
     putMerchantLocationError: putError,
     resetPutMerchantLocationResponse: resetResponse,
-  } = useMidManagementLocations({
+  } = useDirectoryLocations({
     skipGetLocations: true,
     skipGetLocation: true,
     skipGetLocationsByPage: true,

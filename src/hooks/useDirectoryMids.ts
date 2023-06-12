@@ -9,9 +9,9 @@ import {
   useDeleteMerchantMidMutation,
   usePostMerchantMidOnboardingMutation,
   usePostMerchantMidOffboardingMutation,
-} from 'services/midManagementMerchantMids'
+} from 'services/DirectoryMerchantMids'
 
-export const useMidManagementMids = ({skipGetMids = false, skipGetMidsByPage = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = '', page = '1'}) => {
+export const useDirectoryMids = ({skipGetMids = false, skipGetMidsByPage = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = '', page = '1'}) => {
   const {
     data: getMerchantMidsResponse,
     isLoading: getMerchantMidsIsLoading,

@@ -14,7 +14,7 @@ type Auth0User = {
 }
 
 const PermissionsPage: NextPage = withPageAuthRequired(() => {
-  const {midManagement, customerWallet} = usePermissions()
+  const {directory, customerWallet} = usePermissions()
   const {user} = useUser()
   const {name, email, nickname, permissions, updated_at: updatedAt} = user as Auth0User
 
@@ -50,9 +50,9 @@ const PermissionsPage: NextPage = withPageAuthRequired(() => {
         <h2 className='font-heading-3'>Permission Levels</h2>
         <section className='bg-black/5 dark:bg-white/5 p-4 m-4'>
           <h3 className='font-heading-5 mb-1'>MID Management</h3>
-          <p className='font-body-2'>Read: {midManagement.isReader ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_ONLY)}</p>
-          <p className='font-body-2'>Write: {midManagement.isWriter ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_WRITE)}</p>
-          <p className='font-body-2'>Admin: {midManagement.isAdmin ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE)}</p>
+          <p className='font-body-2'>Read: {directory.isReader ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_ONLY)}</p>
+          <p className='font-body-2'>Write: {directory.isWriter ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_WRITE)}</p>
+          <p className='font-body-2'>Admin: {directory.isAdmin ? 'Yes' : renderAccessRequest(UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE)}</p>
         </section>
         <section className='bg-black/5 dark:bg-white/5 p-4 m-4'>
           <h3 className='font-heading-5 mb-1'>Customer Wallet</h3>
