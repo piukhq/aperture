@@ -50,9 +50,10 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
 
   const handleHide = useCallback(() => {
     setIsFadedIn(false)
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       dispatch(isModalHidden(true))
     }, 300)
+    return () => clearTimeout(timeout)
 
   }, [dispatch])
 

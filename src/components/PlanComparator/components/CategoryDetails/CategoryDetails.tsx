@@ -32,7 +32,8 @@ const CategoryDetails = ({
   // Fade in the component
   const [isMounted, setIsMounted] = useState<boolean>(false)
   useEffect(() => {
-    setTimeout(() => setIsMounted(true), (200))
+    const timeout = setTimeout(() => setIsMounted(true), (200))
+    return () => clearTimeout(timeout)
   }, [])
 
   const renderCategorySummaryInformation = () => {

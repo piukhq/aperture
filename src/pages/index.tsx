@@ -68,9 +68,8 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
   useEffect(() => { // Delay redirect for page transition
     if (appClicked) {
-      setTimeout(() => {
-        router.push(router.asPath, appClicked)
-      }, 200)
+      const timeout = setTimeout(() => { router.push(router.asPath, appClicked) }, 200)
+      return () => { clearTimeout(timeout) }
     }
   }, [appClicked, router])
 
