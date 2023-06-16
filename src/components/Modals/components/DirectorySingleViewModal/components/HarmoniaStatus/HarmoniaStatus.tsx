@@ -26,7 +26,7 @@ const HarmoniaStatus = ({
   isDisabled,
 }: Props) => {
 
-  const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState('')
+  const [harmoniaStatusButtonAction, setHarmoniaStatusButtonAction] = useState<string>('')
   const harmoniaStatus = DirectoryTxmStatusDisplayValue[txmStatus]
 
   const isLoading = isOnboardingLoading || isOffboardingLoading || harmoniaStatus === DirectoryTxmStatusDisplayValue.onboarding || harmoniaStatus === DirectoryTxmStatusDisplayValue.offboarding

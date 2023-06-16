@@ -105,10 +105,10 @@ export const directoryMerchantLocationsApi = createApi({
       invalidatesTags: ['MerchantLocation', 'MerchantLocations'], // Optimistic update wont work due to differences in endpoint responses
     }),
     deleteMerchantLocation: builder.mutation<void, DeleteMerchantLocationRefs>({ // We are currently using this to also delete sub-locations
-      query: ({planRef, merchantRef, locationRefs}) => ({
+      query: ({planRef, merchantRef, locationRefs = []}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations/deletion`,
         method: 'POST',
-        body: {location_refs: [...locationRefs]},
+        body: {location_refs: locationRefs && [...locationRefs]},
       }),
       // Update the cache with the removed Location
       invalidatesTags: ['MerchantLocation', 'MerchantLocations', 'MerchantLocationSubLocations'], // TODO: Figure out why optimistic update wont work here.

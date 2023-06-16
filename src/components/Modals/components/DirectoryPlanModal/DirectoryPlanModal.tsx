@@ -35,19 +35,19 @@ const DirectoryPlanModal = () => {
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
   const [imageValue, setImageValue] = useState(null)
-  const [nameValue, setNameValue] = useState(name || '')
-  const [planIdValue, setPlanIdValue] = useState(`${planId || ''}`)
-  const [slugValue, setSlugValue] = useState(slug || '')
-  const [nameValidationError, setNameValidationError] = useState(null)
-  const [planIdValidationError, setPlanIdValidationError] = useState(null)
-  const [slugValidationError, setSlugValidationError] = useState(null)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [nameValue, setNameValue] = useState<string>(name || '')
+  const [planIdValue, setPlanIdValue] = useState<string>(`${planId || ''}`)
+  const [slugValue, setSlugValue] = useState<string>(slug || '')
+  const [nameValidationError, setNameValidationError] = useState<string>('')
+  const [planIdValidationError, setPlanIdValidationError] = useState<string>('')
+  const [slugValidationError, setSlugValidationError] = useState<string>('')
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
     if (isCloseButtonFocused) {
-      setNameValidationError(null)
-      setPlanIdValidationError(null)
-      setSlugValidationError(null)
+      setNameValidationError('')
+      setPlanIdValidationError('')
+      setSlugValidationError('')
     }
   }, [isCloseButtonFocused])
 
@@ -97,12 +97,12 @@ const DirectoryPlanModal = () => {
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setNameValidationError(null)
+    setNameValidationError('')
   }
 
   const handlePlanIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlanIdValue(event.target.value)
-    setPlanIdValidationError(null)
+    setPlanIdValidationError('')
   }
 
   const handleSlugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +113,7 @@ const DirectoryPlanModal = () => {
     if (!validSlugRegex.test(lowerCasedValue) && lowerCasedValue !== '') {
       setSlugValidationError('Unsupported characters')
     } else {
-      setSlugValidationError(null)
+      setSlugValidationError('')
     }
   }
 
@@ -129,8 +129,8 @@ const DirectoryPlanModal = () => {
       if (nameValue === '') {
         setNameValidationError('Enter name')
       } else {
-        // API expects non-required blank values to be null rahter than empty strings
-        const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? null : value)
+        // API expects non-required blank values to be '' rahter than empty strings
+        const [planId, slug] = [planIdValue, slugValue].map(value => value === '' ? '' : value)
         // TODO: add logic to PATCH Plan when updating
         if (isNewPlan) {
           postPlan({name: nameValue, plan_id: parseInt(planId), slug, icon_url: imageValue})
@@ -159,7 +159,7 @@ const DirectoryPlanModal = () => {
         error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}
-        onFocus={() => setNameValidationError(null)}
+        onFocus={() => setNameValidationError('')}
         onBlur={handleNameBlur}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
@@ -173,7 +173,7 @@ const DirectoryPlanModal = () => {
         maxLength={9} // TODO: raise this limit once the int size is increased in the API
         value={planIdValue}
         onChange={handlePlanIdChange}
-        onFocus={() => setPlanIdValidationError(null)}
+        onFocus={() => setPlanIdValidationError('')}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
@@ -185,7 +185,7 @@ const DirectoryPlanModal = () => {
         error={slugValidationError}
         value={slugValue}
         onChange={handleSlugChange}
-        onFocus={() => setSlugValidationError(null)}
+        onFocus={() => setSlugValidationError('')}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}

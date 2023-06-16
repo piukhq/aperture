@@ -24,10 +24,10 @@ const DirectorySecondaryMidModal = () => {
 
   const dispatch = useAppDispatch()
 
-  const [secondaryMidValue, setSecondaryMidValue] = useState('')
-  const [secondaryMidValidationError, setSecondaryMidValidationError] = useState(null)
-  const [isOnboardRequired, setIsOnboardRequired] = useState(false)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [secondaryMidValue, setSecondaryMidValue] = useState<string>('')
+  const [secondaryMidValidationError, setSecondaryMidValidationError] = useState<string>('')
+  const [isOnboardRequired, setIsOnboardRequired] = useState<boolean>(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
     isCloseButtonFocused && setSecondaryMidValidationError(null)

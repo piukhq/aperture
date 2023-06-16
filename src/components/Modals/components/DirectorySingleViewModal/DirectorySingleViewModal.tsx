@@ -86,14 +86,14 @@ const DirectorySingleViewModal = () => {
   })
 
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
-  const [entityHeading, setEntityHeading] = useState('')
-  const [copyButtonClicked, setCopyButtonClicked] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState(false)
-  const [isInLocationEditState, setIsInLocationEditState] = useState(false)
-  const [isEntityFound, setIsEntityFound] = useState(false)
-  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState(false)
-  const [entityRef, setEntityRef] = useState('')
+  const [entityHeading, setEntityHeading] = useState<string>('')
+  const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState<boolean>(false)
+  const [isInLocationEditState, setIsInLocationEditState] = useState<boolean>(false)
+  const [isEntityFound, setIsEntityFound] = useState<boolean>(false)
+  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState<boolean>(false)
+  const [entityRef, setEntityRef] = useState<string>('')
 
   useEffect(() => { // TODO: Set the entityRef as the ref of the selected entity, needs rethink of how we do types to be smarter
     if (selectedEntity) {

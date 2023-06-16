@@ -17,8 +17,8 @@ const BulkCommentModal = () => {
   const commentsSubjectType = useAppSelector(getCommentsSubjectType)
   const checkedSubjects = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
 
-  const [checkedRefs, setCheckedRefs] = useState([])
-  const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState(false)
+  const [checkedRefs, setCheckedRefs] = useState<string[]>([])
+  const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState<boolean>(false)
 
   useEffect(() => {
     setCheckedRefs(checkedSubjects.map(subject => subject.entityRef))

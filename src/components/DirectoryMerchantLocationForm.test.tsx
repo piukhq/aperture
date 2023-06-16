@@ -108,20 +108,20 @@ describe('DirectoryMerchantLocationForm', () => {
     React.useState = jest
       .fn()
       .mockReturnValueOnce([mockName, setStateMock]) // nameValue
-      .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+      .mockReturnValueOnce(['', setStateMock]) // nameValidationError
       .mockReturnValueOnce([mockLocationId, setStateMock]) // locationIdValue
-      .mockReturnValueOnce([null, setStateMock]) // locationIdValidationError
+      .mockReturnValueOnce(['', setStateMock]) // locationIdValidationError
       .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
       .mockReturnValueOnce([mockIsPhysicalLocation, setIsPhysicalLocationStateMock]) // isPhysicalLocation
       .mockReturnValueOnce([mockAddressLine1, setStateMock]) // addressLine1Value
-      .mockReturnValueOnce([null, setStateMock]) // addressLine1ValidationError
+      .mockReturnValueOnce(['', setStateMock]) // addressLine1ValidationError
       .mockReturnValueOnce([mockAddressLine2, setStateMock]) // addressLine2Value
       .mockReturnValueOnce([mockTownCity, setStateMock]) // townCityValue
       .mockReturnValueOnce([mockCounty, setStateMock]) // countyValue
       .mockReturnValueOnce([mockCountry, setStateMock]) // countryValue
       .mockReturnValueOnce([mockPostcode, setStateMock]) // postcodeValue
-      .mockReturnValueOnce([null, setStateMock]) // postcodeValidationError
-      .mockReturnValueOnce([null, setStateMock]) // errorMessage
+      .mockReturnValueOnce(['', setStateMock]) // postcodeValidationError
+      .mockReturnValueOnce(['', setStateMock]) // errorMessage
   })
 
   describe('Test Parent Location section', () => {
@@ -201,9 +201,9 @@ describe('DirectoryMerchantLocationForm', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce([mockName, setStateMock]) // nameValue
-        .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+        .mockReturnValueOnce(['', setStateMock]) // nameValidationError
         .mockReturnValueOnce([mockLocationId, setStateMock]) // locationIdValue
-        .mockReturnValueOnce([null, setStateMock]) // locationIdValidationError
+        .mockReturnValueOnce(['', setStateMock]) // locationIdValidationError
         .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
         .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
 
@@ -218,9 +218,9 @@ describe('DirectoryMerchantLocationForm', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce([mockName, setStateMock]) // nameValue
-        .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+        .mockReturnValueOnce(['', setStateMock]) // nameValidationError
         .mockReturnValueOnce([mockLocationId, setStateMock]) // locationIdValue
-        .mockReturnValueOnce([null, setStateMock]) // locationIdValidationError
+        .mockReturnValueOnce(['', setStateMock]) // locationIdValidationError
         .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
         .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
 
@@ -329,9 +329,9 @@ describe('DirectoryMerchantLocationForm', () => {
       React.useState = jest
         .fn()
         .mockReturnValueOnce([mockName, setStateMock]) // nameValue
-        .mockReturnValueOnce([null, setStateMock]) // nameValidationError
+        .mockReturnValueOnce(['', setStateMock]) // nameValidationError
         .mockReturnValueOnce([mockLocationId, setStateMock]) // locationIdValue
-        .mockReturnValueOnce([null, setStateMock]) // locationIdValidationError
+        .mockReturnValueOnce(['', setStateMock]) // locationIdValidationError
         .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
         .mockReturnValue([false, setIsPhysicalLocationStateMock]) // isPhysicalLocation
 
@@ -344,12 +344,12 @@ describe('DirectoryMerchantLocationForm', () => {
         location_id: mockLocationId,
         merchant_internal_id: mockMerchantInternalId,
         is_physical_location: false,
-        address_line_1: null,
-        address_line_2: null,
-        town_city: null,
-        county: null,
-        country: null,
-        postcode: null,
+        address_line_1: '',
+        address_line_2: '',
+        town_city: '',
+        county: '',
+        country: '',
+        postcode: '',
       })
     })
 
@@ -363,20 +363,20 @@ describe('DirectoryMerchantLocationForm', () => {
         React.useState = jest
           .fn()
           .mockReturnValueOnce(['', setStateMock]) // nameValue
-          .mockReturnValueOnce([null, mockSetNameValidationError]) // nameValidationError
+          .mockReturnValueOnce(['', mockSetNameValidationError]) // nameValidationError
           .mockReturnValueOnce(['', setStateMock]) // locationIdValue
-          .mockReturnValueOnce([null, mockSetLocationIdValidationError]) // locationIdValidationError
+          .mockReturnValueOnce(['', mockSetLocationIdValidationError]) // locationIdValidationError
           .mockReturnValueOnce([mockMerchantInternalId, setStateMock]) // merchantInternalIdValue
           .mockReturnValueOnce([mockIsPhysicalLocation, setIsPhysicalLocationStateMock]) // isPhysicalLocation
           .mockReturnValueOnce(['', setStateMock]) // addressLine1Value
-          .mockReturnValueOnce([null, mockSetAddressLine1ValidationError]) // addressLine1ValidationError
+          .mockReturnValueOnce(['', mockSetAddressLine1ValidationError]) // addressLine1ValidationError
           .mockReturnValueOnce([mockAddressLine2, setStateMock]) // addressLine2Value
           .mockReturnValueOnce([mockTownCity, setStateMock]) // townCityValue
           .mockReturnValueOnce([mockCounty, setStateMock]) // countyValue
           .mockReturnValueOnce([mockCountry, setStateMock]) // countryValue
           .mockReturnValueOnce(['', setStateMock]) // postcodeValue
-          .mockReturnValueOnce([null, mockSetPostcodeValidationError]) // postcodeValidationError
-          .mockReturnValueOnce([null, setStateMock]) // errorMessage
+          .mockReturnValueOnce(['', mockSetPostcodeValidationError]) // postcodeValidationError
+          .mockReturnValueOnce(['', setStateMock]) // errorMessage
       })
 
       it('should display field specific error messages when mandatory fields are left blank after blurring them', () => {

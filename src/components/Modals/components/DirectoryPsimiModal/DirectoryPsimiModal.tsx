@@ -24,10 +24,10 @@ const DirectoryPsimiModal = () => {
 
   const dispatch = useAppDispatch()
 
-  const [psimiValue, setPsimiValue] = useState('')
-  const [psimiValidationError, setPsimiValidationError] = useState(null)
-  const [isOnboardRequired, setIsOnboardRequired] = useState(false)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [psimiValue, setPsimiValue] = useState<string>('')
+  const [psimiValidationError, setPsimiValidationError] = useState<string>('')
+  const [isOnboardRequired, setIsOnboardRequired] = useState<boolean>(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
     isCloseButtonFocused && setPsimiValidationError(null)

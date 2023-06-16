@@ -18,8 +18,8 @@ import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} fro
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 
 const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
-  const [isVerified, setIsVerified] = useState(false)
-  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
+  const [isVerified, setIsVerified] = useState<boolean>(false)
+  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState<boolean>(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const planAssets: SelectedPlanImages = useAppSelector(getSelectedPlanImages)

@@ -24,7 +24,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     PaymentSchemeStatusDisplayValue['unenrolled'],
   ], [])
 
-  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState('')
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>('')
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
   const {payment_scheme_slug: paymentSchemeSlug, payment_enrolment_status: paymentEnrolmentStatus, secondary_mid: secondaryMidValue} = secondaryMidMetadata

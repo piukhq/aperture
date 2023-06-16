@@ -6,7 +6,7 @@ import {useState} from 'react'
 
 const ErrorTest = () => {
   // The logic with Redux selectors replicates an issue seen in the wild as the only way I can think of to recreate it while still fooling EsLint and Typescript into letting me build it successfully
-  const [isGoingToCrash, setIsGoingToCrash] = useState(false)
+  const [isGoingToCrash, setIsGoingToCrash] = useState<boolean>(false)
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const dispatch = useAppDispatch()
 

@@ -39,7 +39,7 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props)
     }
   }, [getMerchantPsimiResponse, setHeaderFn, dispatch, selectedEntity, setIsEntityFound])
 
-  const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
+  const [tabSelected, setTabSelected] = useState<DirectorySingleViewTabs>(DirectorySingleViewTabs.DETAILS)
 
   const renderDetails = () => {
     if (getMerchantPsimiIsLoading) {

@@ -5,4 +5,5 @@ export const isValidEmail = (email:string):boolean => {
 
 export const isValidPassword = (password:string):boolean => password.length > 0
 
-export const isNumberOnlyString = (value: string): RegExpMatchArray => value.match(/^[0-9]*$/)
+export const isNumberOnlyString = (value: string): RegExpMatchArray
+| null => value.match(/^[0-9]*$/)

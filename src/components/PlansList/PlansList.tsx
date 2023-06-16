@@ -19,9 +19,9 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
   useGetPlans() // Fetches plans from API if they haven't already been fetched
   const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useFormattedPlansList()
   const dispatch = useAppDispatch()
-  const [searchValue, setSearchValue] = useState('')
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [loadAssetsError, setLoadAssetsError] = useState(null)
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [selectedPlan, setSelectedPlan] = useState<HydratedPlan>(null)
+  const [loadAssetsError, setLoadAssetsError] = useState<string>('')
 
   const comparatorLabel = isUsedByPlanComparator ? {
     lower: 'plans',

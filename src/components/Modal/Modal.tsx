@@ -22,7 +22,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const closeHidableModal = useAppSelector(selectShouldCloseHidableModal)
   const modalRequested = useAppSelector(selectModal)
 
-  const hidableModals = [ // Modals that can be hidden so state can be preserved.
+  const hidableModals:ModalType[] = [ // Modals that can be hidden so state can be preserved.
     ModalType.MID_MANAGEMENT_DIRECTORY_PLAN,
     ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT,
     ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD,
@@ -37,7 +37,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     ModalType.MID_MANAGEMENT_BULK_COMMENT,
   ]
 
-  const [isFadedIn, setIsFadedIn] = useState(false)
+  const [isFadedIn, setIsFadedIn] = useState<boolean>(false)
 
   const handleClose = useCallback(() => {
     setIsFadedIn(false)
@@ -50,9 +50,10 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
 
   const handleHide = useCallback(() => {
     setIsFadedIn(false)
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       dispatch(isModalHidden(true))
     }, 300)
+    return () => clearTimeout(timeout)
 
   }, [dispatch])
 

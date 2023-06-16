@@ -20,9 +20,9 @@ const ReplyComment = ({
   handleCommentReplySubmit,
   commentRef,
 }: Props) => {
-  const [isSubjectListExpanded, setIsSubjectListExpanded] = useState(false)
+  const [isSubjectListExpanded, setIsSubjectListExpanded] = useState<boolean>(false)
   const [checkedSubjectRefs, setCheckedSubjectRefs] = useState(subjects.map(subject => subject.subject_ref))
-  const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState(false)
+  const [noSubjectsValidationIsError, setNoSubjectsValidationIsError] = useState<boolean>(false)
 
   const renderSubjectMetadata = ({displayText, iconSlug, shouldTruncate = false}) => (
     <>

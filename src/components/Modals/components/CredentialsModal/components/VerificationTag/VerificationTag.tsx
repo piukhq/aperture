@@ -19,7 +19,7 @@ const VerificationTag = ({
   hasVerificationToken,
   removeVerificationToken,
 }: Props) => {
-  const [isVerified, setIsVerified] = useState(false)
+  const [isVerified, setIsVerified] = useState<boolean>(false)
 
   useEffect(() => {
     setIsVerified(hasVerificationToken)

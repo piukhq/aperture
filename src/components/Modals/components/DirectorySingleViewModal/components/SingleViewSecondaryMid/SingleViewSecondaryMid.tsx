@@ -17,7 +17,7 @@ type Props = {
 
 const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props) => {
   const {merchantId, planId, ref} = useGetRouterQueryString()
-  const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
+  const [tabSelected, setTabSelected] = useState<DirectorySingleViewTabs>(DirectorySingleViewTabs.DETAILS)
 
   const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,

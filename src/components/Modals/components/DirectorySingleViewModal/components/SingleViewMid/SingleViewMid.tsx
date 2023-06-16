@@ -44,7 +44,7 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn, setIs
     }
   }, [getMerchantMidResponse, setHeaderFn, dispatch, selectedEntity, setIsEntityFound])
 
-  const [tabSelected, setTabSelected] = useState('Details')
+  const [tabSelected, setTabSelected] = useState<string>('Details')
 
   const renderNavigationTabs = () => {
     const tabSelectedClasses = 'font-medium text-grey-900 dark:text-grey-100 border-b-2 border-b-blue'

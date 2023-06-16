@@ -18,8 +18,8 @@ import {ModalType} from 'utils/enums'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 
 const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
-  const [isVerified, setIsVerified] = useState(false)
-  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState(true)
+  const [isVerified, setIsVerified] = useState<boolean>(false)
+  const [shouldInitialCredentialsModalLaunchOccur, setShouldInitialCredentialsModalLaunchOccur] = useState<boolean>(true)
   const dispatch = useAppDispatch()
   const modalRequested: ModalType = useAppSelector(selectModal)
   const plans: SelectedPlans = useAppSelector(getSelectedPlans)

@@ -1,7 +1,12 @@
 import {RefObject, useEffect, useState} from 'react'
 import debounce from 'just-debounce-it'
 
-export const getWindowDimensions = () => {
+type WindowDimensions = {
+  width: number
+  height: number
+}
+
+export const getWindowDimensions = (): WindowDimensions | null => {
   if (typeof window !== 'undefined') { //Prevents server-side running
     const {innerWidth: width, innerHeight: height} = window
     return {
@@ -9,15 +14,22 @@ export const getWindowDimensions = () => {
       height,
     }
   }
+
+  return null
 }
 
 export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivElement>, buffer: number) => {
-  const [isBeyondEdge, setIsBeyondEdge] = useState(false)
-  const handleResize = () => setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
+  const [isBeyondEdge, setIsBeyondEdge] = useState<boolean>(false)
+  const handleResize = () => {
+    const windowDimensions = getWindowDimensions()
+    windowDimensions && element?.current?.getBoundingClientRect() && setIsBeyondEdge(element?.current?.getBoundingClientRect()?.x > windowDimensions?.width - buffer)
+  }
+
   const debouncedHandleResize = debounce(handleResize, 50)
 
   useEffect(() => {
-    setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
+    const windowDimensions = getWindowDimensions()
+    windowDimensions && element?.current?.getBoundingClientRect() && setIsBeyondEdge(element?.current?.getBoundingClientRect().x > windowDimensions?.width - buffer)
   }, [element, buffer])
 
   useEffect(() => {
@@ -29,9 +41,10 @@ export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivEl
 }
 
 export const useIsMobileViewportDimensions = () => {
-  const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState(getWindowDimensions().width <= 1000)
+  const windowDimensions = getWindowDimensions()
+  const [isMobileViewportDimensions, setIsMobileViewportDimensions] = useState<boolean>(windowDimensions ? windowDimensions.width <= 1000 : false)
 
-  const handleResize = () => setIsMobileViewportDimensions(getWindowDimensions().width <= 1000)
+  const handleResize = () => setIsMobileViewportDimensions(windowDimensions ? windowDimensions?.width <= 1000 : false)
   const debouncedHandleResize = debounce(handleResize, 50)
 
   useEffect(() => {

@@ -10,7 +10,7 @@ type Props = {
 
 const Layout = ({children}: Props) => {
   const modalRequested: ModalType = useAppSelector(selectModal)
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(true)
 
   return (
     <div className={`flex min-w-[650px] ${isSidebarOpen ? 'flex-row' : 'flex-col sticky'} duration-400 [scrollbar-gutter: stable]`}>

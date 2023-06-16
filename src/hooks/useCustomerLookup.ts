@@ -8,7 +8,7 @@ import {getJwtToken, setJwtToken, setActiveUserId} from 'features/customerWallet
 import {customerWalletApi} from 'services/customerWallet'
 
 export const useCustomerLookup = () => {
-  const [lookupType, setLookupType] = useState(null)
+  const [lookupType, setLookupType] = useState<string>('')
   const {putLookHistoryEntry} = useGetCustomerWalletLookupHistory()
 
   const {

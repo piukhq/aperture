@@ -26,9 +26,9 @@ import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleton'
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
-  const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState(null)
+  const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState<string>('')
   const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useDirectoryPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
-  const planList: DirectoryPlan[] = getPlansResponse
+  const planList: DirectoryPlan[] = getPlansResponse || []
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const prefetchMerchant = useMerchantPrefetch('getMerchant')
@@ -59,7 +59,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
     return planList.map((plan, index) => {
       const {plan_metadata, plan_counts, plan_ref} = plan
       const {name, icon_url, plan_id, slug} = plan_metadata
-      const {merchants, locations, payment_schemes} = plan_counts
+      const {merchants = 0, locations = 0, payment_schemes = []} = plan_counts || {}
 
       const setSelectedPlan = () => {
         dispatch(setSelectedDirectoryPlan({
@@ -139,7 +139,9 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
         },
       ]
-      return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
+      if (plan_counts && plan_metadata) {
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
+      }
     })
   }
 

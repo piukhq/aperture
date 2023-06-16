@@ -14,11 +14,11 @@ import {LinkableEntities, UserPermissions} from 'utils/enums'
 const SingleViewLocationSecondaryMids = () => {
   const {merchantId, planId, ref} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
-  const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
-  const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState(false)
+  const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState<boolean>(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
+  const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState<boolean>(false)
   const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
-  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState(null) // The index of the secondary mid that is selected to be unlinked
-  const [availableSecondaryMidNotification, setAvailableSecondaryMidNotification] = useState('')
+  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState<number>(null) // The index of the secondary mid that is selected to be unlinked
+  const [availableSecondaryMidNotification, setAvailableSecondaryMidNotification] = useState<string>('')
 
   const {
     getMerchantLocationLinkedSecondaryMidsResponse,

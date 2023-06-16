@@ -26,12 +26,12 @@ const Sidebar = ({isOpen, setIsOpen}: Props) => {
 
   const {user = {}} = useUser()
   const {permissions = []} = user as AuthUser
-  const [sidebarWidthClass, setSidebarWidthClass] = useState('w-64')
+  const [sidebarWidthClass, setSidebarWidthClass] = useState<string>('w-64')
   const isApiReflectorEnabled = useAppSelector(getUseApiReflector)
 
-  const [selectedTool, setSelectedTool] = useState('')
-  const [isLogoHovered, setIsLogoHovered] = useState(false)
-  const [currentLocation, setCurrentLocation] = useState('/')
+  const [selectedTool, setSelectedTool] = useState<string>('')
+  const [isLogoHovered, setIsLogoHovered] = useState<boolean>(false)
+  const [currentLocation, setCurrentLocation] = useState<string>('/')
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const sidebarOptions = Object.keys(RouteDisplayNames)

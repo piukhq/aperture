@@ -9,7 +9,7 @@ type DropdownLocationObject = {
 export const getLocationList = (locations: DirectoryLocations): DropdownLocationObject[] => locations.map(locationObj => {
   const {location_ref, location_metadata} = locationObj
   return {
-    title: location_metadata.name,
+    title: location_metadata.name || '',
     location_ref,
   }
 })

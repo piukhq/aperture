@@ -11,7 +11,7 @@ type Props = {
 
 const FormElements = ({sectionClass}: Props) => {
 
-  const [textFieldValue, setTextFieldValue] = useState('')
+  const [textFieldValue, setTextFieldValue] = useState<string>('')
 
   return (
     <>

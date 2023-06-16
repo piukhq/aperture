@@ -16,8 +16,8 @@ type Props = {
 }
 
 const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn, setShouldSkipGetEntityByPage}: Props) => {
-  const [merchantEntityCount, setMerchantEntityCount] = useState(0)
-  const [shouldRefresh, setShouldRefresh] = useState(false)
+  const [merchantEntityCount, setMerchantEntityCount] = useState<number>(0)
+  const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
   const {tab, planId, merchantId} = useGetRouterQueryString()
 
   const {

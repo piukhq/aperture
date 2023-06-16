@@ -25,13 +25,13 @@ const DirectoryMidModal = () => {
 
   const dispatch = useAppDispatch()
 
-  const [midValue, setMidValue] = useState('')
-  const [binValue, setBinValue] = useState('')
+  const [midValue, setMidValue] = useState<string>('')
+  const [binValue, setBinValue] = useState<string>('')
 
-  const [midValidationError, setMidValidationError] = useState(null)
-  const [binValidationError, setBinValidationError] = useState(null)
-  const [isOffboardRequired, setIsOffboardRequired] = useState(false)
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState(false)
+  const [midValidationError, setMidValidationError] = useState<string>('')
+  const [binValidationError, setBinValidationError] = useState<string>('')
+  const [isOffboardRequired, setIsOffboardRequired] = useState<boolean>(false)
+  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   const handlePostMerchantMidError = useCallback(() => {
     const {status, data} = postMerchantMidError as RTKQueryErrorResponse

@@ -29,7 +29,7 @@ type Props = {
 }
 
 const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
-  const [imageLoadError, setImageLoadError] = useState(false)
+  const [imageLoadError, setImageLoadError] = useState<boolean>(false)
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const {
@@ -55,12 +55,12 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
 
   const renderPaymentSchemeInfo = (paymentScheme: PaymentScheme) => {
     // The data below can come from plan or merchant which provide this data slightly differently hence the weird logic
-    const {slug, count, mids, secondary_mids, psimis} = paymentScheme
+    const {slug, count, mids = 0, secondary_mids = 0, psimis = 0} = paymentScheme
     const countToRender = mids + secondary_mids + psimis || count || 0
 
     return (
       <div key={slug + name} className='flex flex-col items-center'>
-        <p className='font-subheading-4'>{slug.toLocaleUpperCase()}</p>
+        <p className='font-subheading-4'>{slug?.toLocaleUpperCase()}</p>
         <p className='font-heading-5'>{countToRender}</p>
       </div>
     )

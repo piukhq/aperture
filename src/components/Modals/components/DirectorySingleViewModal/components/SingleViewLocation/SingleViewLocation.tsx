@@ -41,7 +41,7 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
 
   const dispatch = useAppDispatch()
 
-  const [tabSelected, setTabSelected] = useState(DirectorySingleViewTabs.DETAILS)
+  const [tabSelected, setTabSelected] = useState<DirectorySingleViewTabs>(DirectorySingleViewTabs.DETAILS)
 
   useEffect(() => {
     // Edit button should only be visible (currently) on the details tab
