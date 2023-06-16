@@ -88,7 +88,7 @@ const DirectorySingleViewModal = () => {
   const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
   const [entityHeading, setEntityHeading] = useState<string>('')
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState<boolean>(false)
   const [isInLocationEditState, setIsInLocationEditState] = useState<boolean>(false)
   const [isEntityFound, setIsEntityFound] = useState<boolean>(false)

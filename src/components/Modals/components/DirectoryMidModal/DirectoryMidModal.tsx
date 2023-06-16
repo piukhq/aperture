@@ -28,8 +28,8 @@ const DirectoryMidModal = () => {
   const [midValue, setMidValue] = useState<string>('')
   const [binValue, setBinValue] = useState<string>('')
 
-  const [midValidationError, setMidValidationError] = useState<string>(null)
-  const [binValidationError, setBinValidationError] = useState<string>(null)
+  const [midValidationError, setMidValidationError] = useState<string>('')
+  const [binValidationError, setBinValidationError] = useState<string>('')
   const [isOffboardRequired, setIsOffboardRequired] = useState<boolean>(false)
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 

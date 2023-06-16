@@ -52,7 +52,7 @@ const SingleViewEditableField = ({
 }: Props) => {
   const [isInEditState, setIsInEditState] = useState<boolean>(false)
   const [isInDeleteState, setIsInDeleteState] = useState<boolean>(false)
-  const [validationError, setValidationError] = useState<string>(null)
+  const [validationError, setValidationError] = useState<string>('')
 
   useEffect(() => {
     if (successResponse) {

@@ -21,7 +21,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState<string>('')
   const [selectedPlan, setSelectedPlan] = useState<HydratedPlan>(null)
-  const [loadAssetsError, setLoadAssetsError] = useState<string>(null)
+  const [loadAssetsError, setLoadAssetsError] = useState<string>('')
 
   const comparatorLabel = isUsedByPlanComparator ? {
     lower: 'plans',

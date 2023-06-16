@@ -68,17 +68,17 @@ const DirectoryMerchantLocationForm = ({
     }
     return ''
   })
-  const [nameValidationError, setNameValidationError] = useState<string>(null)
+  const [nameValidationError, setNameValidationError] = useState<string>('')
 
   const [locationIdValue, setLocationIdValue] = useState<string>(locationId || '')
-  const [locationIdValidationError, setLocationIdValidationError] = useState<string>(null)
+  const [locationIdValidationError, setLocationIdValidationError] = useState<string>('')
 
   const [merchantInternalIdValue, setMerchantInternalIdValue] = useState<string>(merchantInternalId || '')
 
   const [isPhysicalLocation, setIsPhysicalLocation] = useState<boolean>(location ? is_physical_location : true)
 
   const [addressLine1Value, setAddressLine1Value] = useState<string>(addressLine1 || '')
-  const [addressLine1ValidationError, setAddressLine1ValidationError] = useState<string>(null)
+  const [addressLine1ValidationError, setAddressLine1ValidationError] = useState<string>('')
 
   const [addressLine2Value, setAddressLine2Value] = useState<string>(addressLine2 || '')
 
@@ -89,9 +89,9 @@ const DirectoryMerchantLocationForm = ({
   const [countryValue, setCountryValue] = useState<string>(country || '')
 
   const [postcodeValue, setPostcodeValue] = useState<string>(postcode || '')
-  const [postcodeValidationError, setPostcodeValidationError] = useState<string>(null)
+  const [postcodeValidationError, setPostcodeValidationError] = useState<string>('')
 
-  const [errorMessage, setErrorMessage] = useState<string>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleErrorResponse = useCallback(() => {
     const {status, data} = error as RTKQueryErrorResponse
@@ -125,16 +125,16 @@ const DirectoryMerchantLocationForm = ({
 
   useEffect(() => { // Resets errors if the close button is focused
     if (isCloseButtonFocused) {
-      setNameValidationError(null)
-      setLocationIdValidationError(null)
-      setAddressLine1ValidationError(null)
-      setPostcodeValidationError(null)
+      setNameValidationError('')
+      setLocationIdValidationError('')
+      setAddressLine1ValidationError('')
+      setPostcodeValidationError('')
     }
   }, [isCloseButtonFocused])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setNameValidationError(null)
+    setNameValidationError('')
   }
 
   const handleNameBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,7 +145,7 @@ const DirectoryMerchantLocationForm = ({
 
   const handleLocationIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocationIdValue(event.target.value)
-    setLocationIdValidationError(null)
+    setLocationIdValidationError('')
   }
 
   const handleLocationIdBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -160,7 +160,7 @@ const DirectoryMerchantLocationForm = ({
 
   const handleAddressLine1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddressLine1Value(event.target.value)
-    setAddressLine1ValidationError(null)
+    setAddressLine1ValidationError('')
   }
 
   const handleAddressLine1Blur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,7 +187,7 @@ const DirectoryMerchantLocationForm = ({
 
   const handlePostcodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPostcodeValue(event.target.value)
-    setPostcodeValidationError(null)
+    setPostcodeValidationError('')
   }
 
   const handlePostcodeBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,19 +202,19 @@ const DirectoryMerchantLocationForm = ({
     if (validationError) {
       setErrorMessage('Populate all mandatory fields')
     } else {
-      setErrorMessage(null)
+      setErrorMessage('')
 
       onSaveHandler({
         name: nameValue,
         location_id: isNewLocationSubLocation ? '' : locationIdValue,
         merchant_internal_id: isNewLocationSubLocation ? '' : merchantInternalIdValue,
         is_physical_location: isPhysicalLocation,
-        address_line_1: isPhysicalLocation ? addressLine1Value : null,
-        address_line_2: isPhysicalLocation ? addressLine2Value : null,
-        town_city: isPhysicalLocation ? townCityValue : null,
-        county: isPhysicalLocation ? countyValue : null,
-        country: isPhysicalLocation ? countryValue : null,
-        postcode: isPhysicalLocation ? postcodeValue : null,
+        address_line_1: isPhysicalLocation ? addressLine1Value : '',
+        address_line_2: isPhysicalLocation ? addressLine2Value : '',
+        town_city: isPhysicalLocation ? townCityValue : '',
+        county: isPhysicalLocation ? countyValue : '',
+        country: isPhysicalLocation ? countryValue : '',
+        postcode: isPhysicalLocation ? postcodeValue : '',
       })
     }
   }
@@ -239,7 +239,7 @@ const DirectoryMerchantLocationForm = ({
   }
 
   const handleParentLocationChange = (parentLocation: string) => {
-    setLocationIdValidationError(null)
+    setLocationIdValidationError('')
     setMerchantInternalIdValue('')
     setLocationIdValue('')
     parentLocationChangeHandler(parentLocation)
@@ -279,7 +279,7 @@ const DirectoryMerchantLocationForm = ({
           value={nameValue}
           onChange={handleNameChange}
           onBlur={handleNameBlur}
-          onFocus={() => setNameValidationError(null)}
+          onFocus={() => setNameValidationError('')}
           error={nameValidationError}
           ariaRequired
           inputType={InputType.TEXT}
@@ -296,7 +296,7 @@ const DirectoryMerchantLocationForm = ({
               value={locationIdValue}
               onChange={handleLocationIdChange}
               onBlur={handleLocationIdBlur}
-              onFocus={() => setLocationIdValidationError(null)}
+              onFocus={() => setLocationIdValidationError('')}
               error={locationIdValidationError}
               ariaRequired
               inputType={InputType.TEXT}
@@ -337,7 +337,7 @@ const DirectoryMerchantLocationForm = ({
               value={addressLine1Value}
               onChange={handleAddressLine1Change}
               onBlur={handleAddressLine1Blur}
-              onFocus={() => setAddressLine1ValidationError(null)}
+              onFocus={() => setAddressLine1ValidationError('')}
               error={addressLine1ValidationError}
               ariaRequired
               inputType={InputType.TEXT}
@@ -399,7 +399,7 @@ const DirectoryMerchantLocationForm = ({
                 value={postcodeValue}
                 onChange={handlePostcodeChange}
                 onBlur={handlePostcodeBlur}
-                onFocus={() => setPostcodeValidationError(null)}
+                onFocus={() => setPostcodeValidationError('')}
                 error={postcodeValidationError}
                 ariaRequired
                 inputType={InputType.TEXT}

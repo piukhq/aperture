@@ -13,7 +13,7 @@ import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryPlanDeleteModal = () => {
   const [nameValue, setNameValue] = useState<string>('')
-  const [nameValidationError, setNameValidationError] = useState<string>(null)
+  const [nameValidationError, setNameValidationError] = useState<string>('')
   const dispatch = useAppDispatch()
   const router = useRouter()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)

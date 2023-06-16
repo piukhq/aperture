@@ -25,7 +25,7 @@ const DirectoryPsimiModal = () => {
   const dispatch = useAppDispatch()
 
   const [psimiValue, setPsimiValue] = useState<string>('')
-  const [psimiValidationError, setPsimiValidationError] = useState<string>(null)
+  const [psimiValidationError, setPsimiValidationError] = useState<string>('')
   const [isOnboardRequired, setIsOnboardRequired] = useState<boolean>(false)
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 

@@ -35,7 +35,7 @@ const DirectoryMerchantEntityDeleteModal = ({
   const {tab} = router.query
 
   const [reasonValue, setReasonValue] = useState<string>('')
-  const [reasonValidationError, setReasonValidationError] = useState<string>(null)
+  const [reasonValidationError, setReasonValidationError] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const entityLabel = `${DirectorySingleViewEntities[tab as keyof typeof DirectorySingleViewEntities]}${entitiesToBeDeleted.length > 1 ? 's' : ''}`
 

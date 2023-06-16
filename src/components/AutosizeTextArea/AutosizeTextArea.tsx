@@ -14,7 +14,7 @@ type Props = {
 
 const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = '', submitHandler, onBlurHandler, shouldClearText = false}: Props) => {
   const [value, setValue] = useState<string>(prePopulatedValue)
-  const [inputValidationError, setInputValidationError] = useState<string>(null)
+  const [inputValidationError, setInputValidationError] = useState<string>('')
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
   useAutosizeTextArea(textAreaRef.current, value)

@@ -25,7 +25,7 @@ const DirectorySecondaryMidModal = () => {
   const dispatch = useAppDispatch()
 
   const [secondaryMidValue, setSecondaryMidValue] = useState<string>('')
-  const [secondaryMidValidationError, setSecondaryMidValidationError] = useState<string>(null)
+  const [secondaryMidValidationError, setSecondaryMidValidationError] = useState<string>('')
   const [isOnboardRequired, setIsOnboardRequired] = useState<boolean>(false)
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 

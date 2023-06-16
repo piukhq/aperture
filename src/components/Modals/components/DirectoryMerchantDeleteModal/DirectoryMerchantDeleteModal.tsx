@@ -22,7 +22,7 @@ const DirectoryMerchantDeleteModal = () => {
   const [locationsCount, setLocationsCount] = useState<number>(merchantCounts?.locations || 0)
   const [midsCount, setMidsCount] = useState<number>(getMerchantMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
   const [nameValue, setNameValue] = useState<string>('')
-  const [nameValidationError, setNameValidationError] = useState<string>(null)
+  const [nameValidationError, setNameValidationError] = useState<string>('')
 
   const {
     deleteMerchant,
