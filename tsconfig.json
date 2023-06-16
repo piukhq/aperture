@@ -24,7 +24,7 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false // TODO: should be true but 417(!) errors to fix so leaving for now
+    "strictNullChecks": false, // TODO: keep chipping away at this
   },
   "include": [
     "next-env.d.ts",

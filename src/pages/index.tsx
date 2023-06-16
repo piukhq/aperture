@@ -15,7 +15,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   const {hasRequiredPermission} = usePermissions()
   const [isLearnMoreClicked, setIsLearnMoreClicked] = useState<boolean>(false)
   const [isAppHovered, setIsAppHovered] = useState<boolean>(false)
-  const [appClicked, setAppClicked] = useState<string>(null)
+  const [appClicked, setAppClicked] = useState<string>('')
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const fadeInOutClasses = `${isLearnMoreClicked ? 'opacity-100' : 'opacity-[0] h-0 scale-25'}`
