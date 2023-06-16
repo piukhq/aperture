@@ -52,7 +52,7 @@ const CustomerWalletsContainer = () => {
         <h1 className='font-heading-4'>Transactions</h1>
         <div className='h-[42px] w-[350px]'>
           <Dropdown
-            displayValue={selectedPlan || 'Select Plan'}
+            displayValue={selectedPlan || 'Select Loyalty Card'}
             displayValues={userPlans}
             onChangeDisplayValue={setSelectedPlan}
             renderFn={renderDropdownPlan}
