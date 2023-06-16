@@ -8,6 +8,12 @@ import CheckSvg from 'icons/svgs/check.svg'
 import UserSvg from 'icons/svgs/user.svg'
 
 
+enum LookupType {
+  EXTERNAL_ID = 'External ID',
+  JWT = 'JWT',
+  EMAIL = 'Email'
+}
+
 type Props = {
   jwtCustomerLookup: (criteria: string, type: string) => void,
   hasErrorOccurred: boolean
@@ -16,7 +22,7 @@ type Props = {
 const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const selectedJwtToken = useAppSelector(getJwtToken)
   const dispatch = useAppDispatch()
-  const lookupTypeValues = ['JWT']
+  const lookupTypeValues = Object.values(LookupType)
   const [lookupTypeValue, setLookupTypeValue] = useState<string>(lookupTypeValues[0])
   const [lookupValue, setLookupValue] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -44,7 +50,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   return (
     <>
       <form className='flex h-[62px] gap-[25px]' onSubmit={handleSubmit}>
-        <div className='h-[42px]'>
+        <div className='h-[42px] min-w-[230px]'>
           <Dropdown label='Lookup' displayValue={lookupTypeValue} displayValues={lookupTypeValues} onChangeDisplayValue={setLookupTypeValue} hasShadow/>
         </div>
 
@@ -54,7 +60,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
               name='user-identifier'
               label='User identifier'
               autofocus
-              placeholder='Enter JWT from Django'
+              placeholder={`Enter ${lookupTypeValue} ${lookupTypeValue === 'JWT' ? 'from Django' : ''}`}
               error={null}
               value={lookupValue}
               ariaRequired

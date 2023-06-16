@@ -58,7 +58,7 @@ const CustomerTableContainer = ({selectedPlan, loyaltyCard, entity, tableHeaders
           </tbody>
         )}
       </table>
-      {!selectedPlan && <p className='font-body-4 text-center'>Select a plan above to see {entity}</p>}
+      {!selectedPlan && <p className='font-body-4 text-center'>Select a loyalty card above to see {entity}</p>}
       {selectedPlan && (!getLoyaltyCardEntity() || getLoyaltyCardEntity()?.length === 0) && <p className='font-body-4 text-center'>There are no {entity} to view</p>}
     </section>
   )
