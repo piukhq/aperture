@@ -118,26 +118,27 @@ export const directoryCommentsApi = createApi({
       async onQueryStarted ({commentsRef, commentRef}, {dispatch, queryFulfilled}) {
         try {
           const {data: newReplyComment} = await queryFulfilled
-          dispatch(directoryCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
-            if (existingComments.entity_comments) {
-              const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
-              if (comment) {
-                Object.assign(comment, {...comment, responses: updateCommentResponses(comment, newReplyComment)})
-                return
-              }
-            }
-
-            if (existingComments.lower_comments) {
-              existingComments.lower_comments.forEach(lowerComment => {
-                const comment = findNestedComment(lowerComment.comments, commentRef)
+          if (commentsRef && commentRef) {
+            dispatch(directoryCommentsApi.util.updateQueryData('getComments', ({commentsRef}), (existingComments) => {
+              if (existingComments.entity_comments) {
+                const comment = findNestedComment(existingComments.entity_comments.comments, commentRef)
                 if (comment) {
                   Object.assign(comment, {...comment, responses: updateCommentResponses(comment, newReplyComment)})
                   return
                 }
-              })
-            }
-          })
-          )
+              }
+
+              if (existingComments.lower_comments) {
+                existingComments.lower_comments.forEach(lowerComment => {
+                  const comment = findNestedComment(lowerComment.comments, commentRef)
+                  if (comment) {
+                    Object.assign(comment, {...comment, responses: updateCommentResponses(comment, newReplyComment)})
+                    return
+                  }
+                })
+              }
+            }))
+          }
         } catch (err) {
           // TODO: Handle error scenarios gracefully in future error handling app wide
           console.error('Error:', err)

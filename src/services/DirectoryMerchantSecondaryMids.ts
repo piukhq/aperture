@@ -150,7 +150,7 @@ export const directoryMerchantSecondaryMidsApi = createApi({
       query: ({planRef, merchantRef, secondaryMidRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/deletion`,
         method: 'POST',
-        body: {secondary_mid_refs: [...secondaryMidRefs]},
+        body: {secondary_mid_refs: secondaryMidRefs ? [...secondaryMidRefs] : []},
       }),
       invalidatesTags: ['MerchantSecondaryMids'], // TODO: Optimistic update does not work though it does for mids deletion?
       async onQueryStarted (_, {dispatch, queryFulfilled}) {
@@ -165,7 +165,6 @@ export const directoryMerchantSecondaryMidsApi = createApi({
         }
       },
     }),
-    // TODO: IF there is a requirement to onboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, secondaryMidRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/onboarding`,

@@ -84,13 +84,13 @@ export const directoryMerchantPsimisApi = createApi({
       },
     }),
     deleteMerchantPsimi: builder.mutation<void, DeleteMerchantPsimiRefs>({
-      query: ({planRef, merchantRef, psimiRefs}) => ({
+      query: ({planRef, merchantRef, psimiRefs = []}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis/deletion`,
         method: 'POST',
         body: {psimi_refs: [...psimiRefs]},
       }),
       // Update the cache with the removed PSIMI
-      async onQueryStarted ({planRef, merchantRef, psimiRefs}, {dispatch, queryFulfilled}) {
+      async onQueryStarted ({planRef, merchantRef, psimiRefs = []}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
           dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))

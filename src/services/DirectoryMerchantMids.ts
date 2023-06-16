@@ -146,7 +146,7 @@ export const directoryMerchantMidsApi = createApi({
           await queryFulfilled
           dispatch(directoryMerchantLocationsApi.util.invalidateTags(['MerchantLocationLinkedMids', 'MerchantLocationAvailableMids']))
           dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
-            existingMid.location = null
+            existingMid.location = null as unknown as DirectoryMerchantMidLocation
           })
           )
         } catch (err) {
@@ -156,13 +156,13 @@ export const directoryMerchantMidsApi = createApi({
       },
     }),
     deleteMerchantMid: builder.mutation<void, DeleteMerchantMidRefs>({
-      query: ({planRef, merchantRef, midRefs}) => ({
+      query: ({planRef, merchantRef, midRefs = []}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/deletion`,
         method: 'POST',
         body: {mid_refs: [...midRefs]},
       }),
       // Update the cache with the removed MID
-      async onQueryStarted ({planRef, merchantRef, midRefs}, {dispatch, queryFulfilled}) {
+      async onQueryStarted ({planRef, merchantRef, midRefs = []}, {dispatch, queryFulfilled}) {
         try {
           await queryFulfilled
           dispatch(directoryPlansApi.util.invalidateTags(['Plan', 'Plans']))
