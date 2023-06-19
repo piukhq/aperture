@@ -6,7 +6,7 @@ import usePermissions from 'hooks/usePermissions'
 import {UserPermissions} from 'utils/enums'
 import {Plan} from 'types'
 
-type DisplayValue = string | Plan // Don't like how this can be two radically different types
+type DisplayValue = string
 
 type Props = {
   label?: string
