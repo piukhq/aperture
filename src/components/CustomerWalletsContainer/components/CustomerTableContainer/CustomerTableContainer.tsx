@@ -21,7 +21,7 @@ const CustomerTableContainer = ({selectedPlan, loyaltyCard, entity, tableHeaders
           const stateOrder = ['issued', 'redeemed', 'cancelled', 'expired', 'inprogress']
           return stateOrder.indexOf(a.state) - stateOrder.indexOf(b.state)
         })
-        return sortedVouchers
+        return sortedVouchers.filter(voucher => voucher.state !== 'inprogress')
       }
       return loyaltyCard[entityKey]
     }
