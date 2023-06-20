@@ -143,17 +143,17 @@ const DirectoryMerchantSecondaryMids = () => {
   const renderCheckedItemButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
-        label: 'Onboard to Harmonia',
+        label: 'Onboard',
         handleClick: requestOnboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Offboard from Harmonia',
+        label: 'Offboard',
         handleClick: requestOffboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Update to Harmonia',
+        label: 'Update',
         handleClick: requestUpdateModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
