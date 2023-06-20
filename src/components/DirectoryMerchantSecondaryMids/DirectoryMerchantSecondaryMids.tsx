@@ -135,6 +135,10 @@ const DirectoryMerchantSecondaryMids = () => {
     dispatch(setHarmoniaActionType(HarmoniaActionTypes.UPDATE))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
+  const requestSchemeStatusModal = ():void => {
+    setSelectedSecondaryMids()
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
+  }
 
   const renderCheckedItemButtons = ():JSX.Element => {
     const actionsMenuItems = [
@@ -151,6 +155,11 @@ const DirectoryMerchantSecondaryMids = () => {
       {
         label: 'Update to Harmonia',
         handleClick: requestUpdateModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+      {
+        label: 'Scheme Status',
+        handleClick: requestSchemeStatusModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
