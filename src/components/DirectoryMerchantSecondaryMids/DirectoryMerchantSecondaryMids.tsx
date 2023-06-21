@@ -103,6 +103,7 @@ const DirectoryMerchantSecondaryMids = () => {
       entityRef: secondaryMid.secondary_mid_ref,
       entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
       paymentSchemeSlug: secondaryMid.secondary_mid_metadata.payment_scheme_slug,
+      entitySchemeStatus: secondaryMid.secondary_mid_metadata.payment_enrolment_status,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedSecondaryMidsToEntity))
   }

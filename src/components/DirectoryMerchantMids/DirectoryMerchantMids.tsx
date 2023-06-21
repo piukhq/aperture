@@ -103,6 +103,7 @@ const DirectoryMerchantMids = () => {
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
       paymentSchemeSlug: mid.mid_metadata.payment_scheme_slug,
+      entitySchemeStatus: mid.mid_metadata.payment_enrolment_status,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
   }

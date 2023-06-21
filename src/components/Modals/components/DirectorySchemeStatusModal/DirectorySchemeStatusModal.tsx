@@ -4,6 +4,7 @@ import {ButtonType, ButtonSize, ButtonWidth, ButtonBackground, LabelColour, Labe
 import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {ModalStyle, PaymentSchemeStatus, PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
+import {getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import useGetDirectoryRouterString from 'hooks/useGetRouterQueryString'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
 import {useDirectoryMids} from 'hooks/useDirectoryMids'
@@ -92,17 +93,18 @@ const DirectorySchemeStatusModal = () => {
   )
 
   const renderSchemeStatusForm = () => {
+
     const renderListItem = (listItem: DirectoryMerchantEntitySelectedItem) => {
-      const {entityRef, entityValue, paymentSchemeSlug} = listItem
+      const {entityRef, entityValue, paymentSchemeSlug, entitySchemeStatus} = listItem
       return (
         <li className='font-bold flex items-center gap-[2px]' key={entityRef}>
           {entityValue}
-          {paymentSchemeSlug && (
-            <PaymentCardIcon
-              paymentSchemeSlug={paymentSchemeSlug}
-              paymentSchemeIconStyles='flex w-[20px] h-[15px] justify-center mx-[2px] items-center'
-            />
-          )}
+
+          <PaymentCardIcon
+            paymentSchemeSlug={paymentSchemeSlug}
+            paymentSchemeIconStyles='flex w-[20px] h-[15px] justify-center mx-[2px] items-center'
+          />
+          <span className={getPaymentSchemeStatusString(entitySchemeStatus).textColour + 'ml-2'}>{PaymentSchemeStatusDisplayValue[entitySchemeStatus]}</span>
         </li>
       )
     }
