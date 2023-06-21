@@ -4,6 +4,7 @@ import {
   useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
+  usePatchMerchantMidsBulkMutation,
   usePutMerchantMidLocationMutation,
   useDeleteMerchantMidLocationMutation,
   useDeleteMerchantMidMutation,
@@ -11,7 +12,15 @@ import {
   usePostMerchantMidOffboardingMutation,
 } from 'services/DirectoryMerchantMids'
 
-export const useDirectoryMids = ({skipGetMids = false, skipGetMidsByPage = false, skipGetMid = false, planRef = '', merchantRef = '', midRef = '', page = '1'}) => {
+export const useDirectoryMids = ({
+  skipGetMids = false,
+  skipGetMidsByPage = false,
+  skipGetMid = false,
+  planRef = '',
+  merchantRef = '',
+  midRef = '',
+  page = '1',
+}) => {
   const {
     data: getMerchantMidsResponse,
     isLoading: getMerchantMidsIsLoading,
@@ -46,6 +55,14 @@ export const useDirectoryMids = ({skipGetMids = false, skipGetMidsByPage = false
     reset: resetPatchMerchantMidResponse,
   }] = usePatchMerchantMidMutation({fixedCacheKey: 'patchMerchantMid'})
 
+  const [patchMerchantMidsBulk, {
+    data: patchMerchantMidsBulkResponse,
+    isSuccess: patchMerchantMidsBulkIsSuccess,
+    isLoading: patchMerchantMidsBulkIsLoading,
+    isError: patchMerchantMidsBulkIsError,
+    reset: resetPatchMerchantMidsBulkResponse,
+  }] = usePatchMerchantMidsBulkMutation({fixedCacheKey: 'patchMerchantMids'})
+
   const [putMerchantMidLocation, {
     data: putMerchantMidLocationResponse,
     isLoading: putMerchantMidLocationIsLoading,
@@ -66,7 +83,6 @@ export const useDirectoryMids = ({skipGetMids = false, skipGetMidsByPage = false
     error: deleteMerchantMidError,
     reset: resetDeleteMerchantMidResponse,
   }] = useDeleteMerchantMidMutation({fixedCacheKey: 'deleteMerchantMid'})
-
 
   const [postMerchantMidOnboarding, {
     data: postMerchantMidOnboardingResponse,
@@ -111,6 +127,13 @@ export const useDirectoryMids = ({skipGetMids = false, skipGetMidsByPage = false
     patchMerchantMidIsLoading,
     patchMerchantMidError,
     resetPatchMerchantMidResponse,
+    // PATCH BULK MIDs
+    patchMerchantMidsBulk,
+    patchMerchantMidsBulkResponse,
+    patchMerchantMidsBulkIsSuccess,
+    patchMerchantMidsBulkIsLoading,
+    patchMerchantMidsBulkIsError,
+    resetPatchMerchantMidsBulkResponse,
     // PUT MID
     putMerchantMidLocation,
     putMerchantMidLocationResponse,
