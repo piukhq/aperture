@@ -11,6 +11,12 @@ export const getPaymentSchemeStatusString = (paymentEnrolmentStatus: string) => 
       `${paymentEnrolmentStatus === PaymentSchemeStatus.ENROLLING && 'text-yellow'}`,
       `${(paymentEnrolmentStatus === PaymentSchemeStatus.REMOVED || paymentEnrolmentStatus === PaymentSchemeStatus.FAILED) && 'text-red'}`,
     ),
+    textColour: `${(paymentEnrolmentStatus === PaymentSchemeStatus.UNKNOWN || paymentEnrolmentStatus === PaymentSchemeStatus.NOT_ENROLLED) && 'text-grey-600'}
+    ${paymentEnrolmentStatus === PaymentSchemeStatus.ENROLLED && 'text-aquamarine'}
+    ${paymentEnrolmentStatus === PaymentSchemeStatus.ENROLLING && 'text-yellow'}
+    ${(paymentEnrolmentStatus === PaymentSchemeStatus.REMOVED || paymentEnrolmentStatus === PaymentSchemeStatus.FAILED) && 'text-red'}
+    `,
+
   }
 }
 

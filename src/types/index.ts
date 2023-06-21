@@ -321,6 +321,7 @@ export type DirectoryMerchantEntitySelectedItem = {
   entityRef: string,
   entityValue: string,
   paymentSchemeSlug?: PaymentSchemeSlug
+  entitySchemeStatus?: string
 }
 
 export type OptionsMenuItem = {
