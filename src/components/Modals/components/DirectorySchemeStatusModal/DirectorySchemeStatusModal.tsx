@@ -14,6 +14,7 @@ const DirectorySchemeStatusModal = () => {
 
   const dispatch = useAppDispatch()
   const {planId, merchantId, tab} = useGetDirectoryRouterString()
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>(PaymentSchemeStatusDisplayValue['Not enrolled'])
 
   const {
     patchMerchantMidsBulk,
@@ -51,7 +52,6 @@ const DirectorySchemeStatusModal = () => {
     'psimis'= 'PSIMI',
   }
 
-  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>(PaymentSchemeStatusDisplayValue['Not enrolled'])
 
   const paymentSchemeStatusValues: string[] = [
     PaymentSchemeStatusDisplayValue['enrolled'],
