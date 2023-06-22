@@ -4,12 +4,23 @@ import {
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,
+  usePatchMerchantSecondaryMidsBulkMutation,
   useDeleteMerchantSecondaryMidMutation,
   usePostMerchantSecondaryMidOnboardingMutation,
   usePostMerchantSecondaryMidOffboardingMutation,
 } from 'services/DirectoryMerchantSecondaryMids'
 
-export const useDirectorySecondaryMids = ({skipGetSecondaryMids = false, skipGetSecondaryMid = false, skipGetSecondaryMidsByPage = false, planRef = '', merchantRef = '', secondaryMidRef = '', locationRef = '', page = '1', getAll = false}) => {
+export const useDirectorySecondaryMids = ({
+  skipGetSecondaryMids = false,
+  skipGetSecondaryMid = false,
+  skipGetSecondaryMidsByPage = false,
+  planRef = '',
+  merchantRef = '',
+  secondaryMidRef = '',
+  locationRef = '',
+  page = '1',
+  getAll = false}
+) => {
   const {
     data: getMerchantSecondaryMidsResponse,
     isLoading: getMerchantSecondaryMidsIsLoading,
@@ -44,6 +55,14 @@ export const useDirectorySecondaryMids = ({skipGetSecondaryMids = false, skipGet
     error: patchMerchantSecondaryMidError,
     reset: resetPatchMerchantSecondaryMidResponse,
   }] = usePatchMerchantSecondaryMidMutation({fixedCacheKey: 'patchMerchantSecondaryMid'})
+
+  const [patchMerchantSecondaryMidsBulk, {
+    data: patchMerchantSecondaryMidsBulkResponse,
+    isSuccess: patchMerchantSecondaryMidsBulkIsSuccess,
+    isLoading: patchMerchantSecondaryMidsBulkIsLoading,
+    isError: patchMerchantSecondaryMidsBulkIsError,
+    reset: resetPatchMerchantSecondaryMidsBulkResponse,
+  }] = usePatchMerchantSecondaryMidsBulkMutation({fixedCacheKey: 'patchMerchantSecondaryMids'})
 
   const [deleteMerchantSecondaryMid, {
     isSuccess: deleteMerchantSecondaryMidIsSuccess,
@@ -96,6 +115,13 @@ export const useDirectorySecondaryMids = ({skipGetSecondaryMids = false, skipGet
     patchMerchantSecondaryMidError,
     patchMerchantSecondaryMidIsLoading,
     resetPatchMerchantSecondaryMidResponse,
+    // PATCH Secondary MIDs Bulk
+    patchMerchantSecondaryMidsBulk,
+    patchMerchantSecondaryMidsBulkResponse,
+    patchMerchantSecondaryMidsBulkIsSuccess,
+    patchMerchantSecondaryMidsBulkIsError,
+    patchMerchantSecondaryMidsBulkIsLoading,
+    resetPatchMerchantSecondaryMidsBulkResponse,
     // DELETE Secondary MID
     deleteMerchantSecondaryMid,
     deleteMerchantSecondaryMidIsSuccess,

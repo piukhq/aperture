@@ -4,7 +4,7 @@ import {directoryMerchantsApi} from './DirectoryMerchants'
 import {createApi} from '@reduxjs/toolkit/query/react'
 import {DirectoryMerchantMid, DirectoryMids, DirectoryMid, DirectoryMerchantMidLocation, DirectoryMidMetadata} from 'types'
 import {getDynamicBaseQuery} from 'utils/configureApiUrl'
-import {UrlEndpoint} from 'utils/enums'
+import {PaymentSchemeStatus, UrlEndpoint} from 'utils/enums'
 
 type MerchantMidsEndpointRefs = {
   planRef: string,
@@ -20,6 +20,10 @@ type PostMerchantMidBody = MerchantMidsEndpointRefs & {
 type PatchMerchantMidBody = MerchantMidsEndpointRefs & {
   visa_bin?: string | null,
   payment_enrolment_status?: string | null
+}
+type PatchMerchantMidsBody = MerchantMidsEndpointRefs & {
+  mid_refs: Array<string>,
+  payment_enrolment_status: PaymentSchemeStatus
 }
 
 type PutMerchantMidLocationBody = MerchantMidsEndpointRefs & {
@@ -107,6 +111,16 @@ export const directoryMerchantMidsApi = createApi({
           console.error('Error:', err)
         }
       },
+    }),
+    patchMerchantMidsBulk: builder.mutation<DirectoryMid, PatchMerchantMidsBody>({
+      query: ({planRef, merchantRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids`,
+        method: 'PATCH',
+        body: {
+          ...rest,
+        },
+      }),
+      invalidatesTags: ['MerchantMids'],
     }),
     getMerchantMid: builder.query<DirectoryMerchantMid, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef, midRef}) => ({
@@ -232,6 +246,7 @@ export const {
   useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
+  usePatchMerchantMidsBulkMutation,
   usePutMerchantMidLocationMutation,
   useDeleteMerchantMidLocationMutation,
   useDeleteMerchantMidMutation,

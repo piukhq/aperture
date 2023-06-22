@@ -103,6 +103,7 @@ const DirectoryMerchantSecondaryMids = () => {
       entityRef: secondaryMid.secondary_mid_ref,
       entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
       paymentSchemeSlug: secondaryMid.secondary_mid_metadata.payment_scheme_slug,
+      entitySchemeStatus: secondaryMid.secondary_mid_metadata.payment_enrolment_status,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedSecondaryMidsToEntity))
   }
@@ -135,22 +136,31 @@ const DirectoryMerchantSecondaryMids = () => {
     dispatch(setHarmoniaActionType(HarmoniaActionTypes.UPDATE))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
+  const requestSchemeStatusModal = ():void => {
+    setSelectedSecondaryMids()
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
+  }
 
   const renderCheckedItemButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
-        label: 'Onboard to Harmonia',
+        label: 'Onboard',
         handleClick: requestOnboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Offboard from Harmonia',
+        label: 'Offboard',
         handleClick: requestOffboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Update to Harmonia',
+        label: 'Update',
         handleClick: requestUpdateModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+      {
+        label: 'Scheme Status',
+        handleClick: requestSchemeStatusModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {

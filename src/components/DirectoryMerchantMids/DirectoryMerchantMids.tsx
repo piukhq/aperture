@@ -103,6 +103,7 @@ const DirectoryMerchantMids = () => {
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
       paymentSchemeSlug: mid.mid_metadata.payment_scheme_slug,
+      entitySchemeStatus: mid.mid_metadata.payment_enrolment_status,
     }))
     dispatch(setSelectedDirectoryEntityCheckedSelection(checkedMidsToEntity))
   }
@@ -136,23 +137,34 @@ const DirectoryMerchantMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
 
+  const requestSchemeStatusModal = ():void => {
+    setSelectedMids()
+    dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
+  }
+
   const renderCheckedItemButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
-        label: 'Onboard to Harmonia',
+        label: 'Onboard',
         handleClick: requestOnboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Offboard from Harmonia',
+        label: 'Offboard',
         handleClick: requestOffboardModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Update to Harmonia',
+        label: 'Update',
         handleClick: requestUpdateModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
+      {
+        label: 'Scheme Status',
+        handleClick: requestSchemeStatusModal,
+        buttonStyle: BulkActionButtonStyle.HARMONIA,
+      },
+
       {
         label: 'Comments',
         handleClick: requestBulkCommentModal,

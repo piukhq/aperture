@@ -1,6 +1,7 @@
 export {default as LogoutModal} from './components/LogoutModal'
 export {default as AssetModal} from './components/AssetModal'
 export {default as BulkCommentModal} from './components/BulkCommentModal'
+export {default as DirectorySchemeStatusModal} from './components/DirectorySchemeStatusModal'
 export {default as CredentialsModal} from './components/CredentialsModal'
 export {default as DirectoryMerchantDeleteModal} from './components/DirectoryMerchantDeleteModal'
 export {default as DirectoryMerchantMidsDeleteModalContainer} from './components/DirectoryMerchantMidsDeleteModalContainer'

@@ -86,9 +86,10 @@ describe('DirectoryMerchantMids', () => {
   it('should render the correct checked item buttons', () => {
     render(getDirectoryMerchantMidsComponent())
 
-    expect(screen.getByRole('button', {name: 'Onboard to Harmonia'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Offboard from Harmonia'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Update to Harmonia'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Scheme Status'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Update'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })

@@ -24,6 +24,11 @@ type PatchMerchantSecondaryMidBody = MerchantSecondaryMidsEndpointRefs & {
   payment_enrolment_status?: string | null
 }
 
+type PatchMerchantSecondaryMidsBody = MerchantSecondaryMidsEndpointRefs & {
+  payment_enrolment_status: string,
+  secondary_mid_refs: Array<string>,
+}
+
 type DeleteMerchantSecondaryMidRefs = MerchantSecondaryMidsEndpointRefs & {
   secondaryMidRefs?: Array<string>,
 }
@@ -126,6 +131,16 @@ export const directoryMerchantSecondaryMidsApi = createApi({
         }
       },
     }),
+    patchMerchantSecondaryMidsBulk: builder.mutation<DirectorySecondaryMid, PatchMerchantSecondaryMidsBody>({
+      query: ({planRef, merchantRef, ...rest}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids`,
+        method: 'PATCH',
+        body: {
+          ...rest,
+        },
+      }),
+      invalidatesTags: ['MerchantSecondaryMids'],
+    }),
     deleteMerchantSecondaryMidLocationLink: builder.mutation<void, MerchantSecondaryMidsEndpointRefs>({
       query: ({planRef, merchantRef, linkRef}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mid_location_links/${linkRef}`,
@@ -213,6 +228,7 @@ export const {
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,
+  usePatchMerchantSecondaryMidsBulkMutation,
   useGetMerchantSecondaryMidLinkedLocationsQuery,
   usePostMerchantSecondaryMidLocationLinkMutation,
   useDeleteMerchantSecondaryMidLocationLinkMutation,
