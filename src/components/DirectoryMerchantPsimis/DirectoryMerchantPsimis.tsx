@@ -126,11 +126,6 @@ const DirectoryMerchantPsimis = () => {
     dispatch(setHarmoniaActionType(HarmoniaActionTypes.OFFBOARD))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
-  const requestSchemeStatusModal = ():void => {
-    setSelectedPsimis()
-    dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
-  }
-
 
   const renderCheckedItemButtons = ():JSX.Element => {
     const actionsMenuItems = [
@@ -142,11 +137,6 @@ const DirectoryMerchantPsimis = () => {
       {
         label: 'Offboard',
         handleClick: requestOffboardModal,
-        buttonStyle: BulkActionButtonStyle.HARMONIA,
-      },
-      {
-        label: 'Scheme Status',
-        handleClick: requestSchemeStatusModal,
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
