@@ -1,4 +1,3 @@
-// TODO Add adjust for future functionality to be added in the component
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import {DirectorySchemeStatusModal} from 'components/Modals'
