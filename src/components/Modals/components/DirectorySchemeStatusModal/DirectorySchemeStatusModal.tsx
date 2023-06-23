@@ -117,7 +117,7 @@ const DirectorySchemeStatusModal = () => {
             {selectedEntities.map(entity => renderListItem(entity))}
           </ul>
           <p data-testid='paragraph-2'>Enrolment status for {hasMultipleEntities ? 'these ' : 'this '}{entityLabel} will be set to</p>
-          <div className='flex flex-col h-[50px] pl-[15px] pb-[60px]'>
+          <div className='flex flex-col h-[50px] pl-[15px] mb-[60px]'>
             <label className='font-modal-heading'>PAYMENT SCHEME STATUS</label>
             <div className='w-[200px] h-[28px]'>
               <Dropdown
