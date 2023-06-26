@@ -57,8 +57,8 @@ const CategoryDetails = ({
     }
   }
 
-  const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key when not identical across all environments
-    const renderCategoryValue = (categoryValue: string) => {
+  const renderMismatchedCategoryValue = (categoryKey: string) => { // Displays the key and values when not identical across all environments. There is two key functions depending on if the category is an array or not
+    const renderCategoryValue = (categoryValue: string) => { // Used when the category value is a string
       const renderCharacterComparison = (str: string) => {
         return Array.from(str).map((char, index) => {
           if (categoryAcrossEnvsArray.every((envCategory) => JSON.stringify(envCategory[categoryKey] || '')[index] === char)
@@ -77,8 +77,8 @@ const CategoryDetails = ({
       return renderCharacterComparison(categoryValue)
     }
 
-    const renderCategoryArray = (categoryArray: Array<Record<string, unknown>>) => {
-        enum CategoryArraySortKey {
+    const renderCategoryArray = (categoryArray: Array<Record<string, unknown>>) => { // Used when the category is an array
+        enum CategoryArraySortKey { // Used to sort the array by the key that is relavent to the category
         'plan_documents' = 'name',
         'add_fields' = 'column',
         'authorise_fields' = 'column',
@@ -104,7 +104,7 @@ const CategoryDetails = ({
         ))
     }
 
-    const renderCategoryKeyNotes = (categoryKey: string) => {
+    const renderCategoryKeyNotes = (categoryKey: string) => { // Used to display notes about the category key where needed, mostly just for plan_documents
       let categoryNote = null
       categoryKey === 'plan_documents' && (categoryNote = 'url is ignored for comparison')
       if (categoryNote) {
@@ -120,12 +120,16 @@ const CategoryDetails = ({
         <summary className='font-heading-7 cursor-pointer' key={categoryKey}>
           {category === PlanCategory.CONTENT ? categoryWithMostKeysAcrossEnvs[categoryKey].column : categoryKey} {renderCategoryKeyNotes(categoryKey)}
         </summary>
-        {categoryAcrossEnvsArray.map((category, index) => (
-          <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
-            <p className='font-heading-8 font-bold'>{capitaliseFirstLetter(Object.keys(plans)[index])}</p>
-            <p className='font-body-3 break-words w-full font-body-4'>{isArray ? renderCategoryArray(category[categoryKey]) : renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
-          </div>
-        ))
+        {categoryAcrossEnvsArray.map((category, index) => {
+
+          const availablePlans = Object.keys(plans).filter(env => plans[env]?.id)
+          return (
+            <div key={index} className='flex flex-col p-4 gap-2 bg-black/10 m-4 rounded-[10px]'>
+              <p className='font-heading-8 font-bold'>{capitaliseFirstLetter(availablePlans[index])}</p>
+              <p className='font-body-3 break-words w-full font-body-4'>{isArray ? renderCategoryArray(category[categoryKey]) : renderCategoryValue(JSON.stringify(category[categoryKey]) || '')}</p>
+            </div>
+          )
+        })
         }
       </details>
     )
