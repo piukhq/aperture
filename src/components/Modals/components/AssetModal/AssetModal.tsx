@@ -12,13 +12,18 @@ import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/compa
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName, ModalStyle} from 'utils/enums'
 import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
-import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
+import {getWCAGComplianceLevels} from 'utils/colours'
 
 const AssetModal = () => {
   const dispatch = useAppDispatch()
   const [imageDimensionsState, setImageDimensionsState] = useState(null)
   const [isError, setIsError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [contrastRatioToolRequested, setContrastRatioToolRequested] = useState<boolean>(false)
+  const [textColour, setTextColour] = useState<string>('')
+  const [backgroundColour, setBackgroundColour] = useState<string>('')
+
   const imageClasses = imageDimensionsState ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
@@ -218,6 +223,16 @@ const AssetModal = () => {
 
     return (
       <div className='flex justify-end gap-[20px] mb-[24px]'>
+        <Button
+          handleClick={() => setContrastRatioToolRequested(!contrastRatioToolRequested)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          {!contrastRatioToolRequested ? 'Test Contrast Ratios' : 'Close Ratio Test' }
+        </Button>
         <a href={`https://api.${djangoUrlEnvValue}gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
           className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px]
         bg-blue text-grey-100 font-medium font-heading tracking-[.038rem] text-sm' // Refactor to an @apply if used elsewhere
@@ -239,12 +254,54 @@ const AssetModal = () => {
       </div>
     ) }
 
+  const renderContrastRatioTool = () => {
+    const handleEyedropperClick = (isText: boolean) => {
+      const eyeDropper = new EyeDropper()
+      eyeDropper
+        .open()
+        .then((result: {sRGBHex:string}) => {
+          console.log(result.sRGBHex)
+          isText ? setTextColour(result.sRGBHex) : setBackgroundColour(result.sRGBHex)
+        })
+        .catch((e: string) => {
+          console.error(e)
+        })
+    }
+
+    return (
+      <div className='h-[212px] mb-[24px] overflow-auto flex flex-col gap-8 justify-center items-center'>
+        <span className='font-heading-6 duration-500'>{textColour && backgroundColour ? getWCAGComplianceLevels(textColour, backgroundColour) : 'Select colours below'}</span>
+        <Button
+          handleClick={() => handleEyedropperClick(true)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          borderColour={BorderColour.GREY}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          Select Text {textColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: textColour}}></span>}
+        </Button>
+        <Button
+          handleClick={() => handleEyedropperClick(false)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          borderColour={BorderColour.GREY}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          Select Background { backgroundColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: backgroundColour}}></span>}
+        </Button>
+
+      </div>
+    )
+  }
+
   return (
     <Modal modalStyle={ModalStyle.WIDE} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}
-      {renderJSONSection()}
+      {window && contrastRatioToolRequested ? renderContrastRatioTool() : renderJSONSection()}
       {renderButtons()}
     </Modal>
   )
