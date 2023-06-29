@@ -76,9 +76,9 @@ const Dropdown = ({label, displayValue, displayValues, onChangeDisplayValue, has
                   className='py-[7px] pl-[7px] cursor-pointer font-subheading-3 font-medium'
                 >
                   {({active}) => (
-                    <li className={active && 'bg-lightYellow dark:bg-grey-800'}>
+                    <span className={active && 'bg-lightYellow dark:bg-grey-800'}>
                       { renderDisplayValue(value)}
-                    </li>
+                    </span>
                   )}
                 </Listbox.Option>
               ))}
