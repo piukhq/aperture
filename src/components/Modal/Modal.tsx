@@ -57,13 +57,11 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
 
   }, [dispatch])
 
-
   useEffect(() => { // fade in modal
     if (children) {
       setIsFadedIn(true)
     }
   }, [children, isModalCurrentlyHidden])
-
 
   const renderCloseButton = () => (
     <button
