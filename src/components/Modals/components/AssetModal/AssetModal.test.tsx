@@ -75,6 +75,8 @@ describe('Asset Modal', () => {
       .mockImplementationOnce(() => [mockDimensions, setStateMock])
       .mockImplementation(() => [false, setStateMock])
       .mockImplementation(() => [false, setStateMock])
+      .mockImplementation(() => ['', setStateMock])
+      .mockImplementation(() => ['', setStateMock])
   })
 
   describe('Test heading and environment tags ', () => {
