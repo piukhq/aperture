@@ -256,11 +256,12 @@ const AssetModal = () => {
 
   const renderContrastRatioTool = () => {
     const handleEyedropperClick = (isText: boolean) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore -  TODO: Eyedropper is experiemental API which will be replaced in future ticket, currently prototyping for testing purposes
       const eyeDropper = new EyeDropper()
       eyeDropper
         .open()
         .then((result: {sRGBHex:string}) => {
-          console.log(result.sRGBHex)
           isText ? setTextColour(result.sRGBHex) : setBackgroundColour(result.sRGBHex)
         })
         .catch((e: string) => {
@@ -270,13 +271,13 @@ const AssetModal = () => {
 
     return (
       <div className='h-[212px] mb-[24px] overflow-auto flex flex-col gap-8 justify-center items-center'>
-        <span className='font-heading-6 duration-500'>{textColour && backgroundColour ? getWCAGComplianceLevels(textColour, backgroundColour) : 'Select colours below'}</span>
+        {textColour && backgroundColour && getWCAGComplianceLevels(textColour, backgroundColour)}
         <Button
           handleClick={() => handleEyedropperClick(true)}
           buttonSize={ButtonSize.MEDIUM_ICON}
           buttonWidth={ButtonWidth.AUTO}
           borderColour={BorderColour.GREY}
-          labelColour={LabelColour.WHITE}
+          labelColour={LabelColour.GREY}
           labelWeight={LabelWeight.MEDIUM}
         >
           Select Text {textColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: textColour}}></span>}
@@ -286,7 +287,7 @@ const AssetModal = () => {
           buttonSize={ButtonSize.MEDIUM_ICON}
           buttonWidth={ButtonWidth.AUTO}
           borderColour={BorderColour.GREY}
-          labelColour={LabelColour.WHITE}
+          labelColour={LabelColour.GREY}
           labelWeight={LabelWeight.MEDIUM}
         >
           Select Background { backgroundColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: backgroundColour}}></span>}
@@ -301,7 +302,7 @@ const AssetModal = () => {
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}
-      {window && contrastRatioToolRequested ? renderContrastRatioTool() : renderJSONSection()}
+      {window && contrastRatioToolRequested && 'EyeDropper' in window ? renderContrastRatioTool() : renderJSONSection()}
       {renderButtons()}
     </Modal>
   )
