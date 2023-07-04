@@ -6,6 +6,7 @@ jest.mock('components/PlansList/components/IconImage', () => () => <div data-tes
 
 describe('Plan component', () => {
   const mockPlanName = 'mock_plan_name'
+  const mockId = 1234
   const defaultMockPlan = {
     account: {
       plan_name: mockPlanName,
@@ -21,7 +22,7 @@ describe('Plan component', () => {
       registration_fields: [],
       tiers: [],
     },
-    id: 1234,
+    id: mockId,
     isDev: false,
     isStaging: false,
     isProd: false,
@@ -40,11 +41,11 @@ describe('Plan component', () => {
     slug: 'mock_slug',
   }
 
-  describe('Test icon image and plan name text', () => {
-    it('should render icon image and plan name', () => {
+  describe('Test icon image and plan text', () => {
+    it('should render icon image, plan name and plan id', () => {
       const {queryByTestId, getByText} = render(<Plan plan={defaultMockPlan} />)
       expect(queryByTestId('icon-image')).toBeInTheDocument()
-      expect(getByText(mockPlanName)).toBeInTheDocument()
+      expect(getByText(`${mockPlanName} (${mockId})`)).toBeInTheDocument()
     })
   })
 
