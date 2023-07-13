@@ -11,7 +11,7 @@ export type PlanAssets = {
 
 const initialState: PlanAssets = {
   selectedPlanImages: {dev: [], staging: []}, // All images of a selected plan from the APIs
-  selectedAssetEnvironment: null, // The ID of the asset selected in the Asset Grid
+  selectedAssetEnvironment: '', // The ID of the asset selected in the Asset Grid
   selectedAssetGroup: {dev: null, staging: null}, // All assets matching the selected Asset's type and typeIndex with additional metadata across all available environments
   selectedPlans: {dev: null, staging: null, prod: null},
 }

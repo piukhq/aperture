@@ -4,12 +4,12 @@ import {DirectoryPlan} from 'types'
 
 const initialState: DirectoryPlan = {
   plan_metadata: {
-    name: null,
-    icon_url: null,
-    slug: null,
+    name: '',
+    icon_url: '',
+    slug: '',
     plan_id: null,
   },
-  plan_ref: null,
+  plan_ref: '',
   plan_counts: null,
   total_mid_count: null,
 }

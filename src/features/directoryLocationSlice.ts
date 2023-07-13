@@ -6,7 +6,7 @@ type DirectoryLocationState = {
 }
 
 const initialState: DirectoryLocationState = {
-  locationLabel: null,
+  locationLabel: '',
 }
 
 export const directoryLocationSlice = createSlice({

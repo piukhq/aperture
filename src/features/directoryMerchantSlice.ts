@@ -16,12 +16,15 @@ const initialState: DirectoryMerchantSliceState = {
   selectedPaymentScheme: null,
   selectedMerchant: {
     merchant_metadata: {
-      name: null,
-      icon_url: null,
-      location_label: null,
+      name: '',
+      icon_url: '',
+      location_label: '',
     },
-    merchant_ref: null,
-    merchant_counts: null,
+    merchant_ref: '',
+    merchant_counts: {
+      locations: 0,
+      payment_schemes: [],
+    },
   },
   selectedEntityCheckedSelection: [],
   selectedTableCheckedRows: [],
