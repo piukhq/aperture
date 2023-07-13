@@ -34,7 +34,7 @@ const DirectoryPlanModal = () => {
   const isNewPlan = !plan_ref
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
-  const [imageValue, setImageValue] = useState<string>('')
+  const [imageValue, setImageValue] = useState<string| null>(null)
   const [nameValue, setNameValue] = useState<string>(name || '')
   const [planIdValue, setPlanIdValue] = useState<string>(`${planId || ''}`)
   const [slugValue, setSlugValue] = useState<string>(slug || '')
@@ -148,7 +148,7 @@ const DirectoryPlanModal = () => {
     >Add Image</label>
   )
 
-  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
+  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl || ''} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
     <>

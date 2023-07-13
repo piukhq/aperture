@@ -9,7 +9,7 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 type Props = {
   planId: number,
   name: string,
-  iconUrl?: string,
+  iconUrl?: string | null,
   slug?: string,
   locationLabel?:string,
   isMerchant?: boolean,

@@ -42,7 +42,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const planDetails: DirectoryPlanDetails | null = getPlanResponse || null
   const {merchants = [], plan_metadata: planMetadata = {
     name: '',
-    icon_url: '',
+    icon_url: null,
     plan_id: 0,
     slug: '',
   }} = planDetails || {}
