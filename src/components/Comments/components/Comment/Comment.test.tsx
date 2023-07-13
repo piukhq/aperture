@@ -24,12 +24,12 @@ describe('Comment', () => {
       {
         display_text: mockEntityCommentSubject1Text,
         subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-        icon_slug: null,
+        icon_slug: '',
       },
       {
         display_text: mockEntityCommentSubject2Text,
         subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-        icon_slug: null,
+        icon_slug: '',
       },
     ],
     metadata: {
@@ -37,7 +37,7 @@ describe('Comment', () => {
       owner_type: CommentsOwnerTypes.PLAN,
       text: mockEntityCommentMetadataText,
     },
-    responses: null,
+    responses: [],
   }
 
   const mockProps = {
@@ -193,7 +193,7 @@ describe('Comment', () => {
           comment.subjects = [{
             display_text: mockEntityCommentSubject1Text,
             subject_ref: 'e2a26b5a-284d-11ed-a261-0242ac120002',
-            icon_slug: 'mock_slug',
+            icon_slug: '',
           }]
           render(getCommentComponent({comment}))
           expect(screen.getByTestId('subject-link')).toBeInTheDocument()

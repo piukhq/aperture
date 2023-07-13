@@ -17,12 +17,12 @@ describe('ReplyComment', () => {
       {
         display_text: mockEntityCommentSubject1Text,
         subject_ref: mockEntityCommentSubject1Ref,
-        icon_slug: null,
+        icon_slug: '',
       },
       {
         display_text: mockEntityCommentSubject2Text,
         subject_ref: mockEntityCommentSubject2Ref,
-        icon_slug: null,
+        icon_slug: '',
       },
     ],
     handleCommentReplySubmit: jest.fn(),
