@@ -9,7 +9,7 @@ import {getCountWithCorrectNoun} from 'utils/stringFormat'
 
 type DirectoryTileMetadata = {
   name: string,
-  icon_url: string,
+  icon_url: string | null,
   slug?:string,
   plan_id?: number | null,
   location_label?: string
