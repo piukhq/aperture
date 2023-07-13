@@ -14,7 +14,7 @@ type Props = {
 }
 
 const SingleViewPsimiDetails = ({psimi}: Props) => {
-  const {merchantId, planId, ref} = useGetRouterQueryString()
+  const {merchantId, planId = '', ref} = useGetRouterQueryString()
   const {date_added: dateAdded, psimi_metadata: psimiMetadata, txm_status: txmStatus} = psimi
   const {payment_scheme_slug: paymentSchemeSlug, value: psimiValue} = psimiMetadata
 

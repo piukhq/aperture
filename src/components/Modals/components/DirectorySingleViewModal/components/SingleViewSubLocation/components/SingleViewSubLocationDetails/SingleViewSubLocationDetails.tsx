@@ -24,7 +24,7 @@ type Props = {
 
 const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState, onCancelEditState, handleRefresh, isRefreshing}: Props) => {
   const router = useRouter()
-  const {merchantId, planId, ref, sub_location_ref: subLocationRef} = useGetRouterQueryString()
+  const {merchantId, planId = '', ref, sub_location_ref: subLocationRef} = useGetRouterQueryString()
   const {
     getMerchantLocationsResponse,
     getMerchantLocationsIsFetching: isGetLocationsFetching,
@@ -99,26 +99,27 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
   }, [onCancelEditState])
 
   useEffect(() => {
-    if (isPatchSuccess) {
+    if (isPatchSuccess && patchResponse) {
       const routerSuffix = patchResponse.parent_ref ? `${patchResponse.parent_ref}&sub_location_ref=${patchResponse.location_ref}` : `${patchResponse.location_ref}`
       resetPatchResponse()
       router.push(`${router.basePath}/mid-management/directory/${planId}/${merchantId}?tab=locations&ref=${routerSuffix}`)
     } else if (patchError) {
       resetPatchResponse()
+      //@ts-expect-error - TODO: This is a hacky way to get the status code from the error response. Rethink and type this better
       const {status} = patchError as FetchBaseQueryError & {data?: {detail: {loc: string[]; msg: string}[]}, status: number} | null // TODO: Consider a more global approach for this
       setLocationIdValidationError(status === 409 ? 'Enter Unique Location ID' : 'Error updating sub-location')
     }
   }, [isPatchSuccess, merchantId, patchError, patchResponse, planId, resetPatchResponse, router])
 
   const handleParentLocationChange = useCallback((selectedLocationString: string) => {
-    setSelectedParentLocationName(selectedLocationString || null)
+    setSelectedParentLocationName(selectedLocationString || '')
     selectedLocationString !== 'None' && setLocationIdValue('')
-    setLocationIdValidationError(null)
+    setLocationIdValidationError('')
   }, [])
 
   const handlePatchSave = useCallback(() => {
     if (locationIdValue !== '' || selectedParentLocationName !== 'None') {
-      const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || null
+      const parentRef = locationsData.find(location => location.location_metadata.name === selectedParentLocationName)?.location_ref || ''
       patchMerchantLocationSubLocation({parentRef, planRef: planId, merchantRef: merchantId, locationRef: ref, subLocationRef: subLocationRef, locationId: locationIdValue})
     } else {
       setLocationIdValidationError('Enter location ID')
@@ -127,7 +128,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
 
   const handleLocationIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocationIdValue(event.target.value)
-    setLocationIdValidationError(null)
+    setLocationIdValidationError('')
   }
 
   const handleLocationIdBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -177,7 +178,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
               handleSave={handlePatchSave}
               successResponse={isPatchSuccess}
               errorResponse={patchError}
-              warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location.' : null}
+              warningMessage = { selectedParentLocationName === 'None' ? 'This sub-location will be turned into a location and will be able to have MIDs and Secondary MIDs assigned directly. This change is permanent and a location cannot be turned into a sub-location.' : ''}
             />
             {selectedParentLocationName === 'None' && (
               <>
@@ -189,7 +190,7 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
                     value={locationIdValue}
                     onChange={handleLocationIdChange}
                     onBlur={handleLocationIdBlur}
-                    onFocus={() => setLocationIdValidationError(null)}
+                    onFocus={() => setLocationIdValidationError('')}
                     error={locationIdValidationError}
                     ariaRequired
                     inputType={InputType.TEXT}

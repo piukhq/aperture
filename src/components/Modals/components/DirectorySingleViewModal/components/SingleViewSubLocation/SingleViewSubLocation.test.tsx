@@ -2,6 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewSubLocation from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSubLocation'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {DirectorySubLocation} from 'types'
 
 const mockName = 'mock_name'
 let mockGetMerchantSubLocationResponse = {
@@ -14,7 +15,7 @@ let mockGetMerchantSubLocationResponse = {
       name: mockName,
     },
   },
-}
+} as unknown as DirectorySubLocation
 
 jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
@@ -40,7 +41,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
-  selectedEntity: null,
+  selectedEntity: null as unknown as DirectorySubLocation,
   isInEditState: false,
   setIsInEditState: jest.fn(),
   onCancelEditState: jest.fn(),
@@ -101,7 +102,7 @@ describe('SingleViewSubLocation', () => {
   })
 
   it('should display error message if selected entity is not found', () => {
-    mockGetMerchantSubLocationResponse = null
+    mockGetMerchantSubLocationResponse = null as unknown as DirectorySubLocation
     render(getSingleViewSubLocationComponent())
     expect(screen.getByText('Sub-location could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })

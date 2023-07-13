@@ -11,7 +11,7 @@ type Props = {
   header: string
   label: string
   actionVerb: string
-  value: string | null
+  value: string
   link?: string
   handleValueChange: (value: string) => void
   handleCancel: () => void
@@ -43,7 +43,7 @@ const SingleViewEditableField = ({
   successResponse,
   errorResponse,
   handleValidation,
-  validationErrorMessage,
+  validationErrorMessage = '',
   warningMessage,
   dropdownValues,
   onEdit,
@@ -63,7 +63,7 @@ const SingleViewEditableField = ({
 
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValidationError(null)
+    setValidationError('')
     handleValueChange(event.target.value)
   }
 
@@ -211,7 +211,7 @@ const SingleViewEditableField = ({
         { shouldUseCombobox ? (
           <SingleViewCombobox
             selectedEntity={value}
-            availableEntities={dropdownValues}
+            availableEntities={dropdownValues || []}
             entityValueFn={(entity: string) => entity}
             onChangeFn={handleValueChange}
             entityLabel = 'Location'
@@ -220,7 +220,7 @@ const SingleViewEditableField = ({
         ) : (
           <Dropdown
             displayValue={formattedValue}
-            displayValues={dropdownValues}
+            displayValues={dropdownValues || []}
             onChangeDisplayValue={handleValueChange}
             isDisabled={isDisabled}
             selectedValueStyles='font-normal text-grey-600'

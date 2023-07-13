@@ -21,7 +21,7 @@ type Props = {
 }
 
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
-  const {planId, merchantId, ref} = useGetRouterQueryString()
+  const {planId = '', merchantId, ref} = useGetRouterQueryString()
   const [isInLocationEditMode, setIsInLocationEditMode] = useState<boolean>(false)
 
   const {
@@ -107,10 +107,10 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         const location = loc?.[1]
         if (location === 'visa_bin') {
           setError('Failed to update BIN association')
-          setEditableVisaBin(null)
+          setEditableVisaBin('')
         } else if (location === 'payment_enrolment_status') {
           setError('Failed to update Payment Scheme Status')
-          setPaymentSchemeStatus(paymentEnrolmentStatus)
+          setPaymentSchemeStatus(paymentEnrolmentStatus || '')
         }
       })
     }
@@ -154,7 +154,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   }, [planId, merchantId, ref, patchMerchantMid])
 
   const handleBinDelete = useCallback((fieldValueObj: {visa_bin: null}) => () => {
-    setEditableVisaBin(null)
+    setEditableVisaBin('')
     handleBinOrPaymentStatusSave(fieldValueObj)()
   }, [handleBinOrPaymentStatusSave])
 
@@ -171,7 +171,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const handleLocationChange = useCallback((selectedLocationString: string) => {
     resetError()
     const location = locationStringsList.find(location => location.title === selectedLocationString)
-    setAssociatedLocationRef(location.location_ref)
+    location?.location_ref && setAssociatedLocationRef(location?.location_ref)
   }, [resetError, locationStringsList])
 
   const handleLocationDelete = useCallback(() => {
@@ -206,7 +206,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
-    return location ? location.location_metadata.name : ''
+    if (!location) { return '' }
+    return location.location_metadata.name ? location.location_metadata.name : ''
   }, [locationsData, associatedLocationRef])
 
   const locationValues = useMemo(() => locationStringsList ? locationStringsList.map(location => location.title) : [], [locationStringsList])
@@ -287,7 +288,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
           isSaving={patchMerchantMidIsLoading}
           isDisabled={isRefreshing}
           handleValueChange={setEditableVisaBin}
-          handleCancel={() => setEditableVisaBin(visaBin)}
+          handleCancel={() => setEditableVisaBin(visaBin || '')}
           handleSave={handleBinOrPaymentStatusSave({visa_bin: editableVisaBin})}
           handleDelete={handleBinDelete({visa_bin: null})}
           onEdit={() => {

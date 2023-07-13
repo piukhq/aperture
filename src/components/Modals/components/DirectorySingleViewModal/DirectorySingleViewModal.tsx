@@ -7,7 +7,7 @@ import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'featur
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
-import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid} from 'types'
+import {DirectoryPsimi, DirectoryLocation, DirectoryMid, DirectorySecondaryMid, DirectoryEntity} from 'types'
 import {useDirectoryMids} from 'hooks/useDirectoryMids'
 import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
@@ -23,7 +23,7 @@ import {ModalType, ModalStyle} from 'utils/enums'
 
 const DirectorySingleViewModal = () => {
   const router = useRouter()
-  const {merchantId, planId, tab, ref, sub_location_ref} = useGetRouterQueryString()
+  const {merchantId, planId = '', tab = '', ref, sub_location_ref} = useGetRouterQueryString()
 
   const {
     deleteMerchantMid,
@@ -85,7 +85,7 @@ const DirectorySingleViewModal = () => {
     locationRef: ref,
   })
 
-  const selectedEntity = useAppSelector(getSelectedDirectoryMerchantEntity)
+  const selectedEntity: DirectoryEntity | null = useAppSelector(getSelectedDirectoryMerchantEntity)
   const [entityHeading, setEntityHeading] = useState<string>('')
   const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
@@ -141,7 +141,7 @@ const DirectorySingleViewModal = () => {
   }
 
   const handleDelete = () => {
-    setErrorMessage(null)
+    setErrorMessage('')
     const refs = {planRef: planId, merchantRef: merchantId}
     switch (tab) {
       case DirectoryNavigationTab.MIDS: {
@@ -170,6 +170,7 @@ const DirectorySingleViewModal = () => {
   }, [])
 
   const renderContent = () => {
+    if (!selectedEntity) { return <div /> }
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
         return (
@@ -177,7 +178,7 @@ const DirectorySingleViewModal = () => {
             key={entityRef}
             selectedEntity={selectedEntity}
             setError={setErrorMessage}
-            resetError={() => setErrorMessage(null)}
+            resetError={() => setErrorMessage('')}
             setHeaderFn={setEntityHeading}
             setIsEntityFound={setIsEntityFound}
           />

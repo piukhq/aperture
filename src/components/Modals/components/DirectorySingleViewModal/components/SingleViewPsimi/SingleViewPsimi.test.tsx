@@ -4,6 +4,7 @@ import SingleViewPsimi from 'components/Modals/components/DirectorySingleViewMod
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {DirectoryPsimi} from 'types'
 
 const mockPsimiValue = 'mock_psimi_value'
 let mockGetMerchantPsimiResponse = {
@@ -37,7 +38,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
-  selectedEntity: null,
+  selectedEntity: null as unknown as DirectoryPsimi,
   resetError: jest.fn(),
   setError: jest.fn(),
   setIsEntityFound: jest.fn(),
@@ -104,7 +105,7 @@ describe('SingleViewPsimi', () => {
   })
 
   it('should display error message if selected entity is not found', () => {
-    mockGetMerchantPsimiResponse = null
+    mockGetMerchantPsimiResponse = null as unknown as DirectoryPsimi
     render(getSingleViewPsimiComponent())
     expect(screen.getByText('PSIMI could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })
