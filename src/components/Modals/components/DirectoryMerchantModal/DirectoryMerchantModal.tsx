@@ -46,7 +46,7 @@ const DirectoryMerchantModal = () => {
   const isNewMerchant = !merchantRef
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
-  const [imageValue, setImageValue] = useState('')
+  const [imageValue, setImageValue] = useState<string | null>(null)
   const [nameValue, setNameValue] = useState<string>(name || '')
   const [locationLabelValue, setLocationLabelValue] = useState<string>(locationLabel || 'Locations')
 
