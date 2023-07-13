@@ -86,9 +86,9 @@ const CategoryDetails = ({
         'enrol_fields' = 'column',
       }
 
-        const getSortedArray = unsortedArray => Array.from(unsortedArray).sort((a, b) => a[CategoryArraySortKey[categoryKey]] > b[CategoryArraySortKey[categoryKey]] ? 1 : -1)
+        const getSortedArray = (unsortedArray: CategoryArraySortKey[]) => Array.from(unsortedArray).sort((a, b) => a[CategoryArraySortKey[categoryKey]] > b[CategoryArraySortKey[categoryKey]] ? 1 : -1)
 
-        const renderCharacterComparison = (str: string, arrayIndex) => {
+        const renderCharacterComparison = (str: string, arrayIndex: number) => {
           return Array.from(str).map((char, index) => {
             if (categoryAcrossEnvsArray
               .every((envCategory) => JSON.stringify(getSortedArray(envCategory[categoryKey])[arrayIndex] || '')[index] === char)) {
@@ -98,14 +98,14 @@ const CategoryDetails = ({
             }
           })
         }
-
-        return getSortedArray(categoryArray).map((element, index) => (
+        //@ts-expect-error - The categoryArray has a wierd type error where it is not recognised as an array
+        return getSortedArray((categoryArray)).map((element, index) => (
           <p className='mb-2' key={index}>{renderCharacterComparison(JSON.stringify(element), index) }</p>
         ))
     }
 
     const renderCategoryKeyNotes = (categoryKey: string) => { // Used to display notes about the category key where needed, mostly just for plan_documents
-      let categoryNote = null
+      let categoryNote = ''
       categoryKey === 'plan_documents' && (categoryNote = 'url is ignored for comparison')
       if (categoryNote) {
         return `(${categoryNote})`
