@@ -13,7 +13,7 @@ import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
 
 const DirectoryMerchantModal = () => {
-  const {planId} = useGetRouterQueryString()
+  const {planId = 'å'} = useGetRouterQueryString()
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan) // Used for when coming from Plans page
 
   const {
@@ -33,13 +33,20 @@ const DirectoryMerchantModal = () => {
 
   const dispatch = useAppDispatch()
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata} = selectedMerchant
+  const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata} = selectedMerchant || {
+    merchant_ref: '',
+    merchant_metadata: {
+      name: '',
+      location_label: '',
+      icon_url: '',
+    },
+  }
   const {name, icon_url: iconUrl, location_label: locationLabel} = merchantMetadata
 
   const isNewMerchant = !merchantRef
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
-  const [imageValue, setImageValue] = useState(null)
+  const [imageValue, setImageValue] = useState('')
   const [nameValue, setNameValue] = useState<string>(name || '')
   const [locationLabelValue, setLocationLabelValue] = useState<string>(locationLabel || 'Locations')
 
@@ -97,7 +104,7 @@ const DirectoryMerchantModal = () => {
   ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
-  const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => setImageValue(event.target.files[0])
+  const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => event.target.files && setImageValue(event?.target?.files[0]?.name)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)

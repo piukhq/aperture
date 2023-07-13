@@ -11,13 +11,23 @@ import {ModalStyle, ModalType} from 'utils/enums'
 import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {getCountWithCorrectNoun} from 'utils/stringFormat'
 import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
-import {RTKQueryErrorResponse} from 'types'
+import {DirectoryMerchant, RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
   const router = useRouter()
-  const {planId, merchantId} = useGetRouterQueryString()
-  // Seed state if selected merchant has counts available, else counts endpoint will be called to populate state
-  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const {planId = '', merchantId} = useGetRouterQueryString()
+  const selectedMerchant:DirectoryMerchant = useAppSelector(getSelectedDirectoryMerchant) || {
+    merchant_ref: '',
+    merchant_metadata: {
+      name: '',
+      location_label: '',
+      icon_url: '',
+    },
+    merchant_counts: {
+      locations: 0,
+      payment_schemes: [],
+    },
+  }
   const {merchant_ref: merchantRef, merchant_metadata: merchantMetadata, merchant_counts: merchantCounts} = selectedMerchant
   const [locationsCount, setLocationsCount] = useState<number>(merchantCounts?.locations || 0)
   const [midsCount, setMidsCount] = useState<number>(getMerchantMidCountFromPaymentSchemes(merchantCounts?.payment_schemes) || 0)
@@ -70,7 +80,7 @@ const DirectoryMerchantDeleteModal = () => {
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
-    setNameValidationError(null)
+    setNameValidationError('')
   }
 
   const verifyName = (e: React.FormEvent<HTMLFormElement>) => {
