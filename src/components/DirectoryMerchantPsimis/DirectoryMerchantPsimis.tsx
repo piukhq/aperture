@@ -40,7 +40,7 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState<boolean>(true)
 
@@ -54,7 +54,7 @@ const DirectoryMerchantPsimis = () => {
     page: currentPage.toString(),
   })
 
-  const psimisData: DirectoryPsimis = getMerchantPsimisResponse
+  const psimisData: DirectoryPsimis = getMerchantPsimisResponse || []
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return psimisData.map((psimiObj: DirectoryPsimi) => {

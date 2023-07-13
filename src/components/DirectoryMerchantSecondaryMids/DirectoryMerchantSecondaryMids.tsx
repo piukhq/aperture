@@ -43,7 +43,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetSecondaryMidsByPage, setShouldSkipGetSecondaryMidsByPage] = useState<boolean>(true)
 
@@ -57,7 +57,7 @@ const DirectoryMerchantSecondaryMids = () => {
     page: currentPage.toString(),
   })
 
-  const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse
+  const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse || []
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {

@@ -3,7 +3,7 @@ import {Button, PaymentCardIcon, Modal, Dropdown} from 'components'
 import {ButtonType, ButtonSize, ButtonWidth, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
-import {ModalStyle, PaymentSchemeStatus, PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
+import {ModalStyle, PaymentSchemeSlug, PaymentSchemeStatus, PaymentSchemeStatusDisplayValue, UserPermissions} from 'utils/enums'
 import {getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import useGetDirectoryRouterString from 'hooks/useGetRouterQueryString'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
@@ -13,7 +13,7 @@ import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 const DirectorySchemeStatusModal = () => {
 
   const dispatch = useAppDispatch()
-  const {planId, merchantId, tab} = useGetDirectoryRouterString()
+  const {planId = '', merchantId, tab = ''} = useGetDirectoryRouterString()
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>(PaymentSchemeStatusDisplayValue['Not enrolled'])
 
   const {
@@ -95,11 +95,10 @@ const DirectorySchemeStatusModal = () => {
   const renderSchemeStatusForm = () => {
 
     const renderListItem = (listItem: DirectoryMerchantEntitySelectedItem) => {
-      const {entityRef, entityValue, paymentSchemeSlug, entitySchemeStatus} = listItem
+      const {entityRef, entityValue, paymentSchemeSlug = PaymentSchemeSlug.VISA, entitySchemeStatus = ''} = listItem
       return (
         <li className='font-bold flex items-center gap-[2px]' key={entityRef}>
           {entityValue}
-
           <PaymentCardIcon
             paymentSchemeSlug={paymentSchemeSlug}
             paymentSchemeIconStyles='flex w-[20px] h-[15px] justify-center mx-[2px] items-center'

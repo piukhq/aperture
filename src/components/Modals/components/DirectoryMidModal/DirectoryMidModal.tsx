@@ -53,7 +53,7 @@ const DirectoryMidModal = () => {
   }, [postMerchantMidError, resetPostMerchantMidResponse, handlePostMerchantMidError, postMerchantMidResponse, dispatch])
 
   useEffect(() => { // Reset error when close button is focused
-    isCloseButtonFocused && setMidValidationError(null)
+    isCloseButtonFocused && setMidValidationError('')
   }, [isCloseButtonFocused])
 
 
@@ -67,7 +67,7 @@ const DirectoryMidModal = () => {
   }
   const handleBinChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setBinValue(event.target.value)
-    isNumberOnlyString(event.target.value) ? setBinValidationError(null) : setBinValidationError('Enter a numeric value')
+    isNumberOnlyString(event.target.value) ? setBinValidationError('') : setBinValidationError('Enter a numeric value')
   }
 
   const validateFields = (e: React.FormEvent<HTMLFormElement>) => {
@@ -78,19 +78,22 @@ const DirectoryMidModal = () => {
       } else if (!isNumberOnlyString(binValue)) {
         setBinValidationError('Enter a numeric value')
       } else {
-        const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
-        const metadata = {
-          payment_scheme_slug: paymentSchemeSlug,
-          mid: midValue,
-          visa_bin: binValue,
+        if(paymentScheme) {
+          const paymentSchemeSlug: PaymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
+          const metadata = {
+            payment_scheme_slug: paymentSchemeSlug,
+            mid: midValue,
+            visa_bin: binValue,
+          }
+          postMerchantMid({onboard: isOffboardRequired, planRef: planId || '', merchantRef: merchantId, mid_metadata: metadata})
         }
-        postMerchantMid({onboard: isOffboardRequired, planRef: planId, merchantRef: merchantId, mid_metadata: metadata})
       }
+
     }
   }
 
   const handleModalClose = () => {
-    setMidValidationError(null)
+    setMidValidationError('')
     resetPostMerchantMidResponse()
   }
 
@@ -104,7 +107,7 @@ const DirectoryMidModal = () => {
           error={midValidationError}
           value={midValue}
           onChange={handleMidChange}
-          onFocus={() => setMidValidationError(null)}
+          onFocus={() => setMidValidationError('')}
           onBlur={handleMidBlur}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}

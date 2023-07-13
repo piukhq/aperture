@@ -42,7 +42,7 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {planId, merchantId} = useGetRouterQueryString()
+  const {planId, merchantId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState<boolean>(true)
@@ -56,13 +56,13 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
-  const midsData: DirectoryMids = getMerchantMidsResponse
+  const midsData: DirectoryMids = getMerchantMidsResponse || []
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
-      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = metadata
+      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus = ''} = metadata
       return [
         {
           paymentSchemeSlug,

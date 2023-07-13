@@ -14,7 +14,7 @@ const DirectoryHarmoniaModal = () => {
     'secondary-mids'= 'Secondary MID',
     'psimis'= 'PSIMI',
   }
-  const {tab} = useGetDirectoryRouterString()
+  const tab = useGetDirectoryRouterString().tab || ''
   const selectedEntities = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
   const hasMultipleEntities = selectedEntities.length > 1
   const entityLabel = `${RouterEntityLabel[tab]}${hasMultipleEntities ? 's' : ''}`

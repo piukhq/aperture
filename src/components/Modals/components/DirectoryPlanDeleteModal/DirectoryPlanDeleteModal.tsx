@@ -19,7 +19,7 @@ const DirectoryPlanDeleteModal = () => {
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
   const {plan_ref: planId, total_mid_count: totalMidCount} = selectedPlan
   const {name} = selectedPlan.plan_metadata
-  const {merchants, locations} = selectedPlan.plan_counts || {}
+  const {merchants, locations} = selectedPlan.plan_counts || {merchants: 0, locations: 0}
 
   const {
     deletePlan,
@@ -43,7 +43,7 @@ const DirectoryPlanDeleteModal = () => {
     } else if (nameValue !== name) {
       setNameValidationError('Enter correct plan name')
     } else {
-      setNameValidationError(null)
+      setNameValidationError('')
       deletePlan({planRef: selectedPlan.plan_ref})
     }
   }
@@ -73,7 +73,7 @@ const DirectoryPlanDeleteModal = () => {
         <div className='font-body-3 mb-[10px]'>
           <p>Are you sure you want to delete {name}?</p>
           <p data-testid='second-paragraph'>This will also delete <span className='font-bold'> {getCountWithCorrectNoun(merchants, 'Merchant')},{' '}
-            {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount, 'MID')}</span>.</p>
+            {getCountWithCorrectNoun(locations, 'Location')} and {getCountWithCorrectNoun(totalMidCount || 0, 'MID')}</span>.</p>
           <br/>
           <p>Please enter the Plan Name to confirm.</p>
         </div>
