@@ -7,7 +7,7 @@ export const useCustomerWalletUserPlans = () => {
 
   const userPlans = useMemo(() => {
     if (getLoyaltyCardsResponse && getPlansResponse) {
-      return getLoyaltyCardsResponse.map(loyaltyCard => getPlansResponse.find((plan) => plan.id === loyaltyCard.membership_plan)).filter(plan => plan)
+      return getLoyaltyCardsResponse.map(loyaltyCard => getPlansResponse.find((plan) => plan?.id === loyaltyCard.membership_plan)).filter(plan => plan)
     }
     return []
   }, [getLoyaltyCardsResponse, getPlansResponse])

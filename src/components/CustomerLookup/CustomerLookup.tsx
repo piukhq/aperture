@@ -30,7 +30,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLookupValue(e.target.value)
     setErrorMessage('')
-    selectedJwtToken && dispatch(setJwtToken(null))
+    selectedJwtToken && dispatch(setJwtToken(''))
   }
 
   const handleSubmit = (e: FormEvent) => {
@@ -61,7 +61,7 @@ const CustomerLookup = ({jwtCustomerLookup, hasErrorOccurred}: Props) => {
               label='User identifier'
               autofocus
               placeholder={`Enter ${lookupTypeValue} ${lookupTypeValue === 'JWT' ? 'from Django' : ''}`}
-              error={null}
+              error={''}
               value={lookupValue}
               ariaRequired
               onChange={handleTextChange}

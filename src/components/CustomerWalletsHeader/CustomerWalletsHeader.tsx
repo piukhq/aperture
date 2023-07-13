@@ -3,7 +3,7 @@ import {useGetCustomerWalletLookupHistory} from 'hooks/useGetCustomerWalletLooku
 import {useCustomerLookup} from 'hooks/useCustomerLookup'
 
 const CustomerWalletsHeader = () => {
-  const {getCustomerLookupHistoryResponse} = useGetCustomerWalletLookupHistory()
+  const getCustomerLookupHistoryResponse = useGetCustomerWalletLookupHistory().getCustomerLookupHistoryResponse || []
   const {jwtCustomerLookup, hasErrorOccurred} = useCustomerLookup()
 
   return (

@@ -144,7 +144,7 @@ describe('Test CustomerWalletsContainer', () => {
     })
 
     it('should not render any elements if there is no loyalty cards', () => { // seems overkill to repeat this test for each response
-      mockLoyaltyCardResponse = null
+      mockLoyaltyCardResponse = []
       render(<CustomerWalletsContainer />)
 
       expect(screen.queryByTestId('customer-wallet')).not.toBeInTheDocument()

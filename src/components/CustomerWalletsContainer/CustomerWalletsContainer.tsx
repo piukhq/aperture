@@ -5,10 +5,11 @@ import {useCustomerWallet} from 'hooks/useCustomerWallet'
 import CustomerWallet from './components/CustomerWallet'
 import CustomerTableContainer from './components/CustomerTableContainer'
 import Dropdown from 'components/Dropdown'
+import {Plan} from 'types'
 
-const CustomerWalletsContainer = () => {
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [selectedDropdownValue, setSelectedDropdownValue] = useState(null)
+const CustomerWalletsContainer: React.FC = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Plan>(null)
+  const [selectedDropdownValue, setSelectedDropdownValue] = useState<string>('')
 
   const {
     userPlans,
@@ -30,18 +31,20 @@ const CustomerWalletsContainer = () => {
   }
 
   const setPlanFromDropdownString = (dropdownString: string) => {
+    if (!getLoyaltyCardsResponse || !getPlansResponse) { return null }
     const loyaltyCard = getLoyaltyCardsResponse.find(card => card.id === getLoyaltyCardIdFromDropdownString(dropdownString))
-    setSelectedPlan(getPlansResponse.find(plan => plan.id === loyaltyCard.membership_plan))
+    loyaltyCard && setSelectedPlan(getPlansResponse.find(plan => plan?.id === loyaltyCard.membership_plan) || null)
     setSelectedDropdownValue(dropdownString)
   }
 
 
   const renderDropdownPlan = (dropdownString: string) => {
     const loyaltyCardId = getLoyaltyCardIdFromDropdownString(dropdownString)
+    if (!getLoyaltyCardsResponse || !getPlansResponse) { return <div /> }
     const loyaltyCard = getLoyaltyCardsResponse.find(card => card.id === loyaltyCardId)
-    const plan = getPlansResponse.find(plan => plan.id === loyaltyCard.membership_plan)
+    const plan = getPlansResponse.find(plan => plan?.id === loyaltyCard?.membership_plan)
 
-    const {images} = plan
+    const images = plan?.images || []
     const image = images.find(image => image.type === 3)
     const src = image?.url
 
@@ -50,22 +53,23 @@ const CustomerWalletsContainer = () => {
         <div className='h-[24px] w-[24px] mr-[10px]'>
           {src && <Image src={src} height={24} width={24} alt='' />}
         </div>
-        <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name} {loyaltyCardId} </p>
+        <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan?.account?.plan_name} {loyaltyCardId} </p>
       </div>
     )
   }
 
-  if (getLoyaltyCardsResponse && getPlansResponse && getPaymentCardsResponse) {
+  if (getLoyaltyCardsResponse && getLoyaltyCardsResponse.length > 0 && getPlansResponse && getPaymentCardsResponse) {
     const dropdownValues = getLoyaltyCardsResponse.map(card => {
-      const plan = getPlansResponse.find(plan => plan.id === card.membership_plan)
-      return `${plan.account?.plan_name} ${card.id}`
+      const plan = getPlansResponse.find(plan => plan?.id === card.membership_plan)
+      return `${plan?.account?.plan_name} ${card.id}`
     })
 
-    const loyaltyCardFromSelectedDropdownValue = getLoyaltyCardsResponse.find(card => card.id === getLoyaltyCardIdFromDropdownString(selectedDropdownValue))
+    const loyaltyCardFromSelectedDropdownValue = getLoyaltyCardsResponse.find(card => card.id === getLoyaltyCardIdFromDropdownString(selectedDropdownValue)) || null
 
     return (
       <>
         <h1 className='font-heading-4 mb-[10px]'>Wallet</h1>
+        {/* @ts-expect-error - TODO: Fix this wierd typing error */}
         <CustomerWallet loyaltyCards={getLoyaltyCardsResponse} paymentCards={getPaymentCardsResponse} userPlans={userPlans} />
         <h1 className='font-heading-4'>Transactions</h1>
         <div className='h-[42px] w-[350px]'>
@@ -93,6 +97,8 @@ const CustomerWalletsContainer = () => {
       </>
     )
   }
+
+  return <div />
 }
 
 export default CustomerWalletsContainer

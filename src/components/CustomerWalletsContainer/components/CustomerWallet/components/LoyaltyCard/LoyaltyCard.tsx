@@ -10,7 +10,7 @@ type Props = {
 }
 
 const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
-  const isPllCard = plan.feature_set.card_type === 2
+  const isPllCard = plan?.feature_set.card_type === 2
   const {id, status, images} = card
 
   const renderLoyaltyIcon = (images) => {
@@ -19,11 +19,11 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
   }
 
   const getBalanceString = (loyaltyCard: LoyaltyCard, plan: Plan) => {
-    if (plan.slug === 'iceland-bonus-card') {
+    if (plan?.slug === 'iceland-bonus-card') {
       return `${loyaltyCard.balances[0].prefix}${loyaltyCard.balances[0].value} spent`
     }
 
-    const currentVoucherEarn = loyaltyCard.vouchers?.find((voucher) => voucher.state === 'inprogress').earn
+    const currentVoucherEarn = loyaltyCard?.vouchers?.find((voucher) => voucher.state === 'inprogress')?.earn
 
     if(currentVoucherEarn) {
       const {value, type, prefix, suffix, target_value: targetValue} = currentVoucherEarn
@@ -33,7 +33,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
         return `${prefix}${value} / ${prefix}${targetValue} spent`
       }
     }
-    if (plan.feature_set.has_points && loyaltyCard.balances.length > 0) {
+    if (plan?.feature_set.has_points && loyaltyCard.balances.length > 0) {
       return `${loyaltyCard.balances[0].value} ${loyaltyCard.balances[0].suffix}`
     }
     return 'N/A'

@@ -5,12 +5,12 @@ import {LoyaltyCard, LoyaltyVoucher, Plan} from 'types'
 
 type Props = {
   selectedPlan: Plan
-  loyaltyCard: LoyaltyCard
+  loyaltyCard: LoyaltyCard | null
   entity: string
   tableHeaders: string[]
 }
 
-const CustomerTableContainer = ({selectedPlan, loyaltyCard, entity, tableHeaders}: Props) => {
+const CustomerTableContainer = ({selectedPlan, loyaltyCard = null, entity, tableHeaders}: Props) => {
   const getLoyaltyCardEntity = useCallback(() => {
     const entityKey = entity === 'transactions' ? 'membership_transactions' : 'vouchers'
     if (loyaltyCard) {
@@ -25,6 +25,7 @@ const CustomerTableContainer = ({selectedPlan, loyaltyCard, entity, tableHeaders
       }
       return loyaltyCard[entityKey]
     }
+    return []
   }, [entity, loyaltyCard])
 
   const renderTableHeaders = (headers: string[]) => {
@@ -39,8 +40,8 @@ const CustomerTableContainer = ({selectedPlan, loyaltyCard, entity, tableHeaders
   }
 
   const renderTableBody = () => {
-    return getLoyaltyCardEntity().map((entityObject, index:number) => {
-      return entity === 'transactions' ? <TransactionTableRow key={index} transaction={entityObject} isIceland={selectedPlan.slug === 'iceland-bonus-card'}/> : <VoucherTableRow key={index} voucher={entityObject} />
+    return getLoyaltyCardEntity()?.map((entityObject, index:number) => {
+      return entity === 'transactions' ? <TransactionTableRow key={index} transaction={entityObject} isIceland={selectedPlan?.slug === 'iceland-bonus-card'}/> : <VoucherTableRow key={index} voucher={entityObject} />
     })
   }
 
