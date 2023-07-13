@@ -23,7 +23,7 @@ const mockCommentsFromApi = {
     comments: [mockComment],
   },
   getCommentsIsLoading: false,
-  getCommentsError: null,
+  getCommentsError: Error(''),
   postComment: jest.fn(),
   postCommentIsLoading: false,
   postCommentIsSuccess: false,
@@ -44,10 +44,10 @@ jest.mock('components/Comments', () => () => <div data-testid='comments' />)
 
 const mockCommentsInitialState = {
   directoryComments: {
-    commentsModalHeader: null,
-    commentsRef: null,
-    commentsOwnerRef: null,
-    commentsSubjectType: null,
+    commentsModalHeader: '',
+    commentsRef: '',
+    commentsOwnerRef: '',
+    commentsSubjectType: '',
   },
 }
 
