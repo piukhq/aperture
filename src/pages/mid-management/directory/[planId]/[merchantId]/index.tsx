@@ -56,9 +56,9 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   const dispatch = useAppDispatch()
 
-  const planDetails: DirectoryPlanDetails = getPlanResponse
+  const planDetails: DirectoryPlanDetails | null = getPlanResponse || null
   const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
-  const merchant: DirectorySingleMerchant = getMerchantResponse
+  const merchant: DirectorySingleMerchant | null = getMerchantResponse || null
 
   const baseUrl = `/mid-management/directory/${planId}/${merchantId}`
 
@@ -73,7 +73,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   }, [ref, dispatch])
 
   useEffect(() => { // set the selected merchant in the store if there is no previously selected merchant counts available (AKA a empty merchant in the store)
-    !selectedMerchant?.merchant_counts && getMerchantResponse && dispatch(setSelectedDirectoryMerchant(merchant)
+    !selectedMerchant?.merchant_counts && getMerchantResponse && merchant && dispatch(setSelectedDirectoryMerchant(merchant)
     ), [merchant, dispatch, getMerchantResponse] })
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
@@ -81,7 +81,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       case DirectoryNavigationTab.MIDS:
         return <DirectoryMerchantMids/>
       case DirectoryNavigationTab.LOCATIONS:
-        return <DirectoryMerchantLocations locationLabel={capitaliseFirstLetter(merchant.merchant_metadata.location_label)} />
+        return <DirectoryMerchantLocations locationLabel={capitaliseFirstLetter(merchant?.merchant_metadata.location_label ?? '')} />
       case DirectoryNavigationTab.PSIMIS:
         return <DirectoryMerchantPsimis/>
       case DirectoryNavigationTab.SECONDARY_MIDS:
@@ -99,7 +99,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
 
     const renderCount = (navigationKey: string) => {
-      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = merchant.merchant_counts
+      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = merchant!.merchant_counts // Can only be called if merchant is not null
       const getCount = (tab: string) => paymentSchemes.reduce((acc: number, paymentScheme: DirectorySingleMerchantCountsPaymentScheme) => {
         return acc + paymentScheme[tab]
       }, 0)
@@ -116,35 +116,43 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
         className={DirectoryNavigationTab[navigationKey] === tab ? tabSelectedClasses : tabUnselectedClasses}
         onClick={() => handleNavigationClick(DirectoryNavigationTab[navigationKey])}
       >
-        <span className='flex justify-center items-center'>{NavigationLabel[navigationKey]} {renderCount(navigationKey)}</span>
+        <span className='flex justify-center items-center'>{NavigationLabel[navigationKey]} {merchant && renderCount(navigationKey)}</span>
       </button>
     ))
   }
 
   const requestMerchantCommentsModal = () => {
-    dispatch(setModalHeader(merchant.merchant_metadata.name))
-    dispatch(setCommentsRef(merchantId))
-    dispatch(setCommentsOwnerRef(planId))
+    merchant && dispatch(setModalHeader(merchant.merchant_metadata.name))
+    merchantId && dispatch(setCommentsRef(merchantId))
+    planId && dispatch(setCommentsOwnerRef(planId))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.MERCHANT))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
   }
 
   const requestMerchantDeleteModal = () => {
+    if (!selectedMerchant || !merchant) { return }
     // Only set the selectedDirectoryMerchant if there is no previously selected merchant counts available
     !selectedMerchant.merchant_counts && dispatch(setSelectedDirectoryMerchant({
-      merchant_ref: merchantId,
+      merchant_ref: merchantId || '',
       merchant_metadata: merchant.merchant_metadata,
-      merchant_counts: null,
+      merchant_counts: {
+        locations: 0,
+        payment_schemes: [],
+      },
     }))
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE))
   }
 
   const requestEditMerchantModal = () => {
+    if (!merchant) { return }
     const {merchant_metadata, merchant_ref} = merchant
     dispatch(setSelectedDirectoryMerchant({
       merchant_ref,
       merchant_metadata,
-      merchant_counts: null,
+      merchant_counts: {
+        locations: 0,
+        payment_schemes: [],
+      },
     }))
 
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
@@ -178,10 +186,11 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   ]
 
   const renderDetailsHeader = () => {
+    if (planDetails === null || merchant === null) { return <> </> }
     const {slug, plan_id: schemeId} = planDetails.plan_metadata
     const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
     return (
-      <DirectoryDetailsHeader planId={schemeId} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+      <DirectoryDetailsHeader planId={schemeId || 0} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
     )
   }
 
@@ -192,7 +201,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
-      <HeadMetadata pageTitle={`MID Directory: ${merchant?.merchant_metadata?.name} ${DirectorySingleViewEntities[tab]}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab]}s for the merchant in the plan`} />
+      <HeadMetadata pageTitle={`MID Directory: ${merchant?.merchant_metadata?.name} ${DirectorySingleViewEntities[tab || '']}s`} pageDescription={`View the ${DirectorySingleViewEntities[tab || '']}s for the merchant in the plan`} />
       <PageLayout>
         {merchant && (
           <>
