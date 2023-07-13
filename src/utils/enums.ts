@@ -220,6 +220,7 @@ enum HarmoniaActionTypes {
   ONBOARD = 'onboard',
   OFFBOARD = 'offboard',
   UPDATE = 'update',
+  NONE = '',
 }
 
 export {

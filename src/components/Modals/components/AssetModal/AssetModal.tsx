@@ -17,7 +17,7 @@ import {getWCAGComplianceLevels} from 'utils/colours'
 
 const AssetModal = () => {
   const dispatch = useAppDispatch()
-  const [imageDimensionsState, setImageDimensionsState] = useState(null)
+  const [imageDimensionsState, setImageDimensionsState] = useState({naturalWidth: 520, naturalHeight: 280})
   const [isError, setIsError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [contrastRatioToolRequested, setContrastRatioToolRequested] = useState<boolean>(false)
@@ -30,6 +30,7 @@ const AssetModal = () => {
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
+  if (!selectedAsset) { return null }
   const {hasMultipleImagesOfThisType, typeIndex, image, heading, environment} = selectedAsset
   const {id, url, description, encoding} = image
 
@@ -101,7 +102,7 @@ const AssetModal = () => {
         className={imageClasses}
         src={url}
         width={imageDimensionsState?.naturalWidth || 520}
-        height={imageDimensionsState?.naturalWeight || 280}
+        height={imageDimensionsState?.naturalHeight || 280}
         objectFit='contain'
         alt={description || heading}
         onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
@@ -118,15 +119,15 @@ const AssetModal = () => {
       RIGHT = '-rotate-90'
     }
 
-    const handleNavigationButtonClick = navigationDirection => {
-      const currentAssetIndex = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
-      const lastAssetIndex = assetArray.length - 1
+    const handleNavigationButtonClick = (navigationDirection:NavigationDirection) => {
+      const currentAssetIndex:number = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
+      const lastAssetIndex:number = assetArray.length - 1
 
       let newEnvironment
       if (navigationDirection === NavigationDirection.LEFT) {
-        newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex].environment : assetArray[currentAssetIndex - 1].environment
+        newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex]?.environment : assetArray[currentAssetIndex - 1]?.environment
       } else {
-        newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
+        newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0]?.environment : assetArray[currentAssetIndex + 1]?.environment
       }
       dispatch(setSelectedAssetEnvironment(newEnvironment))
       setIsError(false)

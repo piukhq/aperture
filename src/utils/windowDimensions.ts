@@ -9,15 +9,21 @@ export const getWindowDimensions = () => {
       height,
     }
   }
+  return {
+    width: 0,
+    height: 0,
+  }
 }
 
 export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivElement>, buffer: number) => {
   const [isBeyondEdge, setIsBeyondEdge] = useState<boolean>(false)
-  const handleResize = () => setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
+  const handleResize = () => element.current && setIsBeyondEdge(element.current.getBoundingClientRect().x > getWindowDimensions().width - buffer)
   const debouncedHandleResize = debounce(handleResize, 50)
 
   useEffect(() => {
-    setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
+    if(element?.current?.getBoundingClientRect()) {
+      setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
+    }
   }, [element, buffer])
 
   useEffect(() => {

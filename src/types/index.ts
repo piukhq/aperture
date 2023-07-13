@@ -72,7 +72,7 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
 
 export type SelectedPlanImages = Record<string, PlanImage[]>
 
-export type SelectedAssetGroup = Record<string, PlanAsset>
+export type SelectedAssetGroup = Record<string, PlanAsset | null>
 
 export type SelectedPlans = Record<string, Plan>
 
@@ -136,7 +136,7 @@ export type DirectoryComments = {
 export type DirectoryPlan = {
   plan_ref: string,
   plan_metadata: DirectoryPlanMetadata,
-  plan_counts: DirectoryPlanCounts,
+  plan_counts?: DirectoryPlanCounts | null,
   total_mid_count?: number | null,
 }
 
@@ -150,7 +150,7 @@ export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string,
   slug?:string,
-  plan_id?: number,
+  plan_id?: number | null,
 }
 
 export type DirectoryPlanCounts = {

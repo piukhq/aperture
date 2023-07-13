@@ -134,7 +134,7 @@ const CredentialsModal = () => {
           name='credentials-email'
           label='Email'
           autofocus
-          error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : null}
+          error={isEmailReadyForValidation && !isValidEmail(emailValue) ? getEmailError() : ''}
           value={emailValue}
           ariaRequired
           onChange={handleEmailChange}
@@ -146,7 +146,7 @@ const CredentialsModal = () => {
         <TextInputGroup
           name='credentials-password'
           label='Password'
-          error={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? 'Enter password' : null}
+          error={isPasswordReadyForValidation && !isValidPassword(passwordValue) ? 'Enter password' : ''}
           value={passwordValue}
           ariaRequired
           onChange={handlePasswordChange}

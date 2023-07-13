@@ -126,10 +126,10 @@ const TextInputGroup = (props: Props) => {
 
   // This is needed to ensure that the input field looses focus when the user selects a an item from the list
   const [fieldJustBlurred, setFieldJustBlurred] = useState<boolean>(false)
-  const inputRef = useRef(null)
+  const inputRef: React.MutableRefObject<HTMLInputElement | null> = useRef(null)
 
   const handleSelectItemClick = (item: SelectItem) => {
-    handleSelectValueChange(item)
+    handleSelectValueChange && handleSelectValueChange(item)
     setIsSearchSelectMenuOpen(false)
     setFieldJustBlurred(true)
   }
@@ -139,15 +139,15 @@ const TextInputGroup = (props: Props) => {
       {isSearchSelectMenuOpen && <div onClick={() => setIsSearchSelectMenuOpen(false)} className='fixed inset-0 bg-grey-975/[0.33] dark:bg-grey-200/[0.33]'/>}
       <div className='relative h-full'>
         <Combobox value={selectedValue} onChange={handleSelectItemClick}>
-          <Combobox.Input as='input' ref={inputRef}
+          <Combobox.Input as='input' ref={inputRef || null}
             aria-label='Plan List'
-            displayValue={() => value}
+            displayValue={() => value || ''}
             autoComplete='off'
             onChange={onChange}
             onFocus={() => {
               if (fieldJustBlurred) {
                 setFieldJustBlurred(false)
-                inputRef.current.blur()
+                inputRef.current?.blur()
               } else {
                 setIsFocused(true)
                 setIsSearchSelectMenuOpen(true)
@@ -179,12 +179,12 @@ const TextInputGroup = (props: Props) => {
 
           {isSearchSelectMenuOpen && (
             <Combobox.Options static as='ul' className='scrollable bg-white dark:bg-grey-950 max-h-[660px] overflow-y-auto rounded-b-[10px] w-full'>
-              {selectValues.map((value, _index) => (
+              {selectValues?.map((value, _index) => (
                 <Combobox.Option as='li' key={_index} value={value}
                   className={({active}) => `relative select-none cursor-pointer h-[60px] pl-[23px] pr-[15px] flex items-center 
                 ${active ? 'bg-grey-300 dark:bg-grey-800 text-white' : 'text-gray-900'}`
                   }>
-                  {renderFn(value)}
+                  {renderFn && renderFn(value)}
                 </Combobox.Option>
               ))}
             </Combobox.Options>

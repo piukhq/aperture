@@ -31,7 +31,7 @@ type Props = {
 const ModalFactory = ({modalRequested}: Props) => {
 
   const planRef = useAppSelector(state => state.directoryPlan.plan_ref)
-  const merchantRef = useAppSelector(state => state.directoryMerchant.selectedMerchant.merchant_ref)
+  const merchantRef = useAppSelector(state => state.directoryMerchant.selectedMerchant?.merchant_ref)
 
   switch(modalRequested) {
     case ModalType.LOGOUT: return <LogoutModal />

@@ -11,7 +11,7 @@ type DirectoryTileMetadata = {
   name: string,
   icon_url: string,
   slug?:string,
-  plan_id?: number,
+  plan_id?: number | null,
   location_label?: string
 }
 
