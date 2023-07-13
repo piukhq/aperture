@@ -2,13 +2,14 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import SingleViewLocation from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewLocation'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {DirectoryEntity, DirectoryLocation} from 'types'
 
 const mockName = 'mock_name'
 let mockGetMerchantLocationResponse = {
   location_metadata: {
     name: mockName,
   },
-}
+} as unknown as DirectoryLocation
 
 jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
@@ -34,7 +35,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
-  selectedEntity: null,
+  selectedEntity: null as unknown as DirectoryEntity,
   isInEditState: false,
   setIsInEditState: jest.fn(),
   onCancelEditState: jest.fn(),
@@ -96,7 +97,7 @@ describe('SingleViewLocation', () => {
   })
 
   it('should display error message if selected entity is not found by the api', () => {
-    mockGetMerchantLocationResponse = null
+    mockGetMerchantLocationResponse = null as unknown as DirectoryLocation
     render(getSingleViewLocationComponent())
     expect(screen.getByText('Location could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })

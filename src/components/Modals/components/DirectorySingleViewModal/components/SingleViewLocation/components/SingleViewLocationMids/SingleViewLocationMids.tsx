@@ -15,8 +15,8 @@ const SingleViewLocationMids = () => {
 
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState<boolean>(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState<boolean>(false)
-  const [selectedAvailableMid, setSelectedAvailableMid] = useState(null)
-  const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState<number>(null) // The index of the mid that is selected to be unlinked
+  const [selectedAvailableMid, setSelectedAvailableMid] = useState<DirectoryMerchantLocationAvailableMid | null>(null)
+  const [selectedUnlinkMidIndex, setSelectedUnlinkMidIndex] = useState<number | null>(null) // The index of the mid that is selected to be unlinked
   const [availableMidNotification, setAvailableMidNotification] = useState<string>('')
 
   const {
@@ -61,7 +61,7 @@ const SingleViewLocationMids = () => {
   }, [deleteMerchantLocationMidLinkIsSuccess, postMerchantLocationLinkedMidsIsSuccess, resetDeleteMerchantLocationMidLinkResponse, resetGetMerchantLocationAvailableMidsResponse, resetGetMerchantLocationLinkedMidsResponse, resetPostMerchantLocationLinkedMidsResponse])
 
   useEffect(() => {
-    if (getMerchantLocationAvailableMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
+    if (getMerchantLocationAvailableMidsResponse && getMerchantLocationAvailableMidsResponse.length > 0 && shouldPrepareDropdownMenu) {
       setShouldRenderDropdownMenu(true)
       setSelectedUnlinkMidIndex(null)
       setAvailableMidNotification('')
@@ -150,10 +150,10 @@ const SingleViewLocationMids = () => {
       <div className='flex items-center justify-end gap-[10px]'>
         <div className='h-[36px] w-full'>
           <SingleViewCombobox
-            selectedEntity={selectedAvailableMid}
-            availableEntities={getMerchantLocationAvailableMidsResponse}
+            selectedEntity={selectedAvailableMid }
+            availableEntities={getMerchantLocationAvailableMidsResponse || []}
             entityValueFn={(entity: DirectoryMerchantLocationAvailableMid) => entity?.mid?.mid_value}
-            entityPaymentSchemeSlugFn={(entity: DirectoryMerchantLocationAvailableMid) => entity?.mid?.payment_scheme_slug}
+            entityPaymentSchemeSlugFn={(entity: DirectoryMerchantLocationAvailableMid) => entity?.mid?.payment_scheme_slug || ''}
             onChangeFn={setSelectedAvailableMid}
             shouldRenderPaymentCardIcon
             entityLabel = 'MID'
@@ -163,7 +163,7 @@ const SingleViewLocationMids = () => {
 
         <div className='flex items-center gap-[10px]'>
           <Button
-            handleClick={!postMerchantLocationLinkedMidsIsLoading ? onSaveHandler : null}
+            handleClick={() => !postMerchantLocationLinkedMidsIsLoading && onSaveHandler }
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
@@ -197,7 +197,7 @@ const SingleViewLocationMids = () => {
       <section>
         <h2 className='font-modal-heading'>LINKED MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedMidsResponse.map((locationMid, index) => renderLocationMid(locationMid, index))}
+          {getMerchantLocationLinkedMidsResponse?.map((locationMid, index) => renderLocationMid(locationMid, index))}
         </div>
       </section>
     )

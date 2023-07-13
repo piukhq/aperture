@@ -25,7 +25,7 @@ type Props = {
   isLoading: boolean
   isSuccess: boolean
   resetResponse: () => void
-  error: FetchBaseQueryError | SerializedError
+  error: FetchBaseQueryError | SerializedError | undefined
 }
 
 const DirectoryMerchantLocationForm = ({
@@ -37,7 +37,7 @@ const DirectoryMerchantLocationForm = ({
   setIsInEditState,
   parentLocationStrings,
   parentLocation,
-  parentLocationChangeHandler,
+  parentLocationChangeHandler = () => null,
   onSaveHandler,
   onCancelHandler,
   isLoading,
@@ -75,7 +75,7 @@ const DirectoryMerchantLocationForm = ({
 
   const [merchantInternalIdValue, setMerchantInternalIdValue] = useState<string>(merchantInternalId || '')
 
-  const [isPhysicalLocation, setIsPhysicalLocation] = useState<boolean>(location ? is_physical_location : true)
+  const [isPhysicalLocation, setIsPhysicalLocation] = useState<boolean>(Boolean(location ? is_physical_location : true))
 
   const [addressLine1Value, setAddressLine1Value] = useState<string>(addressLine1 || '')
   const [addressLine1ValidationError, setAddressLine1ValidationError] = useState<string>('')
@@ -255,7 +255,7 @@ const DirectoryMerchantLocationForm = ({
           <div className='h-[28px] w-[277px]'>
             {isExistingSubLocation || isNewLocationSubLocation ? <p className='font-body-2 truncate' data-testid='parent-location'>{parentLocation}</p> : <Dropdown
               displayValue={parentLocation}
-              displayValues={parentLocationStrings}
+              displayValues={parentLocationStrings || []}
               onChangeDisplayValue={handleParentLocationChange}
             />}
           </div>

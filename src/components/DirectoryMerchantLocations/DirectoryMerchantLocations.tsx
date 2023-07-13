@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
@@ -17,6 +17,7 @@ import PathSvg from 'icons/svgs/path.svg'
 
 type LocationRowObject = {
   ref: string,
+  locationRef?: string,
   isSubLocation?: boolean,
   row: DirectoryMerchantDetailsTableCell[]
 }
@@ -27,7 +28,7 @@ type Props = {
 
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState<boolean>(true)
@@ -59,11 +60,11 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
     {
       displayValue: 'TOWN',
-      additionalStyles: isMobileViewport && 'hidden',
+      additionalStyles: isMobileViewport ? 'hidden' : '',
     },
     {
       displayValue: 'POSTCODE',
-      additionalStyles: isMobileViewport && 'hidden',
+      additionalStyles: isMobileViewport ? 'hidden' : '',
     },
     {
       displayValue: 'LOCATION ID',
@@ -73,7 +74,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
   ]
 
-  const locationsData: DirectoryLocations = getMerchantLocationsResponse
+  const locationsData: DirectoryLocations = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
@@ -145,6 +146,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
     return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
       const locationTableRow = hydrateLocationTableRow(locationObj)
+      // @ts-expect-error - Wierd never typing error
       accumulator.push({ref: locationObj.location_ref, row: locationTableRow})
 
       if (locationObj.sub_locations) {
@@ -153,6 +155,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           row: hydrateLocationTableRow(subLocation, true),
           isSubLocation: true,
         }))
+        // @ts-expect-error - Wierd never typing error
         accumulator.push(...subLocationRows)
       }
 
@@ -180,12 +183,12 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         }
       }, null)
 
-      const {subLocation, parentLocationRef} = subLocationObj
-      dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
+      const {subLocation, parentLocationRef} = subLocationObj || {subLocation: null, parentLocationRef: null}
+      subLocation && dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
       router.push(`${baseUrl}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
     } else {
       const location = locationsData.find(location => location.location_ref === locationRef)
-      dispatch(setSelectedDirectoryMerchantEntity(location))
+      location && dispatch(setSelectedDirectoryMerchantEntity(location))
       router.push(`${baseUrl}&ref=${locationRef}`, undefined, {scroll: false})
     }
   }
@@ -193,9 +196,9 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const setSelectedLocations = () => {
     const checkedLocationsToEntity = locationRowObjects.filter((location) => checkedRefArray.includes(location.ref)).map((location) => ({
       entityRef: location.ref,
-      entityValue: location.row[0].displayValue,
+      entityValue: location.row[0].displayValue || '',
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
+    checkedLocationsToEntity && dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
   }
 
   const requestLocationDeleteModal = ():void => {
