@@ -23,6 +23,8 @@ const SidebarOption = ({option, selected}: Props) => {
     Icon = CustomerWalletsIcon
   } else if (option === 'style-guide') {
     Icon = StyleGuideIcon
+  } else if (option === 'bank-viewport') {
+    Icon = StyleGuideIcon
   }
 
   const displayName = RouteDisplayNames[option]

@@ -92,6 +92,7 @@ enum RouteDisplayNames {
   'asset-comparator' = 'Asset Comparator',
   'plan-comparator' = 'Plan Comparator',
   'customer-wallets' = 'Customer Wallets',
+  'bank-viewport' = 'Bank Viewport',
 }
 
 enum BulkActionButtonStyle {
