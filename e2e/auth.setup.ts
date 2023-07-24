@@ -1,5 +1,5 @@
 import {test} from '@playwright/test'
-import {check_cred} from './functions'
+import {check_cred,check_wallet,midmanagement_location,midmanagement_plan} from './functions'
 
 const authFile = 'playwright/.auth/user.json'
 
@@ -19,13 +19,24 @@ test('authenticate', async ({page}) => {
   await page.getByPlaceholder('Password').press('Enter')
   // End of authentication steps.
 
-  await page.goto('https://portal.staging.gb.bink.com/')
-  console.log('testing verification of asset comparator')
-  await check_cred(page, 'Asset Comparator')
+  // await page.goto('https://portal.staging.gb.bink.com/')
+  // console.log('testing verification of asset comparator')
+  // await check_cred(page, 'Asset Comparator')
+
+  // await page.goto('https://portal.staging.gb.bink.com/')
+  // console.log('testing verification of plan comparator')
+  // await check_cred(page, 'Plan Comparator') 
+
+  // await page.goto('https://portal.staging.gb.bink.com/')
+  // console.log('testing verification of customer wallet')
+  // await check_wallet(page, 'Customer Wallets') 
+
+  // await page.goto('https://portal.staging.gb.bink.com/')
+  // console.log('testing verification of midmanagement plan')
+  // await midmanagement_plan(page, 'Mid Directory')
 
   await page.goto('https://portal.staging.gb.bink.com/')
-  console.log('testing verification of plan comparator')
-  await check_cred(page, 'Plan Comparator') 
+  console.log('testing verification of midmanagement location')
+  await midmanagement_location(page, 'Mid Directory')
 
-  await page.context().storageState({path: authFile})
 })
