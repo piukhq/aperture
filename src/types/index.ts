@@ -506,3 +506,71 @@ export type LookupUserHistoryEntity = {
     datetime: string
   }
 }
+
+
+// API v2 types - At some point these can exist without v2 suffix
+type PaymentAccountApi2 = {
+  id: number,
+  provider: string,
+  issuer: string,
+  expiry_month: number,
+  expiry_year: number,
+  name_on_card: string,
+  card_nickname: string,
+  type: string,
+  currency_code: string,
+  country: string,
+  last_four_digits: string,
+  images: PlanImage[],
+  pll_links: {
+    loyalty_card_id: number,
+    loyalty_plan: string,
+    status: StatusApi2,
+  }
+}
+
+type StatusApi2 = {
+  state: string,
+  slug: string,
+  description: string,
+}
+
+type LoyaltyCardApi2 = {
+  id: number,
+  loyalty_plan_id: number,
+  loyalty_plan_name: string,
+  is_fully_pll_linked: boolean,
+  status: StatusApi2,
+  balance: {
+    updated_at: number,
+    current_display_value: string,
+    loyalty_currency_name: string,
+    prefix: string,
+    suffix: string,
+    current_value: number,
+    target_value: number,
+  }
+  transactions: LoyaltyTransaction[] // Assuming same as v1
+  vouchers: LoyaltyVoucher[] // Assuming same as v1
+  card: {
+    barcode: string | null,
+    barcode_type: string | null,
+    card_number: string | null,
+    colour: string,
+    text_colour: string,
+  }
+  reward_available: boolean,
+  images: PlanImage[],
+  pll_links: {
+    payment_account_id: number,
+    payment_scheme: string,
+    status: StatusApi2,
+  }
+}
+
+
+export type WalletApi2 = {
+  joins: string[], // check what to expect here
+  loyalty_cards: LoyaltyCardApi2[],
+  payment_accounts: PaymentAccountApi2[],
+} | null
