@@ -22,6 +22,7 @@ function MyApp ({Component, pageProps}: AppProps) {
           <meta property='og:image:height' content='400' />
           <meta property='og:site_name' content='Aperture' />
           <meta property='og:url' content='https://portal.gb.bink.com' />
+          <meta http-equiv='Content-Security-Policy' content='upgrade-insecure-requests' />
         </Head>
         <UserProvider>
           <Layout>
