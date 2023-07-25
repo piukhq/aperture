@@ -3,6 +3,7 @@ import AssetComparatorIcon from 'icons/svgs/asset-comparator.svg'
 import PlanComparatorIcon from 'icons/svgs/plan-comparator.svg'
 import MidManagementIcon from 'icons/svgs/mid-management.svg'
 import CustomerWalletsIcon from 'icons/svgs/customer-wallets.svg'
+import BankViewportIcon from 'icons/svgs/bank-viewport.svg'
 import StyleGuideIcon from 'icons/svgs/write.svg'
 import {RouteDisplayNames} from 'utils/enums'
 
@@ -23,6 +24,8 @@ const SidebarOption = ({option, selected}: Props) => {
     Icon = CustomerWalletsIcon
   } else if (option === 'style-guide') {
     Icon = StyleGuideIcon
+  } else if (option === 'bank-viewport') {
+    Icon = BankViewportIcon
   }
 
   const displayName = RouteDisplayNames[option]
