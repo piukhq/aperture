@@ -15,11 +15,11 @@ const useGetRouterQueryString = () => { // This converts the router query values
     const convertedQuery = Object.keys(routerQuery).reduce((acc, key) => {
       const value = routerQuery[key]
       if (Array.isArray(value)) {
-        acc[key] = value[0] || ''
+        acc[key] = value[0]
       } else {
-        acc[key] = value || ''
+        acc[key] = value
       }
-      return acc || ''
+      return acc
     }, {} as Record<string, string>)
     return convertedQuery
   }
