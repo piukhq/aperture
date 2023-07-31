@@ -59,7 +59,7 @@ export type PlanImage = {
   url: string,
   encoding: string,
   description: string,
-  cta_url?: string,
+  cta_url?: string | null,
 }
 
 export type PlanAsset = { // Plan Image with additional metadata used for Asset Modal
@@ -513,8 +513,9 @@ type PaymentAccountApi2 = {
   id: number,
   provider: string,
   issuer: string,
-  expiry_month: number,
-  expiry_year: number,
+  status: string,
+  expiry_month: string,
+  expiry_year: string,
   name_on_card: string,
   card_nickname: string,
   type: string,
@@ -526,32 +527,67 @@ type PaymentAccountApi2 = {
     loyalty_card_id: number,
     loyalty_plan: string,
     status: StatusApi2,
-  }
+  }[]
 }
 
 type StatusApi2 = {
-  state: string,
-  slug: string,
+  state: string | null,
+  slug: string | null,
+  description: string| null,
+}
+
+export type LoyaltyVoucherApi2 = {
+  barcode_type: string | null,
+  body_text: string,
+  conversion_date: number | null,
+  current_value: string,
+  earn_type: 'accumulator' | 'stamps',
+  expiry_date: number | null,
+  headline: string,
+  issued_date: number | null,
+  prefix: string | null,
+  progress_display_text: string,
+  redeemed_date: number | null,
+  reward_text: string,
+  state: 'issued' | 'redeemed' | 'expired' | 'inprogress',
+  suffix: string | null,
+  target_value: string,
+  terms_and_conditions: string,
+  voucher_code: string | null,
+}
+
+export type LoyaltyTransactionApi2 = {
+  id: string,
+  status: string,
+  amounts: Array<{
+    currency: string,
+    prefix: string,
+    value: number,
+  }>,
+  timestamp: number,
   description: string,
 }
 
-type LoyaltyCardApi2 = {
+
+export type LoyaltyCardApi2 = {
   id: number,
   loyalty_plan_id: number,
   loyalty_plan_name: string,
   is_fully_pll_linked: boolean,
+  pll_linked_payment_accounts: number,
+  total_payment_accounts: number,
   status: StatusApi2,
   balance: {
     updated_at: number,
     current_display_value: string,
     loyalty_currency_name: string,
-    prefix: string,
-    suffix: string,
-    current_value: number,
-    target_value: number,
+    prefix: string | null,
+    suffix: string | null,
+    current_value: string,
+    target_value: string,
   }
-  transactions: LoyaltyTransaction[] // Assuming same as v1
-  vouchers: LoyaltyVoucher[] // Assuming same as v1
+  transactions: LoyaltyTransactionApi2[]
+  vouchers: LoyaltyVoucherApi2[]
   card: {
     barcode: string | null,
     barcode_type: string | null,
@@ -565,7 +601,7 @@ type LoyaltyCardApi2 = {
     payment_account_id: number,
     payment_scheme: string,
     status: StatusApi2,
-  }
+  }[]
 }
 
 
