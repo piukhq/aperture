@@ -10,12 +10,24 @@ import {WalletApi2} from 'types'
 // This page is very placeholdery and will be replaced with the actual bank viewport once auth is sorted
 
 const BankViewportPage: NextPage = withPageAuthRequired(() => {
-  const [wallet, setWallet] = useState<WalletApi2>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
+
   const {getDemoWalletResponse} = useBankViewport()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setWallet(getDemoWalletResponse)
+    setIsLoaded(true)
+  }
+
+  const renderLoyaltyCards = () => {
+    const wallet: WalletApi2 = getDemoWalletResponse
+    return (
+      <div className='flex flex-col gap-[30px]'>
+        {wallet?.loyalty_cards.map((loyaltyCard) => (
+          <BankViewport key={loyaltyCard.id} loyaltyCard={loyaltyCard} />
+        ))}
+      </div>
+    )
   }
 
   return (
@@ -36,7 +48,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
               <CheckSvg fill='white' />Load Viator Demo User
             </Button>
           </form>
-          { wallet && <BankViewport wallet={wallet} />}
+          { isLoaded && renderLoyaltyCards() }
         </div>
       </PageLayout>
     </>
