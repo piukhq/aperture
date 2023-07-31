@@ -23,7 +23,7 @@ const TransactionTableRow = ({transaction, isIceland}: {transaction: LoyaltyTran
 
   const transactionRowArray = [
     rewardCell, // REWARD
-    timeStampToDate(timestamp, true), //DATE
+    timeStampToDate(timestamp, {isShortDate: true}), //DATE
     detailsAmountCells[0], // DETAILS
     detailsAmountCells[1] ? `£${detailsAmountCells[1]}` : getNullAmountCell(), // AMOUNT
     getChangeCell(), // CHANGE

@@ -73,7 +73,7 @@ const DirectoryMerchantPsimis = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: timeStampToDate(dateAdded, isMobileViewport),
+          displayValue: timeStampToDate(dateAdded, {isShortDate: isMobileViewport}),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getHarmoniaStatusString(txmStatus)},

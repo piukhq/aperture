@@ -57,7 +57,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
     const renderDateDetails = (voucher) => {
       switch (voucher.state) {
         case 'issued':
-          return <p>Expires: {timeStampToDate(voucher.expiry_date, true)}</p>
+          return <p>Expires: {timeStampToDate(voucher.expiry_date, {isShortMonthYear: true})}</p>
         default: return <p>ICON</p>
       }
     }
@@ -101,7 +101,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
       const {value, prefix} = amounts[0]
       return (
         <div key={index} className='border-t border-t-grey-400 w-4/5 flex flex-col p-4 m-2'>
-          <p>{timeStampToDate(timestamp, true)}</p>
+          <p>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
           <p className='capitalize'>{description} - {prefix}{value}</p>
         </div>
 
