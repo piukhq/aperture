@@ -25,8 +25,6 @@ const lloyds = localFont({
   ],
   variable: '--font-lloyds',
 })
-
-
 type Props = {
   loyaltyCard: LoyaltyCardApi2
 }
@@ -34,13 +32,16 @@ type Props = {
 const BankViewport = ({loyaltyCard}: Props) => {
   const heroImageUrl = loyaltyCard?.images?.find((image) => image.type === 0)?.url || ''
 
+  const dyanamicStyles = {
+    text: {color: loyaltyCard?.card?.colour},
+    background: {backgroundColor: loyaltyCard?.card?.colour},
+  } // In-line style as Tailwind does not support dynamic styles
   const {
     loyalty_plan_name: loyaltyPlanName,
     card,
   } = loyaltyCard
 
   const {card_number: cardNumber} = card
-
   const inProgressVoucher = loyaltyCard.vouchers.find((voucher) => voucher.state === 'inprogress')
 
 
@@ -56,7 +57,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
     } = inProgressVoucher
     return (
       <div className='border-2 border-grey-300 rounded flex flex-col w-full m-5 text-left'>
-        <p className='text-sm font-medium text-green border-b-grey-300 border-b border-dashed m-4 mb-2 pb-2'>{headline}</p>
+        <p style={dyanamicStyles.text} className={'text-sm font-medium border-b-grey-300 border-b border-dashed m-4 mb-2 pb-2'}>{headline}</p>
         <p className='font-medium text-grey-700 pl-4 my-1'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
         <div className='w-[90%] h-2 m-2 bg-grey-300 rounded-2xl ml-4'></div>
         <div className='flex justify-between w-full px-4 pt-2 pb-4 text-sm'>
@@ -69,7 +70,6 @@ const BankViewport = ({loyaltyCard}: Props) => {
 
   const renderVouchers = () => {
     const vouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state !== 'inprogress')
-
     const renderVoucherIcon = (state: string) => {
       switch (state) {
         case 'issued':
@@ -95,10 +95,10 @@ const BankViewport = ({loyaltyCard}: Props) => {
 
       return (
         <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6'>
-          <p className='bg-green text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
+          <p style={dyanamicStyles.background} className='text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
           <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
             {renderVoucherIcon(state)}
-            <span className='text-green text-lg'>{rewardText}</span>
+            <span style={dyanamicStyles.text} className='text-lg'>{rewardText}</span>
           </div>
           <div className='flex justify-between pt-4 text-sm'>
             <span>{renderDateDetails(voucher)}</span>
@@ -120,7 +120,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
           <div className=' flex flex-col py-3'>
-            <p className='text-sm font-bold text-green'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
+            <p style={dyanamicStyles.text} className='text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
             <p className='capitalize'>{description}</p>
           </div>
           <span className='text-sm font-bold'>{prefix}{value}</span>
@@ -144,7 +144,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
         <div className='w-full px-4 mb-12 flex flex-col'>
           <div className='flex justify-between items-center mb-5'>
             <h2 className='text-xl font-light'>Your voucher(s)</h2>
-            <span className='text-green text-lg'>See all</span>
+            <span style={dyanamicStyles.text} className='text-lg'>See all</span>
           </div>
           {renderVouchers()}
         </div>
