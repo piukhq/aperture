@@ -2,6 +2,30 @@ import React from 'react'
 import Image from 'next/image'
 import {LoyaltyCardApi2} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
+import localFont from 'next/font/local'
+
+const lloyds = localFont({
+  src: [
+    {
+      path: './fonts/lloyds_bank_jack_regular.ttf',
+      weight: '400',
+    },
+    {
+      path: './fonts/lloyds_bank_jack_bold.ttf',
+      weight: '700',
+    },
+    {
+      path: './fonts/lloyds_bank_jack_medium.ttf',
+      weight: '500',
+    },
+    {
+      path: './fonts/lloyds_bank_jack_light.ttf',
+      weight: '300',
+    },
+  ],
+  variable: '--font-lloyds',
+})
+
 
 type Props = {
   loyaltyCard: LoyaltyCardApi2
@@ -31,13 +55,13 @@ const BankViewport = ({loyaltyCard}: Props) => {
       target_value: targetValue,
     } = inProgressVoucher
     return (
-      <div className='border border-grey-400 w-4/5 flex flex-col p-2 m-4'>
-        <p className='text-grey-800 border-b-grey-300 border-b w-4/5'>{headline}</p>
-        <p className='text-grey-800'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
+      <div className='border-2 border-grey-300 rounded flex flex-col w-full m-5 text-left'>
+        <p className='text-sm font-medium text-green border-b-grey-300 border-b border-dashed m-4 mb-2 pb-2'>{headline}</p>
+        <p className='font-medium text-grey-700 pl-4 my-1'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
         <div className='w-[90%] h-2 m-2 bg-grey-300 rounded-2xl ml-4'></div>
-        <div className='flex justify-between w-full'>
-          <span className='text-grey-800'>You&apos;ve spent {prefix}{currentValue}</span>
-          <span className='text-grey-800'>Your target: £200</span>
+        <div className='flex justify-between w-full px-4 pt-2 pb-4 text-sm'>
+          <span>You&apos;ve spent: <strong>{prefix}{currentValue}</strong></span>
+          <span>Your target: <strong>£200</strong></span>
         </div>
       </div>
     )
@@ -58,7 +82,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
       switch (voucher.state) {
         case 'issued':
           return <p>Expires: {timeStampToDate(voucher.expiry_date, {isShortMonthYear: true})}</p>
-        default: return <p>ICON</p>
+        default: return <p></p>
       }
     }
 
@@ -69,15 +93,14 @@ const BankViewport = ({loyaltyCard}: Props) => {
     return vouchers.map((voucher, index) => {
       const {state, reward_text: rewardText} = voucher
 
-
       return (
-        <div key={index} className='border border-grey-400 w-4/5 flex flex-col p-4 m-4'>
-          <p className='bg-green text-white font-body-3 w-max px-2 py-1 rounded-lg'>{state.toLocaleUpperCase()}</p>
-          <div className='flex gap-2 border-b border-dashed border-grey-300 pb-6 pt-6'>
+        <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6'>
+          <p className='bg-green text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
+          <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
             {renderVoucherIcon(state)}
-            <span>{rewardText}</span>
+            <span className='text-green text-lg'>{rewardText}</span>
           </div>
-          <div className='flex justify-between pt-4'>
+          <div className='flex justify-between pt-4 text-sm'>
             <span>{renderDateDetails(voucher)}</span>
             <span>RightChev</span>
           </div>
@@ -88,51 +111,48 @@ const BankViewport = ({loyaltyCard}: Props) => {
 
   const renderTransactions = () => {
     const transactions = loyaltyCard.transactions
-
-    console.log(transactions)
     if (transactions.length === 0) {
-      return <p className='font-body-3'>There are no transactions to display</p>
+      return <p>There are no transactions to display</p>
     }
-
-    return transactions.map((transaction, index) => {
-
-
-      const {timestamp, description, amounts} = transaction
+    return transactions.map((transaction) => {
+      const {timestamp, description, amounts, id} = transaction
       const {value, prefix} = amounts[0]
       return (
-        <div key={index} className='border-t border-t-grey-400 w-4/5 flex flex-col p-4 m-2'>
-          <p>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
-          <p className='capitalize'>{description} - {prefix}{value}</p>
+        <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
+          <div className=' flex flex-col py-3'>
+            <p className='text-sm font-bold text-green'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
+            <p className='capitalize'>{description}</p>
+          </div>
+          <span className='text-sm font-bold'>{prefix}{value}</span>
         </div>
 
       )
     })
   }
 
-
   return (
-    <div className='w-[400px] shadow-md rounded-2xl'>
-      <h1 className='font-heading-5 border-b border-b-grey-300 bg-white text-center p-2 rounded-t-2xl'>{loyaltyPlanName}</h1>
-      <div className='w-full bg-white p-16 text-center flex flex-col gap-2'>
-        <Image src={heroImageUrl} alt='Hero Image' width={400} height={200} className='rounded-2xl shadow-md'/>
-        <p className='uppercase text-grey-800'>{cardNumber}</p>
-      </div>
-
-      <div className='w-full bg-white text-center flex items-center justify-center'>
-        {renderAccumalator()}
-      </div>
-      <div className='w-full bg-white p-2 flex flex-col gap-4'>
-        <div className='flex justify-between items-center'>
-          <h2 className='font-heading-5 '>Your voucher(s)</h2>
-          <span className='text-grey-800'>See all</span>
-
+    <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
+      <h1 className='text-xl border-b border-b-grey-200 text-center p-2 rounded-t-2xl'>{loyaltyPlanName}</h1>
+      <>
+        <div className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
+          <Image src={heroImageUrl} alt='Hero Image' width={400} height={200} className='rounded-2xl'/>
+          <p className='uppercase'>{cardNumber}</p>
         </div>
-        {renderVouchers()}
-      </div>
-      <div className='w-full bg-white p-2 flex flex-col gap-4'>
-        <h2 className='font-heading-5 '>Latest Transactions</h2>
-        {renderTransactions()}
-      </div>
+        <div className='w-full text-center flex items-center justify-center mb-4'>
+          {renderAccumalator()}
+        </div>
+        <div className='w-full px-4 mb-12 flex flex-col'>
+          <div className='flex justify-between items-center mb-5'>
+            <h2 className='text-xl font-light'>Your voucher(s)</h2>
+            <span className='text-green text-lg'>See all</span>
+          </div>
+          {renderVouchers()}
+        </div>
+        <div className='w-full px-4 flex flex-col mb-2'>
+          <h2 className='text-xl font-light mb-3'>Latest Transactions</h2>
+          {renderTransactions()}
+        </div>
+      </>
     </div>
   )
 }
