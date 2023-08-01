@@ -9,6 +9,7 @@ module.exports = {
       heading: ['Poppins', 'sans-serif'],
       body: ['Roboto', 'sans-serif'],
       mono: ['Roboto Mono', 'monospace'],
+      lloyds: ['var(--font-lloyds)', 'sans-serif'],
     },
     fontSize: {
       '5xl': '3.5rem',
