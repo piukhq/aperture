@@ -29,15 +29,27 @@ const getDemoWalletResponse:WalletApi2 = {
           'id': '134',
           'timestamp': 1690378214,
           'status': 'authorised',
-          'description': 'Viator Test Transation ',
+          'description': 'Viator Test Transation 1',
           'amounts': [
             {
-              'value': 100,
+              'value': 25,
               'prefix': '£',
               'currency': 'GBP',
             },
           ],
-
+        },
+        {
+          'id': '135',
+          'timestamp': 1680378214,
+          'status': 'authorised',
+          'description': 'Viator Test Transation 2',
+          'amounts': [
+            {
+              'value': 75,
+              'prefix': '£',
+              'currency': 'GBP',
+            },
+          ],
         },
       ],
       'vouchers': [
@@ -83,7 +95,7 @@ const getDemoWalletResponse:WalletApi2 = {
       'card': {
         'barcode': null,
         'barcode_type': null,
-        'card_number': 'VIAT6972005562',
+        'card_number': 'VIAT2542564215',
         'colour': '#246b6c',
         'text_colour': '#FFFFFF',
       },
