@@ -537,19 +537,19 @@ type StatusApi2 = {
 }
 
 export type LoyaltyVoucherApi2 = {
-  barcode_type: string | null,
+  barcode_type: number | null,
   body_text: string,
-  conversion_date: number | null,
+  conversion_date: string | null,
   current_value: string,
   earn_type: 'accumulator' | 'stamps',
-  expiry_date: number | null,
+  expiry_date: string | null,
   headline: string,
-  issued_date: number | null,
+  issued_date: string | null,
   prefix: string | null,
   progress_display_text: string,
-  redeemed_date: number | null,
+  redeemed_date: string | null,
   reward_text: string,
-  state: 'issued' | 'redeemed' | 'expired' | 'inprogress',
+  state: 'issued' | 'pending' | 'redeemed' | 'expired' | 'inprogress' | 'cancelled',
   suffix: string | null,
   target_value: string,
   terms_and_conditions: string,
@@ -590,10 +590,10 @@ export type LoyaltyCardApi2 = {
   vouchers: LoyaltyVoucherApi2[]
   card: {
     barcode: string | null,
-    barcode_type: string | null,
+    barcode_type: number | null,
     card_number: string | null,
     colour: string,
-    text_colour: string,
+    text_colour: string | null,
   }
   reward_available: boolean,
   images: PlanImage[],
