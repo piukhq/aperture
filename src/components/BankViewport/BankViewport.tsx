@@ -33,12 +33,20 @@ type Props = {
 const BankViewport = ({loyaltyCard}: Props) => {
   const heroImageUrl = loyaltyCard?.images?.find((image) => image.type === 0)?.url || ''
 
+  const getAccumulatorPercentage = () => {
+    const inProgressVoucher = loyaltyCard.vouchers.find((voucher) => voucher.state === 'inprogress')
+    if (!inProgressVoucher) {
+      return 0
+    }
+    const {
+      current_value: currentValue,
+      target_value: targetValue,
+    } = inProgressVoucher
+    return `${(Number(currentValue) / Number(targetValue)) * 100}%`
+  }
+
   const dyanamicStyles = {
-    text: {color: loyaltyCard?.card?.colour},
-    background: {backgroundColor: loyaltyCard?.card?.colour},
-    progressGradient: {background: `linear-gradient(90deg, ${loyaltyCard?.card?.colour} 0%, ${loyaltyCard?.card?.colour} 50%, #E5E5E5 50%, #E5E5E5 100%)`},
-
-
+    progressBar: {width: getAccumulatorPercentage()},
   } // In-line style as these are generated at render time which tailwind does not support easily
   const {
     loyalty_plan_name: loyaltyPlanName,
@@ -61,16 +69,16 @@ const BankViewport = ({loyaltyCard}: Props) => {
     } = inProgressVoucher
     return (
       <div className='border-2 border-grey-300 rounded flex flex-col w-full m-5 text-left'>
-        <p style={dyanamicStyles.text} className={'text-sm font-bold border-b-grey-300 border-b border-dashed m-4 mb-2 pb-2'}>{headline}</p>
+        <p className={'text-lloydsGreen text-sm font-bold border-b-grey-300 border-b border-dashed m-4 mb-2 pb-2'}>{headline}</p>
         <p className='font-medium text-grey-700 pl-4 my-1'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
-
-
-        <div style={dyanamicStyles.progressGradient} className='w-[90%] h-2 m-2 bg-grey-300 rounded-2xl ml-4'></div>
+        <div className='w-[90%] bg-grey-300 rounded-full h-2 ml-4'>
+          <div style={dyanamicStyles.progressBar} className='bg-lloydsGreen h-2 rounded-full'></div>
+        </div>
 
 
         <div className='flex justify-between w-full px-4 pt-2 pb-4 text-sm'>
           <span>You&apos;ve spent: <strong>{prefix}{currentValue}</strong></span>
-          <span>Your target: <strong>£200</strong></span>
+          <span>Your target: <strong>{targetValue}</strong></span>
         </div>
       </div>
     )
@@ -103,10 +111,10 @@ const BankViewport = ({loyaltyCard}: Props) => {
 
       return (
         <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
-          <p style={dyanamicStyles.background} className='text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
+          <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
           <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
             {renderVoucherIcon(state)}
-            <span style={dyanamicStyles.text} className='text-lg'>{rewardText}</span>
+            <span className='text-lloydsGreen text-lg'>{rewardText}</span>
           </div>
           <div className='flex justify-between pt-4 text-sm items-center'>
             <span>{renderDateDetails(voucher)}</span>
@@ -128,7 +136,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
           <div className=' flex flex-col py-3'>
-            <p style={dyanamicStyles.text} className='text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
+            <p className='text-lloydsGreen text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
             <p className='capitalize'>{description}</p>
           </div>
           <span className='text-sm font-bold'>{prefix}{value}</span>
@@ -137,21 +145,9 @@ const BankViewport = ({loyaltyCard}: Props) => {
     })
   }
 
-  const getAccumulatorPercentage = () => {
-    const inProgressVoucher = loyaltyCard.vouchers.find((voucher) => voucher.state === 'inprogress')
-    if (!inProgressVoucher) {
-      return 0
-    }
-    const {
-      current_value: currentValue,
-      target_value: targetValue,
-    } = inProgressVoucher
-    return `${(Number(currentValue) / Number(targetValue)) * 100}%`
-  }
-
   const renderAccumalatorHeroInfo = () => (
     <div className='bg-white flex justify-end items-center h-8 w-14 text-xs absolute right-0 top-3 pr-1 rounded-l-xl shadow-md'>
-      <span style={dyanamicStyles.text} className='mr-1'>{getAccumulatorPercentage()}
+      <span className='text-lloydsGreen mr-1'>{getAccumulatorPercentage()}
       </span><span>full</span>
     </div>
   )
@@ -173,7 +169,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
         <div className='w-full px-4 mb-12 flex flex-col'>
           <div className='flex justify-between items-center mb-5'>
             <h2 className='text-xl font-light'>Your voucher(s)</h2>
-            <span style={dyanamicStyles.text} className='text-lg font-medium'>See all</span>
+            <span className='text-lloydsGreen text-lg font-medium'>See all</span>
           </div>
           {renderVouchers()}
         </div>

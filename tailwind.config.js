@@ -59,6 +59,7 @@ module.exports = {
       'mastercardBlue': '#3f51b5',
       'amexBlue': '#1976d2',
       'commentsBlue': '#1e75ff',
+      'lloydsGreen': '#006A4D',
     },
     extend: {
       lineHeight: {
