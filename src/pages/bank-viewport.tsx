@@ -11,8 +11,7 @@ import {WalletApi2} from 'types'
 
 const BankViewportPage: NextPage = withPageAuthRequired(() => {
   const [isLoaded, setIsLoaded] = useState(false)
-
-  const {getDemoWalletResponse} = useBankViewport()
+  const {getDemoWallet2Response} = useBankViewport()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -20,7 +19,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
   }
 
   const renderLoyaltyCards = () => {
-    const wallet: WalletApi2 = getDemoWalletResponse
+    const wallet: WalletApi2 = getDemoWallet2Response
     return (
       <div className='flex flex-col gap-[30px]'>
         {wallet?.loyalty_cards.map((loyaltyCard) => (
