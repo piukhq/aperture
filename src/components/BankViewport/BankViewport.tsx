@@ -1,13 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-import {LoyaltyCardApi2} from 'types'
+import {LoyaltyCardApi2, LoyaltyVoucherApi2} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 import localFont from 'next/font/local'
 import LinkLloydsSvg from 'icons/svgs/link-lloyds.svg'
 import InfoSvg from 'icons/svgs/info.svg'
 import TicketSvg from 'icons/svgs/task.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
-
 
 const lloyds = localFont({
   src: [
@@ -68,17 +67,14 @@ const BankViewport = ({loyaltyCard}: Props) => {
 
     const renderAccumalatorProgress = () => (
       <>
-        <p className='font-medium text-grey-700 pl-4 my-1'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
-        <div className='w-[90%] bg-grey-300 rounded-full h-2 ml-4'>
+        <p className='font-medium text-grey-700 pl-4 mt-1 mb-2'>{prefix}{Number(targetValue) - Number(currentValue)} remaining</p>
+        <div className='w-[90%] bg-grey-300 rounded-full h-2 ml-4 mb-2'>
           <div style={dyanamicStyles.progressBar} className='bg-lloydsGreen h-2 rounded-full'></div>
         </div>
-
-
         <div className='flex justify-between w-full px-4 pt-2 pb-4 text-sm'>
           <span>You&apos;ve spent: <strong>{prefix}{currentValue}</strong></span>
           <span>Your target: <strong>{prefix}{targetValue}</strong></span>
         </div>
-
       </>
     )
 
@@ -86,12 +82,12 @@ const BankViewport = ({loyaltyCard}: Props) => {
       <div className='mx-4'>
         <p className='text-lg'>{Number(targetValue) - Number(currentValue)} stamps to go until your reward</p>
         <div className='w-[90%] my-3'>
-          <div className='flex gap-4'>
+          <div className='flex gap-2'>
             {Array.from(Array(Number(targetValue)).keys()).map((index) => (
               <div
                 key={index}
-                className={`flex justify-center items-center w-8 h-8 rounded-full border-2 ${index < Number(currentValue) ? 'border-grey-700' : 'border-grey-300'}`}>
-                <div className={`w-5 h-5 rounded-full ${index < Number(currentValue) ? 'bg-lloydsGreen' : 'bg-grey-30'}`}></div>
+                className={`flex justify-center items-center w-6 h-6 rounded-full border-2 ${index < Number(currentValue) ? 'border-grey-700' : 'border-grey-300'}`}>
+                <div className={`w-4 h-4 rounded-full ${index < Number(currentValue) ? 'bg-lloydsGreen' : 'bg-grey-30'}`}></div>
               </div>
             ))}
           </div>
@@ -118,8 +114,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
   const renderVouchers = () => {
     const issuedVouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state === 'issued')
 
-    const renderDateDetails = (voucher) => {
-      console.log(voucher)
+    const renderDateDetails = (voucher: LoyaltyVoucherApi2) => {
       switch (voucher.state) {
         case 'issued':
           return <p>Expires: {timeStampToDate(Number(voucher.expiry_date), {isShortMonthYear: true})}</p>
@@ -187,17 +182,19 @@ const BankViewport = ({loyaltyCard}: Props) => {
   return (
     <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
       <h1 className='text-xl border-b border-b-grey-200 text-center p-2 rounded-t-2xl'>{loyaltyPlanName}</h1>
-
-      <div className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
+      {/* Hero Section */}
+      <section className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
         <div className='w-full relative'>
           {isStampsVoucher ? renderStampsHeroInfo() : renderAccumalatorHeroInfo()}
           <Image src={heroImageUrl} alt='Hero Image' width={400} height={200} className='rounded-xl'/>
         </div>
         <p className='uppercase'>{cardNumber}</p>
-      </div>
-      <div className='w-full text-center flex items-center justify-center mb-4'>
+      </section>
+      {/* Inprogress Voucher Section */}
+      <section className='w-full text-center flex items-center justify-center mb-4'>
         {renderInProgressVoucher()}
-      </div>
+      </section>
+      {/* Big Buttons Section */}
       <div className='bg-grey-200 py-6 px-4 flex justify-between gap-4 mb-6 font-light text-sm leading-1'>
         <button className='flex flex-col border-2 border-grey-400 bg-white h-24 w-[50%] rounded-lg p-2 items-center gap-1'>
           <LinkLloydsSvg className='my-1 fill-lloydsGreen ' />
@@ -208,19 +205,19 @@ const BankViewport = ({loyaltyCard}: Props) => {
           <p className='px-2'>About this loyalty scheme</p>
         </button> {/* TODO: Make button functional*/}
       </div>
-
-
-      <div className='w-full px-4 mb-6 flex flex-col'>
+      {/* Vouchers Section */}
+      <section className='w-full px-4 mb-6 flex flex-col'>
         <div className='flex justify-between items-center mb-5'>
           <h2 className='text-xl font-light'>Your voucher(s)</h2>
           <button className='text-lloydsGreen text-lg font-medium'>See all</button> {/* TODO: Make a button functional*/}
         </div>
         {renderVouchers()}
-      </div>
-      <div className='w-full px-4 flex flex-col mb-6'>
+      </section>
+      {/* Transactions Section */}
+      <section className='w-full px-4 flex flex-col mb-6'>
         <h2 className='text-xl font-light mb-3'>Latest transactions</h2>
         {renderTransactions()}
-      </div>
+      </section>
     </div>
   )
 }
