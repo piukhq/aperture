@@ -34,7 +34,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
     <>
       <HeadMetadata pageTitle='Bank Viewport' pageDescription='View a customers wallet as per Banking app' />
       <PageLayout>
-        <div className='flex gap-[30px] mb-12'>
+        <div className='flex justify-center gap-[30px] mb-12'>
           <Button
             handleClick={() => setDemoWalletLoaded(0)}
             buttonType={ButtonType.SUBMIT}
