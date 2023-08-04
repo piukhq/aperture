@@ -3,7 +3,11 @@ import Image from 'next/image'
 import {LoyaltyCardApi2} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 import localFont from 'next/font/local'
-// import ArrowDownSvg from 'icons/svgs/arrow-down.svg' // This UI element is not used in the current design but should return later on
+import LinkLloydsSvg from 'icons/svgs/link-lloyds.svg'
+import InfoSvg from 'icons/svgs/info.svg'
+import TicketSvg from 'icons/svgs/task.svg'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+
 
 const lloyds = localFont({
   src: [
@@ -111,46 +115,39 @@ const BankViewport = ({loyaltyCard}: Props) => {
   }
 
   // This UI element is not used in the current design
-  // const renderVouchers = () => {
-  //   const vouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state !== 'inprogress')
-  //   const renderVoucherIcon = (state: string) => {
-  //     switch (state) {
-  //       case 'issued':
-  //         return <p>IS</p>
-  //       default: return <p>ICON</p>
-  //     }
-  //   }
+  const renderVouchers = () => {
+    const issuedVouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state === 'issued')
 
-  //   const renderDateDetails = (voucher) => {
-  //     switch (voucher.state) {
-  //       case 'issued':
-  //         return <p>Expires: {timeStampToDate(voucher.expiry_date, {isShortMonthYear: true})}</p>
-  //       default: return <p></p>
-  //     }
-  //   }
+    const renderDateDetails = (voucher) => {
+      console.log(voucher)
+      switch (voucher.state) {
+        case 'issued':
+          return <p>Expires: {timeStampToDate(Number(voucher.expiry_date), {isShortMonthYear: true})}</p>
+        default: return <p></p>
+      }
+    }
 
-  //   if (vouchers.length === 0) {
-  //     return <p className='font-body-3'>There are no vouchers to display</p>
-  //   }
+    if (issuedVouchers.length === 0) {
+      return <p className='font-body-3'>There are no issued vouchers to display</p>
+    }
 
-  //   return vouchers.map((voucher, index) => {
-  //     const {state, reward_text: rewardText} = voucher
-
-  //     return (
-  //       <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
-  //         <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
-  //         <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
-  //           {renderVoucherIcon(state)}
-  //           <span className='text-lloydsGreen text-lg'>{rewardText}</span>
-  //         </div>
-  //         <div className='flex justify-between pt-4 text-sm items-center'>
-  //           <span>{renderDateDetails(voucher)}</span>
-  //           <ArrowDownSvg className='-rotate-90 fill-grey-500 mr-4' />
-  //         </div>
-  //       </div>
-  //     )
-  //   })
-  // }
+    return issuedVouchers.map((voucher, index) => {
+      const {state, reward_text: rewardText} = voucher
+      return (
+        <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
+          <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
+          <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
+            <TicketSvg className='fill-lloydsGreen'/>
+            <span className='text-lloydsGreen text-lg'>{rewardText}</span>
+          </div>
+          <div className='flex justify-between pt-4 text-sm items-center'>
+            <span>{renderDateDetails(voucher)}</span>
+            <ArrowDownSvg className='-rotate-90 fill-grey-500 mr-4' />
+          </div>
+        </div>
+      )
+    })
+  }
 
   const renderTransactions = () => {
     const transactions = loyaltyCard.transactions
@@ -160,6 +157,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
     return transactions.map((transaction) => {
       const {timestamp, description, amounts, id} = transaction
       const {value, prefix} = amounts[0]
+
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
           <div className=' flex flex-col py-3'>
@@ -173,14 +171,14 @@ const BankViewport = ({loyaltyCard}: Props) => {
   }
 
   const renderAccumalatorHeroInfo = () => (
-    <div className='bg-white flex justify-end items-center h-8 text-xs absolute right-0 top-3 px-1 rounded-l-xl shadow-md'>
+    <div className='bg-white flex justify-end items-center h-8 text-xs absolute right-0 top-3 px-2 rounded-l-xl shadow-md'>
       <span className='text-lloydsGreen mr-1'>{getAccumulatorPercentage()}</span>
       <span>full</span>
     </div>
   )
 
   const renderStampsHeroInfo = () => (
-    <div className='bg-white flex justify-end items-center h-8 text-xs absolute right-0 top-3 px-1 rounded-l-xl shadow-md'>
+    <div className='bg-white flex justify-end items-center h-8 text-xs absolute right-0 top-3 px-2 rounded-l-xl shadow-md'>
       <span className='text-lloydsGreen mr-1'>{loyaltyCard.balance.current_value}/{loyaltyCard.balance.target_value}</span>
       <span>stamps</span>
     </div>
@@ -189,29 +187,40 @@ const BankViewport = ({loyaltyCard}: Props) => {
   return (
     <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
       <h1 className='text-xl border-b border-b-grey-200 text-center p-2 rounded-t-2xl'>{loyaltyPlanName}</h1>
-      <>
-        <div className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
-          <div className='w-full relative'>
-            {isStampsVoucher ? renderStampsHeroInfo() : renderAccumalatorHeroInfo()}
-            <Image src={heroImageUrl} alt='Hero Image' width={400} height={200} className='rounded-xl'/>
-          </div>
-          <p className='uppercase'>{cardNumber}</p>
+
+      <div className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
+        <div className='w-full relative'>
+          {isStampsVoucher ? renderStampsHeroInfo() : renderAccumalatorHeroInfo()}
+          <Image src={heroImageUrl} alt='Hero Image' width={400} height={200} className='rounded-xl'/>
         </div>
-        <div className='w-full text-center flex items-center justify-center mb-4'>
-          {renderInProgressVoucher()}
+        <p className='uppercase'>{cardNumber}</p>
+      </div>
+      <div className='w-full text-center flex items-center justify-center mb-4'>
+        {renderInProgressVoucher()}
+      </div>
+      <div className='bg-grey-200 py-6 px-4 flex justify-between gap-4 mb-6 font-light text-sm leading-1'>
+        <button className='flex flex-col border-2 border-grey-400 bg-white h-24 w-[50%] rounded-lg p-2 items-center gap-1'>
+          <LinkLloydsSvg className='my-1 fill-lloydsGreen ' />
+          <p className='px-6'>Your linked payment card(s)</p>
+        </button> {/* TODO: Make button functional*/}
+        <button className='flex flex-col border-2 border-grey-400 bg-white h-24 w-[50%] rounded-lg p-2 items-center gap-1'>
+          <InfoSvg className='my-2 scale-150 text-orange fill-lloydsGreen  ' />
+          <p className='px-2'>About this loyalty scheme</p>
+        </button> {/* TODO: Make button functional*/}
+      </div>
+
+
+      <div className='w-full px-4 mb-6 flex flex-col'>
+        <div className='flex justify-between items-center mb-5'>
+          <h2 className='text-xl font-light'>Your voucher(s)</h2>
+          <button className='text-lloydsGreen text-lg font-medium'>See all</button> {/* TODO: Make a button functional*/}
         </div>
-        <div className='w-full px-4 mb-12 flex flex-col'>
-          <div className='flex justify-between items-center mb-5'>
-            <h2 className='text-xl font-light'>Your voucher(s)</h2>
-            <button className='text-lloydsGreen text-lg font-medium'>See all</button> {/* TODO: Make a button*/}
-          </div>
-          {/* {renderVouchers()} */} {/* This UI element is not used in the current design but should return later on */}
-        </div>
-        <div className='w-full px-4 flex flex-col mb-2'>
-          <h2 className='text-xl font-light mb-3'>Latest transactions</h2>
-          {renderTransactions()}
-        </div>
-      </>
+        {renderVouchers()}
+      </div>
+      <div className='w-full px-4 flex flex-col mb-6'>
+        <h2 className='text-xl font-light mb-3'>Latest transactions</h2>
+        {renderTransactions()}
+      </div>
     </div>
   )
 }
