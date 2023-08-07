@@ -9,6 +9,7 @@ module.exports = {
       heading: ['Poppins', 'sans-serif'],
       body: ['Roboto', 'sans-serif'],
       mono: ['Roboto Mono', 'monospace'],
+      lloyds: ['var(--font-lloyds)', 'sans-serif'],
     },
     fontSize: {
       '5xl': '3.5rem',
@@ -58,6 +59,7 @@ module.exports = {
       'mastercardBlue': '#3f51b5',
       'amexBlue': '#1976d2',
       'commentsBlue': '#1e75ff',
+      'lloydsGreen': '#006A4D',
     },
     extend: {
       lineHeight: {

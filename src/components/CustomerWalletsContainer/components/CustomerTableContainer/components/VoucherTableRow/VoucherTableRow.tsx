@@ -22,8 +22,8 @@ const VoucherTableRow = ({voucher}: {voucher:LoyaltyVoucher}) => {
   const voucherColumnArray = [
     `${prefix} ${suffix} ${type}`,
     code,
-    dateIssued ? timeStampToDate(dateIssued, true) : '-',
-    expiryDate ? timeStampToDate(expiryDate, true) : '-',
+    dateIssued ? timeStampToDate(dateIssued, {isShortDate: true}) : '-',
+    expiryDate ? timeStampToDate(expiryDate, {isShortDate: true}) : '-',
     renderVoucherState(),
   ]
 
