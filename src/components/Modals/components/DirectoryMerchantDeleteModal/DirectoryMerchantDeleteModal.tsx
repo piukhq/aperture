@@ -15,7 +15,7 @@ import {DirectoryMerchant, RTKQueryErrorResponse} from 'types'
 
 const DirectoryMerchantDeleteModal = () => {
   const router = useRouter()
-  const {planId = '', merchantId} = useGetRouterQueryString()
+  const {planId = ''} = useGetRouterQueryString()
   const selectedMerchant:DirectoryMerchant = useAppSelector(getSelectedDirectoryMerchant) || {
     merchant_ref: '',
     merchant_metadata: {
@@ -43,7 +43,7 @@ const DirectoryMerchantDeleteModal = () => {
   } = useDirectoryMerchants({
     skipGetMerchantCounts: true,
     planRef: planId,
-    merchantRef: merchantId,
+    merchantRef: merchantRef,
   })
 
   const dispatch = useAppDispatch()
@@ -76,7 +76,7 @@ const DirectoryMerchantDeleteModal = () => {
       dispatch(requestModal(ModalType.NO_MODAL))
       router.asPath.includes(merchantRef) && router.replace(`/mid-management/directory/${planId}`)
     }
-  }, [deleteMerchantError, resetDeleteMerchantResponse, handleDeleteMerchantError, deleteMerchantIsSuccess, dispatch, router, merchantId, planId, merchantRef])
+  }, [deleteMerchantError, resetDeleteMerchantResponse, handleDeleteMerchantError, deleteMerchantIsSuccess, dispatch, router, planId, merchantRef])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
