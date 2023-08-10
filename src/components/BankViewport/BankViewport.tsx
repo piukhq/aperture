@@ -192,7 +192,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
           <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName} Voucher</h1>
           <button onClick={() => setSelectedVoucherIndex(null)}><CloseSvg className='w-6 fill-blue/70 mr-4'/></button>
         </div>
-        <section className='flex flex-col justify-center items-center p-4 mb-4'>
+        <section className='flex flex-col justify-center items-center p-4 mb-4 pt-6'>
           <Image src={voucherImageUrl} alt='' width={100} height={100} className='shadow-md'/>
           <p className='mt-2'>{rewardText}</p>
           <p className='text-blue'>Ready to be redeemed</p>
@@ -203,7 +203,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
             <p className='w-full'>{bodyText}</p>
           </div>
           <p>Voucher code: <span className='ml-1 font-medium'>{voucherCode}</span></p>
-          <p>Voucher expires: <span className='ml-1 font-medium'>{expiryDate}</span></p>
+          <p>Voucher expires: <span className='ml-1 font-medium'>{ timeStampToDate(Number(expiryDate), {isShortMonthYear: true})}</span></p>
           <a href={termsAndConditons} target='_' className='mt-6 text-blue text-sm'>View retailer&apos;s terms and conditions</a>
         </section>
       </div>
