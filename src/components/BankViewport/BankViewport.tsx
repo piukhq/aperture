@@ -150,8 +150,8 @@ const BankViewport = ({loyaltyCard}: Props) => {
       return <p>There are no transactions to display</p>
     }
     return transactions.map((transaction) => {
-      const {timestamp, description, amounts, id} = transaction
-      const {value, prefix} = amounts[0]
+      const {timestamp, description, display_value: displayValue, id} = transaction
+
 
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
@@ -159,7 +159,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
             <p className='text-lloydsGreen text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
             <p className='capitalize'>{description}</p>
           </div>
-          <span className='text-sm font-bold'>{prefix}{value}</span>
+          <span className='text-sm font-bold'>{displayValue}</span>
         </div>
       )
     })

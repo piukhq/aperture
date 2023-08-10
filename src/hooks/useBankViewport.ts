@@ -26,34 +26,7 @@ const getDemoWallet0Response: WalletApi2 = { // Viator wallet
         'current_value': '0',
         'target_value': '200',
       },
-      'transactions': [
-        {
-          'id': '134',
-          'timestamp': 1690378214,
-          'status': 'authorised',
-          'description': 'Viator Test Transation 1',
-          'amounts': [
-            {
-              'value': 25,
-              'prefix': '£',
-              'currency': 'GBP',
-            },
-          ],
-        },
-        {
-          'id': '135',
-          'timestamp': 1680378214,
-          'status': 'authorised',
-          'description': 'Viator Test Transation 2',
-          'amounts': [
-            {
-              'value': 75,
-              'prefix': '£',
-              'currency': 'GBP',
-            },
-          ],
-        },
-      ],
+      'transactions': [],
       'vouchers': [
         {
           'state': 'inprogress',
@@ -178,7 +151,7 @@ const getDemoWallet0Response: WalletApi2 = { // Viator wallet
     },
   ],
 }
-const getDemoWallet1Response:WalletApi2 = {
+const getDemoWallet1Response: WalletApi2 = {
   'joins': [],
   'loyalty_cards': [{
     'id': 363711,
@@ -371,7 +344,7 @@ const getDemoWallet1Response:WalletApi2 = {
   }],
 }
 
-const getDemoWallet2Response: WalletApi2 = {
+const getDemoWallet2Response = {
   'joins': [],
   'loyalty_cards': [{
     'id': 363707,
@@ -386,7 +359,7 @@ const getDemoWallet2Response: WalletApi2 = {
       'description': null,
     },
     'balance': {
-      'updated_at': 1690812441,
+      'updated_at': 1691653191,
       'current_display_value': '£50',
       'loyalty_currency_name': 'GBP',
       'prefix': '£',
@@ -394,7 +367,36 @@ const getDemoWallet2Response: WalletApi2 = {
       'current_value': '50',
       'target_value': '100',
     },
-    'transactions': [],
+    'transactions': [{
+      'id': '803957',
+      'timestamp': 1691652617,
+      'description': 'N/A -£5.00',
+      'display_value': '-£5',
+    },
+    {
+      'id': '803958',
+      'timestamp': 1691652521,
+      'description': 'N/A -£95.00',
+      'display_value': '-£95',
+    },
+    {
+      'id': '803959',
+      'timestamp': 1691652521,
+      'description': 'N/A £35.99',
+      'display_value': '£35.99',
+    },
+    {
+      'id': '803960',
+      'timestamp': 1691652521,
+      'description': 'N/A £64.01',
+      'display_value': '£64.01',
+    },
+    {
+      'id': '803961',
+      'timestamp': 1691398754,
+      'description': 'N/A £100.00',
+      'display_value': '£100',
+    }],
     'vouchers': [{
       'state': 'inprogress',
       'earn_type': 'accumulator',
@@ -413,6 +415,25 @@ const getDemoWallet2Response: WalletApi2 = {
       'expiry_date': null,
       'redeemed_date': null,
       'conversion_date': null,
+    },
+    {
+      'state': 'pending',
+      'earn_type': 'accumulator',
+      'reward_text': 'Free Chocolate Hamper',
+      'headline': 'Pending',
+      'voucher_code': 'pending',
+      'barcode_type': 0,
+      'progress_display_text': '£100/£100',
+      'current_value': '100',
+      'target_value': '100',
+      'prefix': '£',
+      'suffix': null,
+      'body_text': 'You have earned a voucher, but it\'s not ready yet. Check back tomorrow for your code.',
+      'terms_and_conditions': 'https://policies.gb.bink.com/trenette/tc.html',
+      'issued_date': '1691625600',
+      'expiry_date': null,
+      'redeemed_date': null,
+      'conversion_date': '1691712000',
     },
     {
       'state': 'cancelled',
@@ -502,7 +523,7 @@ const getDemoWallet2Response: WalletApi2 = {
       'target_value': '100',
       'prefix': '£',
       'suffix': null,
-      'body_text': 'You have earned a voucher, but it\'s not ready yet. Check back tomorrow for your code.',
+      'body_text': 'You have earned a voucher,but it\'s not ready yet. Check back tomorrow for your code.',
       'terms_and_conditions': 'https://policies.gb.bink.com/trenette/tc.html',
       'issued_date': '1690761600',
       'expiry_date': null,
@@ -556,7 +577,7 @@ const getDemoWallet2Response: WalletApi2 = {
       'description': null,
     },
     'balance': {
-      'updated_at': 1690815077,
+      'updated_at': 1691653962,
       'current_display_value': '1 stamps',
       'loyalty_currency_name': 'stamps',
       'prefix': null,
@@ -564,7 +585,36 @@ const getDemoWallet2Response: WalletApi2 = {
       'current_value': '1',
       'target_value': '5',
     },
-    'transactions': [],
+    'transactions': [{
+      'id': '803962',
+      'timestamp': 1691653755,
+      'description': 'Loyalteas £24.31',
+      'display_value': '1 stamps',
+    },
+    {
+      'id': '803963',
+      'timestamp': 1691653755,
+      'description': 'Loyalteas £9.99',
+      'display_value': '1 stamps',
+    },
+    {
+      'id': '803964',
+      'timestamp': 1691653651,
+      'description': 'Loyalteas £7.99',
+      'display_value': '1 stamps',
+    },
+    {
+      'id': '803965',
+      'timestamp': 1691653651,
+      'description': 'Loyalteas £6.50',
+      'display_value': '1 stamps',
+    },
+    {
+      'id': '803966',
+      'timestamp': 1691652617,
+      'description': 'Loyalteas £5.00',
+      'display_value': '1 stamps',
+    }],
     'vouchers': [{
       'state': 'inprogress',
       'earn_type': 'stamps',
@@ -585,30 +635,11 @@ const getDemoWallet2Response: WalletApi2 = {
       'conversion_date': null,
     },
     {
-      'state': 'redeemed',
-      'earn_type': 'stamps',
-      'reward_text': 'Free Box of Teabags',
-      'headline': 'Redeemed',
-      'voucher_code': 'ddc85cb4-10b3-41a6-a254-35facaf633e7',
-      'barcode_type': 0,
-      'progress_display_text': '5/5 stamps',
-      'current_value': '5',
-      'target_value': '5',
-      'prefix': null,
-      'suffix': 'stamps',
-      'body_text': 'Your voucher has been redeemed.',
-      'terms_and_conditions': 'https://policies.gb.bink.com/loyalteas/tc.html',
-      'issued_date': '1690807906',
-      'expiry_date': '1690894306',
-      'redeemed_date': '1690811520',
-      'conversion_date': null,
-    },
-    {
       'state': 'issued',
       'earn_type': 'stamps',
       'reward_text': 'Free Box of Teabags',
       'headline': 'Earned',
-      'voucher_code': 'ddc85cb4-10b3-41a6-a254-35facaf633r3',
+      'voucher_code': 'ddc85cb4-10b3-41a6-a254-35facaf633b7',
       'barcode_type': 0,
       'progress_display_text': '5/5 stamps',
       'current_value': '5',
@@ -616,6 +647,44 @@ const getDemoWallet2Response: WalletApi2 = {
       'prefix': null,
       'suffix': 'stamps',
       'body_text': 'Show your reward code in store to redeem a free box of teabags.',
+      'terms_and_conditions': 'https://policies.gb.bink.com/loyalteas/tc.html',
+      'issued_date': '1691653762',
+      'expiry_date': '1691740162',
+      'redeemed_date': null,
+      'conversion_date': null,
+    },
+    {
+      'state': 'expired',
+      'earn_type': 'stamps',
+      'reward_text': 'Free Box of Teabags',
+      'headline': 'Expired',
+      'voucher_code': 'ddc85cb4-10b3-41a6-a254-35facaf633e7',
+      'barcode_type': 0,
+      'progress_display_text': '5/5 stamps',
+      'current_value': '5',
+      'target_value': '5',
+      'prefix': null,
+      'suffix': 'stamps',
+      'body_text': 'Your voucher has expired.',
+      'terms_and_conditions': 'https://policies.gb.bink.com/loyalteas/tc.html',
+      'issued_date': '1690807906',
+      'expiry_date': '1690894306',
+      'redeemed_date': '1690811520',
+      'conversion_date': null,
+    },
+    {
+      'state': 'expired',
+      'earn_type': 'stamps',
+      'reward_text': 'Free Box of Teabags',
+      'headline': 'Expired',
+      'voucher_code': 'ddc85cb4-10b3-41a6-a254-35facaf633r3',
+      'barcode_type': 0,
+      'progress_display_text': '5/5 stamps',
+      'current_value': '5',
+      'target_value': '5',
+      'prefix': null,
+      'suffix': 'stamps',
+      'body_text': 'Your voucher has expired.',
       'terms_and_conditions': 'https://policies.gb.bink.com/loyalteas/tc.html',
       'issued_date': '1690807862',
       'expiry_date': '1690894262',
@@ -663,8 +732,8 @@ const getDemoWallet2Response: WalletApi2 = {
     'status': 'active',
     'expiry_month': '12',
     'expiry_year': '25',
-    'name_on_card': 'Jess Jones',
-    'card_nickname': 'My card',
+    'name_on_card': 'Portal Dev',
+    'card_nickname': 'Visa Card',
     'type': 'debit',
     'currency_code': 'GBP',
     'country': 'GB',
@@ -693,14 +762,15 @@ const getDemoWallet2Response: WalletApi2 = {
         'slug': null,
         'description': null,
       },
-    }],
-  }],
+    },
+    ],
+  },
+  ],
 }
-
 
 export const useBankViewport = () => {
   return {
-    // Temporary demo wallet
+    // Temporary demo wallets
     getDemoWallet0Response,
     getDemoWallet1Response,
     getDemoWallet2Response,
