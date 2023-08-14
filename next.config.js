@@ -30,6 +30,8 @@ const moduleExports = {
   },
   sentry: {
     hideSourceMaps: true,
+    disableServerWebpackPlugin: true,
+    disableClientWebpackPlugin: true,
   },
 }
 
