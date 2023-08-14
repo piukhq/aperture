@@ -558,7 +558,6 @@ export type LoyaltyVoucherApi2 = {
 
 export type LoyaltyTransactionApi2 = {
   id: string,
-  status: string,
   display_value: string,
   timestamp: number,
   description: string,
