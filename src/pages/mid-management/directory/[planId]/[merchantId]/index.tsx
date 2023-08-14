@@ -135,7 +135,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
   const requestMerchantDeleteModal = () => {
     if (!selectedMerchant || !merchant) { return }
     // Only set the selectedDirectoryMerchant if there is no previously selected merchant counts available
-    !selectedMerchant.merchant_counts && dispatch(setSelectedDirectoryMerchant({
+    !selectedMerchant.merchant_ref && dispatch(setSelectedDirectoryMerchant({
       merchant_ref: merchantId || '',
       merchant_metadata: merchant.merchant_metadata,
       merchant_counts: {
