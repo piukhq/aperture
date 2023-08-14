@@ -99,7 +99,10 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
 
     const renderCount = (navigationKey: string) => {
-      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = merchant!.merchant_counts // Can only be called if merchant is not null
+      if (!merchant) {
+        return <span></span>
+      }
+      const {total_locations: totalLocations, payment_schemes: paymentSchemes} = merchant.merchant_counts // Can only be called if merchant is not null
       const getCount = (tab: string) => paymentSchemes.reduce((acc: number, paymentScheme: DirectorySingleMerchantCountsPaymentScheme) => {
         return acc + paymentScheme[tab]
       }, 0)

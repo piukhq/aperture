@@ -541,7 +541,7 @@ export type LoyaltyVoucherApi2 = {
   body_text: string,
   conversion_date: string | null,
   current_value: string,
-  earn_type: 'accumulator' | 'stamps',
+  earn_type: string,
   expiry_date: string | null,
   headline: string,
   issued_date: string | null,
@@ -549,7 +549,7 @@ export type LoyaltyVoucherApi2 = {
   progress_display_text: string,
   redeemed_date: string | null,
   reward_text: string,
-  state: 'issued' | 'pending' | 'redeemed' | 'expired' | 'inprogress' | 'cancelled',
+  state: string,
   suffix: string | null,
   target_value: string,
   terms_and_conditions: string,
@@ -558,12 +558,7 @@ export type LoyaltyVoucherApi2 = {
 
 export type LoyaltyTransactionApi2 = {
   id: string,
-  status: string,
-  amounts: Array<{
-    currency: string,
-    prefix: string,
-    value: number,
-  }>,
+  display_value: string,
   timestamp: number,
   description: string,
 }

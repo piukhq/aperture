@@ -7,6 +7,7 @@ import LinkLloydsSvg from 'icons/svgs/link-lloyds.svg'
 import InfoSvg from 'icons/svgs/info.svg'
 import TicketSvg from 'icons/svgs/task.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
+import CloseSvg from 'icons/svgs/close.svg'
 
 const lloyds = localFont({
   src: [
@@ -35,6 +36,7 @@ type Props = {
 
 const BankViewport = ({loyaltyCard}: Props) => {
   const heroImageUrl = loyaltyCard?.images?.find((image) => image.type === 0)?.url || ''
+  const [selectedVoucherIndex, setSelectedVoucherIndex] = React.useState<number | null>(null)
 
   const getAccumulatorPercentage = () => {
     const inProgressVoucher = loyaltyCard.vouchers.find((voucher) => voucher.state === 'inprogress')
@@ -110,10 +112,8 @@ const BankViewport = ({loyaltyCard}: Props) => {
     )
   }
 
-  // This UI element is not used in the current design
-  const renderVouchers = () => {
+  const renderVouchers = () => { // This code currently only supports one issued voucher, need to check for unique identifiers for multiple
     const issuedVouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state === 'issued')
-
     const renderDateDetails = (voucher: LoyaltyVoucherApi2) => {
       switch (voucher.state) {
         case 'issued':
@@ -129,7 +129,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
     return issuedVouchers.map((voucher, index) => {
       const {state, reward_text: rewardText} = voucher
       return (
-        <div key={index} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
+        <button key={index} onClick={() => setSelectedVoucherIndex(loyaltyCard.vouchers.findIndex(voucher => voucher.state === 'issued'))} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
           <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
           <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
             <TicketSvg className='fill-lloydsGreen'/>
@@ -139,7 +139,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
             <span>{renderDateDetails(voucher)}</span>
             <ArrowDownSvg className='-rotate-90 fill-grey-500 mr-4' />
           </div>
-        </div>
+        </button>
       )
     })
   }
@@ -150,16 +150,14 @@ const BankViewport = ({loyaltyCard}: Props) => {
       return <p>There are no transactions to display</p>
     }
     return transactions.map((transaction) => {
-      const {timestamp, description, amounts, id} = transaction
-      const {value, prefix} = amounts[0]
-
+      const {timestamp, description, display_value: displayValue, id} = transaction
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
           <div className=' flex flex-col py-3'>
             <p className='text-lloydsGreen text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
             <p className='capitalize'>{description}</p>
           </div>
-          <span className='text-sm font-bold'>{prefix}{value}</span>
+          <span className='text-sm font-bold'>{displayValue}</span>
         </div>
       )
     })
@@ -179,9 +177,42 @@ const BankViewport = ({loyaltyCard}: Props) => {
     </div>
   )
 
+  // Voucher View Screen
+  if (selectedVoucherIndex !== null) {
+    const voucherImageUrl = loyaltyCard.images.find((image) => image.type === 3)?.url || ''
+    const selectedVoucher = loyaltyCard.vouchers[selectedVoucherIndex]
+    const {reward_text: rewardText, expiry_date: expiryDate, voucher_code: voucherCode, body_text: bodyText, terms_and_conditions: termsAndConditons} = selectedVoucher
+    return (
+      <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white h-[800px]`}>
+        <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
+          <button onClick={() => setSelectedVoucherIndex(null)}><ArrowDownSvg className='w-6 rotate-90 scale-[200%] fill-blue/70 mt-5 ml-4' /></button>
+          <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName} Voucher</h1>
+          <button onClick={() => setSelectedVoucherIndex(null)}><CloseSvg className='w-6 fill-blue/70 mr-4'/></button>
+        </div>
+        <section className='flex flex-col justify-center items-center p-4 mb-4 pt-6'>
+          <Image src={voucherImageUrl} alt='' width={100} height={100} className='shadow-md'/>
+          <p className='mt-2'>{rewardText}</p>
+          <p className='text-blue'>Ready to be redeemed</p>
+        </section>
+        <section className='px-5 flex flex-col gap-2'>
+          <div className='flex w-full gap-4 text-left mb-4'>
+            <InfoSvg className='fill-blue/70 w-4 scale-[200%] rotate-180 mt-2'/>
+            <p className='w-full'>{bodyText}</p>
+          </div>
+          <p>Voucher code: <span className='ml-1 font-medium'>{voucherCode}</span></p>
+          <p>Voucher expires: <span className='ml-1 font-medium'>{ timeStampToDate(Number(expiryDate), {isShortMonthYear: true})}</span></p>
+          <a href={termsAndConditons} target='_' className='mt-6 text-blue text-sm'>View retailer&apos;s terms and conditions</a>
+        </section>
+      </div>
+    )
+  }
+
+  // Card Details View Screen
   return (
     <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
-      <h1 className='text-xl border-b border-b-grey-200 text-center p-2 rounded-t-2xl'>{loyaltyPlanName}</h1>
+      <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
+        <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName} Voucher</h1>
+      </div>
       {/* Hero Section */}
       <section className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
         <div className='w-full relative'>
