@@ -151,8 +151,6 @@ const BankViewport = ({loyaltyCard}: Props) => {
     }
     return transactions.map((transaction) => {
       const {timestamp, description, display_value: displayValue, id} = transaction
-
-
       return (
         <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
           <div className=' flex flex-col py-3'>
@@ -184,7 +182,6 @@ const BankViewport = ({loyaltyCard}: Props) => {
     const voucherImageUrl = loyaltyCard.images.find((image) => image.type === 3)?.url || ''
     const selectedVoucher = loyaltyCard.vouchers[selectedVoucherIndex]
     const {reward_text: rewardText, expiry_date: expiryDate, voucher_code: voucherCode, body_text: bodyText, terms_and_conditions: termsAndConditons} = selectedVoucher
-
     return (
       <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white h-[800px]`}>
         <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
