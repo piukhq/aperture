@@ -1,9 +1,11 @@
 import {useCallback, useEffect, useState} from 'react'
 import type {NextPage} from 'next'
-import {Button, DirectoryTile, HeadMetadata, PageLayout} from 'components'
+import {withPageAuthRequired} from '@auth0/nextjs-auth0'
+import {Button, DirectoryTile, HeadMetadata, PageLayout, TextInputGroup} from 'components'
 import {useRouter} from 'next/router'
-import PlusSvg from 'icons/svgs/plus.svg'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {InputType, InputWidth, InputColour, InputStyle} from 'components/TextInputGroup/styles'
+import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleton'
 import {DirectoryPlan, OptionsMenuItems} from 'types'
 import {usePrefetch as useMerchantPrefetch} from 'services/DirectoryMerchants'
 import {usePrefetch as useMidsPrefetch} from 'services/DirectoryMerchantMids'
@@ -15,20 +17,21 @@ import {setSelectedDirectoryPlan, reset} from 'features/directoryPlanSlice'
 import {getPlanMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
-
 import AddSvg from 'icons/svgs/plus-filled.svg'
 import EditSvg from 'icons/svgs/project.svg'
 import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import TableSvg from 'icons/svgs/table.svg'
-import {withPageAuthRequired} from '@auth0/nextjs-auth0'
-import DirectoryTileSkeleton from 'components/DirectoryTile/DirectoryTileSkeleton'
+import PlusSvg from 'icons/svgs/plus.svg'
+import SearchSvg from 'icons/svgs/search.svg'
 
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState<string>('')
   const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useDirectoryPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
   const planList: DirectoryPlan[] = getPlansResponse || []
+  const [searchValue, setSearchFieldValue] = useState<string>('')
+  const [filteredPlans, setFilteredPlans] = useState<DirectoryPlan[]>(planList)
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const prefetchMerchant = useMerchantPrefetch('getMerchant')
@@ -56,7 +59,14 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }, [dispatch])
 
   const renderDirectoryPlans = () => {
-    return planList.map((plan, index) => {
+    if(filteredPlans.length === 0) {
+      return (
+        <div className='flex justify-center items-center w-full h-[300px]'>
+          <p className='font-subheading-2 text-grey-600 dark:text-grey-500'>No matches returned. Please check spelling and try again</p>
+        </div>
+      ) }
+
+    return filteredPlans.map((plan, index) => {
       const {plan_metadata, plan_counts, plan_ref} = plan
       const {name, icon_url, plan_id, slug} = plan_metadata
       const {merchants = 0, locations = 0, payment_schemes = []} = plan_counts || {}
@@ -145,13 +155,34 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
     })
   }
 
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchFieldValue(event.target.value)
+    setFilteredPlans(planList.filter((plan) => {
+      return plan.plan_metadata.name.toLowerCase().includes(event.target.value.toLowerCase())
+    }))
+  }
+
   return (
     <>
       <HeadMetadata pageTitle='MID Directory' pageDescription='Manage MIDs, locations, secondary MIDs and PSIMIs'/>
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
-        <div className='flex justify-end'>
+        <div className={`flex justify-between sticky ${isMobileViewport ? 'top-14' : 'top-0'} z-40 pt-3 pb-4 bg-grey-200/90 dark:bg-grey-900`}>
+          <div className='shadow-md rounded-[10px]'>
+            <TextInputGroup
+              name='desktop-15'
+              label='Search'
+              placeholder='Search by retailer'
+              value={searchValue}
+              onChange={handleSearchInputChange}
+              inputType={InputType.SEARCH}
+              inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
+              inputWidth={InputWidth.MEDIUM}
+              inputColour={InputColour.GREY}
+              svgIcon={<SearchSvg/>}
+            />
+          </div>
           <Button
             handleClick={handleRequestNewPlanModal}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -176,7 +207,6 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
             </div>
           )}
         </div>
-
       </PageLayout>
     </>
   )
