@@ -83,7 +83,7 @@ describe('DirectoryMerchantMids', () => {
     expect(amexButton).toBeInTheDocument()
   })
 
-  it('should render the correct checked item buttons', () => {
+  it('should render the correct bulk action buttons', () => {
     render(getDirectoryMerchantMidsComponent())
 
     expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()

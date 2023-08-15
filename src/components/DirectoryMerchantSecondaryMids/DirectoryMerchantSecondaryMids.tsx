@@ -141,7 +141,7 @@ const DirectoryMerchantSecondaryMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
   }
 
-  const renderCheckedItemButtons = ():JSX.Element => {
+  const renderBulkActionButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
         label: 'Onboard',
@@ -180,6 +180,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
       )
     } else {
+      const noItemsSelected = checkedRefArray.length === 0
       return (
         <div className='flex gap-[10px] items-center h-max py-4 flex-wrap w-full justify-start'>
           {actionsMenuItems.map((actionMenuItem) => {
@@ -193,6 +194,8 @@ const DirectoryMerchantSecondaryMids = () => {
                 labelColour={buttonStyle !== BulkActionButtonStyle.DELETE ? LabelColour.GREY : LabelColour.RED}
                 borderColour={BorderColour.GREY}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+                isDisabled={noItemsSelected}
+                additionalStyles={`${noItemsSelected && 'opacity-40'}`}
               >{label}
               </Button>
             )
@@ -205,7 +208,7 @@ const DirectoryMerchantSecondaryMids = () => {
   return (
     <>
       <div className='flex items-end justify-end gap-4'>
-        {checkedRefArray.length > 0 && renderCheckedItemButtons()}
+        {renderBulkActionButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <Button
             handleClick={() => requestSecondaryMidModal(PaymentSchemeName.VISA)}
