@@ -174,13 +174,12 @@ const DirectoryMerchantSecondaryMids = () => {
         buttonStyle: BulkActionButtonStyle.DELETE,
       },
     ]
-
+    const noItemsSelected = checkedRefArray.length === 0
     if (isMobileViewport) {
       return (
-        <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
+        <BulkActionsDropdown actionsMenuItems={actionsMenuItems} isDisabled={noItemsSelected}/>
       )
     } else {
-      const noItemsSelected = checkedRefArray.length === 0
       return (
         <div className='flex gap-[10px] items-center h-max py-4 flex-wrap w-full justify-start'>
           {actionsMenuItems.map((actionMenuItem) => {
