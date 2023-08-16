@@ -184,7 +184,7 @@ const DirectoryMerchantPsimis = () => {
 
   return (
     <>
-      <div className='flex items-end justify-end gap-4'>
+      <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
         {renderBulkActionButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <Button

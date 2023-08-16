@@ -57,7 +57,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
   )
 
   return (
-    <div className={`${isMobileViewport ? 'min-w-[580px]' : 'min-w-[720px]'}`}>
+    <div className={`${isMobileViewport ? 'min-w-[580px]' : 'min-w-[720px]'} sticky top-0 bg-grey-200 dark:bg-grey-900 pt-2 z-30`}>
       <div className={`${!isMobileViewport && 'ml-[225px]'}`}>
         <DirectoryBreadcrumb />
       </div>
