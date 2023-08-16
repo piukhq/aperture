@@ -214,33 +214,37 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const noItemsSelected = checkedRefArray.length === 0
   return (
     <>
       <div className='flex justify-between h-[71px] items-center px-[9px]'>
         <div>
-          { checkedRefArray.length > 0 && (
-            <div className='flex gap-[10px] h-[71px] items-center'>
-              <Button
-                handleClick={requestBulkCommentModal}
-                buttonSize={ButtonSize.SMALL}
-                buttonWidth={ButtonWidth.AUTO}
-                labelColour={LabelColour.GREY}
-                borderColour={BorderColour.GREY}
-                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-              >Comments
-              </Button>
-              <Button
-                handleClick={requestLocationDeleteModal}
-                buttonSize={ButtonSize.SMALL}
-                buttonWidth={ButtonWidth.MEDIUM}
-                labelColour={LabelColour.RED}
-                labelWeight={LabelWeight.SEMIBOLD}
-                borderColour={BorderColour.RED}
-                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
-              >Delete
-              </Button>
-            </div>
-          )}
+          <div className='flex gap-[10px] h-[71px] items-center'>
+            <Button
+              handleClick={requestBulkCommentModal}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.AUTO}
+              labelColour={LabelColour.GREY}
+              borderColour={BorderColour.GREY}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+              isDisabled={noItemsSelected}
+              additionalStyles={`${noItemsSelected && 'opacity-40'}`}
+            >Comments
+            </Button>
+            <Button
+              handleClick={requestLocationDeleteModal}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.MEDIUM}
+              labelColour={LabelColour.RED}
+              labelWeight={LabelWeight.SEMIBOLD}
+              borderColour={BorderColour.RED}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
+              isDisabled={noItemsSelected}
+              additionalStyles={`${noItemsSelected && 'opacity-40'}`}
+            >Delete
+            </Button>
+          </div>
+
         </div>
 
         <Button

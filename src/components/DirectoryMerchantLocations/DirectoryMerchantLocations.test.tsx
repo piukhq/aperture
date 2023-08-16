@@ -76,7 +76,7 @@ describe('DirectoryMerchantLocations', () => {
     }))
   })
 
-  it('should render the correct checked item buttons', () => {
+  it('should render the correct bulk action buttons', () => {
     render(getDirectoryMerchantLocationsComponent())
 
     expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
