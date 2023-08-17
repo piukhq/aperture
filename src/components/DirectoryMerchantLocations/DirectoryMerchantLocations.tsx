@@ -217,7 +217,8 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const noItemsSelected = checkedRefArray.length === 0
   return (
     <>
-      <div className='flex justify-between h-[71px] items-center px-[9px]'>
+      <div className='flex justify-between h-[71px] items-center px-[9px] sticky top-60 bg-white dark:bg-grey-825'>
+
         <div>
           <div className='flex gap-[10px] h-[71px] items-center'>
             <Button

@@ -210,7 +210,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
           <>
             {planDetails && renderDetailsHeader()}
             <div className='rounded-[10px] mt-[15px] bg-white dark:bg-grey-825 shadow-md'>
-              <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px]'>
+              <nav className='grid grid-cols-4 w-full pl-[69px] border-b border-grey-800/10 pr-[10px] sticky top-48 bg-white dark:bg-grey-825 z-30'>
                 {renderNavigationTabs()}
               </nav>
               <div className='mx-[10px]'>

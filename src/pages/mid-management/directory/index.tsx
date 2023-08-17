@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import type {NextPage} from 'next'
 import {withPageAuthRequired} from '@auth0/nextjs-auth0'
 import {Button, DirectoryTile, HeadMetadata, PageLayout, TextInputGroup} from 'components'
@@ -29,7 +29,7 @@ import SearchSvg from 'icons/svgs/search.svg'
 const DirectoryPage: NextPage = withPageAuthRequired(() => {
   const [planRefForSingleMerchant, setPlanRefForSingleMerchant] = useState<string>('')
   const {getPlansResponse, getPlanResponse, getPlansIsLoading} = useDirectoryPlans({skipGetPlan: !planRefForSingleMerchant, planRef: planRefForSingleMerchant})
-  const planList: DirectoryPlan[] = getPlansResponse || []
+  const planList: DirectoryPlan[] = useMemo(() => getPlansResponse || [], [getPlansResponse])
   const [searchValue, setSearchFieldValue] = useState<string>('')
   const [filteredPlans, setFilteredPlans] = useState<DirectoryPlan[]>(planList)
   const isMobileViewport = useIsMobileViewportDimensions()
@@ -43,6 +43,10 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   useEffect(() => { // Clear any previously selected plan
     dispatch(reset())
   }, [dispatch])
+
+  useEffect(() => { // Make sure filtered plans are updated when plan list loads
+    !searchValue && setFilteredPlans(planList)
+  }, [planList, searchValue])
 
   useEffect(() => { // Use single plan data to redirect accordingly for 1 merchant plans, prefetching merchant and mids data
     if (getPlanResponse) {
@@ -59,7 +63,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }, [dispatch])
 
   const renderDirectoryPlans = () => {
-    if(filteredPlans.length === 0) {
+    if(filteredPlans.length === 0 && searchValue.length > 0) {
       return (
         <div className='flex justify-center items-center w-full h-[300px]'>
           <p className='font-subheading-2 text-grey-600 dark:text-grey-500'>No matches returned. Please check spelling and try again</p>
@@ -195,13 +199,13 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           </Button>
         </div>
         <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
-          {planList && planList.length > 0 && (
-            <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
+          {planList && (
+            <div className={`flex w-full mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
               {renderDirectoryPlans()}
             </div>
           )}
           {getPlansIsLoading && (
-            <div className={`flex w-full  mt-[50px] flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
+            <div className={`flex w-full flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
               {Array(8).fill(0)
                 .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
             </div>
