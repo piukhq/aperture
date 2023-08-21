@@ -61,13 +61,11 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
   return (
     <tr
       className='hover:bg-lightYellow dark:hover:bg-grey-800 box-border border-white dark:border-grey-825 dark:border-grey border-y-[10px] my-[-10px]'
-      onClick={handleRowClick}
       onKeyPress={handleRowKeyPress} // tr does not work like buttons, so we need to add keypress event
       role='button'
       aria-label='table-row'
       tabIndex={0}
     >
-
       <td className={`flex items-center h-[40px] ${isSubLocationRow ? 'justify-end' : 'justify-center'}`}>
         <input
           type='checkbox'
@@ -86,21 +84,21 @@ const DirectoryMerchantDetailsTableRow = ({index, row, onCheckboxChange, singleV
           )
         } else if (physicalLocation) {
           return (
-            <td key={index} className='px-[9px]'>
+            <td key={index} onClick={handleRowClick} className='px-[9px]'>
               {physicalLocation.isPhysicalLocation ? <CheckSvg className='w-[15px] h-[15px] fill-aquamarine' /> : <CloseIcon className='w-[15px] h-[15px] fill-red' />}
             </td>
           )
         }
         return (
           icon ? (
-            <td key={index} className={'px-[9px]'} data-testid='icon-display-value'>
+            <td key={index} onClick={handleRowClick} className={'px-[9px]'} data-testid='icon-display-value'>
               <div className={`flex items-center gap-[9px] ${additionalStyles}`}>
                 <div className='w-max'>{icon}</div>
                 <div className='truncate'>{displayValue}</div>
               </div>
             </td>
           ) : (
-            <td key={index} className={`px-[9px] ${additionalStyles}`} data-testid='display-value'>
+            <td key={index} onClick={handleRowClick} className={`px-[9px] ${additionalStyles}`} data-testid='display-value'>
               {displayValue}
             </td>
           )
