@@ -166,7 +166,7 @@ const DirectoryMerchantMids = () => {
       },
 
       {
-        label: 'Comments',
+        label: 'Add Comments',
         handleClick: requestBulkCommentModal,
         buttonStyle: BulkActionButtonStyle.COMMENT,
       },

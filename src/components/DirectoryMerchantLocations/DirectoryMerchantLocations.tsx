@@ -139,8 +139,6 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           additionalStyles: textStyles,
         },
       ]
-
-
       return [...standardFields, ...extraFields]
     }
 
@@ -230,7 +228,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
               requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
               isDisabled={noItemsSelected}
               additionalStyles={`${noItemsSelected && 'opacity-40'}`}
-            >Comments
+            >Add Comments
             </Button>
             <Button
               handleClick={requestLocationDeleteModal}

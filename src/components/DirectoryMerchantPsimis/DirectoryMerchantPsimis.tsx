@@ -140,7 +140,7 @@ const DirectoryMerchantPsimis = () => {
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Comments',
+        label: 'Add Comments',
         handleClick: requestBulkCommentModal,
         buttonStyle: BulkActionButtonStyle.COMMENT,
       },
