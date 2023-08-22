@@ -135,7 +135,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           clickHandler: () => console.log('Clicked'),
         },
         {
-          label: 'Comments',
+          label: 'View Comments',
           icon: <CommentSvg/>,
           clickHandler: () => requestPlanCommentsModal(),
         },

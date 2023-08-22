@@ -169,7 +169,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       clickHandler: () => requestEditMerchantModal(),
     },
     {
-      label: 'Comments',
+      label: 'View Comments',
       icon: <CommentSvg/>,
       clickHandler: () => requestMerchantCommentsModal(),
     },

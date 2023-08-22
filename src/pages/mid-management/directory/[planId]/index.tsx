@@ -111,7 +111,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
     },
     {
-      label: 'Comments',
+      label: 'View Comments',
       icon: <CommentSvg/>,
       clickHandler: () => requestPlanCommentsModal(),
     },
@@ -172,7 +172,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
             },
             {
-              label: 'Comments',
+              label: 'View Comments',
               icon: <CommentSvg/>,
               clickHandler: () => requestMerchantCommentsModal(),
             },
