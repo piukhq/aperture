@@ -90,7 +90,7 @@ describe('DirectoryMerchantMids', () => {
     expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Scheme Status'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Update'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Add Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
 

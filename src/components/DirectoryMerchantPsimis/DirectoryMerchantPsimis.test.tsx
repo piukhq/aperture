@@ -82,7 +82,7 @@ describe('DirectoryMerchantPsimis', () => {
 
     expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Add Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
     expect(screen.queryByTestId('bulk-actions-dropdown')).not.toBeInTheDocument()
   })
