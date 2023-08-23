@@ -211,7 +211,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
   return (
     <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
       <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
-        <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName} Voucher</h1>
+        <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName}</h1>
       </div>
       {/* Hero Section */}
       <section className='w-full px-[5rem] pt-8 pb-6 text-center flex flex-col gap-2'>
