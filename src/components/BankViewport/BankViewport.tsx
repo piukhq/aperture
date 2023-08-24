@@ -5,7 +5,7 @@ import {timeStampToDate} from 'utils/dateFormat'
 import localFont from 'next/font/local'
 import LinkLloydsSvg from 'icons/svgs/link-lloyds.svg'
 import InfoSvg from 'icons/svgs/info.svg'
-import TicketSvg from 'icons/svgs/task.svg'
+import TicketSvg from 'icons/svgs/ticket.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import CloseSvg from 'icons/svgs/close.svg'
 
@@ -132,10 +132,12 @@ const BankViewport = ({loyaltyCard}: Props) => {
         <button key={index} onClick={() => setSelectedVoucherIndex(loyaltyCard.vouchers.findIndex(voucher => voucher.state === 'issued'))} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
           <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
           <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
-            <TicketSvg className='fill-lloydsGreen'/>
+            <div className='w-6 h-4'>
+              <TicketSvg className='fill-lloydsGreen'/>
+            </div>
             <span className='text-lloydsGreen text-lg'>{rewardText}</span>
           </div>
-          <div className='flex justify-between pt-4 text-sm items-center'>
+          <div className='w-full flex justify-between pt-4 text-sm items-center'>
             <span>{renderDateDetails(voucher)}</span>
             <ArrowDownSvg className='-rotate-90 fill-grey-500 mr-4' />
           </div>
