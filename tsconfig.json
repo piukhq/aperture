@@ -24,7 +24,7 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": false, // TODO: keep chipping away at this
+    "strictNullChecks": true,
   },
   "include": [
     "next-env.d.ts",

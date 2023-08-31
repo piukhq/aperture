@@ -83,14 +83,14 @@ describe('DirectoryMerchantMids', () => {
     expect(amexButton).toBeInTheDocument()
   })
 
-  it('should render the correct checked item buttons', () => {
+  it('should render the correct bulk action buttons', () => {
     render(getDirectoryMerchantMidsComponent())
 
     expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Scheme Status'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Update'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Add Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
 

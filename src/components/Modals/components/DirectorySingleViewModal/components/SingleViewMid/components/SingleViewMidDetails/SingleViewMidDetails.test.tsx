@@ -12,9 +12,17 @@ const mockVisaBin = 'mock_visa_bin'
 const mockDateAdded = 'mock_date_added'
 const mockTxmStatus = 'onboarded' // Must match a value provided by DirectoryTxmStatus enum
 
-let mockPatchErrorResponse = null
-let mockPutErrorResponse = null
-let mockDeleteErrorResponse = null
+type ErrorResponse = {
+  data: {
+    detail: {
+      loc: string[],
+    }[],
+  },
+}
+
+let mockPatchErrorResponse = null as unknown as ErrorResponse
+let mockPutErrorResponse = null as unknown as ErrorResponse
+let mockDeleteErrorResponse = null as unknown as ErrorResponse
 let mockIsFetching = false
 
 const mockMerchantMid = {
@@ -209,7 +217,7 @@ describe('SingleViewMidDetails', () => {
     })
 
     it('should render the correct DELETE Location error message', () => {
-      mockPutErrorResponse = null
+      mockPutErrorResponse = null as unknown as ErrorResponse
 
       mockDeleteErrorResponse = {
         data: {

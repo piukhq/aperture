@@ -42,7 +42,7 @@ const DirectoryMerchantEntityDeleteModal = ({
 
   const handleReasonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReasonValue(event.target.value)
-    setReasonValidationError(null)
+    setReasonValidationError('')
   }
 
   const handleDeleteError = useCallback(() => {

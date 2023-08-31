@@ -10,13 +10,13 @@ type Props = {
 const Colours = ({sectionClass}: Props) => {
   const colours = tailwindsConfig.theme.colors
 
-  function hexToRgb (hex) {
+  function hexToRgb (hex: string) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-    return result ? {
+    return result && {
       r: parseInt(result[1], 16),
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16),
-    } : null
+    } || {r: 0, g: 0, b: 0}
   }
 
   const renderLargeSwatches = () => [

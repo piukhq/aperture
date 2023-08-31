@@ -57,13 +57,11 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
 
   }, [dispatch])
 
-
   useEffect(() => { // fade in modal
     if (children) {
       setIsFadedIn(true)
     }
   }, [children, isModalCurrentlyHidden])
-
 
   const renderCloseButton = () => (
     <button
@@ -89,7 +87,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const styles = MODAL_STYLE_MAPS[modalStyle]
 
   const renderModal = () => (
-    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out m-auto ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}>
+    <div role='dialog' aria-label={modalHeader} className={`${styles.outerContainer} z-50 duration-500 ease-out mx-auto ${isFadedIn ? 'opacity-100' : 'opacity-0 duration-300'}`}>
       <div className={`bg-white dark:bg-grey-850 ${styles.innerContainer} shadow-md`}>
         <div className={`flex px-[20px] items-center w-full ${styles.headerContainer}`} onClick={(e) => e.stopPropagation()}>
           {styles.isHeaderAtTop && <h1 className={`mt-[10px] mb-[5px] ${styles.header}`}>{modalHeader}</h1>}
@@ -106,7 +104,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
   const isModalHidable = hidableModals.includes(modalRequested) && !closeHidableModal
 
   return (
-    <div className={`${isModalCurrentlyHidden ? 'hidden -z-50 pointer-events-none' : 'bg-red/50'}`}>
+    <div className={`${isModalCurrentlyHidden && 'hidden -z-50 pointer-events-none'}`}>
       <FocusTrap active={!isModalCurrentlyHidden}>
         <div id='modal-download-target'> {/* Allows the downloadAsset service to work inside of modals when focus trapped*/}
           <div

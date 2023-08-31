@@ -11,7 +11,7 @@ const Plan = ({plan}: Props) => (
   <>
     <div className='flex items-center'>
       <IconImage plan={plan} />
-      <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name}</p>
+      <p className='font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-100'>{plan.account?.plan_name} ({plan.id})</p>
     </div>
 
     <div className='flex items-center gap-1'>

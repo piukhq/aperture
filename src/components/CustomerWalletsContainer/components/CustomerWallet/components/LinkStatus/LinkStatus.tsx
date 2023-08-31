@@ -10,7 +10,7 @@ type Props = {
 }
 
 const LinkStatus = ({isPllCard, loyaltyCardPaymentCardIds, paymentCardIndex}: Props) => {
-  const {getPaymentCardsResponse} = useCustomerWallet()
+  const getPaymentCardsResponse = useCustomerWallet().getPaymentCardsResponse || []
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const getLinkStatus = () => {

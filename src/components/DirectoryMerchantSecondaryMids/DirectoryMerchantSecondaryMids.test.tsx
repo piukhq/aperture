@@ -71,15 +71,14 @@ describe('DirectoryMerchantSecondaryMids', () => {
     }))
   })
 
-  it('should render the correct checked item buttons', () => {
-    React.useState = jest.fn().mockReturnValue([Array(1), jest.fn]) // checkedRefArray
+  it('should render the correct bulk action buttons', () => {
     render(getDirectoryMerchantSecondaryMidsComponent())
 
     expect(screen.getByRole('button', {name: 'Onboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Offboard'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Update'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Scheme Status'})).toBeInTheDocument()
-    expect(screen.getByRole('button', {name: 'Comments'})).toBeInTheDocument()
+    expect(screen.getByRole('button', {name: 'Add Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
   })
 

@@ -24,7 +24,6 @@ const BulkCommentModal = () => {
     setCheckedRefs(checkedSubjects.map(subject => subject.entityRef))
   }, [checkedSubjects])
 
-
   const {
     postComment,
     postCommentIsLoading: newBulkCommentIsLoading,

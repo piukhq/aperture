@@ -2,6 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import Comments from 'components/Comments'
 import {CommentsOwnerTypes, CommentsSubjectTypes} from 'utils/enums'
+import {DirectoryComments} from 'types'
 
 jest.mock('components/PaymentCardIcon', () => () => <div data-testid='subject-icon' />)
 jest.mock('components/Comments/components/Comment', () => () => <div data-testid='comment' />)
@@ -26,12 +27,12 @@ describe('Comments', () => {
           {
             display_text: mockEntityCommentSubject1Text,
             subject_ref: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-            icon_slug: null,
+            icon_slug: '',
           },
           {
             display_text: mockEntityCommentSubject2Text,
             subject_ref: '/e2a26b5a-284d-11ed-a261-0242ac120002',
-            icon_slug: null,
+            icon_slug: '',
           },
         ],
         metadata: {
@@ -39,7 +40,7 @@ describe('Comments', () => {
           owner_type: CommentsOwnerTypes.PLAN,
           text: mockEntityCommentMetadataText,
         },
-        responses: null,
+        responses: [],
       },
     ],
   }
@@ -90,7 +91,7 @@ describe('Comments', () => {
       it('should render the comment section headers and Comment components', () => {
         const comments = {
           ...mockComments,
-        }
+        } as unknown as DirectoryComments
 
         comments.lower_comments = [mockComment]
         render(getCommentsComponent({comments}))

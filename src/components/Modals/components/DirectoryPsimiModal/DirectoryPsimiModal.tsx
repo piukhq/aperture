@@ -11,7 +11,7 @@ import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directo
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectoryPsimiModal = () => {
-  const {planId, merchantId} = useGetRouterQueryString()
+  const {planId = '', merchantId = ''} = useGetRouterQueryString()
 
   const {
     postMerchantPsimi,
@@ -30,7 +30,7 @@ const DirectoryPsimiModal = () => {
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
-    isCloseButtonFocused && setPsimiValidationError(null)
+    isCloseButtonFocused && setPsimiValidationError('')
   }, [isCloseButtonFocused])
 
 
@@ -71,13 +71,15 @@ const DirectoryPsimiModal = () => {
       if (psimiValue === '') {
         setPsimiValidationError('Enter PSIMI')
       } else {
-        const paymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
-        const metadata = {
-          value: psimiValue,
-          payment_scheme_merchant_name: null, // Never populated for a new PSIMI
-          payment_scheme_slug: paymentSchemeSlug,
+        if (paymentScheme) {
+          const paymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
+          const metadata = {
+            value: psimiValue,
+            payment_scheme_merchant_name: '', // Never populated for a new PSIMI
+            payment_scheme_slug: paymentSchemeSlug,
+          }
+          postMerchantPsimi({onboard: isOnboardRequired, planRef: planId, merchantRef: merchantId, psimi_metadata: metadata})
         }
-        postMerchantPsimi({onboard: isOnboardRequired, planRef: planId, merchantRef: merchantId, psimi_metadata: metadata})
       }
     }
   }
@@ -96,7 +98,7 @@ const DirectoryPsimiModal = () => {
           error={psimiValidationError}
           value={psimiValue}
           onChange={handlePsimiChange}
-          onFocus={() => setPsimiValidationError(null)}
+          onFocus={() => setPsimiValidationError('')}
           onBlur={handlePsimiBlur}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}

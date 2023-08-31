@@ -14,11 +14,17 @@ type Props = {
   isPlanLevelFileUpload?: boolean
 }
 
+type File = {
+  name: string
+  size: number
+  type: string
+}
+
 const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: Add functionality as required by later tickets
   const dispatch = useAppDispatch()
   const fileTypes = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID']
 
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState<File | null>(null)
   const [isValidFile, setIsValidFile] = useState<boolean>(false)
   const [isUploading, setIsUploading] = useState<boolean>(false)
   const [fileType, setFileType] = useState<string>(fileTypes[0])
@@ -82,7 +88,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
             ariaLabel={'Browse'}
-            handleClick={() => fileInputRef.current.click()}
+            handleClick={() => fileInputRef?.current?.click()}
           >Browse
           </Button>
         </div>
@@ -90,28 +96,32 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     </section>
   )
 
-  const renderFileUploadPreview = () => (
-    <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
+  const renderFileUploadPreview = () => {
 
-      <CSVSvg className=''/>
-      <div className='flex flex-col ml-[10px] w-3/5'>
-        <label className={`${file.name.length < 25 ? 'font-heading-6' : 'font-heading-8'} font-semibold truncate`}>{file.name}</label>
-        <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{file.size > 1000 ? `${Math.round(file.size / 1024)}kb` : `${file.size} bytes`}</label>
-      </div>
-      <Button
-        handleClick={handleFileReset}
-        buttonSize={ButtonSize.MEDIUM_ICON}
-        buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
-        borderColour={BorderColour.RED}
-        labelColour={LabelColour.RED}
-        requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-        ariaLabel={'Remove file'}
-        additionalStyles='p-1 ml-2'
-      >
-        <TrashSvg className='fill-red' />
-      </Button>
-    </section>
-  )
+    if(file?.size) {
+      return (
+        <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
+          <CSVSvg className=''/>
+          <div className='flex flex-col ml-[10px] w-3/5'>
+            <label className={`${file.name.length < 25 ? 'font-heading-6' : 'font-heading-8'} font-semibold truncate`}>{file.name}</label>
+            <label className='font-heading-6 font-medium text-grey-600 dark:text-grey-400'>{file.size > 1000 ? `${Math.round(file.size / 1024)}kb` : `${file.size} bytes`}</label>
+          </div>
+          <Button
+            handleClick={handleFileReset}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.SINGLE_VIEW_MID_ICON_ONLY}
+            borderColour={BorderColour.RED}
+            labelColour={LabelColour.RED}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel={'Remove file'}
+            additionalStyles='p-1 ml-2'
+          >
+            <TrashSvg className='fill-red' />
+          </Button>
+        </section>
+      )
+    }
+  }
 
   const renderUploadForm = () => (
     <form className='pt-[15px] px-[15px]' onSubmit={(e) => handleFormSubmit(e)}>
@@ -150,7 +160,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     dispatch(shouldCloseHidableModal(true))
     return (
       <section className='font-body-3 m-4 flex flex-col gap-4'>
-        <p>Upload has started for {fileType} &quot;{file.name}&quot;. Depending on filesize, this could take a few minutes.</p>
+        <p>Upload has started for {fileType} &quot;{file?.name}&quot;. Depending on filesize, this could take a few minutes.</p>
         <p>Check the Action Log for further updates on upload progress</p>
       </section>
     )

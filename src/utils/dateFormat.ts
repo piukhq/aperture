@@ -11,9 +11,24 @@ const numberWithOrdinal = (n: number) => {
   return `${n}${ordinals[pluralRule.select(n)]}`
 }
 
-export const timeStampToDate = (timestamp: number | string, isShortDate = false) => {
+export const timeStampToDate = (
+  timestamp: number | string,
+  options?: {
+     isShortDate?:boolean,
+     isShortMonthYear?:boolean,
+  }
+) => {
+
+  const {isShortDate, isShortMonthYear} = options || {}
   const time = typeof(timestamp) === 'number' ? timestamp * 1000 : timestamp
   const date = new Date(time)
+
+  if(isShortMonthYear) {
+    const day = date.toLocaleDateString('en-GB', {day: '2-digit'})
+    const month = date.toLocaleDateString('en-GB', {month: 'short'})
+    const year = date.toLocaleDateString('en-GB', {year: '2-digit'})
+    return `${day} ${month} ${year}`
+  }
 
   if(isShortDate) {
     const day = date.toLocaleDateString('en-GB', {day: '2-digit'})

@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Tag = (props: Props) => {
-  const {tagSize, tagStyle, textStyle, textColour, label} = props
+  const {tagSize, tagStyle, textStyle = '', textColour = '', label} = props
   return (
     <div className={classNames(
       'flex items-center justify-center rounded-[10px]',

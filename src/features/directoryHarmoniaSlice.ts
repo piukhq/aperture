@@ -7,8 +7,7 @@ type DirectoryHarmoniaState = {
 }
 
 const initialState: DirectoryHarmoniaState = {
-  harmoniaActionType: null,
-
+  harmoniaActionType: HarmoniaActionTypes.NONE,
 }
 
 export const directoryHarmoniaSlice = createSlice({

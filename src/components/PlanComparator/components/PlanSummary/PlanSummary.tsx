@@ -15,7 +15,7 @@ type Props = {
 
 const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
   const isMobileViewport = useIsMobileViewportDimensions()
-  const heroUrl = plansArray.map(plan => plan.images.filter(image => image.type === ImageTypes.HERO)).flat()[0]?.url || null
+  const heroUrl = plansArray.map(plan => plan?.images.filter(image => image.type === ImageTypes.HERO)).flat()[0]?.url || null
 
   const renderHero = () => {
     if (heroUrl) {
@@ -54,9 +54,9 @@ const PlanSummary = ({plansArray, plans, totalKeys, totalMatches}: Props) => {
         {renderHero()}
       </div>
       <div className='flex flex-col gap-2 w-full'>
-        <h1 className='font-heading-4'>{plansArray[0].account.plan_name}</h1>
+        <h1 className='font-heading-4'>{plansArray[0]?.account.plan_name}</h1>
         <div className='flex flex-col justify-center'>
-          <LoadingBar key={plansArray[0].id} percentage={(totalMatches / totalKeys) * 100}/>
+          <LoadingBar key={plansArray[0]?.id} percentage={(totalMatches / totalKeys) * 100}/>
           <div className='flex flex-col w-1/2 text-center items-center justify-center self-center gap-2 mt-4'>
             <div className='w-full flex space-between justify-center gap-4'>
               {renderDjangoLinks()}

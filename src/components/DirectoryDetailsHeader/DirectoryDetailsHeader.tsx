@@ -9,7 +9,7 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 type Props = {
   planId: number,
   name: string,
-  iconUrl?: string,
+  iconUrl?: string | null,
   slug?: string,
   locationLabel?:string,
   isMerchant?: boolean,
@@ -36,11 +36,9 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
 
   const renderIconImage = () => (
     <div className='ml-[10px]'>
-      {/* Icon image div to provide top border shadow */}
-      <div className={'flex justify-center rounded-[30px] items-center h-[180px] w-[180px] shadow-md translate-y-[50px]'} />
       {/* Icon image div container */}
-      <div className={'z-20 flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d] -translate-y-[130px]'}>
-        {iconUrl ? <Image className='z-40 absolute rounded-[30px]' src={iconUrl} height={165} width={165} alt='' data-testid='icon-image' /> :
+      <div className={'z-20 flex justify-center rounded-[30px] items-center h-[180px] w-[180px] bg-grey-100 dark:bg-[#24242d] -translate-y-[40px] shadow-md'}>
+        {iconUrl ? <Image className='z-30 absolute rounded-[30px]' src={iconUrl} height={165} width={165} alt='' data-testid='icon-image' /> :
           <div data-testid='icon-placeholder' className='flex justify-center items-center rounded-[30px] h-[160px] w-[160px] bg-grey-200 dark:bg-grey-400'>
             <h1 className='font-heading-1 text-grey-900' aria-hidden>{name.charAt(0)}</h1>
           </div>
@@ -57,7 +55,7 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
   )
 
   return (
-    <div className={`${isMobileViewport ? 'min-w-[580px]' : 'min-w-[720px]'}`}>
+    <div className={`${isMobileViewport ? 'min-w-[580px]' : 'min-w-[720px]'} sticky top-0 bg-grey-200 dark:bg-grey-900 pt-2 z-30`}>
       <div className={`${!isMobileViewport && 'ml-[225px]'}`}>
         <DirectoryBreadcrumb />
       </div>

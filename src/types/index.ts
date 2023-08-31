@@ -59,7 +59,7 @@ export type PlanImage = {
   url: string,
   encoding: string,
   description: string,
-  cta_url?: string,
+  cta_url?: string | null,
 }
 
 export type PlanAsset = { // Plan Image with additional metadata used for Asset Modal
@@ -72,7 +72,7 @@ export type PlanAsset = { // Plan Image with additional metadata used for Asset 
 
 export type SelectedPlanImages = Record<string, PlanImage[]>
 
-export type SelectedAssetGroup = Record<string, PlanAsset>
+export type SelectedAssetGroup = Record<string, PlanAsset | null>
 
 export type SelectedPlans = Record<string, Plan>
 
@@ -136,7 +136,7 @@ export type DirectoryComments = {
 export type DirectoryPlan = {
   plan_ref: string,
   plan_metadata: DirectoryPlanMetadata,
-  plan_counts: DirectoryPlanCounts,
+  plan_counts?: DirectoryPlanCounts | null,
   total_mid_count?: number | null,
 }
 
@@ -148,9 +148,9 @@ export type DirectoryPlanDetails = {
 
 export type DirectoryPlanMetadata = {
   name: string,
-  icon_url: string,
+  icon_url: string | null,
   slug?:string,
-  plan_id?: number,
+  plan_id?: number | null,
 }
 
 export type DirectoryPlanCounts = {
@@ -506,3 +506,102 @@ export type LookupUserHistoryEntity = {
     datetime: string
   }
 }
+
+
+// API v2 types - At some point these can exist without v2 suffix
+type PaymentAccountApi2 = {
+  id: number,
+  provider: string,
+  issuer: string,
+  status: string,
+  expiry_month: string,
+  expiry_year: string,
+  name_on_card: string,
+  card_nickname: string,
+  type: string,
+  currency_code: string,
+  country: string,
+  last_four_digits: string,
+  images: PlanImage[],
+  pll_links: {
+    loyalty_card_id: number,
+    loyalty_plan: string,
+    status: StatusApi2,
+  }[]
+}
+
+type StatusApi2 = {
+  state: string | null,
+  slug: string | null,
+  description: string| null,
+}
+
+export type LoyaltyVoucherApi2 = {
+  barcode_type: number | null,
+  body_text: string,
+  conversion_date: string | null,
+  current_value: string,
+  earn_type: string,
+  expiry_date: string | null,
+  headline: string,
+  issued_date: string | null,
+  prefix: string | null,
+  progress_display_text: string,
+  redeemed_date: string | null,
+  reward_text: string,
+  state: string,
+  suffix: string | null,
+  target_value: string,
+  terms_and_conditions: string,
+  voucher_code: string | null,
+}
+
+export type LoyaltyTransactionApi2 = {
+  id: string,
+  display_value: string,
+  timestamp: number,
+  description: string,
+}
+
+
+export type LoyaltyCardApi2 = {
+  id: number,
+  loyalty_plan_id: number,
+  loyalty_plan_name: string,
+  is_fully_pll_linked: boolean,
+  pll_linked_payment_accounts: number,
+  total_payment_accounts: number,
+  status: StatusApi2,
+  balance: {
+    updated_at: number,
+    current_display_value: string,
+    loyalty_currency_name: string,
+    prefix: string | null,
+    suffix: string | null,
+    current_value: string,
+    target_value: string,
+  }
+  transactions: LoyaltyTransactionApi2[]
+  vouchers: LoyaltyVoucherApi2[]
+  card: {
+    barcode: string | null,
+    barcode_type: number | null,
+    card_number: string | null,
+    colour: string,
+    text_colour: string | null,
+  }
+  reward_available: boolean,
+  images: PlanImage[],
+  pll_links: {
+    payment_account_id: number,
+    payment_scheme: string,
+    status: StatusApi2,
+  }[]
+}
+
+
+export type WalletApi2 = {
+  joins: string[], // check what to expect here
+  loyalty_cards: LoyaltyCardApi2[],
+  payment_accounts: PaymentAccountApi2[],
+} | null

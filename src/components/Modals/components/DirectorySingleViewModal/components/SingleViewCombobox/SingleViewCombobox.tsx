@@ -2,23 +2,32 @@ import {Combobox, Transition} from '@headlessui/react'
 import PaymentCardIcon from 'components/PaymentCardIcon'
 import TriangleDownSvg from 'icons/svgs/triangle-down.svg'
 import {useState, Fragment} from 'react'
-import {DirectoryMerchantLocationAvailableMid, DirectorySecondaryMid, DirectoryLocation} from 'types'
+import {DirectoryMerchantLocationAvailableMid, DirectorySecondaryMid, DirectoryLocation, DirectoryMerchantLocationSecondaryMid} from 'types'
 import {PaymentSchemeSlug} from 'utils/enums'
 
 type Entity = DirectoryMerchantLocationAvailableMid | DirectorySecondaryMid | DirectoryLocation | string // TODO: Consider refactor to use generics
 
 type Props = {
-  selectedEntity: Entity
+  selectedEntity: Entity | null | DirectoryMerchantLocationSecondaryMid
   availableEntities: Entity[]
-  entityValueFn?: (entity: Entity) => string
+  entityValueFn?: (entity: Entity | DirectoryMerchantLocationSecondaryMid) => string
   entityPaymentSchemeSlugFn?: (entity: Entity) => string
-  onChangeFn: (entity: Entity) => void
+  onChangeFn: (entity) => void // TODO: Type this properly, has some odd use cases
   shouldRenderPaymentCardIcon?: boolean
   entityLabel?: string
   isDisabled?: boolean
 }
 
-function SingleViewCombobox ({selectedEntity, availableEntities, entityValueFn, entityPaymentSchemeSlugFn, onChangeFn, shouldRenderPaymentCardIcon, entityLabel = 'item', isDisabled = false}: Props) {
+function SingleViewCombobox ({
+  selectedEntity,
+  availableEntities,
+  entityValueFn = () => '',
+  entityPaymentSchemeSlugFn = () => '',
+  onChangeFn,
+  shouldRenderPaymentCardIcon,
+  entityLabel = 'item',
+  isDisabled = false,
+}: Props) {
 
   const [query, setQuery] = useState<string>('')
 
@@ -38,7 +47,7 @@ function SingleViewCombobox ({selectedEntity, availableEntities, entityValueFn, 
           <div className='relative w-full cursor-default rounded-[10px] bg-white dark:bg-grey-900 text-left sm:text-sm border-[1px] border-grey-500 dark:border-grey-700'>
             <Combobox.Input
               className='w-full border-none py-2 pl-6 pr-10  dark:bg-grey-850 rounded-[10px]'
-              displayValue={() => entityValueFn(selectedEntity) || '' }
+              displayValue={() => selectedEntity && entityValueFn(selectedEntity) || '' }
               onChange={(event) => setQuery(event.target.value)}
               autoFocus
               placeholder={`Select ${entityLabel}`}

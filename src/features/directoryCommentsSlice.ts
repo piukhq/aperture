@@ -6,14 +6,14 @@ type DirectoryCommentsState = {
   commentsModalHeader: string
   commentsRef: string
   commentsOwnerRef: string
-  commentsSubjectType: CommentsSubjectTypes | null
+  commentsSubjectType: CommentsSubjectTypes
 }
 
 const initialState: DirectoryCommentsState = {
-  commentsModalHeader: null,
-  commentsRef: null,
-  commentsOwnerRef: null,
-  commentsSubjectType: null,
+  commentsModalHeader: '',
+  commentsRef: '',
+  commentsOwnerRef: '',
+  commentsSubjectType: CommentsSubjectTypes.PLAN, // default to be replaced by action
 }
 
 export const directoryCommentsSlice = createSlice({

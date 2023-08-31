@@ -7,8 +7,8 @@ type CustomerWallet = {
 }
 
 const initialState: CustomerWallet = {
-  jwtToken: null,
-  activeUserId: null,
+  jwtToken: '',
+  activeUserId: '',
 }
 
 export const customerWalletSlice = createSlice({

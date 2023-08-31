@@ -125,7 +125,11 @@ describe('SingleViewLocationMids', () => {
             mid_value: 'mock_mid_value',
             mid_ref: 'mock_mid_ref',
           },
-          locationLink: null,
+          locationLink: {
+            link_ref: 'mock_link_ref',
+            location_ref: 'mock_location_ref',
+            location_title: 'mock_location_title',
+          },
         },
       ]
 

@@ -11,7 +11,7 @@ import {getSelectedDirectoryMerchantPaymentScheme, reset} from 'features/directo
 import {RTKQueryErrorResponse} from 'types'
 
 const DirectorySecondaryMidModal = () => {
-  const {planId, merchantId} = useGetRouterQueryString()
+  const {planId = '', merchantId = ''} = useGetRouterQueryString()
 
   const {
     postMerchantSecondaryMid,
@@ -30,7 +30,7 @@ const DirectorySecondaryMidModal = () => {
   const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
 
   useEffect(() => { // Reset error when close button is focused
-    isCloseButtonFocused && setSecondaryMidValidationError(null)
+    isCloseButtonFocused && setSecondaryMidValidationError('')
   }, [isCloseButtonFocused])
 
   const handlePostMerchantSecondaryMidError = useCallback(() => {
@@ -69,19 +69,21 @@ const DirectorySecondaryMidModal = () => {
       if (secondaryMidValue === '') {
         setSecondaryMidValidationError('Enter Secondary MID')
       } else {
-        const paymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
-        const metadata = {
-          secondary_mid: secondaryMidValue,
-          payment_enrolment_status: 'unknown',
-          payment_scheme_slug: paymentSchemeSlug,
+        if (paymentScheme) {
+          const paymentSchemeSlug = PaymentSchemeSlug[paymentScheme.toUpperCase()]
+          const metadata = {
+            secondary_mid: secondaryMidValue,
+            payment_enrolment_status: 'unknown',
+            payment_scheme_slug: paymentSchemeSlug,
+          }
+          postMerchantSecondaryMid({
+            planRef: planId,
+            merchantRef: merchantId,
+            locationRef: '',
+            secondary_mid_metadata: metadata,
+            onboard: isOnboardRequired,
+          })
         }
-        postMerchantSecondaryMid({
-          planRef: planId,
-          merchantRef: merchantId,
-          locationRef: '',
-          secondary_mid_metadata: metadata,
-          onboard: isOnboardRequired,
-        })
       }
     }
   }
@@ -100,7 +102,7 @@ const DirectorySecondaryMidModal = () => {
           error={secondaryMidValidationError}
           value={secondaryMidValue}
           onChange={handleSecondaryMidChange}
-          onFocus={() => setSecondaryMidValidationError(null)}
+          onFocus={() => setSecondaryMidValidationError('')}
           onBlur={handleSecondaryMidBlur}
           inputType={InputType.TEXT}
           inputStyle={InputStyle.FULL}

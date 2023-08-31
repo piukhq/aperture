@@ -40,7 +40,7 @@ const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState<boolean>(true)
 
@@ -54,7 +54,7 @@ const DirectoryMerchantPsimis = () => {
     page: currentPage.toString(),
   })
 
-  const psimisData: DirectoryPsimis = getMerchantPsimisResponse
+  const psimisData: DirectoryPsimis = getMerchantPsimisResponse || []
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return psimisData.map((psimiObj: DirectoryPsimi) => {
@@ -73,7 +73,7 @@ const DirectoryMerchantPsimis = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: timeStampToDate(dateAdded, isMobileViewport),
+          displayValue: timeStampToDate(dateAdded, {isShortDate: isMobileViewport}),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getHarmoniaStatusString(txmStatus)},
@@ -127,7 +127,7 @@ const DirectoryMerchantPsimis = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_HARMONIA))
   }
 
-  const renderCheckedItemButtons = ():JSX.Element => {
+  const renderBulkActionButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
         label: 'Onboard',
@@ -140,7 +140,7 @@ const DirectoryMerchantPsimis = () => {
         buttonStyle: BulkActionButtonStyle.HARMONIA,
       },
       {
-        label: 'Comments',
+        label: 'Add Comments',
         handleClick: requestBulkCommentModal,
         buttonStyle: BulkActionButtonStyle.COMMENT,
       },
@@ -156,6 +156,7 @@ const DirectoryMerchantPsimis = () => {
         <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
       )
     } else {
+      const noItemsSelected = checkedRefArray.length === 0
       return (
         <div className='flex gap-[10px] items-center h-max py-4 flex-wrap w-full justify-start'>
           {actionsMenuItems.map((actionMenuItem) => {
@@ -169,6 +170,8 @@ const DirectoryMerchantPsimis = () => {
                 labelColour={buttonStyle !== BulkActionButtonStyle.DELETE ? LabelColour.GREY : LabelColour.RED}
                 borderColour={BorderColour.GREY}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+                isDisabled={noItemsSelected}
+                additionalStyles={`${noItemsSelected && 'opacity-40'}`}
               >{label}
               </Button>
             )
@@ -181,8 +184,8 @@ const DirectoryMerchantPsimis = () => {
 
   return (
     <>
-      <div className='flex items-end justify-end gap-4'>
-        {checkedRefArray.length > 0 && renderCheckedItemButtons()}
+      <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
+        {renderBulkActionButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <Button
             handleClick={() => requestPsimiModal(PaymentSchemeName.VISA)}

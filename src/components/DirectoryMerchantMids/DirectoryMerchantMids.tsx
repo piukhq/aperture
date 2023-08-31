@@ -42,7 +42,7 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const {planId, merchantId} = useGetRouterQueryString()
+  const {planId, merchantId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState<boolean>(true)
@@ -56,13 +56,13 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
-  const midsData: DirectoryMids = getMerchantMidsResponse
+  const midsData: DirectoryMids = getMerchantMidsResponse || []
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return midsData.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
-      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus} = metadata
+      const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus = ''} = metadata
       return [
         {
           paymentSchemeSlug,
@@ -76,7 +76,7 @@ const DirectoryMerchantMids = () => {
           additionalStyles: 'font-body-3 truncate',
         },
         {
-          displayValue: timeStampToDate(dateAdded, isMobileViewport),
+          displayValue: timeStampToDate(dateAdded, {isShortDate: isMobileViewport}),
           additionalStyles: 'font-body-3 truncate',
         },
         {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},
@@ -142,7 +142,7 @@ const DirectoryMerchantMids = () => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_SCHEME_STATUS))
   }
 
-  const renderCheckedItemButtons = ():JSX.Element => {
+  const renderBulkActionButtons = ():JSX.Element => {
     const actionsMenuItems = [
       {
         label: 'Onboard',
@@ -166,7 +166,7 @@ const DirectoryMerchantMids = () => {
       },
 
       {
-        label: 'Comments',
+        label: 'Add Comments',
         handleClick: requestBulkCommentModal,
         buttonStyle: BulkActionButtonStyle.COMMENT,
       },
@@ -182,6 +182,7 @@ const DirectoryMerchantMids = () => {
         <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
       )
     } else {
+      const noItemsSelected = checkedRefArray.length === 0
       return (
         <div className='flex gap-[10px] items-center h-max py-4 flex-wrap w-full justify-start'>
           {actionsMenuItems.map((actionMenuItem) => {
@@ -195,6 +196,8 @@ const DirectoryMerchantMids = () => {
                 labelColour={buttonStyle !== BulkActionButtonStyle.DELETE ? LabelColour.GREY : LabelColour.RED}
                 borderColour={BorderColour.GREY}
                 requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+                isDisabled={noItemsSelected}
+                additionalStyles={`${noItemsSelected && 'opacity-40'}`}
               >{label}
               </Button>
             )
@@ -206,8 +209,8 @@ const DirectoryMerchantMids = () => {
 
   return (
     <>
-      <div className='flex items-end justify-end gap-4'>
-        {checkedRefArray.length > 0 && renderCheckedItemButtons() }
+      <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
+        {renderBulkActionButtons() }
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
           <Button
             handleClick={() => requestMidModal(PaymentSchemeName.VISA)}

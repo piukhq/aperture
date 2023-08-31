@@ -39,7 +39,7 @@ const AutosizeTextArea = ({accessibilityLabel, placeholder, prePopulatedValue = 
   }
 
   const handleKeyDownPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    setInputValidationError(null)
+    setInputValidationError('')
 
     if(e.key === 'Enter' && e.shiftKey === false) {
       e.preventDefault()

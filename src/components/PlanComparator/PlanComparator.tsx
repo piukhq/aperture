@@ -28,7 +28,7 @@ const PlanComparator = ({plans}: Props) => { // This component does the algorith
   ]
 
   const comparePlanCategory = (category: PlanCategory) => {
-    let categoryAcrossEnvsArray = plansArray.map(plan => plan[category])
+    let categoryAcrossEnvsArray = plansArray.map(plan => plan && plan[category])
 
     if (category === PlanCategory.CONTENT) { // Mutate the array to sort the content by column name so we can compare fairly
       type PlanContent = {
@@ -110,7 +110,7 @@ const PlanComparator = ({plans}: Props) => { // This component does the algorith
   if (plansArray.length === 1) {
     return (
       <div className='w-full h-full flex flex-col items-center justify-center'>
-        <p className='font-heading-7'>{plansArray[0].account.plan_name} only exists in {Object.keys(plans).filter(environment => plans[environment]?.id)[0]} so there is nothing to compare with.</p>
+        <p className='font-heading-7'>{plansArray[0]?.account.plan_name} only exists in {Object.keys(plans).filter(environment => plans[environment]?.id)[0]} so there is nothing to compare with.</p>
       </div>
     )
   }

@@ -105,6 +105,7 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
           </div>
         )
       case DirectorySingleViewTabs.SUB_LOCATIONS:
+        if (!getMerchantLocationResponse) { return <></> }
         return (
           <div className='px-[25px]'>
             <SingleViewLocationSubLocations

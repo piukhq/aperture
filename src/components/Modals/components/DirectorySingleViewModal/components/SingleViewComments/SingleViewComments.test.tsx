@@ -20,7 +20,7 @@ const mockCommentsFromApi = {
     comments: [mockComment],
   },
   getCommentsIsLoading: false,
-  getCommentsError: null,
+  getCommentsError: Error(''),
   postComment: jest.fn(),
   postCommentIsLoading: false,
   postCommentIsSuccess: false,
@@ -42,7 +42,6 @@ jest.mock('components/Comments', () => () => <div data-testid='comments' />)
 const getSingleViewCommentsComponent = (passedProps = {}) => (
   <SingleViewComments subjectType={CommentsSubjectTypes.MERCHANT} {...passedProps} />
 )
-
 
 describe('SingleViewComments', () => {
   beforeEach(() => {

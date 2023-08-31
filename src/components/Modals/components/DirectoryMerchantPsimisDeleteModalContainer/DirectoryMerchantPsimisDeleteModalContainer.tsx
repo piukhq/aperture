@@ -6,7 +6,7 @@ import {RTKQueryErrorResponse, DirectoryMerchantEntitySelectedItem} from 'types'
 import {getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
 
 const DirectoryMerchantPsimisDeleteModalContainer = () => {
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId = ''} = useGetRouterQueryString()
   const directoryEntityCheckedSelection = useAppSelector(getSelectedDirectoryEntityCheckedSelection) as DirectoryMerchantEntitySelectedItem[]
 
   const {

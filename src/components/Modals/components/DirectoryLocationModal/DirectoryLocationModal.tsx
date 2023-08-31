@@ -41,7 +41,7 @@ const DirectoryLocationModal = () => {
     skipGetSubLocations: true,
     planRef: planId,
     merchantRef: merchantId,
-    locationRef: null,
+    locationRef: '',
   })
 
   const locationLabel = useAppSelector(getLocationLabel)
@@ -99,7 +99,7 @@ const DirectoryLocationModal = () => {
 
   const handleSave = useCallback((locationMetadata: DirectoryLocationMetadata) => {
     if (parentLocation !== 'None') {
-      const locationRef = locationList.find(location => location.title === parentLocation).location_ref
+      const locationRef = locationList?.find(location => location.title === parentLocation)?.location_ref
 
       postMerchantLocationSubLocation({
         planRef: planId,

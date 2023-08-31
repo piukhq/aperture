@@ -20,7 +20,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
   const {uniquePlansList, devIsLoading, stagingIsLoading, prodIsLoading} = useFormattedPlansList()
   const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState<string>('')
-  const [selectedPlan, setSelectedPlan] = useState<HydratedPlan>(null)
+  const [selectedPlan, setSelectedPlan] = useState<HydratedPlan | undefined>()
   const [loadAssetsError, setLoadAssetsError] = useState<string>('')
 
   const comparatorLabel = isUsedByPlanComparator ? {
@@ -75,7 +75,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
   const handlePlanClick = (plan: HydratedPlan) => {
     setSearchValue(plan.account.plan_name)
     setSelectedPlan(plan)
-    setLoadAssetsError(null)
+    setLoadAssetsError('')
   }
 
   const handleLoadAssets = () => {
@@ -106,7 +106,7 @@ const PlansList = ({isUsedByPlanComparator}: Props) => {
           placeholder='Search...'
           selectValues={filteredPlansList}
           renderFn={renderPlan}
-          selectedValue={selectedPlan}
+          selectedValue={selectedPlan && selectedPlan}
           handleSelectValueChange={handlePlanClick}
           value={searchValue}
           onChange={handleSearchTextChange}

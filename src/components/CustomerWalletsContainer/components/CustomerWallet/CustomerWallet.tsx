@@ -26,11 +26,12 @@ const CustomerWallet = ({userPlans, loyaltyCards, paymentCards}: Props) => {
   }, [])
 
   // Get any additional payment/loyalty cards that are found on the loyalty/payment (i.e comparator) card
-  const getExternalCardIds = useCallback((sourceCards = [], comparatorCards = [], comparatorContainer) => {
+  const getExternalCardIds = useCallback((sourceCards, comparatorCards, comparatorContainer) => {
     const ids = []
     const sourceIdArray = sourceCards?.map(sourceCard => sourceCard.id)
     comparatorCards.forEach(comparatorCard => {
-      comparatorCard[comparatorContainer].forEach(comparatorCardSourceCard => {
+      comparatorCard[comparatorContainer].forEach((comparatorCardSourceCard: LoyaltyCardType | PaymentCardType) => {
+        //@ts-expect-error - TODO: Fix this wierd typing error
         !sourceIdArray.includes(comparatorCardSourceCard.id) && ids.push(comparatorCardSourceCard.id)
       })
     })
@@ -62,7 +63,7 @@ const CustomerWallet = ({userPlans, loyaltyCards, paymentCards}: Props) => {
 
   // Renders loyalty cards that are found directly on the user's account
   const renderLoyaltyCardsRow = (loyaltyCard) => {
-    const plan = userPlans.find((plan) => plan.id === loyaltyCard.membership_plan)
+    const plan = userPlans?.find((plan) => plan?.id === loyaltyCard.membership_plan)
     if (plan) {
       const {id, payment_cards: paymentCards} = loyaltyCard
       return (
@@ -83,7 +84,7 @@ const CustomerWallet = ({userPlans, loyaltyCards, paymentCards}: Props) => {
   const renderExternalLoyaltyCardsRow = (loyaltyCardId: number) => {
     const sourcePaymentCardIds = paymentCards.map((paymentCard) => {
       const membershipCards = paymentCard.membership_cards.filter(card => card.id === loyaltyCardId)
-      return membershipCards.length > 0 ? paymentCard.id : null
+      return membershipCards.length > 0 ? paymentCard.id : 0
     })
 
     return (

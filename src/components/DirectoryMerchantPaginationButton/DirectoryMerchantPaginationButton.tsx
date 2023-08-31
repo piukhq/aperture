@@ -7,6 +7,8 @@ import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {getMerchantEntityCountFromPaymentSchemes} from 'utils/paymentSchemes'
 import {DirectoryNavigationTab} from 'utils/enums'
 import {useDirectoryMerchants} from 'hooks/useDirectoryMerchants'
+import {useAppSelector, useAppDispatch} from 'app/hooks'
+import {getSelectedDirectoryTableCheckedRows, setSelectedDirectoryTableCheckedRows} from 'features/directoryMerchantSlice'
 
 type Props = {
   currentData: DirectoryPsimis | DirectorySecondaryMids | DirectoryLocations | DirectoryMids,
@@ -16,6 +18,9 @@ type Props = {
 }
 
 const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn, setShouldSkipGetEntityByPage}: Props) => {
+  const dispatch = useAppDispatch()
+  const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
+
   const [merchantEntityCount, setMerchantEntityCount] = useState<number>(0)
   const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
   const {tab, planId, merchantId} = useGetRouterQueryString()
@@ -53,10 +58,13 @@ const DirectoryMerchantPaginationButton = ({currentData, currentPage, setPageFn,
     if (dataCount < merchantEntityCount && merchantEntityCount > currentPage * 20) {
       setShouldSkipGetEntityByPage(false)
       setPageFn((prevPage: number) => prevPage + 1)
+      // add new rows to selectedCheckedRows
+      const newRows = new Array(merchantEntityCount - dataCount).fill(false)
+      dispatch(setSelectedDirectoryTableCheckedRows([...selectedCheckedRows, ...newRows]))
     }
   }
 
-  const handleRefreshClick = () => { // simple solution too handle edge case where items are deleted and counts need a full reset
+  const handleRefreshClick = () => { // heavy but simple solution to handle edge case where items are deleted and counts need a full reset
     window.location.reload()
   }
 

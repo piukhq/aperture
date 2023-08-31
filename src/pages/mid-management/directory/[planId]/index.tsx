@@ -25,7 +25,7 @@ import {getMerchantMidCountFromPaymentSchemes} from 'utils/paymentSchemes'
 
 const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
-  const planRef = useGetRouterQueryString().planId
+  const planRef = useGetRouterQueryString().planId || ''
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const prefetchMerchant = useMerchantPrefetch('getMerchant')
@@ -39,9 +39,14 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     planRef: planRef,
   })
 
-  const planDetails: DirectoryPlanDetails = getPlanResponse
-  const {merchants, plan_metadata: planMetadata} = planDetails || {}
-  const {name, icon_url, plan_id, slug} = planMetadata || {}
+  const planDetails: DirectoryPlanDetails | null = getPlanResponse || null
+  const {merchants = [], plan_metadata: planMetadata = {
+    name: '',
+    icon_url: null,
+    plan_id: 0,
+    slug: '',
+  }} = planDetails || {}
+  const {name, icon_url, plan_id, slug} = planMetadata
 
   const dispatch = useAppDispatch()
 
@@ -55,7 +60,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   }, [dispatch])
 
   const requestPlanCommentsModal = useCallback(() => {
-    dispatch(setModalHeader(planDetails?.plan_metadata?.name))
+    dispatch(setModalHeader(planDetails?.plan_metadata?.name || ''))
     dispatch(setCommentsRef(planRef))
     dispatch(setCommentsOwnerRef(planRef))
     dispatch(setCommentsSubjectType(CommentsSubjectTypes.PLAN))
@@ -74,7 +79,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       plan_counts: {
         merchants: merchants.length,
         locations: merchants.reduce((acc, merchant) => acc + merchant.merchant_counts.locations, 0),
-        payment_schemes: null, // Not required for delete modal so is not calculated
+        payment_schemes: [], // Not required for delete modal so is not calculated
       },
       total_mid_count: merchants
         .reduce((acc, merchant) => acc + getMerchantMidCountFromPaymentSchemes(merchant.merchant_counts.payment_schemes), 0),
@@ -86,7 +91,6 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(setSelectedDirectoryPlan({
       plan_ref: planRef,
       plan_metadata: planMetadata,
-      plan_counts: null,
       total_mid_count: null,
     }))
 
@@ -107,7 +111,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
     },
     {
-      label: 'Comments',
+      label: 'View Comments',
       icon: <CommentSvg/>,
       clickHandler: () => requestPlanCommentsModal(),
     },
@@ -168,7 +172,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
             },
             {
-              label: 'Comments',
+              label: 'View Comments',
               icon: <CommentSvg/>,
               clickHandler: () => requestMerchantCommentsModal(),
             },
@@ -194,13 +198,16 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
   }
 
   const renderPlanDetailsContent = () => {
-    const {plan_metadata: planMetadata, merchants} = planDetails
-    const {name, slug, icon_url: iconUrl, plan_id: planId} = planMetadata
+    if (!planDetails) {
+      return <></>
+    }
+    const {plan_metadata: planMetadata, merchants = []} = planDetails
+    const {name, slug, icon_url: iconUrl, plan_id: planId = 0} = planMetadata
 
     return (
       <>
         <HeadMetadata pageTitle={`MID Directory: ${name}`} pageDescription={`View the ${merchants.length} merchants for the ${name} plan`} />
-        <DirectoryDetailsHeader planId={planId} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
+        <DirectoryDetailsHeader planId={planId || 0} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
         {merchants.length > 0 && renderMerchants(merchants)}
       </>
     )

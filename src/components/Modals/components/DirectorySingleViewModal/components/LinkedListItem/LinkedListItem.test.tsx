@@ -88,7 +88,7 @@ describe('LinkedListItem', () => {
       render(getUnlinkingConfirmingStateComponent)
       fireEvent.click(screen.getByRole('button', {name: 'Cancel'}))
 
-      expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(null)
+      expect(mockProps.setSelectedUnlinkIndexFn).toHaveBeenCalledWith(0)
     })
 
     describe('Test unlinking state', () => {

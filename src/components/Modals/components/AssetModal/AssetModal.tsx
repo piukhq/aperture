@@ -12,19 +12,25 @@ import {getSelectedAssetEnvironment, getSelectedAssetGroup} from 'features/compa
 import {classNames} from 'utils/classNames'
 import {EnvironmentName, EnvironmentShortName, ModalStyle} from 'utils/enums'
 import {TagStyle, TagSize, TextStyle, TextColour} from 'components/Tag/styles'
-import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
+import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
+import {getWCAGComplianceLevels} from 'utils/colours'
 
 const AssetModal = () => {
   const dispatch = useAppDispatch()
-  const [imageDimensionsState, setImageDimensionsState] = useState(null)
+  const [imageDimensionsState, setImageDimensionsState] = useState({naturalWidth: 520, naturalHeight: 280})
   const [isError, setIsError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [contrastRatioToolRequested, setContrastRatioToolRequested] = useState<boolean>(false)
+  const [textColour, setTextColour] = useState<string>('')
+  const [backgroundColour, setBackgroundColour] = useState<string>('')
+
   const imageClasses = imageDimensionsState ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity'
 
   const selectedAssetGroup = useAppSelector(getSelectedAssetGroup)
   const selectedAssetEnvironment = useAppSelector(getSelectedAssetEnvironment)
 
   const selectedAsset = selectedAssetGroup[selectedAssetEnvironment]
+  if (!selectedAsset) { return null }
   const {hasMultipleImagesOfThisType, typeIndex, image, heading, environment} = selectedAsset
   const {id, url, description, encoding} = image
 
@@ -96,7 +102,7 @@ const AssetModal = () => {
         className={imageClasses}
         src={url}
         width={imageDimensionsState?.naturalWidth || 520}
-        height={imageDimensionsState?.naturalWeight || 280}
+        height={imageDimensionsState?.naturalHeight || 280}
         objectFit='contain'
         alt={description || heading}
         onLoadingComplete={(imageDimensions) => handleOnLoadingComplete(imageDimensions)}
@@ -113,15 +119,15 @@ const AssetModal = () => {
       RIGHT = '-rotate-90'
     }
 
-    const handleNavigationButtonClick = navigationDirection => {
-      const currentAssetIndex = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
-      const lastAssetIndex = assetArray.length - 1
+    const handleNavigationButtonClick = (navigationDirection:NavigationDirection) => {
+      const currentAssetIndex:number = assetArray.findIndex(asset => asset?.environment === selectedAssetEnvironment)
+      const lastAssetIndex:number = assetArray.length - 1
 
       let newEnvironment
       if (navigationDirection === NavigationDirection.LEFT) {
-        newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex].environment : assetArray[currentAssetIndex - 1].environment
+        newEnvironment = currentAssetIndex === 0 ? assetArray[lastAssetIndex]?.environment : assetArray[currentAssetIndex - 1]?.environment
       } else {
-        newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0].environment : assetArray[currentAssetIndex + 1].environment
+        newEnvironment = currentAssetIndex === lastAssetIndex ? assetArray[0]?.environment : assetArray[currentAssetIndex + 1]?.environment
       }
       dispatch(setSelectedAssetEnvironment(newEnvironment))
       setIsError(false)
@@ -218,6 +224,16 @@ const AssetModal = () => {
 
     return (
       <div className='flex justify-end gap-[20px] mb-[24px]'>
+        <Button
+          handleClick={() => setContrastRatioToolRequested(!contrastRatioToolRequested)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          buttonBackground={ButtonBackground.BLUE}
+          labelColour={LabelColour.WHITE}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          {!contrastRatioToolRequested ? 'Test Contrast Ratios' : 'Close Ratio Test' }
+        </Button>
         <a href={`https://api.${djangoUrlEnvValue}gb.bink.com/admin/scheme/schemeimage/${id}/change/`}
           className='min-h-[38px] w-max rounded-[10px] flex items-center justify-center whitespace-nowrap gap-2 px-[12px]
         bg-blue text-grey-100 font-medium font-heading tracking-[.038rem] text-sm' // Refactor to an @apply if used elsewhere
@@ -239,12 +255,55 @@ const AssetModal = () => {
       </div>
     ) }
 
+  const renderContrastRatioTool = () => {
+    const handleEyedropperClick = (isText: boolean) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore -  TODO: Eyedropper is experiemental API which will be replaced in future ticket, currently prototyping for testing purposes
+      const eyeDropper = new EyeDropper()
+      eyeDropper
+        .open()
+        .then((result: {sRGBHex:string}) => {
+          isText ? setTextColour(result.sRGBHex) : setBackgroundColour(result.sRGBHex)
+        })
+        .catch((e: string) => {
+          console.error(e)
+        })
+    }
+
+    return (
+      <div className='h-[212px] mb-[24px] overflow-auto flex flex-col gap-8 justify-center items-center'>
+        {textColour && backgroundColour && getWCAGComplianceLevels(textColour, backgroundColour)}
+        <Button
+          handleClick={() => handleEyedropperClick(true)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          borderColour={BorderColour.GREY}
+          labelColour={LabelColour.GREY}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          Select Text {textColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: textColour}}></span>}
+        </Button>
+        <Button
+          handleClick={() => handleEyedropperClick(false)}
+          buttonSize={ButtonSize.MEDIUM_ICON}
+          buttonWidth={ButtonWidth.AUTO}
+          borderColour={BorderColour.GREY}
+          labelColour={LabelColour.GREY}
+          labelWeight={LabelWeight.MEDIUM}
+        >
+          Select Background { backgroundColour && <span className='w-[20px] h-[20px] rounded-[10px] inline-block border-grey-200 border' style={{backgroundColor: backgroundColour}}></span>}
+        </Button>
+
+      </div>
+    )
+  }
+
   return (
     <Modal modalStyle={ModalStyle.WIDE} modalHeader={`${heading} ${hasMultipleImagesOfThisType ? typeIndex + 1 : ''} Asset ${id}${isError ? ' could not load' : ''}`}>
       {renderEnvironmentTags()}
       {renderImageSection()}
       {renderAssetDetails()}
-      {renderJSONSection()}
+      {window && contrastRatioToolRequested && 'EyeDropper' in window ? renderContrastRatioTool() : renderJSONSection()}
       {renderButtons()}
     </Modal>
   )

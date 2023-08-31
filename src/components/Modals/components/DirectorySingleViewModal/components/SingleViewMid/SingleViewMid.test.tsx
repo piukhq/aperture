@@ -4,6 +4,7 @@ import SingleViewMid from 'components/Modals/components/DirectorySingleViewModal
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
+import {DirectoryMid} from 'types'
 
 const mockMidValue = 'mock_mid_value'
 let mockGetMerchantMidResponse = {
@@ -12,7 +13,7 @@ let mockGetMerchantMidResponse = {
       mid: mockMidValue,
     },
   },
-}
+} as unknown as DirectoryMid
 
 jest.mock('app/hooks', () => ({
   useAppDispatch: () => jest.fn(),
@@ -38,7 +39,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
-  selectedEntity: null,
+  selectedEntity: null as unknown as DirectoryMid,
   resetError: jest.fn(),
   setError: jest.fn(),
   setIsEntityFound: jest.fn(),
@@ -105,7 +106,7 @@ describe('SingleViewMid', () => {
   })
 
   it('should display error message if selected entity is not found', () => {
-    mockGetMerchantMidResponse = null
+    mockGetMerchantMidResponse = null as unknown as DirectoryMid
     render(getSingleViewMidComponent())
     expect(screen.getByText('MID could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })

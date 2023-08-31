@@ -36,7 +36,7 @@ export const useCustomerLookup = () => {
     ) {
       // TODO: Incorporate other lookup types
       if (lookupType && jwtToken) {
-        const {bundle_id: channel, sub, user_id: userEmail} = decodeJwtToken(jwtToken) || {}
+        const {bundle_id: channel = '', sub, user_id: userEmail = ''} = decodeJwtToken(jwtToken) || {}
         const userId = sub || userEmail // Barclays uses user_id, other channels use sub from the token
 
         dispatch(setActiveUserId(typeof(userId) === 'string' ? userId : JSON.stringify(userId)))
@@ -71,7 +71,7 @@ export const useCustomerLookup = () => {
   // If any error occurs, remove active user ID
   useEffect(() => {
     if (hasErrorOccurred) {
-      dispatch(setActiveUserId(null))
+      dispatch(setActiveUserId(''))
     }
   }, [hasErrorOccurred, dispatch])
 

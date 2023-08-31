@@ -4,6 +4,7 @@ import DirectoryMerchantLocationForm from 'components/DirectoryMerchantLocationF
 import {PaymentSchemeSlug} from 'utils/enums'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {FetchBaseQueryError} from '@reduxjs/toolkit/dist/query'
 
 const mockDateAdded = 'mock_date_added'
 const mockName = 'mock_name'
@@ -61,6 +62,10 @@ const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
 const mockSaveHandler = jest.fn()
 const mockCancelHandler = jest.fn()
+const mockError: FetchBaseQueryError = {
+  status: 400,
+  data: {},
+}
 
 const mockProps = {
   location: mockLocation,
@@ -76,7 +81,7 @@ const mockProps = {
   resetResponse: jest.fn(),
   isSuccess: false,
   isLoading: false,
-  error: null,
+  error: mockError,
 }
 
 

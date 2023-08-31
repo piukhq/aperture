@@ -16,8 +16,8 @@ const SingleViewLocationSecondaryMids = () => {
   const dispatch = useAppDispatch()
   const [shouldPrepareDropdownMenu, setShouldPrepareDropdownMenu] = useState<boolean>(false) // When true, checks for (or requests) required API data before allowing rendering of the dropdown menu
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState<boolean>(false)
-  const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState(null)
-  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState<number>(null) // The index of the secondary mid that is selected to be unlinked
+  const [selectedAvailableSecondaryMid, setSelectedAvailableSecondaryMid] = useState<DirectoryMerchantLocationSecondaryMid | null>(null)
+  const [selectedUnlinkSecondaryMidIndex, setSelectedUnlinkSecondaryMidIndex] = useState<number | null>(null) // The index of the secondary mid that is selected to be unlinked
   const [availableSecondaryMidNotification, setAvailableSecondaryMidNotification] = useState<string>('')
 
   const {
@@ -62,18 +62,20 @@ const SingleViewLocationSecondaryMids = () => {
   }, [dispatch, postMerchantLocationLinkedSecondaryMidIsSuccess])
 
   useEffect(() => {
-    if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
-      setShouldRenderDropdownMenu(true)
-      setSelectedUnlinkSecondaryMidIndex(null)
-      setAvailableSecondaryMidNotification('')
-    } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
-      setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
-      setShouldRenderDropdownMenu(false)
-      setSelectedUnlinkSecondaryMidIndex(null)
-    } else {
-      setShouldRenderDropdownMenu(false)
+    if(getMerchantSecondaryMidsResponse) {
+      if (getMerchantSecondaryMidsResponse?.length > 0 && shouldPrepareDropdownMenu) {
+        setShouldRenderDropdownMenu(true)
+        setSelectedUnlinkSecondaryMidIndex(null)
+        setAvailableSecondaryMidNotification('')
+      } else if (getMerchantSecondaryMidsResponse?.length === 0 && shouldPrepareDropdownMenu) {
+        setAvailableSecondaryMidNotification('No Secondary MIDs available to link for this Location.')
+        setShouldRenderDropdownMenu(false)
+        setSelectedUnlinkSecondaryMidIndex(null)
+      } else {
+        setShouldRenderDropdownMenu(false)
+      }
     }
-  }, [getMerchantSecondaryMidsResponse?.length, shouldPrepareDropdownMenu])
+  }, [getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsResponse?.length, shouldPrepareDropdownMenu])
 
   const hasNoLinkedSecondaryMids = (!getMerchantLocationLinkedSecondaryMidsResponse || getMerchantLocationLinkedSecondaryMidsResponse.length === 0) && !getMerchantLocationLinkedSecondaryMidsIsLoading
 
@@ -149,7 +151,7 @@ const SingleViewLocationSecondaryMids = () => {
         <div className='h-[36px] w-full'>
           <SingleViewCombobox
             selectedEntity={selectedAvailableSecondaryMid}
-            availableEntities={getMerchantSecondaryMidsResponse}
+            availableEntities={getMerchantSecondaryMidsResponse || []}
             entityValueFn={(entity: DirectorySecondaryMid) => entity?.secondary_mid_metadata?.secondary_mid}
             entityPaymentSchemeSlugFn={(entity: DirectorySecondaryMid) => entity?.secondary_mid_metadata?.payment_scheme_slug}
             onChangeFn={setSelectedAvailableSecondaryMid}
@@ -161,7 +163,7 @@ const SingleViewLocationSecondaryMids = () => {
 
         <div className='flex items-center gap-[10px]'>
           <Button
-            handleClick={!postMerchantLocationLinkedSecondaryMidIsLoading ? onSaveHandler : null}
+            handleClick={() => !postMerchantLocationLinkedSecondaryMidIsLoading && onSaveHandler}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
@@ -193,7 +195,7 @@ const SingleViewLocationSecondaryMids = () => {
       <section>
         <h2 className='font-modal-heading'>LINKED SECONDARY MIDS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantLocationLinkedSecondaryMidsResponse.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
+          {getMerchantLocationLinkedSecondaryMidsResponse?.map((locationSecondaryMid, index) => renderLocationSecondaryMid(locationSecondaryMid, index))}
         </div>
       </section>
     )

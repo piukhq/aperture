@@ -18,7 +18,7 @@ describe('Sidebar', () => {
     },
   }
 
-  let mockPermissions = []
+  let mockPermissions = [] as UserPermissions[]
 
   beforeEach(() => {
     jest.clearAllMocks()

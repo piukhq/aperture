@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
@@ -17,6 +17,7 @@ import PathSvg from 'icons/svgs/path.svg'
 
 type LocationRowObject = {
   ref: string,
+  locationRef?: string,
   isSubLocation?: boolean,
   row: DirectoryMerchantDetailsTableCell[]
 }
@@ -27,7 +28,7 @@ type Props = {
 
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
-  const {merchantId, planId} = useGetRouterQueryString()
+  const {merchantId = '', planId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState<boolean>(true)
@@ -59,11 +60,11 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
     {
       displayValue: 'TOWN',
-      additionalStyles: isMobileViewport && 'hidden',
+      additionalStyles: isMobileViewport ? 'hidden' : '',
     },
     {
       displayValue: 'POSTCODE',
-      additionalStyles: isMobileViewport && 'hidden',
+      additionalStyles: isMobileViewport ? 'hidden' : '',
     },
     {
       displayValue: 'LOCATION ID',
@@ -73,7 +74,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
   ]
 
-  const locationsData: DirectoryLocations = getMerchantLocationsResponse
+  const locationsData: DirectoryLocations = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
@@ -97,7 +98,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           icon: isSubLocation ? <PathSvg /> : null,
         },
         {
-          displayValue: timeStampToDate(dateAdded, isMobileViewport),
+          displayValue: timeStampToDate(dateAdded, {isShortDate: isMobileViewport}),
           additionalStyles: textStyles,
         },
         {
@@ -138,13 +139,12 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           additionalStyles: textStyles,
         },
       ]
-
-
       return [...standardFields, ...extraFields]
     }
 
     return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
       const locationTableRow = hydrateLocationTableRow(locationObj)
+      // @ts-expect-error - Wierd never typing error
       accumulator.push({ref: locationObj.location_ref, row: locationTableRow})
 
       if (locationObj.sub_locations) {
@@ -153,6 +153,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           row: hydrateLocationTableRow(subLocation, true),
           isSubLocation: true,
         }))
+        // @ts-expect-error - Wierd never typing error
         accumulator.push(...subLocationRows)
       }
 
@@ -180,12 +181,12 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         }
       }, null)
 
-      const {subLocation, parentLocationRef} = subLocationObj
-      dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
+      const {subLocation, parentLocationRef} = subLocationObj || {subLocation: null, parentLocationRef: null}
+      subLocation && dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
       router.push(`${baseUrl}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
     } else {
       const location = locationsData.find(location => location.location_ref === locationRef)
-      dispatch(setSelectedDirectoryMerchantEntity(location))
+      location && dispatch(setSelectedDirectoryMerchantEntity(location))
       router.push(`${baseUrl}&ref=${locationRef}`, undefined, {scroll: false})
     }
   }
@@ -193,9 +194,9 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const setSelectedLocations = () => {
     const checkedLocationsToEntity = locationRowObjects.filter((location) => checkedRefArray.includes(location.ref)).map((location) => ({
       entityRef: location.ref,
-      entityValue: location.row[0].displayValue,
+      entityValue: location.row[0].displayValue || '',
     }))
-    dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
+    checkedLocationsToEntity && dispatch(setSelectedDirectoryEntityCheckedSelection(checkedLocationsToEntity))
   }
 
   const requestLocationDeleteModal = ():void => {
@@ -211,33 +212,38 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const noItemsSelected = checkedRefArray.length === 0
   return (
     <>
-      <div className='flex justify-between h-[71px] items-center px-[9px]'>
+      <div className='flex justify-between h-[71px] items-center px-[9px] sticky top-60 bg-white dark:bg-grey-825'>
+
         <div>
-          { checkedRefArray.length > 0 && (
-            <div className='flex gap-[10px] h-[71px] items-center'>
-              <Button
-                handleClick={requestBulkCommentModal}
-                buttonSize={ButtonSize.SMALL}
-                buttonWidth={ButtonWidth.AUTO}
-                labelColour={LabelColour.GREY}
-                borderColour={BorderColour.GREY}
-                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-              >Comments
-              </Button>
-              <Button
-                handleClick={requestLocationDeleteModal}
-                buttonSize={ButtonSize.SMALL}
-                buttonWidth={ButtonWidth.MEDIUM}
-                labelColour={LabelColour.RED}
-                labelWeight={LabelWeight.SEMIBOLD}
-                borderColour={BorderColour.RED}
-                requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
-              >Delete
-              </Button>
-            </div>
-          )}
+          <div className='flex gap-[10px] h-[71px] items-center'>
+            <Button
+              handleClick={requestBulkCommentModal}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.AUTO}
+              labelColour={LabelColour.GREY}
+              borderColour={BorderColour.GREY}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+              isDisabled={noItemsSelected}
+              additionalStyles={`${noItemsSelected && 'opacity-40'}`}
+            >Add Comments
+            </Button>
+            <Button
+              handleClick={requestLocationDeleteModal}
+              buttonSize={ButtonSize.SMALL}
+              buttonWidth={ButtonWidth.MEDIUM}
+              labelColour={LabelColour.RED}
+              labelWeight={LabelWeight.SEMIBOLD}
+              borderColour={BorderColour.RED}
+              requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE}
+              isDisabled={noItemsSelected}
+              additionalStyles={`${noItemsSelected && 'opacity-40'}`}
+            >Delete
+            </Button>
+          </div>
+
         </div>
 
         <Button

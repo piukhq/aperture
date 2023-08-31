@@ -5,13 +5,14 @@ import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
 import {setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectorySingleViewTabs} from 'utils/enums'
+import {DirectorySecondaryMid} from 'types'
 
 const mockSecondaryMidValue = 'mock_secondary_mid_value'
 let mockGetMerchantSecondaryMidResponse = {
   secondary_mid_metadata: {
     secondary_mid: mockSecondaryMidValue,
   },
-}
+} as unknown as DirectorySecondaryMid
 
 jest.mock('hooks/useDirectorySecondaryMids', () => ({
   useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
@@ -33,7 +34,7 @@ jest.mock('features/directoryMerchantSlice', () => ({
 const mockSetHeaderFnProp = jest.fn()
 
 const mockProps = {
-  selectedEntity: null,
+  selectedEntity: null as unknown as DirectorySecondaryMid,
   resetError: jest.fn(),
   setError: jest.fn(),
   setIsEntityFound: jest.fn(),
@@ -107,7 +108,7 @@ describe('SingleViewSecondaryMid', () => {
   })
 
   it('should display error message if selected entity is not found', () => {
-    mockGetMerchantSecondaryMidResponse = null
+    mockGetMerchantSecondaryMidResponse = null as unknown as DirectorySecondaryMid
     render(getSingleViewSecondaryMidComponent())
     expect(screen.getByText('Secondary MID could not be found. Check that it has not been deleted or refresh your browser')).toBeInTheDocument()
   })

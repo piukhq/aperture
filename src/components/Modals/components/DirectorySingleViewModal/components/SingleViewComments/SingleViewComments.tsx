@@ -10,8 +10,8 @@ type Props = {
 }
 
 const SingleViewComments = ({subjectType}: Props) => {
-  const {merchantId: ownerRef, ref, sub_location_ref} = useGetRouterQueryString()
-  const commentsRef = sub_location_ref || ref
+  const {merchantId: ownerRef = '', ref, sub_location_ref} = useGetRouterQueryString()
+  const commentsRef = sub_location_ref || ref || ''
 
   const {
     getCommentsResponse: comments,

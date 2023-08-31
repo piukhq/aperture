@@ -26,7 +26,7 @@ const mockProps = {
   errorResponse: null,
   handleValidation: jest.fn(),
   validationErrorMessage: mockValidationErrorMessage,
-  warningMessage: null,
+  warningMessage: '',
 }
 
 const getSingleViewEditableField = (passedProps = {}) => (

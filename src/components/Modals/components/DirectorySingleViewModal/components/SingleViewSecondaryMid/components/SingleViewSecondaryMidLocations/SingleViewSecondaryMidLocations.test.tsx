@@ -3,6 +3,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import SingleViewSecondaryMidLocations from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidLocations'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
+import {DirectoryLocation} from 'types'
 
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/LinkedListItem', () => () => <div data-testid='LinkedListItem' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/SingleViewCombobox', () => () => <div data-testid='SingleViewCombobox' />)
@@ -13,7 +14,7 @@ let mockGetMerchantSecondaryMidLinkedLocationsResponse = [{
   location_title: 'mock_location_title',
 }]
 
-let mockGetMerchantLocations = []
+let mockGetMerchantLocations = [] as unknown as DirectoryLocation[]
 
 jest.mock('hooks/useDirectorySecondaryMidLocations', () => ({
   useDirectorySecondaryMidLocations: jest.fn().mockImplementation(() => ({
@@ -98,8 +99,13 @@ describe('SingleViewSecondaryMidLocations', () => {
     beforeEach(() => {
       mockGetMerchantLocations = [{
         location_ref: 'mock_location_ref',
+        location_status: 'mock_location_status',
+        date_added: 'mock_date_added',
         location_metadata: {
           name: 'mock_location_name',
+          location_id: 'mock_location_id',
+          is_physical_location: true,
+          postcode: 'mock_postcode',
         },
       }]
     })

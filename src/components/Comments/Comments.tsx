@@ -44,14 +44,14 @@ const Comments = ({
 }: Props) => {
   const router = useRouter()
   const currentRoute = router.asPath
-  const {planId} = useGetRouterQueryString()
+  const planId = useGetRouterQueryString().planId || ''
   const {hasRequiredPermission} = usePermissions()
 
-  const commentsContainerRef = useRef(null)
+  const commentsContainerRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     // Only scroll to the top when NEW comment is added. Will likely not do this for replies to comments
-    if (newCommentIsSuccess && !newCommentIsLoading) {
+    if (newCommentIsSuccess && !newCommentIsLoading && commentsContainerRef.current) {
       // Scroll to the top of container when new comment is added
       commentsContainerRef.current.scrollTo({
         top: 0,

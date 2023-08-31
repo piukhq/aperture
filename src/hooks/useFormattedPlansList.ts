@@ -13,9 +13,9 @@ export const useFormattedPlansList = () => {
       const list = (devPlans || []).concat(stagingPlans || []).concat(prodPlans || [])
 
       const uniqueNameList = _uniqBy(list, 'slug').map(plan => {
-        const devPlan = devPlans && devPlans.find(devPlan => devPlan.slug === plan.slug)
-        const stagingPlan = stagingPlans && stagingPlans.find(stagingPlan => stagingPlan.slug === plan.slug)
-        const prodPlan = prodPlans && prodPlans.find(prodPlan => prodPlan.slug === plan.slug)
+        const devPlan = devPlans && devPlans.find(devPlan => devPlan?.slug === plan.slug)
+        const stagingPlan = stagingPlans && stagingPlans.find(stagingPlan => stagingPlan?.slug === plan.slug)
+        const prodPlan = prodPlans && prodPlans.find(prodPlan => prodPlan?.slug === plan.slug)
 
         return {
           ...plan,

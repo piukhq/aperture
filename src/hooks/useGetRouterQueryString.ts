@@ -10,8 +10,7 @@ type DirectoryQueries = {
 
 const useGetRouterQueryString = () => { // This converts the router query values to strings to be strictly typed and avoid TS errors
   const router = useRouter()
-  const routerQuery = router.query
-
+  const routerQuery:DirectoryQueries = router.query
   const convertQueryToStrings = (routerQuery: Record<string, string | string[]>): DirectoryQueries => {
     const convertedQuery = Object.keys(routerQuery).reduce((acc, key) => {
       const value = routerQuery[key]

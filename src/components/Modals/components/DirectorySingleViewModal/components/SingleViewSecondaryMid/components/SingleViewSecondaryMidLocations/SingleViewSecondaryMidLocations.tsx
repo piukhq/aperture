@@ -12,13 +12,13 @@ import {useDirectoryLocations} from 'hooks/useDirectoryLocations'
 import {useAppDispatch} from 'app/hooks'
 
 const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to add/remove new secondary mid locations
-  const {merchantId, planId, ref} = useGetRouterQueryString()
+  const {merchantId, planId = '', ref} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
 
   const [shouldRenderDropdownMenu, setShouldRenderDropdownMenu] = useState<boolean>(false)
   const [shouldGetAvailableLocations, setShouldGetAvailableLocations] = useState<boolean>(false)
-  const [selectedAvailableLocation, setSelectedAvailableLocation] = useState(null)
-  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState<number>(null)
+  const [selectedAvailableLocation, setSelectedAvailableLocation] = useState<DirectoryLocation | null>(null)
+  const [selectedUnlinkLocationIndex, setSelectedUnlinkLocationIndex] = useState<number | null>(null)
   const [availableLocationNotification, setAvailableLocationNotification] = useState<string>('No Locations available to link for this Secondary MID') // TODO: Placeholder for future location functionality changes
 
   const {
@@ -39,7 +39,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   })
 
   const {
-    getMerchantLocationsResponse: locationsData,
+    getMerchantLocationsResponse: locationsData = [],
     getMerchantLocationsIsLoading: locationsDataIsLoading,
     getMerchantLocationsRefresh: locationsDataRefresh,
   } = useDirectoryLocations({
@@ -99,7 +99,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
           planRef: planId,
           merchantRef: merchantId,
           secondaryMidRef: ref,
-          locationRef: selectedAvailableLocation.location_ref,
+          locationRef: selectedAvailableLocation?.location_ref || '',
         })
       }
     }
@@ -110,7 +110,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
           <SingleViewCombobox
             selectedEntity={selectedAvailableLocation}
             availableEntities={locationsData}
-            entityValueFn={(entity: DirectoryLocation) => entity?.location_metadata?.name}
+            entityValueFn={(entity: DirectoryLocation) => entity.location_metadata?.name || ''}
             onChangeFn={setSelectedAvailableLocation}
             entityLabel = 'Location'
             isDisabled={postMerchantSecondaryMidLocationLinkIsLoading}
@@ -119,7 +119,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
 
         <div className='flex items-center gap-[10px]'>
           <Button
-            handleClick={!postMerchantSecondaryMidLocationLinkIsLoading ? onSaveHandler : null}
+            handleClick={!postMerchantSecondaryMidLocationLinkIsLoading ? onSaveHandler : () => null}
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
@@ -204,7 +204,7 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
       <section>
         <h2 className='font-modal-heading'>LINKED LOCATIONS</h2>
         <div className='flex flex-col gap-[14px]'>
-          {getMerchantSecondaryMidLinkedLocationsResponse.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
+          {getMerchantSecondaryMidLinkedLocationsResponse?.map((secondaryMidLocation: DirectoryMerchantMidLocation, index) => renderLocation(secondaryMidLocation, index))}
         </div>
       </section>
     )

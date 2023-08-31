@@ -3,6 +3,7 @@ import {DecodedUserAuthToken} from 'types'
 import {decodeAuthToken} from 'utils/jwtToken'
 
 const afterCallback = (req, res, session) => {
+  //@ts-expect-error - Partially typed from auth0 boilerplate
   const {permissions}: DecodedUserAuthToken = decodeAuthToken(session.accessToken)
 
   if (permissions) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import {render} from '@testing-library/react'
+import {fireEvent, render} from '@testing-library/react'
 import DirectoryPage from 'pages/mid-management/directory'
 import {Provider} from 'react-redux'
 import configureStore from 'redux-mock-store'
@@ -51,6 +51,26 @@ const mockUseDirectoryPlans = {
         ],
       },
     },
+    {
+      plan_ref: 'mock_ref_3',
+      plan_metadata: {
+        name: 'mock_OTHER_3',
+        icon_url: 'mock_icon_url',
+        slug: 'mock_slug',
+        plan_id: 0,
+      },
+      plan_counts: {
+        merchants: 1,
+        locations: 1,
+        payment_schemes: [
+          {
+            label: 'mock_scheme',
+            slug: PaymentSchemeSlug.VISA,
+            count: 1,
+          },
+        ],
+      },
+    },
   ],
   getPlansIsLoading: false,
 }
@@ -84,11 +104,42 @@ describe('MID Management DirectoryPage', () => {
     })
   })
 
+  describe('Test search functionality', () => {
+    it('should render the Search input', () => {
+      const {getByLabelText} = render(getDirectoryPageComponent())
+      expect(getByLabelText('Search')).toBeInTheDocument()
+    })
+
+    it('should filter the plans based on search input', () => {
+      const {getByLabelText, getAllByTestId} = render(getDirectoryPageComponent())
+      const searchInput = getByLabelText('Search')
+      fireEvent.change(searchInput, {target: {value: 'mock_name'}})
+      const planTiles = getAllByTestId('directory-tile')
+      expect(planTiles).toHaveLength(2)
+    })
+
+    it('should render the correct number of plans when search input is cleared', () => {
+      const {getByLabelText, getAllByTestId} = render(getDirectoryPageComponent())
+      const searchInput = getByLabelText('Search')
+      fireEvent.change(searchInput, {target: {value: 'mock_name'}})
+      fireEvent.change(searchInput, {target: {value: ''}})
+      const planTiles = getAllByTestId('directory-tile')
+      expect(planTiles).toHaveLength(mockUseDirectoryPlans.getPlansResponse.length)
+    })
+
+    it('should render the No Matches message when no plans match the search input', () => {
+      const {getByLabelText, getByText} = render(getDirectoryPageComponent())
+      const searchInput = getByLabelText('Search')
+      fireEvent.change(searchInput, {target: {value: 'no matches'}})
+      expect(getByText('No matches returned. Please check spelling and try again')).toBeInTheDocument()
+    })
+  })
+
   describe('Test plan content', () => {
     it('should render correct number of plan tiles', () => {
       const {getAllByTestId} = render(getDirectoryPageComponent())
       const planTiles = getAllByTestId('directory-tile')
-      expect(planTiles).toHaveLength(2)
+      expect(planTiles).toHaveLength(mockUseDirectoryPlans.getPlansResponse.length)
     })
   })
 

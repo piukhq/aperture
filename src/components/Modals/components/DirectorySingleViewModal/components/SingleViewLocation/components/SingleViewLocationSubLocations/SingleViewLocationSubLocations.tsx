@@ -54,7 +54,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     <DirectoryMerchantLocationForm
       location={location}
       isNewLocationSubLocation={true}
-      parentLocation={location.location_metadata.name}
+      parentLocation={location.location_metadata.name || ''}
       onSaveHandler={handleSave}
       setIsInEditState={setIsInEditState}
       onCancelHandler={onCancelEditState}
@@ -104,7 +104,7 @@ const SingleViewLocationSubLocations = ({location, isInEditState, setIsInEditSta
     <section>
       <h2 className='font-modal-heading'>SUB-LOCATIONS</h2>
       <div className='flex flex-col gap-[14px]'>
-        {getMerchantLocationSubLocationsResponse.map((subLocation) => renderSubLocation(subLocation))}
+        {getMerchantLocationSubLocationsResponse?.map((subLocation) => renderSubLocation(subLocation))}
       </div>
     </section>
   )
