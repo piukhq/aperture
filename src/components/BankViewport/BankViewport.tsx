@@ -1,13 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
-import {LoyaltyCardApi2, LoyaltyVoucherApi2} from 'types'
-import {timeStampToDate} from 'utils/dateFormat'
+import {LoyaltyCardApi2} from 'types'
 import localFont from 'next/font/local'
 import LinkLloydsSvg from 'icons/svgs/link-lloyds.svg'
 import InfoSvg from 'icons/svgs/info.svg'
-import TicketSvg from 'icons/svgs/ticket.svg'
-import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
-import CloseSvg from 'icons/svgs/close.svg'
+import Voucher from './components/Voucher'
+import VoucherView from './components/VoucherView'
+import Transaction from './components/Transaction'
 
 const lloyds = localFont({
   src: [
@@ -30,6 +29,11 @@ const lloyds = localFont({
   ],
   variable: '--font-lloyds',
 })
+
+const ViewWrapper = ({children}) => ( // Provides a wrapper for the views to ensure above lloyds styling is applied
+  <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>{children}</div>
+)
+
 type Props = {
   loyaltyCard: LoyaltyCardApi2
 }
@@ -112,38 +116,13 @@ const BankViewport = ({loyaltyCard}: Props) => {
     )
   }
 
-  const renderVouchers = () => { // This code currently only supports one issued voucher, need to check for unique identifiers for multiple
+  const renderVouchers = () => { // This code currently only supports one issued voucher, need to check for unique identifiers for multiple if need be
     const issuedVouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state === 'issued')
-    const renderDateDetails = (voucher: LoyaltyVoucherApi2) => {
-      switch (voucher.state) {
-        case 'issued':
-          return <p>Expires: {timeStampToDate(Number(voucher.expiry_date), {isShortMonthYear: true})}</p>
-        default: return <p></p>
-      }
-    }
-
     if (issuedVouchers.length === 0) {
       return <p className='font-body-3'>There are no issued vouchers to display</p>
+    } else {
+      return issuedVouchers.map((voucher, index) => <Voucher voucher={voucher} key={index} onClickFn={() => setSelectedVoucherIndex(index)} />)
     }
-
-    return issuedVouchers.map((voucher, index) => {
-      const {state, reward_text: rewardText} = voucher
-      return (
-        <button key={index} onClick={() => setSelectedVoucherIndex(loyaltyCard.vouchers.findIndex(voucher => voucher.state === 'issued'))} className='border-2 border-grey-300 rounded flex flex-col p-4 mx-6 mb-8'>
-          <p className='bg-lloydsGreen text-white text-sm font-medium w-max px-2 py-1 rounded'>{state.toLocaleUpperCase()}</p>
-          <div className='flex items-center gap-4 border-b border-dashed border-grey-300 py-4'>
-            <div className='w-6 h-4'>
-              <TicketSvg className='fill-lloydsGreen'/>
-            </div>
-            <span className='text-lloydsGreen text-lg'>{rewardText}</span>
-          </div>
-          <div className='w-full flex justify-between pt-4 text-sm items-center'>
-            <span>{renderDateDetails(voucher)}</span>
-            <ArrowDownSvg className='-rotate-90 fill-grey-500 mr-4' />
-          </div>
-        </button>
-      )
-    })
   }
 
   const renderTransactions = () => {
@@ -151,18 +130,7 @@ const BankViewport = ({loyaltyCard}: Props) => {
     if (transactions.length === 0) {
       return <p>There are no transactions to display</p>
     }
-    return transactions.map((transaction) => {
-      const {timestamp, description, display_value: displayValue, id} = transaction
-      return (
-        <div key={id} className='flex justify-between items-center border-t border-t-grey-400'>
-          <div className=' flex flex-col py-3'>
-            <p className='text-lloydsGreen text-sm font-bold'>{timeStampToDate(timestamp, {isShortMonthYear: true})}</p>
-            <p className='capitalize'>{description}</p>
-          </div>
-          <span className='text-sm font-bold'>{displayValue}</span>
-        </div>
-      )
-    })
+    return transactions.map((transaction, index) => <Transaction key={index} transaction={transaction} />)
   }
 
   const renderAccumalatorHeroInfo = () => (
@@ -178,40 +146,19 @@ const BankViewport = ({loyaltyCard}: Props) => {
       <span>stamps</span>
     </div>
   )
-
   // Voucher View Screen
   if (selectedVoucherIndex !== null) {
     const voucherImageUrl = loyaltyCard.images.find((image) => image.type === 3)?.url || ''
-    const selectedVoucher = loyaltyCard.vouchers[selectedVoucherIndex]
-    const {reward_text: rewardText, expiry_date: expiryDate, voucher_code: voucherCode, body_text: bodyText, terms_and_conditions: termsAndConditons} = selectedVoucher
     return (
-      <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white h-[800px]`}>
-        <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
-          <button onClick={() => setSelectedVoucherIndex(null)}><ArrowDownSvg className='w-6 rotate-90 scale-[200%] fill-blue/70 mt-5 ml-4' /></button>
-          <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName} Voucher</h1>
-          <button onClick={() => setSelectedVoucherIndex(null)}><CloseSvg className='w-6 fill-blue/70 mr-4'/></button>
-        </div>
-        <section className='flex flex-col justify-center items-center p-4 mb-4 pt-6'>
-          <Image src={voucherImageUrl} alt='' width={100} height={100} className='shadow-md'/>
-          <p className='mt-2'>{rewardText}</p>
-          <p className='text-blue'>Ready to be redeemed</p>
-        </section>
-        <section className='px-5 flex flex-col gap-2'>
-          <div className='flex w-full gap-4 text-left mb-4'>
-            <InfoSvg className='fill-blue/70 w-4 scale-[200%] rotate-180 mt-2'/>
-            <p className='w-full'>{bodyText}</p>
-          </div>
-          <p>Voucher code: <span className='ml-1 font-medium'>{voucherCode}</span></p>
-          <p>Voucher expires: <span className='ml-1 font-medium'>{ timeStampToDate(Number(expiryDate), {isShortMonthYear: true})}</span></p>
-          <a href={termsAndConditons} target='_' className='mt-6 text-blue text-sm'>View retailer&apos;s terms and conditions</a>
-        </section>
-      </div>
+      <ViewWrapper>
+        <VoucherView voucher={loyaltyCard.vouchers[selectedVoucherIndex]} loyaltyPlanName={loyaltyPlanName} imageUrl={voucherImageUrl} onCloseFn={() => setSelectedVoucherIndex(null)} />
+      </ViewWrapper>
     )
   }
 
   // Card Details View Screen
   return (
-    <div className={`${lloyds.variable} font-lloyds text-grey-700 w-[400px] shadow-md rounded-2xl bg-white`}>
+    <ViewWrapper>
       <div className='flex w-full h-14 justify-between items-center text-lg border-b border-b-grey-200'>
         <h1 className='w-full p-2 rounded-t-2xl text-center'>{loyaltyPlanName}</h1>
       </div>
@@ -223,7 +170,6 @@ const BankViewport = ({loyaltyCard}: Props) => {
         </div>
         <p className='uppercase'>{cardNumber}</p>
       </section>
-      {/* Inprogress Voucher Section */}
       <section className='w-full text-center flex items-center justify-center mb-4'>
         {renderInProgressVoucher()}
       </section>
@@ -242,16 +188,15 @@ const BankViewport = ({loyaltyCard}: Props) => {
       <section className='w-full px-4 mb-6 flex flex-col'>
         <div className='flex justify-between items-center mb-5'>
           <h2 className='text-xl font-light'>Your voucher(s)</h2>
-          <button className='text-lloydsGreen text-lg font-medium'>See all</button> {/* TODO: Make a button functional*/}
+          <button className='text-lloydsGreen text-lg font-medium'>See all</button> {/* TODO: Make button functional*/}
         </div>
         {renderVouchers()}
       </section>
-      {/* Transactions Section */}
       <section className='w-full px-4 flex flex-col mb-6'>
         <h2 className='text-xl font-light mb-3'>Latest transactions</h2>
         {renderTransactions()}
       </section>
-    </div>
+    </ViewWrapper>
   )
 }
 
