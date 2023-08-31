@@ -3,7 +3,7 @@ import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, reset as merchantReset} from 'features/directoryMerchantSlice'
+import {getSelectedDirectoryMerchantEntity, resetMerchant} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
@@ -118,7 +118,7 @@ const DirectorySingleViewModal = () => {
   const singleViewEntityLabel = DirectorySingleViewEntities[tab]
 
   const closeSingleViewModal = useCallback(() => {
-    dispatch(merchantReset())
+    dispatch(resetMerchant())
     dispatch(requestModal(ModalType.NO_MODAL))
     router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
   }, [dispatch, router, planId, merchantId, tab])
@@ -295,7 +295,7 @@ const DirectorySingleViewModal = () => {
     </>
   )
 
-  const handleModelClose = useCallback(() => {
+  const handleModalClose = useCallback(() => {
     resetDeleteMerchantMidResponse()
     resetDeleteMerchantSecondaryMidResponse()
     resetDeleteMerchantLocationResponse()
@@ -311,7 +311,7 @@ const DirectorySingleViewModal = () => {
 
   if (ref) {
     return (
-      <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModelClose}>
+      <Modal modalStyle={ModalStyle.CENTERED_HEADING} modalHeader={entityHeading} onCloseFn={handleModalClose}>
         {renderContent()}
         {/* Form buttons shall appear except when editing a location, then the EditLocationForm will handle the form's buttons */}
         {!(tab === DirectoryNavigationTab.LOCATIONS && isInLocationEditState) && (
