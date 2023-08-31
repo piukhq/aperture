@@ -11,21 +11,23 @@ type DirectoryMerchantSliceState = {
   selectedTableCheckedRows: boolean[]
   selectedTableCheckedRefs: string[]
 }
+
+const initialMerchantState = {
+  merchant_metadata: {
+    name: '',
+    icon_url: '',
+    location_label: '',
+  },
+  merchant_ref: '',
+  merchant_counts: {
+    locations: 0,
+    payment_schemes: [],
+  },
+}
 const initialState: DirectoryMerchantSliceState = {
   selectedEntity: null,
   selectedPaymentScheme: null,
-  selectedMerchant: {
-    merchant_metadata: {
-      name: '',
-      icon_url: '',
-      location_label: '',
-    },
-    merchant_ref: '',
-    merchant_counts: {
-      locations: 0,
-      payment_schemes: [],
-    },
-  },
+  selectedMerchant: initialMerchantState,
   selectedEntityCheckedSelection: [],
   selectedTableCheckedRows: [],
   selectedTableCheckedRefs: [],
@@ -59,6 +61,9 @@ export const directoryMerchantSlice = createSlice({
       state.selectedTableCheckedRefs = []
     },
     reset: () => initialState,
+    resetMerchant: (state) => {
+      state.selectedMerchant = initialMerchantState
+    },
   },
 })
 
@@ -70,6 +75,7 @@ export const {
   setSelectedDirectoryTableCheckedRows,
   setSelectedDirectoryTableCheckedRefs,
   resetSelectedDirectoryEntities,
+  resetMerchant,
   reset,
 } = directoryMerchantSlice.actions
 
