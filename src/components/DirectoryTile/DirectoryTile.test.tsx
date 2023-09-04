@@ -96,7 +96,7 @@ describe('DirectoryTile', () => {
     })
   })
 
-  describe('Test plan specific behavior', () => {
+  describe('Test plan specific behaviour', () => {
     it('should show merchant count when multiple merchants found', () => {
       const props = {
         ...mockProps,
@@ -124,22 +124,19 @@ describe('DirectoryTile', () => {
 
       expect(merchantText).toBeInTheDocument()
     })
-
-    it('should show locations count when only one merchant found', () => {
-      const props = {
+  })
+  describe('Test merchant specific behaviour', () => {
+    it('should not show merchant count', () => {
+      const merchantProps = {
         ...mockProps,
-        counts: {
-          ...mockProps.counts,
-          merchants: 1,
-        },
+        isMerchant: true,
       }
-      const {queryByText} = render(getPlanDirectoryTile(props))
-      const locationText = queryByText(/2 Locations/)
+      const {queryByText} = render(getPlanDirectoryTile(merchantProps))
+      const merchantText = queryByText(/Merchants/)
 
-      expect(locationText).toBeInTheDocument()
+      expect(merchantText).not.toBeInTheDocument()
     })
   })
-  // TODO: Test Merchant Specific things when implemented
 })
 
 
