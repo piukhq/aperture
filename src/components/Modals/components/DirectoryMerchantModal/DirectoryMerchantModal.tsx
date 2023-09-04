@@ -130,11 +130,10 @@ const DirectoryMerchantModal = () => {
 
   const validateMerchant = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
         if (isNewMerchant) {
-          const planRef = planId || selectedPlan.plan_ref
+          const planRef = selectedPlan.plan_ref
           postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef})
         } else {
           putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId, merchantRef})
