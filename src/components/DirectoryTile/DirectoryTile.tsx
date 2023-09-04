@@ -26,16 +26,16 @@ type Props = {
   counts: DirectoryTileCounts
   optionsMenuItems: OptionsMenuItems
   viewClickFn: VoidFunction
+  isMerchant?: boolean
 }
 
-const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props) => {
+const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn, isMerchant}: Props) => {
   const [imageLoadError, setImageLoadError] = useState<boolean>(false)
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const {
     name,
     icon_url: iconUrl,
-    plan_id: planId,
     location_label: locationLabel,
   } = metadata
 
@@ -46,10 +46,15 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
   } = counts
 
   const renderChildCount = () => {
-    if (planId) { // Determines if this is a plan as opposed to a merchant
-      return merchants === 1 ? getCountWithCorrectNoun(locations, 'Location') : `${merchants} Merchants`
-    } else {
+    if (isMerchant) {
       return `${locations} ${locationLabel ? locationLabel : 'Locations'}`
+    } else {
+      return (
+        <>
+          <p className='font-subheading-5 w-full text-center'>{getCountWithCorrectNoun(merchants || 0, 'Merchant')}</p>
+          <p className='font-subheading-5 w-full text-center'>{getCountWithCorrectNoun(locations, 'Location')}</p>
+        </>
+      )
     }
   }
 
@@ -80,7 +85,7 @@ const DirectoryTile = ({metadata, counts, optionsMenuItems, viewClickFn}: Props)
   }
 
   return (
-    <div className={`relative h-[330px] rounded-[20px] bg-white dark:bg-grey-825 shadow-md ${!isMobileViewport ? 'w-[330px]' : 'w-[270px]'}`}>
+    <div className={`relative h-[350px] rounded-[20px] bg-white dark:bg-grey-825 shadow-md ${!isMobileViewport ? 'w-[330px]' : 'w-[270px]'}`}>
       {optionsMenuItems.length > 0 && (
         <div className='absolute top-[17px] right-[20px]'>
           <OptionsMenuButton optionsMenuItems={optionsMenuItems}/>
