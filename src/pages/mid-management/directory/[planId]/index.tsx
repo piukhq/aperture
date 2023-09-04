@@ -191,7 +191,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             },
           ]
 
-          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={tileOptionsMenuItems} viewClickFn={handleViewClick} />
+          return <DirectoryTile key={merchant_ref} metadata={merchant_metadata} counts={merchant_counts} optionsMenuItems={tileOptionsMenuItems} viewClickFn={handleViewClick} isMerchant />
         })}
       </div>
     )
