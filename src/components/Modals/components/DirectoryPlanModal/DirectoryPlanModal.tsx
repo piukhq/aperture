@@ -41,15 +41,6 @@ const DirectoryPlanModal = () => {
   const [nameValidationError, setNameValidationError] = useState<string>('')
   const [planIdValidationError, setPlanIdValidationError] = useState<string>('')
   const [slugValidationError, setSlugValidationError] = useState<string>('')
-  const [isCloseButtonFocused, setIsCloseButtonFocused] = useState<boolean>(false)
-
-  useEffect(() => { // Reset error when close button is focused
-    if (isCloseButtonFocused) {
-      setNameValidationError('')
-      setPlanIdValidationError('')
-      setSlugValidationError('')
-    }
-  }, [isCloseButtonFocused])
 
   const handlePlanError = useCallback((planError: RTKQueryErrorResponse) => {
     const {status, data} = planError
@@ -102,14 +93,19 @@ const DirectoryPlanModal = () => {
 
   const handlePlanIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPlanIdValue(event.target.value)
-    setPlanIdValidationError('')
+    const validPlanIdRegex = /^\d*$/ // check of event target value is a valid plan ID, which can only contain numbers
+    if(!validPlanIdRegex.test(event.target.value) && event.target.value !== '') {
+      setPlanIdValidationError('Unsupported characters')
+    } else {
+      setPlanIdValidationError('')
+    }
+
   }
 
   const handleSlugChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const lowerCasedValue = event.target.value.toLowerCase()
     setSlugValue(lowerCasedValue)
-    // check of event target value is a valid slug, which can only contain lower case letters, minus and hyphens
-    const validSlugRegex = /^[a-z-]*$/
+    const validSlugRegex = /^[a-z-]*$/ // check of event target value is a valid slug, which can only contain lower case letters, minus and hyphens
     if (!validSlugRegex.test(lowerCasedValue) && lowerCasedValue !== '') {
       setSlugValidationError('Unsupported characters')
     } else {
@@ -159,7 +155,6 @@ const DirectoryPlanModal = () => {
         error={nameValidationError}
         value={nameValue}
         onChange={handleNameChange}
-        onFocus={() => setNameValidationError('')}
         onBlur={handleNameBlur}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
@@ -173,7 +168,6 @@ const DirectoryPlanModal = () => {
         maxLength={9} // TODO: raise this limit once the int size is increased in the API
         value={planIdValue}
         onChange={handlePlanIdChange}
-        onFocus={() => setPlanIdValidationError('')}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
@@ -185,7 +179,6 @@ const DirectoryPlanModal = () => {
         error={slugValidationError}
         value={slugValue}
         onChange={handleSlugChange}
-        onFocus={() => setSlugValidationError('')}
         inputType={InputType.TEXT}
         inputStyle={InputStyle.FULL}
         inputWidth={InputWidth.FULL}
@@ -195,7 +188,7 @@ const DirectoryPlanModal = () => {
   )
 
   return (
-    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())} setIsCloseButtonFocused={setIsCloseButtonFocused}>
+    <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePlan}>
         <div className='w-full flex items-center justify-center my-[4px]'>
           <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>
@@ -213,6 +206,7 @@ const DirectoryPlanModal = () => {
             buttonBackground={ButtonBackground.BLUE}
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.SEMIBOLD}
+            isDisabled={!!nameValidationError || !!planIdValidationError || !!slugValidationError}
           >{isNewPlan ? 'Add Plan' : 'Save Changes'}
           </Button>
         </div>
