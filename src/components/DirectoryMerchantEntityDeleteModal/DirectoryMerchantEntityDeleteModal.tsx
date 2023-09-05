@@ -39,7 +39,6 @@ const DirectoryMerchantEntityDeleteModal = ({
   const [errorMessage, setErrorMessage] = useState<string>('')
   const entityLabel = `${DirectorySingleViewEntities[tab as keyof typeof DirectorySingleViewEntities]}${entitiesToBeDeleted.length > 1 ? 's' : ''}`
 
-
   const handleReasonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setReasonValue(event.target.value)
     setReasonValidationError('')
@@ -69,7 +68,6 @@ const DirectoryMerchantEntityDeleteModal = ({
     return (
       <li className='font-bold flex items-center gap-[2px]' key={entityRef}>
         {entityValue}
-
         {paymentSchemeSlug && (
           <PaymentCardIcon
             paymentSchemeSlug={paymentSchemeSlug}
