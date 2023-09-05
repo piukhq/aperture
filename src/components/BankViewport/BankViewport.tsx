@@ -116,12 +116,14 @@ const BankViewport = ({loyaltyCard}: Props) => {
     )
   }
 
-  const renderVouchers = () => { // This code currently only supports one issued voucher, need to check for unique identifiers for multiple if need be
+  const renderVouchers = () => { // This placeholder code currently only supports one issued voucher, need to adjust when requirments are fully defined
     const issuedVouchers = loyaltyCard.vouchers.filter((voucher) => voucher.state === 'issued')
+    const issuedVoucherIndex = loyaltyCard.vouchers.findIndex((voucher) => voucher.state === 'issued')
+
     if (issuedVouchers.length === 0) {
       return <p className='font-body-3'>There are no issued vouchers to display</p>
     } else {
-      return issuedVouchers.map((voucher, index) => <Voucher voucher={voucher} key={index} onClickFn={() => setSelectedVoucherIndex(index)} />)
+      return issuedVouchers.map((voucher, index) => <Voucher voucher={voucher} key={index} onClickFn={() => setSelectedVoucherIndex(issuedVoucherIndex)} />)
     }
   }
 
