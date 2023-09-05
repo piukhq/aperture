@@ -193,7 +193,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     const {slug, plan_id: schemeId} = planDetails.plan_metadata
     const {name, icon_url: iconUrl, location_label: locationLabel} = merchant.merchant_metadata
     return (
-      <DirectoryDetailsHeader planId={schemeId || 0} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
+      <DirectoryDetailsHeader planId={schemeId || null} name={name} slug={slug} iconUrl={iconUrl} locationLabel={locationLabel} isMerchant optionsMenuItems={optionsMenuItems} />
     )
   }
 

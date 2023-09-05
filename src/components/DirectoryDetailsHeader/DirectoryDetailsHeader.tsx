@@ -7,7 +7,7 @@ import {UserPermissions} from 'utils/enums'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
 type Props = {
-  planId: number,
+  planId: number | null,
   name: string,
   iconUrl?: string | null,
   slug?: string,
@@ -68,11 +68,11 @@ const DirectoryDetailsHeader = ({planId, name, iconUrl, slug, isMerchant, locati
               <div className='flex flex-col'>
                 <div className='flex'>
                   <p className='font-subheading-5 text-grey-600 dark:text-grey-500 w-[100px]'>Slug</p>
-                  <p className='font-subheading-3 w-[120px]'>{slug}</p>
+                  <p className='font-subheading-3 w-[120px]'>{slug || 'Not Entered'}</p>
                 </div>
                 <div className='flex'>
-                  <p className='font-subheading-5 text-grey-600 dark:text-grey-500 w-[100px]'>Scheme ID</p>
-                  <p className='font-subheading-3 w-[120px]'>{planId}</p>
+                  <p className='font-subheading-5 text-grey-600 dark:text-grey-500 w-[100px]'>Plan ID</p>
+                  <p className='font-subheading-3 w-[120px]'>{planId || 'Not Entered'}</p>
                 </div>
               </div>
               { isMerchant && renderLocationLabel()}
