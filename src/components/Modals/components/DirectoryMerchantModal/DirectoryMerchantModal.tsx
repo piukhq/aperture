@@ -13,8 +13,8 @@ import {requestModal} from 'features/modalSlice'
 import {ModalStyle, ModalType} from 'utils/enums'
 
 const DirectoryMerchantModal = () => {
-  const {planId = 'å'} = useGetRouterQueryString()
-  const selectedPlan = useAppSelector(getSelectedDirectoryPlan) // Used for when coming from Plans page
+  const {planId} = useGetRouterQueryString()
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan) // Used for when coming from Plans page as it wont have the planId in the query string
 
   const {
     postMerchant,
@@ -28,7 +28,7 @@ const DirectoryMerchantModal = () => {
   } = useDirectoryMerchants({
     skipGetMerchant: true,
     skipGetMerchantCounts: true,
-    planRef: planId,
+    planRef: planId || selectedPlan.plan_ref,
   })
 
   const dispatch = useAppDispatch()
@@ -60,8 +60,7 @@ const DirectoryMerchantModal = () => {
 
   const handleMerchantError = useCallback((merchantError: RTKQueryErrorResponse) => {
     const {status, data} = merchantError
-
-    if (data && data.detail) {
+    if (data && data.detail && Array.isArray(data.detail)) { // Rare edge case that the error response is not an array
       const {detail} = data
       // TODO: Handle error responses other that 409 (duplicate) and everything else
       detail.forEach(err => {
@@ -130,13 +129,13 @@ const DirectoryMerchantModal = () => {
 
   const validateMerchant = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const planRef = planId || selectedPlan.plan_ref
     if (!nameValidationError && !locationLabelValidationError) {
       if (nameValue !== '' && locationLabelValue !== '') {
         if (isNewMerchant) {
-          const planRef = selectedPlan.plan_ref
           postMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef})
         } else {
-          putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef: planId, merchantRef})
+          putMerchant({name: nameValue, location_label: locationLabelValue, iconUrl: imageValue, planRef, merchantRef})
         }
       } else {
         if (nameValue === '') {
