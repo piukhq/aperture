@@ -19,20 +19,19 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
 
   const dispatch = useAppDispatch()
   const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
-
   useEffect(() => { // When component unmounts, clear out the current selected entities
     return () => {
       dispatch(resetSelectedDirectoryEntities())
     }
   }, [dispatch])
 
-  useEffect(() => { // This should trigger when the entity is deleted to reset checked rows
-    if (selectedCheckedRows.length === 0 && tableRows.length > 0) {
+  useEffect(() => { // Update checked state when tableRows change
+    if (selectedCheckedRows.length !== tableRows.length) {
       dispatch(setSelectedDirectoryTableCheckedRows(new Array(tableRows.length).fill(false)))
       setIsAllChecked(false)
       dispatch(setSelectedDirectoryTableCheckedRefs([]))
     }
-  }, [dispatch, selectedCheckedRows, tableRows.length])
+  }, [dispatch, selectedCheckedRows, tableRows])
 
   const handleCheckboxChange = useCallback((rowIndex: number) => {
     const updatedCheckedRowState = selectedCheckedRows.map((item, index) => index === rowIndex ? !item : item)
