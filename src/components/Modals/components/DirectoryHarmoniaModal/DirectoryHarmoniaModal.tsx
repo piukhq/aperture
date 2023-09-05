@@ -19,10 +19,8 @@ const DirectoryHarmoniaModal = () => {
   const hasMultipleEntities = selectedEntities.length > 1
   const entityLabel = `${RouterEntityLabel[tab]}${hasMultipleEntities ? 's' : ''}`
 
-
   const dispatch = useAppDispatch()
   const errorMessage = '' // Placeholder for functionality to be added
-
   const harmoniaAction = useAppSelector(getHarmoniaActionType)
   const harmoniaActionCapitalised = capitaliseFirstLetter(harmoniaAction)
 
