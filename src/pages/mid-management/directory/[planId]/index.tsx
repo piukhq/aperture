@@ -15,7 +15,6 @@ import {setSelectedDirectoryMerchant, reset} from 'features/directoryMerchantSli
 import {setSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {setModalHeader, setCommentsRef, setCommentsSubjectType, setCommentsOwnerRef} from 'features/directoryCommentsSlice'
 import EditSvg from 'icons/svgs/project.svg'
-import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import TableSvg from 'icons/svgs/table.svg'
@@ -103,12 +102,6 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
       icon: <EditSvg/>,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => requestEditPlanModal(),
-    },
-    {
-      label: 'Offboard from Harmonia',
-      icon: <OffboardSvg/>,
-      requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
-      clickHandler: () => console.log('Launch Offboard Modal Placeholder'),
     },
     {
       label: 'View Comments',

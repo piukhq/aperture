@@ -19,7 +19,6 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {CommentsSubjectTypes, ModalType, UserPermissions} from 'utils/enums'
 import AddSvg from 'icons/svgs/plus-filled.svg'
 import EditSvg from 'icons/svgs/project.svg'
-import OffboardSvg from 'icons/svgs/close-square.svg'
 import CommentSvg from 'icons/svgs/comment.svg'
 import DeleteSvg from 'icons/svgs/trash-small.svg'
 import TableSvg from 'icons/svgs/table.svg'
@@ -127,12 +126,6 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           icon: <EditSvg/>,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN),
-        },
-        {
-          label: 'Offboard from Harmonia',
-          icon: <OffboardSvg/>,
-          requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
-          clickHandler: () => console.log('Clicked'),
         },
         {
           label: 'View Comments',
