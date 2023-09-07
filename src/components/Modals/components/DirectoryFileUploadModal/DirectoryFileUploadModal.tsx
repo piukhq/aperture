@@ -160,8 +160,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     dispatch(shouldCloseHidableModal(true))
     return (
       <section className='font-body-3 m-4 flex flex-col gap-4'>
-        <p>Upload has started for {fileType} &quot;{file?.name}&quot;. Depending on filesize, this could take a few minutes.</p>
-        <p>Check the Action Log for further updates on upload progress</p>
+        <p>Upload to Bullsquid has started. Depending on the filesize, this could take a few minutes.</p>
       </section>
     )
   }
