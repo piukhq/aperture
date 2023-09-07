@@ -114,12 +114,13 @@ describe('DirectoryPlanModal', () => {
       expect(submitButton).toBeInTheDocument()
     })
 
-    it('should render the Add Image input with correct label', () => {
-      render(getDirectoryPlanModalComponent())
-      const imageInput = screen.getByLabelText('Add Image')
+    // TODO: Re-add when functionality exists
+    // it('should render the Add Image input with correct label', () => {
+    //   render(getDirectoryPlanModalComponent())
+    //   const imageInput = screen.getByLabelText('Add Image')
 
-      expect(imageInput).toBeInTheDocument()
-    })
+    //   expect(imageInput).toBeInTheDocument()
+    // })
 
     it('should render the Name input with correct label', () => {
       render(getDirectoryPlanModalComponent())

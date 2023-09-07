@@ -118,12 +118,13 @@ describe('DirectoryMerchantModal', () => {
       expect(submitButton).toBeInTheDocument()
     })
 
-    it('should render the Add Image input with correct label', () => {
-      render(getDirectoryMerchantModalComponent())
-      const imageInput = screen.getByLabelText('Add Image')
+    // TODO: Add test for image input when functionality exists
+    // it('should render the Add Image input with correct label', () => {
+    //   render(getDirectoryMerchantModalComponent())
+    //   const imageInput = screen.getByLabelText('Add Image')
 
-      expect(imageInput).toBeInTheDocument()
-    })
+    //   expect(imageInput).toBeInTheDocument()
+    // })
 
     it('should render the Name input with correct label', () => {
       render(getDirectoryMerchantModalComponent())
