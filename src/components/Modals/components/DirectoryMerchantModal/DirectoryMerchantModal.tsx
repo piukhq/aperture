@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect} from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal, TextInputGroup} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -41,12 +41,12 @@ const DirectoryMerchantModal = () => {
       icon_url: '',
     },
   }
-  const {name, icon_url: iconUrl, location_label: locationLabel} = merchantMetadata
+  const {name, location_label: locationLabel} = merchantMetadata // TODO: Re-add Icon url when functionality exists
 
   const isNewMerchant = !merchantRef
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
-  const [imageValue, setImageValue] = useState<string | null>(null)
+  const [imageValue] = useState<string | null>(null) // TODO: Add SetImage Value when functionality exists
   const [nameValue, setNameValue] = useState<string>(name || '')
   const [locationLabelValue, setLocationLabelValue] = useState<string>(locationLabel || 'Locations')
 
@@ -103,7 +103,7 @@ const DirectoryMerchantModal = () => {
   ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
-  const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => event.target.files && setImageValue(event?.target?.files[0]?.name)
+  // const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => event.target.files && setImageValue(event?.target?.files[0]?.name)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -149,13 +149,13 @@ const DirectoryMerchantModal = () => {
     }
   }
 
-  const renderAddImageLabel = () => (
-    <label
-      htmlFor='merchant-add-image'
-      className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
-    >Add Image</label>
-  )
-  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
+  // const renderAddImageLabel = () => (
+  //   <label
+  //     htmlFor='merchant-add-image'
+  //     className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
+  //   >Add Image</label>
+  // )
+  // const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
     <>
@@ -192,12 +192,12 @@ const DirectoryMerchantModal = () => {
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`${isNewMerchant ? 'New' : 'Edit'} Merchant`} onCloseFn={() => resetSelectors()} setIsCloseButtonFocused={setIsCloseButtonFocused}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validateMerchant}>
-        <div className='w-full flex items-center justify-center my-[4px]'>
+        {/* <div className='w-full flex items-center justify-center my-[4px]'>
           <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>
             {iconUrl ? renderExistingImage() : renderAddImageLabel()}
             <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image' onChange={handleImageInput}/>
           </div>
-        </div>
+        </div> */}
 
         {renderTextFields()}
         <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[16px]'>

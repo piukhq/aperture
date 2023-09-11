@@ -202,8 +202,7 @@ describe('DirectoryFileUploadModal', () => {
 
     it('should render the file uploading copy', () => {
       render(getDirectoryFileUploadModalComponent())
-      expect(screen.getByText(/Upload has started for Merchant Details "good-test.csv". Depending on filesize, this could take a few minutes/)).toBeInTheDocument()
-      expect(screen.getByText('Check the Action Log for further updates on upload progress')).toBeInTheDocument()
+      expect(screen.getByText(/Upload to Bullsquid has started. Depending on the filesize, this could take a few minutes./)).toBeInTheDocument()
     })
 
     it('should not render the upload button', () => {

@@ -1,5 +1,5 @@
 import {useEffect, useState, useCallback} from 'react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import {reset, getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {Button, Modal, TextInputGroup} from 'components'
@@ -29,12 +29,12 @@ const DirectoryPlanModal = () => {
   const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
 
   const {plan_ref, plan_metadata} = selectedPlan
-  const {name, plan_id: planId, slug, icon_url: iconUrl} = plan_metadata
+  const {name, plan_id: planId, slug} = plan_metadata //TODO: Re-add Icon url when functionality exists
 
   const isNewPlan = !plan_ref
 
   // TODO: Input field logic could be refactored when functionality story is worked upon
-  const [imageValue, setImageValue] = useState<string| null>(null)
+  const [imageValue] = useState<string| null>(null) // TODO: Add SetImage Value when functionality exists
   const [nameValue, setNameValue] = useState<string>(name || '')
   const [planIdValue, setPlanIdValue] = useState<string>(`${planId || ''}`)
   const [slugValue, setSlugValue] = useState<string>(slug || '')
@@ -84,7 +84,7 @@ const DirectoryPlanModal = () => {
   ])
 
   // TODO: Add code to display selected Image when added (and also check it is an actual image and other validation)
-  const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => event.target.files && setImageValue(event.target.files[0].name)
+  // const handleImageInput = (event: React.ChangeEvent<HTMLInputElement>) => event.target.files && setImageValue(event.target.files[0].name)
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(event.target.value)
@@ -137,14 +137,14 @@ const DirectoryPlanModal = () => {
     }
   }
 
-  const renderAddImageLabel = () => (
-    <label
-      htmlFor='merchant-add-image'
-      className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
-    >Add Image</label>
-  )
+  // const renderAddImageLabel = () => (
+  //   <label
+  //     htmlFor='merchant-add-image'
+  //     className='h-[127px] w-[127px] rounded-[30px] flex items-center justify-center bg-grey-100 dark:bg-grey-800 text-center font-heading-9 text-grey-700 dark:text-grey-300'
+  //   >Add Image</label>
+  // )
 
-  const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl || ''} width={140} height={140} alt={`${name} plan image`}/>
+  // const renderExistingImage = () => <Image className='rounded-[35px] flex items-center justify-center' src={iconUrl || ''} width={140} height={140} alt={`${name} plan image`}/>
 
   const renderTextFields = () => (
     <>
@@ -190,12 +190,12 @@ const DirectoryPlanModal = () => {
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={isNewPlan ? 'New Plan' : 'Edit Plan'} onCloseFn={() => dispatch(reset())}>
       <form className='flex flex-col gap-[20px] mt-[30px]' onSubmit={validatePlan}>
-        <div className='w-full flex items-center justify-center my-[4px]'>
+        {/* <div className='w-full flex items-center justify-center my-[4px]'>
           <div className={`flex items-center rounded-[35px] justify-center focus-within:ring-2 focus-within:ring-lightBlue ${!iconUrl && 'h-[140px] w-[140px] border-2 border-grey-400 dark:border-grey-600'}`}>
             {iconUrl ? renderExistingImage() : renderAddImageLabel()}
             <input aria-label='Add Image' className='cursor-pointer absolute block opacity-0 h-[140px] w-[140px] pin-r pin-t' type='file' name='merchant-add-image' onChange={handleImageInput}/>
           </div>
-        </div>
+        </div> */}
 
         {renderTextFields()}
         <div className='flex justify-end border-t-[1px] border-grey-200 dark:border-grey-800 pt-[16px]'>
