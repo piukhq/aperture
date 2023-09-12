@@ -26,9 +26,7 @@ export const directoryCsvUploadApi = createApi({
   endpoints: builder => ({
     postCsv: builder.mutation<CsvUploadSuccessResponse, PostCsvBody>({
       query: ({file, file_type, plan_ref, merchant_ref}) => {
-        console.log(file)
         const body = new FormData()
-
         body.append('file', file)
         body.append('file_type', file_type)
         body.append('plan_ref', plan_ref)
