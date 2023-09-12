@@ -5,6 +5,7 @@ export const useDirectoryCsvUpload = () => {
   const [postCsv, {
     data: postCsvResponse,
     isLoading: postCsvIsLoading,
+    isSuccess: postCsvIsSuccess,
     error: postCsvError,
     reset: resetPostCsvResponse,
   }] = usePostCsvMutation({fixedCacheKey: 'postCsv'})
@@ -12,6 +13,7 @@ export const useDirectoryCsvUpload = () => {
     postCsv,
     postCsvResponse,
     postCsvIsLoading,
+    postCsvIsSuccess,
     postCsvError,
     resetPostCsvResponse,
   }

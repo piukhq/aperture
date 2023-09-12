@@ -28,7 +28,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => {
   const planRef = planId || selectedPlan.plan_ref
   const merchantRef = merchantId || selectedMerchant?.merchant_ref
 
-  const {postCsv, postCsvError} = useDirectoryCsvUpload()
+  const {postCsv, postCsvError, postCsvIsSuccess} = useDirectoryCsvUpload()
   const typedPostCsvError = postCsvError as {data: {detail: [{msg: string}]}} // TODO: temporary fix for TS error, will correct in unhappy path PR when we have a proper error handling strategy
 
   const fileTypeLabels = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID'] // The strings shown in the UI
@@ -177,6 +177,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => {
       <section className='font-body-3 m-4 flex flex-col gap-4'>
         <p>Upload to Bullsquid has started. Depending on the filesize, this could take a few minutes.</p>
         { typedPostCsvError && <p className='text-red'>Error: {typedPostCsvError.data?.detail[0].msg}</p> }
+        { postCsvIsSuccess && <p className='text-green'>Upload successful according to Bullsquid</p>}
       </section>
     )
   }
