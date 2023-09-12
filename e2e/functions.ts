@@ -122,7 +122,7 @@ async function add_plan (page, name) {
   await page.getByLabel('Name').click()
   await page.getByLabel('Name').fill(name)
   await page.getByLabel('Plan ID').click()
-  await page.getByLabel('Plan ID').fill(makerandom(10))
+  await page.getByLabel('Plan ID').fill((Math.floor(Math.random() * 90000) + 10000).toString())
   await page.getByLabel('Slug').click()
   await page.getByLabel('Slug').fill(makerandom(10))
   await page.getByRole('button', {name: 'Add Plan'}).click()
@@ -179,12 +179,14 @@ export async function midmanagement_plan (page, text) {
 
 async function add_location (page, name, location_id) {
   const location_ID = location_id || makerandom(5)
+  const merch_id = makerandom(5)
+  await page.getByRole('button', {name: 'Add Locations'}).click()
   await page.getByLabel('Name').click()
   await page.getByLabel('Name').fill(name)
   await page.getByLabel('Location ID').click()
   await page.getByLabel('Location ID').fill(location_ID)
   await page.getByLabel('Merchant Internal ID').click()
-  await page.getByLabel('Merchant Internal ID').fill(makerandom(5))
+  await page.getByLabel('Merchant Internal ID').fill(merch_id)
   await page.getByLabel('Line 1').click()
   await page.getByLabel('Line 1').fill(makerandom(5))
   await page.getByLabel('Postcode').click()
@@ -197,7 +199,6 @@ async function delete_location (page) {
   await page.getByRole('button', {name: 'Delete'}).click()
   await page.getByRole('button', {name: 'Delete Location'}).click()
   await page.getByRole('button', {name: 'Close'}).click()
-
 }
 
 async function duplicate_location_id (page) {
@@ -207,10 +208,7 @@ async function duplicate_location_id (page) {
   await expect(page.locator(`tr:has-text('${name}')`)).toBeVisible()
   await page.getByRole('button', {name: 'Add Locations'}).click()
   await add_location(page, name, location_id)
-  const responsePromise = page.waitForResponse('**/locations')
-  await add_location(page, name, location_id)
-  const response = await responsePromise
-  await expect(response.status()).toBe(409)
+  await expect(page.getByText('Enter unique Location ID', {exact: true})).toBeVisible()
   await page.getByRole('button', {name: 'Close'}).click()
 }
 
@@ -244,72 +242,71 @@ export async function midmanagement_location (page, text) {
   const location_name = makerandom(5)
   const location_id = null
   await add_plan(page, name)
-  // await reload_wait(page, name)
-  await page.goto('https://portal.staging.gb.bink.com/mid-management/directory')
-  await expect(page.locator(`text=${name}`)).toBeVisible()
+  await reload_wait(page, name)
   await add_merchant(page, merch_name)
   await page.getByRole('button', {name: 'View'}).click()
   await page.getByRole('button', {name: 'Locations'}).click()
-  await page.getByRole('button', {name: 'Add Locations'}).click()
   await add_location(page, location_name, location_id)
   await expect(page.locator(`tr:has-text('${location_name}')`)).toBeVisible()
   await delete_location(page)
   await duplicate_location_id(page)
   await mandatory_location(page)
-  await midmanagement_mids(page)
 }
 
-export async function midmanagement_mids (page) {
+export async function midmanagement_mids (page, text) {
+  await page.getByText(text).first()
+    .click(text)
+  const merch_name = makerandom(10)
+  const name = makerandom(10)
+  await add_plan(page, name)
+  await reload_wait(page, name)
+  await add_merchant(page, merch_name)
+  await page.getByRole('button', {name: 'View'}).click()
+  await page.getByRole('button', {name: 'MIDs'}).first()
+    .click()
   await page.getByRole('button', {name: 'Add Visa MID'}).first()
     .click()
-  await page.getByLabel('MID').click()
-  await page.getByLabel('MID').fill(makerandom(5))
+  await page.getByLabel('MID', {exact: true}).click()
+  await page.getByLabel('MID', {exact: true}).fill(makerandom(5))
   await page.getByLabel('BIN').click()
-  await page.getByLabel('BIN').fill(makerandom(5))
-  await page.getByRole('button', {name: 'Add MID'}).first()
-    .click()
-  await page.getByRole('button', {name: 'Add Mastercard MID'}).first()
-    .click()
-  await page.getByLabel('MID').click()
-  await page.getByLabel('MID').fill(makerandom(5))
+  await page.getByLabel('BIN').fill((Math.floor(Math.random() * 90000) + 10000).toString())
+
   await page.getByRole('button', {name: 'Add MID'}).first()
     .click()
   await page.getByLabel('group-checkbox').click()
-  await page.locator('selector').select_option('Delete')
-  await page.getByLabel('Reason for deletion').click()
-  await page.getByLabel('Reason for deletion').fill(makerandom(5))
-  await page.getByRole('button', {name: 'Delete MIDs'}).click()
+  await page.getByRole('button', {name: 'Delete'}).click()
+  await page.getByRole('button', {name: 'Delete MID'}).click()
 }
 
 export async function add_psimi (page, psimi) {
   await page.getByRole('button', {name: 'View'}).click()
   await page.getByRole('button', {name: 'PSIMIs'}).click()
   await page.getByRole('button', {name: 'Add Visa PSIMI'}).click()
-  await page.getByLabel('PSIMI').click()
-  await page.getByLabel('PSIMI').fill(psimi)
+  await page.getByLabel('PSIMI', {exact: true}).click()
+  await page.getByLabel('PSIMI', {exact: true}).fill(psimi)
   await page.getByRole('button', {name: 'Add PSIMI'}).click()
   await expect(page.locator(`tr:has-text('${psimi}')`)).toBeVisible()
 }
 
 export async function add_secondary_mids (page, secondary_mid) {
-  await page.getByRole('button', {name: 'View'}).click()
+  // await page.getByRole('button', {name: 'View'}).click()
   await page.getByRole('button', {name: 'Secondary MIDs'}).click()
   await page.getByRole('button', {name: 'Add Visa Secondary MID'}).click()
-  await page.getByLabel('Secondary MID').click()
-  await page.getByLabel('Secondary MID').fill(secondary_mid)
-  await page.getByRole('button', {name: 'Add Secondary MID-button'}).click()
+  await page.getByLabel('Secondary MID', {exact: true}).click()
+  await page.getByLabel('Secondary MID', {exact: true}).fill(secondary_mid)
+  await page.getByRole('button', {name: 'Add Secondary MID'}).click()
   await expect(page.locator(`tr:has-text('${secondary_mid}')`)).toBeVisible()
 }
 
 export async function delete_secondary_mids (page) {
   await page.getByLabel('group-checkbox').click()
-  await page.locator('selector').select_option('Delete')
+  await page.getByRole('button', {name: 'Delete'}).click()
   await page.getByRole('button', {name: 'Delete Secondary MID'}).click()
 }
 
 export async function delete_psimi (page) {
   await page.getByLabel('group-checkbox').click()
-  await page.locator('selector').select_option('Delete')
+  await page.getByRole('button', {name: 'Delete'}).click()
   await page.getByRole('button', {name: 'Delete PSIMI'}).click()
 }
 
@@ -329,10 +326,19 @@ export async function midmanagement_secondary_mids (page, text) {
   await page.getByText(text).first()
     .click(text)
   const name = makerandom(10)
+  const location_id = makerandom(10)
   const secondary_mid = makerandom(10)
   await add_plan(page, name)
   await reload_wait(page, name)
   await add_merchant(page, makerandom(10))
+  await page.getByRole('button', {name: 'View'}).click()
+  await page.getByRole('button', {name: 'Locations'}).click()
+  await add_location(page, name, location_id)
   await add_secondary_mids(page, secondary_mid)
   await delete_secondary_mids(page)
 }
+
+// async function link_location_secondary_mid (page) {
+//   const name = makerandom(10)
+//   await add_plan(page, name)
+// }

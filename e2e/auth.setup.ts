@@ -1,5 +1,5 @@
 import {test} from '@playwright/test'
-import {check_cred, check_wallet, midmanagement_location, midmanagement_plan, authenticate} from './functions'
+import {check_cred, check_wallet, midmanagement_location, midmanagement_plan, midmanagement_mids, midmanagement_PSIMI, midmanagement_secondary_mids, authenticate} from './functions'
 
 test('asset comparator', async ({page}) => {
   await authenticate(page)
@@ -34,4 +34,25 @@ test('midmanagement location', async ({page}) => {
   await page.goto('https://portal.staging.gb.bink.com/')
   console.log('testing verification of midmanagement location')
   await midmanagement_location(page, 'Mid Directory')
+})
+
+test('midmanagement mids', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement mids')
+  await midmanagement_mids(page, 'Mid Directory')
+})
+
+test('midmanagement psimi', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement psimi')
+  await midmanagement_PSIMI(page, 'Mid Directory')
+})
+
+test('midmanagement secordary mids', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement secondary mids')
+  await midmanagement_secondary_mids(page, 'Mid Directory')
 })
