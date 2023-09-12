@@ -20,7 +20,6 @@ enum UrlEndpoint {
   COMMENTS = '/api/v1/directory_comments',
   USER_LOOKUP = '/api/v1/customer_wallet/user_lookups',
   CSV_UPLOAD = '/api/v1/plans/csv_upload',
-
 }
 
 enum ClientID {
