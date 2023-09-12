@@ -114,6 +114,11 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
       }
 
+      const handleFileUploadClick = () => {
+        setSelectedPlan()
+        dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD))
+      }
+
       const optionsMenuItems:OptionsMenuItems = [
         {
           label: 'Add Merchant',
@@ -136,7 +141,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           label: 'Upload File',
           icon: <TableSvg/>,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
-          clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
+          clickHandler: () => handleFileUploadClick(),
         },
         {
           label: 'Delete Plan',

@@ -2,32 +2,47 @@ import React, {useState, useRef, useEffect} from 'react'
 import Dropdown from 'components/Dropdown'
 import Modal from 'components/Modal/Modal'
 import Button from 'components/Button'
-import {useAppDispatch} from 'app/hooks'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {shouldCloseHidableModal} from 'features/modalSlice'
 import {BorderColour, ButtonBackground, ButtonSize, ButtonType, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
 import {ModalStyle, UserPermissions} from 'utils/enums'
 import UploadSVG from 'icons/svgs/upload.svg'
 import CSVSvg from 'icons/svgs/csv.svg'
 import TrashSvg from 'icons/svgs/trash.svg'
+import {useDirectoryCsvUpload} from 'hooks/useDirectoryCsvUpload'
+import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
+import {getSelectedDirectoryPlan} from 'features/directoryPlanSlice'
+import {getSelectedDirectoryMerchant} from 'features/directoryMerchantSlice'
 
 type Props = {
   isPlanLevelFileUpload?: boolean
 }
 
-type File = {
-  name: string
-  size: number
-  type: string
-}
-
-const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: Add functionality as required by later tickets
+const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => {
+  const {planId, merchantId} = useGetRouterQueryString()
   const dispatch = useAppDispatch()
-  const fileTypes = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID']
+
+  // set planRef and merchantRef to the selected plan and merchant if they are not available in the url
+  const selectedPlan = useAppSelector(getSelectedDirectoryPlan)
+  const selectedMerchant = useAppSelector(getSelectedDirectoryMerchant)
+  const planRef = planId || selectedPlan.plan_ref
+  const merchantRef = merchantId || selectedMerchant?.merchant_ref
+
+  const {postCsv, postCsvError, postCsvIsSuccess} = useDirectoryCsvUpload()
+  const typedPostCsvError = postCsvError as {data: {detail: [{msg: string}]}} // TODO: temporary fix for TS error, will correct in unhappy path PR when we have a proper error handling strategy
+
+  const fileTypeLabels = isPlanLevelFileUpload ? ['Merchant Details', 'Long file', 'MID & Secondary MID'] : ['Long file', 'MID & Secondary MID'] // The strings shown in the UI
+
+  enum ApiFileType { // The strings that the API expects
+    'Merchant Details' = 'merchant_details',
+    'Long file' = 'locations',
+    'MID & Secondary MID' = 'identifiers',
+  }
 
   const [file, setFile] = useState<File | null>(null)
   const [isValidFile, setIsValidFile] = useState<boolean>(false)
   const [isUploading, setIsUploading] = useState<boolean>(false)
-  const [fileType, setFileType] = useState<string>(fileTypes[0])
+  const [fileType, setFileType] = useState<string>(fileTypeLabels[0])
 
   // const fileInputRef = useRef(null) // Default file upload input is hidden and assigned to this ref to trigger file browser
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -51,6 +66,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if(file && isValidFile) {
+      postCsv({file, file_type: ApiFileType[fileType], plan_ref: planRef, merchant_ref: merchantRef})
       setIsUploading(true)
     }
   }
@@ -97,7 +113,6 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
   )
 
   const renderFileUploadPreview = () => {
-
     if(file?.size) {
       return (
         <section className='flex items-center h-[144px] w-[420px] my-[100px] border border-grey-300 dark:border-grey-700 rounded-2xl p-[25px]'>
@@ -130,7 +145,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
         <div className='w-[277px] h-[28px]'>
           <Dropdown
             displayValue={fileType}
-            displayValues={fileTypes}
+            displayValues={fileTypeLabels}
             onChangeDisplayValue={setFileType}
             selectedValueStyles='font-normal text-grey-600'
           />
@@ -161,10 +176,11 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => { // TODO: A
     return (
       <section className='font-body-3 m-4 flex flex-col gap-4'>
         <p>Upload to Bullsquid has started. Depending on the filesize, this could take a few minutes.</p>
+        { typedPostCsvError && <p className='text-red'>Error: {typedPostCsvError.data?.detail[0].msg}</p> }
+        { postCsvIsSuccess && <p className='text-green'>Upload successful according to Bullsquid</p>}
       </section>
     )
   }
-
 
   return (
     <Modal modalStyle={ModalStyle.COMPACT} modalHeader={`File Upload${isUploading ? 'ing' : ''}`}>

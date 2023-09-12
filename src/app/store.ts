@@ -30,6 +30,7 @@ import modalReducer from 'features/modalSlice'
 import {devVerifyApi, stagingVerifyApi, prodVerifyApi} from 'services/users'
 import {devPlansApi, stagingPlansApi, prodPlansApi} from 'services/plans'
 import {directoryCommentsApi} from 'services/DirectoryComments'
+import {directoryCsvUploadApi} from 'services/DirectoryCsvUpload'
 import {directoryPlansApi} from 'services/DirectoryPlans'
 import {directoryMerchantsApi} from 'services/DirectoryMerchants'
 import {directoryMerchantMidsApi} from 'services/DirectoryMerchantMids'
@@ -60,7 +61,8 @@ const reducers = combineReducers({
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
   [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
   [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer,
-  [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer,
+  [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer, // TODO: Remove this duplicate ?
+  [directoryCsvUploadApi.reducerPath]: directoryCsvUploadApi.reducer,
   [directoryPlansApi.reducerPath]: directoryPlansApi.reducer,
   [directoryMerchantsApi.reducerPath]: directoryMerchantsApi.reducer,
   [directoryMerchantMidsApi.reducerPath]: directoryMerchantMidsApi.reducer,
@@ -96,6 +98,7 @@ export const store = configureStore({
     customerWalletApi.middleware,
     customerWalletLookupHistoryApi.middleware,
     directoryCommentsApi.middleware,
+    directoryCsvUploadApi.middleware,
     directoryPlansApi.middleware,
     directoryMerchantsApi.middleware,
     directoryMerchantMidsApi.middleware,

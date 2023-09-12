@@ -149,6 +149,11 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             router.push(`${router?.asPath}/${merchant_ref}?tab=mids`)
           }
 
+          const handleFileUploadClick = () => {
+            setSelectedMerchant()
+            dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD))
+          }
+
           const requestMerchantCommentsModal = () => {
             dispatch(setModalHeader(merchant_metadata.name))
             dispatch(setCommentsRef(merchant_ref))
@@ -173,7 +178,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
               label: 'Upload File',
               icon: <TableSvg/>,
               requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
-              clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
+              clickHandler: () => handleFileUploadClick(),
             },
             {
               label: 'Delete',
