@@ -1,23 +1,58 @@
-import {test as setup} from '@playwright/test'
+import {test} from '@playwright/test'
+import {check_cred, check_wallet, midmanagement_location, midmanagement_plan, midmanagement_mids, midmanagement_PSIMI, midmanagement_secondary_mids, authenticate} from './functions'
 
-const authFile = 'playwright/.auth/user.json'
+test('asset comparator', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of asset comparator')
+  await check_cred(page, 'Asset Comparator')
+})
 
-setup('authenticate', async ({page}) => {
-  // // Perform authentication steps. For example:
-  // await page.goto('http://localhost:3000/')
-  // console.log('authenticating')
-  // await page.getByLabel('Enter your Organization Name').click()
-  // await page.getByLabel('Enter your Organization Name').fill('bink')
-  // await page.getByRole('button', {name: 'Continue'}).click()
-  // await page.getByRole('button', {name: 'Continue with Bink'}).click()
-  // await page.getByPlaceholder('Email, phone, or Skype').fill('xxxxink.com')
-  // await page.getByPlaceholder('Email, phone, or Skype').press('Enter')
-  // await page.getByPlaceholder('Password').click()
-  // await page.getByPlaceholder('Password').fill('xxxx')
-  // await page.getByPlaceholder('Password').press('Enter')
-  // await page.goto('http://localhost:3000/')
+test('plan comparator', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of plan comparator')
+  await check_cred(page, 'Plan Comparator')
+})
 
-  // End of authentication steps.
+test('customer wallet', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of customer wallet')
+  await check_wallet(page, 'Customer Wallets')
+})
 
-  await page.context().storageState({path: authFile})
+test('midmanagement plan', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement plan')
+  await midmanagement_plan(page, 'Mid Directory')
+})
+
+test('midmanagement location', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement location')
+  await midmanagement_location(page, 'Mid Directory')
+})
+
+test('midmanagement mids', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement mids')
+  await midmanagement_mids(page, 'Mid Directory')
+})
+
+test('midmanagement psimi', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement psimi')
+  await midmanagement_PSIMI(page, 'Mid Directory')
+})
+
+test('midmanagement secordary mids', async ({page}) => {
+  await authenticate(page)
+  await page.goto('https://portal.staging.gb.bink.com/')
+  console.log('testing verification of midmanagement secondary mids')
+  await midmanagement_secondary_mids(page, 'Mid Directory')
 })
