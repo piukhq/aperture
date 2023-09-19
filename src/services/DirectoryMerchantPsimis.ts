@@ -9,6 +9,7 @@ type MerchantPsimisEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   psimiRef?: string,
+  psimiRefs?: Array<string>,
 }
 
 type PostMerchantPsimiBody = MerchantPsimisEndpointRefs & {
@@ -111,43 +112,21 @@ export const directoryMerchantPsimisApi = createApi({
     }),
     // TODO: IF there is a requirement to onboard multiple Psimis at once, this will need to be updated
     postMerchantPsimiOnboarding: builder.mutation<DirectoryPsimi, MerchantPsimisEndpointRefs>({
-      query: ({planRef, merchantRef, psimiRef}) => ({
+      query: ({planRef, merchantRef, psimiRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis/onboarding`,
         method: 'POST',
-        body: [psimiRef],
+        body: {psimi_refs: psimiRefs},
       }),
-      invalidatesTags: ['MerchantPsimis'],
-      async onQueryStarted ({planRef, merchantRef, psimiRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: onboardingPsimisArray} = await queryFulfilled
-          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
-            Object.assign(existingPsimi, onboardingPsimisArray[0])
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantPsimi'],
     }),
     // TODO: IF there is a requirement to offboard multiple Psimis at once, this will need to be updated
     postMerchantPsimiOffboarding: builder.mutation<DirectoryPsimi, MerchantPsimisEndpointRefs>({
-      query: ({planRef, merchantRef, psimiRef}) => ({
+      query: ({planRef, merchantRef, psimiRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/psimis/offboarding`,
         method: 'POST',
-        body: [psimiRef],
+        body: {psimi_refs: psimiRefs},
       }),
-      invalidatesTags: ['MerchantPsimis'],
-      async onQueryStarted ({planRef, merchantRef, psimiRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: offboardingPsimisArray} = await queryFulfilled
-          dispatch(directoryMerchantPsimisApi.util.updateQueryData('getMerchantPsimi', ({planRef, merchantRef, psimiRef}), (existingPsimi) => {
-            Object.assign(existingPsimi, offboardingPsimisArray[0])
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantPsimi'],
     }),
   }),
 })
