@@ -10,6 +10,8 @@ type DirectoryMerchantSliceState = {
   selectedEntityCheckedSelection: DirectoryMerchantEntitySelectedItem[]
   selectedTableCheckedRows: boolean[]
   selectedTableCheckedRefs: string[]
+  shouldRefreshEntityList: boolean,
+  hasHarmoniaStatusUpdate: boolean,
 }
 
 const initialMerchantState = {
@@ -31,6 +33,8 @@ const initialState: DirectoryMerchantSliceState = {
   selectedEntityCheckedSelection: [],
   selectedTableCheckedRows: [],
   selectedTableCheckedRefs: [],
+  shouldRefreshEntityList: false,
+  hasHarmoniaStatusUpdate: false,
 }
 
 export const directoryMerchantSlice = createSlice({
@@ -55,6 +59,12 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryTableCheckedRefs: (state, action: PayloadAction<string[] | []>) => {
       state.selectedTableCheckedRefs = action.payload
     },
+    setShouldRefreshEntityList: (state, action: PayloadAction<boolean>) => {
+      state.shouldRefreshEntityList = action.payload
+    },
+    setHasHarmoniaStatusUpdate: (state, action: PayloadAction<boolean>) => {
+      state.hasHarmoniaStatusUpdate = action.payload
+    },
     resetSelectedDirectoryEntities: (state) => {
       state.selectedEntityCheckedSelection = []
       state.selectedTableCheckedRows = []
@@ -75,6 +85,8 @@ export const {
   setSelectedDirectoryTableCheckedRows,
   setSelectedDirectoryTableCheckedRefs,
   resetSelectedDirectoryEntities,
+  setShouldRefreshEntityList,
+  setHasHarmoniaStatusUpdate,
   resetMerchant,
   reset,
 } = directoryMerchantSlice.actions
@@ -85,4 +97,6 @@ export const getSelectedDirectoryMerchantPaymentScheme = (state: RootState) => s
 export const getSelectedDirectoryEntityCheckedSelection = (state: RootState) => state.directoryMerchant.selectedEntityCheckedSelection
 export const getSelectedDirectoryTableCheckedRows = (state: RootState) => state.directoryMerchant.selectedTableCheckedRows
 export const getSelectedDirectoryTableCheckedRefs = (state: RootState) => state.directoryMerchant.selectedTableCheckedRefs
+export const getShouldRefreshEntityList = (state: RootState) => state.directoryMerchant.shouldRefreshEntityList
+export const getHasHarmoniaStatusUpdate = (state: RootState) => state.directoryMerchant.hasHarmoniaStatusUpdate
 export default directoryMerchantSlice.reducer
