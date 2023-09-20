@@ -6,6 +6,7 @@ import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {HarmoniaActionTypes, ModalStyle} from 'utils/enums'
 import useGetDirectoryRouterString from 'hooks/useGetRouterQueryString'
 import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
+import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {useDirectoryMids} from 'hooks/useDirectoryMids'
 import {useState} from 'react'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
@@ -18,8 +19,11 @@ const DirectoryHarmoniaModal = () => {
     'psimis'= 'PSIMI',
   }
 
+  // TODO can this be replaced wit hthe redux has Harmonia update slice ?
+  // TODO: the offboarding and onboarding functions need to be reset in the single view modal
   const [shouldRefreshMids, setShouldRefreshMids] = useState<boolean>(false)
   const [shouldRefreshSecondaryMids, setShouldRefreshSecondaryMids] = useState<boolean>(false)
+  const [shouldRefreshPsimis, setShouldRefreshPsimis] = useState<boolean>(false)
 
   const {planId, merchantId, tab} = useGetDirectoryRouterString()
   const selectedEntities = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
@@ -57,7 +61,20 @@ const DirectoryHarmoniaModal = () => {
     merchantRef: merchantId,
   })
 
-  // TODO: Add PSIMI functionality when API is ready, also make a wrapper component for this modal as there is too many entity conditionals
+  const {
+    getMerchantPsimisRefresh,
+    postMerchantPsimiOnboarding,
+    resetPostMerchantPsimiOnboardingResponse,
+    postMerchantPsimiOnboardingIsSuccess,
+    resetPostMerchantPsimiOffboardingResponse,
+    postMerchantPsimiOffboarding,
+    postMerchantPsimiOffboardingIsSuccess,
+  } = useDirectoryPsimis({
+    skipGetPsimis: !shouldRefreshPsimis,
+    skipGetPsimisByPage: true,
+    planRef: planId,
+    merchantRef: merchantId,
+  })
 
   const dispatch = useAppDispatch()
   const errorMessage = '' // Placeholder for functionality to be added
@@ -93,7 +110,8 @@ const DirectoryHarmoniaModal = () => {
         setShouldRefreshSecondaryMids(true)
         return postMerchantSecondaryMidOnboarding({...requestBody, secondaryMidRefs: entityRefs})
       } else if (tab === 'psimis') {
-        return
+        setShouldRefreshPsimis(true)
+        return postMerchantPsimiOnboarding({...requestBody, psimiRefs: entityRefs})
       }
     }
 
@@ -105,19 +123,18 @@ const DirectoryHarmoniaModal = () => {
         setShouldRefreshSecondaryMids(true)
         return postMerchantSecondaryMidOffboarding({...requestBody, secondaryMidRefs: entityRefs})
       } else if (tab === 'psimis') {
-        return
+        setShouldRefreshPsimis(true)
+        return postMerchantPsimiOffboarding({...requestBody, psimiRefs: entityRefs})
       }
     }
 
     harmoniaAction === HarmoniaActionTypes.OFFBOARD ? offboardingFn() : onboardingFn()
   }
 
-  const isSuccess = () => postMerchantMidOnboardingIsSuccess || postMerchantMidOffboardingIsSuccess || postMerchantSecondaryMidOnboardingIsSuccess || postMerchantSecondaryMidOffboardingIsSuccess
+  const isSuccess = () => postMerchantMidOnboardingIsSuccess || postMerchantMidOffboardingIsSuccess || postMerchantSecondaryMidOnboardingIsSuccess || postMerchantSecondaryMidOffboardingIsSuccess || postMerchantPsimiOnboardingIsSuccess || postMerchantPsimiOffboardingIsSuccess
 
   const handleClose = () => {
     dispatch(setSelectedDirectoryEntityCheckedSelection([]))
-
-
     if (isSuccess()) {
       if (tab === 'mids' && shouldRefreshMids) {
         resetPostMerchantMidOffboardingResponse()
@@ -128,7 +145,9 @@ const DirectoryHarmoniaModal = () => {
         resetPostMerchantSecondaryMidOnboardingResponse()
         getMerchantSecondaryMidsRefresh()
       } else if (tab === 'psimis') {
-        return
+        resetPostMerchantPsimiOffboardingResponse()
+        resetPostMerchantPsimiOnboardingResponse()
+        getMerchantPsimisRefresh()
       }
     }
   }
