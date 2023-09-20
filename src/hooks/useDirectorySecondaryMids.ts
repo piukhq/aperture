@@ -25,6 +25,7 @@ export const useDirectorySecondaryMids = ({
     data: getMerchantSecondaryMidsResponse,
     isLoading: getMerchantSecondaryMidsIsLoading,
     error: getMerchantSecondaryMidsError,
+    refetch: getMerchantSecondaryMidsRefresh,
   } = useGetMerchantSecondaryMidsQuery({planRef, merchantRef, locationRef, getAll}, {skip: skipGetSecondaryMids})
 
   const {
@@ -92,6 +93,7 @@ export const useDirectorySecondaryMids = ({
     getMerchantSecondaryMidsResponse,
     getMerchantSecondaryMidsIsLoading,
     getMerchantSecondaryMidsError,
+    getMerchantSecondaryMidsRefresh,
     // GET Secondary MIDs By Page
     getMerchantSecondaryMidsByPageResponse,
     getMerchantSecondaryMidsByPageIsLoading,
