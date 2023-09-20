@@ -117,7 +117,7 @@ export const directoryMerchantPsimisApi = createApi({
         method: 'POST',
         body: {psimi_refs: psimiRefs},
       }),
-      invalidatesTags: ['MerchantPsimi'],
+      // No invalidate tags as the result does not update syncronously
     }),
     // TODO: IF there is a requirement to offboard multiple Psimis at once, this will need to be updated
     postMerchantPsimiOffboarding: builder.mutation<DirectoryPsimi, MerchantPsimisEndpointRefs>({
@@ -126,7 +126,7 @@ export const directoryMerchantPsimisApi = createApi({
         method: 'POST',
         body: {psimi_refs: psimiRefs},
       }),
-      invalidatesTags: ['MerchantPsimi'],
+      // No invalidate tags as the result does not update syncronously
     }),
   }),
 })

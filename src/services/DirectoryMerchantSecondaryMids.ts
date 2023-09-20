@@ -187,7 +187,7 @@ export const directoryMerchantSecondaryMidsApi = createApi({
         method: 'POST',
         body: {secondary_mid_refs: secondaryMidRefs},
       }),
-      invalidatesTags: ['MerchantSecondaryMid'],
+      // No invalidate tags as the result does not update syncronously
 
     }),
     postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
@@ -196,7 +196,7 @@ export const directoryMerchantSecondaryMidsApi = createApi({
         method: 'POST',
         body: {secondary_mid_refs: secondaryMidRefs},
       }),
-      invalidatesTags: ['MerchantSecondaryMid'],
+      // No invalidate tags as the result does not update syncronously
     }),
   }),
 })

@@ -203,7 +203,7 @@ export const directoryMerchantMidsApi = createApi({
         method: 'POST',
         body: {mid_refs: midRefs}, // type checked in component to be string[]
       }),
-      invalidatesTags: ['MerchantMid'],
+      // No invalidate tags as the result does not update syncronously
     }),
     // TODO: IF there is a requirement to offboard multiple MIDs at once, this will need to be updated
     postMerchantMidOffboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
@@ -212,7 +212,7 @@ export const directoryMerchantMidsApi = createApi({
         method: 'POST',
         body: {mid_refs: midRefs}, // type checked in component to be string[]
       }),
-      invalidatesTags: ['MerchantMid'],
+      // No invalidate tags as the result does not update syncronously
     }),
   }),
 })
