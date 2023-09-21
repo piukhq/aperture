@@ -14,6 +14,9 @@ WORKDIR /app
 COPY --from=deps /app/next.config.js /app/package.json ./
 COPY --from=deps /app/public ./public/
 COPY --from=deps /app/.next ./.next/
+COPY --from=deps /app/playwright.config.ts ./
 COPY --from=deps /app/e2e ./e2e/
 COPY --from=deps /app/node_modules ./node_modules/
+RUN npx playwright install
+RUN npx playwright install-deps
 CMD ["yarn", "start"]
