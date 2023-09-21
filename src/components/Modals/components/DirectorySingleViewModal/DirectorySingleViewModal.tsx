@@ -45,6 +45,8 @@ const DirectorySingleViewModal = () => {
     deleteMerchantMidIsLoading,
     deleteMerchantMidError,
     resetDeleteMerchantMidResponse,
+    resetPostMerchantMidOffboardingResponse,
+    resetPostMerchantMidOnboardingResponse,
   } = useDirectoryMids({
     skipGetMids: true,
     skipGetMid: true,
@@ -60,6 +62,9 @@ const DirectorySingleViewModal = () => {
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
+    resetPostMerchantSecondaryMidOffboardingResponse,
+    resetPostMerchantSecondaryMidOnboardingResponse,
+
   } = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
@@ -75,6 +80,8 @@ const DirectorySingleViewModal = () => {
     deleteMerchantPsimiIsLoading,
     deleteMerchantPsimiError,
     resetDeleteMerchantPsimiResponse,
+    resetPostMerchantPsimiOffboardingResponse,
+    resetPostMerchantPsimiOnboardingResponse,
   } = useDirectoryPsimis({
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
@@ -303,9 +310,19 @@ const DirectorySingleViewModal = () => {
     if (hasHarmoniaStatusUpdate) { // Harmonia actions happen asynchronously, so we need to refresh the entity list on close to capture any changes
       dispatch(setShouldRefreshEntityList(true))
       dispatch(setHasHarmoniaStatusUpdate(false))
+      if (tab === DirectoryNavigationTab.MIDS) {
+        resetPostMerchantMidOffboardingResponse()
+        resetPostMerchantMidOnboardingResponse()
+      } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
+        resetPostMerchantSecondaryMidOffboardingResponse()
+        resetPostMerchantSecondaryMidOnboardingResponse()
+      } else if (tab === DirectoryNavigationTab.PSIMIS) {
+        resetPostMerchantPsimiOffboardingResponse()
+        resetPostMerchantPsimiOnboardingResponse()
+      }
     }
     router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
-  }, [resetDeleteMerchantMidResponse, resetDeleteMerchantSecondaryMidResponse, resetDeleteMerchantLocationResponse, resetDeleteMerchantPsimiResponse, hasHarmoniaStatusUpdate, router, planId, merchantId, tab, dispatch])
+  }, [resetDeleteMerchantMidResponse, resetDeleteMerchantSecondaryMidResponse, resetDeleteMerchantLocationResponse, resetDeleteMerchantPsimiResponse, hasHarmoniaStatusUpdate, router, planId, merchantId, tab, dispatch, resetPostMerchantMidOffboardingResponse, resetPostMerchantMidOnboardingResponse, resetPostMerchantSecondaryMidOffboardingResponse, resetPostMerchantSecondaryMidOnboardingResponse, resetPostMerchantPsimiOffboardingResponse, resetPostMerchantPsimiOnboardingResponse])
 
   if (ref) {
     return (
@@ -320,7 +337,6 @@ const DirectorySingleViewModal = () => {
       </Modal>
     )
   }
-
   return null
 }
 
