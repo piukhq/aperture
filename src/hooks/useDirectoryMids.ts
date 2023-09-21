@@ -23,6 +23,7 @@ export const useDirectoryMids = ({
 }) => {
   const {
     data: getMerchantMidsResponse,
+    refetch: getMerchantMidsRefresh,
     isLoading: getMerchantMidsIsLoading,
     error: getMerchantMidsError,
   } = useGetMerchantMidsQuery({planRef, merchantRef}, {skip: skipGetMids})
@@ -103,6 +104,7 @@ export const useDirectoryMids = ({
   return {
     // GET MIDs
     getMerchantMidsResponse,
+    getMerchantMidsRefresh,
     getMerchantMidsIsLoading,
     getMerchantMidsError,
     // GET MIDs by Page

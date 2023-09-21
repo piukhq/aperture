@@ -3,7 +3,7 @@ import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Modal} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
-import {getSelectedDirectoryMerchantEntity, resetMerchant} from 'features/directoryMerchantSlice'
+import {getHasHarmoniaStatusUpdate, getSelectedDirectoryMerchantEntity, resetMerchant, setHasHarmoniaStatusUpdate, setShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import LinkSvg from 'icons/svgs/link.svg'
 import {DirectoryNavigationTab, DirectorySingleViewEntities, UserPermissions} from 'utils/enums'
 import {useCallback, useEffect, useState} from 'react'
@@ -22,8 +22,22 @@ import {requestModal} from 'features/modalSlice'
 import {ModalType, ModalStyle} from 'utils/enums'
 
 const DirectorySingleViewModal = () => {
+  const [entityHeading, setEntityHeading] = useState<string>('')
+  const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState<boolean>(false)
+  const [isInLocationEditState, setIsInLocationEditState] = useState<boolean>(false)
+  const [isEntityFound, setIsEntityFound] = useState<boolean>(false)
+  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState<boolean>(false)
+  const [entityRef, setEntityRef] = useState<string>('')
+
   const router = useRouter()
   const {merchantId, planId = '', tab = '', ref, sub_location_ref} = useGetRouterQueryString()
+  const selectedEntity: DirectoryEntity | null = useAppSelector(getSelectedDirectoryMerchantEntity)
+  const hasHarmoniaStatusUpdate = useAppSelector(getHasHarmoniaStatusUpdate)
+  const dispatch = useAppDispatch()
+  const singleViewEntityLabel = DirectorySingleViewEntities[tab]
+
 
   const {
     deleteMerchantMid,
@@ -31,6 +45,8 @@ const DirectorySingleViewModal = () => {
     deleteMerchantMidIsLoading,
     deleteMerchantMidError,
     resetDeleteMerchantMidResponse,
+    resetPostMerchantMidOffboardingResponse,
+    resetPostMerchantMidOnboardingResponse,
   } = useDirectoryMids({
     skipGetMids: true,
     skipGetMid: true,
@@ -46,6 +62,9 @@ const DirectorySingleViewModal = () => {
     deleteMerchantSecondaryMidIsLoading,
     deleteMerchantSecondaryMidError,
     resetDeleteMerchantSecondaryMidResponse,
+    resetPostMerchantSecondaryMidOffboardingResponse,
+    resetPostMerchantSecondaryMidOnboardingResponse,
+
   } = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
@@ -61,6 +80,8 @@ const DirectorySingleViewModal = () => {
     deleteMerchantPsimiIsLoading,
     deleteMerchantPsimiError,
     resetDeleteMerchantPsimiResponse,
+    resetPostMerchantPsimiOffboardingResponse,
+    resetPostMerchantPsimiOnboardingResponse,
   } = useDirectoryPsimis({
     skipGetPsimis: true,
     skipGetPsimisByPage: true,
@@ -85,16 +106,6 @@ const DirectorySingleViewModal = () => {
     locationRef: ref,
   })
 
-  const selectedEntity: DirectoryEntity | null = useAppSelector(getSelectedDirectoryMerchantEntity)
-  const [entityHeading, setEntityHeading] = useState<string>('')
-  const [copyButtonClicked, setCopyButtonClicked] = useState<boolean>(false)
-  const [errorMessage, setErrorMessage] = useState<string>('')
-  const [isInDeleteConfirmationState, setIsInDeleteConfirmationState] = useState<boolean>(false)
-  const [isInLocationEditState, setIsInLocationEditState] = useState<boolean>(false)
-  const [isEntityFound, setIsEntityFound] = useState<boolean>(false)
-  const [shouldDisplayFooterEditButton, setShouldDisplayFooterEditButton] = useState<boolean>(false)
-  const [entityRef, setEntityRef] = useState<string>('')
-
   useEffect(() => { // TODO: Set the entityRef as the ref of the selected entity, needs rethink of how we do types to be smarter
     if (selectedEntity) {
       if (tab === DirectoryNavigationTab.MIDS) {
@@ -112,10 +123,6 @@ const DirectorySingleViewModal = () => {
       }
     }
   }, [selectedEntity, tab])
-
-
-  const dispatch = useAppDispatch()
-  const singleViewEntityLabel = DirectorySingleViewEntities[tab]
 
   const closeSingleViewModal = useCallback(() => {
     dispatch(resetMerchant())
@@ -300,14 +307,22 @@ const DirectorySingleViewModal = () => {
     resetDeleteMerchantSecondaryMidResponse()
     resetDeleteMerchantLocationResponse()
     resetDeleteMerchantPsimiResponse()
-    closeSingleViewModal()
-  }, [
-    resetDeleteMerchantMidResponse,
-    resetDeleteMerchantSecondaryMidResponse,
-    resetDeleteMerchantLocationResponse,
-    resetDeleteMerchantPsimiResponse,
-    closeSingleViewModal,
-  ])
+    if (hasHarmoniaStatusUpdate) { // Harmonia actions happen asynchronously, so we need to refresh the entity list on close to capture any changes
+      dispatch(setShouldRefreshEntityList(true))
+      dispatch(setHasHarmoniaStatusUpdate(false))
+      if (tab === DirectoryNavigationTab.MIDS) {
+        resetPostMerchantMidOffboardingResponse()
+        resetPostMerchantMidOnboardingResponse()
+      } else if (tab === DirectoryNavigationTab.SECONDARY_MIDS) {
+        resetPostMerchantSecondaryMidOffboardingResponse()
+        resetPostMerchantSecondaryMidOnboardingResponse()
+      } else if (tab === DirectoryNavigationTab.PSIMIS) {
+        resetPostMerchantPsimiOffboardingResponse()
+        resetPostMerchantPsimiOnboardingResponse()
+      }
+    }
+    router.isReady && router.replace(`/mid-management/directory/${planId}/${merchantId}?tab=${tab}`)
+  }, [resetDeleteMerchantMidResponse, resetDeleteMerchantSecondaryMidResponse, resetDeleteMerchantLocationResponse, resetDeleteMerchantPsimiResponse, hasHarmoniaStatusUpdate, router, planId, merchantId, tab, dispatch, resetPostMerchantMidOffboardingResponse, resetPostMerchantMidOnboardingResponse, resetPostMerchantSecondaryMidOffboardingResponse, resetPostMerchantSecondaryMidOnboardingResponse, resetPostMerchantPsimiOffboardingResponse, resetPostMerchantPsimiOnboardingResponse])
 
   if (ref) {
     return (
@@ -322,7 +337,6 @@ const DirectorySingleViewModal = () => {
       </Modal>
     )
   }
-
   return null
 }
 

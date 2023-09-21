@@ -1,5 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import SingleViewMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewMid/components/SingleViewMidDetails'
 import {PaymentSchemeSlug} from 'utils/enums'
 
@@ -113,8 +115,19 @@ const mockProps = {
   merchantMid: mockMerchantMid,
 }
 
-const getSingleViewMidDetailsComponent = (passedProps = {}) => (
-  <SingleViewMidDetails {...mockProps} {...passedProps} />
+const mockStoreFn = configureStore([])
+
+const store = mockStoreFn({
+  directoryMerchant: {
+    hasHarmoniaStatusUpdate: false,
+  },
+})
+
+
+const getSingleViewMidDetailsComponent = (passedStore = undefined, passedProps = {}) => (
+  <Provider store={passedStore || store}>
+    <SingleViewMidDetails {...mockProps} {...passedProps} />
+  </Provider>
 )
 
 describe('SingleViewMidDetails', () => {
@@ -169,7 +182,7 @@ describe('SingleViewMidDetails', () => {
         },
       }
 
-      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      render(getSingleViewMidDetailsComponent(undefined, {setError: mockSetError}))
       expect(mockSetError).toBeCalledWith('Failed to update Payment Scheme Status')
     })
   })
@@ -194,7 +207,7 @@ describe('SingleViewMidDetails', () => {
         },
       }
 
-      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      render(getSingleViewMidDetailsComponent(undefined, {setError: mockSetError}))
       expect(mockSetError).toBeCalledWith('Failed to update BIN association')
     })
 
@@ -212,7 +225,7 @@ describe('SingleViewMidDetails', () => {
         },
       }
 
-      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      render(getSingleViewMidDetailsComponent(undefined, {setError: mockSetError}))
       expect(mockSetError).toBeCalledWith('Add location failed')
     })
 
@@ -232,7 +245,7 @@ describe('SingleViewMidDetails', () => {
         },
       }
 
-      render(getSingleViewMidDetailsComponent({setError: mockSetError}))
+      render(getSingleViewMidDetailsComponent(undefined, {setError: mockSetError}))
       expect(mockSetError).toBeCalledWith('Delete location failed')
     })
   })

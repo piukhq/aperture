@@ -10,6 +10,7 @@ type MerchantSecondaryMidsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   secondaryMidRef?: string,
+  secondaryMidRefs?: Array<string>,
   locationRef?: string,
   linkRef?: string,
   getAll?: boolean,
@@ -181,43 +182,21 @@ export const directoryMerchantSecondaryMidsApi = createApi({
       },
     }),
     postMerchantSecondaryMidOnboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
-      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+      query: ({planRef, merchantRef, secondaryMidRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/onboarding`,
         method: 'POST',
-        body: [secondaryMidRef],
+        body: {secondary_mid_refs: secondaryMidRefs},
       }),
-      invalidatesTags: ['MerchantSecondaryMids'],
-      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: onboardingSecondaryMidsArray} = await queryFulfilled
-          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
-            Object.assign(existingSecondaryMid, onboardingSecondaryMidsArray[0])
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      // No invalidate tags as the result does not update syncronously
+
     }),
-    // TODO: IF there is a requirement to offboard multiple Secondary MIDs at once, this will need to be updated
     postMerchantSecondaryMidOffboarding: builder.mutation<DirectorySecondaryMid, MerchantSecondaryMidsEndpointRefs>({
-      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+      query: ({planRef, merchantRef, secondaryMidRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/secondary_mids/offboarding`,
         method: 'POST',
-        body: [secondaryMidRef],
+        body: {secondary_mid_refs: secondaryMidRefs},
       }),
-      invalidatesTags: ['MerchantSecondaryMids'],
-      async onQueryStarted ({planRef, merchantRef, secondaryMidRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: offboardingSecondaryMidsArray} = await queryFulfilled
-          dispatch(directoryMerchantSecondaryMidsApi.util.updateQueryData('getMerchantSecondaryMid', ({planRef, merchantRef, secondaryMidRef}), (existingSecondaryMid) => {
-            Object.assign(existingSecondaryMid, offboardingSecondaryMidsArray[0])
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      // No invalidate tags as the result does not update syncronously
     }),
   }),
 })

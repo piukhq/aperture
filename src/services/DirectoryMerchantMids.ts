@@ -10,6 +10,7 @@ type MerchantMidsEndpointRefs = {
   planRef: string,
   merchantRef?: string,
   midRef?: string,
+  midRefs?: Array<string>,
 }
 
 type PostMerchantMidBody = MerchantMidsEndpointRefs & {
@@ -196,45 +197,22 @@ export const directoryMerchantMidsApi = createApi({
         }
       },
     }),
-    // TODO: IF there is a requirement to onboard multiple MIDs at once, this will need to be updated
     postMerchantMidOnboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
-      query: ({planRef, merchantRef, midRef}) => ({
+      query: ({planRef, merchantRef, midRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/onboarding`,
         method: 'POST',
-        body: [midRef],
+        body: {mid_refs: midRefs}, // type checked in component to be string[]
       }),
-      invalidatesTags: ['MerchantMids'],
-      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: onboardingMidsArray} = await queryFulfilled
-          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
-            Object.assign(existingMid, {...existingMid, mid: onboardingMidsArray[0]})
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      // No invalidate tags as the result does not update syncronously
     }),
     // TODO: IF there is a requirement to offboard multiple MIDs at once, this will need to be updated
     postMerchantMidOffboarding: builder.mutation<DirectoryMid, MerchantMidsEndpointRefs>({
-      query: ({planRef, merchantRef, midRef}) => ({
+      query: ({planRef, merchantRef, midRefs}) => ({
         url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids/offboarding`,
         method: 'POST',
-        body: [midRef],
+        body: {mid_refs: midRefs}, // type checked in component to be string[]
       }),
-      invalidatesTags: ['MerchantMids'],
-      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: offboardingMidsArray} = await queryFulfilled
-          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMid', ({planRef, merchantRef, midRef}), (existingMid) => {
-            Object.assign(existingMid, {...existingMid, mid: offboardingMidsArray[0]})
-          }))
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      // No invalidate tags as the result does not update syncronously
     }),
   }),
 })

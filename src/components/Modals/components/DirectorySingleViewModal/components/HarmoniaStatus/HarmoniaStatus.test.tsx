@@ -1,4 +1,6 @@
 import React from 'react'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import {fireEvent, render, screen} from '@testing-library/react'
 import HarmoniaStatus from 'components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus'
 
@@ -12,6 +14,8 @@ const mockOnboardEntityFn = jest.fn()
 
 const mockProps = {
   txmStatus: mockTxmStatus,
+  shouldRefresh: false,
+  setShouldRefresh: jest.fn(),
   isOnboardingLoading: mockIsOnboardingLoading,
   isOnboardingSuccess: mockIsOnboardingSuccess,
   isOffboardingLoading: mockIsOffboardingLoading,
@@ -21,9 +25,17 @@ const mockProps = {
   onboardEntityFn: mockOnboardEntityFn,
 }
 
-const getHarmoniaStatusComponent = (passedProps = {}) => (
-  <HarmoniaStatus {...mockProps} {...passedProps}/>
+const mockStoreFn = configureStore([])
+
+const store = mockStoreFn({
+})
+
+const getHarmoniaStatusComponent = (passedStore = undefined, passedProps = {}) => (
+  <Provider store={passedStore || store}>
+    <HarmoniaStatus {...mockProps} {...passedProps}/>
+  </Provider>
 )
+
 
 describe('Test Harmonia Status', () => {
   it('should render the Harmonia Status heading', () => {
@@ -94,9 +106,14 @@ describe('Test Harmonia Status', () => {
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Onboarding')
     })
 
-    it('should render the disabled loading button', () => {
-      render(getHarmoniaStatusComponent())
-      expect(screen.getByRole('button', {name: 'Loading'})).toBeDisabled()
+    it('should render the disabled Onboarding button', () => {
+      render(getHarmoniaStatusComponent(undefined, {
+        shouldRefresh: true,
+        isOnboardingLoading: true,
+        isOffboardingLoading: false,
+        isOffboardingSuccess: false,
+      }))
+      expect(screen.getByRole('button', {name: 'Onboarding...'})).toBeDisabled()
     })
   })
 
@@ -107,9 +124,14 @@ describe('Test Harmonia Status', () => {
       expect(screen.getByTestId('harmonia-status')).toHaveTextContent('Offboarding')
     })
 
-    it('should render the disabled loading button', () => {
-      render(getHarmoniaStatusComponent())
-      expect(screen.getByRole('button', {name: 'Loading'})).toBeDisabled()
+    it('should render the disabled onboarding button', () => {
+      render(getHarmoniaStatusComponent(undefined, {
+        shouldRefresh: true,
+        isOffboardingLoading: true,
+        isOnboardingLoading: false,
+        isOnboardingSuccess: false,
+      }))
+      expect(screen.getByRole('button', {name: 'Onboarding...'})).toBeDisabled()
     })
   })
 })

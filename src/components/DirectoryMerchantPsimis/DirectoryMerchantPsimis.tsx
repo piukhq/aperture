@@ -1,8 +1,10 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
+import {directoryMerchantPsimisApi} from 'services/DirectoryMerchantPsimis'
+import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
@@ -38,6 +40,7 @@ const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 
 const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
+  const shouldRefreshEntityList = useAppSelector(getShouldRefreshEntityList)
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
@@ -46,7 +49,7 @@ const DirectoryMerchantPsimis = () => {
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantPsimisResponse} = useDirectoryPsimis({
+  const {getMerchantPsimisResponse, getMerchantPsimisRefresh} = useDirectoryPsimis({
     skipGetPsimi: true,
     skipGetPsimisByPage: shouldSkipGetPsimisByPage,
     planRef: planId,
@@ -54,6 +57,13 @@ const DirectoryMerchantPsimis = () => {
     page: currentPage.toString(),
   })
 
+  useEffect(() => { // handle update when harmonia status instructs an update on modal close
+    if (shouldRefreshEntityList) {
+      getMerchantPsimisRefresh()
+      dispatch(directoryMerchantPsimisApi.util.invalidateTags(['MerchantPsimi']))
+      dispatch(setShouldRefreshEntityList(false))
+    }
+  }, [dispatch, getMerchantPsimisRefresh, shouldRefreshEntityList])
   const psimisData: DirectoryPsimis = getMerchantPsimisResponse || []
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {

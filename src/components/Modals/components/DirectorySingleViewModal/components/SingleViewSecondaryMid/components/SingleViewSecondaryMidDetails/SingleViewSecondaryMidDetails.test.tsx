@@ -1,7 +1,10 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
 import {PaymentSchemeSlug} from 'utils/enums'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import SingleViewSecondaryMidDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewSecondaryMid/components/SingleViewSecondaryMidDetails'
+
 
 jest.mock('components/Dropdown', () => () => <div data-testid='dropdown' />)
 jest.mock('components/Modals/components/DirectorySingleViewModal/components/HarmoniaStatus', () => () => <div data-testid='harmonia-status' />)
@@ -29,14 +32,24 @@ let mockIsFetching = false
 
 jest.mock('hooks/useDirectorySecondaryMids', () => ({
   useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
-    postMerchantPsimiOnboarding: jest.fn(),
-    postMerchantPsimiOffboarding: jest.fn(),
+    postMerchantSecondaryMidsOnboarding: jest.fn(),
+    postMerchantSecondaryMidsOffboarding: jest.fn(),
     getMerchantSecondaryMidIsFetching: mockIsFetching,
   })),
 }))
 
-const getSingleViewSecondaryMidDetailsComponent = () => (
-  <SingleViewSecondaryMidDetails secondaryMid={mockMerchantSecondaryMid} />
+const mockStoreFn = configureStore([])
+
+const store = mockStoreFn({
+  directoryMerchant: {
+    hasHarmoniaStatusUpdate: false,
+  },
+})
+
+const getSingleViewSecondaryMidDetailsComponent = (passedStore = undefined) => (
+  <Provider store={passedStore || store}>
+    <SingleViewSecondaryMidDetails secondaryMid={mockMerchantSecondaryMid} />
+  </Provider>
 )
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')

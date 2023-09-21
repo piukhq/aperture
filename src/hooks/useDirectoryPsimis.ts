@@ -11,6 +11,7 @@ import {
 export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false, skipGetPsimisByPage = false, planRef = '', merchantRef = '', psimiRef = '', page = '1'}) => {
   const {
     data: getMerchantPsimisResponse,
+    refetch: getMerchantPsimisRefresh,
     isLoading: getMerchantPsimisIsLoading,
     error: getMerchantPsimisError,
   } = useGetMerchantPsimisQuery({planRef, merchantRef}, {skip: skipGetPsimis})
@@ -62,6 +63,7 @@ export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false,
   return {
     // GET Psimis
     getMerchantPsimisResponse,
+    getMerchantPsimisRefresh,
     getMerchantPsimisIsLoading,
     getMerchantPsimisError,
     // GET Psimis By Page

@@ -27,7 +27,6 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT,
     ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD,
     ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD,
-    ModalType.MID_MANAGEMENT_DIRECTORY_SINGLE_VIEW,
     ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION,
     ModalType.MID_MANAGEMENT_DIRECTORY_MID,
     ModalType.MID_MANAGEMENT_DIRECTORY_SECONDARY_MID,
@@ -74,7 +73,7 @@ const Modal = ({modalStyle, modalHeader, children, onCloseFn, setIsCloseButtonFo
     </button>
   )
 
-  useEffect(() => {
+  useEffect(() => { // close modal on escape key
     const closeCheck = (e:KeyboardEvent) => {
       if(e.key === 'Escape') {
         handleClose()

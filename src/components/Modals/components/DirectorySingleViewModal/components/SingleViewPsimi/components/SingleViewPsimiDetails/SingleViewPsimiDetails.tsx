@@ -1,3 +1,7 @@
+import {useCallback, useState} from 'react'
+import {getHasHarmoniaStatusUpdate, setHasHarmoniaStatusUpdate} from 'features/directoryMerchantSlice'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {directoryMerchantPsimisApi} from 'services/DirectoryMerchantPsimis'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {DirectoryPsimi} from 'types'
@@ -7,16 +11,19 @@ import RefreshSvg from 'icons/svgs/refresh.svg'
 import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
-import {useCallback} from 'react'
 
 type Props = {
   psimi: DirectoryPsimi
 }
 
 const SingleViewPsimiDetails = ({psimi}: Props) => {
+
+  const dispatch = useAppDispatch()
+  const hasHarmoniaStatusUpdate = useAppSelector(getHasHarmoniaStatusUpdate)
   const {merchantId, planId = '', ref} = useGetRouterQueryString()
   const {date_added: dateAdded, psimi_metadata: psimiMetadata, txm_status: txmStatus} = psimi
   const {payment_scheme_slug: paymentSchemeSlug, value: psimiValue} = psimiMetadata
+  const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
 
   const {
     getMerchantPsimiRefresh,
@@ -38,24 +45,32 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
 
   const offboardPsimi = () => {
     resetOffboardingResponse()
-    postOffboarding({
+    ref && postOffboarding({
       planRef: planId,
       merchantRef: merchantId,
-      psimiRef: ref,
+      psimiRefs: [ref],
     })
   }
   const onboardPsimi = () => {
     resetOnboardingResponse()
-    postOnboarding({
+    ref && postOnboarding({
       planRef: planId,
       merchantRef: merchantId,
-      psimiRef: ref,
+      psimiRefs: [ref],
     })
   }
 
   const handleRefreshButtonClick = useCallback(() => {
     getMerchantPsimiRefresh()
-  }, [getMerchantPsimiRefresh])
+    setShouldRefresh(false)
+    if (hasHarmoniaStatusUpdate) {
+      dispatch(directoryMerchantPsimisApi.util.invalidateTags(['MerchantPsimis']))
+      dispatch(setHasHarmoniaStatusUpdate(false))
+      resetOffboardingResponse()
+      resetOnboardingResponse()
+    }
+    getMerchantPsimiRefresh()
+  }, [dispatch, getMerchantPsimiRefresh, hasHarmoniaStatusUpdate, resetOffboardingResponse, resetOnboardingResponse])
 
   return (
     <>
@@ -90,6 +105,8 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
         txmStatus={txmStatus}
         isOnboardingLoading={isOnboardingLoading}
         isOnboardingSuccess={isOnboardingSuccess}
+        shouldRefresh={shouldRefresh}
+        setShouldRefresh={setShouldRefresh}
         isOffboardingLoading={isOffboardingLoading}
         isOffboardingSuccess={isOffboardingSuccess}
         offboardEntityFn={offboardPsimi}

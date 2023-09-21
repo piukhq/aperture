@@ -13,6 +13,9 @@ import {isoToDateTime} from 'utils/dateFormat'
 import HarmoniaStatus from '../../../HarmoniaStatus'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 import {getLocationList} from 'utils/locationStrings'
+import {directoryMerchantMidsApi} from 'services/DirectoryMerchantMids'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {getHasHarmoniaStatusUpdate, setHasHarmoniaStatusUpdate} from 'features/directoryMerchantSlice'
 
 type Props = {
   resetError: () => void
@@ -23,6 +26,10 @@ type Props = {
 const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
   const {planId = '', merchantId, ref} = useGetRouterQueryString()
   const [isInLocationEditMode, setIsInLocationEditMode] = useState<boolean>(false)
+  const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
+  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>('')
+  const [editableVisaBin, setEditableVisaBin] = useState<string>('')
+  const [associatedLocationRef, setAssociatedLocationRef] = useState<string>('')
 
   const {
     getMerchantMidRefresh,
@@ -41,10 +48,10 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     deleteMerchantMidLocationIsSuccess,
     deleteMerchantMidLocationError,
     resetDeleteMerchantMidLocationResponse,
-    postMerchantMidOnboarding: postOnboarding,
     postMerchantMidOnboardingIsLoading: isOnboardingLoading,
     postMerchantMidOnboardingIsSuccess: isOnboardingSuccess,
     resetPostMerchantMidOnboardingResponse: resetOnboardingResponse,
+    postMerchantMidOnboarding: postOnboarding,
     postMerchantMidOffboarding: postOffboarding,
     postMerchantMidOffboardingIsLoading: isOffboardingLoading,
     postMerchantMidOffboardingIsSuccess: isOffboardingSuccess,
@@ -69,6 +76,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     getAll: true,
   })
 
+  const dispatch = useAppDispatch()
+  const hasHarmoniaStatusUpdate = useAppSelector(getHasHarmoniaStatusUpdate)
   const {mid} = merchantMid
   const locationRef = merchantMid.location?.location_ref || ''
   const {date_added: dateAdded, mid_metadata: midMetadata, txm_status: txmStatus} = mid
@@ -82,10 +91,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     PaymentSchemeStatusDisplayValue['not_enrolled'],
     PaymentSchemeStatusDisplayValue['unenrolled'],
   ], [])
-
-  const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>('')
-  const [editableVisaBin, setEditableVisaBin] = useState<string>('')
-  const [associatedLocationRef, setAssociatedLocationRef] = useState<string>('')
 
   const isRefreshing = getMerchantMidIsFetching || getMerchantLocationsIsFetching
 
@@ -184,25 +189,32 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
 
   const offboardMid = () => {
     resetOffboardingResponse()
-    postOffboarding({
+    ref && postOffboarding({
       planRef: planId,
       merchantRef: merchantId,
-      midRef: ref,
+      midRefs: [ref],
     })
   }
   const onboardMid = () => {
     resetOnboardingResponse()
-    postOnboarding({
+    ref && postOnboarding({
       planRef: planId,
       merchantRef: merchantId,
-      midRef: ref,
+      midRefs: [ref],
     })
   }
 
   const handleRefreshButtonClick = useCallback(() => {
-    getMerchantMidRefresh()
     getMerchantLocationsRefresh()
-  }, [getMerchantMidRefresh, getMerchantLocationsRefresh])
+    setShouldRefresh(false)
+    if (hasHarmoniaStatusUpdate) {
+      dispatch(directoryMerchantMidsApi.util.invalidateTags(['MerchantMids']))
+      dispatch(setHasHarmoniaStatusUpdate(false))
+      resetOffboardingResponse()
+      resetOnboardingResponse()
+    }
+    getMerchantMidRefresh()
+  }, [getMerchantLocationsRefresh, hasHarmoniaStatusUpdate, getMerchantMidRefresh, dispatch, resetOffboardingResponse, resetOnboardingResponse])
 
   const getAssociatedLocationString = useCallback(() => {
     const location = locationsData.find(location => location.location_ref === associatedLocationRef)
@@ -226,6 +238,7 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
           handleClick={handleRefreshButtonClick}
           ariaLabel='Refresh MID details'
           isDisabled={isRefreshing}
+          additionalStyles={shouldRefresh ? 'animate-pulse scale-110 duration-300' : ''}
           noShadow
         ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
         </Button>
@@ -306,6 +319,8 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
         txmStatus={txmStatus}
         isOnboardingLoading={isOnboardingLoading}
         isOnboardingSuccess={isOnboardingSuccess}
+        shouldRefresh={shouldRefresh}
+        setShouldRefresh={setShouldRefresh}
         isOffboardingLoading={isOffboardingLoading}
         isOffboardingSuccess={isOffboardingSuccess}
         offboardEntityFn={offboardMid}

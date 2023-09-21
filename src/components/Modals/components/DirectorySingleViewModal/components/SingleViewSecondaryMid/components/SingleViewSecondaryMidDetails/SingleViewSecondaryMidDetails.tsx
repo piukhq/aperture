@@ -1,4 +1,7 @@
 import {useState, useMemo, useCallback, useEffect} from 'react'
+import {useAppDispatch, useAppSelector} from 'app/hooks'
+import {directoryMerchantSecondaryMidsApi} from 'services/DirectoryMerchantSecondaryMids'
+import {getHasHarmoniaStatusUpdate, setHasHarmoniaStatusUpdate} from 'features/directoryMerchantSlice'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {Button, Dropdown, HeadMetadata} from 'components'
 import {ButtonType, ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
@@ -16,6 +19,8 @@ type Props = {
 
 const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   const {merchantId, planId = '', ref} = useGetRouterQueryString()
+  const dispatch = useAppDispatch()
+  const hasHarmoniaStatusUpdate = useAppSelector(getHasHarmoniaStatusUpdate)
 
   const paymentSchemeStatusValues:string[] = useMemo(() => [
     PaymentSchemeStatusDisplayValue['enrolled'],
@@ -25,6 +30,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   ], [])
 
   const [paymentSchemeStatus, setPaymentSchemeStatus] = useState<string>('')
+  const [shouldRefresh, setShouldRefresh] = useState<boolean>(false)
 
   const {date_added: dateAdded, secondary_mid_metadata: secondaryMidMetadata, txm_status: txmStatus} = secondaryMid
   const {payment_scheme_slug: paymentSchemeSlug, payment_enrolment_status: paymentEnrolmentStatus, secondary_mid: secondaryMidValue} = secondaryMidMetadata
@@ -44,9 +50,9 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     postMerchantSecondaryMidOffboardingIsSuccess: isOffboardingSuccess,
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
   } = useDirectorySecondaryMids({
-    planRef: planId,
-    skipGetSecondaryMids: true,
+    skipGetSecondaryMids: !shouldRefresh,
     skipGetSecondaryMidsByPage: true,
+    planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,
   })
@@ -63,18 +69,18 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
 
   const offboardSecondaryMid = () => {
     resetOffboardingResponse()
-    postOffboarding({
+    ref && postOffboarding({
       planRef: planId,
       merchantRef: merchantId,
-      secondaryMidRef: ref,
+      secondaryMidRefs: [ref],
     })
   }
   const onboardSecondaryMid = () => {
     resetOnboardingResponse()
-    postOnboarding({
+    ref && postOnboarding({
       planRef: planId,
       merchantRef: merchantId,
-      secondaryMidRef: ref,
+      secondaryMidRefs: [ref],
     })
   }
 
@@ -83,7 +89,6 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
 
     const indexOfPaymentSchemeKey = Object.values(PaymentSchemeStatusDisplayValue).indexOf(selectedPaymentSchemeStatus as PaymentSchemeStatusDisplayValue)
     const paymentSchemeKey = Object.keys(PaymentSchemeStatusDisplayValue)[indexOfPaymentSchemeKey]
-
     const {payment_scheme_store_name = ''} = secondaryMid.secondary_mid_metadata
 
     const updatedSecondaryMid = {
@@ -95,8 +100,15 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
   }, [merchantId, patchMerchantSecondaryMid, planId, ref, secondaryMid.secondary_mid_metadata])
 
   const handleRefreshButtonClick = useCallback(() => {
+    setShouldRefresh(false)
+    if (hasHarmoniaStatusUpdate) {
+      dispatch(directoryMerchantSecondaryMidsApi.util.invalidateTags(['MerchantSecondaryMids']))
+      dispatch(setHasHarmoniaStatusUpdate(false))
+      resetOffboardingResponse()
+      resetOnboardingResponse()
+    }
     getMerchantSecondaryMidRefresh()
-  }, [getMerchantSecondaryMidRefresh])
+  }, [dispatch, getMerchantSecondaryMidRefresh, hasHarmoniaStatusUpdate, resetOffboardingResponse, resetOnboardingResponse])
 
   return (
     <>
@@ -113,6 +125,7 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
           ariaLabel='Refresh Secondary MID details'
           isDisabled={isRefreshing}
           noShadow
+          additionalStyles={shouldRefresh ? 'animate-pulse scale-110 duration-300' : ''}
         ><RefreshSvg />{isRefreshing ? 'Refreshing' : 'Refresh'}
         </Button>
       </div>
@@ -146,6 +159,8 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
         isOnboardingSuccess={isOnboardingSuccess}
         isOffboardingLoading={isOffboardingLoading}
         isOffboardingSuccess={isOffboardingSuccess}
+        shouldRefresh={shouldRefresh}
+        setShouldRefresh={setShouldRefresh}
         offboardEntityFn={offboardSecondaryMid}
         onboardEntityFn={onboardSecondaryMid}
         isDisabled={isRefreshing}
