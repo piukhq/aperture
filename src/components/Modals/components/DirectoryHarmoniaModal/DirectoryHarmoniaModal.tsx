@@ -1,6 +1,6 @@
 import {Button, PaymentCardIcon, Modal} from 'components'
 import {ButtonType, ButtonSize, ButtonWidth, ButtonBackground, LabelColour, LabelWeight} from 'components/Button/styles'
-import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCheckedSelection} from 'features/directoryMerchantSlice'
+import {setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryEntityCheckedSelection, setHasHarmoniaStatusUpdate, getHasHarmoniaStatusUpdate, setShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import {getHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {useAppSelector, useAppDispatch} from 'app/hooks'
 import {HarmoniaActionTypes, ModalStyle} from 'utils/enums'
@@ -8,7 +8,6 @@ import useGetDirectoryRouterString from 'hooks/useGetRouterQueryString'
 import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
 import {useDirectoryMids} from 'hooks/useDirectoryMids'
-import {useState} from 'react'
 import {DirectoryMerchantEntitySelectedItem} from 'types'
 import {capitaliseFirstLetter} from 'utils/stringFormat'
 
@@ -19,12 +18,6 @@ const DirectoryHarmoniaModal = () => {
     'psimis'= 'PSIMI',
   }
 
-  // TODO can this be replaced wit hthe redux has Harmonia update slice ?
-  // TODO: the offboarding and onboarding functions need to be reset in the single view modal
-  const [shouldRefreshMids, setShouldRefreshMids] = useState<boolean>(false)
-  const [shouldRefreshSecondaryMids, setShouldRefreshSecondaryMids] = useState<boolean>(false)
-  const [shouldRefreshPsimis, setShouldRefreshPsimis] = useState<boolean>(false)
-
   const {planId, merchantId, tab} = useGetDirectoryRouterString()
   const selectedEntities = useAppSelector(getSelectedDirectoryEntityCheckedSelection)
   const hasMultipleEntities = selectedEntities.length > 1
@@ -32,7 +25,6 @@ const DirectoryHarmoniaModal = () => {
   const entityRefs = selectedEntities.map(entity => entity.entityRef)
 
   const {
-    getMerchantMidsRefresh,
     postMerchantMidOnboarding,
     resetPostMerchantMidOnboardingResponse,
     postMerchantMidOnboardingIsSuccess,
@@ -40,14 +32,13 @@ const DirectoryHarmoniaModal = () => {
     resetPostMerchantMidOffboardingResponse,
     postMerchantMidOffboardingIsSuccess,
   } = useDirectoryMids({
-    skipGetMids: !shouldRefreshMids,
+    skipGetMids: true,
     skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
 
   const {
-    getMerchantSecondaryMidsRefresh,
     postMerchantSecondaryMidOnboarding,
     resetPostMerchantSecondaryMidOnboardingResponse,
     postMerchantSecondaryMidOnboardingIsSuccess,
@@ -55,14 +46,13 @@ const DirectoryHarmoniaModal = () => {
     postMerchantSecondaryMidOffboarding,
     postMerchantSecondaryMidOffboardingIsSuccess,
   } = useDirectorySecondaryMids({
-    skipGetSecondaryMids: !shouldRefreshSecondaryMids,
+    skipGetSecondaryMids: true,
     skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
 
   const {
-    getMerchantPsimisRefresh,
     postMerchantPsimiOnboarding,
     resetPostMerchantPsimiOnboardingResponse,
     postMerchantPsimiOnboardingIsSuccess,
@@ -70,13 +60,14 @@ const DirectoryHarmoniaModal = () => {
     postMerchantPsimiOffboarding,
     postMerchantPsimiOffboardingIsSuccess,
   } = useDirectoryPsimis({
-    skipGetPsimis: !shouldRefreshPsimis,
+    skipGetPsimis: true,
     skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
 
   const dispatch = useAppDispatch()
+  const hasHarmoniaStatusUpdate = useAppSelector(getHasHarmoniaStatusUpdate)
   const errorMessage = '' // Placeholder for functionality to be added
   const harmoniaAction = useAppSelector(getHarmoniaActionType)
   const harmoniaActionCapitalised = capitaliseFirstLetter(harmoniaAction)
@@ -96,7 +87,7 @@ const DirectoryHarmoniaModal = () => {
     )
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = () => { // This has mirroring functionality in DirectorySingleViewModal and Harmonia Status. The initial submit action flags there is a status update and thus reuqests a refresh of the entity and entities on modal close
     const requestBody = {
       planRef: planId || 'Plan Ref Missing',
       merchantRef: merchantId || 'Merchant Ref Missing',
@@ -104,30 +95,24 @@ const DirectoryHarmoniaModal = () => {
 
     const onboardingFn = () => {
       if (tab === 'mids') {
-        setShouldRefreshMids(true)
         return postMerchantMidOnboarding({...requestBody, midRefs: entityRefs})
       } else if (tab === 'secondary-mids') {
-        setShouldRefreshSecondaryMids(true)
         return postMerchantSecondaryMidOnboarding({...requestBody, secondaryMidRefs: entityRefs})
       } else if (tab === 'psimis') {
-        setShouldRefreshPsimis(true)
         return postMerchantPsimiOnboarding({...requestBody, psimiRefs: entityRefs})
       }
     }
 
     const offboardingFn = () => {
       if (tab === 'mids') {
-        setShouldRefreshMids(true)
         return postMerchantMidOffboarding({...requestBody, midRefs: entityRefs})
       } else if (tab === 'secondary-mids') {
-        setShouldRefreshSecondaryMids(true)
         return postMerchantSecondaryMidOffboarding({...requestBody, secondaryMidRefs: entityRefs})
       } else if (tab === 'psimis') {
-        setShouldRefreshPsimis(true)
         return postMerchantPsimiOffboarding({...requestBody, psimiRefs: entityRefs})
       }
     }
-
+    dispatch(setHasHarmoniaStatusUpdate(true))
     harmoniaAction === HarmoniaActionTypes.OFFBOARD ? offboardingFn() : onboardingFn()
   }
 
@@ -135,20 +120,19 @@ const DirectoryHarmoniaModal = () => {
 
   const handleClose = () => {
     dispatch(setSelectedDirectoryEntityCheckedSelection([]))
-    if (isSuccess()) {
-      if (tab === 'mids' && shouldRefreshMids) {
+    if (hasHarmoniaStatusUpdate) {
+      if (tab === 'mids') {
         resetPostMerchantMidOffboardingResponse()
         resetPostMerchantMidOnboardingResponse()
-        getMerchantMidsRefresh()
-      } else if (tab === 'secondary-mids' && shouldRefreshSecondaryMids) {
+      } else if (tab === 'secondary-mids') {
         resetPostMerchantSecondaryMidOffboardingResponse()
         resetPostMerchantSecondaryMidOnboardingResponse()
-        getMerchantSecondaryMidsRefresh()
       } else if (tab === 'psimis') {
         resetPostMerchantPsimiOffboardingResponse()
         resetPostMerchantPsimiOnboardingResponse()
-        getMerchantPsimisRefresh()
       }
+      dispatch(setHasHarmoniaStatusUpdate(false))
+      dispatch(setShouldRefreshEntityList(true))
     }
   }
 
