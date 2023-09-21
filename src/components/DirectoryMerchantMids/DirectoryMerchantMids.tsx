@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, Button, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useRouter} from 'next/router'
@@ -7,6 +7,8 @@ import {DirectoryMids, DirectoryMid, DirectoryMerchantDetailsTableHeader, Direct
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import {directoryMerchantMidsApi} from 'services/DirectoryMerchantMids'
+import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {requestModal} from 'features/modalSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
@@ -41,6 +43,7 @@ const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
+  const shouldRefreshEntityList = useAppSelector(getShouldRefreshEntityList)
   const router = useRouter()
   const {planId, merchantId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
@@ -48,7 +51,7 @@ const DirectoryMerchantMids = () => {
   const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState<boolean>(true)
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantMidsResponse} = useDirectoryMids({
+  const {getMerchantMidsResponse, getMerchantMidsRefresh} = useDirectoryMids({
     skipGetMid: true,
     skipGetMidsByPage: shouldSkipGetMidsByPage,
     planRef: planId,
@@ -57,6 +60,14 @@ const DirectoryMerchantMids = () => {
   })
 
   const midsData: DirectoryMids = getMerchantMidsResponse || []
+
+  useEffect(() => { // handle update when harmonia status instructs an update on modal close
+    if (shouldRefreshEntityList) {
+      getMerchantMidsRefresh()
+      dispatch(directoryMerchantMidsApi.util.invalidateTags(['MerchantMid']))
+      dispatch(setShouldRefreshEntityList(false))
+    }
+  }, [dispatch, getMerchantMidsRefresh, getMerchantMidsResponse, shouldRefreshEntityList])
 
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
@@ -6,6 +6,8 @@ import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
 import {useRouter} from 'next/router'
+import {directoryMerchantSecondaryMidsApi} from 'services/DirectoryMerchantSecondaryMids'
+import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {DirectorySecondaryMids, DirectorySecondaryMid, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -41,15 +43,16 @@ const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
 
 const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
+  const shouldRefreshEntityList = useAppSelector(getShouldRefreshEntityList)
+  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [shouldSkipGetSecondaryMidsByPage, setShouldSkipGetSecondaryMidsByPage] = useState<boolean>(true)
 
-  const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
-  const {getMerchantSecondaryMidsResponse} = useDirectorySecondaryMids({
+  const {getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsRefresh} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
     skipGetSecondaryMidsByPage: shouldSkipGetSecondaryMidsByPage,
     planRef: planId,
@@ -58,6 +61,14 @@ const DirectoryMerchantSecondaryMids = () => {
   })
 
   const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse || []
+
+  useEffect(() => { // handle update when harmonia status instructs an update on modal close
+    if (shouldRefreshEntityList) {
+      getMerchantSecondaryMidsRefresh()
+      dispatch(directoryMerchantSecondaryMidsApi.util.invalidateTags(['MerchantSecondaryMid']))
+      dispatch(setShouldRefreshEntityList(false))
+    }
+  }, [dispatch, getMerchantSecondaryMidsRefresh, shouldRefreshEntityList])
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
