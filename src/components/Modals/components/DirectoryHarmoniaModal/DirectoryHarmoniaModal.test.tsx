@@ -19,6 +19,25 @@ jest.mock('components/Modal', () => ({
   },
 }))
 
+jest.mock('hooks/useDirectoryMids', () => ({
+  useDirectoryMids: jest.fn().mockImplementation(() => ({
+    getMerchantMidsResponse: [],
+  })),
+}))
+
+jest.mock('hooks/useDirectorySecondaryMids', () => ({
+  useDirectorySecondaryMids: jest.fn().mockImplementation(() => ({
+    getMerchantSecondaryMidsResponse: [],
+  })),
+}))
+
+jest.mock('hooks/useDirectoryPsimis', () => ({
+  useDirectoryPsimis: jest.fn().mockImplementation(() => ({
+    getMerchantPsimisResponse: [],
+  })),
+}))
+
+
 const defaultMockStore = {
   directoryHarmonia: {
     harmoniaActionType: HarmoniaActionTypes.ONBOARD,

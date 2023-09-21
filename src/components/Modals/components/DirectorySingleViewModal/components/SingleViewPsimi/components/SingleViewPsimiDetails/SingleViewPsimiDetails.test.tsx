@@ -1,5 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
+import {Provider} from 'react-redux'
+import configureStore from 'redux-mock-store'
 import SingleViewPsimiDetails from 'components/Modals/components/DirectorySingleViewModal/components/SingleViewPsimi/components/SingleViewPsimiDetails'
 import {PaymentSchemeSlug} from 'utils/enums'
 
@@ -37,8 +39,18 @@ jest.mock('hooks/useDirectoryPsimis', () => ({
 
 const useRouter = jest.spyOn(require('next/router'), 'useRouter')
 
-const getSingleViewPsimiDetailsComponent = () => (
-  <SingleViewPsimiDetails psimi={mockMerchantPsimi} />
+const mockStoreFn = configureStore([])
+
+const store = mockStoreFn({
+  directoryMerchant: {
+    hasHarmoniaStatusUpdate: false,
+  },
+})
+
+const getSingleViewPsimiDetailsComponent = (passedStore = undefined) => (
+  <Provider store={passedStore || store}>
+    <SingleViewPsimiDetails psimi={mockMerchantPsimi} />
+  </Provider>
 )
 
 describe('SingleViewPsimiDetails', () => {
