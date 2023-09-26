@@ -10,7 +10,7 @@ import {useDirectoryLocationSubLocations} from 'hooks/useDirectoryLocationSubLoc
 import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
-  selectedEntity: DirectoryEntity,
+  selectedEntity: DirectoryEntity | null,
   setHeaderFn: (header: string) => void
   isInEditState: boolean
   setIsInEditState: (isInEditState: boolean) => void

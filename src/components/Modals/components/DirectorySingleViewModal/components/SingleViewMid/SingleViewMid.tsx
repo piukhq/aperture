@@ -10,7 +10,7 @@ import {classNames} from 'utils/classNames'
 import {DirectoryEntity} from 'types'
 
 type Props = {
-  selectedEntity: DirectoryEntity,
+  selectedEntity: DirectoryEntity | null,
   resetError: () => void
   setError: (errorMessage: string) => void
   setHeaderFn: (header: string) => void
