@@ -173,7 +173,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         <div className={`flex justify-between sticky ${isMobileViewport ? 'top-14' : 'top-0'} z-40 pt-3 pb-4 bg-grey-200/90 dark:bg-grey-900`}>
           <div className='shadow-md rounded-[10px]'>
             <TextInputGroup
-              name='desktop-15'
+              name='search'
               label='Search'
               placeholder='Search by retailer'
               value={searchValue}
