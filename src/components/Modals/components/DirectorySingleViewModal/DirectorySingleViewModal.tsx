@@ -177,7 +177,6 @@ const DirectorySingleViewModal = () => {
   }, [])
 
   const renderContent = () => {
-    if (!selectedEntity) { return <div /> }
     switch (tab) {
       case DirectoryNavigationTab.MIDS:
         return (

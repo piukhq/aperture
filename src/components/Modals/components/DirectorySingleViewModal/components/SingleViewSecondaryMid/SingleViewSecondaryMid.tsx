@@ -10,7 +10,7 @@ import {DirectoryEntity} from 'types'
 import DirectorySingleViewNavigationTab from '../../DirectorySingleViewNavigationTab'
 
 type Props = {
-  selectedEntity: DirectoryEntity,
+  selectedEntity: DirectoryEntity | null,
   setHeaderFn: (header: string) => void
   setIsEntityFound: (isEntityFound: boolean) => void
 }
