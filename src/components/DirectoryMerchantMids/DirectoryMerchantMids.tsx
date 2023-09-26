@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react'
-import {DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, Button, BulkActionsDropdown} from 'components'
+import {useEffect} from 'react'
+import {DirectoryMerchantDetailsTable, Button, BulkActionsDropdown} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {useRouter} from 'next/router'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
@@ -47,15 +47,11 @@ const DirectoryMerchantMids = () => {
   const router = useRouter()
   const {planId, merchantId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [shouldSkipGetMidsByPage, setShouldSkipGetMidsByPage] = useState<boolean>(true)
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantMidsResponse, getMerchantMidsRefresh} = useDirectoryMids({
     skipGetMid: true,
-    skipGetMidsByPage: shouldSkipGetMidsByPage,
     planRef: planId,
-    page: currentPage.toString(),
     merchantRef: merchantId,
   })
 
@@ -270,7 +266,7 @@ const DirectoryMerchantMids = () => {
           refArray={refArray}
         />
       )}
-      <DirectoryMerchantPaginationButton currentData={midsData} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetMidsByPage} setPageFn={setCurrentPage} />
+      {/* <DirectoryMerchantPaginationButton currentData={midsData} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetMidsByPage} setPageFn={setCurrentPage} /> */}
     </>
   )
 }

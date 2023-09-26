@@ -42,14 +42,14 @@ export const directoryMerchantMidsApi = createApi({
   endpoints: builder => ({
     getMerchantMids: builder.query<DirectoryMids, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?n=5000`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
     }),
     getMerchantMidsByPage: builder.query<DirectoryMids, MerchantMidsEndpointRefs & {page: string}>({
-      query: ({planRef, merchantRef, page}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?p=${page}`,
+      query: ({planRef, merchantRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?n=5000`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
