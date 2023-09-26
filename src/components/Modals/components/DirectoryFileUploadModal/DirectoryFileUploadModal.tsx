@@ -42,7 +42,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => {
   const [file, setFile] = useState<File | null>(null)
   const [isValidFile, setIsValidFile] = useState<boolean>(false)
   const [isUploading, setIsUploading] = useState<boolean>(false)
-  const [fileType, setFileType] = useState<string>(fileTypeLabels[0])
+  const [fileType, setFileType] = useState<string>('Select File Type')
 
   // const fileInputRef = useRef(null) // Default file upload input is hidden and assigned to this ref to trigger file browser
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -164,7 +164,7 @@ const DirectoryFileUploadModal = ({isPlanLevelFileUpload}:Props) => {
           labelColour={LabelColour.WHITE}
           labelWeight={LabelWeight.SEMIBOLD}
           ariaLabel={'Upload'}
-          isDisabled={!isValidFile}
+          isDisabled={!isValidFile || fileType === 'Select File Type'}
         >Upload
         </Button>
       </section>
