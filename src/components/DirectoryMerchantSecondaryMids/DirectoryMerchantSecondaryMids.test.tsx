@@ -32,6 +32,7 @@ const mockGetMerchantSecondaryMidsResponse = [
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
+jest.mock('components/DirectoryMerchantTableFilter', () => () => <div data-testid='directory-merchant-table-filter' />)
 
 jest.mock('utils/windowDimensions', () => {
   return {
@@ -93,6 +94,16 @@ describe('DirectoryMerchantSecondaryMids', () => {
 
     expect(visaButton).toBeInTheDocument()
     expect(mastercardButton).toBeInTheDocument()
+  })
+
+  it('should render the Filter button', () => {
+    render(getDirectoryMerchantSecondaryMidsComponent())
+    expect(screen.getByRole('button', {name: 'Show filters'})).toBeInTheDocument()
+  })
+
+  it('should render the DirectorMerchantTableFilter component', () => {
+    render(getDirectoryMerchantSecondaryMidsComponent())
+    expect(screen.getByTestId('directory-merchant-table-filter')).toBeInTheDocument()
   })
 
   it('should render the DirectoryMerchantDetailsTable component', () => {

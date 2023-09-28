@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
-import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
+import {Button, DirectoryMerchantDetailsTable, BulkActionsDropdown, DirectoryMerchantTableFilter} from 'components'
+import {ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground, ButtonWidth} from 'components/Button/styles'
 import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
@@ -15,9 +15,10 @@ import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'featu
 import {requestModal} from 'features/modalSlice'
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 import {setSelectedDirectoryMerchantEntity, setSelectedDirectoryEntityCheckedSelection, getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
-import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle, DirectoryTxmStatusDisplayValue} from 'utils/enums'
 
 const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
   {
@@ -48,19 +49,21 @@ const DirectoryMerchantSecondaryMids = () => {
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [shouldSkipGetSecondaryMidsByPage, setShouldSkipGetSecondaryMidsByPage] = useState<boolean>(true)
+  const [currentPage] = useState<number>(1)
 
+  const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [textFilterValue, setTextFilterValue] = useState<string>('')
+  const [filteredList, setFilteredList] = useState<DirectorySecondaryMids>([])
 
   const {getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsRefresh} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
-    skipGetSecondaryMidsByPage: shouldSkipGetSecondaryMidsByPage,
+    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     page: currentPage.toString(),
   })
 
-  const secondaryMidsData: DirectorySecondaryMids = getMerchantSecondaryMidsResponse || []
+  const secondaryMidsData: DirectorySecondaryMids = textFilterValue.length > 1 ? filteredList : getMerchantSecondaryMidsResponse || []
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -101,7 +104,6 @@ const DirectoryMerchantSecondaryMids = () => {
   const requestSecondaryMidSingleView = (index:number):void => {
     dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
     router.push(`${router.asPath.split('&ref')[0]}&ref=${secondaryMidsData[index].secondary_mid_ref}`, undefined, {scroll: false})
-
   }
 
   const requestSecondaryMidModal = (paymentScheme: PaymentSchemeName) => {
@@ -188,7 +190,7 @@ const DirectoryMerchantSecondaryMids = () => {
 
     if (isMobileViewport) {
       return (
-        <BulkActionsDropdown actionsMenuItems={actionsMenuItems}/>
+        <BulkActionsDropdown isDisabled={checkedRefArray.length === 0} actionsMenuItems={actionsMenuItems}/>
       )
     } else {
       const noItemsSelected = checkedRefArray.length === 0
@@ -216,11 +218,49 @@ const DirectoryMerchantSecondaryMids = () => {
     }
   }
 
+  const secondaryMidFilteringFn = (currentValue:string) => {
+    if (getMerchantSecondaryMidsResponse) {
+      return getMerchantSecondaryMidsResponse.filter((secondaryMid:DirectorySecondaryMid) => {
+        const {secondary_mid_metadata: metadata, txm_status: txmStatus} = secondaryMid
+        const {
+          secondary_mid: secondaryMidValue,
+          payment_scheme_store_name: secondaryMidStoreName,
+          payment_scheme_slug: paymentSchemeSlug,
+          payment_enrolment_status: paymentEnrolmentStatus,
+        } = metadata
+
+        const lowerCaseTextFilterValue = currentValue.toLowerCase()
+        // txm status uses a display value and we want to avoid clashes like 'onboarded' and 'Not onboarded'
+        const txmStatusToCompare = DirectoryTxmStatusDisplayValue[txmStatus].substring(0, currentValue.length).toLowerCase()
+
+        return secondaryMidValue.toLowerCase().includes(lowerCaseTextFilterValue)
+          || secondaryMidStoreName?.toLowerCase().includes(lowerCaseTextFilterValue)
+          || paymentSchemeSlug.toLowerCase().includes(lowerCaseTextFilterValue)
+          || paymentEnrolmentStatus?.toLowerCase().includes(lowerCaseTextFilterValue)
+          || txmStatusToCompare === lowerCaseTextFilterValue
+      })
+    } else {
+      return []
+    }
+  }
+
   return (
     <>
       <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
         {renderBulkActionButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
+          <Button
+            handleClick={() => setShouldShowFilters(!shouldShowFilters)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            borderColour={BorderColour.GREY}
+            labelColour={LabelColour.GREY}
+            labelWeight={LabelWeight.REGULAR}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel={shouldShowFilters ? 'Hide filters' : 'Show filters'}
+          >
+           Filter <ArrowDownSvg className={`${shouldShowFilters && 'rotate-180'} duration-300 w-[15px] opacity-50  dark:fill-white`} alt=''/>
+          </Button>
           <Button
             handleClick={() => requestSecondaryMidModal(PaymentSchemeName.VISA)}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -249,11 +289,13 @@ const DirectoryMerchantSecondaryMids = () => {
         </div>
       </div>
 
+      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={secondaryMidFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+
       {secondaryMidsData && (
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
-      <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetSecondaryMidsByPage} />
+      {/* <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetSecondaryMidsByPage} /> */}
     </>
   )
 }
