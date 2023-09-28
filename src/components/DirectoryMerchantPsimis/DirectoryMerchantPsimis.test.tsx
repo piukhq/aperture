@@ -100,6 +100,17 @@ describe('DirectoryMerchantPsimis', () => {
     expect(mastercardButton).toBeInTheDocument()
   })
 
+  it('should render the Filter button', () => {
+    render(getDirectoryMerchantPsimisComponent())
+    expect(screen.getByRole('button', {name: 'Show filters'})).toBeInTheDocument()
+  })
+
+  it('should render the DirectorMerchantTableFilter component', () => {
+    render(getDirectoryMerchantPsimisComponent())
+    expect(screen.getByTestId('directory-merchant-table-filter')).toBeInTheDocument()
+  })
+
+
   it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantPsimisComponent())
     expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
