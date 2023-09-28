@@ -24,7 +24,7 @@ describe('DirectoryMerchantTableFilter', () => {
     expect(screen.getByDisplayValue('mock_text_filter_value')).toBeInTheDocument()
   })
 
-  it('should disable the tet input when isActive is false', () => {
+  it('should disable the text input when isActive is false', () => {
     render(getDirectoryMerchantTableFilterComponent({isActive: false}))
     expect(screen.getByPlaceholderText('Filter by text..')).toBeDisabled()
   })
