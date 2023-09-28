@@ -31,6 +31,7 @@ const mockGetMerchantMidsResponse = [
 ]
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
+jest.mock('components/DirectoryMerchantTableFilter', () => () => <div data-testid='directory-merchant-table-filter' />)
 jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
 
 jest.mock('hooks/useDirectoryMids', () => ({
@@ -92,6 +93,16 @@ describe('DirectoryMerchantMids', () => {
     expect(screen.getByRole('button', {name: 'Update'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Add Comments'})).toBeInTheDocument()
     expect(screen.getByRole('button', {name: 'Delete'})).toBeInTheDocument()
+  })
+
+  it('should render the Filter button', () => {
+    render(getDirectoryMerchantMidsComponent())
+    expect(screen.getByRole('button', {name: 'Show filters'})).toBeInTheDocument()
+  })
+
+  it('should render the DirectorMerchantTableFilter component', () => {
+    render(getDirectoryMerchantMidsComponent())
+    expect(screen.getByTestId('directory-merchant-table-filter')).toBeInTheDocument()
   })
 
   it('should render the DirectoryMerchantDetailsTable component', () => {

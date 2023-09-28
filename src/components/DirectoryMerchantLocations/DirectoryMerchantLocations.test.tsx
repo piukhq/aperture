@@ -43,6 +43,7 @@ const mockLocationLabel = 'mock_location_label'
 
 jest.mock('components/DirectoryMerchantDetailsTable', () => () => <div data-testid='merchant-details-table' />)
 jest.mock('components/DirectoryMerchantPaginationButton', () => () => <div data-testid='pagination-button' />)
+jest.mock('components/DirectoryMerchantTableFilter', () => () => <div data-testid='directory-merchant-table-filter' />)
 
 jest.mock('hooks/useDirectoryLocations', () => ({
   useDirectoryLocations: jest.fn().mockImplementation(() => ({
@@ -92,8 +93,20 @@ describe('DirectoryMerchantLocations', () => {
     expect(addStoreButton).toBeInTheDocument()
   })
 
+  it('should render the Filter button', () => {
+    render(getDirectoryMerchantLocationsComponent())
+    expect(screen.getByRole('button', {name: 'Show filters'})).toBeInTheDocument()
+  })
+
+  it('should render the DirectorMerchantTableFilter component', () => {
+    render(getDirectoryMerchantLocationsComponent())
+    expect(screen.getByTestId('directory-merchant-table-filter')).toBeInTheDocument()
+  })
+
   it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantLocationsComponent())
     expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
+
+
 })

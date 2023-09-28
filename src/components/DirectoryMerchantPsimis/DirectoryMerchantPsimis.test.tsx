@@ -43,6 +43,7 @@ jest.mock('utils/windowDimensions', () => {
     useIsMobileViewportDimensions: jest.fn().mockImplementation(() => false),
   }
 })
+jest.mock('components/DirectoryMerchantTableFilter', () => () => <div data-testid='directory-merchant-table-filter' />)
 
 jest.mock('hooks/useDirectoryPsimis', () => ({
   useDirectoryPsimis: jest.fn().mockImplementation(() => ({
@@ -99,6 +100,17 @@ describe('DirectoryMerchantPsimis', () => {
     expect(visaButton).toBeInTheDocument()
     expect(mastercardButton).toBeInTheDocument()
   })
+
+  it('should render the Filter button', () => {
+    render(getDirectoryMerchantPsimisComponent())
+    expect(screen.getByRole('button', {name: 'Show filters'})).toBeInTheDocument()
+  })
+
+  it('should render the DirectorMerchantTableFilter component', () => {
+    render(getDirectoryMerchantPsimisComponent())
+    expect(screen.getByTestId('directory-merchant-table-filter')).toBeInTheDocument()
+  })
+
 
   it('should render the DirectoryMerchantDetailsTable component', () => {
     render(getDirectoryMerchantPsimisComponent())

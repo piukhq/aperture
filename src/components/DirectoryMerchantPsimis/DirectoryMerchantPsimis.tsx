@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton, BulkActionsDropdown} from 'components'
+import {Button, DirectoryMerchantDetailsTable, BulkActionsDropdown, DirectoryMerchantTableFilter} from 'components'
 import {ButtonWidth, ButtonSize, LabelColour, LabelWeight, BorderColour, ButtonBackground} from 'components/Button/styles'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useRouter} from 'next/router'
@@ -7,7 +7,7 @@ import {directoryMerchantPsimisApi} from 'services/DirectoryMerchantPsimis'
 import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
-import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle} from 'utils/enums'
+import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle, DirectoryTxmStatusDisplayValue} from 'utils/enums'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
@@ -17,6 +17,7 @@ import {timeStampToDate} from 'utils/dateFormat'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 
 const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
@@ -44,14 +45,17 @@ const DirectoryMerchantPsimis = () => {
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [shouldSkipGetPsimisByPage, setShouldSkipGetPsimisByPage] = useState<boolean>(true)
+  const [currentPage] = useState<number>(1)
+
+  const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [textFilterValue, setTextFilterValue] = useState<string>('')
+  const [filteredList, setFilteredList] = useState<DirectoryPsimis>([])
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantPsimisResponse, getMerchantPsimisRefresh} = useDirectoryPsimis({
     skipGetPsimi: true,
-    skipGetPsimisByPage: shouldSkipGetPsimisByPage,
+    skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     page: currentPage.toString(),
@@ -64,7 +68,8 @@ const DirectoryMerchantPsimis = () => {
       dispatch(setShouldRefreshEntityList(false))
     }
   }, [dispatch, getMerchantPsimisRefresh, shouldRefreshEntityList])
-  const psimisData: DirectoryPsimis = getMerchantPsimisResponse || []
+
+  const psimisData:DirectoryPsimis = textFilterValue.length > 1 ? filteredList : getMerchantPsimisResponse || []
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return psimisData.map((psimiObj: DirectoryPsimi) => {
@@ -118,7 +123,6 @@ const DirectoryMerchantPsimis = () => {
   }
 
   const requestBulkCommentModal = () => {
-    // TODO: Will possibly need to change from Psimis to PSIMIs
     setSelectedPsimis()
     dispatch(setModalHeader('PSIMI Comment'))
     dispatch(setCommentsOwnerRef(merchantId))
@@ -191,12 +195,34 @@ const DirectoryMerchantPsimis = () => {
     }
   }
 
+  const psimiFilteringFn = (currentValue: string) => psimisData.filter((psimi) => {
+    const {value, payment_scheme_merchant_name: paymentSchemeMerchantName} = psimi.psimi_metadata
+
+    const lowerCaseTextFilterValue = currentValue.toLowerCase()
+    const txmStatusToCompare = DirectoryTxmStatusDisplayValue[psimi.txm_status].substring(0, currentValue.length).toLowerCase()
+
+    return value.toLowerCase().includes(lowerCaseTextFilterValue)
+    || paymentSchemeMerchantName && paymentSchemeMerchantName.toLowerCase().includes(lowerCaseTextFilterValue)
+    || txmStatusToCompare === lowerCaseTextFilterValue
+  })
 
   return (
     <>
       <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
         {renderBulkActionButtons()}
         <div className='flex gap-[10px] h-[71px] items-center justify-end'>
+          <Button
+            handleClick={() => setShouldShowFilters(!shouldShowFilters)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            borderColour={BorderColour.GREY}
+            labelColour={LabelColour.GREY}
+            labelWeight={LabelWeight.REGULAR}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel='Show filters'
+          >
+           Filter <ArrowDownSvg className={`${shouldShowFilters && 'rotate-180'} duration-300 w-[15px] opacity-50  dark:fill-white`} alt=''/>
+          </Button>
           <Button
             handleClick={() => requestPsimiModal(PaymentSchemeName.VISA)}
             buttonSize={ButtonSize.MEDIUM_ICON}
@@ -223,10 +249,19 @@ const DirectoryMerchantPsimis = () => {
           </Button>
         </div>
       </div>
+
+      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={psimiFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetPsimisByPage} />
+
+      { psimisData.length === 0 && textFilterValue.length > 1 && (
+        <div className='flex flex-col items-center justify-center h-[100px]'>
+          <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No PSIMIs found</p>
+        </div>
+      )}
+      {/* <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetPsimisByPage} /> */}
     </>
   )
 }

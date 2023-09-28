@@ -34,6 +34,7 @@ type Props = {
   selectValues?: SelectItem[]
   selectedValue?: SelectItem
   borderShadow?: boolean
+  isDisabled?: boolean
   handleSelectValueChange?: (item: SelectItem) => void
   onChange: (event: { target: { value: string}}) => void
   onBlur?: (event: { target: { value: string}}) => void
@@ -58,6 +59,7 @@ const TextInputGroup = (props: Props) => {
     selectValues,
     selectedValue,
     borderShadow,
+    isDisabled,
     handleSelectValueChange,
     onChange,
     onBlur,
@@ -92,6 +94,7 @@ const TextInputGroup = (props: Props) => {
       maxLength={maxLength}
       value={value}
       onChange={onChange}
+      disabled={isDisabled}
       className={classNames(
         'w-full h-full font-body text-sm tracking[.006rem] text-grey-800 dark:text-grey-300 focus:outline-lightBlue',
         INPUT_COLOUR_MAPS[inputColour].input,
@@ -108,6 +111,7 @@ const TextInputGroup = (props: Props) => {
   const renderSelectElement = () => (
     <select
       name={name}
+      disabled={isDisabled}
       id={`bink-form-field-${name}`}
       defaultValue={selectDefaultValue}
       onChange={handleSelectChange}
