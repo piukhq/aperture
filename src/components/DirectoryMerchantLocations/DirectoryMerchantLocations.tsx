@@ -2,7 +2,7 @@ import {useCallback, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
-import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantPaginationButton} from 'components'
+import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantTableFilter} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
 import {DirectoryLocations, DirectoryLocation, DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} from 'types'
@@ -14,6 +14,7 @@ import {timeStampToDate} from 'utils/dateFormat'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {setLocationLabel} from 'features/directoryLocationSlice'
 import PathSvg from 'icons/svgs/path.svg'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
 type LocationRowObject = {
   ref: string,
@@ -30,15 +31,17 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId = '', planId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [shouldSkipGetLocationsByPage, setShouldSkipGetLocationsByPage] = useState<boolean>(true)
+  const [currentPage] = useState<number>(1)
+  const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [textFilterValue, setTextFilterValue] = useState<string>('')
+  const [filteredList, setFilteredList] = useState<DirectoryLocations>([])
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const {getMerchantLocationsResponse} = useDirectoryLocations({
     skipGetLocation: true,
-    skipGetLocationsByPage: shouldSkipGetLocationsByPage,
+    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     page: currentPage.toString(),
@@ -74,7 +77,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
   ]
 
-  const locationsData: DirectoryLocations = useMemo(() => getMerchantLocationsResponse || [], [getMerchantLocationsResponse])
+  const locationsData: DirectoryLocations = useMemo(() => textFilterValue.length > 1 ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, textFilterValue.length])
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
@@ -212,6 +215,33 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
+  const locationFilteringFn = (currentValue:string) => {
+    if (getMerchantLocationsResponse) {
+      return getMerchantLocationsResponse.filter((location: DirectoryLocation) => {
+        const {location_metadata} = location
+        const {
+          name,
+          address_line_1: addressLine1,
+          town_city: townCity,
+          postcode,
+          location_id: locationId,
+          merchant_internal_id: merchantInternalId,
+        } = location_metadata
+
+        const lowerCaseTextFilterValue = currentValue.toLowerCase()
+
+        return name?.toLowerCase().includes(lowerCaseTextFilterValue) ||
+        addressLine1?.toLowerCase().includes(lowerCaseTextFilterValue) ||
+        townCity?.toLowerCase().includes(lowerCaseTextFilterValue) ||
+        postcode?.toLowerCase().includes(lowerCaseTextFilterValue) ||
+        locationId?.toLowerCase().includes(lowerCaseTextFilterValue) ||
+        merchantInternalId?.toLowerCase().includes(lowerCaseTextFilterValue)
+      })
+    } else {
+      return []
+    }
+  }
+
   const noItemsSelected = checkedRefArray.length === 0
   return (
     <>
@@ -243,28 +273,44 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
             >Delete
             </Button>
           </div>
-
         </div>
 
-        <Button
-          handleClick={() => {
-            dispatch(setLocationLabel(locationLabel))
-            dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION))
-          }}
-          buttonSize={ButtonSize.MEDIUM_ICON}
-          buttonWidth={ButtonWidth.AUTO}
-          buttonBackground={ButtonBackground.BLUE}
-          labelColour={LabelColour.WHITE}
-          labelWeight={LabelWeight.MEDIUM}
-          requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-        >{`Add ${locationLabel}`}
-        </Button>
+        <div className='flex gap-2'>
+          <Button
+            handleClick={() => setShouldShowFilters(!shouldShowFilters)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            borderColour={BorderColour.GREY}
+            labelColour={LabelColour.GREY}
+            labelWeight={LabelWeight.REGULAR}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+            ariaLabel={shouldShowFilters ? 'Hide filters' : 'Show filters'}
+          >
+           Filter <ArrowDownSvg className={`${shouldShowFilters && 'rotate-180'} duration-300 w-[15px] opacity-50  dark:fill-white`} alt=''/>
+          </Button>
+          <Button
+            handleClick={() => {
+              dispatch(setLocationLabel(locationLabel))
+              dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_LOCATION))
+            }}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+            requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
+          >{`Add ${locationLabel}`}
+          </Button>
+
+        </div>
       </div>
+
+      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={locationFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
 
       {locationsData && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
-      <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetLocationsByPage} />
+      {/* <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetLocationsByPage} /> */}
     </>
   )
 }
