@@ -43,6 +43,7 @@ jest.mock('utils/windowDimensions', () => {
     useIsMobileViewportDimensions: jest.fn().mockImplementation(() => false),
   }
 })
+jest.mock('components/DirectoryMerchantTableFilter', () => () => <div data-testid='directory-merchant-table-filter' />)
 
 jest.mock('hooks/useDirectoryPsimis', () => ({
   useDirectoryPsimis: jest.fn().mockImplementation(() => ({
