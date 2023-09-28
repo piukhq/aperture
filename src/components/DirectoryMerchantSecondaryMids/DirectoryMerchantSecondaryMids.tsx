@@ -295,6 +295,12 @@ const DirectoryMerchantSecondaryMids = () => {
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
+      { secondaryMidsData.length === 0 && textFilterValue.length > 1 && (
+        <div className='flex flex-col items-center justify-center h-[100px]'>
+          <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Secondary MIDs found</p>
+        </div>
+      )}
+
       {/* <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetSecondaryMidsByPage} /> */}
     </>
   )

@@ -310,6 +310,12 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       {locationsData && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
+
+      { locationsData.length === 0 && textFilterValue.length > 1 && (
+        <div className='flex flex-col items-center justify-center h-[100px]'>
+          <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Locations found</p>
+        </div>
+      )}
       {/* <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetLocationsByPage} /> */}
     </>
   )

@@ -255,6 +255,12 @@ const DirectoryMerchantPsimis = () => {
       {psimisData && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
+
+      { psimisData.length === 0 && textFilterValue.length > 1 && (
+        <div className='flex flex-col items-center justify-center h-[100px]'>
+          <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No PSIMIs found</p>
+        </div>
+      )}
       {/* <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetPsimisByPage} /> */}
     </>
   )
