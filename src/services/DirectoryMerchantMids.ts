@@ -42,30 +42,10 @@ export const directoryMerchantMidsApi = createApi({
   endpoints: builder => ({
     getMerchantMids: builder.query<DirectoryMids, MerchantMidsEndpointRefs>({
       query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?n=5000`,
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?n=3000`,
         method: 'GET',
       }),
       providesTags: ['MerchantMids'],
-    }),
-    getMerchantMidsByPage: builder.query<DirectoryMids, MerchantMidsEndpointRefs & {page: string}>({
-      query: ({planRef, merchantRef}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/mids?n=5000`,
-        method: 'GET',
-      }),
-      providesTags: ['MerchantMids'],
-      // Update the cache with the additional Mids
-      async onQueryStarted ({planRef, merchantRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: newMids} = await queryFulfilled
-          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
-            return existingMids.concat(newMids)
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
     }),
     postMerchantMid: builder.mutation<DirectoryMid, PostMerchantMidBody>({
       query: ({onboard = false, mid_metadata, planRef, merchantRef}) => ({
@@ -220,7 +200,6 @@ export const directoryMerchantMidsApi = createApi({
 export const {
   usePrefetch,
   useGetMerchantMidsQuery,
-  useGetMerchantMidsByPageQuery,
   useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
