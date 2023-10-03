@@ -61,8 +61,8 @@ export const directoryMerchantLocationsApi = createApi({
   ],
   endpoints: builder => ({
     getMerchantLocations: builder.query<DirectoryLocations, MerchantLocationsEndpointRefs>({
-      query: ({planRef, merchantRef, secondaryMidRef, getAll}) => ({
-        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?${getAll ? 'n=3000&' : ''}${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
+      query: ({planRef, merchantRef, secondaryMidRef}) => ({
+        url: `${UrlEndpoint.PLANS}/${planRef}/merchants/${merchantRef}/locations?n=3000&${secondaryMidRef ? `exclude_secondary_mid=${secondaryMidRef}` : 'include_sub_locations=true'}`,
         method: 'GET',
       }),
       providesTags: ['MerchantLocations'],
