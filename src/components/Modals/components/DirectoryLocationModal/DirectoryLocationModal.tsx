@@ -25,7 +25,6 @@ const DirectoryLocationModal = () => {
   } = useDirectoryLocations({
     skipGetLocation: true,
     getAll: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })

@@ -18,7 +18,6 @@ const DirectoryMerchantPsimisDeleteModalContainer = () => {
   } = useDirectoryPsimis({
     skipGetPsimi: true,
     skipGetPsimis: true,
-    skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })

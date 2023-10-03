@@ -19,7 +19,6 @@ const DirectoryMerchantLocationsDeleteModalContainer = () => {
   } = useDirectoryLocations({
     skipGetLocation: true,
     skipGetLocations: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
