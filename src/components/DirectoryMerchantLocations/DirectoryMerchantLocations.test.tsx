@@ -108,5 +108,8 @@ describe('DirectoryMerchantLocations', () => {
     expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
 
-
+  it('should not render the Show All button when there is less than 350 records', () => {
+    render(getDirectoryMerchantLocationsComponent())
+    expect(screen.queryByRole('button', {name: 'Show All'})).not.toBeInTheDocument()
+  })
 })
