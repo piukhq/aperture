@@ -45,8 +45,7 @@ const DirectoryMerchantPsimis = () => {
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
-  const [currentPage] = useState<number>(1)
-
+  const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryPsimis>([])
@@ -55,10 +54,8 @@ const DirectoryMerchantPsimis = () => {
 
   const {getMerchantPsimisResponse, getMerchantPsimisRefresh} = useDirectoryPsimis({
     skipGetPsimi: true,
-    skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
-    page: currentPage.toString(),
   })
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
@@ -69,10 +66,17 @@ const DirectoryMerchantPsimis = () => {
     }
   }, [dispatch, getMerchantPsimisRefresh, shouldRefreshEntityList])
 
+  useEffect(() => { // checks if there are more than 350 psimis to show the show all button
+    getMerchantPsimisResponse && !shouldShowAll && setShouldShowAll(getMerchantPsimisResponse.length <= 350)
+  }, [getMerchantPsimisResponse, shouldShowAll])
+
   const psimisData:DirectoryPsimis = textFilterValue.length > 1 ? filteredList : getMerchantPsimisResponse || []
 
+  const visiblePsimis = shouldShowAll ? psimisData : psimisData.slice(0, 350)
+
+
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return psimisData.map((psimiObj: DirectoryPsimi) => {
+    return visiblePsimis.map((psimiObj: DirectoryPsimi) => {
       const {date_added: dateAdded, psimi_metadata: metadata, txm_status: txmStatus} = psimiObj
       const {value, payment_scheme_merchant_name: paymentSchemeMerchantName, payment_scheme_slug: paymentSchemeSlug} = metadata
       return [
@@ -96,15 +100,15 @@ const DirectoryMerchantPsimis = () => {
     })
   }
 
-  const refArray = psimisData?.map(psimi => psimi.psimi_ref)
+  const refArray = visiblePsimis?.map(psimi => psimi.psimi_ref)
 
   const requestPsimiSingleView = (index:number):void => {
-    dispatch(setSelectedDirectoryMerchantEntity(psimisData[index]))
-    router.push(`${router.asPath.split('&ref')[0]}&ref=${psimisData[index].psimi_ref}`, undefined, {scroll: false})
+    dispatch(setSelectedDirectoryMerchantEntity(visiblePsimis[index]))
+    router.push(`${router.asPath.split('&ref')[0]}&ref=${visiblePsimis[index].psimi_ref}`, undefined, {scroll: false})
   }
 
   const setSelectedPsimis = () => {
-    const checkedPsimisToEntity = psimisData.filter((psimi) => checkedRefArray.includes(psimi.psimi_ref)).map((psimi) => ({
+    const checkedPsimisToEntity = visiblePsimis.filter((psimi) => checkedRefArray.includes(psimi.psimi_ref)).map((psimi) => ({
       entityRef: psimi.psimi_ref,
       entityValue: psimi.psimi_metadata.value,
       paymentSchemeSlug: psimi.psimi_metadata.payment_scheme_slug,
@@ -195,7 +199,7 @@ const DirectoryMerchantPsimis = () => {
     }
   }
 
-  const psimiFilteringFn = (currentValue: string) => psimisData.filter((psimi) => {
+  const psimiFilteringFn = (currentValue: string) => visiblePsimis.filter((psimi) => {
     const {value, payment_scheme_merchant_name: paymentSchemeMerchantName} = psimi.psimi_metadata
 
     const lowerCaseTextFilterValue = currentValue.toLowerCase()
@@ -252,16 +256,29 @@ const DirectoryMerchantPsimis = () => {
 
       <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={psimiFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
 
-      {psimisData && (
+      {visiblePsimis && (
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
 
-      { psimisData.length === 0 && textFilterValue.length > 1 && (
+      { visiblePsimis.length === 0 && textFilterValue.length > 1 && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No PSIMIs found</p>
         </div>
       )}
-      {/* <DirectoryMerchantPaginationButton currentData={psimisData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetPsimisByPage} /> */}
+
+      { !shouldShowAll && visiblePsimis && (
+        <div className='w-full flex justify-center my-8'>
+          <Button
+            handleClick={() => setShouldShowAll(true)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+          ><ArrowDownSvg fill='white' />Show All
+          </Button>
+        </div>
+      )}
     </>
   )
 }

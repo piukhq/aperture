@@ -51,17 +51,18 @@ const DirectoryMerchantMids = () => {
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryMids>([])
 
   const {getMerchantMidsResponse, getMerchantMidsRefresh} = useDirectoryMids({
     skipGetMid: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
 
   const midsData: DirectoryMids = textFilterValue.length > 1 ? filteredList : getMerchantMidsResponse || []
+  const visibleMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 350)
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -71,9 +72,13 @@ const DirectoryMerchantMids = () => {
     }
   }, [dispatch, getMerchantMidsRefresh, getMerchantMidsResponse, shouldRefreshEntityList])
 
+  useEffect(() => { // checks if there are more than 350 mids to require the show all button
+    getMerchantMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantMidsResponse.length <= 350)
+  }, [getMerchantMidsResponse, shouldShowAll])
+
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return midsData.map((midObj: DirectoryMid) => {
+    return visibleMids.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
       const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus = ''} = metadata
       return [
@@ -98,7 +103,7 @@ const DirectoryMerchantMids = () => {
     })
   }
 
-  const refArray = midsData?.map(mid => mid.mid_ref)
+  const refArray = visibleMids?.map(mid => mid.mid_ref)
 
   const requestMidModal = (paymentScheme: PaymentSchemeName) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
@@ -106,12 +111,12 @@ const DirectoryMerchantMids = () => {
   }
 
   const requestMidSingleView = (index:number):void => {
-    const requestedMid = midsData[index]
+    const requestedMid = visibleMids[index]
     dispatch(setSelectedDirectoryMerchantEntity(requestedMid))
     router.push(`${router.asPath.split('&ref')[0]}&ref=${requestedMid.mid_ref}`, undefined, {scroll: false})
   }
   const setSelectedMids = () => {
-    const checkedMidsToEntity = midsData.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
+    const checkedMidsToEntity = visibleMids.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
       paymentSchemeSlug: mid.mid_metadata.payment_scheme_slug,
@@ -230,6 +235,7 @@ const DirectoryMerchantMids = () => {
           payment_enrolment_status: paymentEnrolmentStatus,
         } = metadata
 
+        setShouldShowAll(true)
         const lowerCaseTextFilterValue = currentValue.toLowerCase()
         // txm status uses a display value and we want to avoid clashes like 'onboarded' and 'Not onboarded'
         const txmStatusToCompare = DirectoryTxmStatusDisplayValue[txmStatus].substring(0, currentValue.length).toLowerCase()
@@ -304,7 +310,7 @@ const DirectoryMerchantMids = () => {
 
       <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={midFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
 
-      {midsData && (
+      {visibleMids && (
         <DirectoryMerchantDetailsTable
           tableHeaders={midsTableHeaders}
           tableRows={hydrateMidTableData()}
@@ -313,12 +319,25 @@ const DirectoryMerchantMids = () => {
         />
       )}
 
-      { midsData.length === 0 && textFilterValue.length > 1 && (
+      { visibleMids.length === 0 && textFilterValue.length > 1 && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No MIDs found</p>
         </div>
       )}
-      {/* <DirectoryMerchantPaginationButton currentData={midsData} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetMidsByPage} setPageFn={setCurrentPage} /> */}
+
+      { !shouldShowAll && visibleMids && (
+        <div className='w-full flex justify-center my-8'>
+          <Button
+            handleClick={() => setShouldShowAll(true)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+          ><ArrowDownSvg fill='white' />Show All
+          </Button>
+        </div>
+      )}
     </>
   )
 }
