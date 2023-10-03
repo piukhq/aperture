@@ -319,7 +319,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         </div>
       )}
 
-      { !shouldShowAll && visibleLocations && (
+      { !shouldShowAll && getMerchantLocationsResponse && (
         <div className='w-full flex justify-center my-8'>
           <Button
             handleClick={() => setShouldShowAll(true)}

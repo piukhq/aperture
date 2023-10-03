@@ -266,7 +266,7 @@ const DirectoryMerchantPsimis = () => {
         </div>
       )}
 
-      { !shouldShowAll && visiblePsimis && (
+      { !shouldShowAll && getMerchantPsimisResponse && (
         <div className='w-full flex justify-center my-8'>
           <Button
             handleClick={() => setShouldShowAll(true)}

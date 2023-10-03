@@ -325,7 +325,7 @@ const DirectoryMerchantMids = () => {
         </div>
       )}
 
-      { !shouldShowAll && visibleMids && (
+      { !shouldShowAll && getMerchantMidsResponse && (
         <div className='w-full flex justify-center my-8'>
           <Button
             handleClick={() => setShouldShowAll(true)}

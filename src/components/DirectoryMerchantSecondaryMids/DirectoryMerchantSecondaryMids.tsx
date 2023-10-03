@@ -303,9 +303,7 @@ const DirectoryMerchantSecondaryMids = () => {
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Secondary MIDs found</p>
         </div>
-      )}
-
-      { !shouldShowAll && visibleSecondaryMids && (
+      )} { !shouldShowAll && getMerchantSecondaryMidsResponse && (
         <div className='w-full flex justify-center my-8'>
           <Button
             handleClick={() => setShouldShowAll(true)}
