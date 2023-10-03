@@ -23,7 +23,6 @@ const SingleViewMid = ({selectedEntity, setError, resetError, setHeaderFn, setIs
 
   const {getMerchantMidResponse, getMerchantMidIsLoading} = useDirectoryMids({
     skipGetMids: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     midRef: ref,

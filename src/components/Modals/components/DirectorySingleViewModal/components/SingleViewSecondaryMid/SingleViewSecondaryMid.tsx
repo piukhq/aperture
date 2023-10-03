@@ -21,7 +21,6 @@ const SingleViewSecondaryMid = ({selectedEntity, setHeaderFn, setIsEntityFound}:
 
   const {getMerchantSecondaryMidResponse, getMerchantSecondaryMidIsLoading} = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,

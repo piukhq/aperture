@@ -40,7 +40,6 @@ const SingleViewLocationSecondaryMids = () => {
     skipGetSecondaryMid: true,
     skipGetSecondaryMids: !shouldPrepareDropdownMenu,
     getAll: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     locationRef: ref,

@@ -40,7 +40,6 @@ const SingleViewPsimiDetails = ({psimi}: Props) => {
     planRef: planId,
     merchantRef: merchantId,
     psimiRef: ref,
-    skipGetPsimisByPage: true,
   })
 
   const offboardPsimi = () => {
