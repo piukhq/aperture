@@ -1,13 +1,12 @@
 import {
   useGetMerchantLocationsQuery,
-  useGetMerchantLocationsByPageQuery,
   useGetMerchantLocationQuery,
   usePutMerchantLocationMutation,
   useDeleteMerchantLocationMutation,
   usePostMerchantLocationMutation,
 } from 'services/DirectoryMerchantLocations'
 
-export const useDirectoryLocations = ({skipGetLocations = false, skipGetLocationsByPage = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = '', page = '1', getAll = false}) => {
+export const useDirectoryLocations = ({skipGetLocations = false, skipGetLocation = false, planRef = '', merchantRef = '', locationRef = '', secondaryMidRef = '', getAll = false}) => {
   const {
     data: getMerchantLocationsResponse,
     isLoading: getMerchantLocationsIsLoading,
@@ -15,12 +14,6 @@ export const useDirectoryLocations = ({skipGetLocations = false, skipGetLocation
     refetch: getMerchantLocationsRefresh,
     isFetching: getMerchantLocationsIsFetching,
   } = useGetMerchantLocationsQuery({planRef, merchantRef, secondaryMidRef, getAll}, {skip: skipGetLocations})
-
-  const {
-    data: getMerchantLocationsByPageResponse,
-    isLoading: getMerchantLocationsByPageIsLoading,
-    error: getMerchantLocationsByPageError,
-  } = useGetMerchantLocationsByPageQuery({planRef, merchantRef, secondaryMidRef, page, getAll}, {skip: skipGetLocationsByPage})
 
   const {
     data: getMerchantLocationResponse,
@@ -59,10 +52,6 @@ export const useDirectoryLocations = ({skipGetLocations = false, skipGetLocation
     getMerchantLocationsError,
     getMerchantLocationsRefresh,
     getMerchantLocationsIsFetching,
-    // GET Locations by Page
-    getMerchantLocationsByPageResponse,
-    getMerchantLocationsByPageIsLoading,
-    getMerchantLocationsByPageError,
     // GET Location
     getMerchantLocationResponse,
     getMerchantLocationIsLoading,

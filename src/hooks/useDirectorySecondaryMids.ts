@@ -1,6 +1,5 @@
 import {
   useGetMerchantSecondaryMidsQuery,
-  useGetMerchantSecondaryMidsByPageQuery,
   useGetMerchantSecondaryMidQuery,
   usePostMerchantSecondaryMidMutation,
   usePatchMerchantSecondaryMidMutation,
@@ -13,12 +12,10 @@ import {
 export const useDirectorySecondaryMids = ({
   skipGetSecondaryMids = false,
   skipGetSecondaryMid = false,
-  skipGetSecondaryMidsByPage = false,
   planRef = '',
   merchantRef = '',
   secondaryMidRef = '',
   locationRef = '',
-  page = '1',
   getAll = false}
 ) => {
   const {
@@ -27,12 +24,6 @@ export const useDirectorySecondaryMids = ({
     error: getMerchantSecondaryMidsError,
     refetch: getMerchantSecondaryMidsRefresh,
   } = useGetMerchantSecondaryMidsQuery({planRef, merchantRef, locationRef, getAll}, {skip: skipGetSecondaryMids})
-
-  const {
-    data: getMerchantSecondaryMidsByPageResponse,
-    isLoading: getMerchantSecondaryMidsByPageIsLoading,
-    error: getMerchantSecondaryMidsByPageError,
-  } = useGetMerchantSecondaryMidsByPageQuery({planRef, merchantRef, locationRef, page, getAll}, {skip: skipGetSecondaryMidsByPage})
 
   const {
     data: getMerchantSecondaryMidResponse,
@@ -94,10 +85,6 @@ export const useDirectorySecondaryMids = ({
     getMerchantSecondaryMidsIsLoading,
     getMerchantSecondaryMidsError,
     getMerchantSecondaryMidsRefresh,
-    // GET Secondary MIDs By Page
-    getMerchantSecondaryMidsByPageResponse,
-    getMerchantSecondaryMidsByPageIsLoading,
-    getMerchantSecondaryMidsByPageError,
     // GET Secondary MID
     getMerchantSecondaryMidResponse,
     getMerchantSecondaryMidIsLoading,

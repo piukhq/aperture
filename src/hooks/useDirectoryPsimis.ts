@@ -1,6 +1,5 @@
 import {
   useGetMerchantPsimisQuery,
-  useGetMerchantPsimisByPageQuery,
   useGetMerchantPsimiQuery,
   usePostMerchantPsimiMutation,
   useDeleteMerchantPsimiMutation,
@@ -8,19 +7,13 @@ import {
   usePostMerchantPsimiOffboardingMutation,
 } from 'services/DirectoryMerchantPsimis'
 
-export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false, skipGetPsimisByPage = false, planRef = '', merchantRef = '', psimiRef = '', page = '1'}) => {
+export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false, planRef = '', merchantRef = '', psimiRef = ''}) => {
   const {
     data: getMerchantPsimisResponse,
     refetch: getMerchantPsimisRefresh,
     isLoading: getMerchantPsimisIsLoading,
     error: getMerchantPsimisError,
   } = useGetMerchantPsimisQuery({planRef, merchantRef}, {skip: skipGetPsimis})
-
-  const {
-    data: getMerchantPsimisByPageResponse,
-    isLoading: getMerchantPsimisByPageIsLoading,
-    error: getMerchantPsimisByPageError,
-  } = useGetMerchantPsimisByPageQuery({planRef, merchantRef, page}, {skip: skipGetPsimisByPage})
 
   const {
     data: getMerchantPsimiResponse,
@@ -66,10 +59,6 @@ export const useDirectoryPsimis = ({skipGetPsimis = false, skipGetPsimi = false,
     getMerchantPsimisRefresh,
     getMerchantPsimisIsLoading,
     getMerchantPsimisError,
-    // GET Psimis By Page
-    getMerchantPsimisByPageResponse,
-    getMerchantPsimisByPageIsLoading,
-    getMerchantPsimisByPageError,
     // GET PSIMI
     getMerchantPsimiResponse,
     getMerchantPsimiIsLoading,
