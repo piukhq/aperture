@@ -76,6 +76,7 @@ jobs:
       - uses: docker/build-push-action@v2
         with:
           push: true
+          target: main
           tags: |
             binkcore.azurecr.io/${{ github.event.repository.name }}:prod-${{ github.event.release.tag_name }}
             binkcore.azurecr.io/${{ github.event.repository.name }}:prod
