@@ -57,7 +57,7 @@
     "husky": "^7.0.4",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.31",
     "redux-mock-store": "^1.5.4",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
