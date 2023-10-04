@@ -30,7 +30,6 @@ const SingleViewSubLocationDetails = ({isInEditState, location, setIsInEditState
     getMerchantLocationsIsFetching: isGetLocationsFetching,
   } = useDirectoryLocations({
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     getAll: true,
     planRef: planId,
     merchantRef: merchantId,

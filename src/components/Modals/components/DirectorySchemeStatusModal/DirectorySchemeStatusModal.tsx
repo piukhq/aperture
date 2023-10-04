@@ -24,7 +24,6 @@ const DirectorySchemeStatusModal = () => {
     patchMerchantMidsBulkIsLoading,
   } = useDirectoryMids({
     skipGetMid: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
@@ -37,7 +36,6 @@ const DirectorySchemeStatusModal = () => {
     patchMerchantSecondaryMidsBulkIsLoading,
   } = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })

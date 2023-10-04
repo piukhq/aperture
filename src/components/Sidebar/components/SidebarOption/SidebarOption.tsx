@@ -30,6 +30,11 @@ const SidebarOption = ({option, selected}: Props) => {
 
   const displayName = RouteDisplayNames[option]
 
+  // TODO Remove this when customer-wallets is ready
+  if (option === 'customer-wallets') {
+    return null
+  }
+
   return (
     <div className='h-[52px] flex my-1'>
       <Link href={`/${option}`} passHref>

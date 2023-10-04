@@ -110,4 +110,9 @@ describe('DirectoryMerchantSecondaryMids', () => {
     render(getDirectoryMerchantSecondaryMidsComponent())
     expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
+
+  it('should not render the Show All button when there is less than 350 records', () => {
+    render(getDirectoryMerchantSecondaryMidsComponent())
+    expect(screen.queryByRole('button', {name: 'Show All'})).not.toBeInTheDocument()
+  })
 })

@@ -1,3 +1,4 @@
+// This component is no longer in active use but keeping around for a while just in case we need to revert back to it.
 import {useEffect, useState} from 'react'
 import Button from 'components/Button'
 import {ButtonBackground, ButtonSize, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'

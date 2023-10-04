@@ -18,7 +18,7 @@ const DirectorySecondaryMidModal = () => {
     postMerchantSecondaryMidResponse,
     postMerchantSecondaryMidError,
     resetPostMerchantSecondaryMidResponse,
-  } = useDirectorySecondaryMids({skipGetSecondaryMids: true, skipGetSecondaryMid: true, skipGetSecondaryMidsByPage: true})
+  } = useDirectorySecondaryMids({skipGetSecondaryMids: true, skipGetSecondaryMid: true})
 
   const paymentScheme = useAppSelector(getSelectedDirectoryMerchantPaymentScheme)
 

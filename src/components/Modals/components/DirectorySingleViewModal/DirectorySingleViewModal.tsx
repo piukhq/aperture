@@ -50,7 +50,6 @@ const DirectorySingleViewModal = () => {
   } = useDirectoryMids({
     skipGetMids: true,
     skipGetMid: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     midRef: ref,
@@ -68,7 +67,6 @@ const DirectorySingleViewModal = () => {
   } = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
     skipGetSecondaryMid: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,
@@ -84,7 +82,6 @@ const DirectorySingleViewModal = () => {
     resetPostMerchantPsimiOnboardingResponse,
   } = useDirectoryPsimis({
     skipGetPsimis: true,
-    skipGetPsimisByPage: true,
     skipGetPsimi: true,
     planRef: planId,
     merchantRef: merchantId,
@@ -100,7 +97,6 @@ const DirectorySingleViewModal = () => {
   } = useDirectoryLocations({
     skipGetLocations: true,
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     locationRef: ref,

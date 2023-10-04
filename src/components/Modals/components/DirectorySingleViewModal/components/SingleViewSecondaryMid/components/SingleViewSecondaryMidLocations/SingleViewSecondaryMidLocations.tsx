@@ -45,7 +45,6 @@ const SingleViewSecondaryMidLocations = () => { // TODO: Add functionality to ad
   } = useDirectoryLocations({
     skipGetLocations: false,
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,

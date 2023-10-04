@@ -58,7 +58,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     resetPostMerchantMidOffboardingResponse: resetOffboardingResponse,
   } = useDirectoryMids({
     skipGetMids: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     midRef: ref,
@@ -70,7 +69,6 @@ const SingleViewMidDetails = ({setError, resetError, merchantMid}: Props) => {
     getMerchantLocationsIsFetching,
   } = useDirectoryLocations({
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     getAll: true,

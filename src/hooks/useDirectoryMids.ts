@@ -1,6 +1,5 @@
 import {
   useGetMerchantMidsQuery,
-  useGetMerchantMidsByPageQuery,
   useGetMerchantMidQuery,
   usePostMerchantMidMutation,
   usePatchMerchantMidMutation,
@@ -14,12 +13,10 @@ import {
 
 export const useDirectoryMids = ({
   skipGetMids = false,
-  skipGetMidsByPage = false,
   skipGetMid = false,
   planRef = '',
   merchantRef = '',
   midRef = '',
-  page = '1',
 }) => {
   const {
     data: getMerchantMidsResponse,
@@ -27,12 +24,6 @@ export const useDirectoryMids = ({
     isLoading: getMerchantMidsIsLoading,
     error: getMerchantMidsError,
   } = useGetMerchantMidsQuery({planRef, merchantRef}, {skip: skipGetMids})
-
-  const {
-    data: getMerchantMidsByPageResponse,
-    isLoading: getMerchantMidsByPageIsLoading,
-    error: getMerchantMidsByPageError,
-  } = useGetMerchantMidsByPageQuery({planRef, merchantRef, page}, {skip: skipGetMidsByPage})
 
   const {
     data: getMerchantMidResponse,
@@ -107,10 +98,6 @@ export const useDirectoryMids = ({
     getMerchantMidsRefresh,
     getMerchantMidsIsLoading,
     getMerchantMidsError,
-    // GET MIDs by Page
-    getMerchantMidsByPageResponse,
-    getMerchantMidsByPageIsLoading,
-    getMerchantMidsByPageError,
     // GET MID
     getMerchantMidResponse,
     getMerchantMidIsLoading,

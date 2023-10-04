@@ -34,7 +34,6 @@ const SingleViewLocation = ({selectedEntity, setHeaderFn, isInEditState, setIsIn
   } = useDirectoryLocations({
     planRef: planId,
     skipGetLocations: true,
-    skipGetLocationsByPage: true,
     merchantRef: merchantId,
     locationRef: ref,
   })

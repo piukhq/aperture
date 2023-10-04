@@ -109,4 +109,11 @@ describe('DirectoryMerchantMids', () => {
     render(getDirectoryMerchantMidsComponent())
     expect(screen.getByTestId('merchant-details-table')).toBeInTheDocument()
   })
+
+  it('should not render the Show All button when there is less than 350 records', () => {
+    render(getDirectoryMerchantMidsComponent())
+    expect(screen.queryByRole('button', {name: 'Show All'})).not.toBeInTheDocument()
+  })
+
+  // TODO: Consider performance impact of mocking 350 records to prove the show all button can appear in that circumstance
 })

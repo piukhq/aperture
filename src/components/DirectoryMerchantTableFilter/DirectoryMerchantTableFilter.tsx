@@ -17,7 +17,6 @@ const DirectoryMerchantTableFilter = ({
   setTextFilterValue,
 }: Props) => {
 
-
   const handleFilterInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextFilterValue(event.target.value)
     event.target.value.length <= 1 ? setFilteredList([]) : setFilteredList(filterFn(event.target.value))
@@ -39,7 +38,7 @@ const DirectoryMerchantTableFilter = ({
           isDisabled={!isActive}
         />
       </div>
-      <div className='w-48'>
+      {/* <div className='w-48'>
         <TextInputGroup
           name='From Date Filter'
           label='From Date Filter'
@@ -66,7 +65,7 @@ const DirectoryMerchantTableFilter = ({
           inputColour={InputColour.GREY}
           isDisabled={!isActive}
         />
-      </div>
+      </div> */}
     </div>
   )
 }

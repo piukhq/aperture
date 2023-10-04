@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
@@ -31,8 +31,8 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId = '', planId = ''} = useGetRouterQueryString()
   const isMobileViewport = useIsMobileViewportDimensions()
-  const [currentPage] = useState<number>(1)
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryLocations>([])
 
@@ -41,11 +41,13 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
   const {getMerchantLocationsResponse} = useDirectoryLocations({
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
-    page: currentPage.toString(),
   })
+
+  useEffect(() => { // checks if there are more than 350 locations to require the show all button
+    getMerchantLocationsResponse && !shouldShowAll && setShouldShowAll(getMerchantLocationsResponse.length <= 350)
+  }, [getMerchantLocationsResponse, shouldShowAll])
 
   const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
     {
@@ -78,6 +80,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   ]
 
   const locationsData: DirectoryLocations = useMemo(() => textFilterValue.length > 1 ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, textFilterValue.length])
+  const visibleLocations = shouldShowAll ? locationsData : locationsData.slice(0, 350)
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
@@ -145,7 +148,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       return [...standardFields, ...extraFields]
     }
 
-    return locationsData?.reduce((accumulator, locationObj: DirectoryLocation) => {
+    return visibleLocations?.reduce((accumulator, locationObj: DirectoryLocation) => {
       const locationTableRow = hydrateLocationTableRow(locationObj)
       // @ts-expect-error - Wierd never typing error
       accumulator.push({ref: locationObj.location_ref, row: locationTableRow})
@@ -162,7 +165,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
 
       return accumulator
     }, [])
-  }, [isMobileViewport, locationsData])
+  }, [isMobileViewport, visibleLocations])
 
   const locationRowObjects = getLocationTableRowObjects()
   const refArray = locationRowObjects?.map(locationRowObj => locationRowObj.ref)
@@ -174,7 +177,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     const baseUrl = router.asPath.split('&ref')[0]
 
     if (isSubLocation) {
-      const subLocationObj = locationsData?.reduce((accumulator: {subLocation: DirectoryLocation, parentLocationRef: string}, location: DirectoryLocation) => {
+      const subLocationObj = visibleLocations?.reduce((accumulator: {subLocation: DirectoryLocation, parentLocationRef: string}, location: DirectoryLocation) => {
         if (accumulator) { return accumulator }
 
         const {sub_locations: subLocations} = location
@@ -188,7 +191,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
       subLocation && dispatch(setSelectedDirectoryMerchantEntity({...subLocation, isSubLocation: true}))
       router.push(`${baseUrl}&ref=${parentLocationRef}&sub_location_ref=${locationRef}`)
     } else {
-      const location = locationsData.find(location => location.location_ref === locationRef)
+      const location = visibleLocations.find(location => location.location_ref === locationRef)
       location && dispatch(setSelectedDirectoryMerchantEntity(location))
       router.push(`${baseUrl}&ref=${locationRef}`, undefined, {scroll: false})
     }
@@ -301,22 +304,34 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
             requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
           >{`Add ${locationLabel}`}
           </Button>
-
         </div>
       </div>
 
       <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={locationFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
 
-      {locationsData && (
+      {visibleLocations && (
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
 
-      { locationsData.length === 0 && textFilterValue.length > 1 && (
+      { visibleLocations.length === 0 && textFilterValue.length > 1 && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Locations found</p>
         </div>
       )}
-      {/* <DirectoryMerchantPaginationButton currentData={locationsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetLocationsByPage} /> */}
+
+      { !shouldShowAll && getMerchantLocationsResponse && (
+        <div className='w-full flex justify-center my-8'>
+          <Button
+            handleClick={() => setShouldShowAll(true)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+          ><ArrowDownSvg fill='white' />Show All
+          </Button>
+        </div>
+      )}
     </>
   )
 }

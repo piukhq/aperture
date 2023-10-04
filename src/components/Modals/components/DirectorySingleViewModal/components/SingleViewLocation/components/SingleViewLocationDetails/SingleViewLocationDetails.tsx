@@ -120,7 +120,6 @@ const SingleViewLocationDetails = ({isInEditState, location, onCancelEditState, 
   } = useDirectoryLocations({
     skipGetLocations: true,
     skipGetLocation: true,
-    skipGetLocationsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     locationRef: ref,

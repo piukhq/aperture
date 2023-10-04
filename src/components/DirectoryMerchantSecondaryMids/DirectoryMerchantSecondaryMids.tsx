@@ -49,21 +49,17 @@ const DirectoryMerchantSecondaryMids = () => {
   const router = useRouter()
   const isMobileViewport = useIsMobileViewportDimensions()
   const {merchantId = '', planId} = useGetRouterQueryString()
-  const [currentPage] = useState<number>(1)
-
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
+  const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectorySecondaryMids>([])
 
   const {getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsRefresh} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
-    page: currentPage.toString(),
   })
 
-  const secondaryMidsData: DirectorySecondaryMids = textFilterValue.length > 1 ? filteredList : getMerchantSecondaryMidsResponse || []
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -73,8 +69,16 @@ const DirectoryMerchantSecondaryMids = () => {
     }
   }, [dispatch, getMerchantSecondaryMidsRefresh, shouldRefreshEntityList])
 
+  useEffect(() => { // checks if there are more than 350 secondary mids to require the show all button
+    getMerchantSecondaryMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantSecondaryMidsResponse.length <= 350)
+  }, [getMerchantSecondaryMidsResponse, shouldShowAll])
+
+  const secondaryMidsData: DirectorySecondaryMids = textFilterValue.length > 1 ? filteredList : getMerchantSecondaryMidsResponse || []
+
+  const visibleSecondaryMids = shouldShowAll ? secondaryMidsData : secondaryMidsData.slice(0, 350)
+
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return secondaryMidsData.map((secondaryMidObj: DirectorySecondaryMid) => {
+    return visibleSecondaryMids.map((secondaryMidObj: DirectorySecondaryMid) => {
       const {date_added: dateAdded, secondary_mid_metadata: metadata, txm_status: txmStatus} = secondaryMidObj
       const {secondary_mid: secondaryMid, payment_scheme_slug: paymentSchemeSlug, payment_scheme_store_name: paymentSchemeStoreName, payment_enrolment_status: paymentEnrolmentStatus} = metadata
       return [
@@ -99,11 +103,11 @@ const DirectoryMerchantSecondaryMids = () => {
     })
   }
 
-  const refArray = secondaryMidsData?.map(secondaryMid => secondaryMid.secondary_mid_ref)
+  const refArray = visibleSecondaryMids?.map(secondaryMid => secondaryMid.secondary_mid_ref)
 
   const requestSecondaryMidSingleView = (index:number):void => {
-    dispatch(setSelectedDirectoryMerchantEntity(secondaryMidsData[index]))
-    router.push(`${router.asPath.split('&ref')[0]}&ref=${secondaryMidsData[index].secondary_mid_ref}`, undefined, {scroll: false})
+    dispatch(setSelectedDirectoryMerchantEntity(visibleSecondaryMids[index]))
+    router.push(`${router.asPath.split('&ref')[0]}&ref=${visibleSecondaryMids[index].secondary_mid_ref}`, undefined, {scroll: false})
   }
 
   const requestSecondaryMidModal = (paymentScheme: PaymentSchemeName) => {
@@ -112,7 +116,7 @@ const DirectoryMerchantSecondaryMids = () => {
   }
 
   const setSelectedSecondaryMids = () => {
-    const checkedSecondaryMidsToEntity = secondaryMidsData.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
+    const checkedSecondaryMidsToEntity = visibleSecondaryMids.filter((secondaryMid) => checkedRefArray.includes(secondaryMid.secondary_mid_ref)).map((secondaryMid) => ({
       entityRef: secondaryMid.secondary_mid_ref,
       entityValue: secondaryMid.secondary_mid_metadata.secondary_mid,
       paymentSchemeSlug: secondaryMid.secondary_mid_metadata.payment_scheme_slug,
@@ -291,17 +295,27 @@ const DirectoryMerchantSecondaryMids = () => {
 
       <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={secondaryMidFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
 
-      {secondaryMidsData && (
+      {visibleSecondaryMids && (
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
-      { secondaryMidsData.length === 0 && textFilterValue.length > 1 && (
+      { visibleSecondaryMids.length === 0 && textFilterValue.length > 1 && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Secondary MIDs found</p>
         </div>
+      )} { !shouldShowAll && getMerchantSecondaryMidsResponse && (
+        <div className='w-full flex justify-center my-8'>
+          <Button
+            handleClick={() => setShouldShowAll(true)}
+            buttonSize={ButtonSize.MEDIUM_ICON}
+            buttonWidth={ButtonWidth.AUTO}
+            buttonBackground={ButtonBackground.BLUE}
+            labelColour={LabelColour.WHITE}
+            labelWeight={LabelWeight.MEDIUM}
+          ><ArrowDownSvg fill='white' />Show All
+          </Button>
+        </div>
       )}
-
-      {/* <DirectoryMerchantPaginationButton currentData={secondaryMidsData} setPageFn={setCurrentPage} currentPage={currentPage} setShouldSkipGetEntityByPage={setShouldSkipGetSecondaryMidsByPage} /> */}
     </>
   )
 }

@@ -20,7 +20,6 @@ const SingleViewPsimi = ({selectedEntity, setHeaderFn, setIsEntityFound}: Props)
 
   const {getMerchantPsimiResponse, getMerchantPsimiIsLoading} = useDirectoryPsimis({
     skipGetPsimis: true,
-    skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     psimiRef: ref,

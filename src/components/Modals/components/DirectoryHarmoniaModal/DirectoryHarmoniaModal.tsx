@@ -33,7 +33,6 @@ const DirectoryHarmoniaModal = () => {
     postMerchantMidOffboardingIsSuccess,
   } = useDirectoryMids({
     skipGetMids: true,
-    skipGetMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
@@ -47,7 +46,6 @@ const DirectoryHarmoniaModal = () => {
     postMerchantSecondaryMidOffboardingIsSuccess,
   } = useDirectorySecondaryMids({
     skipGetSecondaryMids: true,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })
@@ -61,7 +59,6 @@ const DirectoryHarmoniaModal = () => {
     postMerchantPsimiOffboardingIsSuccess,
   } = useDirectoryPsimis({
     skipGetPsimis: true,
-    skipGetPsimisByPage: true,
     planRef: planId,
     merchantRef: merchantId,
   })

@@ -51,7 +51,6 @@ const SingleViewSecondaryMidDetails = ({secondaryMid}: Props) => {
     resetPostMerchantSecondaryMidOffboardingResponse: resetOffboardingResponse,
   } = useDirectorySecondaryMids({
     skipGetSecondaryMids: !shouldRefresh,
-    skipGetSecondaryMidsByPage: true,
     planRef: planId,
     merchantRef: merchantId,
     secondaryMidRef: ref,
