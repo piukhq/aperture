@@ -92,8 +92,8 @@ enum RouteDisplayNames {
   'mid-management' = 'MID Directory',
   'asset-comparator' = 'Asset Comparator',
   'plan-comparator' = 'Plan Comparator',
-  'customer-wallets' = 'Customer Wallets',
-  'bank-viewport' = 'Bank Viewport',
+  // 'customer-wallets' = 'Customer Wallets', // TODO: Uncomment this when the Customer Wallets page is ready.
+  // 'bank-viewport' = 'Bank Viewport',
 }
 
 enum BulkActionButtonStyle {

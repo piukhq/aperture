@@ -86,11 +86,11 @@ describe('Sidebar', () => {
       expect(screen.getByRole('heading', {name: 'Plan Management'})).toBeInTheDocument()
     })
 
-    it('should render the Customer Support subheading', () => {
-      mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
-      render(getSidebarComponent())
-      expect(screen.getByRole('heading', {name: 'Customer Support'})).toBeInTheDocument()
-    })
+    // it('should render the Customer Support subheading', () => {
+    //   mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
+    //   render(getSidebarComponent())
+    //   expect(screen.getByRole('heading', {name: 'Customer Support'})).toBeInTheDocument()
+    // })
   })
 
   describe('Test links', () => {
@@ -111,6 +111,7 @@ describe('Sidebar', () => {
 
     describe('Test permissions specific links', () => {
       it('should not render the MID Management Sidebar link', () => {
+        mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
         render(getSidebarComponent())
 
         const directoryLink = screen.queryByRole('link', {
@@ -131,26 +132,27 @@ describe('Sidebar', () => {
         expect(directoryLink).toBeInTheDocument()
       })
 
-      it('should not render the Customer Wallets Sidebar link', () => {
-        render(getSidebarComponent())
+      // TODO: Uncomment this test when the Customer Wallets feature is ready
+      // it('should not render the Customer Wallets Sidebar link', () => {
+      //   render(getSidebarComponent())
 
-        const customerWalletsLink = screen.queryByRole('link', {
-          name: 'CUSTOMER WALLETS',
-        })
+      //   const customerWalletsLink = screen.queryByRole('link', {
+      //     name: 'CUSTOMER WALLETS',
+      //   })
 
-        expect(customerWalletsLink).not.toBeInTheDocument()
-      })
+      //   expect(customerWalletsLink).not.toBeInTheDocument()
+      // })
 
-      it('should render the Customer Wallets Sidebar link', () => {
-        mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
-        render(getSidebarComponent())
+      // it('should render the Customer Wallets Sidebar link', () => {
+      //   mockPermissions = [UserPermissions.CUSTOMER_WALLET_READ_ONLY]
+      //   render(getSidebarComponent())
 
-        const customerWalletsLink = screen.getByRole('link', {
-          name: 'CUSTOMER WALLETS',
-        })
+      //   const customerWalletsLink = screen.getByRole('link', {
+      //     name: 'CUSTOMER WALLETS',
+      //   })
 
-        expect(customerWalletsLink).toBeInTheDocument()
-      })
+      //   expect(customerWalletsLink).toBeInTheDocument()
+      // })
     })
   })
 
