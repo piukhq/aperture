@@ -9,7 +9,6 @@ import {Button, HeadMetadata} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour} from 'components/Button/styles'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 
-
 const IndexPage: NextPage = withPageAuthRequired(() => {
   const router = useRouter()
   const {hasRequiredPermission} = usePermissions()
@@ -39,12 +38,12 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
       link: 'mid-management/directory',
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_ONLY,
     },
-    {
-      title: 'Customer Wallets',
-      description: 'View a customer\'s transactions, payment and loyalty cards',
-      link: 'customer-wallets',
-      requiredPermission: UserPermissions.CUSTOMER_WALLET_READ_ONLY,
-    },
+    // {
+    //   title: 'Customer Wallets',
+    //   description: 'View a customer\'s transactions, payment and loyalty cards',
+    //   link: 'customer-wallets',
+    //   requiredPermission: UserPermissions.CUSTOMER_WALLET_READ_ONLY,
+    // },
   ]
 
   const renderMenuOptions = () => {
@@ -125,14 +124,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
 
       {/* Learn more Elements */}
       <div className={`${fadeInOutClasses} duration-500 flex flex-col gap-4 items-center z-40 ${appClicked && 'opacity-0'} w-full`}>
-        <div className='bg-orange/10 p-8 rounded-lg shadow-md my-4'>
-          <h2 className='font-heading-7'>What&apos;s Missing for launch? 🦕</h2>
-          <p className='font-body-4'>April 2023</p>
-          <ul className='font-body-3 list-disc list-inside'>
-            <li>File uploading</li>
-            <li>Harmonia updating</li>
-          </ul>
-        </div>
         {renderMenuOptions()}
         <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500 shadow-md' target='_blank' href={`https://teams.microsoft.com/l/chat/0/0?users=${Admin.EMAIL}&topicName=Aperture Feedback&message=Hey ${Admin.FIRST_NAME}, I was using Aperture and I thought that...`} rel='noreferrer'>
             Give praise, ideas, or rants
