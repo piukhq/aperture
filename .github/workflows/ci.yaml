@@ -30,6 +30,9 @@ jobs:
             binkcore.azurecr.io/${{ github.event.repository.name }}:latest
           build-args: |
             ENVIRONMENT=development
+            NEXT_PUBLIC_PORTAL_API_URL=https://portal.dev.gb.bink.com/
+            NEXT_PUBLIC_LOYALTY_API_URL=https://api.dev.gb.bink.com/
+            NEXT_PUBLIC_ENV=development  
   build_staging_release:
     if: github.event_name == 'release' && github.event.action == 'published'
     name: build_staging_release
