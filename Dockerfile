@@ -1,6 +1,7 @@
 FROM node:slim as deps
 WORKDIR /app
 COPY . .
+ARG NEXT_PUBLIC_PORTAL_API_URL NEXT_PUBLIC_LOYALTY_API_URL NEXT_PUBLIC_ENV
 RUN apt-get update
 RUN apt-get install -y ca-certificates
 RUN yarn install --frozen-lockfile
