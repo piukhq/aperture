@@ -29,7 +29,6 @@ jobs:
             binkcore.azurecr.io/${{ github.event.repository.name }}:${{ env.container_tag }}
             binkcore.azurecr.io/${{ github.event.repository.name }}:latest
           build-args: |
-            ENVIRONMENT=development
             NEXT_PUBLIC_PORTAL_API_URL=https://portal.dev.gb.bink.com/
             NEXT_PUBLIC_LOYALTY_API_URL=https://api.dev.gb.bink.com/
             NEXT_PUBLIC_ENV=development  
@@ -56,7 +55,9 @@ jobs:
             binkcore.azurecr.io/${{ github.event.repository.name }}:staging-${{ github.event.release.tag_name }}
             binkcore.azurecr.io/${{ github.event.repository.name }}:staging
           build-args: |
-            ENVIRONMENT=staging
+            NEXT_PUBLIC_PORTAL_API_URL=https://portal.staging.gb.bink.com/
+            NEXT_PUBLIC_LOYALTY_API_URL=https://api.staging.gb.bink.com/
+            NEXT_PUBLIC_ENV=staging
   build_release_production:
     if: github.event_name == 'release' && github.event.action == 'published'
     name: build_release_production
@@ -83,4 +84,6 @@ jobs:
             binkcore.azurecr.io/${{ github.event.repository.name }}:prod-${{ github.event.release.tag_name }}
             binkcore.azurecr.io/${{ github.event.repository.name }}:prod
           build-args: |
-            ENVIRONMENT=production
+            NEXT_PUBLIC_PORTAL_API_URL=https://portal.gb.bink.com/
+            NEXT_PUBLIC_LOYALTY_API_URL=https://api.gb.bink.com/
+            NEXT_PUBLIC_ENV=production
