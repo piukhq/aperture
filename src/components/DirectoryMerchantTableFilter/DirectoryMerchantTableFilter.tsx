@@ -58,20 +58,21 @@ const DirectoryMerchantTableFilter = ({
         />
       </div>
       <div className='flex gap-2 items-center'>
-        <span className='font-body-3'>Date from:</span>
+        <label id='date-from' className='font-body-3'>Date from:</label>
         <input
+          aria-labelledby='date-from'
           onChange={handleFromDateFilterInputChange}
           className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
           type='date' id='start' name='from-date'
           min={releaseDate}
           max={todaysDate}
           value={fromDate}
-          //max value today
         />
       </div>
       <div className='flex gap-2 items-center'>
-        <span className='font-body-3'>Date to:</span>
+        <label id='date-to' className='font-body-3'>Date to:</label>
         <input
+          aria-labelledby='date-to'
           onChange={handleToDateFilterInputChange}
           className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
           type='date' id='end' name='to-date'
