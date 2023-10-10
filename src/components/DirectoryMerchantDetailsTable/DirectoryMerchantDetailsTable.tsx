@@ -3,6 +3,7 @@ import {DirectoryMerchantDetailsTableHeader, DirectoryMerchantDetailsTableCell} 
 import DirectoryMerchantDetailsTableRow from './components/DirectoryMerchantDetailsTableRow'
 import {setSelectedDirectoryTableCheckedRows, getSelectedDirectoryTableCheckedRows, setSelectedDirectoryTableCheckedRefs, resetSelectedDirectoryEntities} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
+import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
 type TableRowProps = DirectoryMerchantDetailsTableCell[]
 
@@ -11,11 +12,14 @@ type Props = {
   tableRows: TableRowProps[],
   singleViewRequestHandler: (index: number) => void
   refArray: string[]
+  sortingFn: (displayValue: string) => void
+  fieldSortedBy: string
 }
 
-const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewRequestHandler, refArray}: Props) => {
+const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, sortingFn, fieldSortedBy, singleViewRequestHandler, refArray}: Props) => {
   const [copyRow, setCopyRow] = useState<number | null>(null)
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false)
+  const [hasBeenSorted, setHasBeenSorted] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
   const selectedCheckedRows = useAppSelector(getSelectedDirectoryTableCheckedRows)
@@ -46,13 +50,31 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, singleViewReque
     isAllChecked ? setIsAllChecked(false) : setIsAllChecked(true)
   }
 
+  const renderSortableHeading = (displayValue: string = '') => {
+    const isCurrentSortDirectionAscending = tableHeaders.find(header => header.displayValue === displayValue)?.isCurrentSortDirectionAscending
+
+    const handleSortButtonClick = () => {
+      sortingFn(displayValue)
+      setHasBeenSorted(true)
+    }
+    return (
+      <button
+        className={`flex items-center justify-center gap-2 duration-200 ${fieldSortedBy === displayValue && hasBeenSorted ? 'text-blue fill-blue' : 'hover:text-blue/75'}`}
+        onClick={handleSortButtonClick}
+        aria-label={`sort-by-${displayValue}`}
+      >
+        {displayValue} <ArrowDownSvg className={`w-[14px] h-[10px] duration-300 ${isCurrentSortDirectionAscending ? 'translate-y-[2px]' : 'rotate-180 -translate-y-[2px]'}`} />
+      </button>
+    )
+  }
+
   const renderTableHeaders = () => (
     tableHeaders.map((header, index) => {
-      const {additionalStyles, isPaymentIcon, displayValue} = header
+      const {additionalStyles, isPaymentIcon, displayValue, isSortable} = header
       if (isPaymentIcon) {
         return <th key={index} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px] h-[38px]' />
       }
-      return <th key={index} data-testid='table-header' className={`px-[9px] h-[38px] font-table-header ${additionalStyles}`}>{displayValue}</th>
+      return <th key={index} data-testid='table-header' className={`px-[9px] h-[38px] w-max font-table-header ${additionalStyles}`}>{isSortable ? renderSortableHeading(displayValue) : displayValue}  </th>
     })
   )
 
