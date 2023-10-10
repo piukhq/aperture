@@ -8,6 +8,7 @@ import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/d
 import useGetRouterQueryString from 'hooks/useGetRouterQueryString'
 import {requestModal} from 'features/modalSlice'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle, DirectoryTxmStatusDisplayValue} from 'utils/enums'
+import {isMatchingDateFilter} from 'utils/filters'
 import {setCommentsOwnerRef, setCommentsSubjectType, setModalHeader} from 'features/directoryCommentsSlice'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity, setSelectedDirectoryMerchantPaymentScheme} from 'features/directoryMerchantSlice'
 import {useDirectoryPsimis} from 'hooks/useDirectoryPsimis'
@@ -49,6 +50,7 @@ const DirectoryMerchantPsimis = () => {
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryPsimis>([])
+  const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
@@ -70,10 +72,9 @@ const DirectoryMerchantPsimis = () => {
     getMerchantPsimisResponse && !shouldShowAll && setShouldShowAll(getMerchantPsimisResponse.length <= 350)
   }, [getMerchantPsimisResponse, shouldShowAll])
 
-  const psimisData:DirectoryPsimis = textFilterValue.length > 1 ? filteredList : getMerchantPsimisResponse || []
+  const psimisData:DirectoryPsimis = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantPsimisResponse || []
 
   const visiblePsimis = shouldShowAll ? psimisData : psimisData.slice(0, 350)
-
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return visiblePsimis.map((psimiObj: DirectoryPsimi) => {
@@ -199,16 +200,32 @@ const DirectoryMerchantPsimis = () => {
     }
   }
 
-  const psimiFilteringFn = (currentValue: string) => visiblePsimis.filter((psimi) => {
-    const {value, payment_scheme_merchant_name: paymentSchemeMerchantName} = psimi.psimi_metadata
+  const psimiFilteringFn = (currentValue: string, fromDateFilterValue: string = '', toDateFilterValue: string = '') => {
+    if (getMerchantPsimisResponse) {
+      setShouldShowAll(true)
+      return getMerchantPsimisResponse?.filter((psimi) => {
+        const {value, payment_scheme_merchant_name: paymentSchemeMerchantName} = psimi.psimi_metadata
+        const dateAdded = psimi.date_added
 
-    const lowerCaseTextFilterValue = currentValue.toLowerCase()
-    const txmStatusToCompare = DirectoryTxmStatusDisplayValue[psimi.txm_status].substring(0, currentValue.length).toLowerCase()
+        const lowerCaseTextFilterValue = currentValue.toLowerCase()
+        const txmStatusToCompare = DirectoryTxmStatusDisplayValue[psimi.txm_status].substring(0, currentValue.length).toLowerCase()
 
-    return value.toLowerCase().includes(lowerCaseTextFilterValue)
-    || paymentSchemeMerchantName && paymentSchemeMerchantName.toLowerCase().includes(lowerCaseTextFilterValue)
-    || txmStatusToCompare === lowerCaseTextFilterValue
-  })
+        if (!isMatchingDateFilter(dateAdded, fromDateFilterValue, toDateFilterValue, setHasDateFilter)) {
+          return false
+        }
+
+        if (textFilterValue.length <= 1) {
+          return true
+        }
+
+        return value.toLowerCase().includes(lowerCaseTextFilterValue)
+          || paymentSchemeMerchantName && paymentSchemeMerchantName.toLowerCase().includes(lowerCaseTextFilterValue)
+          || txmStatusToCompare === lowerCaseTextFilterValue
+      })
+    } else {
+      return []
+    }
+  }
 
   return (
     <>
@@ -260,7 +277,7 @@ const DirectoryMerchantPsimis = () => {
         <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
       )}
 
-      { visiblePsimis.length === 0 && textFilterValue.length > 1 && (
+      { visiblePsimis.length === 0 && getMerchantPsimisResponse && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No PSIMIs found</p>
         </div>

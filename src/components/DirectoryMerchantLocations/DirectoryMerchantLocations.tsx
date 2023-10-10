@@ -2,6 +2,7 @@ import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useRouter} from 'next/router'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
+import {isMatchingDateFilter} from 'utils/filters'
 import {Button, DirectoryMerchantDetailsTable, DirectoryMerchantTableFilter} from 'components'
 import {ButtonWidth, ButtonSize, ButtonBackground, LabelColour, LabelWeight, BorderColour} from 'components/Button/styles'
 import {getSelectedDirectoryTableCheckedRefs, setSelectedDirectoryEntityCheckedSelection, setSelectedDirectoryMerchantEntity} from 'features/directoryMerchantSlice'
@@ -35,6 +36,8 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryLocations>([])
+  const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
+
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
@@ -79,7 +82,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
   ]
 
-  const locationsData: DirectoryLocations = useMemo(() => textFilterValue.length > 1 ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, textFilterValue.length])
+  const locationsData: DirectoryLocations = useMemo(() => (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, hasDateFilter, textFilterValue.length])
   const visibleLocations = shouldShowAll ? locationsData : locationsData.slice(0, 350)
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
@@ -218,10 +221,11 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))
   }
 
-  const locationFilteringFn = (currentValue:string) => {
+  const locationFilteringFn = (currentValue:string, fromDateFilterValue: string = '', toDateFilterValue: string = '') => {
     if (getMerchantLocationsResponse) {
+      setShouldShowAll(true)
       return getMerchantLocationsResponse.filter((location: DirectoryLocation) => {
-        const {location_metadata} = location
+        const {location_metadata, date_added: dateAdded} = location
         const {
           name,
           address_line_1: addressLine1,
@@ -231,6 +235,15 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
           merchant_internal_id: merchantInternalId,
         } = location_metadata
 
+
+        if (!isMatchingDateFilter(dateAdded, fromDateFilterValue, toDateFilterValue, setHasDateFilter)) {
+          return false
+        }
+
+        // Text Filtering
+        if (textFilterValue.length <= 1) {
+          return true // no text filter
+        }
         const lowerCaseTextFilterValue = currentValue.toLowerCase()
 
         return name?.toLowerCase().includes(lowerCaseTextFilterValue) ||
@@ -313,7 +326,7 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
       )}
 
-      { visibleLocations.length === 0 && textFilterValue.length > 1 && (
+      { visibleLocations.length === 0 && getMerchantLocationsResponse && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Locations found</p>
         </div>

@@ -5,6 +5,7 @@ import {useDirectorySecondaryMids} from 'hooks/useDirectorySecondaryMids'
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import {isMatchingDateFilter} from 'utils/filters'
 import {useRouter} from 'next/router'
 import {directoryMerchantSecondaryMidsApi} from 'services/DirectoryMerchantSecondaryMids'
 import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
@@ -53,6 +54,7 @@ const DirectoryMerchantSecondaryMids = () => {
   const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectorySecondaryMids>([])
+  const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
 
   const {getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsRefresh} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
@@ -73,7 +75,7 @@ const DirectoryMerchantSecondaryMids = () => {
     getMerchantSecondaryMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantSecondaryMidsResponse.length <= 350)
   }, [getMerchantSecondaryMidsResponse, shouldShowAll])
 
-  const secondaryMidsData: DirectorySecondaryMids = textFilterValue.length > 1 ? filteredList : getMerchantSecondaryMidsResponse || []
+  const secondaryMidsData: DirectorySecondaryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantSecondaryMidsResponse || []
 
   const visibleSecondaryMids = shouldShowAll ? secondaryMidsData : secondaryMidsData.slice(0, 350)
 
@@ -222,16 +224,25 @@ const DirectoryMerchantSecondaryMids = () => {
     }
   }
 
-  const secondaryMidFilteringFn = (currentValue:string) => {
+  const secondaryMidFilteringFn = (currentValue:string, fromDateFilterValue: string = '', toDateFilterValue: string = '') => {
     if (getMerchantSecondaryMidsResponse) {
+      setShouldShowAll(true)
       return getMerchantSecondaryMidsResponse.filter((secondaryMid:DirectorySecondaryMid) => {
-        const {secondary_mid_metadata: metadata, txm_status: txmStatus} = secondaryMid
+        const {secondary_mid_metadata: metadata, txm_status: txmStatus, date_added: dateAdded} = secondaryMid
         const {
           secondary_mid: secondaryMidValue,
           payment_scheme_store_name: secondaryMidStoreName,
           payment_scheme_slug: paymentSchemeSlug,
           payment_enrolment_status: paymentEnrolmentStatus,
         } = metadata
+
+        if (!isMatchingDateFilter(dateAdded, fromDateFilterValue, toDateFilterValue, setHasDateFilter)) {
+          return false
+        }
+
+        if (textFilterValue.length <= 1) {
+          return true
+        }
 
         const lowerCaseTextFilterValue = currentValue.toLowerCase()
         // txm status uses a display value and we want to avoid clashes like 'onboarded' and 'Not onboarded'
@@ -299,11 +310,13 @@ const DirectoryMerchantSecondaryMids = () => {
         <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
       )}
 
-      { visibleSecondaryMids.length === 0 && textFilterValue.length > 1 && (
+      { visibleSecondaryMids.length === 0 && getMerchantSecondaryMidsResponse && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No Secondary MIDs found</p>
         </div>
-      )} { !shouldShowAll && getMerchantSecondaryMidsResponse && (
+      )}
+
+      { !shouldShowAll && getMerchantSecondaryMidsResponse && (
         <div className='w-full flex justify-center my-8'>
           <Button
             handleClick={() => setShouldShowAll(true)}

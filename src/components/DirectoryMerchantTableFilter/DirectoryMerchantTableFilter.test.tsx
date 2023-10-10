@@ -28,4 +28,14 @@ describe('DirectoryMerchantTableFilter', () => {
     render(getDirectoryMerchantTableFilterComponent({isActive: false}))
     expect(screen.getByPlaceholderText('Filter by text..')).toBeDisabled()
   })
+
+  it('should render the date from input', () => {
+    render(getDirectoryMerchantTableFilterComponent())
+    expect(screen.getByLabelText('Date from:')).toBeInTheDocument()
+  })
+
+  it('should render the date to input', () => {
+    render(getDirectoryMerchantTableFilterComponent())
+    expect(screen.getByLabelText('Date to:')).toBeInTheDocument()
+  })
 })
