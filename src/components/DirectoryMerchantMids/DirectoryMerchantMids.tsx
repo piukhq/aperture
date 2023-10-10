@@ -7,6 +7,7 @@ import {DirectoryMids, DirectoryMid, DirectoryMerchantDetailsTableHeader, Direct
 import {useIsMobileViewportDimensions} from 'utils/windowDimensions'
 import {getHarmoniaStatusString, getPaymentSchemeStatusString} from 'utils/statusStringFormat'
 import {timeStampToDate} from 'utils/dateFormat'
+import {isMatchingDateFilter} from 'utils/filters'
 import {directoryMerchantMidsApi} from 'services/DirectoryMerchantMids'
 import {setShouldRefreshEntityList, getShouldRefreshEntityList} from 'features/directoryMerchantSlice'
 import {useAppDispatch, useAppSelector} from 'app/hooks'
@@ -53,6 +54,7 @@ const DirectoryMerchantMids = () => {
   const [shouldShowFilters, setShouldShowFilters] = useState<boolean>(false)
   const [shouldShowAll, setShouldShowAll] = useState<boolean>(false)
   const [textFilterValue, setTextFilterValue] = useState<string>('')
+  const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
   const [filteredList, setFilteredList] = useState<DirectoryMids>([])
 
   const {getMerchantMidsResponse, getMerchantMidsRefresh} = useDirectoryMids({
@@ -61,7 +63,7 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
-  const midsData: DirectoryMids = textFilterValue.length > 1 ? filteredList : getMerchantMidsResponse || []
+  const midsData: DirectoryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantMidsResponse || []
   const visibleMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 350)
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
@@ -224,10 +226,12 @@ const DirectoryMerchantMids = () => {
     }
   }
 
-  const midFilteringFn = (currentValue:string) => {
+  const midFilteringFn = (textFilterValue:string, fromDateFilterValue: string = '', toDateFilterValue: string = '') => {
     if (getMerchantMidsResponse) {
+      setShouldShowAll(true)
       return getMerchantMidsResponse.filter((mid:DirectoryMid) => {
-        const {mid_metadata: metadata, txm_status: txmStatus} = mid
+
+        const {mid_metadata: metadata, txm_status: txmStatus, date_added: dateAdded} = mid
         const {
           mid: midValue,
           visa_bin: visaBin,
@@ -235,11 +239,18 @@ const DirectoryMerchantMids = () => {
           payment_enrolment_status: paymentEnrolmentStatus,
         } = metadata
 
-        setShouldShowAll(true)
-        const lowerCaseTextFilterValue = currentValue.toLowerCase()
-        // txm status uses a display value and we want to avoid clashes like 'onboarded' and 'Not onboarded'
-        const txmStatusToCompare = DirectoryTxmStatusDisplayValue[txmStatus].substring(0, currentValue.length).toLowerCase()
+        if (!isMatchingDateFilter(dateAdded, fromDateFilterValue, toDateFilterValue, setHasDateFilter)) {
+          return false
+        }
 
+        // Text Filtering
+        if (textFilterValue.length <= 1) {
+          return true // no text filter
+        }
+
+        const lowerCaseTextFilterValue = textFilterValue.toLowerCase()
+        // txm status uses a display value and we want to avoid clashes like 'onboarded' and 'Not onboarded'
+        const txmStatusToCompare = DirectoryTxmStatusDisplayValue[txmStatus].substring(0, textFilterValue.length).toLowerCase()
         return midValue.toLowerCase().includes(lowerCaseTextFilterValue)
           || visaBin?.toLowerCase().includes(lowerCaseTextFilterValue)
           || paymentSchemeSlug.toLowerCase().includes(lowerCaseTextFilterValue)
@@ -319,7 +330,7 @@ const DirectoryMerchantMids = () => {
         />
       )}
 
-      { visibleMids.length === 0 && textFilterValue.length > 1 && (
+      { visibleMids.length === 0 && getMerchantMidsResponse && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No MIDs found</p>
         </div>
