@@ -38,4 +38,19 @@ describe('DirectoryMerchantTableFilter', () => {
     render(getDirectoryMerchantTableFilterComponent())
     expect(screen.getByLabelText('Date to:')).toBeInTheDocument()
   })
+
+  it('should render the clear filters button', () => {
+    render(getDirectoryMerchantTableFilterComponent())
+    expect(screen.getByRole('button', {name: 'Clear Filters'})).toBeInTheDocument()
+  })
+
+  it('should disable the clear filters button when no filters have been applied', () => {
+    render(getDirectoryMerchantTableFilterComponent({textFilterValue: ''}))
+    expect(screen.getByRole('button', {name: 'Clear Filters'})).toBeDisabled()
+  })
+
+  it('should enable the clear filters button when filters have been applied', () => {
+    render(getDirectoryMerchantTableFilterComponent({textFilterValue: 'mock_text_filter_value'}))
+    expect(screen.getByRole('button', {name: 'Clear Filters'})).toBeEnabled()
+  })
 })
