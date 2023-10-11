@@ -103,8 +103,6 @@ const DirectoryMerchantTableFilter = ({
       >
        Clear Filters
       </Button>
-
-
     </div>
   )
 }
