@@ -3,6 +3,8 @@ import TextInputGroup from 'components/TextInputGroup'
 import {DirectoryLocation, DirectoryMid, DirectoryPsimi, DirectorySecondaryMid} from 'types'
 import {InputColour, InputStyle, InputType, InputWidth} from 'components/TextInputGroup/styles'
 import {useState} from 'react'
+import Button from 'components/Button'
+import {ButtonBackground, ButtonSize, ButtonWidth, LabelColour, LabelWeight} from 'components/Button/styles'
 
 type Props = {
   isActive: boolean,
@@ -37,10 +39,17 @@ const DirectoryMerchantTableFilter = ({
     setFilteredList(filterFn(textFilterValue, fromDate, event.target.value))
   }
 
-  const releaseDate = '2023-10-01'
-  const todaysDate = new Date().toISOString()
+  const handleClearFilterClick = () => {
+    setFromDate('')
+    setToDate('')
+    setTextFilterValue('')
+    setFilteredList(filterFn('', '', ''))
+  }
 
-    .split('T')[0]
+  const minimumDate = '2023-01-01'
+  const todaysDate = new Date().toISOString()
+  const hasBeenFiltered = fromDate !== '' || toDate !== '' || textFilterValue !== ''
+
   return (
     <div className={`flex justify-end items-center w-full overflow-hidden duration-300 gap-4 ${isActive ? 'h-12 my-2 ' : 'h-0'}`}>
       <div className='w-48'>
@@ -64,7 +73,7 @@ const DirectoryMerchantTableFilter = ({
           onChange={handleFromDateFilterInputChange}
           className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
           type='date' id='start' name='from-date'
-          min={releaseDate}
+          min={minimumDate}
           max={todaysDate}
           value={fromDate}
         />
@@ -77,10 +86,23 @@ const DirectoryMerchantTableFilter = ({
           className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
           type='date' id='end' name='to-date'
           value={toDate}
-          min={releaseDate}
+          min={minimumDate}
           max={todaysDate}
         />
       </div>
+      <Button
+        handleClick={handleClearFilterClick}
+        buttonSize={ButtonSize.MEDIUM_ICON}
+        buttonWidth={ButtonWidth.AUTO}
+        buttonBackground={ButtonBackground.RED}
+        labelColour={LabelColour.WHITE}
+        labelWeight={LabelWeight.MEDIUM}
+        ariaLabel='Clear Filters'
+        isDisabled={!isActive || !hasBeenFiltered}
+        additionalStyles={hasBeenFiltered ? 'opacity-100' : 'opacity-50'}
+      >
+       Clear Filters
+      </Button>
     </div>
   )
 }
