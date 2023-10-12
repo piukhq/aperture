@@ -54,6 +54,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, sortingFn, fiel
     const isCurrentSortDirectionAscending = tableHeaders.find(header => header.displayValue === displayValue)?.isCurrentSortDirectionAscending
 
     const handleSortButtonClick = () => {
+      dispatch(setSelectedDirectoryTableCheckedRows([]))
       sortingFn(displayValue)
       setHasBeenSorted(true)
     }
