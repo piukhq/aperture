@@ -22,7 +22,6 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 
-
 // Sorting functionality, what table fields to allow sort by and what property to sort by
 type SortableField = 'VALUE' | 'DATE ADDED'
 const fieldToPropertyMapping = {
@@ -56,9 +55,20 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
+  useEffect(() => { // if there is a filter applied, reset sorting back to default. This is to avoid clashes between the two but could be improved
+    if (hasDateFilter || textFilterValue.length > 1) {
+      setSortedList([])
+      setFieldSortedBy('DATE ADDED')
+      setSortFieldsAscendingTracker({
+        'DATE ADDED': true,
+        'VALUE': false,
+      })
+    }
+  }, [hasDateFilter, textFilterValue])
+
   // Logic to work out what data to display, in the order of filtered, truncated sorted...
   const midsData: DirectoryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantMidsResponse || []
-  const possiblyTruncatedMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 3)
+  const possiblyTruncatedMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 350)
   const midsToDisplay = sortedList.length > 0 ? sortedList : possiblyTruncatedMids
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
@@ -70,7 +80,7 @@ const DirectoryMerchantMids = () => {
   }, [dispatch, getMerchantMidsRefresh, getMerchantMidsResponse, shouldRefreshEntityList])
 
   useEffect(() => { // checks if there are more than 350 mids to require the show all button
-    getMerchantMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantMidsResponse.length <= 3)
+    getMerchantMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantMidsResponse.length <= 350)
   }, [getMerchantMidsResponse, shouldShowAll])
 
   const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
