@@ -231,7 +231,6 @@ const DirectoryMerchantSecondaryMids = () => {
       },
     ]
 
-
     if (isMobileViewport) {
       return (
         <BulkActionsDropdown isDisabled={checkedRefArray.length === 0} actionsMenuItems={actionsMenuItems}/>
