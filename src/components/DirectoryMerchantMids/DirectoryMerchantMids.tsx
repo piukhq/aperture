@@ -55,21 +55,24 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
-  useEffect(() => { // if there is a filter applied, reset sorting back to default. This is to avoid clashes between the two but could be improved
-    if (hasDateFilter || textFilterValue.length > 1) {
-      setSortedList([])
-      setFieldSortedBy('DATE ADDED')
-      setSortFieldsAscendingTracker({
-        'DATE ADDED': true,
-        'VALUE': false,
-      })
-    }
-  }, [hasDateFilter, textFilterValue])
+  const resetSorting = () => { // We reset sorting when filters are applied/removed.
+    setSortedList([])
+    setFieldSortedBy('DATE ADDED')
+    setSortFieldsAscendingTracker({
+      'DATE ADDED': true,
+      'VALUE': false,
+    })
+  }
+
+  const hasActiveFilters = textFilterValue.length > 1 || hasDateFilter
+  useEffect(() => {
+    hasActiveFilters && resetSorting()
+  }, [hasActiveFilters])
 
   // Logic to work out what data to display, in the order of filtered, truncated sorted...
-  const midsData: DirectoryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantMidsResponse || []
-  const possiblyTruncatedMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 350)
-  const midsToDisplay = sortedList.length > 0 ? sortedList : possiblyTruncatedMids
+  const allMids: DirectoryMids = hasActiveFilters ? filteredList : getMerchantMidsResponse || []
+  const potentiallyTruncatedMids: DirectoryMids = shouldShowAll ? allMids : allMids.slice(0, 350)
+  const midsToDisplay = sortedList.length > 0 ? sortedList : potentiallyTruncatedMids
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -310,7 +313,7 @@ const DirectoryMerchantMids = () => {
     }
 
     setFieldSortedBy(field)
-    setSortedList([...midsData].sort(sortFn))
+    setSortedList([...allMids].sort(sortFn))
     setSortFieldsAscendingTracker({...sortFieldsAscendingTracker, [field]: !sortFieldsAscendingTracker[field]})
   }
 
@@ -371,7 +374,15 @@ const DirectoryMerchantMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={midFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+      <DirectoryMerchantTableFilter
+        isActive={shouldShowFilters}
+        filterFn={midFilteringFn}
+        setFilteredList={setFilteredList}
+        textFilterValue={textFilterValue}
+        setTextFilterValue={setTextFilterValue}
+        setHasDateFilter={setHasDateFilter}
+        resetSortingFn={resetSorting}
+      />
 
       {midsToDisplay && (
         <DirectoryMerchantDetailsTable
