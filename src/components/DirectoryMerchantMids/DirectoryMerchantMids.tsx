@@ -72,7 +72,7 @@ const DirectoryMerchantMids = () => {
   // Logic to work out what data to display, in the order of filtered, truncated sorted...
   const allMids: DirectoryMids = hasActiveFilters ? filteredList : getMerchantMidsResponse || []
   const potentiallyTruncatedMids: DirectoryMids = shouldShowAll ? allMids : allMids.slice(0, 350)
-  const midsToDisplay = sortedList.length > 0 ? sortedList : potentiallyTruncatedMids
+  const visibleMids = sortedList.length > 0 ? sortedList : potentiallyTruncatedMids
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -112,7 +112,7 @@ const DirectoryMerchantMids = () => {
   ]
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
-    return midsToDisplay.map((midObj: DirectoryMid) => {
+    return visibleMids.map((midObj: DirectoryMid) => {
       const {date_added: dateAdded, mid_metadata: metadata, txm_status: txmStatus} = midObj
       const {payment_scheme_slug: paymentSchemeSlug, mid, visa_bin: visaBin, payment_enrolment_status: paymentEnrolmentStatus = ''} = metadata
       return [
@@ -139,7 +139,7 @@ const DirectoryMerchantMids = () => {
     })
   }
 
-  const refArray = midsToDisplay?.map(mid => mid.mid_ref)
+  const refArray = visibleMids?.map(mid => mid.mid_ref)
 
   const requestMidModal = (paymentScheme: PaymentSchemeName) => {
     dispatch(setSelectedDirectoryMerchantPaymentScheme(paymentScheme))
@@ -147,12 +147,12 @@ const DirectoryMerchantMids = () => {
   }
 
   const requestMidSingleView = (index:number):void => {
-    const requestedMid = midsToDisplay[index]
+    const requestedMid = visibleMids[index]
     dispatch(setSelectedDirectoryMerchantEntity(requestedMid))
     router.push(`${router.asPath.split('&ref')[0]}&ref=${requestedMid.mid_ref}`, undefined, {scroll: false})
   }
   const setSelectedMids = () => {
-    const checkedMidsToEntity = midsToDisplay.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
+    const checkedMidsToEntity = visibleMids.filter((mid) => checkedRefArray.includes(mid.mid_ref)).map((mid) => ({
       entityRef: mid.mid_ref,
       entityValue: mid.mid_metadata.mid,
       paymentSchemeSlug: mid.mid_metadata.payment_scheme_slug,
@@ -384,7 +384,7 @@ const DirectoryMerchantMids = () => {
         resetSortingFn={resetSorting}
       />
 
-      {midsToDisplay && (
+      {visibleMids && (
         <DirectoryMerchantDetailsTable
           fieldSortedBy={fieldSortedBy}
           sortingFn={sortingFunctionContainer}
@@ -395,7 +395,7 @@ const DirectoryMerchantMids = () => {
         />
       )}
 
-      { midsToDisplay.length === 0 && getMerchantMidsResponse && (
+      { visibleMids.length === 0 && getMerchantMidsResponse && (
         <div className='flex flex-col items-center justify-center h-[100px]'>
           <p className='text-grey-600 dark:text-grey-400 text-center font-body-2'>No MIDs found</p>
         </div>

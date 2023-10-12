@@ -28,6 +28,28 @@ type Props = {
   locationLabel: string
 }
 
+// Sorting functionality, what table fields to allow sort by and what property to sort by
+type SortableField = 'NAME' | 'DATE ADDED' | 'ADDRESS' | 'TOWN' | 'POSTCODE' | 'LOCATION ID' | 'INTERNAL ID'
+const fieldToPropertyMapping = {
+  'NAME': {isMetadataField: true, property: 'name'},
+  'DATE ADDED': {isMetadataField: false, property: 'date_added'},
+  'ADDRESS': {isMetadataField: true, property: 'address_line_1'},
+  'TOWN': {isMetadataField: true, property: 'town_city'},
+  'POSTCODE': {isMetadataField: true, property: 'postcode'},
+  'LOCATION ID': {isMetadataField: true, property: 'location_id'},
+  'INTERNAL ID': {isMetadataField: true, property: 'merchant_internal_id'},
+}
+const initialSortingState = {
+  'DATE ADDED': true,
+  'NAME': false,
+  'ADDRESS': false,
+  'TOWN': false,
+  'POSTCODE': false,
+  'LOCATION ID': false,
+  'INTERNAL ID': false,
+}
+
+
 const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const router = useRouter()
   const {merchantId = '', planId = ''} = useGetRouterQueryString()
@@ -37,7 +59,20 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryLocations>([])
   const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
+  const [sortedList, setSortedList] = useState<DirectoryLocations>([])
+  const [fieldSortedBy, setFieldSortedBy] = useState<SortableField>('DATE ADDED')
+  const [sortFieldsAscendingTracker, setSortFieldsAscendingTracker] = useState(initialSortingState)
 
+  const resetSorting = () => { // We reset sorting when filters are applied/removed.
+    setSortedList([])
+    setFieldSortedBy('DATE ADDED')
+    setSortFieldsAscendingTracker(initialSortingState)
+  }
+
+  const hasActiveFilters = textFilterValue.length > 1 || hasDateFilter
+  useEffect(() => {
+    hasActiveFilters && resetSorting()
+  }, [hasActiveFilters])
 
   const dispatch = useAppDispatch()
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
@@ -55,9 +90,13 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
   const locationsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
     {
       displayValue: 'NAME',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['NAME'],
     },
     {
       displayValue: 'DATE ADDED',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['DATE ADDED'],
     },
     {
       additionalStyles: 'w-[100px]',
@@ -65,25 +104,36 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     },
     {
       displayValue: 'ADDRESS',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['ADDRESS'],
     },
     {
       displayValue: 'TOWN',
       additionalStyles: isMobileViewport ? 'hidden' : '',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['TOWN'],
     },
     {
       displayValue: 'POSTCODE',
       additionalStyles: isMobileViewport ? 'hidden' : '',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['POSTCODE'],
     },
     {
       displayValue: 'LOCATION ID',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['LOCATION ID'],
     },
     {
       displayValue: 'INTERNAL ID',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['INTERNAL ID'],
     },
   ]
 
-  const locationsData: DirectoryLocations = useMemo(() => (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, hasDateFilter, textFilterValue.length])
-  const visibleLocations = shouldShowAll ? locationsData : locationsData.slice(0, 350)
+  const allLocations: DirectoryLocations = useMemo(() => (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantLocationsResponse || [], [filteredList, getMerchantLocationsResponse, hasDateFilter, textFilterValue.length])
+  const potentiallyTruncatedLocations = shouldShowAll ? allLocations : allLocations.slice(0, 350)
+  const visibleLocations = sortedList.length > 0 ? sortedList : potentiallyTruncatedLocations
 
   const getLocationTableRowObjects = useCallback((): Array<LocationRowObject> => {
     const hydrateLocationTableRow = (locationObj: DirectoryLocation, isSubLocation = false): Array<DirectoryMerchantDetailsTableCell> => {
@@ -258,6 +308,29 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
     }
   }
 
+
+  const sortingFunctionContainer = (field: SortableField) => {
+    setShouldShowAll(true)
+    const isMetadataField = fieldToPropertyMapping[field].isMetadataField
+    const property = fieldToPropertyMapping[field].property
+    const metadata = 'location_metadata'
+
+    const sortFn = (a: DirectoryLocation, b: DirectoryLocation) => {
+      const aProperty = isMetadataField ? a[metadata][property] : a[property]
+      const bProperty = isMetadataField ? b[metadata][property] : b[property]
+
+      if (sortFieldsAscendingTracker[field]) {
+        return aProperty?.localeCompare(bProperty)
+      } else {
+        return bProperty?.localeCompare(aProperty)
+      }
+    }
+
+    setFieldSortedBy(field)
+    setSortedList([...allLocations].sort(sortFn))
+    setSortFieldsAscendingTracker({...sortFieldsAscendingTracker, [field]: !sortFieldsAscendingTracker[field]})
+  }
+
   const noItemsSelected = checkedRefArray.length === 0
   return (
     <>
@@ -320,10 +393,25 @@ const DirectoryMerchantLocations = ({locationLabel}: Props) => {
         </div>
       </div>
 
-      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={locationFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+      <DirectoryMerchantTableFilter
+        isActive={shouldShowFilters}
+        filterFn={locationFilteringFn}
+        setFilteredList={setFilteredList}
+        textFilterValue={textFilterValue}
+        setTextFilterValue={setTextFilterValue}
+        setHasDateFilter={setHasDateFilter}
+        resetSortingFn={resetSorting}
+      />
 
       {visibleLocations && (
-        <DirectoryMerchantDetailsTable tableHeaders={locationsTableHeaders} tableRows={locationRows} singleViewRequestHandler={requestLocationSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable
+          fieldSortedBy={fieldSortedBy}
+          sortingFn={sortingFunctionContainer}
+          tableHeaders={locationsTableHeaders}
+          tableRows={locationRows}
+          singleViewRequestHandler={requestLocationSingleView}
+          refArray={refArray}
+        />
       )}
 
       { visibleLocations.length === 0 && getMerchantLocationsResponse && (
