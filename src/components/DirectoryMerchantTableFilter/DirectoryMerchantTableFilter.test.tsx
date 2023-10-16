@@ -7,6 +7,8 @@ const mockProps = {
   setFilteredList: jest.fn(),
   textFilterValue: 'mock_text_filter_value',
   setTextFilterValue: jest.fn(),
+  setHasDateFilter: jest.fn(),
+  resetSortingFn: jest.fn(),
 }
 
 const getDirectoryMerchantTableFilterComponent = (passedProps = {}) => {

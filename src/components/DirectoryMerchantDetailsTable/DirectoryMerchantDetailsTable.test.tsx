@@ -58,6 +58,8 @@ const mockTableRows = [[
 const getDirectoryMerchantDetailsTable = (passedProps = {}) => (
   <Provider store={store}>
     <DirectoryMerchantDetailsTable
+      fieldSortedBy='mock_field_sorted_by'
+      sortingFn={jest.fn()}
       tableHeaders={mockTableHeaders}
       tableRows={mockTableRows}
       singleViewRequestHandler={jest.fn()}
