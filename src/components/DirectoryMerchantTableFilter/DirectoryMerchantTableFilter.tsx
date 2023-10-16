@@ -12,6 +12,8 @@ type Props = {
   setFilteredList: (arg0:unknown) => void, // TODO: fix this type, typescript got mad at me
   textFilterValue: string,
   setTextFilterValue: (textFilterValue: string) => void,
+  setHasDateFilter: (hasDateFilter: boolean) => void,
+  resetSortingFn: () => void,
 }
 const DirectoryMerchantTableFilter = ({
   isActive,
@@ -19,6 +21,8 @@ const DirectoryMerchantTableFilter = ({
   setFilteredList,
   textFilterValue,
   setTextFilterValue,
+  setHasDateFilter,
+  resetSortingFn,
 }: Props) => {
 
   const [fromDate, setFromDate] = useState<string>('')
@@ -40,10 +44,12 @@ const DirectoryMerchantTableFilter = ({
   }
 
   const handleClearFilterClick = () => {
+    setHasDateFilter(false)
     setFromDate('')
     setToDate('')
     setTextFilterValue('')
     setFilteredList(filterFn('', '', ''))
+    resetSortingFn() // Avoids list update issues when clearing filters after sorting
   }
 
   const minimumDate = '2023-01-01'

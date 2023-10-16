@@ -21,27 +21,14 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import {CommentsSubjectTypes, HarmoniaActionTypes, ModalType, PaymentSchemeName, UserPermissions, BulkActionButtonStyle, DirectoryTxmStatusDisplayValue} from 'utils/enums'
 
-const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
-  {
-    isPaymentIcon: true,
-  },
-  {
-    displayValue: 'VALUE',
-    additionalStyles: 'w-[160px]',
-  },
-  {
-    displayValue: 'STORE NAME',
-  },
-  {
-    displayValue: 'DATE ADDED',
-  },
-  {
-    displayValue: 'SCHEME STATUS',
-  },
-  {
-    displayValue: 'HARMONIA STATUS',
-  },
-]
+
+// Sorting functionality, what table fields to allow sort by and what property to sort by
+type SortableField = 'VALUE' | 'DATE ADDED' | 'STORE NAME'
+const fieldToPropertyMapping = {
+  'VALUE': {isMetadataField: true, property: 'secondary_mid'},
+  'DATE ADDED': {isMetadataField: false, property: 'date_added'},
+  'STORE NAME': {isMetadataField: true, property: 'payment_scheme_store_name'},
+}
 
 const DirectoryMerchantSecondaryMids = () => {
   const dispatch = useAppDispatch()
@@ -55,6 +42,14 @@ const DirectoryMerchantSecondaryMids = () => {
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectorySecondaryMids>([])
   const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
+  const [sortedList, setSortedList] = useState<DirectorySecondaryMids>([])
+  const [fieldSortedBy, setFieldSortedBy] = useState<SortableField>('DATE ADDED')
+  const [sortFieldsAscendingTracker, setSortFieldsAscendingTracker] = useState({
+    'DATE ADDED': true,
+    'VALUE': false,
+    'STORE NAME': false,
+  })
+
 
   const {getMerchantSecondaryMidsResponse, getMerchantSecondaryMidsRefresh} = useDirectorySecondaryMids({
     skipGetSecondaryMid: true,
@@ -62,6 +57,20 @@ const DirectoryMerchantSecondaryMids = () => {
     merchantRef: merchantId,
   })
 
+  const resetSorting = () => { // We reset sorting when filters are applied/removed.
+    setSortedList([])
+    setFieldSortedBy('DATE ADDED')
+    setSortFieldsAscendingTracker({
+      'DATE ADDED': true,
+      'VALUE': false,
+      'STORE NAME': false,
+    })
+  }
+
+  const hasActiveFilters = textFilterValue.length > 1 || hasDateFilter
+  useEffect(() => {
+    hasActiveFilters && resetSorting()
+  }, [hasActiveFilters])
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -75,9 +84,37 @@ const DirectoryMerchantSecondaryMids = () => {
     getMerchantSecondaryMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantSecondaryMidsResponse.length <= 350)
   }, [getMerchantSecondaryMidsResponse, shouldShowAll])
 
-  const secondaryMidsData: DirectorySecondaryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantSecondaryMidsResponse || []
+  const allSecondaryMids: DirectorySecondaryMids = hasActiveFilters ? filteredList : getMerchantSecondaryMidsResponse || []
+  const potentiallyTruncatedSecondaryMids: DirectorySecondaryMids = shouldShowAll ? allSecondaryMids : allSecondaryMids.slice(0, 350)
+  const visibleSecondaryMids = sortedList.length > 0 ? sortedList : potentiallyTruncatedSecondaryMids
 
-  const visibleSecondaryMids = shouldShowAll ? secondaryMidsData : secondaryMidsData.slice(0, 350)
+  const secondaryMidsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+    {
+      isPaymentIcon: true,
+    },
+    {
+      displayValue: 'VALUE',
+      additionalStyles: 'w-[160px]',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker.VALUE,
+    },
+    {
+      displayValue: 'STORE NAME',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['STORE NAME'],
+    },
+    {
+      displayValue: 'DATE ADDED',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['DATE ADDED'],
+    },
+    {
+      displayValue: 'SCHEME STATUS',
+    },
+    {
+      displayValue: 'HARMONIA STATUS',
+    },
+  ]
 
   const hydrateSecondaryMidsTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return visibleSecondaryMids.map((secondaryMidObj: DirectorySecondaryMid) => {
@@ -259,6 +296,28 @@ const DirectoryMerchantSecondaryMids = () => {
     }
   }
 
+  const sortingFunctionContainer = (field: SortableField) => {
+    setShouldShowAll(true)
+    const isMetadataField = fieldToPropertyMapping[field].isMetadataField
+    const property = fieldToPropertyMapping[field].property
+    const metadata = 'secondary_mid_metadata'
+
+    const sortFn = (a: DirectorySecondaryMid, b: DirectorySecondaryMid) => {
+      const aProperty = isMetadataField ? a[metadata][property] : a[property]
+      const bProperty = isMetadataField ? b[metadata][property] : b[property]
+
+      if (sortFieldsAscendingTracker[field]) {
+        return aProperty?.localeCompare(bProperty)
+      } else {
+        return bProperty?.localeCompare(aProperty)
+      }
+    }
+
+    setFieldSortedBy(field)
+    setSortedList([...allSecondaryMids].sort(sortFn))
+    setSortFieldsAscendingTracker({...sortFieldsAscendingTracker, [field]: !sortFieldsAscendingTracker[field]})
+  }
+
   return (
     <>
       <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
@@ -304,10 +363,25 @@ const DirectoryMerchantSecondaryMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={secondaryMidFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+      <DirectoryMerchantTableFilter
+        isActive={shouldShowFilters}
+        filterFn={secondaryMidFilteringFn}
+        setFilteredList={setFilteredList}
+        textFilterValue={textFilterValue}
+        setTextFilterValue={setTextFilterValue}
+        setHasDateFilter={setHasDateFilter}
+        resetSortingFn={resetSorting}
+      />
 
       {visibleSecondaryMids && (
-        <DirectoryMerchantDetailsTable tableHeaders={secondaryMidsTableHeaders} tableRows={hydrateSecondaryMidsTableData()} singleViewRequestHandler={requestSecondaryMidSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable
+          fieldSortedBy={fieldSortedBy}
+          sortingFn={sortingFunctionContainer}
+          tableHeaders={secondaryMidsTableHeaders}
+          tableRows={hydrateSecondaryMidsTableData()}
+          singleViewRequestHandler={requestSecondaryMidSingleView}
+          refArray={refArray}
+        />
       )}
 
       { visibleSecondaryMids.length === 0 && getMerchantSecondaryMidsResponse && (

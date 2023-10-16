@@ -22,26 +22,12 @@ import AddVisaSvg from 'icons/svgs/add-visa.svg'
 import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import AddAmexSvg from 'icons/svgs/add-amex.svg'
 
-const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
-  {
-    isPaymentIcon: true,
-  },
-  {
-    displayValue: 'VALUE',
-  },
-  {
-    displayValue: 'BIN',
-  },
-  {
-    displayValue: 'DATE ADDED',
-  },
-  {
-    displayValue: 'SCHEME STATUS',
-  },
-  {
-    displayValue: 'HARMONIA STATUS',
-  },
-]
+// Sorting functionality, what table fields to allow sort by and what property to sort by
+type SortableField = 'VALUE' | 'DATE ADDED'
+const fieldToPropertyMapping = {
+  'VALUE': {isMetadataField: true, property: 'mid'},
+  'DATE ADDED': {isMetadataField: false, property: 'date_added'},
+}
 
 const DirectoryMerchantMids = () => {
   const dispatch = useAppDispatch()
@@ -56,6 +42,12 @@ const DirectoryMerchantMids = () => {
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
   const [filteredList, setFilteredList] = useState<DirectoryMids>([])
+  const [sortedList, setSortedList] = useState<DirectoryMids>([])
+  const [fieldSortedBy, setFieldSortedBy] = useState<SortableField>('DATE ADDED')
+  const [sortFieldsAscendingTracker, setSortFieldsAscendingTracker] = useState({
+    'DATE ADDED': true,
+    'VALUE': false,
+  })
 
   const {getMerchantMidsResponse, getMerchantMidsRefresh} = useDirectoryMids({
     skipGetMid: true,
@@ -63,8 +55,24 @@ const DirectoryMerchantMids = () => {
     merchantRef: merchantId,
   })
 
-  const midsData: DirectoryMids = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantMidsResponse || []
-  const visibleMids: DirectoryMids = shouldShowAll ? midsData : midsData.slice(0, 350)
+  const resetSorting = () => { // We reset sorting when filters are applied/removed.
+    setSortedList([])
+    setFieldSortedBy('DATE ADDED')
+    setSortFieldsAscendingTracker({
+      'DATE ADDED': true,
+      'VALUE': false,
+    })
+  }
+
+  const hasActiveFilters = textFilterValue.length > 1 || hasDateFilter
+  useEffect(() => {
+    hasActiveFilters && resetSorting()
+  }, [hasActiveFilters])
+
+  // Logic to work out what data to display, in the order of filtered, truncated sorted...
+  const allMids: DirectoryMids = hasActiveFilters ? filteredList : getMerchantMidsResponse || []
+  const potentiallyTruncatedMids: DirectoryMids = shouldShowAll ? allMids : allMids.slice(0, 350)
+  const visibleMids = sortedList.length > 0 ? sortedList : potentiallyTruncatedMids
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -78,6 +86,30 @@ const DirectoryMerchantMids = () => {
     getMerchantMidsResponse && !shouldShowAll && setShouldShowAll(getMerchantMidsResponse.length <= 350)
   }, [getMerchantMidsResponse, shouldShowAll])
 
+  const midsTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+    {
+      isPaymentIcon: true,
+    },
+    {
+      displayValue: 'VALUE',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker.VALUE,
+    },
+    {
+      displayValue: 'BIN',
+    },
+    {
+      displayValue: 'DATE ADDED',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['DATE ADDED'],
+    },
+    {
+      displayValue: 'SCHEME STATUS',
+    },
+    {
+      displayValue: 'HARMONIA STATUS',
+    },
+  ]
   // TODO: Would be good to have this in a hook once the data is retrieved from the api
   const hydrateMidTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return visibleMids.map((midObj: DirectoryMid) => {
@@ -89,6 +121,7 @@ const DirectoryMerchantMids = () => {
         },
         {
           displayValue: mid,
+          isSortable: true,
           additionalStyles: 'font-heading-8 font-regular truncate',
         },
         {
@@ -97,6 +130,7 @@ const DirectoryMerchantMids = () => {
         },
         {
           displayValue: timeStampToDate(dateAdded, {isShortDate: isMobileViewport}),
+          isSortable: true,
           additionalStyles: 'font-body-3 truncate',
         },
         {...getPaymentSchemeStatusString(paymentEnrolmentStatus)},
@@ -262,6 +296,27 @@ const DirectoryMerchantMids = () => {
     }
   }
 
+  const sortingFunctionContainer = (field: SortableField) => {
+    setShouldShowAll(true)
+    const isMetadataField = fieldToPropertyMapping[field].isMetadataField
+    const property = fieldToPropertyMapping[field].property
+
+    const sortFn = (a: DirectoryMid, b: DirectoryMid) => {
+      const aProperty = isMetadataField ? a.mid_metadata[property] : a[property]
+      const bProperty = isMetadataField ? b.mid_metadata[property] : b[property]
+
+      if (sortFieldsAscendingTracker[field]) {
+        return aProperty?.localeCompare(bProperty)
+      } else {
+        return bProperty?.localeCompare(aProperty)
+      }
+    }
+
+    setFieldSortedBy(field)
+    setSortedList([...allMids].sort(sortFn))
+    setSortFieldsAscendingTracker({...sortFieldsAscendingTracker, [field]: !sortFieldsAscendingTracker[field]})
+  }
+
   return (
     <>
       <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
@@ -319,10 +374,20 @@ const DirectoryMerchantMids = () => {
         </div>
       </div>
 
-      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={midFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+      <DirectoryMerchantTableFilter
+        isActive={shouldShowFilters}
+        filterFn={midFilteringFn}
+        setFilteredList={setFilteredList}
+        textFilterValue={textFilterValue}
+        setTextFilterValue={setTextFilterValue}
+        setHasDateFilter={setHasDateFilter}
+        resetSortingFn={resetSorting}
+      />
 
       {visibleMids && (
         <DirectoryMerchantDetailsTable
+          fieldSortedBy={fieldSortedBy}
+          sortingFn={sortingFunctionContainer}
           tableHeaders={midsTableHeaders}
           tableRows={hydrateMidTableData()}
           singleViewRequestHandler={requestMidSingleView}

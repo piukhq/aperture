@@ -21,24 +21,12 @@ import AddMastercardSvg from 'icons/svgs/add-mastercard.svg'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 import {setHarmoniaActionType} from 'features/directoryHarmoniaSlice'
 
-const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
-  {
-    isPaymentIcon: true,
-  },
-  {
-    displayValue: 'VALUE',
-    additionalStyles: 'w-[160px]',
-  },
-  {
-    displayValue: 'SCHEME NAME',
-  },
-  {
-    displayValue: 'DATE ADDED',
-  },
-  {
-    displayValue: 'HARMONIA STATUS',
-  },
-]
+type SortableField = 'VALUE' | 'DATE ADDED' | 'STORE NAME'
+const fieldToPropertyMapping = {
+  'VALUE': {isMetadataField: true, property: 'value'},
+  'DATE ADDED': {isMetadataField: false, property: 'date_added'},
+  'SCHEME NAME': {isMetadataField: true, property: 'payment_scheme_merchant_name'},
+}
 
 const DirectoryMerchantPsimis = () => {
   const dispatch = useAppDispatch()
@@ -51,6 +39,28 @@ const DirectoryMerchantPsimis = () => {
   const [textFilterValue, setTextFilterValue] = useState<string>('')
   const [filteredList, setFilteredList] = useState<DirectoryPsimis>([])
   const [hasDateFilter, setHasDateFilter] = useState<boolean>(false)
+  const [sortedList, setSortedList] = useState<DirectoryPsimis>([])
+  const [fieldSortedBy, setFieldSortedBy] = useState<SortableField>('DATE ADDED')
+  const [sortFieldsAscendingTracker, setSortFieldsAscendingTracker] = useState({
+    'DATE ADDED': true,
+    'VALUE': false,
+    'SCHEME NAME': false,
+  })
+
+  const resetSorting = () => { // We reset sorting when filters are applied/removed.
+    setSortedList([])
+    setFieldSortedBy('DATE ADDED')
+    setSortFieldsAscendingTracker({
+      'DATE ADDED': true,
+      'VALUE': false,
+      'SCHEME NAME': false,
+    })
+  }
+
+  const hasActiveFilters = textFilterValue.length > 1 || hasDateFilter
+  useEffect(() => {
+    hasActiveFilters && resetSorting()
+  }, [hasActiveFilters])
 
   const checkedRefArray = useAppSelector(getSelectedDirectoryTableCheckedRefs)
 
@@ -59,6 +69,7 @@ const DirectoryMerchantPsimis = () => {
     planRef: planId,
     merchantRef: merchantId,
   })
+
 
   useEffect(() => { // handle update when harmonia status instructs an update on modal close
     if (shouldRefreshEntityList) {
@@ -72,9 +83,34 @@ const DirectoryMerchantPsimis = () => {
     getMerchantPsimisResponse && !shouldShowAll && setShouldShowAll(getMerchantPsimisResponse.length <= 350)
   }, [getMerchantPsimisResponse, shouldShowAll])
 
-  const psimisData:DirectoryPsimis = (textFilterValue.length > 1 || hasDateFilter) ? filteredList : getMerchantPsimisResponse || []
+  const allPsimis:DirectoryPsimis = hasActiveFilters ? filteredList : getMerchantPsimisResponse || []
+  const potentiallyTruncatedPsimis = shouldShowAll ? allPsimis : allPsimis.slice(0, 350)
+  const visiblePsimis = sortedList.length > 0 ? sortedList : potentiallyTruncatedPsimis
 
-  const visiblePsimis = shouldShowAll ? psimisData : psimisData.slice(0, 350)
+  const psimisTableHeaders: DirectoryMerchantDetailsTableHeader[] = [
+    {
+      isPaymentIcon: true,
+    },
+    {
+      displayValue: 'VALUE',
+      additionalStyles: 'w-[160px]',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['VALUE'],
+    },
+    {
+      displayValue: 'SCHEME NAME',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['SCHEME NAME'],
+    },
+    {
+      displayValue: 'DATE ADDED',
+      isSortable: true,
+      isCurrentSortDirectionAscending: sortFieldsAscendingTracker['DATE ADDED'],
+    },
+    {
+      displayValue: 'HARMONIA STATUS',
+    },
+  ]
 
   const hydratePsimisTableData = (): Array<DirectoryMerchantDetailsTableCell[]> => {
     return visiblePsimis.map((psimiObj: DirectoryPsimi) => {
@@ -87,6 +123,7 @@ const DirectoryMerchantPsimis = () => {
         {
           displayValue: value,
           additionalStyles: 'font-heading-8 font-regular truncate',
+
         },
         {
           displayValue: paymentSchemeMerchantName,
@@ -227,6 +264,28 @@ const DirectoryMerchantPsimis = () => {
     }
   }
 
+  const sortingFunctionContainer = (field: SortableField) => {
+    setShouldShowAll(true)
+    const isMetadataField = fieldToPropertyMapping[field].isMetadataField
+    const property = fieldToPropertyMapping[field].property
+    const metadata = 'psimi_metadata'
+
+    const sortFn = (a: DirectoryPsimi, b: DirectoryPsimi) => {
+      const aProperty = isMetadataField ? a[metadata][property] : a[property]
+      const bProperty = isMetadataField ? b[metadata][property] : b[property]
+
+      if (sortFieldsAscendingTracker[field]) {
+        return aProperty?.localeCompare(bProperty)
+      } else {
+        return bProperty?.localeCompare(aProperty)
+      }
+    }
+
+    setFieldSortedBy(field)
+    setSortedList([...allPsimis].sort(sortFn))
+    setSortFieldsAscendingTracker({...sortFieldsAscendingTracker, [field]: !sortFieldsAscendingTracker[field]})
+  }
+
   return (
     <>
       <div className='flex items-end justify-end gap-4 sticky top-60 bg-white dark:bg-grey-825'>
@@ -271,10 +330,25 @@ const DirectoryMerchantPsimis = () => {
         </div>
       </div>
 
-      <DirectoryMerchantTableFilter isActive={shouldShowFilters} filterFn={psimiFilteringFn} setFilteredList={setFilteredList} textFilterValue={textFilterValue} setTextFilterValue={setTextFilterValue} />
+      <DirectoryMerchantTableFilter
+        isActive={shouldShowFilters}
+        filterFn={psimiFilteringFn}
+        setFilteredList={setFilteredList}
+        textFilterValue={textFilterValue}
+        setTextFilterValue={setTextFilterValue}
+        setHasDateFilter={setHasDateFilter}
+        resetSortingFn={resetSorting}
+      />
 
       {visiblePsimis && (
-        <DirectoryMerchantDetailsTable tableHeaders={psimisTableHeaders} tableRows={hydratePsimisTableData()} singleViewRequestHandler={requestPsimiSingleView} refArray={refArray} />
+        <DirectoryMerchantDetailsTable
+          fieldSortedBy={fieldSortedBy}
+          sortingFn={sortingFunctionContainer}
+          tableHeaders={psimisTableHeaders}
+          tableRows={hydratePsimisTableData()}
+          singleViewRequestHandler={requestPsimiSingleView}
+          refArray={refArray}
+        />
       )}
 
       { visiblePsimis.length === 0 && getMerchantPsimisResponse && (

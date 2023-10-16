@@ -352,6 +352,8 @@ export type APIErrorResponse = {
 export type DirectoryMerchantDetailsTableHeader = {
   additionalStyles?: string,
   isPaymentIcon?: boolean,
+  isSortable?: boolean,
+  isCurrentSortDirectionAscending?: boolean,
   displayValue?: string
 }
 

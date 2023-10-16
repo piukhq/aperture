@@ -21,12 +21,6 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   const fadeOutInClasses = `${isLearnMoreClicked ? 'opacity-0 hidden' : 'opacity-100'}`
   const appButtonClasses = `${fadeInOutClasses} duration-1000 ease-out font-heading-4 w-3/5  p-4 mx-2 flex flex-col items-center  border-orange bg-orange/5 border-2 rounded-lg shadow-sm hover:shadow-lg hover:border-red hover:bg-red/10 h-max`
 
-
-  console.log('NEXT_PUBLIC_PORTAL_API_URL', process.env.NEXT_PUBLIC_PORTAL_API_URL)
-  console.log('NEXT_PUBLIC_LOYALTY_API_URL', process.env.NEXT_PUBLIC_LOYALTY_API_URL)
-  console.log('NEXT_PUBLIC_ENV', process.env.NEXT_PUBLIC_ENV)
-
-
   const menuOptions = [
     {
       title: 'Asset Comparator',
