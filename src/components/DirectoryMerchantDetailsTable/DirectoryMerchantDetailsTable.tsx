@@ -75,7 +75,7 @@ const DirectoryMerchantDetailsTable = ({tableHeaders, tableRows, sortingFn, fiel
       if (isPaymentIcon) {
         return <th key={index} data-testid='table-header' aria-label='payment-scheme' className='px-[9px] w-[50px] h-[38px]' />
       }
-      return <th key={index} data-testid='table-header' className={`px-[9px] h-[38px] w-max font-table-header ${additionalStyles}`}>{isSortable ? renderSortableHeading(displayValue) : displayValue}  </th>
+      return <th key={index} data-testid='table-header' className={`mr-[11px] h-[38px] font-table-header ${additionalStyles}`}>{isSortable ? renderSortableHeading(displayValue) : displayValue}  </th>
     })
   )
 
