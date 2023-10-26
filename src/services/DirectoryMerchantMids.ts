@@ -79,19 +79,7 @@ export const directoryMerchantMidsApi = createApi({
           ...rest,
         },
       }),
-      async onQueryStarted ({planRef, merchantRef, midRef}, {dispatch, queryFulfilled}) {
-        try {
-          const {data: updatedMid} = await queryFulfilled
-          dispatch(directoryMerchantMidsApi.util.updateQueryData('getMerchantMids', ({planRef, merchantRef}), (existingMids) => {
-            const index = existingMids.findIndex(mid => mid.mid_ref === midRef)
-            existingMids[index] = updatedMid
-          })
-          )
-        } catch (err) {
-          // TODO: Handle error scenarios gracefully in future error handling app wide
-          console.error('Error:', err)
-        }
-      },
+      invalidatesTags: ['MerchantMid', 'MerchantMids'],
     }),
     patchMerchantMidsBulk: builder.mutation<DirectoryMid, PatchMerchantMidsBody>({
       query: ({planRef, merchantRef, ...rest}) => ({

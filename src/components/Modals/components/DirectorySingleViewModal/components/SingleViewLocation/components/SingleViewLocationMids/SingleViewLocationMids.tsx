@@ -163,7 +163,7 @@ const SingleViewLocationMids = () => {
 
         <div className='flex items-center gap-[10px]'>
           <Button
-            handleClick={() => !postMerchantLocationLinkedMidsIsLoading && onSaveHandler }
+            handleClick={() => !postMerchantLocationLinkedMidsIsLoading && onSaveHandler() }
             buttonType={ButtonType.SUBMIT}
             buttonSize={ButtonSize.MEDIUM}
             buttonWidth={ButtonWidth.SINGLE_VIEW_MID_SMALL}
