@@ -51,10 +51,8 @@ const DirectoryMerchantTableFilter = ({
     setFilteredList(filterFn('', '', ''))
     resetSortingFn() // Avoids list update issues when clearing filters after sorting
   }
-
-  const minimumDate = '2023-01-01'
-  const todaysDate = new Date().toISOString()
   const hasBeenFiltered = fromDate !== '' || toDate !== '' || textFilterValue !== ''
+  const dateInputClasses = 'border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent invalid:[&:not(:placeholder-shown):not(:focus)]:border-red'
 
   return (
     <div className={`flex justify-end items-center w-full overflow-hidden duration-300 gap-4 ${isActive ? 'h-12 my-2 ' : 'h-0'}`}>
@@ -77,10 +75,8 @@ const DirectoryMerchantTableFilter = ({
         <input
           aria-labelledby='date-from'
           onChange={handleFromDateFilterInputChange}
-          className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
+          className={dateInputClasses}
           type='date' id='start' name='from-date'
-          min={minimumDate}
-          max={todaysDate}
           value={fromDate}
         />
       </div>
@@ -89,11 +85,9 @@ const DirectoryMerchantTableFilter = ({
         <input
           aria-labelledby='date-to'
           onChange={handleToDateFilterInputChange}
-          className='border border-grey-500 h-[42px] rounded-[10px] text-grey-600 p-4 font-body-3 dark:[color-scheme:dark] dark:bg-transparent'
+          className={dateInputClasses}
           type='date' id='end' name='to-date'
           value={toDate}
-          min={minimumDate}
-          max={todaysDate}
         />
       </div>
       <Button
