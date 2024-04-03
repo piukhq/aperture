@@ -12,18 +12,18 @@ type Props = {
   getStatusFn: (status: string) => ReactNode
 }
 
-const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
+const PaymentCard = ({getStatusFn, paymentCard}: Props) => {
   const {card, id, status} = paymentCard
   const {provider, last_four_digits} = card
   const isMobileViewport = useIsMobileViewportDimensions()
 
   const renderPaymentSchemeIcon = (paymentSchemeName: string) => {
     if (paymentSchemeName === 'Visa') {
-      return <VisaSvg data-testid='visa-icon' alt='Visa' className='scale-125'/>
+      return <VisaSvg data-testid='visa-icon' alt='Visa' className='scale-125' />
     } else if (paymentSchemeName === 'Mastercard') {
-      return <MastercardSvg alt='Mastercard' className='scale-125'/>
+      return <MastercardSvg alt='Mastercard' className='scale-125' />
     } else if (paymentSchemeName === 'American Express') {
-      return <AmexSvg alt='Amex' className='scale-125'/>
+      return <AmexSvg alt='Amex' className='scale-125' />
     }
   }
 
@@ -41,7 +41,7 @@ const PaymentCard = ({getStatusFn, paymentCard}:Props) => {
       <div className='basis-3/5 font-body-4 flex flex-col justify-center h-[44px] leading-snug'>
         <span>
           <span className='font-bold gap-[6px] pr-[5px]'>
-          .... {last_four_digits}
+            .... {last_four_digits}
           </span>
           {getStatusFn(status)}
           {isMobileViewport && provider}

@@ -16,7 +16,7 @@ const PermissionsPage: NextPage = withPageAuthRequired(() => {
             throw new Error('Sentry Frontend Error')
           }}
         >
-            Throw Test error
+          Throw Test error
         </Button>
       </section>
     </div>
@@ -24,4 +24,3 @@ const PermissionsPage: NextPage = withPageAuthRequired(() => {
 })
 
 export default PermissionsPage
-

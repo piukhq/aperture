@@ -8,12 +8,12 @@ const StyleGuidePage: NextPage = withPageAuthRequired(() => {
   return (
     <div className='m-4'>
       <h1 className='font-heading-0'>Style Guide</h1>
-      <Colours sectionClass={sectionClass}/>
-      <Typography sectionClass={sectionClass}/>
-      <Buttons sectionClass={sectionClass}/>
-      <FormElements sectionClass={sectionClass}/>
-      <MenuElements sectionClass={sectionClass}/>
-      <TagsStatus sectionClass={sectionClass}/>
+      <Colours sectionClass={sectionClass} />
+      <Typography sectionClass={sectionClass} />
+      <Buttons sectionClass={sectionClass} />
+      <FormElements sectionClass={sectionClass} />
+      <MenuElements sectionClass={sectionClass} />
+      <TagsStatus sectionClass={sectionClass} />
     </div>
   )
 })

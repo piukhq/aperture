@@ -15,7 +15,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
 
   const renderLoyaltyIcon = (images) => {
     const icon = images.find((image) => image.type === 3)
-    return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt='Plan icon'/>
+    return icon && <Image className='rounded-[5px]' src={icon.url} height={40} width={40} alt='Plan icon' />
   }
 
   const getBalanceString = (loyaltyCard: LoyaltyCard, plan: Plan) => {
@@ -25,7 +25,7 @@ const LoyaltyCard = ({getStatusFn, card, plan}: Props) => {
 
     const currentVoucherEarn = loyaltyCard?.vouchers?.find((voucher) => voucher.state === 'inprogress')?.earn
 
-    if(currentVoucherEarn) {
+    if (currentVoucherEarn) {
       const {value, type, prefix, suffix, target_value: targetValue} = currentVoucherEarn
       if (type === 'stamps') {
         return `${value} ${suffix}`

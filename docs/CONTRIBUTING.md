@@ -89,9 +89,9 @@ This was the first large project where Typescript has been used and it probably 
 
 Some common patterns are are:
 
-1. We define global types (i.e not just used in one component) in the types folder. 
+1. We define global types (i.e not just used in one component) in the types folder.
 2. We confirm the types used for component props at the start of a components file.
-3. We use enums for ensuring and centralising global string values only. The [global enums file is here](../src/utils/enums.ts) 
+3. We use enums for ensuring and centralising global string values only. The [global enums file is here](../src/utils/enums.ts)
 
 Otherwise expect a little variation in how things are done as our thinking in Typescript has evolved. The only golden rule we have is to avoid deliberate use of `any` as a type. We can normally find something that works instead.
 
@@ -99,7 +99,7 @@ Otherwise expect a little variation in how things are done as our thinking in Ty
 
 - We are currently on Next 12.
 
-- We deploy a [static HTML export](https://nextjs.org/docs/advanced-features/static-html-export) which limits the features we can use. This was a decision made to make DevOps' life easier and at the time we did not know how we were going to use NextJS features that this prevents. 
+- We deploy a [static HTML export](https://nextjs.org/docs/advanced-features/static-html-export) which limits the features we can use. This was a decision made to make DevOps' life easier and at the time we did not know how we were going to use NextJS features that this prevents.
 
 In the long term, it is a goal to utilise more of Next's features. In particular, seeing how static, server-side and client-side rendering choices can improve performance.
 
@@ -108,16 +108,16 @@ In the long term, it is a goal to utilise more of Next's features. In particular
 These frameworks perform two main tasks:
 
 1. Perform and store API data
-2. Store and provide data between components where passing it between props is impractical.  
+2. Store and provide data between components where passing it between props is impractical.
 
-Our data layer follows much of the standard boilerplate found in the RTK/RTK Query documentation so that's a good start place for learning more. Generally we try and split up files by area of concern to avoid a huge singular file. 
+Our data layer follows much of the standard boilerplate found in the RTK/RTK Query documentation so that's a good start place for learning more. Generally we try and split up files by area of concern to avoid a huge singular file.
 ### Example API call process
 
 From the backend to the component the typical pattern we use is as follows:
 
 1. Build the API call in the relevant file in Services using the RTK format. In reality you are better off copying a similar one and changing it. Make sure the created query or mutation is exported once you are done.
 
-2. To better support situations we we need to make multiple API calls in the same component, we have a corresponding custom hook in the hooks folder (e.g services/directoryPlans and hooks/useDirectoryPlans). This exposes each available property with a unique name. Any required arguments are defined here as well as skipTokens. Due to the nature of hooks, we need to use skipTokens to stop the running of all Queries within that particular hook.  
+2. To better support situations we we need to make multiple API calls in the same component, we have a corresponding custom hook in the hooks folder (e.g services/directoryPlans and hooks/useDirectoryPlans). This exposes each available property with a unique name. Any required arguments are defined here as well as skipTokens. Due to the nature of hooks, we need to use skipTokens to stop the running of all Queries within that particular hook.
 
 3. Import the required properties into the component, using skip tokes and providing arguments as needed.
 
@@ -135,9 +135,9 @@ The test file for each component should be kept in the same location s the compo
 Internet arguments fly about what good unit testing is but our current thinking is using the Acceptance criteria in the Jira tickets as a good starting point to base tests upon. Any bug tickets are great prompts to write additional tests to cover that scenario. However we also subscribe to the notion that unit tests have their limitations, especially when most of our components have multiple dependancies that involve heavy amounts of mocking to make work. The more I work with React/Redux/Next/Hooks the less inclined I am see the value of unit tests over end-to-end and integration testing. See [Kent C Dodds on this](https://kentcdodds.com/blog/write-tests)
 
 As a rule we do not practice TDD for new features due to the many unknowns a new feature will present us with. As we write unit tests against a given component its hard to write the tests first when we don't know the architecture we will end up with. Smaller feature tickets help with this, and maybe thinking differently about our design patterns. At time of writing QA are looking to develop an end-to-end test suite for Aperture so am seeing what the testing landscape looks like once that is complete before seeing how we can improve this.
-## TailwindCSS 
+## TailwindCSS
 
-We have some set classes in [globals.css](../src/styles/globals.css) for some very common use cases. 
+We have some set classes in [globals.css](../src/styles/globals.css) for some very common use cases.
 
 There you will also find some common CSS for scrollbar styling as thats quite bespoke.
 
@@ -211,7 +211,7 @@ So good news, Aperture is used by Bink Internal people so we can assume we can u
 
 ## Reuseable UI Components
 
-You need to make a button so you start typing `<button....` STOP! We have a component for that and a few other things. They mostly exist to reduce duplication and keep styling consistent across multiple areas of the app so they are worth knowing about before duplicating thier functionality. 
+You need to make a button so you start typing `<button....` STOP! We have a component for that and a few other things. They mostly exist to reduce duplication and keep styling consistent across multiple areas of the app so they are worth knowing about before duplicating thier functionality.
 
 - Button
 - ContentTile
@@ -243,7 +243,7 @@ Its a current todo list item to try and gracefully handle Aperture when smaller 
 
 ## Node Package Security
 
-So we need to use a new package? Probably worth a sanity-check with a colleague. If its a simple function to write ourselves we probably should but let's not be too dogmatic, sometimes we need an external library. 
+So we need to use a new package? Probably worth a sanity-check with a colleague. If its a simple function to write ourselves we probably should but let's not be too dogmatic, sometimes we need an external library.
 
 Just one thing before you install it, run an audit of the node package using a CLI-tool called '[NPQ](https://github.com/lirantal/npq)
 .NPQ audits a given package and helps flag up any issues of concern prior to installing it. If there is something of concern it flags up, let's discuss.
@@ -263,7 +263,7 @@ However as a general rule we treat package vuonerabilities with the following ur
 There might be special cases where we do something different but thats the general rule of thumb. By keeping on top of things we normally can avoid massive package upgrades with more risk of not knowing what particular change broke everything.
 ## Images
 
-SVGs are typically stores in `src/icons/svgs` and are used accordingly. 
+SVGs are typically stores in `src/icons/svgs` and are used accordingly.
 
 Where we use non-SVGs or are in need of the NextJs Image handling component (i.e when not using a SVG) we also store image files in the public folder in the root.
 
@@ -280,7 +280,7 @@ We have a lot of modals. So much so we have a particular pattern for calling the
 
 ### Requesting a modal
 
-If a button wants to call a specific modal we dispatch an action to our redux store to set what modal should be requested: `    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))`. 
+If a button wants to call a specific modal we dispatch an action to our redux store to set what modal should be requested: `    dispatch(requestModal(ModalType.MID_MANAGEMENT_BULK_COMMENT))`.
 
 To dismiss a modal (for example after a successful api call) we have to send another action to set the modal requested to none like so: `dispatch(requestModal(ModalType.NO_MODAL))`
 
@@ -306,7 +306,7 @@ So my typical workflow to add a feature goes like this:
 
 4. Request a code review, its worth pinging the other Dev(s) on Team to let them know. If its urgent or a tiny change, its good to point that out. More on code reviews later...
 
-5. If review is good, merge the PR into Develop. 
+5. If review is good, merge the PR into Develop.
 
 6. ** Important ** - We use the GitHub release tags to trigger a deployment to staging. This involves creating a new release tag (https://github.com/binkhq/aperture/releases/new) which is in the format of '1.<sprint increment>.<increment>'  ... that will make more sense when you see it. We just generate the release notes using hte handy button on that page.
 
@@ -316,7 +316,7 @@ So my typical workflow to add a feature goes like this:
 
 ## Code Reviews
 
-This section is TBC as that can be decided when we have multiple devs again. General principles: 
+This section is TBC as that can be decided when we have multiple devs again. General principles:
 
 - Don't make it overly burdensome.
 - Be curious when code is unknown.
@@ -326,11 +326,11 @@ This section is TBC as that can be decided when we have multiple devs again. Gen
 
 # Engineering Culture
 
-One last thing, I promise. We are a small team but we (used to) have standards in how we work to make it a nice place to be and a nice codebase to code for. 
+One last thing, I promise. We are a small team but we (used to) have standards in how we work to make it a nice place to be and a nice codebase to code for.
 
 - Take your time - Explore different approaches, play around with the related code and consider all angles. Give yourself the time it needs, it will make for better code in the long run when you, and only you, choose how long to spend on it.
 
-- Just ship it - You took your time but .... you are still not happy with how you have coded a feature? Or just can't figure it out at all? You could spend days banging your head against it or you can just submit the draft PR explaining what you are not happy with and we can figure it out together. Do that, saves a whole heap of time and angst. Lean on your fellow front-end dev(s), review process and QA, they are probably good at what they do. 
+- Just ship it - You took your time but .... you are still not happy with how you have coded a feature? Or just can't figure it out at all? You could spend days banging your head against it or you can just submit the draft PR explaining what you are not happy with and we can figure it out together. Do that, saves a whole heap of time and angst. Lean on your fellow front-end dev(s), review process and QA, they are probably good at what they do.
 
 - Make changes small, make them often. In our refinement sessions, try and find ways to make the feature requests small and manageable (one common trick is splitting out visuals and functionality into their own tickets). Small tickets are easier to test, review, and QA as well as reducing chances of merge conflicts. Try to resist the lure of throwing multiple tickets into a single feature branch.
 
@@ -338,7 +338,7 @@ One last thing, I promise. We are a small team but we (used to) have standards i
 
 - Solve problems at the root. Let's try and address the cause and not the symptom. If a feature requires workarounds and hacks, lets try and address the root cause of why that is. (adding the task to tech debt is our friend here)
 
-- Do not accept weird system behaviour. When a system repeatedly exhibits behaviour that we can’t explain, it’s easy to become collectively accustomed to it and treat it as “normal.” A good example of this is console warnings in the browser. We make sure our new code does not create more errors and warnings. If its beyond the scope of the feature itself we make sure it is in the tech debt pile. 
+- Do not accept weird system behaviour. When a system repeatedly exhibits behaviour that we can’t explain, it’s easy to become collectively accustomed to it and treat it as “normal.” A good example of this is console warnings in the browser. We make sure our new code does not create more errors and warnings. If its beyond the scope of the feature itself we make sure it is in the tech debt pile.
 
 - Write code to be read by humans. If code is hard to understand, its hard to spot bugs. Prefer long descriptive names, prefer multiple simple functions and components rather than one thing that does it all via spagetti code... and prefer to use more lines of code if it makes the code clearer. Feel free to comment anything that is unavoidably unintuitive, or cannot be summarised via its name (useEffect hooks for example)
 

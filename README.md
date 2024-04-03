@@ -66,7 +66,7 @@ The current tooling:
 ---
 ### Built With
 
-The main technologies used throughout are: 
+The main technologies used throughout are:
 
 - NextJs
 - React
@@ -99,7 +99,7 @@ See the [Merchant Jira Board](https://hellobink.atlassian.net/jira/software/c/pr
 Please read [our contribution guidelines](docs/CONTRIBUTING.md), for more details on how things are set up, common gotchas and preferred ways of working. Thank you for getting involved!
 ## Contributors
 
-There is a whole team but those who actually put code into this repo are: 
+There is a whole team but those who actually put code into this repo are:
 
 [Lukie Kang](https://github.com/neosaurrrrus) - Front End Development
 
@@ -110,4 +110,3 @@ Nathan Read - DevOps/CI Pipeline
 ## Security
 
 Aperture follows good practices of security, but 100% security cannot be assured. For more information our [Snyk page](https://app.snyk.io/org/web-n3o/project/0c5bf933-4a5b-4755-b2fa-cd27a76ddf4c).
-

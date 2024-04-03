@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const {withSentryConfig} = require('@sentry/nextjs')
+const { withSentryConfig } = require('@sentry/nextjs')
 
 const moduleExports = {
-  webpack (config) {
+  webpack(config) {
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,

@@ -50,7 +50,7 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
 
   const renderHeaderTools = () => (
     <>
-      { isVerified && <PlansList isUsedByPlanComparator/>}
+      {isVerified && <PlansList isUsedByPlanComparator />}
       <Button
         handleClick={handleRequestCredentialsModal}
         buttonSize={ButtonSize.MEDIUM_ICON}
@@ -59,7 +59,7 @@ const PlanComparatorPage: NextPage = withPageAuthRequired(() => {
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.MEDIUM}
         additionalStyles='mt-[2px]'
-      ><SettingsSvg/>Credentials
+      ><SettingsSvg />Credentials
       </Button>
     </>
   )

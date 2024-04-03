@@ -3,14 +3,16 @@
 @tailwind utilities;
 
 @layer components {
-  html { 
+  html {
     height: 100%;
   }
-  body { 
+
+  body {
     height: 100%;
-    width:100%;
+    width: 100%;
     background-color: #f1f1f5;
   }
+
   .scrollable::-webkit-scrollbar {
     background-color: transparent;
     width: 15px;
@@ -25,38 +27,38 @@
   }
 
   .scrollbar-hidden {
-    scrollbar-width: none; 
+    scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
-  .scrollbar-hidden::-webkit-scrollbar { 
+  .scrollbar-hidden::-webkit-scrollbar {
     width: 0;
     height: 0;
   }
 
   * {
-  scrollbar-width: thin;
-  scrollbar-color:  white white;
-}
+    scrollbar-width: thin;
+    scrollbar-color: white white;
+  }
 
-*::-webkit-scrollbar {
-  width: 15px;
-}
+  *::-webkit-scrollbar {
+    width: 15px;
+  }
 
-*::-webkit-scrollbar-track {
-  background: #f1f1f5;
-  border-radius: 5px;
-}
+  *::-webkit-scrollbar-track {
+    background: #f1f1f5;
+    border-radius: 5px;
+  }
 
-*::-webkit-scrollbar-thumb {
-  background-color: #b5b5be;
-  border-radius: 14px;
-  border: 3px solid #f1f1f5;
-}
+  *::-webkit-scrollbar-thumb {
+    background-color: #b5b5be;
+    border-radius: 14px;
+    border: 3px solid #f1f1f5;
+  }
 
   @media (prefers-color-scheme: dark) {
     .scrollable::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
     *::-webkit-scrollbar-thumb {
@@ -76,93 +78,119 @@
   }
 
   /* Fixes inconsistancies with mobile safari */
-  @media screen and (max-width: 768px) { 
+  @media screen and (max-width: 768px) {
     body {
-        min-height: 1240px;
+      min-height: 1240px;
     }
   }
-  
+
 
   /* Headings default to semibold weight where there is multiple weights. Body and Subheadings default to regular */
-  .font-heading-0{
+  .font-heading-0 {
     @apply text-5xl font-heading font-bold tracking-[.014rem] text-grey-800 dark:text-grey-100
   }
+
   .font-heading-1 {
     @apply text-4xl font-heading font-semibold tracking-[.013rem] text-grey-900 dark:text-grey-100
   }
+
   .font-heading-2 {
     @apply text-3xl font-heading font-semibold tracking-[.009rem] text-grey-900 dark:text-grey-100
   }
+
   .font-heading-3 {
     @apply text-2xl font-heading font-semibold tracking-[.008rem] text-grey-900 dark:text-grey-100
   }
+
   .font-heading-4 {
     @apply text-xl font-heading font-semibold tracking-[.006rem] leading-9 text-grey-900 dark:text-grey-100
   }
+
   .font-heading-5 {
     @apply text-lg font-heading font-semibold text-grey-900 dark:text-grey-100
   }
+
   .font-heading-6 {
     @apply text-base font-heading font-semibold tracking-[.006rem] text-grey-900 dark:text-grey-100
   }
+
   .font-heading-7 {
     @apply text-sm font-heading font-semibold tracking-[.006rem] text-grey-900 dark:text-grey-100
   }
+
   .font-heading-8 {
     @apply text-sm font-heading font-normal text-grey-900 tracking-[.013rem] dark:text-grey-100
   }
+
   .font-heading-9 {
     @apply text-2xs font-heading font-semibold text-grey-800 dark:text-grey-100
   }
+
   .font-heading-10 {
     @apply text-3xs font-heading font-semibold text-grey-700 dark:text-grey-100
-  } 
+  }
+
   .font-table-header {
     @apply text-3xs font-heading font-semibold text-grey-800 tracking-[.05rem]
   }
+
   .font-table-cell {
     @apply text-sm font-body font-semibold text-grey-800 dark:text-grey-100 tracking-[.006rem]
   }
+
   .font-modal-heading {
     @apply text-2xs font-heading font-semibold text-grey-600 dark:text-grey-300 tracking-[.031rem] mb-[5px]
   }
+
   .font-modal-data {
     @apply font-body-2 font-medium text-grey-800 dark:text-grey-500
   }
+
   .font-body-1 {
     @apply text-lg font-body leading-7 tracking-[.006rem] text-grey-800 dark:text-grey-100
-  } 
+  }
+
   .font-body-2 {
     @apply text-base font-body leading-6.5 tracking-[.006rem] text-grey-800 dark:text-grey-100
-  } 
+  }
+
   .font-body-3 {
     @apply text-sm font-body leading-6 tracking-[.006rem] text-grey-800 dark:text-grey-100
-  } 
+  }
+
   .font-body-4 {
     @apply text-2xs font-body leading-5.5 tracking-[0rem] text-grey-800 dark:text-grey-100
-  } 
+  }
+
   .font-subheading-1 {
     @apply text-lg font-body tracking-[.006rem] text-grey-600 dark:text-grey-300
   }
+
   .font-subheading-2 {
     @apply text-base font-body tracking-[.006rem] text-grey-800 dark:text-grey-500
   }
+
   .font-subheading-3 {
     @apply text-sm font-body tracking-[.006rem] text-grey-800 dark:text-grey-100
   }
+
   .font-subheading-4 {
     @apply text-2xs font-body tracking-[0rem] text-grey-600 dark:text-grey-100
   }
+
   .font-subheading-5 {
     @apply text-sm font-body tracking-[.006rem] text-grey-700 dark:text-grey-500
   }
+
   .font-subheading-6 {
     @apply text-2xs font-heading font-[500] tracking-[0.05rem]
   }
+
   .hover-scale-regular {
-     @apply hover:scale-110 transition-transform duration-300
+    @apply hover:scale-110 transition-transform duration-300
   }
+
   .hover-scale-large {
-     @apply hover:scale-125 transition-transform duration-300
+    @apply hover:scale-125 transition-transform duration-300
   }
 }

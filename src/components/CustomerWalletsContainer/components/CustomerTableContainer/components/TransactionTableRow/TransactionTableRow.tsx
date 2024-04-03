@@ -3,7 +3,7 @@ import {LoyaltyTransaction} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 import ArrowDownSvg from 'icons/svgs/arrow-down.svg'
 
-const TransactionTableRow = ({transaction, isIceland}: {transaction: LoyaltyTransaction, isIceland:boolean }) => {
+const TransactionTableRow = ({transaction, isIceland}: { transaction: LoyaltyTransaction, isIceland: boolean }) => {
   const {amounts, timestamp, description} = transaction
   const {value, currency} = amounts[0]
 
@@ -14,9 +14,9 @@ const TransactionTableRow = ({transaction, isIceland}: {transaction: LoyaltyTran
     if (value > 0) {
       return <ArrowDownSvg data-testid='positive-change' className={'rotate-180 fill-green'} />
     } else if (value < 0) {
-      return <ArrowDownSvg data-testid='negative-change' className={'fill-red'}/>
+      return <ArrowDownSvg data-testid='negative-change' className={'fill-red'} />
     } else {
-      return <ArrowDownSvg data-testid='zero-change' className={'rotate-90 fill-orange'}/>
+      return <ArrowDownSvg data-testid='zero-change' className={'rotate-90 fill-orange'} />
     }
   }
   const getNullAmountCell = () => isIceland ? `£${Math.abs(value)}` : rewardCell

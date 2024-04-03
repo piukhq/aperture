@@ -80,9 +80,11 @@ jest.mock('hooks/useDirectoryPlans', () => ({
 }))
 
 const mockStoreFn = configureStore([])
-const store = mockStoreFn({modal: {
-  modalRequested: 'NO_MODAL',
-}})
+const store = mockStoreFn({
+  modal: {
+    modalRequested: 'NO_MODAL',
+  },
+})
 
 const getDirectoryPageComponent = (passedStore = undefined) => (
   <Provider store={passedStore || store}>

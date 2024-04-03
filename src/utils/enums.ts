@@ -84,8 +84,8 @@ enum DirectorySingleViewTabs {
 enum DirectoryNavigationTab {
   MIDS = 'mids',
   LOCATIONS = 'locations',
-  SECONDARY_MIDS ='secondary-mids',
-  PSIMIS ='psimis'
+  SECONDARY_MIDS = 'secondary-mids',
+  PSIMIS = 'psimis'
 }
 
 enum RouteDisplayNames {
@@ -162,10 +162,10 @@ enum DirectoryTxmStatus {
 
 enum DirectoryTxmStatusDisplayValue {
   'onboarded' = 'Onboarded',
-  'not_onboarded'= 'Not Onboarded',
-  'onboarding'= 'Onboarding',
-  'offboarding'= 'Offboarding',
-  'offboarded'= 'Offboarded',
+  'not_onboarded' = 'Not Onboarded',
+  'onboarding' = 'Onboarding',
+  'offboarding' = 'Offboarding',
+  'offboarded' = 'Offboarded',
 }
 
 enum PaymentSchemeStatus {

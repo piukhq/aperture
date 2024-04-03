@@ -47,7 +47,7 @@ export const directoryMerchantSlice = createSlice({
     setSelectedDirectoryMerchantEntity: (state, action: PayloadAction<DirectoryEntity>) => {
       state.selectedEntity = action.payload
     },
-    setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX >) => {
+    setSelectedDirectoryMerchantPaymentScheme: (state, action: PayloadAction<PaymentSchemeName.VISA | PaymentSchemeName.MASTERCARD | PaymentSchemeName.AMEX>) => {
       state.selectedPaymentScheme = action.payload
     },
     setSelectedDirectoryEntityCheckedSelection: (state, action: PayloadAction<DirectoryMerchantEntitySelectedItem[]>) => {

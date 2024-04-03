@@ -40,8 +40,8 @@ const CustomerTableContainer = ({selectedPlan, loyaltyCard = null, entity, table
   }
 
   const renderTableBody = () => {
-    return getLoyaltyCardEntity()?.map((entityObject, index:number) => {
-      return entity === 'transactions' ? <TransactionTableRow key={index} transaction={entityObject} isIceland={selectedPlan?.slug === 'iceland-bonus-card'}/> : <VoucherTableRow key={index} voucher={entityObject} />
+    return getLoyaltyCardEntity()?.map((entityObject, index: number) => {
+      return entity === 'transactions' ? <TransactionTableRow key={index} transaction={entityObject} isIceland={selectedPlan?.slug === 'iceland-bonus-card'} /> : <VoucherTableRow key={index} voucher={entityObject} />
     })
   }
 

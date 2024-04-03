@@ -11,14 +11,14 @@ type CsvUploadSuccessResponse = {
       },
     },
   },
-  }
+}
 
-  type PostCsvBody = {
-    file: File,
-    plan_ref: string,
-    file_type: string,
-    merchant_ref?: string,
-  }
+type PostCsvBody = {
+  file: File,
+  plan_ref: string,
+  file_type: string,
+  merchant_ref?: string,
+}
 
 export const directoryCsvUploadApi = createApi({
   reducerPath: 'csvUploadApi',

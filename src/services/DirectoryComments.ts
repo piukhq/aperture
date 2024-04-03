@@ -17,7 +17,7 @@ export const directoryCommentsApi = createApi({
   baseQuery: getDynamicBaseQuery(),
   tagTypes: ['Comments'],
   endpoints: builder => ({
-    getComments: builder.query<DirectoryComments, {commentsRef: string}>({
+    getComments: builder.query<DirectoryComments, { commentsRef: string }>({
       query: ({commentsRef}) => ({
         url: `${UrlEndpoint.COMMENTS}?ref=${commentsRef}&n=100`,
         method: 'GET',
@@ -36,7 +36,7 @@ export const directoryCommentsApi = createApi({
       }),
       invalidatesTags: ['Comments'], // Optimistic updates does seem to work for the varying scenarios of comments (e.g. replying to a new one just created)
     }),
-    deleteComment: builder.mutation<DirectoryComments, {commentRef: string, commentsRef: string}>({
+    deleteComment: builder.mutation<DirectoryComments, { commentRef: string, commentsRef: string }>({
       query: ({commentRef}) => ({
         url: `${UrlEndpoint.COMMENTS}/${commentRef}`,
         method: 'DELETE',
@@ -70,7 +70,7 @@ export const directoryCommentsApi = createApi({
         }
       },
     }),
-    patchComment: builder.mutation<DirectoryComment, {commentRef: string, commentsRef: string, text: string}>({
+    patchComment: builder.mutation<DirectoryComment, { commentRef: string, commentsRef: string, text: string }>({
       query: ({commentRef, text}) => ({
         url: `${UrlEndpoint.COMMENTS}/${commentRef}`,
         method: 'PATCH',

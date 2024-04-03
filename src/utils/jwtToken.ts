@@ -22,4 +22,3 @@ export const decodeAuthToken = (token: string): DecodedUserAuthToken | null => {
   }
   return null
 }
-

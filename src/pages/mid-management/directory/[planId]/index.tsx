@@ -96,27 +96,27 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN))
   }, [dispatch, planRef, planMetadata])
 
-  const headerOptionsMenuItems:OptionsMenuItems = useMemo(() => [
+  const headerOptionsMenuItems: OptionsMenuItems = useMemo(() => [
     {
       label: 'Edit',
-      icon: <EditSvg/>,
+      icon: <EditSvg />,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => requestEditPlanModal(),
     },
     {
       label: 'View Comments',
-      icon: <CommentSvg/>,
+      icon: <CommentSvg />,
       clickHandler: () => requestPlanCommentsModal(),
     },
     {
       label: 'Upload File',
-      icon: <TableSvg/>,
+      icon: <TableSvg />,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
-      icon: <DeleteSvg/>,
+      icon: <DeleteSvg />,
       isRed: true,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
       clickHandler: () => requestDeletePlanModal(),
@@ -137,7 +137,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             }))
           }
 
-          const requestMerchantModal = (modalName:ModalType) => {
+          const requestMerchantModal = (modalName: ModalType) => {
             setSelectedMerchant()
             dispatch(requestModal(modalName))
           }
@@ -162,27 +162,27 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
             dispatch(requestModal(ModalType.MID_MANAGEMENT_COMMENTS))
           }
 
-          const tileOptionsMenuItems:OptionsMenuItems = [
+          const tileOptionsMenuItems: OptionsMenuItems = [
             {
               label: 'Edit',
-              icon: <EditSvg/>,
+              icon: <EditSvg />,
               requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT),
             },
             {
               label: 'View Comments',
-              icon: <CommentSvg/>,
+              icon: <CommentSvg />,
               clickHandler: () => requestMerchantCommentsModal(),
             },
             {
               label: 'Upload File',
-              icon: <TableSvg/>,
+              icon: <TableSvg />,
               requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
               clickHandler: () => handleFileUploadClick(),
             },
             {
               label: 'Delete',
-              icon: <DeleteSvg/>,
+              icon: <DeleteSvg />,
               isRed: true,
               requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
               clickHandler: () => requestMerchantModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_DELETE),
@@ -205,7 +205,7 @@ const PlanDetailsPage: NextPage = withPageAuthRequired(() => {
     return (
       <>
         <HeadMetadata pageTitle={`MID Directory: ${name}`} pageDescription={`View the ${merchants.length} merchants for the ${name} plan`} />
-        <DirectoryDetailsHeader planId={planId || 0} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems}/>
+        <DirectoryDetailsHeader planId={planId || 0} name={name} slug={slug} iconUrl={iconUrl} newItemButtonHandler={handleRequestNewMerchantModal} optionsMenuItems={headerOptionsMenuItems} />
         {merchants.length > 0 && renderMerchants(merchants)}
       </>
     )

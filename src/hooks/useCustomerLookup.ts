@@ -39,7 +39,7 @@ export const useCustomerLookup = () => {
         const {bundle_id: channel = '', sub, user_id: userEmail = ''} = decodeJwtToken(jwtToken) || {}
         const userId = sub || userEmail // Barclays uses user_id, other channels use sub from the token
 
-        dispatch(setActiveUserId(typeof(userId) === 'string' ? userId : JSON.stringify(userId)))
+        dispatch(setActiveUserId(typeof (userId) === 'string' ? userId : JSON.stringify(userId)))
 
         putLookHistoryEntry({
           user: {
@@ -75,7 +75,7 @@ export const useCustomerLookup = () => {
     }
   }, [hasErrorOccurred, dispatch])
 
-  const jwtCustomerLookup = useCallback((token: string, lookupType:string) => {
+  const jwtCustomerLookup = useCallback((token: string, lookupType: string) => {
     setLookupType(lookupType)
     dispatch(setJwtToken(token))
     dispatch(customerWalletApi.util.resetApiState()) // Remove cached data and refetch

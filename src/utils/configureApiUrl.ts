@@ -47,7 +47,7 @@ const getAccessToken = async () => {
 }
 
 //@ts-expect-error, Really complicated typing to resolve in following line
-export const getDynamicBaseQuery = (configOptions?: {isLoyaltyApi: boolean, env?: string}): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
+export const getDynamicBaseQuery = (configOptions?: { isLoyaltyApi: boolean, env?: string }): BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> => async (args, api, extraOptions) => {
   const {isLoyaltyApi = false, env = ''} = configOptions || {}
 
   const shouldUseApiReflector = getUseApiReflector(api.getState() as RootState)

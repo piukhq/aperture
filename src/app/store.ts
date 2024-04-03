@@ -61,7 +61,6 @@ const reducers = combineReducers({
   [customerWalletApi.reducerPath]: customerWalletApi.reducer,
   [customerWalletLookupHistoryApi.reducerPath]: customerWalletLookupHistoryApi.reducer,
   [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer,
-  [directoryCommentsApi.reducerPath]: directoryCommentsApi.reducer, // TODO: Remove this duplicate ?
   [directoryCsvUploadApi.reducerPath]: directoryCsvUploadApi.reducer,
   [directoryPlansApi.reducerPath]: directoryPlansApi.reducer,
   [directoryMerchantsApi.reducerPath]: directoryMerchantsApi.reducer,

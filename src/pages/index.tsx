@@ -49,13 +49,13 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
   const renderMenuOptions = () => {
     return menuOptions.map((option) => {
       const {title, description, link, requiredPermission} = option
-      if(!requiredPermission || hasRequiredPermission(requiredPermission)) {
+      if (!requiredPermission || hasRequiredPermission(requiredPermission)) {
         return <button
           key={link}
           className={appButtonClasses}
           onMouseEnter={() => setIsAppHovered(true)}
           onMouseLeave={() => setIsAppHovered(false)}
-          disabled= {!isLearnMoreClicked}
+          disabled={!isLearnMoreClicked}
           onClick={() => setAppClicked(link)}
         >
           <h2 className='font-heading-5 italic'>{title}</h2>
@@ -86,18 +86,18 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
           }
         >
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-15s opacity-70 fill-orange' : 'animate-spin-80s opacity-20 fill-blue'} duration-1000 ease-out ${isAppHovered && 'fill-red rounded-full'}
-          ${appClicked && 'z-20 bg-grey-100 animate-spin-medium dark:bg-grey-850 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
+          ${appClicked && 'z-20 bg-grey-100 animate-spin-medium dark:bg-grey-850 fill-grey-500 opacity-80 dark:fill-grey-900'}`} />
         </div>
 
         {/* Inner Ring */}
         <div className=
           {`absolute skew-x-12 -translate-x-2 -translate-y-2 z-10 opacity-70 transform-gpu overflow-hidden
-            ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[261px]  -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in 
+            ${isLearnMoreClicked ? 'scale-[30%] -translate-x-[261px]  -translate-y-[20px] delay-0' : 'scale-[90%] delay-100'} ml-4 duration-500 ease-in
             ${appClicked && 'scale-[400%] translate-x-12 translate-y-48 skew-x-0 delay-100 overflow-hidden'}`
           }
         >
           <ApertureSVG className={`${isLearnMoreClicked ? 'animate-spin-30s opacity-40 fill-orange bg-orange/50' : 'animate-spin-50s opacity-40 fill-blue/40'} duration-500 ease-out ${isAppHovered && 'fill-red rounded-full bg-red/50 z-10'}
-          ${appClicked && 'z-20 bg-grey-100 animate-spin-2s dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`}/>
+          ${appClicked && 'z-20 bg-grey-100 animate-spin-2s dark:bg-orange/30 fill-grey-500 opacity-80 dark:fill-grey-900'}`} />
         </div>
 
         {/* Title Text and Button */}
@@ -126,7 +126,7 @@ const IndexPage: NextPage = withPageAuthRequired(() => {
       <div className={`${fadeInOutClasses} duration-500 flex flex-col gap-4 items-center z-40 ${appClicked && 'opacity-0'} w-full`}>
         {renderMenuOptions()}
         <a className='mt-4 text-white text-md hover:bg-red/75 bg-orange p-4 rounded-lg font-heading-7 duration-500 shadow-md' target='_blank' href={`https://teams.microsoft.com/l/chat/0/0?users=${Admin.EMAIL}&topicName=Aperture Feedback&message=Hey ${Admin.FIRST_NAME}, I was using Aperture and I thought that...`} rel='noreferrer'>
-            Give praise, ideas, or rants
+          Give praise, ideas, or rants
         </a>
       </div>
     </main>

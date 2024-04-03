@@ -28,4 +28,3 @@ const downloadAsset = async (url, filename) => {
 }
 
 export default downloadAsset
-

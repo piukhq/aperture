@@ -149,7 +149,7 @@ export type DirectoryPlanDetails = {
 export type DirectoryPlanMetadata = {
   name: string,
   icon_url: string | null,
-  slug?:string,
+  slug?: string,
   plan_id?: number | null,
 }
 
@@ -456,35 +456,35 @@ export type LoyaltyCard = {
 
 export type PaymentCard = {
   id: number,
-    membership_cards: Array<{
-      id: number
-      link_active: boolean
-    }>,
-    status: string,
-    card: {
-      last_four_digits: string,
-      first_six_digits: string,
-      month: number,
-      year: number,
-      country: string,
-      currency_code: string,
-      name_on_card: string,
-      provider: string,
-      issuer_name: string,
-      type: string,
-    },
-    images: Array<PlanImage>,
-    account: {
-      status: number,
-      verification_in_progress: boolean,
-      consents: Array<{
-          type: number,
-          latitude: number,
-          longitude: number,
-          timestamp: number,
-        }
-      >,
+  membership_cards: Array<{
+    id: number
+    link_active: boolean
+  }>,
+  status: string,
+  card: {
+    last_four_digits: string,
+    first_six_digits: string,
+    month: number,
+    year: number,
+    country: string,
+    currency_code: string,
+    name_on_card: string,
+    provider: string,
+    issuer_name: string,
+    type: string,
+  },
+  images: Array<PlanImage>,
+  account: {
+    status: number,
+    verification_in_progress: boolean,
+    consents: Array<{
+      type: number,
+      latitude: number,
+      longitude: number,
+      timestamp: number,
     }
+    >,
+  }
 }
 
 export type Service = {
@@ -535,7 +535,7 @@ type PaymentAccountApi2 = {
 type StatusApi2 = {
   state: string | null,
   slug: string | null,
-  description: string| null,
+  description: string | null,
 }
 
 export type LoyaltyVoucherApi2 = {

@@ -30,8 +30,8 @@ import {capitaliseFirstLetter} from 'utils/stringFormat'
 enum NavigationLabel {
   MIDS = 'MIDs',
   LOCATIONS = 'Locations',
-  SECONDARY_MIDS ='Secondary MIDs',
-  PSIMIS ='PSIMIs'
+  SECONDARY_MIDS = 'Secondary MIDs',
+  PSIMIS = 'PSIMIs'
 }
 
 const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
@@ -74,18 +74,19 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
 
   useEffect(() => { // set the selected merchant in the store if there is no previously selected merchant counts available (AKA a empty merchant in the store)
     !selectedMerchant?.merchant_counts && getMerchantResponse && merchant && dispatch(setSelectedDirectoryMerchant(merchant)
-    ), [merchant, dispatch, getMerchantResponse] })
+    ), [merchant, dispatch, getMerchantResponse]
+  })
 
   const renderSelectedTabContent = () => { // TODO: Add Locations and Secondary MID content when ready
-    switch(tab) {
+    switch (tab) {
       case DirectoryNavigationTab.MIDS:
-        return <DirectoryMerchantMids/>
+        return <DirectoryMerchantMids />
       case DirectoryNavigationTab.LOCATIONS:
         return <DirectoryMerchantLocations locationLabel={capitaliseFirstLetter(merchant?.merchant_metadata.location_label ?? '')} />
       case DirectoryNavigationTab.PSIMIS:
-        return <DirectoryMerchantPsimis/>
+        return <DirectoryMerchantPsimis />
       case DirectoryNavigationTab.SECONDARY_MIDS:
-        return <DirectoryMerchantSecondaryMids/>
+        return <DirectoryMerchantSecondaryMids />
     }
   }
 
@@ -108,7 +109,7 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
       }, 0)
 
       return <span className={`${DirectoryNavigationTab[navigationKey] === tab ? 'font-heading-8 h-[51px] font-medium text-grey-900 dark:text-grey-100 bg-white dark:bg-grey-825 dark:hover:text-white' : tabUnselectedClasses} h-full border-0`}>
-          ({navigationKey === 'LOCATIONS' ? totalLocations : getCount(navigationKey.toLocaleLowerCase())})
+        ({navigationKey === 'LOCATIONS' ? totalLocations : getCount(navigationKey.toLocaleLowerCase())})
       </span>
     }
 
@@ -161,27 +162,27 @@ const MerchantDetailsPage: NextPage = withPageAuthRequired(() => {
     dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT))
   }
 
-  const optionsMenuItems:OptionsMenuItems = [
+  const optionsMenuItems: OptionsMenuItems = [
     {
       label: 'Edit',
-      icon: <EditSvg/>,
+      icon: <EditSvg />,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => requestEditMerchantModal(),
     },
     {
       label: 'View Comments',
-      icon: <CommentSvg/>,
+      icon: <CommentSvg />,
       clickHandler: () => requestMerchantCommentsModal(),
     },
     {
       label: 'Upload File',
-      icon: <TableSvg/>,
+      icon: <TableSvg />,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
       clickHandler: () => dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_MERCHANT_FILE_UPLOAD)),
     },
     {
       label: 'Delete',
-      icon: <DeleteSvg/>,
+      icon: <DeleteSvg />,
       isRed: true,
       requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
       clickHandler: () => requestMerchantDeleteModal(),

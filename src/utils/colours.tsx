@@ -6,7 +6,7 @@ export const hexToRgb = (hex: string) => {
   return {r, g, b}
 }
 
-const getRelativeLuminance = (hexColour:string) => {
+const getRelativeLuminance = (hexColour: string) => {
   const {r, g, b} = hexToRgb(hexColour)
   const srgb = [r, g, b].map(value => value / 255)
   const [R, G, B] = srgb.map(value => value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
@@ -17,7 +17,7 @@ const getRelativeLuminance = (hexColour:string) => {
   return L
 }
 
-const getContrastRatio = (color1:string, color2: string) => {
+const getContrastRatio = (color1: string, color2: string) => {
   const l1 = getRelativeLuminance(color1)
   const l2 = getRelativeLuminance(color2)
   const lightest = Math.max(l1, l2)
@@ -27,7 +27,7 @@ const getContrastRatio = (color1:string, color2: string) => {
   return Math.floor(contrast * 100) / 100
 }
 
-export const getWCAGComplianceLevels = (hex1:string, hex2:string) => {
+export const getWCAGComplianceLevels = (hex1: string, hex2: string) => {
   const ratio = getContrastRatio(hex1, hex2)
 
   if (ratio >= 7) {
@@ -41,4 +41,3 @@ export const getWCAGComplianceLevels = (hex1:string, hex2:string) => {
   }
   return <span className='text-red font-heading-7'>Fail - {ratio} (Should be at least 3 to Pass)</span>
 }
-

@@ -62,12 +62,13 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
   }, [dispatch])
 
   const renderDirectoryPlans = () => {
-    if(filteredPlans.length === 0 && searchValue.length > 0) {
+    if (filteredPlans.length === 0 && searchValue.length > 0) {
       return (
         <div className='flex justify-center items-center w-full h-[300px]'>
           <p className='font-subheading-2 text-grey-600 dark:text-grey-500'>No matches returned. Please check spelling and try again</p>
         </div>
-      ) }
+      )
+    }
 
     return filteredPlans.map((plan, index) => {
       const {plan_metadata, plan_counts, plan_ref} = plan
@@ -91,7 +92,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           total_mid_count: getPlanMidCountFromPaymentSchemes(payment_schemes),
         }))
       }
-      const requestPlanModal = (modalName:ModalType) => {
+      const requestPlanModal = (modalName: ModalType) => {
         setSelectedPlan()
         dispatch(requestModal(modalName))
       }
@@ -119,40 +120,40 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
         dispatch(requestModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_FILE_UPLOAD))
       }
 
-      const optionsMenuItems:OptionsMenuItems = [
+      const optionsMenuItems: OptionsMenuItems = [
         {
           label: 'Add Merchant',
-          icon: <AddSvg/>,
+          icon: <AddSvg />,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => handleAddMerchantClick(),
         },
         {
           label: 'Edit Plan',
-          icon: <EditSvg/>,
+          icon: <EditSvg />,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN),
         },
         {
           label: 'View Comments',
-          icon: <CommentSvg/>,
+          icon: <CommentSvg />,
           clickHandler: () => requestPlanCommentsModal(),
         },
         {
           label: 'Upload File',
-          icon: <TableSvg/>,
+          icon: <TableSvg />,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE,
           clickHandler: () => handleFileUploadClick(),
         },
         {
           label: 'Delete Plan',
-          icon: <DeleteSvg/>,
+          icon: <DeleteSvg />,
           isRed: true,
           requiredPermission: UserPermissions.MERCHANT_DATA_READ_WRITE_DELETE,
           clickHandler: () => requestPlanModal(ModalType.MID_MANAGEMENT_DIRECTORY_PLAN_DELETE),
         },
       ]
       if (plan_counts && plan_metadata) {
-        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems}/>
+        return <DirectoryTile key={index} metadata={plan_metadata} counts={plan_counts} viewClickFn={handleViewClick} optionsMenuItems={optionsMenuItems} />
       }
     })
   }
@@ -166,7 +167,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
 
   return (
     <>
-      <HeadMetadata pageTitle='MID Directory' pageDescription='Manage MIDs, locations, secondary MIDs and PSIMIs'/>
+      <HeadMetadata pageTitle='MID Directory' pageDescription='Manage MIDs, locations, secondary MIDs and PSIMIs' />
       <PageLayout>
         <h3 className='font-heading-3 mb-[5px]'>MID Directory</h3>
         <p className='font-subheading-2 mb-[39px]'>Create, view and manage MIDs for the plans configured on the platform</p>
@@ -182,7 +183,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
               inputStyle={InputStyle.WHITE_ICON_LEFT_SMALL}
               inputWidth={InputWidth.MEDIUM}
               inputColour={InputColour.GREY}
-              svgIcon={<SearchSvg/>}
+              svgIcon={<SearchSvg />}
             />
           </div>
           <Button
@@ -193,7 +194,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
             labelColour={LabelColour.WHITE}
             labelWeight={LabelWeight.MEDIUM}
             requiredPermission={UserPermissions.MERCHANT_DATA_READ_WRITE}
-          ><PlusSvg/>New Plan
+          ><PlusSvg />New Plan
           </Button>
         </div>
         <div className={`duration-200 ease-in ${getPlansResponse ? 'opacity-100' : 'opacity-70 blur-sm'}`}>
@@ -205,7 +206,7 @@ const DirectoryPage: NextPage = withPageAuthRequired(() => {
           {getPlansIsLoading && (
             <div className={`flex w-full flex-wrap gap-[30px] ${isMobileViewport ? 'justify-center' : 'justify-start'}`}>
               {Array(8).fill(0)
-                .map((_, index) => <DirectoryTileSkeleton key={index}/>)}
+                .map((_, index) => <DirectoryTileSkeleton key={index} />)}
             </div>
           )}
         </div>

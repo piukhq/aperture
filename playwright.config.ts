@@ -1,4 +1,4 @@
-import {defineConfig, devices} from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -33,7 +33,7 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     // Setup project
-    {name: 'setup', testMatch: 'auth.setup.ts'},
+    { name: 'setup', testMatch: 'auth.setup.ts' },
     {
       name: 'chromium',
       use: {

@@ -21,7 +21,7 @@ export const useIsElementBeyondRightViewportEdge = (element: RefObject<HTMLDivEl
   const debouncedHandleResize = debounce(handleResize, 50)
 
   useEffect(() => {
-    if(element?.current?.getBoundingClientRect()) {
+    if (element?.current?.getBoundingClientRect()) {
       setIsBeyondEdge(element?.current?.getBoundingClientRect().x > getWindowDimensions().width - buffer)
     }
   }, [element, buffer])

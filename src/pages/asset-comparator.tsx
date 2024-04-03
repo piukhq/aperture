@@ -49,7 +49,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
 
   const renderHeaderTools = () => (
     <>
-      { isVerified && <PlansList/>}
+      {isVerified && <PlansList />}
       <Button
         handleClick={handleRequestCredentialsModal}
         buttonSize={ButtonSize.MEDIUM_ICON}
@@ -58,7 +58,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
         labelColour={LabelColour.WHITE}
         labelWeight={LabelWeight.MEDIUM}
         additionalStyles='mt-[2px]'
-      ><SettingsSvg/>Credentials
+      ><SettingsSvg />Credentials
       </Button>
     </>
   )
@@ -95,7 +95,7 @@ const AssetComparatorPage: NextPage = withPageAuthRequired(() => {
       <HeadMetadata pageTitle='Asset Comparator' pageDescription='Compare the images for a given plan across environments' />
       <PageLayout>
         <div data-testid='header' className='flex gap-[20px] h-[40px] justify-end'>
-          { renderHeaderTools()}
+          {renderHeaderTools()}
         </div>
 
         <ContentTile>

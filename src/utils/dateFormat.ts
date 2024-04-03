@@ -14,23 +14,23 @@ const numberWithOrdinal = (n: number) => {
 export const timeStampToDate = (
   timestamp: number | string,
   options?: {
-     isShortDate?:boolean,
-     isShortMonthYear?:boolean,
+    isShortDate?: boolean,
+    isShortMonthYear?: boolean,
   }
 ) => {
 
   const {isShortDate, isShortMonthYear} = options || {}
-  const time = typeof(timestamp) === 'number' ? timestamp * 1000 : timestamp
+  const time = typeof (timestamp) === 'number' ? timestamp * 1000 : timestamp
   const date = new Date(time)
 
-  if(isShortMonthYear) {
+  if (isShortMonthYear) {
     const day = date.toLocaleDateString('en-GB', {day: '2-digit'})
     const month = date.toLocaleDateString('en-GB', {month: 'short'})
     const year = date.toLocaleDateString('en-GB', {year: '2-digit'})
     return `${day} ${month} ${year}`
   }
 
-  if(isShortDate) {
+  if (isShortDate) {
     const day = date.toLocaleDateString('en-GB', {day: '2-digit'})
     const month = date.toLocaleDateString('en-GB', {month: '2-digit'})
     const year = date.toLocaleDateString('en-GB', {year: 'numeric'})

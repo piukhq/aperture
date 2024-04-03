@@ -2,14 +2,15 @@ import React from 'react'
 import {LoyaltyVoucher} from 'types'
 import {timeStampToDate} from 'utils/dateFormat'
 
-const VoucherTableRow = ({voucher}: {voucher:LoyaltyVoucher}) => {
+const VoucherTableRow = ({voucher}: { voucher: LoyaltyVoucher }) => {
   const {burn, date_issued: dateIssued, expiry_date: expiryDate, state, code} = voucher
   const {prefix = '', suffix = '', type} = burn || {}
 
   if (state === 'inprogress') {
     return null
   }
-  const renderVoucherState = () => { 74
+  const renderVoucherState = () => {
+    74
     switch (state) {
       case 'redeemed': return <span className='text-blue dark:text-lightBlue'>Redeemed</span>
       case 'expired': return <span className='text-red'>Expired</span>

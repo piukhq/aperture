@@ -60,7 +60,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
             labelWeight={LabelWeight.MEDIUM}
             ariaLabel='Load Wallet 0'
           >
-         Demo Viator Wallet
+            Demo Viator Wallet
           </Button>
           <Button
             handleClick={() => setDemoWalletLoaded(1)}
@@ -72,7 +72,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
             labelWeight={LabelWeight.MEDIUM}
             ariaLabel='Load Wallet 1'
           >
-         Demo Empty Wallets
+            Demo Empty Wallets
           </Button>
           <Button
             handleClick={() => setDemoWalletLoaded(2)}
@@ -84,7 +84,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
             labelWeight={LabelWeight.MEDIUM}
             ariaLabel='Load Wallet 2'
           >
-         Demo Populated Wallets
+            Demo Populated Wallets
           </Button>
         </div>
         <div className='sticky top-0 p-2 bg-grey-200 dark:bg-grey-900 z-10'>
@@ -130,7 +130,7 @@ const BankViewportPage: NextPage = withPageAuthRequired(() => {
             </Button>
           </form>
         </div>
-        { demoWalletLoaded >= 0 && renderLoyaltyCards()}
+        {demoWalletLoaded >= 0 && renderLoyaltyCards()}
       </PageLayout>
     </>
   )

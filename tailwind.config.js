@@ -84,24 +84,24 @@ module.exports = {
       },
       keyframes: {
         slideGreen: {
-          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
-          '50%': {background: '#ffc542'},
-          '100%': {transform: 'scaleX(100%)', background: '#82c43c'},
+          '0%': { transform: 'scaleX(0%)', background: '#fc5a5a' },
+          '50%': { background: '#ffc542' },
+          '100%': { transform: 'scaleX(100%)', background: '#82c43c' },
         },
         slideYellow: {
-          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
-          '100%': {transform: 'scaleX(100%)', background: '#ffc542'},
+          '0%': { transform: 'scaleX(0%)', background: '#fc5a5a' },
+          '100%': { transform: 'scaleX(100%)', background: '#ffc542' },
         },
         slideOrange: {
-          '0%': {transform: 'scaleX(0%)', background: '#fc5a5a'},
-          '100%': {transform: 'scaleX(100%)', background: '#ff974a'},
+          '0%': { transform: 'scaleX(0%)', background: '#fc5a5a' },
+          '100%': { transform: 'scaleX(100%)', background: '#ff974a' },
         },
         fadeIn: {
-          '0%': {opacity: '0'},
-          '100%': {opacity: '1'},
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
         shine: {
-          '100%': {left: '125%'},
+          '100%': { left: '125%' },
         },
       },
       animation: {
